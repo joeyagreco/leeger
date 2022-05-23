@@ -1,0 +1,18 @@
+import setuptools
+
+with open("README.md") as f:
+    readme = f.read()
+
+with open("LICENSE") as f:
+    license = f.read()
+
+setuptools.setup(
+    name="leeger",
+    version="0.0.1",
+    author="Joey Greco",
+    author_email="joeyagreco@gmail.com",
+    description="",
+    long_description=readme,
+    license=license,
+    packages=setuptools.find_packages(exclude=('tests', 'docs'))
+)
