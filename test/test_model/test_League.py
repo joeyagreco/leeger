@@ -12,12 +12,12 @@ from src.leeger.model.Year import Year
 class TestLeague(unittest.TestCase):
 
     def test_league_init(self):
-        matchup = Matchup(teamAId="matchupTeamAId", teamBId="matchupTeamBId", teamAScore=Decimal(1),
-                          teamBScore=Decimal(2))
-        week = Week(weekNumber=1, matchups=[matchup])
-        team = Team(ownerId="teamOwnerId", name="teamName")
-        year = Year(yearNumber=2000, teams=[team], weeks=[week])
-        owner = Owner(name="ownerName")
+        matchup = Matchup(teamAId="", teamBId="", teamAScore=Decimal(),
+                          teamBScore=Decimal())
+        week = Week(weekNumber=0, matchups=[matchup])
+        team = Team(ownerId="", name="")
+        year = Year(yearNumber=0, teams=[team], weeks=[week])
+        owner = Owner(name="")
         league = League(name="leagueName", owners=[owner], years=[year])
 
         self.assertIsNotNone(league.id)
