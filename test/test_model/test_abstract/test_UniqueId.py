@@ -12,6 +12,7 @@ class TestUniqueId(unittest.TestCase):
         self.assertIsNotNone(uniqueId1)
         self.assertIsNotNone(uniqueId2)
         self.assertNotEqual(uniqueId1, uniqueId2)
+        self.assertIsInstance(uniqueId1.id, str)
 
     def test_uniqueId_idGetter(self):
         uniqueId = UniqueId()

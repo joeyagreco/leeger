@@ -20,8 +20,6 @@ class TestLeague(unittest.TestCase):
         owner = Owner(name="")
         league = League(name="leagueName", owners=[owner], years=[year])
 
-        self.assertIsNotNone(league.id)
-        self.assertIsInstance(league.id, str)
         self.assertEqual("leagueName", league.name)
         self.assertEqual(1, len(league.owners))
         self.assertEqual(1, len(league.years))
