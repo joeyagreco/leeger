@@ -1,13 +1,12 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from decimal import Decimal
 
-from src.leeger.util.IdGenerator import IdGenerator
+from src.leeger.model.abstract.UniqueId import UniqueId
 
 
 @dataclass(kw_only=True)
-class Matchup:
+class Matchup(UniqueId):
     teamAId: str
     teamBId: str
     teamAScore: Decimal
     teamBScore: Decimal
-    id: str = field(default_factory=IdGenerator.generateId, init=False)

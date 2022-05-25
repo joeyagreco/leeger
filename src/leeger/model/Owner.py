@@ -1,9 +1,8 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
-from src.leeger.util.IdGenerator import IdGenerator
+from src.leeger.model.abstract.UniqueId import UniqueId
 
 
 @dataclass(kw_only=True)
-class Owner:
+class Owner(UniqueId):
     name: str
-    id: str = field(default_factory=IdGenerator.generateId, init=False)
