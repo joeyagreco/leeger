@@ -1,14 +1,13 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import List
 
 from src.leeger.model.Owner import Owner
 from src.leeger.model.Year import Year
-from src.leeger.util.IdGenerator import IdGenerator
+from src.leeger.model.abstract.UniqueId import UniqueId
 
 
 @dataclass(kw_only=True)
-class League:
+class League(UniqueId):
     name: str
     owners: List[Owner]
     years: List[Year]
-    id: str = field(default_factory=IdGenerator.generateId, init=False)
