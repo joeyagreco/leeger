@@ -6,7 +6,6 @@ from src.leeger.model.Year import Year
 
 
 class TestLeague(unittest.TestCase):
-
     def test_league_init(self):
         year = Year(yearNumber=0, teams=[], weeks=[])
         owner = Owner(name="")

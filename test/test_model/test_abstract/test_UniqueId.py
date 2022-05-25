@@ -4,7 +4,6 @@ from src.leeger.model.abstract.UniqueId import UniqueId
 
 
 class TestUniqueId(unittest.TestCase):
-
     def test_uniqueId_newIdForEveryInstance(self):
         uniqueId1 = UniqueId()
         uniqueId2 = UniqueId()

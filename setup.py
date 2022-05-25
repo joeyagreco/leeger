@@ -14,5 +14,5 @@ setuptools.setup(
     description="",
     long_description=readme,
     license=license,
-    packages=setuptools.find_packages(exclude=('test', 'docs'))
+    packages=setuptools.find_packages(exclude=("test", "docs")),
 )
