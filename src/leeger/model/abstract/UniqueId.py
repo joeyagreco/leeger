@@ -9,6 +9,7 @@ class UniqueId(ABC):
     """
     Model classes should inherit this in order to have a unique ID on init.
     """
+
     __id: str = field(default_factory=IdGenerator.generateId, init=False)
 
     @property

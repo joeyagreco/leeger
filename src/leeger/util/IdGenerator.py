@@ -2,7 +2,6 @@ import uuid
 
 
 class IdGenerator:
-
     @staticmethod
     def generateId() -> str:
         """
