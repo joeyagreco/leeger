@@ -7,9 +7,7 @@ from src.leeger.model.Year import Year
 
 class TestYear(unittest.TestCase):
     def test_league_init(self):
-        week = Week(
-            weekNumber=0, isPlayoffWeek=False, isChampionshipWeek=False, matchups=[]
-        )
+        week = Week(weekNumber=0, isPlayoffWeek=False, isChampionshipWeek=False, matchups=[])
         team = Team(ownerId="", name="")
         year = Year(yearNumber=2000, teams=[team], weeks=[week])
 
