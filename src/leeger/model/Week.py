@@ -9,4 +9,5 @@ from src.leeger.model.abstract.UniqueId import UniqueId
 class Week(UniqueId):
     weekNumber: int
     isPlayoffWeek: bool
+    isChampionshipWeek: bool
     matchups: List[Matchup]
