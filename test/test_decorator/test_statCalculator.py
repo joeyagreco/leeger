@@ -22,5 +22,12 @@ class TestStatCalculator(unittest.TestCase):
         year = Year(yearNumber=2000, teams=list(), weeks=[week1, week2])
 
         with self.assertRaises(InvalidYearFormatException) as context:
-            self.dummyFunction(League(name="PBL", owners=list(), years=[year]), a="a", b="b")
+            self.dummyFunction(League(name="PBL", owners=list(), years=[year]))
         self.assertEqual("Year 2000 has more than 1 championship week.", str(context.exception))
+
+    def test_statCalculator_yearHasNoWeeks_raisesException(self):
+        year = Year(yearNumber=2000, teams=list(), weeks=list())
+
+        with self.assertRaises(InvalidYearFormatException) as context:
+            self.dummyFunction(League(name="PBL", owners=list(), years=[year]))
+        self.assertEqual("Year 2000 must have at least 1 week.", str(context.exception))

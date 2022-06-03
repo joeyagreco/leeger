@@ -15,10 +15,15 @@ def statCalculator(function: Callable) -> Callable:
 
     def wrapFunction(*args, **kwargs):
         league = args[1]
-        __checkOnlyOneChampionshipWeekPerYear(league)
+        __runAllChecks(league)
         return function(*args, **kwargs)
 
     return wrapFunction
+
+
+def __runAllChecks(league) -> None:
+    __checkOnlyOneChampionshipWeekPerYear(league)
+    __checkAtLeastOneWeekPerYear(league)
 
 
 # Checker functions
@@ -34,3 +39,12 @@ def __checkOnlyOneChampionshipWeekPerYear(league: League) -> None:
                 championshipWeekCount += 1
             if championshipWeekCount > 1:
                 raise InvalidYearFormatException(f"Year {year.yearNumber} has more than 1 championship week.")
+
+
+def __checkAtLeastOneWeekPerYear(league: League) -> None:
+    """
+    Checks that there is a minimum of 1 week per year.
+    """
+    for year in league.years:
+        if len(year.weeks) == 0:
+            raise InvalidYearFormatException(f"Year {year.yearNumber} must have at least 1 week.")
