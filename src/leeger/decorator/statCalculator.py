@@ -15,7 +15,7 @@ def statCalculator(function: Callable) -> Callable:
 
     def wrapFunction(*args, **kwargs):
         league = args[1]
-        __checkOnlyTwoTeamsInChampionshipPerYear(league)
+        __checkOnlyOneChampionshipWeekPerYear(league)
         return function(*args, **kwargs)
 
     return wrapFunction
@@ -23,7 +23,7 @@ def statCalculator(function: Callable) -> Callable:
 
 # Checker functions
 
-def __checkOnlyTwoTeamsInChampionshipPerYear(league: League) -> None:
+def __checkOnlyOneChampionshipWeekPerYear(league: League) -> None:
     """
     Checks that there is a maximum of 1 championship week per year.
     """
