@@ -26,7 +26,14 @@ def __runAllChecks(league) -> None:
     __checkAtLeastOneWeekPerYear(league)
 
 
-# Checker functions
+"""
+Checker Functions
+
+    - Will raise the appropriate exception if a wrongly-formatted League is passed.
+    - Will do nothing if a properly-formatted League is passed.
+
+"""
+
 
 def __checkOnlyOneChampionshipWeekPerYear(league: League) -> None:
     """
