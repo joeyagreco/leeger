@@ -76,3 +76,77 @@ class TestTeamStats(unittest.TestCase):
         self.assertEqual(2, len(response.keys()))
         self.assertEqual(0, response[team1.id])
         self.assertEqual(2, response[team2.id])
+
+    def test_getWins_weekNumberStartGiven(self):
+        owner1 = Owner(name="1")
+        owner2 = Owner(name="2")
+
+        team1 = Team(ownerId=owner1.id, name="1")
+        team2 = Team(ownerId=owner2.id, name="2")
+
+        matchup1 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=1, teamBScore=2)
+        matchup3 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=2, teamBScore=1)
+
+        week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=[matchup1])
+        week2 = Week(weekNumber=2, isPlayoffWeek=False, isChampionshipWeek=False, matchups=[matchup2])
+        week3 = Week(weekNumber=3, isPlayoffWeek=True, isChampionshipWeek=False, matchups=[matchup3])
+
+        year = Year(yearNumber=2000, teams=[team1, team2], weeks=[week1, week2, week3])
+
+        response = TeamStats.getWins(year, weekNumberStart=2)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(2, len(response.keys()))
+        self.assertEqual(1, response[team1.id])
+        self.assertEqual(1, response[team2.id])
+
+    def test_getWins_weekNumberEndGiven(self):
+        owner1 = Owner(name="1")
+        owner2 = Owner(name="2")
+
+        team1 = Team(ownerId=owner1.id, name="1")
+        team2 = Team(ownerId=owner2.id, name="2")
+
+        matchup1 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=1, teamBScore=2)
+        matchup3 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=2, teamBScore=1)
+
+        week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=[matchup1])
+        week2 = Week(weekNumber=2, isPlayoffWeek=False, isChampionshipWeek=False, matchups=[matchup2])
+        week3 = Week(weekNumber=3, isPlayoffWeek=True, isChampionshipWeek=False, matchups=[matchup3])
+
+        year = Year(yearNumber=2000, teams=[team1, team2], weeks=[week1, week2, week3])
+
+        response = TeamStats.getWins(year, weekNumberEnd=2)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(2, len(response.keys()))
+        self.assertEqual(0, response[team1.id])
+        self.assertEqual(2, response[team2.id])
+
+    def test_getWins_weekNumberStartGivenAndWeekNumberEndGiven(self):
+        owner1 = Owner(name="1")
+        owner2 = Owner(name="2")
+
+        team1 = Team(ownerId=owner1.id, name="1")
+        team2 = Team(ownerId=owner2.id, name="2")
+
+        matchup1 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=1, teamBScore=2)
+        matchup3 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=2, teamBScore=1)
+        matchup4 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=2, teamBScore=1)
+
+        week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=[matchup1])
+        week2 = Week(weekNumber=2, isPlayoffWeek=False, isChampionshipWeek=False, matchups=[matchup2])
+        week3 = Week(weekNumber=3, isPlayoffWeek=True, isChampionshipWeek=False, matchups=[matchup3])
+        week4 = Week(weekNumber=4, isPlayoffWeek=True, isChampionshipWeek=False, matchups=[matchup4])
+
+        year = Year(yearNumber=2000, teams=[team1, team2], weeks=[week1, week2, week3, week4])
+
+        response = TeamStats.getWins(year, weekNumberStart=2, weekNumberEnd=3)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(2, len(response.keys()))
+        self.assertEqual(1, response[team1.id])
+        self.assertEqual(1, response[team2.id])
