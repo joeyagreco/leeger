@@ -1,6 +1,6 @@
 import unittest
 
-from src.leeger.decorator.statCalculator import statCalculator
+from src.leeger.decorator.validateLeague import validateLeague
 from src.leeger.exception.InvalidMatchupFormatException import InvalidMatchupFormatException
 from src.leeger.exception.InvalidWeekFormatException import InvalidWeekFormatException
 from src.leeger.exception.InvalidYearFormatException import InvalidYearFormatException
@@ -12,16 +12,16 @@ from src.leeger.model.Week import Week
 from src.leeger.model.Year import Year
 
 
-class TestStatCalculator(unittest.TestCase):
+class TestValidateLeague(unittest.TestCase):
 
-    @statCalculator
+    @validateLeague
     def dummyFunction(self, league: League):
         """
         This is used to represent any function that can be wrapped by @statCalculator.
         """
         ...
 
-    def test_statCalculator_happyPath(self):
+    def test_validateLeague_happyPath(self):
         owner1 = Owner(name="1")
         owner2 = Owner(name="2")
 
@@ -40,7 +40,7 @@ class TestStatCalculator(unittest.TestCase):
 
         self.dummyFunction(League(name="TEST", owners=[owner1, owner2], years=[year]))
 
-    def test_statCalculator_twoChampionshipWeeksInYear_raisesException(self):
+    def test_validateLeague_twoChampionshipWeeksInYear_raisesException(self):
         week1 = Week(weekNumber=1, isPlayoffWeek=True, isChampionshipWeek=True, matchups=list())
         week2 = Week(weekNumber=2, isPlayoffWeek=True, isChampionshipWeek=True, matchups=list())
         year = Year(yearNumber=2000, teams=list(), weeks=[week1, week2])
@@ -49,14 +49,14 @@ class TestStatCalculator(unittest.TestCase):
             self.dummyFunction(League(name="TEST", owners=list(), years=[year]))
         self.assertEqual("Year 2000 has more than 1 championship week.", str(context.exception))
 
-    def test_statCalculator_yearHasNoWeeks_raisesException(self):
+    def test_validateLeague_yearHasNoWeeks_raisesException(self):
         year = Year(yearNumber=2000, teams=list(), weeks=list())
 
         with self.assertRaises(InvalidYearFormatException) as context:
             self.dummyFunction(League(name="TEST", owners=list(), years=[year]))
         self.assertEqual("Year 2000 does not have at least 1 week.", str(context.exception))
 
-    def test_statCalculator_yearDuplicateWeekNumbers_raisesException(self):
+    def test_validateLeague_yearDuplicateWeekNumbers_raisesException(self):
         week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
         week1duplicate = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
         year = Year(yearNumber=2000, teams=list(), weeks=[week1, week1duplicate])
@@ -65,7 +65,7 @@ class TestStatCalculator(unittest.TestCase):
             self.dummyFunction(League(name="TEST", owners=list(), years=[year]))
         self.assertEqual("Year 2000 has duplicate week numbers.", str(context.exception))
 
-    def test_statCalculator_lowestWeekNumberIsNotOne_raisesException(self):
+    def test_validateLeague_lowestWeekNumberIsNotOne_raisesException(self):
         week2 = Week(weekNumber=2, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
         year = Year(yearNumber=2000, teams=list(), weeks=[week2])
 
@@ -73,7 +73,7 @@ class TestStatCalculator(unittest.TestCase):
             self.dummyFunction(League(name="TEST", owners=list(), years=[year]))
         self.assertEqual("First week in year 2000 must be 1, not 2.", str(context.exception))
 
-    def test_statCalculator_weekNumbersNotOneThroughN_raisesException(self):
+    def test_validateLeague_weekNumbersNotOneThroughN_raisesException(self):
         week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
         week2 = Week(weekNumber=2, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
         week3 = Week(weekNumber=3, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
@@ -89,7 +89,7 @@ class TestStatCalculator(unittest.TestCase):
             self.dummyFunction(League(name="TEST", owners=list(), years=[year]))
         self.assertEqual("Year 2000 does not have week numbers in order (1-n).", str(context.exception))
 
-    def test_statCalculator_nonPlayoffWeekAfterPlayoffWeek_raisesException(self):
+    def test_validateLeague_nonPlayoffWeekAfterPlayoffWeek_raisesException(self):
         week1 = Week(weekNumber=1, isPlayoffWeek=True, isChampionshipWeek=False, matchups=list())
         week2 = Week(weekNumber=2, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
         year = Year(yearNumber=2000, teams=list(), weeks=[week1, week2])
@@ -98,7 +98,7 @@ class TestStatCalculator(unittest.TestCase):
             self.dummyFunction(League(name="TEST", owners=list(), years=[year]))
         self.assertEqual("Year 2000 has a non-playoff week after a playoff week.", str(context.exception))
 
-    def test_statCalculator_nonChampionshipWeekAfterChampionshipWeek_raisesException(self):
+    def test_validateLeague_nonChampionshipWeekAfterChampionshipWeek_raisesException(self):
         week1 = Week(weekNumber=1, isPlayoffWeek=True, isChampionshipWeek=True, matchups=list())
         week2 = Week(weekNumber=2, isPlayoffWeek=True, isChampionshipWeek=False, matchups=list())
         year = Year(yearNumber=2000, teams=list(), weeks=[week1, week2])
@@ -107,7 +107,7 @@ class TestStatCalculator(unittest.TestCase):
             self.dummyFunction(League(name="TEST", owners=list(), years=[year]))
         self.assertEqual("Year 2000 has a non-championship week after a championship week.", str(context.exception))
 
-    def test_statCalculator_yearHasLessThanTwoTeams_raisesException(self):
+    def test_validateLeague_yearHasLessThanTwoTeams_raisesException(self):
         week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
         week2 = Week(weekNumber=2, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
         team1 = Team(ownerId="1", name="1")
@@ -117,7 +117,7 @@ class TestStatCalculator(unittest.TestCase):
             self.dummyFunction(League(name="TEST", owners=list(), years=[year]))
         self.assertEqual("Year 2000 needs at least 2 teams.", str(context.exception))
 
-    def test_statCalculator_yearNumberIsntInValidRange_raisesException(self):
+    def test_validateLeague_yearNumberIsntInValidRange_raisesException(self):
         week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
         team1 = Team(ownerId="1", name="1")
         team2 = Team(ownerId="2", name="2")
@@ -133,7 +133,7 @@ class TestStatCalculator(unittest.TestCase):
             self.dummyFunction(League(name="TEST", owners=list(), years=[year]))
         self.assertEqual("Year 3000 is not in range 1920-2XXX.", str(context.exception))
 
-    def test_statCalculator_teamsHaveDuplicateOwnerIds_raisesException(self):
+    def test_validateLeague_teamsHaveDuplicateOwnerIds_raisesException(self):
         week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
         team1 = Team(ownerId="1", name="1")
         team2 = Team(ownerId="1", name="2")
@@ -143,7 +143,7 @@ class TestStatCalculator(unittest.TestCase):
             self.dummyFunction(League(name="TEST", owners=list(), years=[year]))
         self.assertEqual("Year 2000 has teams with the same owner IDs.", str(context.exception))
 
-    def test_statCalculator_teamsHaveIdsThatDontMatchLeagueOwnerIds_raisesException(self):
+    def test_validateLeague_teamsHaveIdsThatDontMatchLeagueOwnerIds_raisesException(self):
         week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
         team1 = Team(ownerId="1", name="1")
         team2 = Team(ownerId="2", name="2")
@@ -154,7 +154,7 @@ class TestStatCalculator(unittest.TestCase):
         self.assertEqual("Year 2000 has teams with owner IDs that do not match the League's owner IDs: ['1', '2'].",
                          str(context.exception))
 
-    def test_statCalculator_teamsInAYearHaveDuplicateNames_raisesException(self):
+    def test_validateLeague_teamsInAYearHaveDuplicateNames_raisesException(self):
         week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
 
         owner1 = Owner(name="1")
@@ -168,7 +168,7 @@ class TestStatCalculator(unittest.TestCase):
             self.dummyFunction(League(name="TEST", owners=[owner1, owner2], years=[year]))
         self.assertEqual("Year 2000 has teams with duplicate names.", str(context.exception))
 
-    def test_statCalculator_weekDoesntHaveAtLeastOneMatchup_raisesException(self):
+    def test_validateLeague_weekDoesntHaveAtLeastOneMatchup_raisesException(self):
         week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
 
         owner1 = Owner(name="1")
@@ -182,7 +182,7 @@ class TestStatCalculator(unittest.TestCase):
             self.dummyFunction(League(name="TEST", owners=[owner1, owner2], years=[year]))
         self.assertEqual("Year 2000 must have at least 1 matchup.", str(context.exception))
 
-    def test_statCalculator_matchupDoesntHaveTeamIdsThatMatchYearTeamIds_raisesException(self):
+    def test_validateLeague_matchupDoesntHaveTeamIdsThatMatchYearTeamIds_raisesException(self):
         owner1 = Owner(name="1")
         owner2 = Owner(name="2")
 

@@ -6,13 +6,13 @@ from src.leeger.exception.InvalidYearFormatException import InvalidYearFormatExc
 from src.leeger.model.League import League
 
 
-def statCalculator(function: Callable) -> Callable:
+def validateLeague(function: Callable) -> Callable:
     """
     It is expected that any function decorated with this will follow these rules:
         - Be decorated as a @classmethod
         - Have a League object as the first parameter
 
-    The purpose of this decorator is to do some initial checks on the League object BEFORE any stats are calculated.
+    The purpose of this decorator is to do some initial checks on the League object to validate that it is correctly formatted.
     """
 
     def wrapFunction(*args, **kwargs):

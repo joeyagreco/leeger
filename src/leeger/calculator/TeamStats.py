@@ -1,9 +1,9 @@
-from src.leeger.decorator.statCalculator import statCalculator
+from src.leeger.decorator.validateLeague import validateLeague
 from src.leeger.model.League import League
 
 
 class TeamStats:
     @classmethod
-    @statCalculator
+    @validateLeague
     def getWins(cls, league: League, **kwargs):
         ...
