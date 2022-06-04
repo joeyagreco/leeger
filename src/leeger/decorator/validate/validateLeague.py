@@ -45,7 +45,7 @@ def __runAllChecks(league) -> None:
     leagueValidation.checkWeekNumberingInLeague(league)
     leagueValidation.checkPlayoffWeekOrderingInLeague(league)
     leagueValidation.checkAtLeastTwoTeamsPerYear(league)
-    __checkAllYearsHaveValidYearNumbers(league)
+    leagueValidation.checkAllYearsHaveValidYearNumbers(league)
     __checkYearsAreInCorrectOrder(league)
     __checkNoDuplicateYearNumbers(league)
     __checkTeamOwnerIds(league)
@@ -62,16 +62,6 @@ Checker Functions
     - Will do nothing if a properly-formatted League is passed.
 
 """
-
-
-def __checkAllYearsHaveValidYearNumbers(league: League) -> None:
-    """
-    Checks that each year has a valid year number (1920-2XXX)
-    1920 is the year the NFL was founded, so we'll assume nobody was playing fantasy football before then.
-    """
-    for year in league.years:
-        if year.yearNumber < 1920 or year.yearNumber > 2999:
-            raise InvalidYearFormatException(f"Year {year.yearNumber} is not in range 1920-2XXX.")
 
 
 def __checkYearsAreInCorrectOrder(league: League) -> None:

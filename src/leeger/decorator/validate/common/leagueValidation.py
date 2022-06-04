@@ -64,3 +64,12 @@ def checkAtLeastTwoTeamsPerYear(league: League) -> None:
     """
     for year in league.years:
         yearValidation.checkAtLeastTwoTeamsInYear(year)
+
+
+def checkAllYearsHaveValidYearNumbers(league: League) -> None:
+    """
+    Checks that each year has a valid year number (1920-2XXX)
+    1920 is the year the NFL was founded, so we'll assume nobody was playing fantasy football before then.
+    """
+    for year in league.years:
+        yearValidation.checkGivenYearHasValidYearNumber(year)

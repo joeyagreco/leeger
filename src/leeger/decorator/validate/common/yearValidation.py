@@ -93,3 +93,12 @@ def checkAtLeastTwoTeamsInYear(year: Year) -> None:
     """
     if len(year.teams) < 2:
         raise InvalidYearFormatException(f"Year {year.yearNumber} needs at least 2 teams.")
+
+
+def checkGivenYearHasValidYearNumber(year: Year) -> None:
+    """
+    Checks that the given Year has a valid year number (1920-2XXX)
+    1920 is the year the NFL was founded, so we'll assume nobody was playing fantasy football before then.
+    """
+    if year.yearNumber < 1920 or year.yearNumber > 2999:
+        raise InvalidYearFormatException(f"Year {year.yearNumber} is not in range 1920-2XXX.")
