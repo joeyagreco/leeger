@@ -189,7 +189,7 @@ class TestValidateLeague(unittest.TestCase):
         b_team2 = Team(ownerId="2", name="2")
         b_year = Year(yearNumber=2000, teams=[b_team1, b_team2], weeks=[b_week1])
 
-        with self.assertRaises(InvalidYearFormatException) as context:
+        with self.assertRaises(InvalidLeagueFormatException) as context:
             self.dummyFunction(League(name="TEST", owners=list(), years=[a_year, b_year]))
         self.assertEqual("Can only have 1 of each year number within a league.", str(context.exception))
 

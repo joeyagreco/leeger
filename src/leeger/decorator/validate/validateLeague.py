@@ -47,7 +47,7 @@ def __runAllChecks(league) -> None:
     leagueValidation.checkAtLeastTwoTeamsPerYear(league)
     leagueValidation.checkAllYearsHaveValidYearNumbers(league)
     leagueValidation.checkYearsAreInCorrectOrder(league)
-    __checkNoDuplicateYearNumbers(league)
+    leagueValidation.checkNoDuplicateYearNumbers(league)
     __checkTeamOwnerIds(league)
     __checkTeamNames(league)
     __checkWeekHasAtLeastOneMatchup(league)
@@ -62,14 +62,6 @@ Checker Functions
     - Will do nothing if a properly-formatted League is passed.
 
 """
-
-
-def __checkNoDuplicateYearNumbers(league: League) -> None:
-    """
-    Checks that all the years in the League have a unique year number.
-    """
-    if len(set([year.yearNumber for year in league.years])) != len([year.yearNumber for year in league.years]):
-        raise InvalidYearFormatException(f"Can only have 1 of each year number within a league.")
 
 
 def __checkTeamOwnerIds(league: League) -> None:
