@@ -29,12 +29,3 @@ def validateLeague(function: Callable) -> Callable:
         return function(*args, **kwargs)
 
     return wrapFunction
-
-
-"""
-Checker Functions
-
-    - Will raise the appropriate exception if an incorrectly-formatted League is passed.
-    - Will do nothing if a properly-formatted League is passed.
-
-"""

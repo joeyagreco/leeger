@@ -2,6 +2,14 @@ from src.leeger.decorator.validate.common import ownerValidation, yearValidation
 from src.leeger.exception.InvalidLeagueFormatException import InvalidLeagueFormatException
 from src.leeger.model.League import League
 
+"""
+Checker Functions
+
+    - Will raise the appropriate exception if an incorrectly-formatted League is passed.
+    - Will do nothing if a properly-formatted League is passed.
+
+"""
+
 
 def runAllChecks(league) -> None:
     """
