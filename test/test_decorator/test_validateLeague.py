@@ -151,6 +151,21 @@ class TestValidateLeague(unittest.TestCase):
             self.dummyFunction(League(name="TEST", owners=list(), years=[b_year, a_year]))
         self.assertEqual("Years are not in chronological order (oldest -> newest).", str(context.exception))
 
+    def test_validateLeague_duplicateYearNumbers_raisesException(self):
+        a_week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
+        a_team1 = Team(ownerId="1", name="1")
+        a_team2 = Team(ownerId="2", name="2")
+        a_year = Year(yearNumber=2000, teams=[a_team1, a_team2], weeks=[a_week1])
+
+        b_week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
+        b_team1 = Team(ownerId="1", name="1")
+        b_team2 = Team(ownerId="2", name="2")
+        b_year = Year(yearNumber=2000, teams=[b_team1, b_team2], weeks=[b_week1])
+
+        with self.assertRaises(InvalidYearFormatException) as context:
+            self.dummyFunction(League(name="TEST", owners=list(), years=[a_year, b_year]))
+        self.assertEqual("Can only have 1 of each year number within a league.", str(context.exception))
+
     def test_validateLeague_teamsHaveDuplicateOwnerIds_raisesException(self):
         week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
         team1 = Team(ownerId="1", name="1")
