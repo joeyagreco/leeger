@@ -2,9 +2,6 @@ import unittest
 
 from src.leeger.decorator.validate.validators import validateLeague
 from src.leeger.exception.InvalidLeagueFormatException import InvalidLeagueFormatException
-from src.leeger.exception.InvalidMatchupFormatException import InvalidMatchupFormatException
-from src.leeger.exception.InvalidOwnerFormatException import InvalidOwnerFormatException
-from src.leeger.exception.InvalidTeamFormatException import InvalidTeamFormatException
 from src.leeger.exception.InvalidWeekFormatException import InvalidWeekFormatException
 from src.leeger.exception.InvalidYearFormatException import InvalidYearFormatException
 from src.leeger.model.League import League
@@ -20,7 +17,7 @@ class TestValidateLeague(unittest.TestCase):
     @validateLeague
     def dummyFunction(self, league: League, **kwargs):
         """
-        This is used to represent any function that can be wrapped by @statCalculator.
+        This is used to represent any function that can be wrapped by @validateLeague.
         """
         ...
 
@@ -230,161 +227,3 @@ class TestValidateLeague(unittest.TestCase):
         with self.assertRaises(InvalidWeekFormatException) as context:
             self.dummyFunction(League(name="TEST", owners=[owner1, owner2], years=[year]))
         self.assertEqual("Week 1 must have at least 1 matchup.", str(context.exception))
-
-    """
-    TYPE CHECK TESTS
-    """
-
-    def test_validateLeague_leagueNameIsntTypeString_raisesException(self):
-        with self.assertRaises(InvalidLeagueFormatException) as context:
-            self.dummyFunction(League(name=None, owners=list(), years=list()))
-        self.assertEqual("League name must be type 'str'.", str(context.exception))
-
-    def test_validateLeague_leagueOwnersIsntTypeList_raisesException(self):
-        with self.assertRaises(InvalidLeagueFormatException) as context:
-            self.dummyFunction(League(name="TEST", owners=None, years=list()))
-        self.assertEqual("League owners must be type 'list'.", str(context.exception))
-
-    def test_validateLeague_leagueYearsIsntTypeList_raisesException(self):
-        with self.assertRaises(InvalidLeagueFormatException) as context:
-            self.dummyFunction(League(name="TEST", owners=list(), years=None))
-        self.assertEqual("League years must be type 'list'.", str(context.exception))
-
-    def test_validateLeague_ownerNameIsntTypeStr_raisesException(self):
-        owner = Owner(name=None)
-        with self.assertRaises(InvalidOwnerFormatException) as context:
-            self.dummyFunction(League(name="TEST", owners=[owner], years=list()))
-        self.assertEqual("Owner name must be type 'str'.", str(context.exception))
-
-    def test_validateLeague_yearNumberIsntTypeInt_raisesException(self):
-        owner = Owner(name="TEST")
-        year = Year(yearNumber=None, teams=list(), weeks=list())
-        with self.assertRaises(InvalidYearFormatException) as context:
-            self.dummyFunction(League(name="TEST", owners=[owner], years=[year]))
-        self.assertEqual("Year number must be type 'int'.", str(context.exception))
-
-    def test_validateLeague_yearTeamsIsntTypeList_raisesException(self):
-        owner = Owner(name="TEST")
-        year = Year(yearNumber=2000, teams=None, weeks=list())
-        with self.assertRaises(InvalidYearFormatException) as context:
-            self.dummyFunction(League(name="TEST", owners=[owner], years=[year]))
-        self.assertEqual("Year teams must be type 'list'.", str(context.exception))
-
-    def test_validateLeague_yearWeeksIsntTypeList_raisesException(self):
-        owner = Owner(name="TEST")
-        year = Year(yearNumber=2000, teams=list(), weeks=None)
-        with self.assertRaises(InvalidYearFormatException) as context:
-            self.dummyFunction(League(name="TEST", owners=[owner], years=[year]))
-        self.assertEqual("Year weeks must be type 'list'.", str(context.exception))
-
-    def test_validateLeague_teamOwnerIdIsntTypeStr_raisesException(self):
-        owner = Owner(name="TEST")
-        team = Team(ownerId=None, name="team")
-        year = Year(yearNumber=2000, teams=[team], weeks=list())
-        with self.assertRaises(InvalidTeamFormatException) as context:
-            self.dummyFunction(League(name="TEST", owners=[owner], years=[year]))
-        self.assertEqual("Team owner ID must be type 'str'.", str(context.exception))
-
-    def test_validateLeague_teamNameIsntTypeStr_raisesException(self):
-        owner = Owner(name="TEST")
-        team = Team(ownerId="id", name=None)
-        year = Year(yearNumber=2000, teams=[team], weeks=list())
-        with self.assertRaises(InvalidTeamFormatException) as context:
-            self.dummyFunction(League(name="TEST", owners=[owner], years=[year]))
-        self.assertEqual("Team name must be type 'str'.", str(context.exception))
-
-    def test_validateLeague_weekNumberIsntTypeInt_raisesException(self):
-        owner = Owner(name="TEST")
-        team = Team(ownerId="id", name="name")
-        week = Week(weekNumber=None, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
-        year = Year(yearNumber=2000, teams=[team], weeks=[week])
-        with self.assertRaises(InvalidWeekFormatException) as context:
-            self.dummyFunction(League(name="TEST", owners=[owner], years=[year]))
-        self.assertEqual("Week number must be type 'int'.", str(context.exception))
-
-    def test_validateLeague_weekisPlayoffWeekIsntTypeBool_raisesException(self):
-        owner = Owner(name="TEST")
-        team = Team(ownerId="id", name="name")
-        week = Week(weekNumber=1, isPlayoffWeek=None, isChampionshipWeek=False, matchups=list())
-        year = Year(yearNumber=2000, teams=[team], weeks=[week])
-        with self.assertRaises(InvalidWeekFormatException) as context:
-            self.dummyFunction(League(name="TEST", owners=[owner], years=[year]))
-        self.assertEqual("Week isPlayoffWeek must be type 'bool'.", str(context.exception))
-
-    def test_validateLeague_weekisChampionshipWeekIsntTypeBool_raisesException(self):
-        owner = Owner(name="TEST")
-        team = Team(ownerId="id", name="name")
-        week = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=None, matchups=list())
-        year = Year(yearNumber=2000, teams=[team], weeks=[week])
-        with self.assertRaises(InvalidWeekFormatException) as context:
-            self.dummyFunction(League(name="TEST", owners=[owner], years=[year]))
-        self.assertEqual("Week isChampionshipWeek must be type 'bool'.", str(context.exception))
-
-    def test_validateLeague_weekMatchupsIsntTypeList_raisesException(self):
-        owner = Owner(name="TEST")
-        team = Team(ownerId="id", name="name")
-        week = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=None)
-        year = Year(yearNumber=2000, teams=[team], weeks=[week])
-        with self.assertRaises(InvalidWeekFormatException) as context:
-            self.dummyFunction(League(name="TEST", owners=[owner], years=[year]))
-        self.assertEqual("Week matchups must be type 'list'.", str(context.exception))
-
-    def test_validateLeague_matchupTeamAIdIsntTypeStr_raisesException(self):
-        owner = Owner(name="TEST")
-        team = Team(ownerId="id", name="name")
-        matchup = Matchup(teamAId=None, teamBId="bId", teamAScore=1, teamBScore=2)
-        week = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=[matchup])
-        year = Year(yearNumber=2000, teams=[team], weeks=[week])
-        with self.assertRaises(InvalidMatchupFormatException) as context:
-            self.dummyFunction(League(name="TEST", owners=[owner], years=[year]))
-        self.assertEqual("Matchup teamAId must be type 'str'.", str(context.exception))
-
-    def test_validateLeague_matchupTeamBIdIsntTypeStr_raisesException(self):
-        owner = Owner(name="TEST")
-        team = Team(ownerId="id", name="name")
-        matchup = Matchup(teamAId="aId", teamBId=None, teamAScore=1, teamBScore=2)
-        week = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=[matchup])
-        year = Year(yearNumber=2000, teams=[team], weeks=[week])
-        with self.assertRaises(InvalidMatchupFormatException) as context:
-            self.dummyFunction(League(name="TEST", owners=[owner], years=[year]))
-        self.assertEqual("Matchup teamBId must be type 'str'.", str(context.exception))
-
-    def test_validateLeague_matchupTeamAScoreIsntTypeFloatOrInt_raisesException(self):
-        owner = Owner(name="TEST")
-        team = Team(ownerId="id", name="name")
-        matchup = Matchup(teamAId="aId", teamBId="bId", teamAScore=None, teamBScore=2)
-        week = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=[matchup])
-        year = Year(yearNumber=2000, teams=[team], weeks=[week])
-        with self.assertRaises(InvalidMatchupFormatException) as context:
-            self.dummyFunction(League(name="TEST", owners=[owner], years=[year]))
-        self.assertEqual("Matchup teamAScore must be type 'float' or 'int'.", str(context.exception))
-
-    def test_validateLeague_matchupTeamBScoreIsntTypeFloatOrInt_raisesException(self):
-        owner = Owner(name="TEST")
-        team = Team(ownerId="id", name="name")
-        matchup = Matchup(teamAId="aId", teamBId="bId", teamAScore=1, teamBScore=None)
-        week = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=[matchup])
-        year = Year(yearNumber=2000, teams=[team], weeks=[week])
-        with self.assertRaises(InvalidMatchupFormatException) as context:
-            self.dummyFunction(League(name="TEST", owners=[owner], years=[year]))
-        self.assertEqual("Matchup teamBScore must be type 'float' or 'int'.", str(context.exception))
-
-    def test_validateLeague_matchupTeamAHasTiebreakerIsntTypeBool_raisesException(self):
-        owner = Owner(name="TEST")
-        team = Team(ownerId="id", name="name")
-        matchup = Matchup(teamAId="aId", teamBId="bId", teamAScore=1, teamBScore=2, teamAHasTiebreaker=None)
-        week = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=[matchup])
-        year = Year(yearNumber=2000, teams=[team], weeks=[week])
-        with self.assertRaises(InvalidMatchupFormatException) as context:
-            self.dummyFunction(League(name="TEST", owners=[owner], years=[year]))
-        self.assertEqual("Matchup teamAHasTiebreaker must be type 'bool'.", str(context.exception))
-
-    def test_validateLeague_matchupTeamBHasTiebreakerIsntTypeBool_raisesException(self):
-        owner = Owner(name="TEST")
-        team = Team(ownerId="id", name="name")
-        matchup = Matchup(teamAId="aId", teamBId="bId", teamAScore=1, teamBScore=2, teamBHasTiebreaker=None)
-        week = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=[matchup])
-        year = Year(yearNumber=2000, teams=[team], weeks=[week])
-        with self.assertRaises(InvalidMatchupFormatException) as context:
-            self.dummyFunction(League(name="TEST", owners=[owner], years=[year]))
-        self.assertEqual("Matchup teamBHasTiebreaker must be type 'bool'.", str(context.exception))
