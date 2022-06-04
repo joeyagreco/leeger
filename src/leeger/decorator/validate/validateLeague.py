@@ -48,7 +48,7 @@ def __runAllChecks(league) -> None:
     leagueValidation.checkAllYearsHaveValidYearNumbers(league)
     leagueValidation.checkYearsAreInCorrectOrder(league)
     leagueValidation.checkNoDuplicateYearNumbers(league)
-    __checkTeamOwnerIds(league)
+    leagueValidation.checkTeamOwnerIds(league)
     __checkTeamNames(league)
     __checkWeekHasAtLeastOneMatchup(league)
     __checkMatchupTeamIdsMatchYearTeamIds(league)
@@ -62,26 +62,6 @@ Checker Functions
     - Will do nothing if a properly-formatted League is passed.
 
 """
-
-
-def __checkTeamOwnerIds(league: League) -> None:
-    """
-    Checks that:
-        - There are no duplicate owner IDs within the teams
-        - Each team in a year has an owner ID that matches an Owner ID that is in the League's owners list as an ID
-    """
-    for year in league.years:
-        teamOwnerIds = list()
-        for team in year.teams:
-            teamOwnerIds.append(team.ownerId)
-        if len(set(teamOwnerIds)) != len(teamOwnerIds):
-            raise InvalidYearFormatException(f"Year {year.yearNumber} has teams with the same owner IDs.")
-        for owner in league.owners:
-            if owner.id in teamOwnerIds:
-                teamOwnerIds.remove(owner.id)
-        if len(teamOwnerIds) > 0:
-            raise InvalidYearFormatException(
-                f"Year {year.yearNumber} has teams with owner IDs that do not match the League's owner IDs: {teamOwnerIds}.")
 
 
 def __checkTeamNames(league: League) -> None:

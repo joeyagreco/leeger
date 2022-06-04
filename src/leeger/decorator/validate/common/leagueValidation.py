@@ -1,5 +1,6 @@
 from src.leeger.decorator.validate.common import ownerValidation, yearValidation
 from src.leeger.exception.InvalidLeagueFormatException import InvalidLeagueFormatException
+from src.leeger.exception.InvalidYearFormatException import InvalidYearFormatException
 from src.leeger.model.League import League
 
 
@@ -89,3 +90,23 @@ def checkNoDuplicateYearNumbers(league: League) -> None:
     """
     if len(set([year.yearNumber for year in league.years])) != len([year.yearNumber for year in league.years]):
         raise InvalidLeagueFormatException(f"Can only have 1 of each year number within a league.")
+
+
+def checkTeamOwnerIds(league: League) -> None:
+    """
+    Checks that:
+        - There are no duplicate owner IDs within the teams
+        - Each team in a year has an owner ID that matches an Owner ID that is in the League's owners list as an ID
+    """
+    for year in league.years:
+        teamOwnerIds = list()
+        for team in year.teams:
+            teamOwnerIds.append(team.ownerId)
+        if len(set(teamOwnerIds)) != len(teamOwnerIds):
+            raise InvalidYearFormatException(f"Year {year.yearNumber} has teams with the same owner IDs.")
+        for owner in league.owners:
+            if owner.id in teamOwnerIds:
+                teamOwnerIds.remove(owner.id)
+        if len(teamOwnerIds) > 0:
+            raise InvalidYearFormatException(
+                f"Year {year.yearNumber} has teams with owner IDs that do not match the League's owner IDs: {teamOwnerIds}.")
