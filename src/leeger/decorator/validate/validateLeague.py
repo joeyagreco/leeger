@@ -42,7 +42,7 @@ def __runAllChecks(league) -> None:
     leagueValidation.checkAllTypes(league)
     leagueValidation.checkOnlyOneChampionshipWeekPerYear(league)
     leagueValidation.checkAtLeastOneWeekPerYear(league)
-    __checkWeekNumbering(league)
+    leagueValidation.checkWeekNumberingInLeague(league)
     __checkPlayoffWeekOrdering(league)
     __checkAtLeastTwoTeamsPerYear(league)
     __checkAllYearsHaveValidYearNumbers(league)
@@ -62,28 +62,6 @@ Checker Functions
     - Will do nothing if a properly-formatted League is passed.
 
 """
-
-
-def __checkWeekNumbering(league: League) -> None:
-    """
-    Checks that:
-        - Each year has no duplicate week numbers
-        - First week number of every year is 1
-        - Each year has weeks numbered 1-n in order
-    """
-    for year in league.years:
-        weekNumbers = list()
-        for week in year.weeks:
-            weekNumbers.append(week.weekNumber)
-
-        if len(set(weekNumbers)) != len(weekNumbers):
-            raise InvalidYearFormatException(f"Year {year.yearNumber} has duplicate week numbers.")
-
-        if weekNumbers[0] != 1:
-            raise InvalidYearFormatException(f"First week in year {year.yearNumber} must be 1, not {weekNumbers[0]}.")
-
-        if len(weekNumbers) != weekNumbers[-1]:
-            raise InvalidYearFormatException(f"Year {year.yearNumber} does not have week numbers in order (1-n).")
 
 
 def __checkPlayoffWeekOrdering(league: League) -> None:

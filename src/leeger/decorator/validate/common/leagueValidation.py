@@ -35,3 +35,14 @@ def checkAtLeastOneWeekPerYear(league: League) -> None:
     """
     for year in league.years:
         yearValidation.checkAtLeastOneWeekInYear(year)
+
+
+def checkWeekNumberingInLeague(league: League) -> None:
+    """
+    Checks that:
+        - Each year has no duplicate week numbers
+        - First week number of every Year is 1
+        - Each Year has weeks numbered 1-n in order
+    """
+    for year in league.years:
+        yearValidation.checkWeekNumberingInYear(year)
