@@ -3,6 +3,25 @@ from src.leeger.exception.InvalidLeagueFormatException import InvalidLeagueForma
 from src.leeger.model.League import League
 
 
+def runAllChecks(league) -> None:
+    """
+    Runs all checks on given League.
+    The order in which these are called matters.
+    """
+    checkAllTypes(league)
+    checkOnlyOneChampionshipWeekPerYear(league)
+    checkAtLeastOneWeekPerYear(league)
+    checkWeekNumberingInLeague(league)
+    checkPlayoffWeekOrderingInLeague(league)
+    checkAtLeastTwoTeamsPerYear(league)
+    checkAllYearsHaveValidYearNumbers(league)
+    checkYearsAreInCorrectOrder(league)
+    checkNoDuplicateYearNumbers(league)
+    checkTeamOwnerIds(league)
+    checkTeamNamesInLeague(league)
+    checkWeeksInYearsHaveAtLeastOneMatchup(league)
+
+
 def checkAllTypes(league: League) -> None:
     """
     Checks all types that are within the League object.

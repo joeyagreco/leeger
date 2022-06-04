@@ -25,29 +25,10 @@ def validateLeague(function: Callable) -> Callable:
                 break
         if league is None:
             raise ValueError("No valid League argument given to validate.")
-        __runAllChecks(league)
+        leagueValidation.runAllChecks(league)
         return function(*args, **kwargs)
 
     return wrapFunction
-
-
-def __runAllChecks(league) -> None:
-    """
-    Runs all checks on given League.
-    The order in which these are called matters.
-    """
-    leagueValidation.checkAllTypes(league)
-    leagueValidation.checkOnlyOneChampionshipWeekPerYear(league)
-    leagueValidation.checkAtLeastOneWeekPerYear(league)
-    leagueValidation.checkWeekNumberingInLeague(league)
-    leagueValidation.checkPlayoffWeekOrderingInLeague(league)
-    leagueValidation.checkAtLeastTwoTeamsPerYear(league)
-    leagueValidation.checkAllYearsHaveValidYearNumbers(league)
-    leagueValidation.checkYearsAreInCorrectOrder(league)
-    leagueValidation.checkNoDuplicateYearNumbers(league)
-    leagueValidation.checkTeamOwnerIds(league)
-    leagueValidation.checkTeamNamesInLeague(league)
-    leagueValidation.checkWeeksInYearsHaveAtLeastOneMatchup(league)
 
 
 """
