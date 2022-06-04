@@ -18,6 +18,24 @@ class TestWeekValidation(unittest.TestCase):
         """
         ...
 
+    def test_validateLeague_weekDoesntHaveAtLeastOneMatchup_raisesException(self):
+        week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
+
+        owner1 = Owner(name="1")
+        owner2 = Owner(name="2")
+
+        team1 = Team(ownerId=owner1.id, name="1")
+        team2 = Team(ownerId=owner2.id, name="2")
+        year = Year(yearNumber=2000, teams=[team1, team2], weeks=[week1])
+
+        with self.assertRaises(InvalidWeekFormatException) as context:
+            self.dummyFunction(League(name="TEST", owners=[owner1, owner2], years=[year]))
+        self.assertEqual("Week 1 must have at least 1 matchup.", str(context.exception))
+
+    """
+    TYPE CHECK TESTS
+    """
+
     def test_validateLeague_weekNumberIsntTypeInt_raisesException(self):
         owner = Owner(name="TEST")
         team = Team(ownerId="id", name="name")
