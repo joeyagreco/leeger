@@ -1,5 +1,6 @@
 from typing import Callable
 
+from src.leeger.exception.InvalidWeekFormatException import InvalidWeekFormatException
 from src.leeger.exception.InvalidYearFormatException import InvalidYearFormatException
 from src.leeger.model.League import League
 
@@ -34,6 +35,7 @@ def __runAllChecks(league) -> None:
     __checkAllYearsHaveValidYearNumbers(league)
     __checkTeamOwnerIds(league)
     __checkTeamNames(league)
+    __checkWeekHasAtLeastOneMatchup(league)
 
 
 """
@@ -162,3 +164,13 @@ def __checkTeamNames(league: League) -> None:
             teamNames.append(team.name)
         if len(set(teamNames)) != len(teamNames):
             raise InvalidYearFormatException(f"Year {year.yearNumber} has teams with duplicate names.")
+
+
+def __checkWeekHasAtLeastOneMatchup(league: League) -> None:
+    """
+    Checks that each week has at least one matchup.
+    """
+    for year in league.years:
+        for week in year.weeks:
+            if len(week.matchups) == 0:
+                raise InvalidWeekFormatException(f"Year {year.yearNumber} must have at least 1 matchup.")

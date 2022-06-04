@@ -1,8 +1,10 @@
 import unittest
 
 from src.leeger.decorator.statCalculator import statCalculator
+from src.leeger.exception.InvalidWeekFormatException import InvalidWeekFormatException
 from src.leeger.exception.InvalidYearFormatException import InvalidYearFormatException
 from src.leeger.model.League import League
+from src.leeger.model.Matchup import Matchup
 from src.leeger.model.Owner import Owner
 from src.leeger.model.Team import Team
 from src.leeger.model.Week import Week
@@ -19,17 +21,21 @@ class TestStatCalculator(unittest.TestCase):
         ...
 
     def test_statCalculator_happyPath(self):
-        week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
-        week2 = Week(weekNumber=2, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
-        week3 = Week(weekNumber=3, isPlayoffWeek=True, isChampionshipWeek=False, matchups=list())
-        week4 = Week(weekNumber=4, isPlayoffWeek=True, isChampionshipWeek=True, matchups=list())
-
         owner1 = Owner(name="1")
         owner2 = Owner(name="2")
 
         team1 = Team(ownerId=owner1.id, name="1")
         team2 = Team(ownerId=owner2.id, name="2")
-        year = Year(yearNumber=2000, teams=[team1, team2], weeks=[week1, week2, week3, week4])
+
+        matchup1 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=1, teamBScore=2)
+        matchup3 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=1, teamBScore=2)
+
+        week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=[matchup1])
+        week2 = Week(weekNumber=2, isPlayoffWeek=True, isChampionshipWeek=False, matchups=[matchup2])
+        week3 = Week(weekNumber=3, isPlayoffWeek=True, isChampionshipWeek=True, matchups=[matchup3])
+
+        year = Year(yearNumber=2000, teams=[team1, team2], weeks=[week1, week2, week3])
 
         self.dummyFunction(League(name="TEST", owners=[owner1, owner2], years=[year]))
 
@@ -160,3 +166,17 @@ class TestStatCalculator(unittest.TestCase):
         with self.assertRaises(InvalidYearFormatException) as context:
             self.dummyFunction(League(name="TEST", owners=[owner1, owner2], years=[year]))
         self.assertEqual("Year 2000 has teams with duplicate names.", str(context.exception))
+
+    def test_statCalculator_weekDoesntHaveAtLeastOneMatchup_raisesException(self):
+        week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
+
+        owner1 = Owner(name="1")
+        owner2 = Owner(name="2")
+
+        team1 = Team(ownerId=owner1.id, name="1")
+        team2 = Team(ownerId=owner2.id, name="2")
+        year = Year(yearNumber=2000, teams=[team1, team2], weeks=[week1])
+
+        with self.assertRaises(InvalidWeekFormatException) as context:
+            self.dummyFunction(League(name="TEST", owners=[owner1, owner2], years=[year]))
+        self.assertEqual("Year 2000 must have at least 1 matchup.", str(context.exception))
