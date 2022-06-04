@@ -1,5 +1,6 @@
 from typing import Callable
 
+from src.leeger.exception.InvalidMatchupFormatException import InvalidMatchupFormatException
 from src.leeger.exception.InvalidWeekFormatException import InvalidWeekFormatException
 from src.leeger.exception.InvalidYearFormatException import InvalidYearFormatException
 from src.leeger.model.League import League
@@ -36,6 +37,7 @@ def __runAllChecks(league) -> None:
     __checkTeamOwnerIds(league)
     __checkTeamNames(league)
     __checkWeekHasAtLeastOneMatchup(league)
+    __checkMatchupTeamIdsMatchYearTeamIds(league)
 
 
 """
@@ -174,3 +176,16 @@ def __checkWeekHasAtLeastOneMatchup(league: League) -> None:
         for week in year.weeks:
             if len(week.matchups) == 0:
                 raise InvalidWeekFormatException(f"Year {year.yearNumber} must have at least 1 matchup.")
+
+
+def __checkMatchupTeamIdsMatchYearTeamIds(league: League) -> None:
+    """
+    Checks that each team ID in a matchup match that year's team IDs.
+    """
+    for year in league.years:
+        teamIds = [team.id for team in year.teams]
+        for week in year.weeks:
+            for matchup in week.matchups:
+                if matchup.teamAId not in teamIds or matchup.teamBId not in teamIds:
+                    raise InvalidMatchupFormatException(
+                        f"Year {year.yearNumber} Week {week.weekNumber} has a matchup with team IDs that do not match the Year's team IDs.")
