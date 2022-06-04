@@ -12,13 +12,20 @@ from src.leeger.model.League import League
 def validateLeague(function: Callable) -> Callable:
     """
     It is expected that any function decorated with this will follow these rules:
-        - Have a League object as the first parameter
+        - Have a League object as a parameter
+    This decorator will take the first League parameter found and use it for all validation
 
     The purpose of this decorator is to do some initial checks on the League object to validate that it is correctly formatted.
     """
 
     def wrapFunction(*args, **kwargs):
-        league = args[1]
+        league = None
+        for arg in args:
+            if type(arg) == League:
+                league = arg
+                break
+        if league is None:
+            raise ValueError("No valid League argument given to validate.")
         __runAllChecks(league)
         return function(*args, **kwargs)
 

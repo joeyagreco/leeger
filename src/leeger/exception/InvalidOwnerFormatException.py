@@ -1,6 +1,6 @@
 class InvalidOwnerFormatException(Exception):
     """
-    Raised when a Owner model is not formatted correctly.
+    Raised when an Owner model is not formatted correctly.
     """
 
     pass

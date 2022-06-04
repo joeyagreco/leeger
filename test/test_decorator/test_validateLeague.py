@@ -62,6 +62,11 @@ class TestValidateLeague(unittest.TestCase):
 
         self.dummyFunction(League(name="TEST", owners=[owner1, owner2], years=[a_year, b_year]))
 
+    def test_validateLeague_noLeagueParameterGiven_raisesException(self):
+        with self.assertRaises(ValueError) as context:
+            self.dummyFunction(None)
+        self.assertEqual("No valid League argument given to validate.", str(context.exception))
+
     def test_validateLeague_twoChampionshipWeeksInYear_raisesException(self):
         week1 = Week(weekNumber=1, isPlayoffWeek=True, isChampionshipWeek=True, matchups=list())
         week2 = Week(weekNumber=2, isPlayoffWeek=True, isChampionshipWeek=True, matchups=list())
