@@ -98,6 +98,7 @@ def checkTeamOwnerIds(league: League) -> None:
         - There are no duplicate owner IDs within the teams
         - Each team in a year has an owner ID that matches an Owner ID that is in the League's owners list as an ID
     """
+    # TODO: this should be done at the year level as well, but the Year model does not have access to the owner IDs as that is on the League model level.
     for year in league.years:
         teamOwnerIds = list()
         for team in year.teams:
@@ -110,3 +111,11 @@ def checkTeamOwnerIds(league: League) -> None:
         if len(teamOwnerIds) > 0:
             raise InvalidYearFormatException(
                 f"Year {year.yearNumber} has teams with owner IDs that do not match the League's owner IDs: {teamOwnerIds}.")
+
+
+def checkTeamNamesInLeague(league: League) -> None:
+    """
+    Checks that each team in each Year has a unique name
+    """
+    for year in league.years:
+        yearValidation.checkTeamNamesInYear(year)

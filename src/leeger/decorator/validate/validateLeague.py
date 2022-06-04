@@ -3,7 +3,6 @@ from typing import Callable
 from src.leeger.decorator.validate.common import leagueValidation
 from src.leeger.exception.InvalidMatchupFormatException import InvalidMatchupFormatException
 from src.leeger.exception.InvalidWeekFormatException import InvalidWeekFormatException
-from src.leeger.exception.InvalidYearFormatException import InvalidYearFormatException
 from src.leeger.model.League import League
 
 
@@ -49,7 +48,7 @@ def __runAllChecks(league) -> None:
     leagueValidation.checkYearsAreInCorrectOrder(league)
     leagueValidation.checkNoDuplicateYearNumbers(league)
     leagueValidation.checkTeamOwnerIds(league)
-    __checkTeamNames(league)
+    leagueValidation.checkTeamNamesInLeague(league)
     __checkWeekHasAtLeastOneMatchup(league)
     __checkMatchupTeamIdsMatchYearTeamIds(league)
     __checkPlayoffWeekWithTiedScoresHasATiebreakerDefined(league)
@@ -62,18 +61,6 @@ Checker Functions
     - Will do nothing if a properly-formatted League is passed.
 
 """
-
-
-def __checkTeamNames(league: League) -> None:
-    """
-    Checks that each team in a year has a unique name
-    """
-    for year in league.years:
-        teamNames = list()
-        for team in year.teams:
-            teamNames.append(team.name)
-        if len(set(teamNames)) != len(teamNames):
-            raise InvalidYearFormatException(f"Year {year.yearNumber} has teams with duplicate names.")
 
 
 def __checkWeekHasAtLeastOneMatchup(league: League) -> None:

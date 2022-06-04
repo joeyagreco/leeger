@@ -102,3 +102,14 @@ def checkGivenYearHasValidYearNumber(year: Year) -> None:
     """
     if year.yearNumber < 1920 or year.yearNumber > 2999:
         raise InvalidYearFormatException(f"Year {year.yearNumber} is not in range 1920-2XXX.")
+
+
+def checkTeamNamesInYear(year: Year) -> None:
+    """
+    Checks that each team in the given Year has a unique name
+    """
+    teamNames = list()
+    for team in year.teams:
+        teamNames.append(team.name)
+    if len(set(teamNames)) != len(teamNames):
+        raise InvalidYearFormatException(f"Year {year.yearNumber} has teams with duplicate names.")
