@@ -85,3 +85,11 @@ def checkPlayoffWeekOrderingInYear(year: Year) -> None:
             if haveHadChampionshipWeek:
                 raise InvalidYearFormatException(
                     f"Year {year.yearNumber} has a non-championship week after a championship week.")
+
+
+def checkAtLeastTwoTeamsInYear(year: Year) -> None:
+    """
+    Checks that there is at least 2 teams in the given Year.
+    """
+    if len(year.teams) < 2:
+        raise InvalidYearFormatException(f"Year {year.yearNumber} needs at least 2 teams.")

@@ -44,7 +44,7 @@ def __runAllChecks(league) -> None:
     leagueValidation.checkAtLeastOneWeekPerYear(league)
     leagueValidation.checkWeekNumberingInLeague(league)
     leagueValidation.checkPlayoffWeekOrderingInLeague(league)
-    __checkAtLeastTwoTeamsPerYear(league)
+    leagueValidation.checkAtLeastTwoTeamsPerYear(league)
     __checkAllYearsHaveValidYearNumbers(league)
     __checkYearsAreInCorrectOrder(league)
     __checkNoDuplicateYearNumbers(league)
@@ -62,15 +62,6 @@ Checker Functions
     - Will do nothing if a properly-formatted League is passed.
 
 """
-
-
-def __checkAtLeastTwoTeamsPerYear(league: League) -> None:
-    """
-    Checks that there is at least 2 teams per year.
-    """
-    for year in league.years:
-        if len(year.teams) < 2:
-            raise InvalidYearFormatException(f"Year {year.yearNumber} needs at least 2 teams.")
 
 
 def __checkAllYearsHaveValidYearNumbers(league: League) -> None:

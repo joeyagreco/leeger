@@ -56,3 +56,11 @@ def checkPlayoffWeekOrderingInLeague(league: League) -> None:
     """
     for year in league.years:
         yearValidation.checkPlayoffWeekOrderingInYear(year)
+
+
+def checkAtLeastTwoTeamsPerYear(league: League) -> None:
+    """
+    Checks that there is at least 2 teams per year.
+    """
+    for year in league.years:
+        yearValidation.checkAtLeastTwoTeamsInYear(year)
