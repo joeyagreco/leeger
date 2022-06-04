@@ -46,7 +46,7 @@ def __runAllChecks(league) -> None:
     leagueValidation.checkPlayoffWeekOrderingInLeague(league)
     leagueValidation.checkAtLeastTwoTeamsPerYear(league)
     leagueValidation.checkAllYearsHaveValidYearNumbers(league)
-    __checkYearsAreInCorrectOrder(league)
+    leagueValidation.checkYearsAreInCorrectOrder(league)
     __checkNoDuplicateYearNumbers(league)
     __checkTeamOwnerIds(league)
     __checkTeamNames(league)
@@ -62,14 +62,6 @@ Checker Functions
     - Will do nothing if a properly-formatted League is passed.
 
 """
-
-
-def __checkYearsAreInCorrectOrder(league: League) -> None:
-    """
-    Checks that the years are in order from oldest -> most recent years.
-    """
-    if [year.yearNumber for year in league.years] != sorted([year.yearNumber for year in league.years]):
-        raise InvalidYearFormatException(f"Years are not in chronological order (oldest -> newest).")
 
 
 def __checkNoDuplicateYearNumbers(league: League) -> None:

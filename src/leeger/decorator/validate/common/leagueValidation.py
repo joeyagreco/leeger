@@ -73,3 +73,11 @@ def checkAllYearsHaveValidYearNumbers(league: League) -> None:
     """
     for year in league.years:
         yearValidation.checkGivenYearHasValidYearNumber(year)
+
+
+def checkYearsAreInCorrectOrder(league: League) -> None:
+    """
+    Checks that the Years are in order from oldest -> most recent years.
+    """
+    if [year.yearNumber for year in league.years] != sorted([year.yearNumber for year in league.years]):
+        raise InvalidLeagueFormatException(f"Years are not in chronological order (oldest -> newest).")
