@@ -38,6 +38,7 @@ def __runAllChecks(league) -> None:
     __checkPlayoffWeekOrdering(league)
     __checkAtLeastTwoTeamsPerYear(league)
     __checkAllYearsHaveValidYearNumbers(league)
+    __checkYearsAreInCorrectOrder(league)
     __checkTeamOwnerIds(league)
     __checkTeamNames(league)
     __checkWeekHasAtLeastOneMatchup(league)
@@ -188,6 +189,14 @@ def __checkAllYearsHaveValidYearNumbers(league: League) -> None:
     for year in league.years:
         if year.yearNumber < 1920 or year.yearNumber > 2999:
             raise InvalidYearFormatException(f"Year {year.yearNumber} is not in range 1920-2XXX.")
+
+
+def __checkYearsAreInCorrectOrder(league: League) -> None:
+    """
+    Checks that the years are in order from oldest -> most recent years.
+    """
+    if [year.yearNumber for year in league.years] != sorted([year.yearNumber for year in league.years]):
+        raise InvalidYearFormatException(f"Years are not in chronological order (oldest -> newest).")
 
 
 def __checkTeamOwnerIds(league: League) -> None:
