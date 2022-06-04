@@ -3,6 +3,7 @@ import unittest
 from src.leeger.decorator.statCalculator import statCalculator
 from src.leeger.exception.InvalidYearFormatException import InvalidYearFormatException
 from src.leeger.model.League import League
+from src.leeger.model.Owner import Owner
 from src.leeger.model.Team import Team
 from src.leeger.model.Week import Week
 from src.leeger.model.Year import Year
@@ -23,10 +24,14 @@ class TestStatCalculator(unittest.TestCase):
         week3 = Week(weekNumber=3, isPlayoffWeek=True, isChampionshipWeek=False, matchups=list())
         week4 = Week(weekNumber=4, isPlayoffWeek=True, isChampionshipWeek=True, matchups=list())
 
-        team1 = Team(ownerId="1", name="1")
-        team2 = Team(ownerId="2", name="2")
+        owner1 = Owner(name="1")
+        owner2 = Owner(name="2")
+
+        team1 = Team(ownerId=owner1.id, name="1")
+        team2 = Team(ownerId=owner2.id, name="2")
         year = Year(yearNumber=2000, teams=[team1, team2], weeks=[week1, week2, week3, week4])
-        self.dummyFunction(League(name="TEST", owners=list(), years=[year]))
+
+        self.dummyFunction(League(name="TEST", owners=[owner1, owner2], years=[year]))
 
     def test_statCalculator_twoChampionshipWeeksInYear_raisesException(self):
         week1 = Week(weekNumber=1, isPlayoffWeek=True, isChampionshipWeek=True, matchups=list())
@@ -120,3 +125,24 @@ class TestStatCalculator(unittest.TestCase):
         with self.assertRaises(InvalidYearFormatException) as context:
             self.dummyFunction(League(name="TEST", owners=list(), years=[year]))
         self.assertEqual("Year 3000 is not in range 1920-2XXX.", str(context.exception))
+
+    def test_statCalculator_teamsHaveDuplicateOwnerIds_raisesException(self):
+        week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
+        team1 = Team(ownerId="1", name="1")
+        team2 = Team(ownerId="1", name="2")
+        year = Year(yearNumber=2000, teams=[team1, team2], weeks=[week1])
+
+        with self.assertRaises(InvalidYearFormatException) as context:
+            self.dummyFunction(League(name="TEST", owners=list(), years=[year]))
+        self.assertEqual("Year 2000 has teams with the same owner IDs.", str(context.exception))
+
+    def test_statCalculator_teamsHaveIdsThatDontMatchLeagueOwnerIds_raisesException(self):
+        week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
+        team1 = Team(ownerId="1", name="1")
+        team2 = Team(ownerId="2", name="2")
+        year = Year(yearNumber=2000, teams=[team1, team2], weeks=[week1])
+
+        with self.assertRaises(InvalidYearFormatException) as context:
+            self.dummyFunction(League(name="TEST", owners=list(), years=[year]))
+        self.assertEqual("Year 2000 has teams with owner IDs that do not match the League's owner IDs: ['1', '2'].",
+                         str(context.exception))
