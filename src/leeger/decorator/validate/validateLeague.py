@@ -1,9 +1,7 @@
 from typing import Callable
 
-from src.leeger.exception.InvalidLeagueFormatException import InvalidLeagueFormatException
+from src.leeger.decorator.validate.common import leagueValidation
 from src.leeger.exception.InvalidMatchupFormatException import InvalidMatchupFormatException
-from src.leeger.exception.InvalidOwnerFormatException import InvalidOwnerFormatException
-from src.leeger.exception.InvalidTeamFormatException import InvalidTeamFormatException
 from src.leeger.exception.InvalidWeekFormatException import InvalidWeekFormatException
 from src.leeger.exception.InvalidYearFormatException import InvalidYearFormatException
 from src.leeger.model.League import League
@@ -41,7 +39,7 @@ def __runAllChecks(league) -> None:
     Runs all checks on given League.
     The order in which these are called matters.
     """
-    __checkAllTypes(league)
+    leagueValidation.checkAllTypes(league)
     __checkOnlyOneChampionshipWeekPerYear(league)
     __checkAtLeastOneWeekPerYear(league)
     __checkWeekNumbering(league)
@@ -64,60 +62,6 @@ Checker Functions
     - Will do nothing if a properly-formatted League is passed.
 
 """
-
-
-def __checkAllTypes(league: League) -> None:
-    """
-    Checks all types that are within the League object.
-    """
-    if type(league.name) != str:
-        raise InvalidLeagueFormatException("League name must be type 'str'.")
-    if type(league.owners) != list:
-        raise InvalidLeagueFormatException("League owners must be type 'list'.")
-    if type(league.years) != list:
-        raise InvalidLeagueFormatException("League years must be type 'list'.")
-
-    for owner in league.owners:
-        if type(owner.name) != str:
-            raise InvalidOwnerFormatException("Owner name must be type 'str'.")
-
-    for year in league.years:
-        if type(year.yearNumber) != int:
-            raise InvalidYearFormatException("Year number must be type 'int'.")
-        if type(year.teams) != list:
-            raise InvalidYearFormatException("Year teams must be type 'list'.")
-        if type(year.weeks) != list:
-            raise InvalidYearFormatException("Year weeks must be type 'list'.")
-
-        for team in year.teams:
-            if type(team.ownerId) != str:
-                raise InvalidTeamFormatException("Team owner ID must be type 'str'.")
-            if type(team.name) != str:
-                raise InvalidTeamFormatException("Team name must be type 'str'.")
-
-        for week in year.weeks:
-            if type(week.weekNumber) != int:
-                raise InvalidWeekFormatException("Week number must be type 'int'.")
-            if type(week.isPlayoffWeek) != bool:
-                raise InvalidWeekFormatException("Week isPlayoffWeek must be type 'bool'.")
-            if type(week.isChampionshipWeek) != bool:
-                raise InvalidWeekFormatException("Week isChampionshipWeek must be type 'bool'.")
-            if type(week.matchups) != list:
-                raise InvalidWeekFormatException("Week matchups must be type 'list'.")
-
-            for matchup in week.matchups:
-                if type(matchup.teamAId) != str:
-                    raise InvalidMatchupFormatException("Matchup teamAId must be type 'str'.")
-                if type(matchup.teamBId) != str:
-                    raise InvalidMatchupFormatException("Matchup teamBId must be type 'str'.")
-                if type(matchup.teamAScore) != float and type(matchup.teamAScore) != int:
-                    raise InvalidMatchupFormatException("Matchup teamAScore must be type 'float' or 'int'.")
-                if type(matchup.teamBScore) != float and type(matchup.teamBScore) != int:
-                    raise InvalidMatchupFormatException("Matchup teamBScore must be type 'float' or 'int'.")
-                if type(matchup.teamAHasTiebreaker) != bool:
-                    raise InvalidMatchupFormatException("Matchup teamAHasTiebreaker must be type 'bool'.")
-                if type(matchup.teamBHasTiebreaker) != bool:
-                    raise InvalidMatchupFormatException("Matchup teamBHasTiebreaker must be type 'bool'.")
 
 
 def __checkOnlyOneChampionshipWeekPerYear(league: League) -> None:
