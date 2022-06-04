@@ -61,3 +61,27 @@ def checkWeekNumberingInYear(year: Year) -> None:
 
     if len(weekNumbers) != weekNumbers[-1]:
         raise InvalidYearFormatException(f"Year {year.yearNumber} does not have week numbers in order (1-n).")
+
+
+def checkPlayoffWeekOrderingInYear(year: Year) -> None:
+    """
+    Checks that:
+        - There are no non-playoff weeks after a playoff week
+        - There are no non-championship weeks after a championship week
+    """
+
+    haveHadPlayoffWeek = False
+    haveHadChampionshipWeek = False
+    for week in year.weeks:
+        if week.isPlayoffWeek:
+            haveHadPlayoffWeek = True
+        else:
+            if haveHadPlayoffWeek:
+                raise InvalidYearFormatException(
+                    f"Year {year.yearNumber} has a non-playoff week after a playoff week.")
+        if week.isChampionshipWeek:
+            haveHadChampionshipWeek = True
+        else:
+            if haveHadChampionshipWeek:
+                raise InvalidYearFormatException(
+                    f"Year {year.yearNumber} has a non-championship week after a championship week.")

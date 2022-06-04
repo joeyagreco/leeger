@@ -46,3 +46,13 @@ def checkWeekNumberingInLeague(league: League) -> None:
     """
     for year in league.years:
         yearValidation.checkWeekNumberingInYear(year)
+
+
+def checkPlayoffWeekOrderingInLeague(league: League) -> None:
+    """
+    Checks that:
+        - There are no non-playoff weeks after a playoff week
+        - There are no non-championship weeks after a championship week
+    """
+    for year in league.years:
+        yearValidation.checkPlayoffWeekOrderingInYear(year)

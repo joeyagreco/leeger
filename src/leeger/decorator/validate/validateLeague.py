@@ -43,7 +43,7 @@ def __runAllChecks(league) -> None:
     leagueValidation.checkOnlyOneChampionshipWeekPerYear(league)
     leagueValidation.checkAtLeastOneWeekPerYear(league)
     leagueValidation.checkWeekNumberingInLeague(league)
-    __checkPlayoffWeekOrdering(league)
+    leagueValidation.checkPlayoffWeekOrderingInLeague(league)
     __checkAtLeastTwoTeamsPerYear(league)
     __checkAllYearsHaveValidYearNumbers(league)
     __checkYearsAreInCorrectOrder(league)
@@ -62,30 +62,6 @@ Checker Functions
     - Will do nothing if a properly-formatted League is passed.
 
 """
-
-
-def __checkPlayoffWeekOrdering(league: League) -> None:
-    """
-    Checks that:
-        - There are no non-playoff weeks after a playoff week
-        - There are no non-championship weeks after a championship week
-    """
-    for year in league.years:
-        haveHadPlayoffWeek = False
-        haveHadChampionshipWeek = False
-        for week in year.weeks:
-            if week.isPlayoffWeek:
-                haveHadPlayoffWeek = True
-            else:
-                if haveHadPlayoffWeek:
-                    raise InvalidYearFormatException(
-                        f"Year {year.yearNumber} has a non-playoff week after a playoff week.")
-            if week.isChampionshipWeek:
-                haveHadChampionshipWeek = True
-            else:
-                if haveHadChampionshipWeek:
-                    raise InvalidYearFormatException(
-                        f"Year {year.yearNumber} has a non-championship week after a championship week.")
 
 
 def __checkAtLeastTwoTeamsPerYear(league: League) -> None:
