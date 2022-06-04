@@ -49,7 +49,6 @@ def __runAllChecks(league) -> None:
     leagueValidation.checkTeamOwnerIds(league)
     leagueValidation.checkTeamNamesInLeague(league)
     leagueValidation.checkWeeksInYearsHaveAtLeastOneMatchup(league)
-    __checkMatchupTeamIdsMatchYearTeamIds(league)
     __checkPlayoffWeekWithTiedScoresHasATiebreakerDefined(league)
 
 
@@ -60,19 +59,6 @@ Checker Functions
     - Will do nothing if a properly-formatted League is passed.
 
 """
-
-
-def __checkMatchupTeamIdsMatchYearTeamIds(league: League) -> None:
-    """
-    Checks that each team ID in a matchup match that year's team IDs.
-    """
-    for year in league.years:
-        teamIds = [team.id for team in year.teams]
-        for week in year.weeks:
-            for matchup in week.matchups:
-                if matchup.teamAId not in teamIds or matchup.teamBId not in teamIds:
-                    raise InvalidMatchupFormatException(
-                        f"Year {year.yearNumber} Week {week.weekNumber} has a matchup with team IDs that do not match the Year's team IDs.")
 
 
 def __checkPlayoffWeekWithTiedScoresHasATiebreakerDefined(league: League) -> None:

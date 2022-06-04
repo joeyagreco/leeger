@@ -203,17 +203,6 @@ class TestValidateLeague(unittest.TestCase):
             self.dummyFunction(League(name="TEST", owners=list(), years=[year]))
         self.assertEqual("Year 2000 has teams with the same owner IDs.", str(context.exception))
 
-    def test_validateLeague_teamsHaveIdsThatDontMatchLeagueOwnerIds_raisesException(self):
-        week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
-        team1 = Team(ownerId="1", name="1")
-        team2 = Team(ownerId="2", name="2")
-        year = Year(yearNumber=2000, teams=[team1, team2], weeks=[week1])
-
-        with self.assertRaises(InvalidYearFormatException) as context:
-            self.dummyFunction(League(name="TEST", owners=list(), years=[year]))
-        self.assertEqual("Year 2000 has teams with owner IDs that do not match the League's owner IDs: ['1', '2'].",
-                         str(context.exception))
-
     def test_validateLeague_teamsInAYearHaveDuplicateNames_raisesException(self):
         week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
 
@@ -241,24 +230,6 @@ class TestValidateLeague(unittest.TestCase):
         with self.assertRaises(InvalidWeekFormatException) as context:
             self.dummyFunction(League(name="TEST", owners=[owner1, owner2], years=[year]))
         self.assertEqual("Week 1 must have at least 1 matchup.", str(context.exception))
-
-    def test_validateLeague_matchupDoesntHaveTeamIdsThatMatchYearTeamIds_raisesException(self):
-        owner1 = Owner(name="1")
-        owner2 = Owner(name="2")
-
-        team1 = Team(ownerId=owner1.id, name="1")
-        team2 = Team(ownerId=owner2.id, name="2")
-
-        matchup1 = Matchup(teamAId="A", teamBId="B", teamAScore=1, teamBScore=2)
-
-        week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=[matchup1])
-
-        year = Year(yearNumber=2000, teams=[team1, team2], weeks=[week1])
-
-        with self.assertRaises(InvalidMatchupFormatException) as context:
-            self.dummyFunction(League(name="TEST", owners=[owner1, owner2], years=[year]))
-        self.assertEqual("Year 2000 Week 1 has a matchup with team IDs that do not match the Year's team IDs.",
-                         str(context.exception))
 
     def test_validateLeague_matchupIsATiedPlayoffWeekWithNoTiebreakerDefined_raisesException(self):
         owner1 = Owner(name="1")

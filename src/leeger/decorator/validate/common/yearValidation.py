@@ -121,3 +121,13 @@ def checkWeeksInYearHaveAtLeastOneMatchup(year: Year) -> None:
     """
     for week in year.weeks:
         weekValidation.checkWeekHasAtLeastOneMatchup(week)
+
+
+def checkTeamOwnerIdsInYear(year: Year) -> None:
+    """
+    Checks that there are no duplicate owner IDs within the teams.
+    """
+    teamOwnerIds = [team.ownerId for team in year.teams]
+    if len(set(teamOwnerIds)) != len(teamOwnerIds):
+        raise InvalidYearFormatException(
+            f"Year {year.yearNumber} has teams with the same owner IDs.")
