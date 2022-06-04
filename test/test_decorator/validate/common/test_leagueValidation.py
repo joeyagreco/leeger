@@ -1,6 +1,6 @@
 import unittest
 
-from src.leeger.decorator.validate.validators import validateLeague
+from src.leeger.decorator.validate.common import leagueValidation
 from src.leeger.exception.InvalidLeagueFormatException import InvalidLeagueFormatException
 from src.leeger.model.League import League
 from src.leeger.model.Matchup import Matchup
@@ -11,13 +11,6 @@ from src.leeger.model.Year import Year
 
 
 class TestLeagueValidation(unittest.TestCase):
-
-    @validateLeague
-    def dummyFunction(self, league: League, **kwargs):
-        """
-        This is used to represent any function that can be wrapped by @validateLeague.
-        """
-        ...
 
     def test_validateLeague_happyPath(self):
         owner1 = Owner(name="1")
@@ -55,7 +48,7 @@ class TestLeagueValidation(unittest.TestCase):
 
         b_year = Year(yearNumber=2001, teams=[b_team1, b_team2], weeks=[b_week1, b_week2, b_week3, b_week4])
 
-        self.dummyFunction(League(name="TEST", owners=[owner1, owner2], years=[a_year, b_year]))
+        leagueValidation.runAllChecks(League(name="TEST", owners=[owner1, owner2], years=[a_year, b_year]))
 
     def test_validateLeague_yearsArentInCorrectOrder_raisesException(self):
         a_week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
@@ -69,7 +62,7 @@ class TestLeagueValidation(unittest.TestCase):
         b_year = Year(yearNumber=2001, teams=[b_team1, b_team2], weeks=[b_week1])
 
         with self.assertRaises(InvalidLeagueFormatException) as context:
-            self.dummyFunction(League(name="TEST", owners=list(), years=[b_year, a_year]))
+            leagueValidation.checkYearsAreInCorrectOrder(League(name="TEST", owners=list(), years=[b_year, a_year]))
         self.assertEqual("Years are not in chronological order (oldest -> newest).", str(context.exception))
 
     def test_validateLeague_duplicateYearNumbers_raisesException(self):
@@ -84,7 +77,7 @@ class TestLeagueValidation(unittest.TestCase):
         b_year = Year(yearNumber=2000, teams=[b_team1, b_team2], weeks=[b_week1])
 
         with self.assertRaises(InvalidLeagueFormatException) as context:
-            self.dummyFunction(League(name="TEST", owners=list(), years=[a_year, b_year]))
+            leagueValidation.checkNoDuplicateYearNumbers(League(name="TEST", owners=list(), years=[a_year, b_year]))
         self.assertEqual("Can only have 1 of each year number within a league.", str(context.exception))
 
     """
@@ -93,15 +86,15 @@ class TestLeagueValidation(unittest.TestCase):
 
     def test_validateLeague_leagueNameIsntTypeString_raisesException(self):
         with self.assertRaises(InvalidLeagueFormatException) as context:
-            self.dummyFunction(League(name=None, owners=list(), years=list()))
+            leagueValidation.checkAllTypes(League(name=None, owners=list(), years=list()))
         self.assertEqual("League name must be type 'str'.", str(context.exception))
 
     def test_validateLeague_leagueOwnersIsntTypeList_raisesException(self):
         with self.assertRaises(InvalidLeagueFormatException) as context:
-            self.dummyFunction(League(name="TEST", owners=None, years=list()))
+            leagueValidation.checkAllTypes(League(name="TEST", owners=None, years=list()))
         self.assertEqual("League owners must be type 'list'.", str(context.exception))
 
     def test_validateLeague_leagueYearsIsntTypeList_raisesException(self):
         with self.assertRaises(InvalidLeagueFormatException) as context:
-            self.dummyFunction(League(name="TEST", owners=list(), years=None))
+            leagueValidation.checkAllTypes(League(name="TEST", owners=list(), years=None))
         self.assertEqual("League years must be type 'list'.", str(context.exception))
