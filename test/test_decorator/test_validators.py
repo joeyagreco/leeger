@@ -4,7 +4,7 @@ from src.leeger.decorator.validate.validators import validateLeague
 from src.leeger.model.League import League
 
 
-class TestValidateLeague(unittest.TestCase):
+class TestValidators(unittest.TestCase):
 
     @validateLeague
     def dummyFunction(self, league: League, **kwargs):
