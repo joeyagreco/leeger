@@ -7,7 +7,7 @@ from src.leeger.model.Week import Week
 
 class TestWeekValidation(unittest.TestCase):
 
-    def test_validateLeague_weekDoesntHaveAtLeastOneMatchup_raisesException(self):
+    def test_checkWeekHasAtLeastOneMatchup_weekDoesntHaveAtLeastOneMatchup_raisesException(self):
         with self.assertRaises(InvalidWeekFormatException) as context:
             weekValidation.checkWeekHasAtLeastOneMatchup(
                 Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list()))
@@ -17,25 +17,25 @@ class TestWeekValidation(unittest.TestCase):
     TYPE CHECK TESTS
     """
 
-    def test_validateLeague_weekNumberIsntTypeInt_raisesException(self):
+    def test_checkAllTypes_weekNumberIsntTypeInt_raisesException(self):
         with self.assertRaises(InvalidWeekFormatException) as context:
             weekValidation.checkAllTypes(
                 Week(weekNumber=None, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list()))
         self.assertEqual("Week number must be type 'int'.", str(context.exception))
 
-    def test_validateLeague_weekisPlayoffWeekIsntTypeBool_raisesException(self):
+    def test_checkAllTypes_weekisPlayoffWeekIsntTypeBool_raisesException(self):
         with self.assertRaises(InvalidWeekFormatException) as context:
             weekValidation.checkAllTypes(
                 Week(weekNumber=1, isPlayoffWeek=None, isChampionshipWeek=False, matchups=list()))
         self.assertEqual("Week isPlayoffWeek must be type 'bool'.", str(context.exception))
 
-    def test_validateLeague_weekisChampionshipWeekIsntTypeBool_raisesException(self):
+    def test_checkAllTypes_weekisChampionshipWeekIsntTypeBool_raisesException(self):
         with self.assertRaises(InvalidWeekFormatException) as context:
             weekValidation.checkAllTypes(
                 Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=None, matchups=list()))
         self.assertEqual("Week isChampionshipWeek must be type 'bool'.", str(context.exception))
 
-    def test_validateLeague_weekMatchupsIsntTypeList_raisesException(self):
+    def test_checkAllTypes_weekMatchupsIsntTypeList_raisesException(self):
         with self.assertRaises(InvalidWeekFormatException) as context:
             weekValidation.checkAllTypes(
                 Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=None))
