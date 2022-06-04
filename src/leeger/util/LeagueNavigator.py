@@ -11,7 +11,7 @@ class LeagueNavigator:
 
     @staticmethod
     @validateLeague
-    def getYearByYearNumber(league: League, yearNumber: int) -> Year:
+    def getYearByYearNumber(league: League, yearNumber: int, **kwargs) -> Year:
         for year in league.years:
             if year.yearNumber == yearNumber:
                 return year

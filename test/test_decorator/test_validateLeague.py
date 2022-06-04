@@ -18,7 +18,7 @@ from src.leeger.model.Year import Year
 class TestValidateLeague(unittest.TestCase):
 
     @validateLeague
-    def dummyFunction(self, league: League):
+    def dummyFunction(self, league: League, **kwargs):
         """
         This is used to represent any function that can be wrapped by @statCalculator.
         """
@@ -66,6 +66,9 @@ class TestValidateLeague(unittest.TestCase):
         with self.assertRaises(ValueError) as context:
             self.dummyFunction(None)
         self.assertEqual("No valid League argument given to validate.", str(context.exception))
+
+    def test_validateLeague_validateLeagueKwargIsFalse_doesntRunValidation(self):
+        self.dummyFunction(None, validateLeague=False)
 
     def test_validateLeague_twoChampionshipWeeksInYear_raisesException(self):
         week1 = Week(weekNumber=1, isPlayoffWeek=True, isChampionshipWeek=True, matchups=list())
