@@ -7,5 +7,5 @@ from src.leeger.model.abstract.UniqueId import UniqueId
 class Matchup(UniqueId):
     teamAId: str
     teamBId: str
-    teamAScore: float
-    teamBScore: float
+    teamAScore: float | int
+    teamBScore: float | int
