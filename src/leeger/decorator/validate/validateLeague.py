@@ -1,7 +1,6 @@
 from typing import Callable
 
 from src.leeger.decorator.validate.common import leagueValidation
-from src.leeger.exception.InvalidMatchupFormatException import InvalidMatchupFormatException
 from src.leeger.model.League import League
 
 
@@ -49,7 +48,6 @@ def __runAllChecks(league) -> None:
     leagueValidation.checkTeamOwnerIds(league)
     leagueValidation.checkTeamNamesInLeague(league)
     leagueValidation.checkWeeksInYearsHaveAtLeastOneMatchup(league)
-    __checkPlayoffWeekWithTiedScoresHasATiebreakerDefined(league)
 
 
 """
@@ -59,16 +57,3 @@ Checker Functions
     - Will do nothing if a properly-formatted League is passed.
 
 """
-
-
-def __checkPlayoffWeekWithTiedScoresHasATiebreakerDefined(league: League) -> None:
-    """
-    Checks that a playoff week that has a tied score has a tiebreaker defined.
-    """
-    for year in league.years:
-        for week in year.weeks:
-            if week.isPlayoffWeek:
-                for matchup in week.matchups:
-                    if matchup.teamAScore == matchup.teamBScore and not matchup.teamAHasTiebreaker and not matchup.teamBHasTiebreaker:
-                        raise InvalidMatchupFormatException(
-                            f"Week {week.weekNumber} is a tied playoff week without a tiebreaker chosen.")
