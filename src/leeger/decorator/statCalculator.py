@@ -30,6 +30,7 @@ def __runAllChecks(league) -> None:
     __checkAtLeastOneWeekPerYear(league)
     __checkWeekNumbering(league)
     __checkPlayoffWeekOrdering(league)
+    __checkAtLeastTwoTeamsPerYear(league)
 
 
 """
@@ -107,3 +108,12 @@ def __checkPlayoffWeekOrdering(league: League) -> None:
                 if haveHadChampionshipWeek:
                     raise InvalidYearFormatException(
                         f"Year {year.yearNumber} has a non-championship week after a championship week.")
+
+
+def __checkAtLeastTwoTeamsPerYear(league: League) -> None:
+    """
+    Checks that there is at least 2 teams per year.
+    """
+    for year in league.years:
+        if len(year.teams) < 2:
+            raise InvalidYearFormatException(f"Year {year.yearNumber} needs at least 2 teams.")
