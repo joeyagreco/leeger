@@ -16,6 +16,12 @@ class TestStatCalculator(unittest.TestCase):
         """
         ...
 
+    def test_statCalculator_happyPath(self):
+        week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
+        week2 = Week(weekNumber=2, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
+        year = Year(yearNumber=2000, teams=list(), weeks=[week1, week2])
+        self.dummyFunction(League(name="TEST", owners=list(), years=[year]))
+
     def test_statCalculator_twoChampionshipWeeksInYear_raisesException(self):
         week1 = Week(weekNumber=1, isPlayoffWeek=True, isChampionshipWeek=True, matchups=list())
         week2 = Week(weekNumber=2, isPlayoffWeek=True, isChampionshipWeek=True, matchups=list())
