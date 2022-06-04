@@ -44,6 +44,7 @@ def __runAllChecks(league) -> None:
     __checkTeamNames(league)
     __checkWeekHasAtLeastOneMatchup(league)
     __checkMatchupTeamIdsMatchYearTeamIds(league)
+    __checkPlayoffWeekWithTiedScoresHasATiebreakerDefined(league)
 
 
 """
@@ -265,3 +266,16 @@ def __checkMatchupTeamIdsMatchYearTeamIds(league: League) -> None:
                 if matchup.teamAId not in teamIds or matchup.teamBId not in teamIds:
                     raise InvalidMatchupFormatException(
                         f"Year {year.yearNumber} Week {week.weekNumber} has a matchup with team IDs that do not match the Year's team IDs.")
+
+
+def __checkPlayoffWeekWithTiedScoresHasATiebreakerDefined(league: League) -> None:
+    """
+    Checks that a playoff week that has a tied score has a tiebreaker defined.
+    """
+    for year in league.years:
+        for week in year.weeks:
+            if week.isPlayoffWeek:
+                for matchup in week.matchups:
+                    if matchup.teamAScore == matchup.teamBScore and not matchup.teamAHasTiebreaker and not matchup.teamBHasTiebreaker:
+                        raise InvalidMatchupFormatException(
+                            f"Week {week.weekNumber} is a tied playoff week without a tiebreaker chosen.")

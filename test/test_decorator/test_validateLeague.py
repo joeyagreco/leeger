@@ -233,6 +233,28 @@ class TestValidateLeague(unittest.TestCase):
         self.assertEqual("Year 2000 Week 1 has a matchup with team IDs that do not match the Year's team IDs.",
                          str(context.exception))
 
+    def test_validateLeague_matchupIsATiedPlayoffWeekWithNoTiebreakerDefined_raisesException(self):
+        owner1 = Owner(name="1")
+        owner2 = Owner(name="2")
+
+        team1 = Team(ownerId=owner1.id, name="1")
+        team2 = Team(ownerId=owner2.id, name="2")
+
+        matchup1 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=1, teamBScore=1, teamAHasTiebreaker=False,
+                           teamBHasTiebreaker=False)
+
+        week1 = Week(weekNumber=1, isPlayoffWeek=True, isChampionshipWeek=False, matchups=[matchup1])
+
+        year = Year(yearNumber=2000, teams=[team1, team2], weeks=[week1])
+
+        with self.assertRaises(InvalidMatchupFormatException) as context:
+            self.dummyFunction(League(name="TEST", owners=[owner1, owner2], years=[year]))
+        self.assertEqual("Week 1 is a tied playoff week without a tiebreaker chosen.", str(context.exception))
+
+    """
+    TYPE CHECK TESTS
+    """
+
     def test_validateLeague_leagueNameIsntTypeString_raisesException(self):
         with self.assertRaises(InvalidLeagueFormatException) as context:
             self.dummyFunction(League(name=None, owners=list(), years=list()))
