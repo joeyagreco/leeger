@@ -40,7 +40,7 @@ def __runAllChecks(league) -> None:
     The order in which these are called matters.
     """
     leagueValidation.checkAllTypes(league)
-    __checkOnlyOneChampionshipWeekPerYear(league)
+    leagueValidation.checkOnlyOneChampionshipWeekPerYear(league)
     __checkAtLeastOneWeekPerYear(league)
     __checkWeekNumbering(league)
     __checkPlayoffWeekOrdering(league)
@@ -62,19 +62,6 @@ Checker Functions
     - Will do nothing if a properly-formatted League is passed.
 
 """
-
-
-def __checkOnlyOneChampionshipWeekPerYear(league: League) -> None:
-    """
-    Checks that there is a maximum of 1 championship week per year.
-    """
-    for year in league.years:
-        championshipWeekCount = 0
-        for week in year.weeks:
-            if week.isChampionshipWeek:
-                championshipWeekCount += 1
-            if championshipWeekCount > 1:
-                raise InvalidYearFormatException(f"Year {year.yearNumber} has more than 1 championship week.")
 
 
 def __checkAtLeastOneWeekPerYear(league: League) -> None:

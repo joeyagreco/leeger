@@ -19,3 +19,11 @@ def checkAllTypes(league: League) -> None:
 
     for year in league.years:
         yearValidation.checkAllTypes(year)
+
+
+def checkOnlyOneChampionshipWeekPerYear(league: League) -> None:
+    """
+    Checks that there is a maximum of 1 championship week per year.
+    """
+    for year in league.years:
+        yearValidation.checkOnlyOneChampionshipWeekInYear(year)

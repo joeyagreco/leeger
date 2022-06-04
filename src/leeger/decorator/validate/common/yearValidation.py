@@ -20,3 +20,15 @@ def checkAllTypes(year: Year) -> None:
 
     for week in year.weeks:
         weekValidation.checkAllTypes(week)
+
+
+def checkOnlyOneChampionshipWeekInYear(year: Year) -> None:
+    """
+    Checks that there is a maximum of 1 championship week in the given Year.
+    """
+    championshipWeekCount = 0
+    for week in year.weeks:
+        if week.isChampionshipWeek:
+            championshipWeekCount += 1
+        if championshipWeekCount > 1:
+            raise InvalidYearFormatException(f"Year {year.yearNumber} has more than 1 championship week.")
