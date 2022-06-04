@@ -33,6 +33,7 @@ def __runAllChecks(league) -> None:
     __checkAtLeastTwoTeamsPerYear(league)
     __checkAllYearsHaveValidYearNumbers(league)
     __checkTeamOwnerIds(league)
+    __checkTeamNames(league)
 
 
 """
@@ -149,3 +150,15 @@ def __checkTeamOwnerIds(league: League) -> None:
         if len(teamOwnerIds) > 0:
             raise InvalidYearFormatException(
                 f"Year {year.yearNumber} has teams with owner IDs that do not match the League's owner IDs: {teamOwnerIds}.")
+
+
+def __checkTeamNames(league: League) -> None:
+    """
+    Checks that each team in a year has a unique name
+    """
+    for year in league.years:
+        teamNames = list()
+        for team in year.teams:
+            teamNames.append(team.name)
+        if len(set(teamNames)) != len(teamNames):
+            raise InvalidYearFormatException(f"Year {year.yearNumber} has teams with duplicate names.")

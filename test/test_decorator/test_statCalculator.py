@@ -146,3 +146,17 @@ class TestStatCalculator(unittest.TestCase):
             self.dummyFunction(League(name="TEST", owners=list(), years=[year]))
         self.assertEqual("Year 2000 has teams with owner IDs that do not match the League's owner IDs: ['1', '2'].",
                          str(context.exception))
+
+    def test_statCalculator_teamsInAYearHaveDuplicateNames_raisesException(self):
+        week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
+
+        owner1 = Owner(name="1")
+        owner2 = Owner(name="2")
+
+        team1 = Team(ownerId=owner1.id, name="1")
+        team2 = Team(ownerId=owner2.id, name="1")
+        year = Year(yearNumber=2000, teams=[team1, team2], weeks=[week1])
+
+        with self.assertRaises(InvalidYearFormatException) as context:
+            self.dummyFunction(League(name="TEST", owners=[owner1, owner2], years=[year]))
+        self.assertEqual("Year 2000 has teams with duplicate names.", str(context.exception))
