@@ -16,9 +16,13 @@ class TestWeek(unittest.TestCase):
         )
         week2 = Week(weekNumber=2, isPlayoffWeek=True, isChampionshipWeek=True, matchups=[])
 
+        week3 = Week(weekNumber=2, matchups=[])
+
         self.assertEqual(1, week1.weekNumber)
         self.assertFalse(week1.isPlayoffWeek)
         self.assertFalse(week1.isChampionshipWeek)
+        self.assertFalse(week3.isPlayoffWeek)
+        self.assertFalse(week3.isChampionshipWeek)
         self.assertTrue(week2.isPlayoffWeek)
         self.assertTrue(week2.isChampionshipWeek)
         self.assertEqual(1, len(week1.matchups))

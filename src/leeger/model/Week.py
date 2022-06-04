@@ -8,9 +8,9 @@ from src.leeger.model.abstract.UniqueId import UniqueId
 @dataclass(kw_only=True)
 class Week(UniqueId):
     weekNumber: int
-    isPlayoffWeek: bool
-    isChampionshipWeek: bool
     matchups: list[Matchup]
+    isPlayoffWeek: bool = False
+    isChampionshipWeek: bool = False
 
     def __post_init__(self):
         # a week cannot be a championship week and NOT a playoff week
