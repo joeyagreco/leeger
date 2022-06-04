@@ -24,11 +24,12 @@ def statCalculator(function: Callable) -> Callable:
 def __runAllChecks(league) -> None:
     """
     Runs all checks on given League.
-    Order matters.
+    The order in which these are called matters.
     """
     __checkOnlyOneChampionshipWeekPerYear(league)
     __checkAtLeastOneWeekPerYear(league)
     __checkWeekNumbering(league)
+    __checkPlayoffWeekOrdering(league)
 
 
 """
@@ -64,15 +65,15 @@ def __checkAtLeastOneWeekPerYear(league: League) -> None:
 
 def __checkWeekNumbering(league: League) -> None:
     """
-    Checks that each week is numbered 1-n.
-    NOTE: This check assumes that there is at least 1 week in every year, as this is done by another check.
+    Checks that:
+        - Each year has no duplicate week numbers
+        - First week number of every year is 1
+        - Each year has weeks numbered 1-n in order
     """
     for year in league.years:
         weekNumbers = list()
         for week in year.weeks:
             weekNumbers.append(week.weekNumber)
-
-        weekNumbers.sort()
 
         if len(set(weekNumbers)) != len(weekNumbers):
             raise InvalidYearFormatException(f"Year {year.yearNumber} has duplicate week numbers.")
@@ -82,3 +83,27 @@ def __checkWeekNumbering(league: League) -> None:
 
         if len(weekNumbers) != weekNumbers[-1]:
             raise InvalidYearFormatException(f"Year {year.yearNumber} does not have week numbers in order (1-n).")
+
+
+def __checkPlayoffWeekOrdering(league: League) -> None:
+    """
+    Checks that:
+        - There are no non-playoff weeks after a playoff week
+        - There are no non-championship weeks after a championship week
+    """
+    for year in league.years:
+        haveHadPlayoffWeek = False
+        haveHadChampionshipWeek = False
+        for week in year.weeks:
+            if week.isPlayoffWeek:
+                haveHadPlayoffWeek = True
+            else:
+                if haveHadPlayoffWeek:
+                    raise InvalidYearFormatException(
+                        f"Year {year.yearNumber} has a non-playoff week after a playoff week.")
+            if week.isChampionshipWeek:
+                haveHadChampionshipWeek = True
+            else:
+                if haveHadChampionshipWeek:
+                    raise InvalidYearFormatException(
+                        f"Year {year.yearNumber} has a non-championship week after a championship week.")

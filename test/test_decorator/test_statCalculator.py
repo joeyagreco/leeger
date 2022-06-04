@@ -58,9 +58,33 @@ class TestStatCalculator(unittest.TestCase):
     def test_statCalculator_weekNumbersNotOneThroughN_raisesException(self):
         week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
         week2 = Week(weekNumber=2, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
+        week3 = Week(weekNumber=3, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
         week4 = Week(weekNumber=4, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
-        year = Year(yearNumber=2000, teams=list(), weeks=[week1, week2, week4])
+        year = Year(yearNumber=2000, teams=list(), weeks=[week1, week2, week4])  # no week 3
 
         with self.assertRaises(InvalidYearFormatException) as context:
             self.dummyFunction(League(name="TEST", owners=list(), years=[year]))
         self.assertEqual("Year 2000 does not have week numbers in order (1-n).", str(context.exception))
+
+        year = Year(yearNumber=2000, teams=list(), weeks=[week1, week2, week4, week3])  # weeks not in order
+        with self.assertRaises(InvalidYearFormatException) as context:
+            self.dummyFunction(League(name="TEST", owners=list(), years=[year]))
+        self.assertEqual("Year 2000 does not have week numbers in order (1-n).", str(context.exception))
+
+    def test_statCalculator_nonPlayoffWeekAfterPlayoffWeek_raisesException(self):
+        week1 = Week(weekNumber=1, isPlayoffWeek=True, isChampionshipWeek=False, matchups=list())
+        week2 = Week(weekNumber=2, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
+        year = Year(yearNumber=2000, teams=list(), weeks=[week1, week2])
+
+        with self.assertRaises(InvalidYearFormatException) as context:
+            self.dummyFunction(League(name="TEST", owners=list(), years=[year]))
+        self.assertEqual("Year 2000 has a non-playoff week after a playoff week.", str(context.exception))
+
+    def test_statCalculator_nonChampionshipWeekAfterChampionshipWeek_raisesException(self):
+        week1 = Week(weekNumber=1, isPlayoffWeek=True, isChampionshipWeek=True, matchups=list())
+        week2 = Week(weekNumber=2, isPlayoffWeek=True, isChampionshipWeek=False, matchups=list())
+        year = Year(yearNumber=2000, teams=list(), weeks=[week1, week2])
+
+        with self.assertRaises(InvalidYearFormatException) as context:
+            self.dummyFunction(League(name="TEST", owners=list(), years=[year]))
+        self.assertEqual("Year 2000 has a non-championship week after a championship week.", str(context.exception))
