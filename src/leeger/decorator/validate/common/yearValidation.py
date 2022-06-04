@@ -113,3 +113,11 @@ def checkTeamNamesInYear(year: Year) -> None:
         teamNames.append(team.name)
     if len(set(teamNames)) != len(teamNames):
         raise InvalidYearFormatException(f"Year {year.yearNumber} has teams with duplicate names.")
+
+
+def checkWeeksInYearHaveAtLeastOneMatchup(year: Year) -> None:
+    """
+    Checks that each Week in the given Year have at least one matchup.
+    """
+    for week in year.weeks:
+        weekValidation.checkWeekHasAtLeastOneMatchup(week)

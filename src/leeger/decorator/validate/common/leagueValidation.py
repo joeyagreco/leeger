@@ -119,3 +119,11 @@ def checkTeamNamesInLeague(league: League) -> None:
     """
     for year in league.years:
         yearValidation.checkTeamNamesInYear(year)
+
+
+def checkWeeksInYearsHaveAtLeastOneMatchup(league: League) -> None:
+    """
+    Checks that each Week in each Year has at least one matchup.
+    """
+    for year in league.years:
+        yearValidation.checkWeeksInYearHaveAtLeastOneMatchup(year)

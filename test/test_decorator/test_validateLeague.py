@@ -240,7 +240,7 @@ class TestValidateLeague(unittest.TestCase):
 
         with self.assertRaises(InvalidWeekFormatException) as context:
             self.dummyFunction(League(name="TEST", owners=[owner1, owner2], years=[year]))
-        self.assertEqual("Year 2000 must have at least 1 matchup.", str(context.exception))
+        self.assertEqual("Week 1 must have at least 1 matchup.", str(context.exception))
 
     def test_validateLeague_matchupDoesntHaveTeamIdsThatMatchYearTeamIds_raisesException(self):
         owner1 = Owner(name="1")

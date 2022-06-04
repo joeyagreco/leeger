@@ -19,3 +19,11 @@ def checkAllTypes(week: Week) -> None:
 
     for matchup in week.matchups:
         matchupValidation.checkAllTypes(matchup)
+
+
+def checkWeekHasAtLeastOneMatchup(week: Week) -> None:
+    """
+    Checks that the given Week has at least one matchup.
+    """
+    if len(week.matchups) == 0:
+        raise InvalidWeekFormatException(f"Week {week.weekNumber} must have at least 1 matchup.")

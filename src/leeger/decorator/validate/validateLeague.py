@@ -2,7 +2,6 @@ from typing import Callable
 
 from src.leeger.decorator.validate.common import leagueValidation
 from src.leeger.exception.InvalidMatchupFormatException import InvalidMatchupFormatException
-from src.leeger.exception.InvalidWeekFormatException import InvalidWeekFormatException
 from src.leeger.model.League import League
 
 
@@ -49,7 +48,7 @@ def __runAllChecks(league) -> None:
     leagueValidation.checkNoDuplicateYearNumbers(league)
     leagueValidation.checkTeamOwnerIds(league)
     leagueValidation.checkTeamNamesInLeague(league)
-    __checkWeekHasAtLeastOneMatchup(league)
+    leagueValidation.checkWeeksInYearsHaveAtLeastOneMatchup(league)
     __checkMatchupTeamIdsMatchYearTeamIds(league)
     __checkPlayoffWeekWithTiedScoresHasATiebreakerDefined(league)
 
@@ -61,16 +60,6 @@ Checker Functions
     - Will do nothing if a properly-formatted League is passed.
 
 """
-
-
-def __checkWeekHasAtLeastOneMatchup(league: League) -> None:
-    """
-    Checks that each week has at least one matchup.
-    """
-    for year in league.years:
-        for week in year.weeks:
-            if len(week.matchups) == 0:
-                raise InvalidWeekFormatException(f"Year {year.yearNumber} must have at least 1 matchup.")
 
 
 def __checkMatchupTeamIdsMatchYearTeamIds(league: League) -> None:
