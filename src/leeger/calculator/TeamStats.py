@@ -1,4 +1,4 @@
-from src.leeger.decorator.validateLeague import validateLeague
+from src.leeger.decorator.validate.validateLeague import validateLeague
 from src.leeger.model.League import League
 from src.leeger.util.LeagueNavigator import LeagueNavigator
 

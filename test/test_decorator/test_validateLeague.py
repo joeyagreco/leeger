@@ -1,6 +1,6 @@
 import unittest
 
-from src.leeger.decorator.validateLeague import validateLeague
+from src.leeger.decorator.validate.validateLeague import validateLeague
 from src.leeger.exception.InvalidLeagueFormatException import InvalidLeagueFormatException
 from src.leeger.exception.InvalidMatchupFormatException import InvalidMatchupFormatException
 from src.leeger.exception.InvalidOwnerFormatException import InvalidOwnerFormatException
