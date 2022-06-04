@@ -22,12 +22,39 @@ class TestStatCalculator(unittest.TestCase):
         year = Year(yearNumber=2000, teams=list(), weeks=[week1, week2])
 
         with self.assertRaises(InvalidYearFormatException) as context:
-            self.dummyFunction(League(name="PBL", owners=list(), years=[year]))
+            self.dummyFunction(League(name="TEST", owners=list(), years=[year]))
         self.assertEqual("Year 2000 has more than 1 championship week.", str(context.exception))
 
     def test_statCalculator_yearHasNoWeeks_raisesException(self):
         year = Year(yearNumber=2000, teams=list(), weeks=list())
 
         with self.assertRaises(InvalidYearFormatException) as context:
-            self.dummyFunction(League(name="PBL", owners=list(), years=[year]))
-        self.assertEqual("Year 2000 must have at least 1 week.", str(context.exception))
+            self.dummyFunction(League(name="TEST", owners=list(), years=[year]))
+        self.assertEqual("Year 2000 does not have at least 1 week.", str(context.exception))
+
+    def test_statCalculator_yearDuplicateWeekNumbers_raisesException(self):
+        week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
+        week1duplicate = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
+        year = Year(yearNumber=2000, teams=list(), weeks=[week1, week1duplicate])
+
+        with self.assertRaises(InvalidYearFormatException) as context:
+            self.dummyFunction(League(name="TEST", owners=list(), years=[year]))
+        self.assertEqual("Year 2000 has duplicate week numbers.", str(context.exception))
+
+    def test_statCalculator_lowestWeekNumberIsNotOne_raisesException(self):
+        week2 = Week(weekNumber=2, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
+        year = Year(yearNumber=2000, teams=list(), weeks=[week2])
+
+        with self.assertRaises(InvalidYearFormatException) as context:
+            self.dummyFunction(League(name="TEST", owners=list(), years=[year]))
+        self.assertEqual("First week in year 2000 must be 1, not 2.", str(context.exception))
+
+    def test_statCalculator_weekNumbersNotOneThroughN_raisesException(self):
+        week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
+        week2 = Week(weekNumber=2, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
+        week4 = Week(weekNumber=4, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
+        year = Year(yearNumber=2000, teams=list(), weeks=[week1, week2, week4])
+
+        with self.assertRaises(InvalidYearFormatException) as context:
+            self.dummyFunction(League(name="TEST", owners=list(), years=[year]))
+        self.assertEqual("Year 2000 does not have week numbers in order (1-n).", str(context.exception))
