@@ -12,7 +12,7 @@ from src.leeger.model.Year import Year
 
 class TestLeagueValidation(unittest.TestCase):
 
-    def test_validateLeague_happyPath(self):
+    def test_runAllChecks_happyPath(self):
         owner1 = Owner(name="1")
         owner2 = Owner(name="2")
 
@@ -50,7 +50,7 @@ class TestLeagueValidation(unittest.TestCase):
 
         leagueValidation.runAllChecks(League(name="TEST", owners=[owner1, owner2], years=[a_year, b_year]))
 
-    def test_validateLeague_yearsArentInCorrectOrder_raisesException(self):
+    def test_checkYearsAreInCorrectOrder_yearsArentInCorrectOrder_raisesException(self):
         a_week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
         a_team1 = Team(ownerId="1", name="1")
         a_team2 = Team(ownerId="2", name="2")
@@ -65,7 +65,7 @@ class TestLeagueValidation(unittest.TestCase):
             leagueValidation.checkYearsAreInCorrectOrder(League(name="TEST", owners=list(), years=[b_year, a_year]))
         self.assertEqual("Years are not in chronological order (oldest -> newest).", str(context.exception))
 
-    def test_validateLeague_duplicateYearNumbers_raisesException(self):
+    def test_checkNoDuplicateYearNumbers_duplicateYearNumbers_raisesException(self):
         a_week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
         a_team1 = Team(ownerId="1", name="1")
         a_team2 = Team(ownerId="2", name="2")
@@ -84,17 +84,17 @@ class TestLeagueValidation(unittest.TestCase):
     TYPE CHECK TESTS
     """
 
-    def test_validateLeague_leagueNameIsntTypeString_raisesException(self):
+    def test_checkAllTypes_leagueNameIsntTypeString_raisesException(self):
         with self.assertRaises(InvalidLeagueFormatException) as context:
             leagueValidation.checkAllTypes(League(name=None, owners=list(), years=list()))
         self.assertEqual("League name must be type 'str'.", str(context.exception))
 
-    def test_validateLeague_leagueOwnersIsntTypeList_raisesException(self):
+    def test_checkAllTypes_leagueOwnersIsntTypeList_raisesException(self):
         with self.assertRaises(InvalidLeagueFormatException) as context:
             leagueValidation.checkAllTypes(League(name="TEST", owners=None, years=list()))
         self.assertEqual("League owners must be type 'list'.", str(context.exception))
 
-    def test_validateLeague_leagueYearsIsntTypeList_raisesException(self):
+    def test_checkAllTypes_leagueYearsIsntTypeList_raisesException(self):
         with self.assertRaises(InvalidLeagueFormatException) as context:
             leagueValidation.checkAllTypes(League(name="TEST", owners=list(), years=None))
         self.assertEqual("League years must be type 'list'.", str(context.exception))
