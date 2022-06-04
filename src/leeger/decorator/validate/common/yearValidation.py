@@ -32,3 +32,11 @@ def checkOnlyOneChampionshipWeekInYear(year: Year) -> None:
             championshipWeekCount += 1
         if championshipWeekCount > 1:
             raise InvalidYearFormatException(f"Year {year.yearNumber} has more than 1 championship week.")
+
+
+def checkAtLeastOneWeekInYear(year: Year) -> None:
+    """
+    Checks that there is a minimum of 1 week in the given Year.
+    """
+    if len(year.weeks) == 0:
+        raise InvalidYearFormatException(f"Year {year.yearNumber} does not have at least 1 week.")

@@ -41,7 +41,7 @@ def __runAllChecks(league) -> None:
     """
     leagueValidation.checkAllTypes(league)
     leagueValidation.checkOnlyOneChampionshipWeekPerYear(league)
-    __checkAtLeastOneWeekPerYear(league)
+    leagueValidation.checkAtLeastOneWeekPerYear(league)
     __checkWeekNumbering(league)
     __checkPlayoffWeekOrdering(league)
     __checkAtLeastTwoTeamsPerYear(league)
@@ -62,15 +62,6 @@ Checker Functions
     - Will do nothing if a properly-formatted League is passed.
 
 """
-
-
-def __checkAtLeastOneWeekPerYear(league: League) -> None:
-    """
-    Checks that there is a minimum of 1 week per year.
-    """
-    for year in league.years:
-        if len(year.weeks) == 0:
-            raise InvalidYearFormatException(f"Year {year.yearNumber} does not have at least 1 week.")
 
 
 def __checkWeekNumbering(league: League) -> None:

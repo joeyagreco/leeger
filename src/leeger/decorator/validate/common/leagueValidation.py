@@ -27,3 +27,11 @@ def checkOnlyOneChampionshipWeekPerYear(league: League) -> None:
     """
     for year in league.years:
         yearValidation.checkOnlyOneChampionshipWeekInYear(year)
+
+
+def checkAtLeastOneWeekPerYear(league: League) -> None:
+    """
+    Checks that there is a minimum of 1 week per Year.
+    """
+    for year in league.years:
+        yearValidation.checkAtLeastOneWeekInYear(year)
