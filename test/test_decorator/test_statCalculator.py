@@ -95,7 +95,7 @@ class TestStatCalculator(unittest.TestCase):
             self.dummyFunction(League(name="TEST", owners=list(), years=[year]))
         self.assertEqual("Year 2000 has a non-championship week after a championship week.", str(context.exception))
 
-    def test_statCalculator_eachYearHasAtLeastTwoTeams_raisesException(self):
+    def test_statCalculator_yearHasLessThanTwoTeams_raisesException(self):
         week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
         week2 = Week(weekNumber=2, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
         team1 = Team(ownerId="1", name="1")
@@ -104,3 +104,19 @@ class TestStatCalculator(unittest.TestCase):
         with self.assertRaises(InvalidYearFormatException) as context:
             self.dummyFunction(League(name="TEST", owners=list(), years=[year]))
         self.assertEqual("Year 2000 needs at least 2 teams.", str(context.exception))
+
+    def test_statCalculator_yearNumberIsntInValidRange_raisesException(self):
+        week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
+        team1 = Team(ownerId="1", name="1")
+        team2 = Team(ownerId="2", name="2")
+        year = Year(yearNumber=1919, teams=[team1, team2], weeks=[week1])
+
+        with self.assertRaises(InvalidYearFormatException) as context:
+            self.dummyFunction(League(name="TEST", owners=list(), years=[year]))
+        self.assertEqual("Year 1919 is not in range 1920-2XXX.", str(context.exception))
+
+        year = Year(yearNumber=3000, teams=[team1, team2], weeks=[week1])
+
+        with self.assertRaises(InvalidYearFormatException) as context:
+            self.dummyFunction(League(name="TEST", owners=list(), years=[year]))
+        self.assertEqual("Year 3000 is not in range 1920-2XXX.", str(context.exception))
