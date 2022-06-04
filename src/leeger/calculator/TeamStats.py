@@ -1,14 +1,13 @@
-from src.leeger.decorator.validate.validators import validateLeague
-from src.leeger.model.League import League
-from src.leeger.util.LeagueNavigator import LeagueNavigator
+from src.leeger.decorator.validate.validators import validateYear
+from src.leeger.model.Year import Year
 
 
 class TeamStats:
     @classmethod
-    @validateLeague
-    def getWins(cls, league: League, yearNumber: int, **kwargs) -> dict[str, int]:
+    @validateYear
+    def getWins(cls, year: Year, **kwargs) -> dict[str, int]:
         """
-        Returns the number of wins for each team in the given League in the given year.
+        Returns the number of wins for each team in the given Year.
 
         Example response:
             {
@@ -18,7 +17,6 @@ class TeamStats:
             ...
             }
         """
-        year = LeagueNavigator.getYearByYearNumber(league, yearNumber, validateLeague=False)
         onlyPostSeason = kwargs.pop("onlyPostSeason", False)  # only include post season wins
         onlyRegularSeason = kwargs.pop("onlyRegularSeason", False)  # only include regular season wins
         weekNumberStart = kwargs.pop("weekNumberStart", year.weeks[0])  # week to start the calculations at (inclusive)
