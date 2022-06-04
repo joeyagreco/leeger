@@ -103,6 +103,10 @@ def __checkAllTypes(league: League) -> None:
                     raise InvalidMatchupFormatException("Matchup teamAScore must be type 'float' or 'int'.")
                 if type(matchup.teamBScore) != float and type(matchup.teamBScore) != int:
                     raise InvalidMatchupFormatException("Matchup teamBScore must be type 'float' or 'int'.")
+                if type(matchup.teamAHasTiebreaker) != bool:
+                    raise InvalidMatchupFormatException("Matchup teamAHasTiebreaker must be type 'bool'.")
+                if type(matchup.teamBHasTiebreaker) != bool:
+                    raise InvalidMatchupFormatException("Matchup teamBHasTiebreaker must be type 'bool'.")
 
 
 def __checkOnlyOneChampionshipWeekPerYear(league: League) -> None:

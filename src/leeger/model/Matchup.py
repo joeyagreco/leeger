@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+from src.leeger.exception.InvalidMatchupFormatException import InvalidMatchupFormatException
 from src.leeger.model.abstract.UniqueId import UniqueId
 
 
@@ -9,3 +10,10 @@ class Matchup(UniqueId):
     teamBId: str
     teamAScore: float | int
     teamBScore: float | int
+    teamAHasTiebreaker: bool = False
+    teamBHasTiebreaker: bool = False
+    
+    def __post_init__(self):
+        # Team A and Team B cannot both have the tiebreaker
+        if self.teamAHasTiebreaker is True and self.teamBHasTiebreaker is True:
+            raise InvalidMatchupFormatException("Team A and Team B cannot both have the tiebreaker.")

@@ -366,3 +366,23 @@ class TestValidateLeague(unittest.TestCase):
         with self.assertRaises(InvalidMatchupFormatException) as context:
             self.dummyFunction(League(name="TEST", owners=[owner], years=[year]))
         self.assertEqual("Matchup teamBScore must be type 'float' or 'int'.", str(context.exception))
+
+    def test_validateLeague_matchupTeamAHasTiebreakerIsntTypeBool_raisesException(self):
+        owner = Owner(name="TEST")
+        team = Team(ownerId="id", name="name")
+        matchup = Matchup(teamAId="aId", teamBId="bId", teamAScore=1, teamBScore=2, teamAHasTiebreaker=None)
+        week = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=[matchup])
+        year = Year(yearNumber=2000, teams=[team], weeks=[week])
+        with self.assertRaises(InvalidMatchupFormatException) as context:
+            self.dummyFunction(League(name="TEST", owners=[owner], years=[year]))
+        self.assertEqual("Matchup teamAHasTiebreaker must be type 'bool'.", str(context.exception))
+
+    def test_validateLeague_matchupTeamBHasTiebreakerIsntTypeBool_raisesException(self):
+        owner = Owner(name="TEST")
+        team = Team(ownerId="id", name="name")
+        matchup = Matchup(teamAId="aId", teamBId="bId", teamAScore=1, teamBScore=2, teamBHasTiebreaker=None)
+        week = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=[matchup])
+        year = Year(yearNumber=2000, teams=[team], weeks=[week])
+        with self.assertRaises(InvalidMatchupFormatException) as context:
+            self.dummyFunction(League(name="TEST", owners=[owner], years=[year]))
+        self.assertEqual("Matchup teamBHasTiebreaker must be type 'bool'.", str(context.exception))
