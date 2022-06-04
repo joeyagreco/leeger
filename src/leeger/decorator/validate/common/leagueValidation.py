@@ -11,9 +11,9 @@ Checker Functions
 """
 
 
-def runAllChecks(league) -> None:
+def runAllChecks(league: League) -> None:
     """
-    Runs all checks on given League.
+    Runs all checks on the given League.
     The order in which these are called matters.
     """
     checkAllTypes(league)

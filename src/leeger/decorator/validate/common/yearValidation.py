@@ -2,6 +2,31 @@ from src.leeger.decorator.validate.common import teamValidation, weekValidation
 from src.leeger.exception.InvalidYearFormatException import InvalidYearFormatException
 from src.leeger.model.Year import Year
 
+"""
+Checker Functions
+
+    - Will raise the appropriate exception if an incorrectly-formatted Year is passed.
+    - Will do nothing if a properly-formatted Year is passed.
+
+"""
+
+
+def runAllChecks(year: Year) -> None:
+    """
+    Runs all checks on the given Year.
+    The order in which these are called matters.
+    """
+    checkAllTypes(year)
+    checkOnlyOneChampionshipWeekInYear(year)
+    checkAtLeastOneWeekInYear(year)
+    checkWeekNumberingInYear(year)
+    checkPlayoffWeekOrderingInYear(year)
+    checkAtLeastTwoTeamsInYear(year)
+    checkGivenYearHasValidYearNumber(year)
+    checkTeamNamesInYear(year)
+    checkWeeksInYearHaveAtLeastOneMatchup(year)
+    checkTeamOwnerIdsInYear(year)
+
 
 def checkAllTypes(year: Year) -> None:
     """
