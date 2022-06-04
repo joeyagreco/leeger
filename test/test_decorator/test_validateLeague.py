@@ -253,7 +253,7 @@ class TestValidateLeague(unittest.TestCase):
             self.dummyFunction(League(name="TEST", owners=[owner], years=[year]))
         self.assertEqual("Team owner ID must be type 'str'.", str(context.exception))
 
-    def test_validateLeague_teamOwnerIdIsntTypeStr_raisesException(self):
+    def test_validateLeague_teamNameIsntTypeStr_raisesException(self):
         owner = Owner(name="TEST")
         team = Team(ownerId="id", name=None)
         year = Year(yearNumber=2000, teams=[team], weeks=list())
