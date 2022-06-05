@@ -5,6 +5,10 @@ from src.leeger.util.YearNavigator import YearNavigator
 
 
 class BasicGameOutcome(YearCalculator):
+    """
+    Used to calculate all basic game outcomes.
+    """
+
     @classmethod
     @validateYear
     def getWins(cls, year: Year, **kwargs) -> dict[str, int]:

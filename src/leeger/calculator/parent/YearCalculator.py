@@ -4,6 +4,9 @@ from src.leeger.model.Year import Year
 
 
 class YearCalculator:
+    """
+    Should be inherited by all stat calculators that calculate stats for a Year.
+    """
     _onlyPostSeason: bool  # only include post season wins
     _onlyRegularSeason: bool  # only include regular season wins
     _weekNumberStart: int  # week to start the calculations at (inclusive)
