@@ -19,7 +19,7 @@ class BasicGameOutcome(YearCalculator):
             ...
             }
         """
-        filters = cls.getFilters(year, **kwargs)
+        filters = cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdAndWins = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
@@ -42,7 +42,7 @@ class BasicGameOutcome(YearCalculator):
 
     @classmethod
     @validateYear
-    def getLosses(cls, year: Year, **kwargs) -> dict[str, int]:
+    def getLosses(cls, year: Year, validateYear=False, **kwargs) -> dict[str, int]:
         """
         Returns the number of losses for each team in the given Year.
 
