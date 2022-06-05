@@ -35,6 +35,8 @@ class YearCalculator:
             raise InvalidFilterException("'weekNumberStart' cannot be less than 1.")
         if weekNumberEnd > len(year.weeks):
             raise InvalidFilterException("'weekNumberEnd' cannot be greater than the number of weeks in the year.")
+        if weekNumberStart > weekNumberEnd:
+            raise InvalidFilterException("'weekNumberEnd' cannot be greater than 'weekNumberStart'.")
 
         return YearFilters(onlyPostSeason=onlyPostSeason, onlyRegularSeason=onlyRegularSeason,
                            weekNumberStart=weekNumberStart, weekNumberEnd=weekNumberEnd)
