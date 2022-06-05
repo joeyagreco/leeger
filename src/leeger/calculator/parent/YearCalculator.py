@@ -12,15 +12,14 @@ class YearCalculator:
     @classmethod
     @validateYear
     def loadFilters(cls, year: Year, **kwargs) -> None:
-        cls._onlyPostSeason = kwargs.pop("onlyPostSeason", False)  # only include post season wins
-        cls._onlyRegularSeason = kwargs.pop("onlyRegularSeason", False)  # only include regular season wins
-        cls._weekNumberStart = kwargs.pop("weekNumberStart",
-                                          year.weeks[0].weekNumber)  # week to start the calculations at (inclusive)
-        cls._weekNumberEnd = kwargs.pop("weekNumberEnd",
-                                        year.weeks[-1].weekNumber)  # week to end the calculations at (inclusive)
+        cls._onlyPostSeason = kwargs.pop("onlyPostSeason", False)
+        cls._onlyRegularSeason = kwargs.pop("onlyRegularSeason", False)
+        cls._weekNumberStart = kwargs.pop("weekNumberStart", year.weeks[0].weekNumber)
+        cls._weekNumberEnd = kwargs.pop("weekNumberEnd", year.weeks[-1].weekNumber)
 
-        # validate filters
-
+        ####################
+        # validate filters #
+        ####################
         # type checks
         if type(cls._onlyPostSeason) != bool:
             raise InvalidFilterException("'onlyPostSeason' must be type 'bool'")
