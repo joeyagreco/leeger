@@ -1,6 +1,6 @@
 import unittest
 
-from src.leeger.calculator.TeamStats import TeamStats
+from src.leeger.calculator.YearStats import YearStats
 from src.leeger.model.Matchup import Matchup
 from src.leeger.model.Owner import Owner
 from src.leeger.model.Team import Team
@@ -8,7 +8,7 @@ from src.leeger.model.Week import Week
 from src.leeger.model.Year import Year
 
 
-class TestTeamStats(unittest.TestCase):
+class TestYearStats(unittest.TestCase):
     def test_getWins_happyPath(self):
         owner1 = Owner(name="1")
         owner2 = Owner(name="2")
@@ -22,7 +22,7 @@ class TestTeamStats(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[team1, team2], weeks=[week1])
 
-        response = TeamStats.getWins(year)
+        response = YearStats.getWins(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -46,7 +46,7 @@ class TestTeamStats(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[team1, team2], weeks=[week1, week2, week3])
 
-        response = TeamStats.getWins(year, onlyPostSeason=True)
+        response = YearStats.getWins(year, onlyPostSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -70,7 +70,7 @@ class TestTeamStats(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[team1, team2], weeks=[week1, week2, week3])
 
-        response = TeamStats.getWins(year, onlyRegularSeason=True)
+        response = YearStats.getWins(year, onlyRegularSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -94,7 +94,7 @@ class TestTeamStats(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[team1, team2], weeks=[week1, week2, week3])
 
-        response = TeamStats.getWins(year, weekNumberStart=2)
+        response = YearStats.getWins(year, weekNumberStart=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -118,7 +118,7 @@ class TestTeamStats(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[team1, team2], weeks=[week1, week2, week3])
 
-        response = TeamStats.getWins(year, weekNumberEnd=2)
+        response = YearStats.getWins(year, weekNumberEnd=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -144,7 +144,7 @@ class TestTeamStats(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[team1, team2], weeks=[week1, week2, week3, week4])
 
-        response = TeamStats.getWins(year, weekNumberStart=2, weekNumberEnd=3)
+        response = YearStats.getWins(year, weekNumberStart=2, weekNumberEnd=3)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))

@@ -3,7 +3,7 @@ from src.leeger.model.Year import Year
 from src.leeger.util.YearNavigator import YearNavigator
 
 
-class TeamStats:
+class YearStats:
     @classmethod
     @validateYear
     def getWins(cls, year: Year, **kwargs) -> dict[str, int]:
