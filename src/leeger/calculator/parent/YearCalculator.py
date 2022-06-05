@@ -1,42 +1,42 @@
-from src.leeger.calculator.parent.filter.YearFilters import YearFilters
 from src.leeger.decorator.validate.validators import validateYear
 from src.leeger.exception.InvalidFilterException import InvalidFilterException
 from src.leeger.model.Year import Year
 
 
 class YearCalculator:
+    _onlyPostSeason: bool  # only include post season wins
+    _onlyRegularSeason: bool  # only include regular season wins
+    _weekNumberStart: int  # week to start the calculations at (inclusive)
+    _weekNumberEnd: int  # week to end the calculations at (inclusive)
 
-    @staticmethod
+    @classmethod
     @validateYear
-    def getFilters(year: Year, **kwargs) -> YearFilters:
-        onlyPostSeason = kwargs.pop("onlyPostSeason", False)  # only include post season wins
-        onlyRegularSeason = kwargs.pop("onlyRegularSeason", False)  # only include regular season wins
-        weekNumberStart = kwargs.pop("weekNumberStart",
-                                     year.weeks[0].weekNumber)  # week to start the calculations at (inclusive)
-        weekNumberEnd = kwargs.pop("weekNumberEnd",
-                                   year.weeks[-1].weekNumber)  # week to end the calculations at (inclusive)
+    def loadFilters(cls, year: Year, **kwargs) -> None:
+        cls._onlyPostSeason = kwargs.pop("onlyPostSeason", False)  # only include post season wins
+        cls._onlyRegularSeason = kwargs.pop("onlyRegularSeason", False)  # only include regular season wins
+        cls._weekNumberStart = kwargs.pop("weekNumberStart",
+                                          year.weeks[0].weekNumber)  # week to start the calculations at (inclusive)
+        cls._weekNumberEnd = kwargs.pop("weekNumberEnd",
+                                        year.weeks[-1].weekNumber)  # week to end the calculations at (inclusive)
 
         # validate filters
 
         # type checks
-        if type(onlyPostSeason) != bool:
+        if type(cls._onlyPostSeason) != bool:
             raise InvalidFilterException("'onlyPostSeason' must be type 'bool'")
-        if type(onlyRegularSeason) != bool:
+        if type(cls._onlyRegularSeason) != bool:
             raise InvalidFilterException("'onlyRegularSeason' must be type 'bool'")
-        if type(weekNumberStart) != int:
+        if type(cls._weekNumberStart) != int:
             raise InvalidFilterException("'weekNumberStart' must be type 'int'")
-        if type(weekNumberEnd) != int:
+        if type(cls._weekNumberEnd) != int:
             raise InvalidFilterException("'weekNumberEnd' must be type 'int'")
 
         # logic checks
-        if onlyPostSeason and onlyRegularSeason:
+        if cls._onlyPostSeason and cls._onlyRegularSeason:
             raise InvalidFilterException("'onlyPostSeason' and 'onlyRegularSeason' cannot both be True.")
-        if weekNumberStart < 1:
+        if cls._weekNumberStart < 1:
             raise InvalidFilterException("'weekNumberStart' cannot be less than 1.")
-        if weekNumberEnd > len(year.weeks):
+        if cls._weekNumberEnd > len(year.weeks):
             raise InvalidFilterException("'weekNumberEnd' cannot be greater than the number of weeks in the year.")
-        if weekNumberStart > weekNumberEnd:
+        if cls._weekNumberStart > cls._weekNumberEnd:
             raise InvalidFilterException("'weekNumberEnd' cannot be greater than 'weekNumberStart'.")
-
-        return YearFilters(onlyPostSeason=onlyPostSeason, onlyRegularSeason=onlyRegularSeason,
-                           weekNumberStart=weekNumberStart, weekNumberEnd=weekNumberEnd)

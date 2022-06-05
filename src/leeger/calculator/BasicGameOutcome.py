@@ -19,16 +19,16 @@ class BasicGameOutcome(YearCalculator):
             ...
             }
         """
-        filters = cls.getFilters(year, validateYear=False, **kwargs)
+        cls.loadFilters(year, validateYear=False, **kwargs)
 
         teamIdAndWins = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
             teamIdAndWins[teamId] = 0
 
-        for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
+        for i in range(cls._weekNumberStart - 1, cls._weekNumberEnd):
             week = year.weeks[i]
-            if (week.isPlayoffWeek and not filters.onlyRegularSeason) or (
-                    not week.isPlayoffWeek and not filters.onlyPostSeason):
+            if (week.isPlayoffWeek and not cls._onlyRegularSeason) or (
+                    not week.isPlayoffWeek and not cls._onlyPostSeason):
                 for matchup in week.matchups:
                     # team A won
                     if (matchup.teamAScore > matchup.teamBScore) or (
@@ -54,16 +54,16 @@ class BasicGameOutcome(YearCalculator):
             ...
             }
         """
-        filters = cls.getFilters(year, validateYear=False, **kwargs)
+        cls.loadFilters(year, validateYear=False, **kwargs)
 
         teamIdAndLosses = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
             teamIdAndLosses[teamId] = 0
 
-        for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
+        for i in range(cls._weekNumberStart - 1, cls._weekNumberEnd):
             week = year.weeks[i]
-            if (week.isPlayoffWeek and not filters.onlyRegularSeason) or (
-                    not week.isPlayoffWeek and not filters.onlyPostSeason):
+            if (week.isPlayoffWeek and not cls._onlyRegularSeason) or (
+                    not week.isPlayoffWeek and not cls._onlyPostSeason):
                 for matchup in week.matchups:
                     # team A lost
                     if (matchup.teamAScore < matchup.teamBScore) or (
