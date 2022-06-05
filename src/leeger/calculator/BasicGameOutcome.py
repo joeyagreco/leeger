@@ -1,9 +1,10 @@
+from src.leeger.calculator.parent.YearCalculator import YearCalculator
 from src.leeger.decorator.validate.validators import validateYear
 from src.leeger.model.Year import Year
 from src.leeger.util.YearNavigator import YearNavigator
 
 
-class YearStats:
+class BasicGameOutcome(YearCalculator):
     @classmethod
     @validateYear
     def getWins(cls, year: Year, **kwargs) -> dict[str, int]:
@@ -18,20 +19,16 @@ class YearStats:
             ...
             }
         """
-        onlyPostSeason = kwargs.pop("onlyPostSeason", False)  # only include post season wins
-        onlyRegularSeason = kwargs.pop("onlyRegularSeason", False)  # only include regular season wins
-        weekNumberStart = kwargs.pop("weekNumberStart",
-                                     year.weeks[0].weekNumber)  # week to start the calculations at (inclusive)
-        weekNumberEnd = kwargs.pop("weekNumberEnd",
-                                   year.weeks[-1].weekNumber)  # week to end the calculations at (inclusive)
+        filters = cls.getFilters(year, **kwargs)
 
         teamIdAndWins = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
             teamIdAndWins[teamId] = 0
 
-        for i in range(weekNumberStart - 1, weekNumberEnd):
+        for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
             week = year.weeks[i]
-            if (week.isPlayoffWeek and not onlyRegularSeason) or (not week.isPlayoffWeek and not onlyPostSeason):
+            if (week.isPlayoffWeek and not filters.onlyRegularSeason) or (
+                    not week.isPlayoffWeek and not filters.onlyPostSeason):
                 for matchup in week.matchups:
                     # team A won
                     if (matchup.teamAScore > matchup.teamBScore) or (
@@ -57,20 +54,16 @@ class YearStats:
             ...
             }
         """
-        onlyPostSeason = kwargs.pop("onlyPostSeason", False)  # only include post season losses
-        onlyRegularSeason = kwargs.pop("onlyRegularSeason", False)  # only include regular season losses
-        weekNumberStart = kwargs.pop("weekNumberStart",
-                                     year.weeks[0].weekNumber)  # week to start the calculations at (inclusive)
-        weekNumberEnd = kwargs.pop("weekNumberEnd",
-                                   year.weeks[-1].weekNumber)  # week to end the calculations at (inclusive)
+        filters = cls.getFilters(year, **kwargs)
 
         teamIdAndLosses = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
             teamIdAndLosses[teamId] = 0
 
-        for i in range(weekNumberStart - 1, weekNumberEnd):
+        for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
             week = year.weeks[i]
-            if (week.isPlayoffWeek and not onlyRegularSeason) or (not week.isPlayoffWeek and not onlyPostSeason):
+            if (week.isPlayoffWeek and not filters.onlyRegularSeason) or (
+                    not week.isPlayoffWeek and not filters.onlyPostSeason):
                 for matchup in week.matchups:
                     # team A lost
                     if (matchup.teamAScore < matchup.teamBScore) or (
