@@ -123,9 +123,9 @@ class BasicGameOutcome(YearCalculator):
 
         Example response:
             {
-            "someTeamId": 0.85,
-            "someOtherTeamId": .1156,
-            "yetAnotherTeamId": 0.72,
+            "someTeamId": Decimal("0.85"),
+            "someOtherTeamId": Decimal("0.1156"),
+            "yetAnotherTeamId": Decimal("0.72"),
             ...
             }
         """
