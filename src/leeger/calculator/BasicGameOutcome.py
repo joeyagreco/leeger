@@ -78,3 +78,33 @@ class BasicGameOutcome(YearCalculator):
                             matchup.teamAScore == matchup.teamBScore and matchup.teamAHasTiebreaker):
                         teamIdAndLosses[matchup.teamBId] += 1
         return teamIdAndLosses
+
+    @classmethod
+    @validateYear
+    def getTies(cls, year: Year, **kwargs) -> dict[str, int]:
+        """
+        Returns the number of ties for each team in the given Year.
+
+        Example response:
+            {
+            "someTeamId": 8,
+            "someOtherTeamId": 11,
+            "yetAnotherTeamId": 7,
+            ...
+            }
+        """
+        cls.loadFilters(year, validateYear=False, **kwargs)
+
+        teamIdAndTies = dict()
+        for teamId in YearNavigator.getAllTeamIds(year):
+            teamIdAndTies[teamId] = 0
+
+        for i in range(cls._weekNumberStart - 1, cls._weekNumberEnd):
+            week = year.weeks[i]
+            if (week.isPlayoffWeek and not cls._onlyRegularSeason) or (
+                    not week.isPlayoffWeek and not cls._onlyPostSeason):
+                for matchup in week.matchups:
+                    if matchup.teamAScore == matchup.teamBScore and not matchup.teamAHasTiebreaker and not matchup.teamBHasTiebreaker:
+                        teamIdAndTies[matchup.teamAId] += 1
+                        teamIdAndTies[matchup.teamBId] += 1
+        return teamIdAndTies
