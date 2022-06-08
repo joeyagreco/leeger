@@ -2,6 +2,13 @@ from src.leeger.exception.InvalidOwnerFormatException import InvalidOwnerFormatE
 from src.leeger.model.Owner import Owner
 
 
+def runAllChecks(owner: Owner) -> None:
+    """
+    Checks all types that are within the Owner object.
+    """
+    checkAllTypes(owner)
+
+
 def checkAllTypes(owner: Owner) -> None:
     """
     Checks all types that are within the Owner object.

@@ -16,18 +16,27 @@ def runAllChecks(league: League) -> None:
     Runs all checks on the given League.
     The order in which these are called matters.
     """
+    checkAllOwners(league)
+    checkAllYears(league)
     checkAllTypes(league)
-    checkOnlyOneChampionshipWeekPerYear(league)
-    checkAtLeastOneWeekPerYear(league)
-    checkWeekNumberingInLeague(league)
-    checkPlayoffWeekOrderingInLeague(league)
-    checkAtLeastTwoTeamsPerYear(league)
-    checkAllYearsHaveValidYearNumbers(league)
     checkYearsAreInCorrectOrder(league)
     checkNoDuplicateYearNumbers(league)
-    checkTeamOwnerIds(league)
-    checkTeamNamesInLeague(league)
-    checkWeeksInYearsHaveAtLeastOneMatchup(league)
+
+
+def checkAllOwners(league: League) -> None:
+    """
+    Runs all checks on all Owners.
+    """
+    for owner in league.owners:
+        ownerValidation.runAllChecks(owner)
+
+
+def checkAllYears(league: League) -> None:
+    """
+    Runs all checks on all Years.
+    """
+    for year in league.years:
+        yearValidation.runAllChecks(year)
 
 
 def checkAllTypes(league: League) -> None:
@@ -40,66 +49,6 @@ def checkAllTypes(league: League) -> None:
         raise InvalidLeagueFormatException("League owners must be type 'list'.")
     if type(league.years) != list:
         raise InvalidLeagueFormatException("League years must be type 'list'.")
-
-    for owner in league.owners:
-        ownerValidation.checkAllTypes(owner)
-
-    for year in league.years:
-        yearValidation.checkAllTypes(year)
-
-
-def checkOnlyOneChampionshipWeekPerYear(league: League) -> None:
-    """
-    Checks that there is a maximum of 1 championship week per year.
-    """
-    for year in league.years:
-        yearValidation.checkOnlyOneChampionshipWeekInYear(year)
-
-
-def checkAtLeastOneWeekPerYear(league: League) -> None:
-    """
-    Checks that there is a minimum of 1 week per Year.
-    """
-    for year in league.years:
-        yearValidation.checkAtLeastOneWeekInYear(year)
-
-
-def checkWeekNumberingInLeague(league: League) -> None:
-    """
-    Checks that:
-        - Each year has no duplicate week numbers
-        - First week number of every Year is 1
-        - Each Year has weeks numbered 1-n in order
-    """
-    for year in league.years:
-        yearValidation.checkWeekNumberingInYear(year)
-
-
-def checkPlayoffWeekOrderingInLeague(league: League) -> None:
-    """
-    Checks that:
-        - There are no non-playoff weeks after a playoff week
-        - There are no non-championship weeks after a championship week
-    """
-    for year in league.years:
-        yearValidation.checkPlayoffWeekOrderingInYear(year)
-
-
-def checkAtLeastTwoTeamsPerYear(league: League) -> None:
-    """
-    Checks that there is at least 2 teams per year.
-    """
-    for year in league.years:
-        yearValidation.checkAtLeastTwoTeamsInYear(year)
-
-
-def checkAllYearsHaveValidYearNumbers(league: League) -> None:
-    """
-    Checks that each year has a valid year number (1920-2XXX)
-    1920 is the year the NFL was founded, so we'll assume nobody was playing fantasy football before then.
-    """
-    for year in league.years:
-        yearValidation.checkGivenYearHasValidYearNumber(year)
 
 
 def checkYearsAreInCorrectOrder(league: League) -> None:
@@ -116,29 +65,3 @@ def checkNoDuplicateYearNumbers(league: League) -> None:
     """
     if len(set([year.yearNumber for year in league.years])) != len([year.yearNumber for year in league.years]):
         raise InvalidLeagueFormatException(f"Can only have 1 of each year number within a league.")
-
-
-def checkTeamOwnerIds(league: League) -> None:
-    """
-    Checks that:
-        - There are no duplicate owner IDs within the teams
-        - Each team in a year has an owner ID that matches an Owner ID that is in the League's owners list as an ID
-    """
-    for year in league.years:
-        yearValidation.checkTeamOwnerIdsInYear(year)
-
-
-def checkTeamNamesInLeague(league: League) -> None:
-    """
-    Checks that each team in each Year has a unique name
-    """
-    for year in league.years:
-        yearValidation.checkTeamNamesInYear(year)
-
-
-def checkWeeksInYearsHaveAtLeastOneMatchup(league: League) -> None:
-    """
-    Checks that each Week in each Year has at least one matchup.
-    """
-    for year in league.years:
-        yearValidation.checkWeeksInYearHaveAtLeastOneMatchup(year)

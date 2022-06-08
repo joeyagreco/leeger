@@ -24,8 +24,25 @@ def runAllChecks(year: Year) -> None:
     checkAtLeastTwoTeamsInYear(year)
     checkGivenYearHasValidYearNumber(year)
     checkTeamNamesInYear(year)
-    checkWeeksInYearHaveAtLeastOneMatchup(year)
+    checkAllWeeks(year)
+    checkAllTeams(year)
     checkTeamOwnerIdsInYear(year)
+
+
+def checkAllWeeks(year: Year) -> None:
+    """
+    Runs all checks on all Weeks.
+    """
+    for week in year.weeks:
+        weekValidation.runAllChecks(week)
+
+
+def checkAllTeams(year: Year) -> None:
+    """
+    Runs all checks on all Teams.
+    """
+    for team in year.teams:
+        teamValidation.runAllChecks(team)
 
 
 def checkAllTypes(year: Year) -> None:
@@ -39,12 +56,6 @@ def checkAllTypes(year: Year) -> None:
         raise InvalidYearFormatException("Year teams must be type 'list'.")
     if type(year.weeks) != list:
         raise InvalidYearFormatException("Year weeks must be type 'list'.")
-
-    for team in year.teams:
-        teamValidation.checkAllTypes(team)
-
-    for week in year.weeks:
-        weekValidation.checkAllTypes(week)
 
 
 def checkOnlyOneChampionshipWeekInYear(year: Year) -> None:
@@ -138,14 +149,6 @@ def checkTeamNamesInYear(year: Year) -> None:
         teamNames.append(team.name)
     if len(set(teamNames)) != len(teamNames):
         raise InvalidYearFormatException(f"Year {year.yearNumber} has teams with duplicate names.")
-
-
-def checkWeeksInYearHaveAtLeastOneMatchup(year: Year) -> None:
-    """
-    Checks that each Week in the given Year have at least one matchup.
-    """
-    for week in year.weeks:
-        weekValidation.checkWeekHasAtLeastOneMatchup(week)
 
 
 def checkTeamOwnerIdsInYear(year: Year) -> None:

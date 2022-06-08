@@ -2,6 +2,13 @@ from src.leeger.exception.InvalidMatchupFormatException import InvalidMatchupFor
 from src.leeger.model.Matchup import Matchup
 
 
+def runAllChecks(matchup: Matchup) -> None:
+    """
+    Checks all types that are within the Matchup object.
+    """
+    checkAllTypes(matchup)
+
+
 def checkAllTypes(matchup: Matchup) -> None:
     """
     Checks all types that are within the Matchup object.

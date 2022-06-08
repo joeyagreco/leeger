@@ -2,6 +2,13 @@ from src.leeger.exception.InvalidTeamFormatException import InvalidTeamFormatExc
 from src.leeger.model.Team import Team
 
 
+def runAllChecks(team: Team) -> None:
+    """
+    Checks all types that are within the Team object.
+    """
+    checkAllTypes(team)
+
+
 def checkAllTypes(team: Team) -> None:
     """
     Checks all types that are within the Team object.
