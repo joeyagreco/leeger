@@ -54,7 +54,7 @@ class TestBasicGameOutcome(unittest.TestCase):
         self.assertEqual(0, response[team1.id])
         self.assertEqual(2, response[team2.id])
 
-    def test_getWins_onlyRegualarSeasonIsTrue(self):
+    def test_getWins_onlyRegularSeasonIsTrue(self):
         owner1 = Owner(name="1")
         owner2 = Owner(name="2")
 
@@ -196,7 +196,7 @@ class TestBasicGameOutcome(unittest.TestCase):
         self.assertEqual(2, response[team1.id])
         self.assertEqual(0, response[team2.id])
 
-    def test_getLosses_onlyRegualarSeasonIsTrue(self):
+    def test_getLosses_onlyRegularSeasonIsTrue(self):
         owner1 = Owner(name="1")
         owner2 = Owner(name="2")
 
@@ -338,7 +338,7 @@ class TestBasicGameOutcome(unittest.TestCase):
         self.assertEqual(2, response[team1.id])
         self.assertEqual(2, response[team2.id])
 
-    def test_getTies_onlyRegualarSeasonIsTrue(self):
+    def test_getTies_onlyRegularSeasonIsTrue(self):
         owner1 = Owner(name="1")
         owner2 = Owner(name="2")
 
@@ -486,7 +486,7 @@ class TestBasicGameOutcome(unittest.TestCase):
         self.assertEqual(Decimal("0.5"), response[team1.id])
         self.assertEqual(Decimal("0.5"), response[team2.id])
 
-    def test_getWinPercentage_onlyRegualarSeasonIsTrue(self):
+    def test_getWinPercentage_onlyRegularSeasonIsTrue(self):
         owner1 = Owner(name="1")
         owner2 = Owner(name="2")
 
