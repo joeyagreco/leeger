@@ -178,14 +178,28 @@ class TestAdvancedGameOutcome(unittest.TestCase):
         week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False,
                      matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[team1, team2, team3, team4, team5, team6], weeks=[week1])
+        matchup1 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=team3.id, teamBId=team4.id, teamAScore=3, teamBScore=4)
+        matchup3 = Matchup(teamAId=team5.id, teamBId=team6.id, teamAScore=4, teamBScore=5)
+
+        week2 = Week(weekNumber=2, isPlayoffWeek=False, isChampionshipWeek=False,
+                     matchups=[matchup1, matchup2, matchup3])
+
+        matchup1 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=team3.id, teamBId=team4.id, teamAScore=3, teamBScore=4)
+        matchup3 = Matchup(teamAId=team5.id, teamBId=team6.id, teamAScore=4, teamBScore=5)
+
+        week3 = Week(weekNumber=3, isPlayoffWeek=False, isChampionshipWeek=False,
+                     matchups=[matchup1, matchup2, matchup3])
+
+        year = Year(yearNumber=2000, teams=[team1, team2, team3, team4, team5, team6], weeks=[week1, week2, week3])
 
         response = AdvancedGameOutcome.getAWAL(year)
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
         self.assertEqual(Decimal("0"), response[team1.id])
-        self.assertEqual(Decimal("0.2"), response[team2.id])
-        self.assertEqual(Decimal("0.4"), response[team3.id])
-        self.assertEqual(Decimal("0.7"), response[team4.id])
-        self.assertEqual(Decimal("0.7"), response[team5.id])
-        self.assertEqual(Decimal("1"), response[team6.id])
+        self.assertEqual(Decimal("0.6"), response[team2.id])
+        self.assertEqual(Decimal("1.2"), response[team3.id])
+        self.assertEqual(Decimal("2.1"), response[team4.id])
+        self.assertEqual(Decimal("2.1"), response[team5.id])
+        self.assertEqual(Decimal("3"), response[team6.id])
