@@ -8,7 +8,7 @@ from src.leeger.util.WeekNavigator import WeekNavigator
 
 
 class TestWeekNavigator(unittest.TestCase):
-    def test_getAllScoresByTeamId_happyPath(self):
+    def test_getTeamIdsAndScores_happyPath(self):
         owner1 = Owner(name="1")
         owner2 = Owner(name="2")
 
@@ -19,7 +19,7 @@ class TestWeekNavigator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=[matchup1])
 
-        response = WeekNavigator.getAllScoresByTeamId(week1)
+        response = WeekNavigator.getTeamIdsAndScores(week1)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
