@@ -21,6 +21,7 @@ def runAllChecks(league: League) -> None:
     checkAllTypes(league)
     checkYearsAreInCorrectOrder(league)
     checkNoDuplicateYearNumbers(league)
+    checkNumberOfOwnersEqualsTheNumberOfTeams(league)
 
 
 def checkAllOwners(league: League) -> None:
@@ -56,7 +57,7 @@ def checkYearsAreInCorrectOrder(league: League) -> None:
     Checks that the Years are in order from oldest -> most recent years.
     """
     if [year.yearNumber for year in league.years] != sorted([year.yearNumber for year in league.years]):
-        raise InvalidLeagueFormatException(f"Years are not in chronological order (oldest -> newest).")
+        raise InvalidLeagueFormatException("Years are not in chronological order (oldest -> newest).")
 
 
 def checkNoDuplicateYearNumbers(league: League) -> None:
@@ -64,4 +65,14 @@ def checkNoDuplicateYearNumbers(league: League) -> None:
     Checks that all the years in the League have a unique year number.
     """
     if len(set([year.yearNumber for year in league.years])) != len([year.yearNumber for year in league.years]):
-        raise InvalidLeagueFormatException(f"Can only have 1 of each year number within a league.")
+        raise InvalidLeagueFormatException("Can only have 1 of each year number within a league.")
+
+
+def checkNumberOfOwnersEqualsTheNumberOfTeams(league: League) -> None:
+    """
+    Checks that the number of Owners in a League matches the number of Teams.
+    """
+    for year in league.years:
+        if len(year.teams) != len(league.owners):
+            raise InvalidLeagueFormatException(
+                f"Number of owners in a League must match the number of Teams in a year. (League has {len(league.owners)} owners, Year {year.yearNumber} has {len(year.teams)} team/s)")
