@@ -351,3 +351,52 @@ class TestAdvancedGameOutcome(unittest.TestCase):
         self.assertEqual(Decimal("1.4"), response[team4.id])
         self.assertEqual(Decimal("1.4"), response[team5.id])
         self.assertEqual(Decimal("2"), response[team6.id])
+
+    def test_getAWAL_weekNumberEndGiven(self):
+        owner1 = Owner(name="1")
+        owner2 = Owner(name="2")
+        owner3 = Owner(name="3")
+        owner4 = Owner(name="4")
+        owner5 = Owner(name="5")
+        owner6 = Owner(name="6")
+
+        team1 = Team(ownerId=owner1.id, name="1")
+        team2 = Team(ownerId=owner2.id, name="2")
+        team3 = Team(ownerId=owner3.id, name="3")
+        team4 = Team(ownerId=owner4.id, name="4")
+        team5 = Team(ownerId=owner5.id, name="5")
+        team6 = Team(ownerId=owner6.id, name="6")
+
+        matchup1 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=team3.id, teamBId=team4.id, teamAScore=3, teamBScore=4)
+        matchup3 = Matchup(teamAId=team5.id, teamBId=team6.id, teamAScore=4, teamBScore=5)
+
+        week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False,
+                     matchups=[matchup1, matchup2, matchup3])
+
+        matchup1 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=team3.id, teamBId=team4.id, teamAScore=3, teamBScore=4)
+        matchup3 = Matchup(teamAId=team5.id, teamBId=team6.id, teamAScore=4, teamBScore=5)
+
+        week2 = Week(weekNumber=2, isPlayoffWeek=True, isChampionshipWeek=False,
+                     matchups=[matchup1, matchup2, matchup3])
+
+        matchup1 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=team3.id, teamBId=team4.id, teamAScore=3, teamBScore=4)
+        matchup3 = Matchup(teamAId=team5.id, teamBId=team6.id, teamAScore=4, teamBScore=5)
+
+        week3 = Week(weekNumber=3, isPlayoffWeek=True, isChampionshipWeek=True,
+                     matchups=[matchup1, matchup2, matchup3])
+
+        year = Year(yearNumber=2000, teams=[team1, team2, team3, team4, team5, team6], weeks=[week1, week2, week3])
+
+        response = AdvancedGameOutcome.getAWAL(year, weekNumberEnd=2)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(6, len(response.keys()))
+        self.assertEqual(Decimal("0"), response[team1.id])
+        self.assertEqual(Decimal("0.4"), response[team2.id])
+        self.assertEqual(Decimal("0.8"), response[team3.id])
+        self.assertEqual(Decimal("1.4"), response[team4.id])
+        self.assertEqual(Decimal("1.4"), response[team5.id])
+        self.assertEqual(Decimal("2"), response[team6.id])
