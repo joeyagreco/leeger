@@ -869,3 +869,41 @@ class TestAdvancedGameOutcome(unittest.TestCase):
         self.assertEqual(Decimal("0.7"), response[teams[3].id])
         self.assertEqual(Decimal("0.7"), response[teams[4].id])
         self.assertEqual(Decimal("1"), response[teams[5].id])
+
+    def test_getSmartWins_weekNumberStartGiven(self):
+        owners, teams = getNDefaultOwnersAndTeams(6)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+
+        week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False,
+                     matchups=[matchup1, matchup2, matchup3])
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+
+        week2 = Week(weekNumber=2, isPlayoffWeek=True, isChampionshipWeek=False,
+                     matchups=[matchup1, matchup2, matchup3])
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+
+        week3 = Week(weekNumber=3, isPlayoffWeek=True, isChampionshipWeek=True,
+                     matchups=[matchup1, matchup2, matchup3])
+
+        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+                    weeks=[week1, week2, week3])
+
+        response = AdvancedGameOutcome.getSmartWins(year, weekNumberStart=2)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(6, len(response.keys()))
+        self.assertEqual(Decimal("0.09090909090909090909090909090"), response[teams[0].id])
+        self.assertEqual(Decimal("0.4545454545454545454545454546"), response[teams[1].id])
+        self.assertEqual(Decimal("0.8181818181818181818181818182"), response[teams[2].id])
+        self.assertEqual(Decimal("1.363636363636363636363636364"), response[teams[3].id])
+        self.assertEqual(Decimal("1.363636363636363636363636364"), response[teams[4].id])
+        self.assertEqual(Decimal("1.909090909090909090909090909"), response[teams[5].id])
