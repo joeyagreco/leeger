@@ -3,27 +3,14 @@ from decimal import Decimal
 
 from src.leeger.calculator.AdvancedGameOutcome import AdvancedGameOutcome
 from src.leeger.model.Matchup import Matchup
-from src.leeger.model.Owner import Owner
-from src.leeger.model.Team import Team
 from src.leeger.model.Week import Week
 from src.leeger.model.Year import Year
+from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestAdvancedGameOutcome(unittest.TestCase):
-    # helper functions
-    @staticmethod
-    def __getNDefaultOwnersAndTeams(n: int) -> tuple[list[Owner], list[Team]]:
-        teams = list()
-        owners = list()
-        for i in range(n):
-            owner = Owner(name=str(i + 1))
-            team = Team(ownerId=owner.id, name=str(i + 1))
-            teams.append(team)
-            owners.append(owner)
-        return owners, teams
-
     def test_getWAL_happyPath(self):
-        owners, teams = self.__getNDefaultOwnersAndTeams(2)
+        owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1)
@@ -43,7 +30,7 @@ class TestAdvancedGameOutcome(unittest.TestCase):
         self.assertEqual(Decimal("2.5"), response[teams[1].id])
 
     def test_getWAL_onlyPostSeasonIsTrue(self):
-        owners, teams = self.__getNDefaultOwnersAndTeams(2)
+        owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
@@ -63,7 +50,7 @@ class TestAdvancedGameOutcome(unittest.TestCase):
         self.assertEqual(Decimal("2"), response[teams[1].id])
 
     def test_getWAL_onlyRegularSeasonIsTrue(self):
-        owners, teams = self.__getNDefaultOwnersAndTeams(2)
+        owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
@@ -83,7 +70,7 @@ class TestAdvancedGameOutcome(unittest.TestCase):
         self.assertEqual(Decimal("2"), response[teams[1].id])
 
     def test_getWAL_weekNumberStartGiven(self):
-        owners, teams = self.__getNDefaultOwnersAndTeams(2)
+        owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
@@ -103,7 +90,7 @@ class TestAdvancedGameOutcome(unittest.TestCase):
         self.assertEqual(Decimal("1"), response[teams[1].id])
 
     def test_getWAL_weekNumberEndGiven(self):
-        owners, teams = self.__getNDefaultOwnersAndTeams(2)
+        owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
@@ -123,7 +110,7 @@ class TestAdvancedGameOutcome(unittest.TestCase):
         self.assertEqual(Decimal("2"), response[teams[1].id])
 
     def test_getWAL_weekNumberStartGivenAndWeekNumberEndGiven(self):
-        owners, teams = self.__getNDefaultOwnersAndTeams(2)
+        owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
@@ -145,7 +132,7 @@ class TestAdvancedGameOutcome(unittest.TestCase):
         self.assertEqual(Decimal("1"), response[teams[1].id])
 
     def test_getAWAL_happyPath(self):
-        owners, teams = self.__getNDefaultOwnersAndTeams(6)
+        owners, teams = getNDefaultOwnersAndTeams(6)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
@@ -183,7 +170,7 @@ class TestAdvancedGameOutcome(unittest.TestCase):
         self.assertEqual(Decimal("3"), response[teams[5].id])
 
     def test_getAWAL_onlyPostSeasonIsTrue(self):
-        owners, teams = self.__getNDefaultOwnersAndTeams(6)
+        owners, teams = getNDefaultOwnersAndTeams(6)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
@@ -221,7 +208,7 @@ class TestAdvancedGameOutcome(unittest.TestCase):
         self.assertEqual(Decimal("2"), response[teams[5].id])
 
     def test_getAWAL_onlyRegularSeasonIsTrue(self):
-        owners, teams = self.__getNDefaultOwnersAndTeams(6)
+        owners, teams = getNDefaultOwnersAndTeams(6)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
@@ -259,7 +246,7 @@ class TestAdvancedGameOutcome(unittest.TestCase):
         self.assertEqual(Decimal("1"), response[teams[5].id])
 
     def test_getAWAL_weekNumberStartGiven(self):
-        owners, teams = self.__getNDefaultOwnersAndTeams(6)
+        owners, teams = getNDefaultOwnersAndTeams(6)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
@@ -297,7 +284,7 @@ class TestAdvancedGameOutcome(unittest.TestCase):
         self.assertEqual(Decimal("2"), response[teams[5].id])
 
     def test_getAWAL_weekNumberEndGiven(self):
-        owners, teams = self.__getNDefaultOwnersAndTeams(6)
+        owners, teams = getNDefaultOwnersAndTeams(6)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
@@ -335,7 +322,7 @@ class TestAdvancedGameOutcome(unittest.TestCase):
         self.assertEqual(Decimal("2"), response[teams[5].id])
 
     def test_getAWAL_weekNumberStartGivenAndWeekNumberEndGiven(self):
-        owners, teams = self.__getNDefaultOwnersAndTeams(6)
+        owners, teams = getNDefaultOwnersAndTeams(6)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
@@ -373,7 +360,7 @@ class TestAdvancedGameOutcome(unittest.TestCase):
         self.assertEqual(Decimal("2"), response[teams[5].id])
 
     def test_getAWAL_matchupEndsInTie(self):
-        owners, teams = self.__getNDefaultOwnersAndTeams(6)
+        owners, teams = getNDefaultOwnersAndTeams(6)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=3)
@@ -396,7 +383,7 @@ class TestAdvancedGameOutcome(unittest.TestCase):
         self.assertEqual(Decimal("1"), response[teams[5].id])
 
     def test_getAWAL_multipleMatchupsEndInTie(self):
-        owners, teams = self.__getNDefaultOwnersAndTeams(6)
+        owners, teams = getNDefaultOwnersAndTeams(6)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1)
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=3)
@@ -419,7 +406,7 @@ class TestAdvancedGameOutcome(unittest.TestCase):
         self.assertEqual(Decimal("1"), response[teams[5].id])
 
     def test_getAWAL_allMatchupsEndInTie(self):
-        owners, teams = self.__getNDefaultOwnersAndTeams(6)
+        owners, teams = getNDefaultOwnersAndTeams(6)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1)
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=2, teamBScore=2)
@@ -442,7 +429,7 @@ class TestAdvancedGameOutcome(unittest.TestCase):
         self.assertEqual(Decimal("0.9"), response[teams[5].id])
 
     def test_getAWAL_allMatchupsEndInTieAndHaveSameScore(self):
-        owners, teams = self.__getNDefaultOwnersAndTeams(6)
+        owners, teams = getNDefaultOwnersAndTeams(6)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1)
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=1, teamBScore=1)
@@ -465,7 +452,7 @@ class TestAdvancedGameOutcome(unittest.TestCase):
         self.assertEqual(Decimal("0.5"), response[teams[5].id])
 
     def test_getAWAL_sixteenTeams(self):
-        owners, teams = self.__getNDefaultOwnersAndTeams(16)
+        owners, teams = getNDefaultOwnersAndTeams(16)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
@@ -506,7 +493,7 @@ class TestAdvancedGameOutcome(unittest.TestCase):
         self.assertEqual(Decimal("1"), response[teams[15].id])
 
     def test_getAWALPerGame_happyPath(self):
-        owners, teams = self.__getNDefaultOwnersAndTeams(6)
+        owners, teams = getNDefaultOwnersAndTeams(6)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
@@ -544,7 +531,7 @@ class TestAdvancedGameOutcome(unittest.TestCase):
         self.assertEqual(Decimal("1"), response[teams[5].id])
 
     def test_getAWALPerGame_onlyPostSeasonIsTrue(self):
-        owners, teams = self.__getNDefaultOwnersAndTeams(6)
+        owners, teams = getNDefaultOwnersAndTeams(6)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
@@ -582,7 +569,7 @@ class TestAdvancedGameOutcome(unittest.TestCase):
         self.assertEqual(Decimal("1"), response[teams[5].id])
 
     def test_getAWALPerGame_onlyRegularSeasonIsTrue(self):
-        owners, teams = self.__getNDefaultOwnersAndTeams(6)
+        owners, teams = getNDefaultOwnersAndTeams(6)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
@@ -620,7 +607,7 @@ class TestAdvancedGameOutcome(unittest.TestCase):
         self.assertEqual(Decimal("1"), response[teams[5].id])
 
     def test_getAWALPerGame_weekNumberStartGiven(self):
-        owners, teams = self.__getNDefaultOwnersAndTeams(6)
+        owners, teams = getNDefaultOwnersAndTeams(6)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
@@ -658,7 +645,7 @@ class TestAdvancedGameOutcome(unittest.TestCase):
         self.assertEqual(Decimal("1"), response[teams[5].id])
 
     def test_getAWALPerGame_weekNumberEndGiven(self):
-        owners, teams = self.__getNDefaultOwnersAndTeams(6)
+        owners, teams = getNDefaultOwnersAndTeams(6)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
@@ -696,7 +683,7 @@ class TestAdvancedGameOutcome(unittest.TestCase):
         self.assertEqual(Decimal("1"), response[teams[5].id])
 
     def test_getAWALPerGame_weekNumberStartGivenAndWeekNumberEndGiven(self):
-        owners, teams = self.__getNDefaultOwnersAndTeams(6)
+        owners, teams = getNDefaultOwnersAndTeams(6)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
