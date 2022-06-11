@@ -23,9 +23,9 @@ class AdvancedGameOutcome(YearCalculator):
 
         Example response:
             {
-            "someTeamId": 8.7,
-            "someOtherTeamId": 11.2,
-            "yetAnotherTeamId": 7.1,
+            "someTeamId": Decimal("8.7"),
+            "someOtherTeamId": Decimal("11.2"),
+            "yetAnotherTeamId": Decimal("7.1"),
             ...
             }
         """
@@ -59,9 +59,9 @@ class AdvancedGameOutcome(YearCalculator):
 
         Example response:
             {
-            "someTeamId": 8.7,
-            "someOtherTeamId": 11.2,
-            "yetAnotherTeamId": 7.1,
+            "someTeamId": Decimal("8.7"),
+            "someOtherTeamId": Decimal("11.2"),
+            "yetAnotherTeamId": Decimal("7.1"),
             ...
             }
         """
@@ -113,9 +113,9 @@ class AdvancedGameOutcome(YearCalculator):
 
         Example response:
             {
-            "someTeamId": 8.7,
-            "someOtherTeamId": 11.2,
-            "yetAnotherTeamId": 7.1,
+            "someTeamId": Decimal("8.7"),
+            "someOtherTeamId": Decimal("11.2"),
+            "yetAnotherTeamId": Decimal("7.1"),
             ...
             }
         """
@@ -140,3 +140,69 @@ class AdvancedGameOutcome(YearCalculator):
             teamIdAndAwalPerGame[teamId] = teamIdAndAWAL[teamId] / teamIdAndNumberOfGamesPlayed[teamId]
 
         return teamIdAndAwalPerGame
+
+    @classmethod
+    @validateYear
+    def getSmartWins(cls, year: Year, **kwargs) -> dict[str, Decimal]:
+        """
+        Smart Wins show how many wins a team would have if it played against every score in a given collection.
+        In this case, the collection is every score in the given Year.
+        Smart Wins = Σ((W + (T/2)) / S)
+        WHERE:
+        W = Total scores in the Year beat
+        T = Total scores in the Year tied
+        S = Number of scores in the Year - 1
+
+        Returns the number of Smart Wins for each team in the given Year.
+
+        Example response:
+            {
+            "someTeamId": Decimal("8.7"),
+            "someOtherTeamId": Decimal("11.2"),
+            "yetAnotherTeamId": Decimal("7.1"),
+            ...
+            }
+        """
+
+        ####################
+        # Helper functions #
+        ####################
+        def getNumberOfScoresBeatAndTied(score: float | int, scores: list[float | int]) -> list[int, int]:
+            scoresBeatAndTied = [0, 0]
+            for s in scores:
+                if score > s:
+                    scoresBeatAndTied[0] += 1
+                elif score == s:
+                    scoresBeatAndTied[1] += 1
+            # remove 1 from the scores tied tracker since we will always find a tie for this teams score in the list of all scores
+            scoresBeatAndTied[1] -= 1
+            return scoresBeatAndTied
+
+        ####################
+        ####################
+        ####################
+
+        cls.loadFilters(year, validateYear=False, **kwargs)
+
+        teamIdsAndScores = list()
+
+        for i in range(cls._weekNumberStart - 1, cls._weekNumberEnd):
+            week = year.weeks[i]
+            if (week.isPlayoffWeek and not cls._onlyRegularSeason) or (
+                    not week.isPlayoffWeek and not cls._onlyPostSeason):
+                for matchup in week.matchups:
+                    teamIdsAndScores.append((matchup.teamAId, matchup.teamAScore))
+                    teamIdsAndScores.append((matchup.teamBId, matchup.teamBScore))
+
+        teamIdAndSmartWins = dict()
+        allTeamIds = YearNavigator.getAllTeamIds(year)
+        for teamId in allTeamIds:
+            teamIdAndSmartWins[teamId] = Decimal(0)
+
+        allScores = [teamIdAndScore[1] for teamIdAndScore in teamIdsAndScores]
+        for teamIdAndScore in teamIdsAndScores:
+            scoresBeat, scoresTied = getNumberOfScoresBeatAndTied(teamIdAndScore[1], allScores)
+            smartWins = (scoresBeat + (scoresTied / Decimal(2))) / (len(allScores) - Decimal(1))
+            teamIdAndSmartWins[teamIdAndScore[0]] += smartWins
+
+        return teamIdAndSmartWins
