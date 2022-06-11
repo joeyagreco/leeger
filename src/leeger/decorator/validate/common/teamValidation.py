@@ -4,7 +4,7 @@ from src.leeger.model.Team import Team
 
 def runAllChecks(team: Team) -> None:
     """
-    Checks all types that are within the Team object.
+    Runs all checks on the given Team.
     """
     checkAllTypes(team)
 

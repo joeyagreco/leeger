@@ -5,7 +5,7 @@ from src.leeger.model.Week import Week
 
 def runAllChecks(week: Week) -> None:
     """
-    Checks all types that are within the Week object.
+    Runs all checks on the given Week.
     """
     checkAllTypes(week)
     checkForDuplicateMatchups(week)

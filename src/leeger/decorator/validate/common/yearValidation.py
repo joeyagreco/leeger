@@ -33,7 +33,7 @@ def runAllChecks(year: Year) -> None:
 
 def checkAllTypes(year: Year) -> None:
     """
-    Checks all types that are within the Year object.
+    Runs all checks on the given Year.
     """
 
     if type(year.yearNumber) != int:

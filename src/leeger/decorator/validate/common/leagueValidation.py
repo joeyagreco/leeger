@@ -14,11 +14,10 @@ Checker Functions
 def runAllChecks(league: League) -> None:
     """
     Runs all checks on the given League.
-    The order in which these are called matters.
     """
+    checkAllTypes(league)
     checkAllOwners(league)
     checkAllYears(league)
-    checkAllTypes(league)
     checkForDuplicateOwners(league)
     checkForDuplicateYears(league)
     checkYearsAreInCorrectOrder(league)

@@ -4,7 +4,7 @@ from src.leeger.model.Owner import Owner
 
 def runAllChecks(owner: Owner) -> None:
     """
-    Checks all types that are within the Owner object.
+    Runs all checks on the given Owner.
     """
     checkAllTypes(owner)
 

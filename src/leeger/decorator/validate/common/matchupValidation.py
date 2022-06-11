@@ -4,7 +4,7 @@ from src.leeger.model.Matchup import Matchup
 
 def runAllChecks(matchup: Matchup) -> None:
     """
-    Checks all types that are within the Matchup object.
+    Runs all checks on the given Matchup.
     """
     checkAllTypes(matchup)
 
