@@ -6,6 +6,7 @@ from src.leeger.model.Owner import Owner
 from src.leeger.model.Team import Team
 from src.leeger.model.Week import Week
 from src.leeger.model.Year import Year
+from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestYearValidation(unittest.TestCase):
@@ -113,6 +114,18 @@ class TestYearValidation(unittest.TestCase):
         with self.assertRaises(InvalidYearFormatException) as context:
             yearValidation.checkTeamNamesInYear(Year(yearNumber=2000, teams=[team1, team2], weeks=[week1]))
         self.assertEqual("Year 2000 has teams with duplicate names.", str(context.exception))
+
+    def test_checkForDuplicateTeams_duplicateTeams_raisesException(self):
+        owners, teams = getNDefaultOwnersAndTeams(1)
+        with self.assertRaises(InvalidYearFormatException) as context:
+            yearValidation.checkForDuplicateTeams(Year(yearNumber=2000, teams=[teams[0], teams[0]], weeks=list()))
+        self.assertEqual("Teams must all be unique instances.", str(context.exception))
+
+    def test_checkForDuplicateWeeks_duplicateWeeks_raisesException(self):
+        week = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
+        with self.assertRaises(InvalidYearFormatException) as context:
+            yearValidation.checkForDuplicateWeeks(Year(yearNumber=2000, teams=list(), weeks=[week, week]))
+        self.assertEqual("Weeks must all be unique instances.", str(context.exception))
 
     """
     TYPE CHECK TESTS

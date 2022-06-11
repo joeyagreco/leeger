@@ -17,6 +17,8 @@ def runAllChecks(year: Year) -> None:
     The order in which these are called matters.
     """
     checkAllTypes(year)
+    checkForDuplicateTeams(year)
+    checkForDuplicateWeeks(year)
     checkOnlyOneChampionshipWeekInYear(year)
     checkAtLeastOneWeekInYear(year)
     checkWeekNumberingInYear(year)
@@ -27,6 +29,43 @@ def runAllChecks(year: Year) -> None:
     checkAllWeeks(year)
     checkAllTeams(year)
     checkTeamOwnerIdsInYear(year)
+
+
+def checkAllTypes(year: Year) -> None:
+    """
+    Checks all types that are within the Year object.
+    """
+
+    if type(year.yearNumber) != int:
+        raise InvalidYearFormatException("Year number must be type 'int'.")
+    if type(year.teams) != list:
+        raise InvalidYearFormatException("Year teams must be type 'list'.")
+    if type(year.weeks) != list:
+        raise InvalidYearFormatException("Year weeks must be type 'list'.")
+
+
+def checkForDuplicateTeams(year: Year) -> None:
+    """
+    Checks that all Teams are unique instances.
+    """
+    teamInstanceIds = list()
+    for team in year.teams:
+        if id(team) in teamInstanceIds:
+            raise InvalidYearFormatException("Teams must all be unique instances.")
+        else:
+            teamInstanceIds.append(id(team))
+
+
+def checkForDuplicateWeeks(year: Year) -> None:
+    """
+    Checks that all Weeks are unique instances.
+    """
+    weekInstanceIds = list()
+    for week in year.weeks:
+        if id(week) in weekInstanceIds:
+            raise InvalidYearFormatException("Weeks must all be unique instances.")
+        else:
+            weekInstanceIds.append(id(week))
 
 
 def checkAllWeeks(year: Year) -> None:
@@ -43,19 +82,6 @@ def checkAllTeams(year: Year) -> None:
     """
     for team in year.teams:
         teamValidation.runAllChecks(team)
-
-
-def checkAllTypes(year: Year) -> None:
-    """
-    Checks all types that are within the Year object.
-    """
-
-    if type(year.yearNumber) != int:
-        raise InvalidYearFormatException("Year number must be type 'int'.")
-    if type(year.teams) != list:
-        raise InvalidYearFormatException("Year teams must be type 'list'.")
-    if type(year.weeks) != list:
-        raise InvalidYearFormatException("Year weeks must be type 'list'.")
 
 
 def checkOnlyOneChampionshipWeekInYear(year: Year) -> None:
