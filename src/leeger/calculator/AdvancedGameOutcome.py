@@ -1,9 +1,8 @@
-from decimal import Decimal
-
 from src.leeger.calculator.BasicGameOutcome import BasicGameOutcome
 from src.leeger.calculator.parent.YearCalculator import YearCalculator
 from src.leeger.decorator.validate.validators import validateYear
 from src.leeger.model.Year import Year
+from src.leeger.util.Deci import Deci
 from src.leeger.util.WeekNavigator import WeekNavigator
 from src.leeger.util.YearNavigator import YearNavigator
 
@@ -15,7 +14,7 @@ class AdvancedGameOutcome(YearCalculator):
 
     @classmethod
     @validateYear
-    def getWAL(cls, year: Year, **kwargs) -> dict[str, Decimal]:
+    def getWAL(cls, year: Year, **kwargs) -> dict[str, Deci]:
         """
         WAL is "Wins Against the League"
         Formula: (Number of Wins * 1) + (Number of Ties * 0.5)
@@ -23,9 +22,9 @@ class AdvancedGameOutcome(YearCalculator):
 
         Example response:
             {
-            "someTeamId": Decimal("8.7"),
-            "someOtherTeamId": Decimal("11.2"),
-            "yetAnotherTeamId": Decimal("7.1"),
+            "someTeamId": Deci("8.7"),
+            "someOtherTeamId": Deci("11.2"),
+            "yetAnotherTeamId": Deci("7.1"),
             ...
             }
         """
@@ -36,13 +35,13 @@ class AdvancedGameOutcome(YearCalculator):
         teamIdAndTies = BasicGameOutcome.getTies(year, **kwargs)
 
         for teamId in YearNavigator.getAllTeamIds(year):
-            teamIdAndWAL[teamId] = teamIdAndWins[teamId] + (Decimal(0.5) * Decimal(teamIdAndTies[teamId]))
+            teamIdAndWAL[teamId] = teamIdAndWins[teamId] + (Deci(0.5) * Deci(teamIdAndTies[teamId]))
 
         return teamIdAndWAL
 
     @classmethod
     @validateYear
-    def getAWAL(cls, year: Year, **kwargs) -> dict[str, Decimal]:
+    def getAWAL(cls, year: Year, **kwargs) -> dict[str, Deci]:
         """
         AWAL stands for Adjusted Wins Against the League.
         It is exactly that, an adjustment added to the Wins Against the League (or WAL) of a team.
@@ -59,9 +58,9 @@ class AdvancedGameOutcome(YearCalculator):
 
         Example response:
             {
-            "someTeamId": Decimal("8.7"),
-            "someOtherTeamId": Decimal("11.2"),
-            "yetAnotherTeamId": Decimal("7.1"),
+            "someTeamId": Deci("8.7"),
+            "someOtherTeamId": Deci("11.2"),
+            "yetAnotherTeamId": Deci("7.1"),
             ...
             }
         """
@@ -70,7 +69,7 @@ class AdvancedGameOutcome(YearCalculator):
         teamIdAndAWAL = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
         for teamId in allTeamIds:
-            teamIdAndAWAL[teamId] = Decimal(0)
+            teamIdAndAWAL[teamId] = Deci(0)
 
         for i in range(cls._weekNumberStart - 1, cls._weekNumberEnd):
             week = year.weeks[i]
@@ -98,24 +97,24 @@ class AdvancedGameOutcome(YearCalculator):
                     teamsTied[teamId] -= 1
                     # calculate the AWAL for each team for this week
                     teamIdAndAWAL[teamId] += (
-                            (Decimal(teamsOutscored[teamId])
-                             * (Decimal(1) / Decimal(opponentsInWeek)))
-                            + (Decimal(teamsTied[teamId])
-                               * (Decimal(0.5) / Decimal(opponentsInWeek))))
+                            (Deci(teamsOutscored[teamId])
+                             * (Deci(1) / Deci(opponentsInWeek)))
+                            + (Deci(teamsTied[teamId])
+                               * (Deci(0.5) / Deci(opponentsInWeek))))
 
         return teamIdAndAWAL
 
     @classmethod
     @validateYear
-    def getAWALPerGame(cls, year: Year, **kwargs) -> dict[str, Decimal]:
+    def getAWALPerGame(cls, year: Year, **kwargs) -> dict[str, Deci]:
         """
         Returns the number of Adjusted Wins Against the League per game for each team in the given Year.
 
         Example response:
             {
-            "someTeamId": Decimal("8.7"),
-            "someOtherTeamId": Decimal("11.2"),
-            "yetAnotherTeamId": Decimal("7.1"),
+            "someTeamId": Deci("8.7"),
+            "someOtherTeamId": Deci("11.2"),
+            "yetAnotherTeamId": Deci("7.1"),
             ...
             }
         """
@@ -125,15 +124,15 @@ class AdvancedGameOutcome(YearCalculator):
         teamIdAndNumberOfGamesPlayed = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
         for teamId in allTeamIds:
-            teamIdAndNumberOfGamesPlayed[teamId] = Decimal(0)
+            teamIdAndNumberOfGamesPlayed[teamId] = Deci(0)
 
         for i in range(cls._weekNumberStart - 1, cls._weekNumberEnd):
             week = year.weeks[i]
             if (week.isPlayoffWeek and not cls._onlyRegularSeason) or (
                     not week.isPlayoffWeek and not cls._onlyPostSeason):
                 for matchup in week.matchups:
-                    teamIdAndNumberOfGamesPlayed[matchup.teamAId] += Decimal(1)
-                    teamIdAndNumberOfGamesPlayed[matchup.teamBId] += Decimal(1)
+                    teamIdAndNumberOfGamesPlayed[matchup.teamAId] += Deci(1)
+                    teamIdAndNumberOfGamesPlayed[matchup.teamBId] += Deci(1)
 
         teamIdAndAwalPerGame = dict()
         for teamId in allTeamIds:
@@ -143,7 +142,7 @@ class AdvancedGameOutcome(YearCalculator):
 
     @classmethod
     @validateYear
-    def getSmartWins(cls, year: Year, **kwargs) -> dict[str, Decimal]:
+    def getSmartWins(cls, year: Year, **kwargs) -> dict[str, Deci]:
         """
         Smart Wins show how many wins a team would have if it played against every score in a given collection.
         In this case, the collection is every score in the given Year.
@@ -157,9 +156,9 @@ class AdvancedGameOutcome(YearCalculator):
 
         Example response:
             {
-            "someTeamId": Decimal("8.7"),
-            "someOtherTeamId": Decimal("11.2"),
-            "yetAnotherTeamId": Decimal("7.1"),
+            "someTeamId": Deci("8.7"),
+            "someOtherTeamId": Deci("11.2"),
+            "yetAnotherTeamId": Deci("7.1"),
             ...
             }
         """
@@ -197,27 +196,27 @@ class AdvancedGameOutcome(YearCalculator):
         teamIdAndSmartWins = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
         for teamId in allTeamIds:
-            teamIdAndSmartWins[teamId] = Decimal(0)
+            teamIdAndSmartWins[teamId] = Deci(0)
 
         allScores = [teamIdAndScore[1] for teamIdAndScore in teamIdsAndScores]
         for teamIdAndScore in teamIdsAndScores:
             scoresBeat, scoresTied = getNumberOfScoresBeatAndTied(teamIdAndScore[1], allScores)
-            smartWins = (scoresBeat + (scoresTied / Decimal(2))) / (len(allScores) - Decimal(1))
+            smartWins = (scoresBeat + (scoresTied / Deci(2))) / (len(allScores) - Deci(1))
             teamIdAndSmartWins[teamIdAndScore[0]] += smartWins
 
         return teamIdAndSmartWins
 
     @classmethod
     @validateYear
-    def getSmartWinsPerGame(cls, year: Year, **kwargs) -> dict[str, Decimal]:
+    def getSmartWinsPerGame(cls, year: Year, **kwargs) -> dict[str, Deci]:
         """
         Returns the number of Smart Wins per game for each team in the given Year.
 
         Example response:
             {
-            "someTeamId": Decimal("8.7"),
-            "someOtherTeamId": Decimal("11.2"),
-            "yetAnotherTeamId": Decimal("7.1"),
+            "someTeamId": Deci("8.7"),
+            "someOtherTeamId": Deci("11.2"),
+            "yetAnotherTeamId": Deci("7.1"),
             ...
             }
         """
@@ -227,15 +226,15 @@ class AdvancedGameOutcome(YearCalculator):
         teamIdAndNumberOfGamesPlayed = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
         for teamId in allTeamIds:
-            teamIdAndNumberOfGamesPlayed[teamId] = Decimal(0)
+            teamIdAndNumberOfGamesPlayed[teamId] = Deci(0)
 
         for i in range(cls._weekNumberStart - 1, cls._weekNumberEnd):
             week = year.weeks[i]
             if (week.isPlayoffWeek and not cls._onlyRegularSeason) or (
                     not week.isPlayoffWeek and not cls._onlyPostSeason):
                 for matchup in week.matchups:
-                    teamIdAndNumberOfGamesPlayed[matchup.teamAId] += Decimal(1)
-                    teamIdAndNumberOfGamesPlayed[matchup.teamBId] += Decimal(1)
+                    teamIdAndNumberOfGamesPlayed[matchup.teamAId] += Deci(1)
+                    teamIdAndNumberOfGamesPlayed[matchup.teamBId] += Deci(1)
 
         teamIdAndSmartWinsPerGame = dict()
         for teamId in allTeamIds:

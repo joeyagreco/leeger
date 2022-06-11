@@ -1,10 +1,10 @@
 import unittest
-from decimal import Decimal
 
 from src.leeger.calculator.BasicGameOutcome import BasicGameOutcome
 from src.leeger.model.Matchup import Matchup
 from src.leeger.model.Week import Week
 from src.leeger.model.Year import Year
+from src.leeger.util.Deci import Deci
 from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
@@ -382,8 +382,8 @@ class TestBasicGameOutcome(unittest.TestCase):
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
-        self.assertEqual(Decimal("0.375"), response[teams[0].id])
-        self.assertEqual(Decimal("0.625"), response[teams[1].id])
+        self.assertEqual(Deci("0.375"), response[teams[0].id])
+        self.assertEqual(Deci("0.625"), response[teams[1].id])
 
     def test_getWinPercentage_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
@@ -402,8 +402,8 @@ class TestBasicGameOutcome(unittest.TestCase):
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
-        self.assertEqual(Decimal("0.5"), response[teams[0].id])
-        self.assertEqual(Decimal("0.5"), response[teams[1].id])
+        self.assertEqual(Deci("0.5"), response[teams[0].id])
+        self.assertEqual(Deci("0.5"), response[teams[1].id])
 
     def test_getWinPercentage_onlyRegularSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
@@ -422,8 +422,8 @@ class TestBasicGameOutcome(unittest.TestCase):
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
-        self.assertEqual(Decimal("0.0"), response[teams[0].id])
-        self.assertEqual(Decimal("1.0"), response[teams[1].id])
+        self.assertEqual(Deci("0.0"), response[teams[0].id])
+        self.assertEqual(Deci("1.0"), response[teams[1].id])
 
     def test_getWinPercentage_weekNumberStartGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
@@ -442,8 +442,8 @@ class TestBasicGameOutcome(unittest.TestCase):
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
-        self.assertEqual(Decimal("0.5"), response[teams[0].id])
-        self.assertEqual(Decimal("0.5"), response[teams[1].id])
+        self.assertEqual(Deci("0.5"), response[teams[0].id])
+        self.assertEqual(Deci("0.5"), response[teams[1].id])
 
     def test_getWinPercentage_weekNumberEndGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
@@ -462,8 +462,8 @@ class TestBasicGameOutcome(unittest.TestCase):
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
-        self.assertEqual(Decimal("0.0"), response[teams[0].id])
-        self.assertEqual(Decimal("1.0"), response[teams[1].id])
+        self.assertEqual(Deci("0.0"), response[teams[0].id])
+        self.assertEqual(Deci("1.0"), response[teams[1].id])
 
     def test_getWinPercentage_weekNumberStartGivenAndWeekNumberEndGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
@@ -484,5 +484,5 @@ class TestBasicGameOutcome(unittest.TestCase):
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
-        self.assertEqual(Decimal("0.5"), response[teams[0].id])
-        self.assertEqual(Decimal("0.5"), response[teams[1].id])
+        self.assertEqual(Deci("0.5"), response[teams[0].id])
+        self.assertEqual(Deci("0.5"), response[teams[1].id])
