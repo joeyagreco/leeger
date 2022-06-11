@@ -107,6 +107,20 @@ class TestLeagueValidation(unittest.TestCase):
             "Number of owners in a League must match the number of Teams in a year. (League has 1 owners, Year 2000 has 0 team/s)",
             str(context.exception))
 
+    def test_checkForDuplicateOwners_duplicateOwnerInstances_raisesException(self):
+        owner = Owner(name="1")
+        with self.assertRaises(InvalidLeagueFormatException) as context:
+            leagueValidation.checkForDuplicateOwners(League(name="TEST", owners=[owner, owner], years=list()))
+        self.assertEqual("Owners must all be unique instances.", str(context.exception))
+
+    def test_checkForDuplicateTeams_duplicateOwnerInstances_raisesException(self):
+        owner = Owner(name="1")
+        year = Year(yearNumber=2000, teams=list(), weeks=list())
+        with self.assertRaises(InvalidLeagueFormatException) as context:
+            leagueValidation.checkForDuplicateYears(
+                League(name="TEST", owners=[owner], years=[year, year]))
+        self.assertEqual("Years must all be unique instances.", str(context.exception))
+
     """
     TYPE CHECK TESTS
     """
