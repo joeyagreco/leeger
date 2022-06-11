@@ -2,6 +2,7 @@ import unittest
 
 from src.leeger.decorator.validate.common import weekValidation
 from src.leeger.exception.InvalidWeekFormatException import InvalidWeekFormatException
+from src.leeger.model.Matchup import Matchup
 from src.leeger.model.Week import Week
 
 
@@ -12,6 +13,13 @@ class TestWeekValidation(unittest.TestCase):
             weekValidation.checkWeekHasAtLeastOneMatchup(
                 Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list()))
         self.assertEqual("Week 1 must have at least 1 matchup.", str(context.exception))
+
+    def test_checkForDuplicateMatchups_duplicateMatchupInstances_raisesException(self):
+        matchup = Matchup(teamAId="a", teamBId="b", teamAScore=1, teamBScore=2)
+        with self.assertRaises(InvalidWeekFormatException) as context:
+            weekValidation.checkForDuplicateMatchups(
+                Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=[matchup, matchup]))
+        self.assertEqual("Matchups must all be unique instances.", str(context.exception))
 
     """
     TYPE CHECK TESTS

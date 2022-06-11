@@ -7,18 +7,11 @@ def runAllChecks(week: Week) -> None:
     """
     Checks all types that are within the Week object.
     """
-    checkAllMatchups(week)
     checkAllTypes(week)
+    checkForDuplicateMatchups(week)
+    checkAllMatchups(week)
     checkWeekHasAtLeastOneMatchup(week)
     checkWeekHasMatchupsWithNoDuplicateTeamIds(week)
-
-
-def checkAllMatchups(week: Week) -> None:
-    """
-    Runs all checks on all Weeks.
-    """
-    for matchup in week.matchups:
-        matchupValidation.runAllChecks(matchup)
 
 
 def checkAllTypes(week: Week) -> None:
@@ -34,6 +27,26 @@ def checkAllTypes(week: Week) -> None:
         raise InvalidWeekFormatException("Week isChampionshipWeek must be type 'bool'.")
     if type(week.matchups) != list:
         raise InvalidWeekFormatException("Week matchups must be type 'list'.")
+
+
+def checkForDuplicateMatchups(week: Week) -> None:
+    """
+    Checks that all Matchups are unique instances.
+    """
+    matchupInstanceIds = list()
+    for matchup in week.matchups:
+        if id(matchup) in matchupInstanceIds:
+            raise InvalidWeekFormatException("Matchups must all be unique instances.")
+        else:
+            matchupInstanceIds.append(id(matchup))
+
+
+def checkAllMatchups(week: Week) -> None:
+    """
+    Runs all checks on all Weeks.
+    """
+    for matchup in week.matchups:
+        matchupValidation.runAllChecks(matchup)
 
 
 def checkWeekHasAtLeastOneMatchup(week: Week) -> None:
