@@ -206,3 +206,39 @@ class AdvancedGameOutcome(YearCalculator):
             teamIdAndSmartWins[teamIdAndScore[0]] += smartWins
 
         return teamIdAndSmartWins
+
+    @classmethod
+    @validateYear
+    def getSmartWinsPerGame(cls, year: Year, **kwargs) -> dict[str, Decimal]:
+        """
+        Returns the number of Smart Wins per game for each team in the given Year.
+
+        Example response:
+            {
+            "someTeamId": Decimal("8.7"),
+            "someOtherTeamId": Decimal("11.2"),
+            "yetAnotherTeamId": Decimal("7.1"),
+            ...
+            }
+        """
+        cls.loadFilters(year, validateYear=False, **kwargs)
+
+        teamIdAndSmartWins = AdvancedGameOutcome.getSmartWins(year, **kwargs)
+        teamIdAndNumberOfGamesPlayed = dict()
+        allTeamIds = YearNavigator.getAllTeamIds(year)
+        for teamId in allTeamIds:
+            teamIdAndNumberOfGamesPlayed[teamId] = Decimal(0)
+
+        for i in range(cls._weekNumberStart - 1, cls._weekNumberEnd):
+            week = year.weeks[i]
+            if (week.isPlayoffWeek and not cls._onlyRegularSeason) or (
+                    not week.isPlayoffWeek and not cls._onlyPostSeason):
+                for matchup in week.matchups:
+                    teamIdAndNumberOfGamesPlayed[matchup.teamAId] += Decimal(1)
+                    teamIdAndNumberOfGamesPlayed[matchup.teamBId] += Decimal(1)
+
+        teamIdAndSmartWinsPerGame = dict()
+        for teamId in allTeamIds:
+            teamIdAndSmartWinsPerGame[teamId] = teamIdAndSmartWins[teamId] / teamIdAndNumberOfGamesPlayed[teamId]
+
+        return teamIdAndSmartWinsPerGame
