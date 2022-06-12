@@ -17,6 +17,8 @@ def runAllChecks(year: Year) -> None:
     The order in which these are called matters.
     """
     checkAllTypes(year)
+    checkAllWeeks(year)
+    checkAllTeams(year)
     checkForDuplicateTeams(year)
     checkForDuplicateWeeks(year)
     checkOnlyOneChampionshipWeekInYear(year)
@@ -26,9 +28,23 @@ def runAllChecks(year: Year) -> None:
     checkAtLeastTwoTeamsInYear(year)
     checkGivenYearHasValidYearNumber(year)
     checkTeamNamesInYear(year)
-    checkAllWeeks(year)
-    checkAllTeams(year)
     checkTeamOwnerIdsInYear(year)
+
+
+def checkAllWeeks(year: Year) -> None:
+    """
+    Runs all checks on all Weeks.
+    """
+    for week in year.weeks:
+        weekValidation.runAllChecks(week)
+
+
+def checkAllTeams(year: Year) -> None:
+    """
+    Runs all checks on all Teams.
+    """
+    for team in year.teams:
+        teamValidation.runAllChecks(team)
 
 
 def checkAllTypes(year: Year) -> None:
@@ -66,22 +82,6 @@ def checkForDuplicateWeeks(year: Year) -> None:
             raise InvalidYearFormatException("Weeks must all be unique instances.")
         else:
             weekInstanceIds.append(id(week))
-
-
-def checkAllWeeks(year: Year) -> None:
-    """
-    Runs all checks on all Weeks.
-    """
-    for week in year.weeks:
-        weekValidation.runAllChecks(week)
-
-
-def checkAllTeams(year: Year) -> None:
-    """
-    Runs all checks on all Teams.
-    """
-    for team in year.teams:
-        teamValidation.runAllChecks(team)
 
 
 def checkOnlyOneChampionshipWeekInYear(year: Year) -> None:
