@@ -95,3 +95,30 @@ class Scoring(YearCalculator):
                     teamIdAndOpponentPointsScored[matchup.teamBId] += Deci(matchup.teamAScore)
 
         return teamIdAndOpponentPointsScored
+
+    @classmethod
+    @validateYear
+    def getOpponentPointsScoredPerGame(cls, year: Year, **kwargs) -> dict[str, Deci]:
+        """
+        Returns the number of Opponent Points Scored per game for each team in the given Year.
+
+        Example response:
+            {
+            "someTeamId": Deci("100.7"),
+            "someOtherTeamId": Deci("141.2"),
+            "yetAnotherTeamId": Deci("122.1"),
+            ...
+            }
+        """
+        cls.loadFilters(year, validateYear=False, **kwargs)
+
+        teamIdAndOpponentPointsScored = cls.getOpponentPointsScored(year, **kwargs)
+        teamIdAndNumberOfGamesPlayed = cls.getNumberOfGamesPlayed(year, **kwargs)
+
+        teamIdAndOpponentPointsScoredPerGame = dict()
+        allTeamIds = YearNavigator.getAllTeamIds(year)
+        for teamId in allTeamIds:
+            teamIdAndOpponentPointsScoredPerGame[teamId] = teamIdAndOpponentPointsScored[teamId] / \
+                                                           teamIdAndNumberOfGamesPlayed[teamId]
+
+        return teamIdAndOpponentPointsScoredPerGame
