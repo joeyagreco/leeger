@@ -29,6 +29,7 @@ def runAllChecks(year: Year) -> None:
     checkGivenYearHasValidYearNumber(year)
     checkTeamNamesInYear(year)
     checkTeamOwnerIdsInYear(year)
+    checkEveryTeamInYearIsInAMatchup(year)
 
 
 def checkAllWeeks(year: Year) -> None:
@@ -185,3 +186,20 @@ def checkTeamOwnerIdsInYear(year: Year) -> None:
     if len(set(teamOwnerIds)) != len(teamOwnerIds):
         raise InvalidYearFormatException(
             f"Year {year.yearNumber} has teams with the same owner IDs.")
+
+
+def checkEveryTeamInYearIsInAMatchup(year: Year) -> None:
+    """
+    Checks that every Team in the year appears in at least 1 matchup.
+    """
+    teamIds = [team.id for team in year.teams]
+    for week in year.weeks:
+        for matchup in week.matchups:
+            try:
+                teamIds.remove(matchup.teamAId)
+                teamIds.remove(matchup.teamBId)
+            except ValueError:
+                pass
+    if len(teamIds) != 0:
+        raise InvalidYearFormatException(
+            f"Year {year.yearNumber} has teams that are not in any matchups. Team IDs not in matchups: {teamIds}")

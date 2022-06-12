@@ -2,6 +2,7 @@ import unittest
 
 from src.leeger.decorator.validate.common import yearValidation
 from src.leeger.exception.InvalidYearFormatException import InvalidYearFormatException
+from src.leeger.model.Matchup import Matchup
 from src.leeger.model.Owner import Owner
 from src.leeger.model.Team import Team
 from src.leeger.model.Week import Week
@@ -126,6 +127,16 @@ class TestYearValidation(unittest.TestCase):
         with self.assertRaises(InvalidYearFormatException) as context:
             yearValidation.checkForDuplicateWeeks(Year(yearNumber=2000, teams=list(), weeks=[week, week]))
         self.assertEqual("Weeks must all be unique instances.", str(context.exception))
+
+    def test_checkEveryTeamInYearIsInAMatchup_teamNotInAnyMatchups_raisesException(self):
+        owners, teams = getNDefaultOwnersAndTeams(3)
+        matchup = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        week = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=[matchup])
+        with self.assertRaises(InvalidYearFormatException) as context:
+            yearValidation.checkEveryTeamInYearIsInAMatchup(Year(yearNumber=2000, teams=teams, weeks=[week, week]))
+        self.assertEqual(
+            f"Year 2000 has teams that are not in any matchups. Team IDs not in matchups: ['{teams[2].id}']",
+            str(context.exception))
 
     """
     TYPE CHECK TESTS
