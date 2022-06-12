@@ -121,20 +121,10 @@ class AdvancedGameOutcome(YearCalculator):
         cls.loadFilters(year, validateYear=False, **kwargs)
 
         teamIdAndAWAL = AdvancedGameOutcome.getAWAL(year, **kwargs)
-        teamIdAndNumberOfGamesPlayed = dict()
-        allTeamIds = YearNavigator.getAllTeamIds(year)
-        for teamId in allTeamIds:
-            teamIdAndNumberOfGamesPlayed[teamId] = Deci(0)
-
-        for i in range(cls._weekNumberStart - 1, cls._weekNumberEnd):
-            week = year.weeks[i]
-            if (week.isPlayoffWeek and not cls._onlyRegularSeason) or (
-                    not week.isPlayoffWeek and not cls._onlyPostSeason):
-                for matchup in week.matchups:
-                    teamIdAndNumberOfGamesPlayed[matchup.teamAId] += Deci(1)
-                    teamIdAndNumberOfGamesPlayed[matchup.teamBId] += Deci(1)
+        teamIdAndNumberOfGamesPlayed = cls.getNumberOfGamesPlayed(year, **kwargs)
 
         teamIdAndAwalPerGame = dict()
+        allTeamIds = YearNavigator.getAllTeamIds(year)
         for teamId in allTeamIds:
             teamIdAndAwalPerGame[teamId] = teamIdAndAWAL[teamId] / teamIdAndNumberOfGamesPlayed[teamId]
 
