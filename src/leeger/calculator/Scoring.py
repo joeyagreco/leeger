@@ -183,3 +183,32 @@ class Scoring(YearCalculator):
                                                          teamId] / totalPointsScoredInYear) * Deci(100)
 
         return teamIdAndOpponentScoringShare
+
+    @classmethod
+    @validateYear
+    def getPlusMinus(cls, year: Year, **kwargs) -> dict[str, Deci]:
+        """
+        Plus/Minus (+/-) is used to show the net score differential for a team in Year.
+        Plus/Minus = ΣA - ΣB
+        WHERE:
+        A = All scores by a team in a Year
+        B = All scores against a team in a Year
+        Returns the Plus/Minus for each team in the given Year.
+
+        Example response:
+            {
+            "someTeamId": Deci("10.7"),
+            "someOtherTeamId": Deci("-11.2"),
+            "yetAnotherTeamId": Deci("34.1"),
+            ...
+            }
+        """
+        cls.loadFilters(year, validateYear=False, **kwargs)
+
+        teamIdAndPlusMinus = dict()
+        teamIdAndPointsScored = cls.getPointsScored(year, **kwargs)
+        teamIdAndOpponentPointsScored = cls.getOpponentPointsScored(year, **kwargs)
+        for teamId in YearNavigator.getAllTeamIds(year):
+            teamIdAndPlusMinus[teamId] = teamIdAndPointsScored[teamId] - teamIdAndOpponentPointsScored[teamId]
+
+        return teamIdAndPlusMinus
