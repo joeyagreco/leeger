@@ -1,6 +1,8 @@
 from src.leeger.decorator.validate.validators import validateYear
 from src.leeger.exception.InvalidFilterException import InvalidFilterException
 from src.leeger.model.Year import Year
+from src.leeger.util.Deci import Deci
+from src.leeger.util.YearNavigator import YearNavigator
 
 
 class YearCalculator:
@@ -42,3 +44,33 @@ class YearCalculator:
             raise InvalidFilterException("'weekNumberEnd' cannot be greater than the number of weeks in the year.")
         if cls._weekNumberStart > cls._weekNumberEnd:
             raise InvalidFilterException("'weekNumberEnd' cannot be greater than 'weekNumberStart'.")
+
+    @classmethod
+    @validateYear
+    def getNumberOfGamesPlayed(cls, year: Year, **kwargs) -> dict[str, Deci]:
+        """
+        Returns the number of games played for each team in the given Year.
+
+        Example response:
+            {
+            "someTeamId": Deci("4"),
+            "someOtherTeamId": Deci("4"),
+            "yetAnotherTeamId": Deci("5"),
+            ...
+            }
+        """
+        cls.loadFilters(year, **kwargs)
+
+        teamIdAndNumberOfGamesPlayed = dict()
+        allTeamIds = YearNavigator.getAllTeamIds(year)
+        for teamId in allTeamIds:
+            teamIdAndNumberOfGamesPlayed[teamId] = Deci(0)
+
+        for i in range(cls._weekNumberStart - 1, cls._weekNumberEnd):
+            week = year.weeks[i]
+            if (week.isPlayoffWeek and not cls._onlyRegularSeason) or (
+                    not week.isPlayoffWeek and not cls._onlyPostSeason):
+                for matchup in week.matchups:
+                    teamIdAndNumberOfGamesPlayed[matchup.teamAId] += Deci(1)
+                    teamIdAndNumberOfGamesPlayed[matchup.teamBId] += Deci(1)
+        return teamIdAndNumberOfGamesPlayed
