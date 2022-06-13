@@ -1,6 +1,6 @@
 import unittest
 
-from src.leeger.calculator.BasicGameOutcome import BasicGameOutcome
+from src.leeger.calculator.GameOutcome import GameOutcome
 from src.leeger.model.Matchup import Matchup
 from src.leeger.model.Week import Week
 from src.leeger.model.Year import Year
@@ -8,7 +8,7 @@ from src.leeger.util.Deci import Deci
 from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
-class TestBasicGameOutcome(unittest.TestCase):
+class TestGameOutcome(unittest.TestCase):
     def test_getWins_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
@@ -18,7 +18,7 @@ class TestBasicGameOutcome(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1])
 
-        response = BasicGameOutcome.getWins(year)
+        response = GameOutcome.getWins(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -38,7 +38,7 @@ class TestBasicGameOutcome(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = BasicGameOutcome.getWins(year, onlyPostSeason=True)
+        response = GameOutcome.getWins(year, onlyPostSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -58,7 +58,7 @@ class TestBasicGameOutcome(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = BasicGameOutcome.getWins(year, onlyRegularSeason=True)
+        response = GameOutcome.getWins(year, onlyRegularSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -78,7 +78,7 @@ class TestBasicGameOutcome(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = BasicGameOutcome.getWins(year, weekNumberStart=2)
+        response = GameOutcome.getWins(year, weekNumberStart=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -98,7 +98,7 @@ class TestBasicGameOutcome(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = BasicGameOutcome.getWins(year, weekNumberEnd=2)
+        response = GameOutcome.getWins(year, weekNumberEnd=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -120,7 +120,7 @@ class TestBasicGameOutcome(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3, week4])
 
-        response = BasicGameOutcome.getWins(year, weekNumberStart=2, weekNumberEnd=3)
+        response = GameOutcome.getWins(year, weekNumberStart=2, weekNumberEnd=3)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -136,7 +136,7 @@ class TestBasicGameOutcome(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1])
 
-        response = BasicGameOutcome.getLosses(year)
+        response = GameOutcome.getLosses(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -156,7 +156,7 @@ class TestBasicGameOutcome(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = BasicGameOutcome.getLosses(year, onlyPostSeason=True)
+        response = GameOutcome.getLosses(year, onlyPostSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -176,7 +176,7 @@ class TestBasicGameOutcome(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = BasicGameOutcome.getLosses(year, onlyRegularSeason=True)
+        response = GameOutcome.getLosses(year, onlyRegularSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -196,7 +196,7 @@ class TestBasicGameOutcome(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = BasicGameOutcome.getLosses(year, weekNumberStart=2)
+        response = GameOutcome.getLosses(year, weekNumberStart=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -216,7 +216,7 @@ class TestBasicGameOutcome(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = BasicGameOutcome.getLosses(year, weekNumberEnd=2)
+        response = GameOutcome.getLosses(year, weekNumberEnd=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -238,7 +238,7 @@ class TestBasicGameOutcome(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3, week4])
 
-        response = BasicGameOutcome.getLosses(year, weekNumberStart=2, weekNumberEnd=3)
+        response = GameOutcome.getLosses(year, weekNumberStart=2, weekNumberEnd=3)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -254,7 +254,7 @@ class TestBasicGameOutcome(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1])
 
-        response = BasicGameOutcome.getTies(year)
+        response = GameOutcome.getTies(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -274,7 +274,7 @@ class TestBasicGameOutcome(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = BasicGameOutcome.getTies(year, onlyPostSeason=True)
+        response = GameOutcome.getTies(year, onlyPostSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -294,7 +294,7 @@ class TestBasicGameOutcome(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = BasicGameOutcome.getTies(year, onlyRegularSeason=True)
+        response = GameOutcome.getTies(year, onlyRegularSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -314,7 +314,7 @@ class TestBasicGameOutcome(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = BasicGameOutcome.getTies(year, weekNumberStart=2)
+        response = GameOutcome.getTies(year, weekNumberStart=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -334,7 +334,7 @@ class TestBasicGameOutcome(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = BasicGameOutcome.getTies(year, weekNumberEnd=2)
+        response = GameOutcome.getTies(year, weekNumberEnd=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -356,7 +356,7 @@ class TestBasicGameOutcome(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3, week4])
 
-        response = BasicGameOutcome.getTies(year, weekNumberStart=2, weekNumberEnd=3)
+        response = GameOutcome.getTies(year, weekNumberStart=2, weekNumberEnd=3)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -378,7 +378,7 @@ class TestBasicGameOutcome(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3, week4])
 
-        response = BasicGameOutcome.getWinPercentage(year)
+        response = GameOutcome.getWinPercentage(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -398,7 +398,7 @@ class TestBasicGameOutcome(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = BasicGameOutcome.getWinPercentage(year, onlyPostSeason=True)
+        response = GameOutcome.getWinPercentage(year, onlyPostSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -418,7 +418,7 @@ class TestBasicGameOutcome(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = BasicGameOutcome.getWinPercentage(year, onlyRegularSeason=True)
+        response = GameOutcome.getWinPercentage(year, onlyRegularSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -438,7 +438,7 @@ class TestBasicGameOutcome(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = BasicGameOutcome.getWinPercentage(year, weekNumberStart=2)
+        response = GameOutcome.getWinPercentage(year, weekNumberStart=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -458,7 +458,7 @@ class TestBasicGameOutcome(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = BasicGameOutcome.getWinPercentage(year, weekNumberEnd=2)
+        response = GameOutcome.getWinPercentage(year, weekNumberEnd=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -480,7 +480,7 @@ class TestBasicGameOutcome(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3, week4])
 
-        response = BasicGameOutcome.getWinPercentage(year, weekNumberStart=2, weekNumberEnd=3)
+        response = GameOutcome.getWinPercentage(year, weekNumberStart=2, weekNumberEnd=3)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -500,7 +500,7 @@ class TestBasicGameOutcome(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = BasicGameOutcome.getWAL(year)
+        response = GameOutcome.getWAL(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -520,7 +520,7 @@ class TestBasicGameOutcome(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = BasicGameOutcome.getWAL(year, onlyPostSeason=True)
+        response = GameOutcome.getWAL(year, onlyPostSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -540,7 +540,7 @@ class TestBasicGameOutcome(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = BasicGameOutcome.getWAL(year, onlyRegularSeason=True)
+        response = GameOutcome.getWAL(year, onlyRegularSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -560,7 +560,7 @@ class TestBasicGameOutcome(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = BasicGameOutcome.getWAL(year, weekNumberStart=2)
+        response = GameOutcome.getWAL(year, weekNumberStart=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -580,7 +580,7 @@ class TestBasicGameOutcome(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = BasicGameOutcome.getWAL(year, weekNumberEnd=2)
+        response = GameOutcome.getWAL(year, weekNumberEnd=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -602,7 +602,7 @@ class TestBasicGameOutcome(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3, week4])
 
-        response = BasicGameOutcome.getWAL(year, weekNumberStart=2, weekNumberEnd=3)
+        response = GameOutcome.getWAL(year, weekNumberStart=2, weekNumberEnd=3)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
