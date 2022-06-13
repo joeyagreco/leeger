@@ -321,7 +321,6 @@ class ScoringCalculator(YearCalculator):
 
         teamIdAndScoringStandardDeviation = dict()
         for teamId in allTeamIds:
-            # teamIdAndScoringStandardDeviation[teamId] = Deci(statistics.pstdev(teamIdAndScores[teamId]))
             teamIdAndScoringStandardDeviation[teamId] = Deci(numpy.std(teamIdAndScores[teamId]))
 
         return teamIdAndScoringStandardDeviation
