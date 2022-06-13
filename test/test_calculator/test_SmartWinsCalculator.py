@@ -1,6 +1,6 @@
 import unittest
 
-from src.leeger.calculator.AdvancedGameOutcome import AdvancedGameOutcome
+from src.leeger.calculator.SmartWinsCalculator import SmartWinsCalculator
 from src.leeger.model.Matchup import Matchup
 from src.leeger.model.Week import Week
 from src.leeger.model.Year import Year
@@ -8,10 +8,7 @@ from src.leeger.util.Deci import Deci
 from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
-class TestAdvancedGameOutcome2(unittest.TestCase):
-    """
-    Due to the size of the tests, the tests for the AdvancedGameOutcome class have been split into multiple test classes.
-    """
+class TestSmartWinsCalculator(unittest.TestCase):
 
     def test_getSmartWins_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
@@ -40,7 +37,7 @@ class TestAdvancedGameOutcome2(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
                     weeks=[week1, week2, week3])
 
-        response = AdvancedGameOutcome.getSmartWins(year, onlyPostSeason=True)
+        response = SmartWinsCalculator.getSmartWins(year, onlyPostSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -78,7 +75,7 @@ class TestAdvancedGameOutcome2(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
                     weeks=[week1, week2, week3])
 
-        response = AdvancedGameOutcome.getSmartWins(year)
+        response = SmartWinsCalculator.getSmartWins(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -116,7 +113,7 @@ class TestAdvancedGameOutcome2(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
                     weeks=[week1, week2, week3])
 
-        response = AdvancedGameOutcome.getSmartWins(year, onlyRegularSeason=True)
+        response = SmartWinsCalculator.getSmartWins(year, onlyRegularSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -154,7 +151,7 @@ class TestAdvancedGameOutcome2(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
                     weeks=[week1, week2, week3])
 
-        response = AdvancedGameOutcome.getSmartWins(year, weekNumberStart=2)
+        response = SmartWinsCalculator.getSmartWins(year, weekNumberStart=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -199,7 +196,7 @@ class TestAdvancedGameOutcome2(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
                     weeks=[week1, week2, week3, week4])
 
-        response = AdvancedGameOutcome.getSmartWins(year, weekNumberStart=2, weekNumberEnd=3)
+        response = SmartWinsCalculator.getSmartWins(year, weekNumberStart=2, weekNumberEnd=3)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -237,7 +234,7 @@ class TestAdvancedGameOutcome2(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
                     weeks=[week1, week2, week3])
 
-        response = AdvancedGameOutcome.getSmartWinsPerGame(year)
+        response = SmartWinsCalculator.getSmartWinsPerGame(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -275,7 +272,7 @@ class TestAdvancedGameOutcome2(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
                     weeks=[week1, week2, week3])
 
-        response = AdvancedGameOutcome.getSmartWinsPerGame(year, onlyPostSeason=True)
+        response = SmartWinsCalculator.getSmartWinsPerGame(year, onlyPostSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -313,7 +310,7 @@ class TestAdvancedGameOutcome2(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
                     weeks=[week1, week2, week3])
 
-        response = AdvancedGameOutcome.getSmartWinsPerGame(year, onlyRegularSeason=True)
+        response = SmartWinsCalculator.getSmartWinsPerGame(year, onlyRegularSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -351,7 +348,7 @@ class TestAdvancedGameOutcome2(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
                     weeks=[week1, week2, week3])
 
-        response = AdvancedGameOutcome.getSmartWinsPerGame(year, weekNumberStart=2)
+        response = SmartWinsCalculator.getSmartWinsPerGame(year, weekNumberStart=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -396,7 +393,7 @@ class TestAdvancedGameOutcome2(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
                     weeks=[week1, week2, week3, week4])
 
-        response = AdvancedGameOutcome.getSmartWinsPerGame(year, weekNumberStart=2, weekNumberEnd=3)
+        response = SmartWinsCalculator.getSmartWinsPerGame(year, weekNumberStart=2, weekNumberEnd=3)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))

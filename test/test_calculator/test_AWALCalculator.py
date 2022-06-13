@@ -1,6 +1,6 @@
 import unittest
 
-from src.leeger.calculator.AdvancedGameOutcome import AdvancedGameOutcome
+from src.leeger.calculator.AWALCalculator import AWALCalculator
 from src.leeger.model.Matchup import Matchup
 from src.leeger.model.Week import Week
 from src.leeger.model.Year import Year
@@ -8,10 +8,7 @@ from src.leeger.util.Deci import Deci
 from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
-class TestAdvancedGameOutcome1(unittest.TestCase):
-    """
-    Due to the size of the tests, the tests for the AdvancedGameOutcome class have been split into multiple test classes.
-    """
+class TestAWALCalculator(unittest.TestCase):
 
     def test_getAWAL_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
@@ -40,7 +37,7 @@ class TestAdvancedGameOutcome1(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
                     weeks=[week1, week2, week3])
 
-        response = AdvancedGameOutcome.getAWAL(year)
+        response = AWALCalculator.getAWAL(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -78,7 +75,7 @@ class TestAdvancedGameOutcome1(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
                     weeks=[week1, week2, week3])
 
-        response = AdvancedGameOutcome.getAWAL(year, onlyPostSeason=True)
+        response = AWALCalculator.getAWAL(year, onlyPostSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -116,7 +113,7 @@ class TestAdvancedGameOutcome1(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
                     weeks=[week1, week2, week3])
 
-        response = AdvancedGameOutcome.getAWAL(year, onlyRegularSeason=True)
+        response = AWALCalculator.getAWAL(year, onlyRegularSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -154,7 +151,7 @@ class TestAdvancedGameOutcome1(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
                     weeks=[week1, week2, week3])
 
-        response = AdvancedGameOutcome.getAWAL(year, weekNumberStart=2)
+        response = AWALCalculator.getAWAL(year, weekNumberStart=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -192,7 +189,7 @@ class TestAdvancedGameOutcome1(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
                     weeks=[week1, week2, week3])
 
-        response = AdvancedGameOutcome.getAWAL(year, weekNumberEnd=2)
+        response = AWALCalculator.getAWAL(year, weekNumberEnd=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -230,7 +227,7 @@ class TestAdvancedGameOutcome1(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
                     weeks=[week1, week2, week3])
 
-        response = AdvancedGameOutcome.getAWAL(year, weekNumberStart=2, weekNumberEnd=3)
+        response = AWALCalculator.getAWAL(year, weekNumberStart=2, weekNumberEnd=3)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -253,7 +250,7 @@ class TestAdvancedGameOutcome1(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]], weeks=[week1])
 
-        response = AdvancedGameOutcome.getAWAL(year)
+        response = AWALCalculator.getAWAL(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -276,7 +273,7 @@ class TestAdvancedGameOutcome1(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]], weeks=[week1])
 
-        response = AdvancedGameOutcome.getAWAL(year)
+        response = AWALCalculator.getAWAL(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -299,7 +296,7 @@ class TestAdvancedGameOutcome1(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]], weeks=[week1])
 
-        response = AdvancedGameOutcome.getAWAL(year)
+        response = AWALCalculator.getAWAL(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -322,7 +319,7 @@ class TestAdvancedGameOutcome1(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]], weeks=[week1])
 
-        response = AdvancedGameOutcome.getAWAL(year)
+        response = AWALCalculator.getAWAL(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -353,7 +350,7 @@ class TestAdvancedGameOutcome1(unittest.TestCase):
                            teams[9], teams[10], teams[11],
                            teams[12], teams[13], teams[14], teams[15]], weeks=[week1])
 
-        response = AdvancedGameOutcome.getAWAL(year)
+        response = AWALCalculator.getAWAL(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(16, len(response.keys()))
@@ -401,7 +398,7 @@ class TestAdvancedGameOutcome1(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
                     weeks=[week1, week2, week3])
 
-        response = AdvancedGameOutcome.getAWALPerGame(year)
+        response = AWALCalculator.getAWALPerGame(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -439,7 +436,7 @@ class TestAdvancedGameOutcome1(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
                     weeks=[week1, week2, week3])
 
-        response = AdvancedGameOutcome.getAWALPerGame(year, onlyPostSeason=True)
+        response = AWALCalculator.getAWALPerGame(year, onlyPostSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -477,7 +474,7 @@ class TestAdvancedGameOutcome1(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
                     weeks=[week1, week2, week3])
 
-        response = AdvancedGameOutcome.getAWALPerGame(year, onlyRegularSeason=True)
+        response = AWALCalculator.getAWALPerGame(year, onlyRegularSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -515,7 +512,7 @@ class TestAdvancedGameOutcome1(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
                     weeks=[week1, week2, week3])
 
-        response = AdvancedGameOutcome.getAWALPerGame(year, weekNumberStart=2)
+        response = AWALCalculator.getAWALPerGame(year, weekNumberStart=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -553,7 +550,7 @@ class TestAdvancedGameOutcome1(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
                     weeks=[week1, week2, week3])
 
-        response = AdvancedGameOutcome.getAWALPerGame(year, weekNumberEnd=2)
+        response = AWALCalculator.getAWALPerGame(year, weekNumberEnd=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -598,7 +595,7 @@ class TestAdvancedGameOutcome1(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
                     weeks=[week1, week2, week3, week4])
 
-        response = AdvancedGameOutcome.getAWALPerGame(year, weekNumberStart=2, weekNumberEnd=3)
+        response = AWALCalculator.getAWALPerGame(year, weekNumberStart=2, weekNumberEnd=3)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -627,7 +624,7 @@ class TestAdvancedGameOutcome1(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
                     weeks=[week1, week2])
 
-        response = AdvancedGameOutcome.getAWALPerGame(year)
+        response = AWALCalculator.getAWALPerGame(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -665,7 +662,7 @@ class TestAdvancedGameOutcome1(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
                     weeks=[week1, week2, week3])
 
-        response = AdvancedGameOutcome.getOpponentAWAL(year)
+        response = AWALCalculator.getOpponentAWAL(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -703,7 +700,7 @@ class TestAdvancedGameOutcome1(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
                     weeks=[week1, week2, week3])
 
-        response = AdvancedGameOutcome.getOpponentAWAL(year, onlyPostSeason=True)
+        response = AWALCalculator.getOpponentAWAL(year, onlyPostSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -741,7 +738,7 @@ class TestAdvancedGameOutcome1(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
                     weeks=[week1, week2, week3])
 
-        response = AdvancedGameOutcome.getOpponentAWAL(year, onlyRegularSeason=True)
+        response = AWALCalculator.getOpponentAWAL(year, onlyRegularSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -779,7 +776,7 @@ class TestAdvancedGameOutcome1(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
                     weeks=[week1, week2, week3])
 
-        response = AdvancedGameOutcome.getOpponentAWAL(year, weekNumberStart=2)
+        response = AWALCalculator.getOpponentAWAL(year, weekNumberStart=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -817,7 +814,7 @@ class TestAdvancedGameOutcome1(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
                     weeks=[week1, week2, week3])
 
-        response = AdvancedGameOutcome.getOpponentAWAL(year, weekNumberEnd=2)
+        response = AWALCalculator.getOpponentAWAL(year, weekNumberEnd=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -855,7 +852,7 @@ class TestAdvancedGameOutcome1(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
                     weeks=[week1, week2, week3])
 
-        response = AdvancedGameOutcome.getOpponentAWAL(year, weekNumberStart=2, weekNumberEnd=3)
+        response = AWALCalculator.getOpponentAWAL(year, weekNumberStart=2, weekNumberEnd=3)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -878,7 +875,7 @@ class TestAdvancedGameOutcome1(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]], weeks=[week1])
 
-        response = AdvancedGameOutcome.getOpponentAWAL(year)
+        response = AWALCalculator.getOpponentAWAL(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -901,7 +898,7 @@ class TestAdvancedGameOutcome1(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]], weeks=[week1])
 
-        response = AdvancedGameOutcome.getOpponentAWAL(year)
+        response = AWALCalculator.getOpponentAWAL(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -924,7 +921,7 @@ class TestAdvancedGameOutcome1(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]], weeks=[week1])
 
-        response = AdvancedGameOutcome.getOpponentAWAL(year)
+        response = AWALCalculator.getOpponentAWAL(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -947,7 +944,7 @@ class TestAdvancedGameOutcome1(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]], weeks=[week1])
 
-        response = AdvancedGameOutcome.getOpponentAWAL(year)
+        response = AWALCalculator.getOpponentAWAL(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -978,7 +975,7 @@ class TestAdvancedGameOutcome1(unittest.TestCase):
                            teams[9], teams[10], teams[11],
                            teams[12], teams[13], teams[14], teams[15]], weeks=[week1])
 
-        response = AdvancedGameOutcome.getOpponentAWAL(year)
+        response = AWALCalculator.getOpponentAWAL(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(16, len(response.keys()))
@@ -1026,7 +1023,7 @@ class TestAdvancedGameOutcome1(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
                     weeks=[week1, week2, week3])
 
-        response = AdvancedGameOutcome.getOpponentAWALPerGame(year)
+        response = AWALCalculator.getOpponentAWALPerGame(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -1064,7 +1061,7 @@ class TestAdvancedGameOutcome1(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
                     weeks=[week1, week2, week3])
 
-        response = AdvancedGameOutcome.getOpponentAWALPerGame(year, onlyPostSeason=True)
+        response = AWALCalculator.getOpponentAWALPerGame(year, onlyPostSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -1102,7 +1099,7 @@ class TestAdvancedGameOutcome1(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
                     weeks=[week1, week2, week3])
 
-        response = AdvancedGameOutcome.getOpponentAWALPerGame(year, onlyRegularSeason=True)
+        response = AWALCalculator.getOpponentAWALPerGame(year, onlyRegularSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -1140,7 +1137,7 @@ class TestAdvancedGameOutcome1(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
                     weeks=[week1, week2, week3])
 
-        response = AdvancedGameOutcome.getOpponentAWALPerGame(year, weekNumberStart=2)
+        response = AWALCalculator.getOpponentAWALPerGame(year, weekNumberStart=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -1178,7 +1175,7 @@ class TestAdvancedGameOutcome1(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
                     weeks=[week1, week2, week3])
 
-        response = AdvancedGameOutcome.getOpponentAWALPerGame(year, weekNumberEnd=2)
+        response = AWALCalculator.getOpponentAWALPerGame(year, weekNumberEnd=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -1223,7 +1220,7 @@ class TestAdvancedGameOutcome1(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
                     weeks=[week1, week2, week3, week4])
 
-        response = AdvancedGameOutcome.getOpponentAWALPerGame(year, weekNumberStart=2, weekNumberEnd=3)
+        response = AWALCalculator.getOpponentAWALPerGame(year, weekNumberStart=2, weekNumberEnd=3)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -1252,7 +1249,7 @@ class TestAdvancedGameOutcome1(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
                     weeks=[week1, week2])
 
-        response = AdvancedGameOutcome.getOpponentAWALPerGame(year)
+        response = AWALCalculator.getOpponentAWALPerGame(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))

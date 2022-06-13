@@ -7,7 +7,7 @@ from src.leeger.util.Deci import Deci
 from src.leeger.util.YearNavigator import YearNavigator
 
 
-class Scoring(YearCalculator):
+class ScoringCalculator(YearCalculator):
     """
     Used to calculate all scoring outcomes.
     """

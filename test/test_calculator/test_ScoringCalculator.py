@@ -1,6 +1,6 @@
 import unittest
 
-from src.leeger.calculator.Scoring import Scoring
+from src.leeger.calculator.ScoringCalculator import ScoringCalculator
 from src.leeger.model.Matchup import Matchup
 from src.leeger.model.Week import Week
 from src.leeger.model.Year import Year
@@ -8,7 +8,7 @@ from src.leeger.util.Deci import Deci
 from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
-class TestScoring(unittest.TestCase):
+class TestScoringCalculator(unittest.TestCase):
     def test_getPointsScored_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
@@ -22,7 +22,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getPointsScored(year)
+        response = ScoringCalculator.getPointsScored(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -42,7 +42,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getPointsScored(year, onlyPostSeason=True)
+        response = ScoringCalculator.getPointsScored(year, onlyPostSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -62,7 +62,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getPointsScored(year, onlyRegularSeason=True)
+        response = ScoringCalculator.getPointsScored(year, onlyRegularSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -82,7 +82,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getPointsScored(year, weekNumberStart=2)
+        response = ScoringCalculator.getPointsScored(year, weekNumberStart=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -102,7 +102,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getPointsScored(year, weekNumberEnd=2)
+        response = ScoringCalculator.getPointsScored(year, weekNumberEnd=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -124,7 +124,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3, week4])
 
-        response = Scoring.getPointsScored(year, weekNumberStart=2, weekNumberEnd=3)
+        response = ScoringCalculator.getPointsScored(year, weekNumberStart=2, weekNumberEnd=3)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -144,7 +144,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getPointsScoredPerGame(year)
+        response = ScoringCalculator.getPointsScoredPerGame(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -164,7 +164,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getPointsScoredPerGame(year, onlyPostSeason=True)
+        response = ScoringCalculator.getPointsScoredPerGame(year, onlyPostSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -184,7 +184,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getPointsScoredPerGame(year, onlyRegularSeason=True)
+        response = ScoringCalculator.getPointsScoredPerGame(year, onlyRegularSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -204,7 +204,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getPointsScoredPerGame(year, weekNumberStart=2)
+        response = ScoringCalculator.getPointsScoredPerGame(year, weekNumberStart=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -224,7 +224,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getPointsScoredPerGame(year, weekNumberEnd=2)
+        response = ScoringCalculator.getPointsScoredPerGame(year, weekNumberEnd=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -246,7 +246,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3, week4])
 
-        response = Scoring.getPointsScoredPerGame(year, weekNumberStart=2, weekNumberEnd=3)
+        response = ScoringCalculator.getPointsScoredPerGame(year, weekNumberStart=2, weekNumberEnd=3)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -266,7 +266,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getOpponentPointsScored(year)
+        response = ScoringCalculator.getOpponentPointsScored(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -286,7 +286,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getOpponentPointsScored(year, onlyPostSeason=True)
+        response = ScoringCalculator.getOpponentPointsScored(year, onlyPostSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -306,7 +306,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getOpponentPointsScored(year, onlyRegularSeason=True)
+        response = ScoringCalculator.getOpponentPointsScored(year, onlyRegularSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -326,7 +326,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getOpponentPointsScored(year, weekNumberStart=2)
+        response = ScoringCalculator.getOpponentPointsScored(year, weekNumberStart=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -346,7 +346,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getOpponentPointsScored(year, weekNumberEnd=2)
+        response = ScoringCalculator.getOpponentPointsScored(year, weekNumberEnd=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -368,7 +368,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3, week4])
 
-        response = Scoring.getOpponentPointsScored(year, weekNumberStart=2, weekNumberEnd=3)
+        response = ScoringCalculator.getOpponentPointsScored(year, weekNumberStart=2, weekNumberEnd=3)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -388,7 +388,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getOpponentPointsScoredPerGame(year)
+        response = ScoringCalculator.getOpponentPointsScoredPerGame(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -408,7 +408,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getOpponentPointsScoredPerGame(year, onlyPostSeason=True)
+        response = ScoringCalculator.getOpponentPointsScoredPerGame(year, onlyPostSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -428,7 +428,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getOpponentPointsScoredPerGame(year, onlyRegularSeason=True)
+        response = ScoringCalculator.getOpponentPointsScoredPerGame(year, onlyRegularSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -448,7 +448,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getOpponentPointsScoredPerGame(year, weekNumberStart=2)
+        response = ScoringCalculator.getOpponentPointsScoredPerGame(year, weekNumberStart=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -468,7 +468,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getOpponentPointsScoredPerGame(year, weekNumberEnd=2)
+        response = ScoringCalculator.getOpponentPointsScoredPerGame(year, weekNumberEnd=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -490,7 +490,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3, week4])
 
-        response = Scoring.getOpponentPointsScoredPerGame(year, weekNumberStart=2, weekNumberEnd=3)
+        response = ScoringCalculator.getOpponentPointsScoredPerGame(year, weekNumberStart=2, weekNumberEnd=3)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -510,7 +510,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getScoringShare(year)
+        response = ScoringCalculator.getScoringShare(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -531,7 +531,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getScoringShare(year, onlyPostSeason=True)
+        response = ScoringCalculator.getScoringShare(year, onlyPostSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -552,7 +552,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getScoringShare(year, onlyRegularSeason=True)
+        response = ScoringCalculator.getScoringShare(year, onlyRegularSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -573,7 +573,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getScoringShare(year, weekNumberStart=2)
+        response = ScoringCalculator.getScoringShare(year, weekNumberStart=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -594,7 +594,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getScoringShare(year, weekNumberEnd=2)
+        response = ScoringCalculator.getScoringShare(year, weekNumberEnd=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -617,7 +617,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3, week4])
 
-        response = Scoring.getScoringShare(year, weekNumberStart=2, weekNumberEnd=3)
+        response = ScoringCalculator.getScoringShare(year, weekNumberStart=2, weekNumberEnd=3)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -638,7 +638,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getOpponentScoringShare(year)
+        response = ScoringCalculator.getOpponentScoringShare(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -659,7 +659,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getOpponentScoringShare(year, onlyPostSeason=True)
+        response = ScoringCalculator.getOpponentScoringShare(year, onlyPostSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -680,7 +680,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getOpponentScoringShare(year, onlyRegularSeason=True)
+        response = ScoringCalculator.getOpponentScoringShare(year, onlyRegularSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -701,7 +701,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getOpponentScoringShare(year, weekNumberStart=2)
+        response = ScoringCalculator.getOpponentScoringShare(year, weekNumberStart=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -722,7 +722,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getOpponentScoringShare(year, weekNumberEnd=2)
+        response = ScoringCalculator.getOpponentScoringShare(year, weekNumberEnd=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -745,7 +745,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3, week4])
 
-        response = Scoring.getOpponentScoringShare(year, weekNumberStart=2, weekNumberEnd=3)
+        response = ScoringCalculator.getOpponentScoringShare(year, weekNumberStart=2, weekNumberEnd=3)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -766,7 +766,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getPlusMinus(year)
+        response = ScoringCalculator.getPlusMinus(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -786,7 +786,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getPointsScored(year, onlyPostSeason=True)
+        response = ScoringCalculator.getPointsScored(year, onlyPostSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -806,7 +806,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getPlusMinus(year, onlyRegularSeason=True)
+        response = ScoringCalculator.getPlusMinus(year, onlyRegularSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -826,7 +826,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getPlusMinus(year, weekNumberStart=2)
+        response = ScoringCalculator.getPlusMinus(year, weekNumberStart=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -846,7 +846,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getPlusMinus(year, weekNumberEnd=2)
+        response = ScoringCalculator.getPlusMinus(year, weekNumberEnd=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -868,7 +868,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3, week4])
 
-        response = Scoring.getPlusMinus(year, weekNumberStart=2, weekNumberEnd=3)
+        response = ScoringCalculator.getPlusMinus(year, weekNumberStart=2, weekNumberEnd=3)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -888,7 +888,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getMaxScore(year)
+        response = ScoringCalculator.getMaxScore(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -908,7 +908,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getMaxScore(year, onlyPostSeason=True)
+        response = ScoringCalculator.getMaxScore(year, onlyPostSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -928,7 +928,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getMaxScore(year, onlyRegularSeason=True)
+        response = ScoringCalculator.getMaxScore(year, onlyRegularSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -948,7 +948,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getMaxScore(year, weekNumberStart=2)
+        response = ScoringCalculator.getMaxScore(year, weekNumberStart=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -968,7 +968,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getMaxScore(year, weekNumberEnd=2)
+        response = ScoringCalculator.getMaxScore(year, weekNumberEnd=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -990,7 +990,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3, week4])
 
-        response = Scoring.getMaxScore(year, weekNumberStart=2, weekNumberEnd=3)
+        response = ScoringCalculator.getMaxScore(year, weekNumberStart=2, weekNumberEnd=3)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -1010,7 +1010,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getMinScore(year)
+        response = ScoringCalculator.getMinScore(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -1030,7 +1030,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getMinScore(year, onlyPostSeason=True)
+        response = ScoringCalculator.getMinScore(year, onlyPostSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -1050,7 +1050,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getMinScore(year, onlyRegularSeason=True)
+        response = ScoringCalculator.getMinScore(year, onlyRegularSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -1070,7 +1070,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getMinScore(year, weekNumberStart=2)
+        response = ScoringCalculator.getMinScore(year, weekNumberStart=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -1090,7 +1090,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getMinScore(year, weekNumberEnd=2)
+        response = ScoringCalculator.getMinScore(year, weekNumberEnd=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -1112,7 +1112,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3, week4])
 
-        response = Scoring.getMinScore(year, weekNumberStart=2, weekNumberEnd=3)
+        response = ScoringCalculator.getMinScore(year, weekNumberStart=2, weekNumberEnd=3)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -1132,7 +1132,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getScoringStandardDeviation(year)
+        response = ScoringCalculator.getScoringStandardDeviation(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -1152,7 +1152,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getScoringStandardDeviation(year, onlyPostSeason=True)
+        response = ScoringCalculator.getScoringStandardDeviation(year, onlyPostSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -1172,7 +1172,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getScoringStandardDeviation(year, onlyRegularSeason=True)
+        response = ScoringCalculator.getScoringStandardDeviation(year, onlyRegularSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -1192,7 +1192,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getScoringStandardDeviation(year, weekNumberStart=2)
+        response = ScoringCalculator.getScoringStandardDeviation(year, weekNumberStart=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -1212,7 +1212,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = Scoring.getScoringStandardDeviation(year, weekNumberEnd=2)
+        response = ScoringCalculator.getScoringStandardDeviation(year, weekNumberEnd=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -1234,7 +1234,7 @@ class TestScoring(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3, week4])
 
-        response = Scoring.getScoringStandardDeviation(year, weekNumberStart=2, weekNumberEnd=3)
+        response = ScoringCalculator.getScoringStandardDeviation(year, weekNumberStart=2, weekNumberEnd=3)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
