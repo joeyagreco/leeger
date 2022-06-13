@@ -186,6 +186,32 @@ class AdvancedGameOutcome(YearCalculator):
 
     @classmethod
     @validateYear
+    def getOpponentAWALPerGame(cls, year: Year, **kwargs) -> dict[str, Deci]:
+        """
+        Returns the number of Adjusted Wins Against the League per game for each team's Opponent in the given Year.
+
+        Example response:
+            {
+            "someTeamId": Deci("8.7"),
+            "someOtherTeamId": Deci("11.2"),
+            "yetAnotherTeamId": Deci("7.1"),
+            ...
+            }
+        """
+        cls.loadFilters(year, validateYear=False, **kwargs)
+
+        teamIdAndOpponentAWAL = AdvancedGameOutcome.getOpponentAWAL(year, **kwargs)
+        teamIdAndNumberOfGamesPlayed = cls.getNumberOfGamesPlayed(year, **kwargs)
+
+        teamIdAndOpponentAwalPerGame = dict()
+        allTeamIds = YearNavigator.getAllTeamIds(year)
+        for teamId in allTeamIds:
+            teamIdAndOpponentAwalPerGame[teamId] = teamIdAndOpponentAWAL[teamId] / teamIdAndNumberOfGamesPlayed[teamId]
+
+        return teamIdAndOpponentAwalPerGame
+
+    @classmethod
+    @validateYear
     def getSmartWins(cls, year: Year, **kwargs) -> dict[str, Deci]:
         """
         Smart Wins show how many wins a team would have if it played against every score in a given collection.
