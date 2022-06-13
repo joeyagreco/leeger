@@ -144,3 +144,30 @@ class BasicGameOutcome(YearCalculator):
                 numberOfGamesPlayed)
 
         return teamIdAndWinPercentage
+
+    @classmethod
+    @validateYear
+    def getWAL(cls, year: Year, **kwargs) -> dict[str, Deci]:
+        """
+        WAL is "Wins Against the League"
+        Formula: (Number of Wins * 1) + (Number of Ties * 0.5)
+        Returns the number of Wins Against the League for each team in the given Year.
+
+        Example response:
+            {
+            "someTeamId": Deci("8.7"),
+            "someOtherTeamId": Deci("11.2"),
+            "yetAnotherTeamId": Deci("7.1"),
+            ...
+            }
+        """
+        cls.loadFilters(year, validateYear=False, **kwargs)
+
+        teamIdAndWAL = dict()
+        teamIdAndWins = BasicGameOutcome.getWins(year, **kwargs)
+        teamIdAndTies = BasicGameOutcome.getTies(year, **kwargs)
+
+        for teamId in YearNavigator.getAllTeamIds(year):
+            teamIdAndWAL[teamId] = teamIdAndWins[teamId] + (Deci(0.5) * Deci(teamIdAndTies[teamId]))
+
+        return teamIdAndWAL
