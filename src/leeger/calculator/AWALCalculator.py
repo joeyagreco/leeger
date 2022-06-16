@@ -106,7 +106,7 @@ class AWALCalculator(YearCalculator):
     @validateYear
     def getOpponentAWAL(cls, year: Year, **kwargs) -> dict[str, Deci]:
         """
-        Returns the number of Adjusted Wins Against the League for each team's opponent in the given Year.
+        Returns the number of Adjusted Wins Against the League for each team's opponents in the given Year.
 
         Example response:
             {
@@ -160,7 +160,7 @@ class AWALCalculator(YearCalculator):
     @validateYear
     def getOpponentAWALPerGame(cls, year: Year, **kwargs) -> dict[str, Deci]:
         """
-        Returns the number of Adjusted Wins Against the League per game for each team's Opponent in the given Year.
+        Returns the number of Adjusted Wins Against the League per game for each team's opponents in the given Year.
 
         Example response:
             {

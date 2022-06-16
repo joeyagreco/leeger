@@ -70,7 +70,7 @@ class PointsScoredCalculator(YearCalculator):
     @validateYear
     def getOpponentPointsScored(cls, year: Year, **kwargs) -> dict[str, Deci]:
         """
-        Returns the number of Opponent Points Scored for each team in the given Year.
+        Returns the number of opponent Points Scored for each team in the given Year.
 
         Example response:
             {
@@ -100,7 +100,7 @@ class PointsScoredCalculator(YearCalculator):
     @validateYear
     def getOpponentPointsScoredPerGame(cls, year: Year, **kwargs) -> dict[str, Deci]:
         """
-        Returns the number of Opponent Points Scored per game for each team in the given Year.
+        Returns the number of opponent Points Scored per game for each team in the given Year.
 
         Example response:
             {

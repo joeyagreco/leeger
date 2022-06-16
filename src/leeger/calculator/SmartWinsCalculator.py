@@ -101,3 +101,61 @@ class SmartWinsCalculator(YearCalculator):
             teamIdAndSmartWinsPerGame[teamId] = teamIdAndSmartWins[teamId] / teamIdAndNumberOfGamesPlayed[teamId]
 
         return teamIdAndSmartWinsPerGame
+
+    @classmethod
+    @validateYear
+    def getOpponentSmartWins(cls, year: Year, **kwargs) -> dict[str, Deci]:
+        """
+        Returns the number of Smart Wins for each team's opponents in the given Year.
+
+        Example response:
+            {
+            "someTeamId": Deci("8.7"),
+            "someOtherTeamId": Deci("11.2"),
+            "yetAnotherTeamId": Deci("7.1"),
+            ...
+            }
+        """
+
+        ####################
+        # Helper functions #
+        ####################
+        def getNumberOfScoresBeatAndTied(score: float | int, scores: list[float | int]) -> list[int, int]:
+            scoresBeatAndTied = [0, 0]
+            for s in scores:
+                if score > s:
+                    scoresBeatAndTied[0] += 1
+                elif score == s:
+                    scoresBeatAndTied[1] += 1
+            # remove 1 from the scores tied tracker since we will always find a tie for this teams score in the list of all scores
+            scoresBeatAndTied[1] -= 1
+            return scoresBeatAndTied
+
+        ####################
+        ####################
+        ####################
+
+        cls.loadFilters(year, validateYear=False, **kwargs)
+
+        teamIdsAndOpponentScores = list()
+
+        for i in range(cls._weekNumberStart - 1, cls._weekNumberEnd):
+            week = year.weeks[i]
+            if (week.isPlayoffWeek and not cls._onlyRegularSeason) or (
+                    not week.isPlayoffWeek and not cls._onlyPostSeason):
+                for matchup in week.matchups:
+                    teamIdsAndOpponentScores.append((matchup.teamAId, matchup.teamBScore))
+                    teamIdsAndOpponentScores.append((matchup.teamBId, matchup.teamAScore))
+
+        teamIdAndOpponentSmartWins = dict()
+        allTeamIds = YearNavigator.getAllTeamIds(year)
+        for teamId in allTeamIds:
+            teamIdAndOpponentSmartWins[teamId] = Deci(0)
+
+        allScores = [teamIdAndScore[1] for teamIdAndScore in teamIdsAndOpponentScores]
+        for teamIdAndScore in teamIdsAndOpponentScores:
+            scoresBeat, scoresTied = getNumberOfScoresBeatAndTied(teamIdAndScore[1], allScores)
+            smartWins = (scoresBeat + (scoresTied / Deci(2))) / (len(allScores) - Deci(1))
+            teamIdAndOpponentSmartWins[teamIdAndScore[0]] += smartWins
+
+        return teamIdAndOpponentSmartWins
