@@ -159,3 +159,30 @@ class SmartWinsCalculator(YearCalculator):
             teamIdAndOpponentSmartWins[teamIdAndScore[0]] += smartWins
 
         return teamIdAndOpponentSmartWins
+
+    @classmethod
+    @validateYear
+    def getOpponentSmartWinsPerGame(cls, year: Year, **kwargs) -> dict[str, Deci]:
+        """
+        Returns the number of Smart Wins per game for each team's opponents in the given Year.
+
+        Example response:
+            {
+            "someTeamId": Deci("8.7"),
+            "someOtherTeamId": Deci("11.2"),
+            "yetAnotherTeamId": Deci("7.1"),
+            ...
+            }
+        """
+        cls.loadFilters(year, validateYear=False, **kwargs)
+
+        teamIdAndOpponentSmartWins = SmartWinsCalculator.getOpponentSmartWins(year, **kwargs)
+        teamIdAndNumberOfGamesPlayed = cls.getNumberOfGamesPlayed(year, **kwargs)
+
+        teamIdAndSmartWinsPerGame = dict()
+        allTeamIds = YearNavigator.getAllTeamIds(year)
+        for teamId in allTeamIds:
+            teamIdAndSmartWinsPerGame[teamId] = teamIdAndOpponentSmartWins[teamId] / teamIdAndNumberOfGamesPlayed[
+                teamId]
+
+        return teamIdAndSmartWinsPerGame
