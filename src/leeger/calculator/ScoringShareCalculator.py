@@ -1,4 +1,4 @@
-from src.leeger.calculator.ScoringCalculator import ScoringCalculator
+from src.leeger.calculator.PointsScoredCalculator import PointsScoredCalculator
 from src.leeger.calculator.parent.YearCalculator import YearCalculator
 from src.leeger.decorator.validate.validators import validateYear
 from src.leeger.model.Year import Year
@@ -33,7 +33,7 @@ class ScoringShareCalculator(YearCalculator):
         """
         cls.loadFilters(year, validateYear=False, **kwargs)
 
-        teamIdAndPointsScored = ScoringCalculator.getPointsScored(year, **kwargs)
+        teamIdAndPointsScored = PointsScoredCalculator.getPointsScored(year, **kwargs)
         totalPointsScoredInYear = sum(teamIdAndPointsScored.values())
         teamIdAndScoringShare = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
@@ -63,7 +63,7 @@ class ScoringShareCalculator(YearCalculator):
         """
         cls.loadFilters(year, validateYear=False, **kwargs)
 
-        teamIdAndOpponentPointsScored = ScoringCalculator.getOpponentPointsScored(year, **kwargs)
+        teamIdAndOpponentPointsScored = PointsScoredCalculator.getOpponentPointsScored(year, **kwargs)
         totalPointsScoredInYear = sum(teamIdAndOpponentPointsScored.values())
         teamIdAndOpponentScoringShare = dict()
         for teamId in YearNavigator.getAllTeamIds(year):

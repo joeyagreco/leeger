@@ -5,9 +5,9 @@ from src.leeger.util.Deci import Deci
 from src.leeger.util.YearNavigator import YearNavigator
 
 
-class ScoringCalculator(YearCalculator):
+class PointsScoredCalculator(YearCalculator):
     """
-    Used to calculate all scoring outcomes.
+    Used to calculate all points scored.
     """
 
     @classmethod
