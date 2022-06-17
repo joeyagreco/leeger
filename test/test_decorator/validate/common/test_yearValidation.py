@@ -23,7 +23,7 @@ class TestYearValidation(unittest.TestCase):
 
         with self.assertRaises(InvalidYearFormatException) as context:
             yearValidation.checkOnlyOneChampionshipWeekInYear(Year(yearNumber=2000, teams=list(), weeks=[week1, week2]))
-        self.assertEqual("Year 2000 has more than 1 championship week.", str(context.exception))
+        self.assertEqual("Year 2000 has 2 championship weeks. Maximum is 1.", str(context.exception))
 
     def test_checkAtLeastOneWeekInYear_yearHasNoWeeks_raisesException(self):
         with self.assertRaises(InvalidYearFormatException) as context:
