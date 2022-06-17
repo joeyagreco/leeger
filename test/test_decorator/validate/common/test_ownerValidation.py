@@ -10,4 +10,4 @@ class TestOwnerValidation(unittest.TestCase):
     def test_checkAllTypes_ownerNameIsntTypeStr_raisesException(self):
         with self.assertRaises(InvalidOwnerFormatException) as context:
             ownerValidation.checkAllTypes(Owner(name=None))
-        self.assertEqual("Owner name must be type 'str'.", str(context.exception))
+        self.assertEqual("name must be type 'str'.", str(context.exception))

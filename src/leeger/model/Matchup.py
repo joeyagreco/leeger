@@ -12,6 +12,7 @@ class Matchup(UniqueId):
     teamBScore: float | int
     teamAHasTiebreaker: bool = False
     teamBHasTiebreaker: bool = False
+    isChampionshipMatchup: bool = False
     
     def __post_init__(self):
         # Team A and Team B cannot both have the tiebreaker

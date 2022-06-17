@@ -13,8 +13,13 @@ from test.helper.prototypes import getNDefaultOwnersAndTeams
 class TestYearValidation(unittest.TestCase):
 
     def test_checkOnlyOneChampionshipWeekInYear_twoChampionshipWeeksInYear_raisesException(self):
-        week1 = Week(weekNumber=1, isPlayoffWeek=True, isChampionshipWeek=True, matchups=list())
-        week2 = Week(weekNumber=2, isPlayoffWeek=True, isChampionshipWeek=True, matchups=list())
+        owners, teams = getNDefaultOwnersAndTeams(2)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           isChampionshipMatchup=True)
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           isChampionshipMatchup=True)
+        week1 = Week(weekNumber=1, isPlayoffWeek=True, matchups=[matchup1])
+        week2 = Week(weekNumber=2, isPlayoffWeek=True, matchups=[matchup2])
 
         with self.assertRaises(InvalidYearFormatException) as context:
             yearValidation.checkOnlyOneChampionshipWeekInYear(Year(yearNumber=2000, teams=list(), weeks=[week1, week2]))
@@ -26,25 +31,25 @@ class TestYearValidation(unittest.TestCase):
         self.assertEqual("Year 2000 does not have at least 1 week.", str(context.exception))
 
     def test_checkWeekNumberingInYear_yearDuplicateWeekNumbers_raisesException(self):
-        week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
-        week1duplicate = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
+        week1 = Week(weekNumber=1, isPlayoffWeek=False, matchups=list())
+        week1duplicate = Week(weekNumber=1, isPlayoffWeek=False, matchups=list())
 
         with self.assertRaises(InvalidYearFormatException) as context:
             yearValidation.checkWeekNumberingInYear(Year(yearNumber=2000, teams=list(), weeks=[week1, week1duplicate]))
         self.assertEqual("Year 2000 has duplicate week numbers.", str(context.exception))
 
     def test_checkWeekNumberingInYear_lowestWeekNumberIsNotOne_raisesException(self):
-        week2 = Week(weekNumber=2, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
+        week2 = Week(weekNumber=2, isPlayoffWeek=False, matchups=list())
 
         with self.assertRaises(InvalidYearFormatException) as context:
             yearValidation.checkWeekNumberingInYear(Year(yearNumber=2000, teams=list(), weeks=[week2]))
         self.assertEqual("First week in year 2000 must be 1, not 2.", str(context.exception))
 
     def test_checkWeekNumberingInYear_weekNumbersNotOneThroughN_raisesException(self):
-        week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
-        week2 = Week(weekNumber=2, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
-        week3 = Week(weekNumber=3, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
-        week4 = Week(weekNumber=4, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
+        week1 = Week(weekNumber=1, isPlayoffWeek=False, matchups=list())
+        week2 = Week(weekNumber=2, isPlayoffWeek=False, matchups=list())
+        week3 = Week(weekNumber=3, isPlayoffWeek=False, matchups=list())
+        week4 = Week(weekNumber=4, isPlayoffWeek=False, matchups=list())
 
         with self.assertRaises(InvalidYearFormatException) as context:
             yearValidation.checkWeekNumberingInYear(
@@ -57,24 +62,29 @@ class TestYearValidation(unittest.TestCase):
         self.assertEqual("Year 2000 does not have week numbers in order (1-n).", str(context.exception))
 
     def test_checkPlayoffWeekOrderingInYear_nonPlayoffWeekAfterPlayoffWeek_raisesException(self):
-        week1 = Week(weekNumber=1, isPlayoffWeek=True, isChampionshipWeek=False, matchups=list())
-        week2 = Week(weekNumber=2, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
+        week1 = Week(weekNumber=1, isPlayoffWeek=True, matchups=list())
+        week2 = Week(weekNumber=2, isPlayoffWeek=False, matchups=list())
 
         with self.assertRaises(InvalidYearFormatException) as context:
             yearValidation.checkPlayoffWeekOrderingInYear(Year(yearNumber=2000, teams=list(), weeks=[week1, week2]))
         self.assertEqual("Year 2000 has a non-playoff week after a playoff week.", str(context.exception))
 
     def test_checkPlayoffWeekOrderingInYear_nonChampionshipWeekAfterChampionshipWeek_raisesException(self):
-        week1 = Week(weekNumber=1, isPlayoffWeek=True, isChampionshipWeek=True, matchups=list())
-        week2 = Week(weekNumber=2, isPlayoffWeek=True, isChampionshipWeek=False, matchups=list())
+        owners, teams = getNDefaultOwnersAndTeams(2)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           isChampionshipMatchup=True)
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           isChampionshipMatchup=False)
+        week1 = Week(weekNumber=1, isPlayoffWeek=True, matchups=[matchup1])
+        week2 = Week(weekNumber=2, isPlayoffWeek=True, matchups=[matchup2])
 
         with self.assertRaises(InvalidYearFormatException) as context:
             yearValidation.checkPlayoffWeekOrderingInYear(Year(yearNumber=2000, teams=list(), weeks=[week1, week2]))
         self.assertEqual("Year 2000 has a non-championship week after a championship week.", str(context.exception))
 
     def test_checkAtLeastTwoTeamsInYear_yearHasLessThanTwoTeams_raisesException(self):
-        week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
-        week2 = Week(weekNumber=2, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
+        week1 = Week(weekNumber=1, isPlayoffWeek=False, matchups=list())
+        week2 = Week(weekNumber=2, isPlayoffWeek=False, matchups=list())
         team1 = Team(ownerId="1", name="1")
 
         with self.assertRaises(InvalidYearFormatException) as context:
@@ -82,7 +92,7 @@ class TestYearValidation(unittest.TestCase):
         self.assertEqual("Year 2000 needs at least 2 teams.", str(context.exception))
 
     def test_checkGivenYearHasValidYearNumber_yearNumberIsntInValidRange_raisesException(self):
-        week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
+        week1 = Week(weekNumber=1, isPlayoffWeek=False, matchups=list())
         team1 = Team(ownerId="1", name="1")
         team2 = Team(ownerId="2", name="2")
 
@@ -95,7 +105,7 @@ class TestYearValidation(unittest.TestCase):
         self.assertEqual("Year 3000 is not in range 1920-2XXX.", str(context.exception))
 
     def test_checkTeamOwnerIdsInYear_teamsHaveDuplicateOwnerIds_raisesException(self):
-        week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
+        week1 = Week(weekNumber=1, isPlayoffWeek=False, matchups=list())
         team1 = Team(ownerId="1", name="1")
         team2 = Team(ownerId="1", name="2")
 
@@ -104,7 +114,7 @@ class TestYearValidation(unittest.TestCase):
         self.assertEqual("Year 2000 has teams with the same owner IDs.", str(context.exception))
 
     def test_checkTeamNamesInYear_teamsInAYearHaveDuplicateNames_raisesException(self):
-        week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
+        week1 = Week(weekNumber=1, isPlayoffWeek=False, matchups=list())
 
         owner1 = Owner(name="1")
         owner2 = Owner(name="2")
@@ -123,7 +133,7 @@ class TestYearValidation(unittest.TestCase):
         self.assertEqual("Teams must all be unique instances.", str(context.exception))
 
     def test_checkForDuplicateWeeks_duplicateWeeks_raisesException(self):
-        week = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=list())
+        week = Week(weekNumber=1, isPlayoffWeek=False, matchups=list())
         with self.assertRaises(InvalidYearFormatException) as context:
             yearValidation.checkForDuplicateWeeks(Year(yearNumber=2000, teams=list(), weeks=[week, week]))
         self.assertEqual("Weeks must all be unique instances.", str(context.exception))
@@ -131,7 +141,7 @@ class TestYearValidation(unittest.TestCase):
     def test_checkEveryTeamInYearIsInAMatchup_teamNotInAnyMatchups_raisesException(self):
         owners, teams = getNDefaultOwnersAndTeams(3)
         matchup = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        week = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=[matchup])
+        week = Week(weekNumber=1, isPlayoffWeek=False, matchups=[matchup])
         with self.assertRaises(InvalidYearFormatException) as context:
             yearValidation.checkEveryTeamInYearIsInAMatchup(Year(yearNumber=2000, teams=teams, weeks=[week, week]))
         self.assertEqual(
@@ -145,14 +155,14 @@ class TestYearValidation(unittest.TestCase):
     def test_checkAllTypes_yearNumberIsntTypeInt_raisesException(self):
         with self.assertRaises(InvalidYearFormatException) as context:
             yearValidation.checkAllTypes(Year(yearNumber=None, teams=list(), weeks=list()))
-        self.assertEqual("Year number must be type 'int'.", str(context.exception))
+        self.assertEqual("yearNumber must be type 'int'.", str(context.exception))
 
     def test_checkAllTypes_yearTeamsIsntTypeList_raisesException(self):
         with self.assertRaises(InvalidYearFormatException) as context:
             yearValidation.checkAllTypes(Year(yearNumber=2000, teams=None, weeks=list()))
-        self.assertEqual("Year teams must be type 'list'.", str(context.exception))
+        self.assertEqual("teams must be type 'list'.", str(context.exception))
 
     def test_checkAllTypes_yearWeeksIsntTypeList_raisesException(self):
         with self.assertRaises(InvalidYearFormatException) as context:
             yearValidation.checkAllTypes(Year(yearNumber=2000, teams=list(), weeks=None))
-        self.assertEqual("Year weeks must be type 'list'.", str(context.exception))
+        self.assertEqual("weeks must be type 'list'.", str(context.exception))

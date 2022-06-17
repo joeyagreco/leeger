@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 
-from src.leeger.exception.InvalidWeekFormatException import InvalidWeekFormatException
 from src.leeger.model.Matchup import Matchup
 from src.leeger.model.abstract.UniqueId import UniqueId
 
@@ -10,9 +9,12 @@ class Week(UniqueId):
     weekNumber: int
     matchups: list[Matchup]
     isPlayoffWeek: bool = False
-    isChampionshipWeek: bool = False
 
-    def __post_init__(self):
-        # a week cannot be a championship week and NOT a playoff week
-        if self.isChampionshipWeek is True and self.isPlayoffWeek is False:
-            raise InvalidWeekFormatException("A championship week must be a playoff week.")
+    @property
+    def isChampionshipWeek(self) -> bool:
+        isChampionshipWeek = False
+        for matchup in self.matchups:
+            if matchup.isChampionshipMatchup:
+                isChampionshipWeek = True
+                break
+        return isChampionshipWeek

@@ -1,8 +1,8 @@
 import unittest
 
-from src.leeger.exception.InvalidWeekFormatException import InvalidWeekFormatException
 from src.leeger.model.Matchup import Matchup
 from src.leeger.model.Week import Week
+from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestWeek(unittest.TestCase):
@@ -11,10 +11,9 @@ class TestWeek(unittest.TestCase):
         week1 = Week(
             weekNumber=1,
             isPlayoffWeek=False,
-            isChampionshipWeek=False,
             matchups=[matchup],
         )
-        week2 = Week(weekNumber=2, isPlayoffWeek=True, isChampionshipWeek=True, matchups=[])
+        week2 = Week(weekNumber=2, isPlayoffWeek=True, matchups=[])
 
         week3 = Week(weekNumber=2, matchups=[])
 
@@ -24,20 +23,32 @@ class TestWeek(unittest.TestCase):
         self.assertFalse(week3.isPlayoffWeek)
         self.assertFalse(week3.isChampionshipWeek)
         self.assertTrue(week2.isPlayoffWeek)
-        self.assertTrue(week2.isChampionshipWeek)
+        self.assertFalse(week2.isChampionshipWeek)
         self.assertEqual(1, len(week1.matchups))
         self.assertEqual(matchup.id, week1.matchups[0].id)
 
-    def test_week_postInit(self):
-        matchup = Matchup(teamAId="", teamBId="", teamAScore=0, teamBScore=0)
-        # valid week
-        Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=[matchup])
-        # valid week
-        Week(weekNumber=1, isPlayoffWeek=True, isChampionshipWeek=False, matchups=[matchup])
-        # valid week
-        Week(weekNumber=1, isPlayoffWeek=True, isChampionshipWeek=True, matchups=[matchup])
+    def test_isChampionshipWeek_weekHasChampionshipMatchups_returnsTrue(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
 
-        with self.assertRaises(InvalidWeekFormatException) as context:
-            # invalid week
-            Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=True, matchups=[matchup])
-        self.assertEqual("A championship week must be a playoff week.", str(context.exception))
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           isChampionshipMatchup=True)
+
+        week1 = Week(weekNumber=1, isPlayoffWeek=False, matchups=[matchup1])
+
+        response = week1.isChampionshipWeek
+
+        self.assertIsInstance(response, bool)
+        self.assertTrue(response)
+
+    def test_isChampionshipWeek_weekDoesNotChampionshipMatchups_returnsTrue(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           isChampionshipMatchup=False)
+
+        week1 = Week(weekNumber=1, isPlayoffWeek=False, matchups=[matchup1])
+
+        response = week1.isChampionshipWeek
+
+        self.assertIsInstance(response, bool)
+        self.assertFalse(response)

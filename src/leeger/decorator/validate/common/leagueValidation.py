@@ -46,11 +46,11 @@ def checkAllTypes(league: League) -> None:
     Checks all types that are within the League object.
     """
     if type(league.name) != str:
-        raise InvalidLeagueFormatException("League name must be type 'str'.")
+        raise InvalidLeagueFormatException("name must be type 'str'.")
     if type(league.owners) != list:
-        raise InvalidLeagueFormatException("League owners must be type 'list'.")
+        raise InvalidLeagueFormatException("owners must be type 'list'.")
     if type(league.years) != list:
-        raise InvalidLeagueFormatException("League years must be type 'list'.")
+        raise InvalidLeagueFormatException("years must be type 'list'.")
 
 
 def checkForDuplicateOwners(league: League) -> None:

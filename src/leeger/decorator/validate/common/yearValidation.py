@@ -54,11 +54,11 @@ def checkAllTypes(year: Year) -> None:
     """
 
     if type(year.yearNumber) != int:
-        raise InvalidYearFormatException("Year number must be type 'int'.")
+        raise InvalidYearFormatException("yearNumber must be type 'int'.")
     if type(year.teams) != list:
-        raise InvalidYearFormatException("Year teams must be type 'list'.")
+        raise InvalidYearFormatException("teams must be type 'list'.")
     if type(year.weeks) != list:
-        raise InvalidYearFormatException("Year weeks must be type 'list'.")
+        raise InvalidYearFormatException("weeks must be type 'list'.")
 
 
 def checkForDuplicateTeams(year: Year) -> None:

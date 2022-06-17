@@ -22,12 +22,13 @@ class TestLeagueNavigator(unittest.TestCase):
         a_matchup2 = Matchup(teamAId=a_team1.id, teamBId=a_team2.id, teamAScore=1, teamBScore=2)
         a_matchup3 = Matchup(teamAId=a_team1.id, teamBId=a_team2.id, teamAScore=1, teamBScore=1,
                              teamAHasTiebreaker=True)
-        a_matchup4 = Matchup(teamAId=a_team1.id, teamBId=a_team2.id, teamAScore=1, teamBScore=2)
+        a_matchup4 = Matchup(teamAId=a_team1.id, teamBId=a_team2.id, teamAScore=1, teamBScore=2,
+                             isChampionshipMatchup=True)
 
-        a_week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=[a_matchup1])
-        a_week2 = Week(weekNumber=2, isPlayoffWeek=True, isChampionshipWeek=False, matchups=[a_matchup2])
-        a_week3 = Week(weekNumber=3, isPlayoffWeek=True, isChampionshipWeek=False, matchups=[a_matchup3])
-        a_week4 = Week(weekNumber=4, isPlayoffWeek=True, isChampionshipWeek=True, matchups=[a_matchup4])
+        a_week1 = Week(weekNumber=1, isPlayoffWeek=False, matchups=[a_matchup1])
+        a_week2 = Week(weekNumber=2, isPlayoffWeek=True, matchups=[a_matchup2])
+        a_week3 = Week(weekNumber=3, isPlayoffWeek=True, matchups=[a_matchup3])
+        a_week4 = Week(weekNumber=4, isPlayoffWeek=True, matchups=[a_matchup4])
 
         a_year = Year(yearNumber=2000, teams=[a_team1, a_team2], weeks=[a_week1, a_week2, a_week3, a_week4])
 
@@ -38,12 +39,13 @@ class TestLeagueNavigator(unittest.TestCase):
         b_matchup2 = Matchup(teamAId=b_team1.id, teamBId=b_team2.id, teamAScore=1, teamBScore=2)
         b_matchup3 = Matchup(teamAId=b_team1.id, teamBId=b_team2.id, teamAScore=1, teamBScore=1,
                              teamAHasTiebreaker=True)
-        b_matchup4 = Matchup(teamAId=b_team1.id, teamBId=b_team2.id, teamAScore=1, teamBScore=2)
+        b_matchup4 = Matchup(teamAId=b_team1.id, teamBId=b_team2.id, teamAScore=1, teamBScore=2,
+                             isChampionshipMatchup=True)
 
-        b_week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=[b_matchup1])
-        b_week2 = Week(weekNumber=2, isPlayoffWeek=True, isChampionshipWeek=False, matchups=[b_matchup2])
-        b_week3 = Week(weekNumber=3, isPlayoffWeek=True, isChampionshipWeek=False, matchups=[b_matchup3])
-        b_week4 = Week(weekNumber=4, isPlayoffWeek=True, isChampionshipWeek=True, matchups=[b_matchup4])
+        b_week1 = Week(weekNumber=1, isPlayoffWeek=False, matchups=[b_matchup1])
+        b_week2 = Week(weekNumber=2, isPlayoffWeek=True, matchups=[b_matchup2])
+        b_week3 = Week(weekNumber=3, isPlayoffWeek=True, matchups=[b_matchup3])
+        b_week4 = Week(weekNumber=4, isPlayoffWeek=True, matchups=[b_matchup4])
 
         b_year = Year(yearNumber=2001, teams=[b_team1, b_team2], weeks=[b_week1, b_week2, b_week3, b_week4])
 
@@ -65,12 +67,13 @@ class TestLeagueNavigator(unittest.TestCase):
         a_matchup2 = Matchup(teamAId=a_team1.id, teamBId=a_team2.id, teamAScore=1, teamBScore=2)
         a_matchup3 = Matchup(teamAId=a_team1.id, teamBId=a_team2.id, teamAScore=1, teamBScore=1,
                              teamAHasTiebreaker=True)
-        a_matchup4 = Matchup(teamAId=a_team1.id, teamBId=a_team2.id, teamAScore=1, teamBScore=2)
+        a_matchup4 = Matchup(teamAId=a_team1.id, teamBId=a_team2.id, teamAScore=1, teamBScore=2,
+                             isChampionshipMatchup=True)
 
-        a_week1 = Week(weekNumber=1, isPlayoffWeek=False, isChampionshipWeek=False, matchups=[a_matchup1])
-        a_week2 = Week(weekNumber=2, isPlayoffWeek=True, isChampionshipWeek=False, matchups=[a_matchup2])
-        a_week3 = Week(weekNumber=3, isPlayoffWeek=True, isChampionshipWeek=False, matchups=[a_matchup3])
-        a_week4 = Week(weekNumber=4, isPlayoffWeek=True, isChampionshipWeek=True, matchups=[a_matchup4])
+        a_week1 = Week(weekNumber=1, isPlayoffWeek=False, matchups=[a_matchup1])
+        a_week2 = Week(weekNumber=2, isPlayoffWeek=True, matchups=[a_matchup2])
+        a_week3 = Week(weekNumber=3, isPlayoffWeek=True, matchups=[a_matchup3])
+        a_week4 = Week(weekNumber=4, isPlayoffWeek=True, matchups=[a_matchup4])
 
         a_year = Year(yearNumber=2000, teams=[a_team1, a_team2], weeks=[a_week1, a_week2, a_week3, a_week4])
 
