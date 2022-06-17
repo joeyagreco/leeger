@@ -12,6 +12,7 @@ def runAllChecks(week: Week) -> None:
     checkAllMatchups(week)
     checkWeekHasAtLeastOneMatchup(week)
     checkWeekHasMatchupsWithNoDuplicateTeamIds(week)
+    checkWeekDoesNotHaveMoreThanOneChampionshipMatchup(week)
 
 
 def checkAllTypes(week: Week) -> None:
@@ -68,3 +69,16 @@ def checkWeekHasMatchupsWithNoDuplicateTeamIds(week: Week) -> None:
     numberOfExpectedUniqueTeamIds = len(week.matchups) * 2
     if len(set(teamIdsInMatchups)) != numberOfExpectedUniqueTeamIds:
         raise InvalidWeekFormatException(f"Week {week.weekNumber} has matchups with duplicate team IDs.")
+
+
+def checkWeekDoesNotHaveMoreThanOneChampionshipMatchup(week: Week) -> None:
+    """
+    Checks that the given Week has no more than 1 championship matchup.
+    """
+    championshipMatchupCount = 0
+    for matchup in week.matchups:
+        if matchup.isChampionshipMatchup:
+            championshipMatchupCount += 1
+    if championshipMatchupCount > 1:
+        raise InvalidWeekFormatException(
+            f"Week {week.weekNumber} has {championshipMatchupCount} championship matchups. Maximum is 1.")
