@@ -12,7 +12,7 @@ class TestWeekNavigator(unittest.TestCase):
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
 
-        week1 = Week(weekNumber=1, isPlayoffWeek=False, matchups=[matchup1])
+        week1 = Week(weekNumber=1, matchups=[matchup1])
 
         response = WeekNavigator.getTeamIdsAndScores(week1)
 
@@ -26,7 +26,7 @@ class TestWeekNavigator(unittest.TestCase):
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
 
-        week1 = Week(weekNumber=1, isPlayoffWeek=False, matchups=[matchup1])
+        week1 = Week(weekNumber=1, matchups=[matchup1])
 
         response = WeekNavigator.getTeamIdsAndOpponentScores(week1)
 
