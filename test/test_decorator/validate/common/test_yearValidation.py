@@ -1,6 +1,7 @@
 import unittest
 
 from src.leeger.decorator.validate.common import yearValidation
+from src.leeger.enum.MatchupType import MatchupType
 from src.leeger.exception.InvalidYearFormatException import InvalidYearFormatException
 from src.leeger.model.Matchup import Matchup
 from src.leeger.model.Owner import Owner
@@ -15,9 +16,9 @@ class TestYearValidation(unittest.TestCase):
     def test_checkOnlyOneChampionshipWeekInYear_twoChampionshipWeeksInYear_raisesException(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           isChampionshipMatchup=True)
+                           matchupType=MatchupType.CHAMPIONSHIP)
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           isChampionshipMatchup=True)
+                           matchupType=MatchupType.CHAMPIONSHIP)
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
 
@@ -62,7 +63,7 @@ class TestYearValidation(unittest.TestCase):
         self.assertEqual("Year 2000 does not have week numbers in order (1-n).", str(context.exception))
 
     def test_checkPlayoffWeekOrderingInYear_nonPlayoffWeekAfterPlayoffWeek_raisesException(self):
-        matchup1 = Matchup(teamAId="", teamBId="", teamAScore=0, teamBScore=0, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId="", teamBId="", teamAScore=0, teamBScore=0, matchupType=MatchupType.PLAYOFF)
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=list())
 
@@ -73,9 +74,9 @@ class TestYearValidation(unittest.TestCase):
     def test_checkPlayoffWeekOrderingInYear_nonChampionshipWeekAfterChampionshipWeek_raisesException(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           isChampionshipMatchup=True)
+                           matchupType=MatchupType.CHAMPIONSHIP)
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           isPlayoffMatchup=True)
+                           matchupType=MatchupType.PLAYOFF)
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
 
