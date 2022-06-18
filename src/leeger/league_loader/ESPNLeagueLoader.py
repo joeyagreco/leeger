@@ -44,7 +44,7 @@ class ESPNLeagueLoader(LeagueLoader):
     def __buildYear(cls, espnLeague: ESPNLeague, owners: list[Owner]) -> Year:
         teams = cls.__buildTeams(espnLeague.teams, owners)
         weeks = cls.__buildWeeks(espnLeague)
-        year = Year(yearNumber=espnLeague.year, teams=teams, weeks=weeks)
+        return Year(yearNumber=espnLeague.year, teams=teams, weeks=weeks)
 
     @classmethod
     def __buildWeeks(cls, espnLeague: ESPNLeague) -> list[Week]:
@@ -81,6 +81,7 @@ class ESPNLeagueLoader(LeagueLoader):
                 espnTeamIDsWithMatchups.append(espnTeam.schedule[i].team_id)
             weeks.append(Week(weekNumber=i, matchups=matchups))
             # TODO: figure out if this is a playoff week
+        return weeks
 
     @staticmethod
     def __getESPNTeamById(espnTeamId: int, espnTeams: list[ESPNTeam]) -> ESPNTeam:
