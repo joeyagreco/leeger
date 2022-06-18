@@ -79,7 +79,7 @@ class ESPNLeagueLoader(LeagueLoader):
                 # TODO: figure out if this is a championship matchup
                 espnTeamIDsWithMatchups.append(espnTeam.team_id)
                 espnTeamIDsWithMatchups.append(espnTeam.schedule[i].team_id)
-            weeks.append(Week(weekNumber=i, matchups=matchups))
+            weeks.append(Week(weekNumber=i + 1, matchups=matchups))
             # TODO: figure out if this is a playoff week
         return weeks
 
