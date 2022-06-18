@@ -20,12 +20,10 @@ def checkAllTypes(week: Week) -> None:
     Checks all types that are within the Week object.
     """
 
-    if type(week.weekNumber) != int:
-        raise InvalidWeekFormatException("weekNumber must be type 'int'.")
-    if type(week.isPlayoffWeek) != bool:
-        raise InvalidWeekFormatException("isPlayoffWeek must be type 'bool'.")
     if type(week.matchups) != list:
         raise InvalidWeekFormatException("matchups must be type 'list'.")
+    if type(week.weekNumber) != int:
+        raise InvalidWeekFormatException("weekNumber must be type 'int'.")
 
 
 def checkForDuplicateMatchups(week: Week) -> None:
