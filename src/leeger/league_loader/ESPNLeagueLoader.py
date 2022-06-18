@@ -4,6 +4,7 @@ import espn_api.football as espn
 from espn_api.football import League as ESPNLeague
 from espn_api.football import Team as ESPNTeam
 
+from src.leeger.enum.MatchupType import MatchupType
 from src.leeger.league_loader.abstract.LeagueLoader import LeagueLoader
 from src.leeger.model.League import League
 from src.leeger.model.Matchup import Matchup
@@ -24,6 +25,14 @@ class ESPNLeagueLoader(LeagueLoader):
     __ESPN_WIN_OUTCOME = "W"
     __ESPN_LOSS_OUTCOME = "L"
     __ESPN_TIE_OUTCOME = "T"
+    __TEAMS_IN_PLAYOFFS_TO_PLAYOFF_WEEK_COUNT_MAP = {
+        2: 1,
+        3: 2,
+        4: 2,
+        6: 3,
+        7: 3,
+        8: 3
+    }
 
     @classmethod
     def loadLeague(cls, leagueId: int, years: list[int], **kwargs) -> League:
@@ -75,29 +84,53 @@ class ESPNLeagueLoader(LeagueLoader):
                 # team B is their opponent
                 espnTeamB = espnTeam.schedule[i]
                 teamB = cls.__espnTeamIdToTeamMap[espnTeam.schedule[i].team_id]
-                teamBScore = cls.__getESPNTeamById(espnTeam.schedule[i].team_id, espnLeague.teams).scores[i]
+                teamBScore = cls.__getESPNTeamByESPNId(espnTeam.schedule[i].team_id, espnLeague.teams).scores[i]
                 # figure out tiebreakers if there needs to be one
-                teamAHasTiebreaker = False
-                teamBHasTiebreaker = False
-                if teamAScore == teamBScore and espnTeamA.outcomes[i] == cls.__ESPN_WIN_OUTCOME:
-                    teamAHasTiebreaker = True
-                elif teamAScore == teamBScore and espnTeamB.outcomes[i] == cls.__ESPN_WIN_OUTCOME:
-                    teamBHasTiebreaker = True
+                teamAHasTiebreaker = teamAScore == teamBScore and espnTeamA.outcomes[i] == cls.__ESPN_WIN_OUTCOME
+                teamBHasTiebreaker = teamAScore == teamBScore and espnTeamB.outcomes[i] == cls.__ESPN_WIN_OUTCOME
+                matchupType = cls.__getMatchupType(espnLeague, i + 1, espnTeamA.team_id)
                 matchups.append(Matchup(teamAId=teamA.id,
                                         teamBId=teamB.id,
                                         teamAScore=teamAScore,
                                         teamBScore=teamBScore,
                                         teamAHasTiebreaker=teamAHasTiebreaker,
-                                        teamBHasTiebreaker=teamBHasTiebreaker))
-                # TODO: figure out if this is a championship matchup
+                                        teamBHasTiebreaker=teamBHasTiebreaker,
+                                        matchupType=matchupType))
                 espnTeamIDsWithMatchups.append(espnTeam.team_id)
                 espnTeamIDsWithMatchups.append(espnTeam.schedule[i].team_id)
-            isPlayoffWeek = (i + 1) > espnLeague.settings.reg_season_count
-            weeks.append(Week(weekNumber=i + 1, matchups=matchups, isPlayoffWeek=isPlayoffWeek))
+            weeks.append(Week(weekNumber=i + 1, matchups=matchups))
         return weeks
 
+    @classmethod
+    def __getMatchupType(cls, espnLeague: ESPNLeague, weekNumber: int, espnTeamId: int) -> MatchupType:
+        isPlayoffWeek = weekNumber > espnLeague.settings.reg_season_count
+        if isPlayoffWeek:
+            # figure out if this team made the playoffs
+            playoffTeamCount = espnLeague.settings.playoff_team_count
+            espnTeam = cls.__getESPNTeamByESPNId(espnTeamId, espnLeague.teams)
+            if playoffTeamCount >= espnTeam.standing:
+                # this team made the playoffs
+                # figure out if this is the last week of playoffs (the championship week)
+                numberOfPlayoffWeeks = cls.__TEAMS_IN_PLAYOFFS_TO_PLAYOFF_WEEK_COUNT_MAP[playoffTeamCount]
+                # TODO: Raise specific exception here if not found in map
+                if weekNumber == espnLeague.settings.reg_season_count + numberOfPlayoffWeeks:
+                    # this is the championship week
+                    # figure out if this team has lost in the playoffs yet
+                    playoffOutcomes = espnTeam.outcomes[-numberOfPlayoffWeeks:]
+                    hasLostInPlayoffs = playoffOutcomes.count(cls.__ESPN_WIN_OUTCOME) != len(playoffOutcomes)
+                    if hasLostInPlayoffs:
+                        return MatchupType.PLAYOFF
+                    else:
+                        return MatchupType.CHAMPIONSHIP
+            else:
+                # this matchup was played by teams that missed the playoffs during a playoff week.
+                # ignore it.
+                return MatchupType.IGNORED
+        else:
+            return MatchupType.REGULAR_SEASON
+
     @staticmethod
-    def __getESPNTeamById(espnTeamId: int, espnTeams: list[ESPNTeam]) -> ESPNTeam:
+    def __getESPNTeamByESPNId(espnTeamId: int, espnTeams: list[ESPNTeam]) -> ESPNTeam:
         for espnTeam in espnTeams:
             if espnTeam.team_id == espnTeamId:
                 return espnTeam
