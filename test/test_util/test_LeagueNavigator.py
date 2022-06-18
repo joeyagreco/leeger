@@ -1,5 +1,6 @@
 import unittest
 
+from src.leeger.enum.MatchupType import MatchupType
 from src.leeger.exception.DoesNotExistException import DoesNotExistException
 from src.leeger.model.League import League
 from src.leeger.model.Matchup import Matchup
@@ -19,11 +20,12 @@ class TestLeagueNavigator(unittest.TestCase):
         a_team2 = Team(ownerId=owner2.id, name="2")
 
         a_matchup1 = Matchup(teamAId=a_team1.id, teamBId=a_team2.id, teamAScore=1, teamBScore=2)
-        a_matchup2 = Matchup(teamAId=a_team1.id, teamBId=a_team2.id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
+        a_matchup2 = Matchup(teamAId=a_team1.id, teamBId=a_team2.id, teamAScore=1, teamBScore=2,
+                             matchupType=MatchupType.PLAYOFF)
         a_matchup3 = Matchup(teamAId=a_team1.id, teamBId=a_team2.id, teamAScore=1, teamBScore=1,
-                             teamAHasTiebreaker=True, isPlayoffMatchup=True)
+                             teamAHasTiebreaker=True, matchupType=MatchupType.PLAYOFF)
         a_matchup4 = Matchup(teamAId=a_team1.id, teamBId=a_team2.id, teamAScore=1, teamBScore=2,
-                             isChampionshipMatchup=True)
+                             matchupType=MatchupType.CHAMPIONSHIP)
 
         a_week1 = Week(weekNumber=1, matchups=[a_matchup1])
         a_week2 = Week(weekNumber=2, matchups=[a_matchup2])
@@ -36,11 +38,12 @@ class TestLeagueNavigator(unittest.TestCase):
         b_team2 = Team(ownerId=owner2.id, name="2")
 
         b_matchup1 = Matchup(teamAId=b_team1.id, teamBId=b_team2.id, teamAScore=1, teamBScore=2)
-        b_matchup2 = Matchup(teamAId=b_team1.id, teamBId=b_team2.id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
+        b_matchup2 = Matchup(teamAId=b_team1.id, teamBId=b_team2.id, teamAScore=1, teamBScore=2,
+                             matchupType=MatchupType.PLAYOFF)
         b_matchup3 = Matchup(teamAId=b_team1.id, teamBId=b_team2.id, teamAScore=1, teamBScore=1,
-                             teamAHasTiebreaker=True, isPlayoffMatchup=True)
+                             teamAHasTiebreaker=True, matchupType=MatchupType.PLAYOFF)
         b_matchup4 = Matchup(teamAId=b_team1.id, teamBId=b_team2.id, teamAScore=1, teamBScore=2,
-                             isChampionshipMatchup=True)
+                             matchupType=MatchupType.CHAMPIONSHIP)
 
         b_week1 = Week(weekNumber=1, matchups=[b_matchup1])
         b_week2 = Week(weekNumber=2, matchups=[b_matchup2])
@@ -64,11 +67,12 @@ class TestLeagueNavigator(unittest.TestCase):
         a_team2 = Team(ownerId=owner2.id, name="2")
 
         a_matchup1 = Matchup(teamAId=a_team1.id, teamBId=a_team2.id, teamAScore=1, teamBScore=2)
-        a_matchup2 = Matchup(teamAId=a_team1.id, teamBId=a_team2.id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
+        a_matchup2 = Matchup(teamAId=a_team1.id, teamBId=a_team2.id, teamAScore=1, teamBScore=2,
+                             matchupType=MatchupType.PLAYOFF)
         a_matchup3 = Matchup(teamAId=a_team1.id, teamBId=a_team2.id, teamAScore=1, teamBScore=1,
-                             teamAHasTiebreaker=True, isPlayoffMatchup=True)
+                             teamAHasTiebreaker=True, matchupType=MatchupType.PLAYOFF)
         a_matchup4 = Matchup(teamAId=a_team1.id, teamBId=a_team2.id, teamAScore=1, teamBScore=2,
-                             isChampionshipMatchup=True)
+                             matchupType=MatchupType.CHAMPIONSHIP)
 
         a_week1 = Week(weekNumber=1, matchups=[a_matchup1])
         a_week2 = Week(weekNumber=2, matchups=[a_matchup2])
