@@ -11,7 +11,7 @@ class Matchup(UniqueId):
     teamBId: str
     teamAScore: float | int
     teamBScore: float | int
-    matchupType: MatchupType = MatchupType.REGULAR
+    matchupType: MatchupType = MatchupType.REGULAR_SEASON
     teamAHasTiebreaker: bool = False
     teamBHasTiebreaker: bool = False
     

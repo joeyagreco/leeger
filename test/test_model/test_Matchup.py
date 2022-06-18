@@ -37,7 +37,7 @@ class TestMatchup(unittest.TestCase):
         self.assertEqual("teamBId", matchup.teamBId)
         self.assertEqual(1.1, matchup.teamAScore)
         self.assertEqual(2.2, matchup.teamBScore)
-        self.assertEqual(MatchupType.REGULAR, matchup.matchupType)
+        self.assertEqual(MatchupType.REGULAR_SEASON, matchup.matchupType)
         self.assertFalse(matchup.teamAHasTiebreaker)
         self.assertFalse(matchup.teamBHasTiebreaker)
 

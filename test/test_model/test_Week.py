@@ -8,7 +8,7 @@ from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 class TestWeek(unittest.TestCase):
     def test_week_init(self):
-        matchup1 = Matchup(teamAId="", teamBId="", teamAScore=0, teamBScore=0, matchupType=MatchupType.REGULAR)
+        matchup1 = Matchup(teamAId="", teamBId="", teamAScore=0, teamBScore=0)
         matchup2 = Matchup(teamAId="", teamBId="", teamAScore=0, teamBScore=0, matchupType=MatchupType.PLAYOFF)
         matchup3 = Matchup(teamAId="", teamBId="", teamAScore=0, teamBScore=0, matchupType=MatchupType.CHAMPIONSHIP)
         week1 = Week(weekNumber=1, matchups=[matchup1])
@@ -44,7 +44,7 @@ class TestWeek(unittest.TestCase):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.REGULAR)
+                           matchupType=MatchupType.REGULAR_SEASON)
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
 
@@ -73,7 +73,7 @@ class TestWeek(unittest.TestCase):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.REGULAR)
+                           matchupType=MatchupType.REGULAR_SEASON)
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
 

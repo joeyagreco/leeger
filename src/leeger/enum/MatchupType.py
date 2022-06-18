@@ -11,4 +11,4 @@ class MatchupType(Enum):
     CHAMPIONSHIP = auto()
     IGNORED = auto()
     PLAYOFF = auto()
-    REGULAR = auto()
+    REGULAR_SEASON = auto()
