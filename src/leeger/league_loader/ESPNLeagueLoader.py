@@ -1,3 +1,5 @@
+from typing import Optional
+
 import espn_api.football as espn
 from espn_api.football import League as ESPNLeague
 from espn_api.football import Team as ESPNTeam
@@ -18,12 +20,19 @@ class ESPNLeagueLoader(LeagueLoader):
     """
     __owners = None
     __espnTeamIdToTeamMap = dict()
+    __ownerNamesAndAliases = dict()
     __ESPN_WIN_OUTCOME = "W"
     __ESPN_LOSS_OUTCOME = "L"
     __ESPN_TIE_OUTCOME = "T"
 
     @classmethod
-    def loadLeague(cls, leagueId: int, years: list[int]) -> League:
+    def loadLeague(cls, leagueId: int, years: list[int], **kwargs) -> League:
+        # owners may have multiple names across different years, this allows users to define multiple owner names/aliases that can belong to the same owner.
+        # this prevents issues where an owner with a name change across years is counted as 2 different owners.
+        # this should be formatting like so:
+        # ownerNamesAndAliases = {"someOwnerNameIWant": ["alias1", "alias2"],
+        #                           someOtherOwnerNameIWant: ["alias3", "alias4"]}
+        cls.__ownerNamesAndAliases = kwargs.get("ownerNamesAndAliases", dict())
         espnLeagueYears = list()
         for year in years:
             espnLeagueYears.append(espn.League(league_id=leagueId, year=year))
@@ -108,13 +117,25 @@ class ESPNLeagueLoader(LeagueLoader):
         if cls.__owners is None:
             owners = list()
             for espnTeam in espnTeams:
-                owners.append(Owner(name=espnTeam.owner))
+                # get general owner name if there is one
+                generalOwnerName = cls.__getGeneralOwnerNameFromGivenOwnerName(espnTeam.owner)
+                ownerName = generalOwnerName if generalOwnerName is not None else espnTeam.owner
+                owners.append(Owner(name=ownerName))
             cls.__owners = owners
 
     @classmethod
+    def __getGeneralOwnerNameFromGivenOwnerName(cls, givenOwnerName: str) -> Optional[str]:
+        foundGeneralOwnerName = None
+        for generalOwnerName, aliases in cls.__ownerNamesAndAliases.items():
+            if givenOwnerName in aliases:
+                foundGeneralOwnerName = generalOwnerName
+                break
+        return foundGeneralOwnerName
+
+    @classmethod
     def __getOwnerByName(cls, ownerName: str) -> Owner:
+        generalOwnerName = cls.__getGeneralOwnerNameFromGivenOwnerName(ownerName)
         for owner in cls.__owners:
-            if ownerName == owner.name:
+            if ownerName == owner.name or generalOwnerName == owner.name:
                 return owner
-        print()
         # TODO: Raise exception if owner not found and handle it
