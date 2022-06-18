@@ -1,6 +1,7 @@
 import unittest
 
 from src.leeger.calculator.parent.YearCalculator import YearCalculator
+from src.leeger.enum.MatchupType import MatchupType
 from src.leeger.exception.InvalidFilterException import InvalidFilterException
 from src.leeger.model.Matchup import Matchup
 from src.leeger.model.Owner import Owner
@@ -188,9 +189,10 @@ class TestYearCalculator(unittest.TestCase):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
         matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           isChampionshipMatchup=True)
+                           matchupType=MatchupType.CHAMPIONSHIP)
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -209,9 +211,10 @@ class TestYearCalculator(unittest.TestCase):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
         matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           isChampionshipMatchup=True)
+                           matchupType=MatchupType.CHAMPIONSHIP)
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -230,9 +233,10 @@ class TestYearCalculator(unittest.TestCase):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
         matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           isChampionshipMatchup=True)
+                           matchupType=MatchupType.CHAMPIONSHIP)
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -251,9 +255,10 @@ class TestYearCalculator(unittest.TestCase):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
         matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           isChampionshipMatchup=True)
+                           matchupType=MatchupType.CHAMPIONSHIP)
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -272,10 +277,12 @@ class TestYearCalculator(unittest.TestCase):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
         matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           isChampionshipMatchup=True)
+                           matchupType=MatchupType.CHAMPIONSHIP)
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
