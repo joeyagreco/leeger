@@ -24,14 +24,6 @@ class ESPNLeagueLoader(LeagueLoader):
     __ESPN_WIN_OUTCOME = "W"
     __ESPN_LOSS_OUTCOME = "L"
     __ESPN_TIE_OUTCOME = "T"
-    __TEAMS_IN_PLAYOFFS_TO_PLAYOFF_WEEK_COUNT_MAP = {
-        2: 1,
-        3: 2,
-        4: 2,
-        6: 3,
-        7: 3,
-        8: 3
-    }
 
     @classmethod
     def loadLeague(cls, leagueId: int, years: list[int], **kwargs) -> League:
@@ -100,17 +92,9 @@ class ESPNLeagueLoader(LeagueLoader):
                 # TODO: figure out if this is a championship matchup
                 espnTeamIDsWithMatchups.append(espnTeam.team_id)
                 espnTeamIDsWithMatchups.append(espnTeam.schedule[i].team_id)
-            isPlayoffWeek = cls.__isPlayoffWeek(espnLeague, i + 1)
+            isPlayoffWeek = (i + 1) > espnLeague.settings.reg_season_count
             weeks.append(Week(weekNumber=i + 1, matchups=matchups, isPlayoffWeek=isPlayoffWeek))
         return weeks
-
-    @classmethod
-    def __isPlayoffWeek(cls, espnLeague: ESPNLeague, weekNumber: int) -> bool:
-        numberOfPlayoffWeeks = cls.__TEAMS_IN_PLAYOFFS_TO_PLAYOFF_WEEK_COUNT_MAP.get(
-            espnLeague.settings.playoff_team_count, None)
-        # TODO: raise exception if numberOfPlayoffWeeks is None, as this is not a number of playoff weeks that is currently supported
-        numberOfWeeks = len(espnLeague.settings.matchup_periods)
-        return weekNumber > numberOfWeeks - numberOfPlayoffWeeks
 
     @staticmethod
     def __getESPNTeamById(espnTeamId: int, espnTeams: list[ESPNTeam]) -> ESPNTeam:
