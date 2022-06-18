@@ -35,9 +35,10 @@ class ESPNLeagueLoader(LeagueLoader):
 
     @classmethod
     def loadLeague(cls, leagueId: int, years: list[int], **kwargs) -> League:
-        # owners may have multiple names across different years, this allows users to define multiple owner names/aliases that can belong to the same owner.
+        # owners may have multiple names across different years,
+        # defining owner names and aliases allows users to have multiple names that can belong to the same owner.
         # this prevents issues where an owner with a name change across years is counted as 2 different owners.
-        # this should be formatting like so:
+        # this should be formatted like so:
         # ownerNamesAndAliases = {"someOwnerNameIWant": ["alias1", "alias2"],
         #                           someOtherOwnerNameIWant: ["alias3", "alias4"]}
         cls.__ownerNamesAndAliases = kwargs.get("ownerNamesAndAliases", dict())
