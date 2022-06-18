@@ -23,8 +23,8 @@ class TestYearCalculator(unittest.TestCase):
         matchup1 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=1, teamBScore=2)
         matchup2 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=1, teamBScore=2)
 
-        week1 = Week(weekNumber=1, isPlayoffWeek=False, matchups=[matchup1])
-        week2 = Week(weekNumber=2, isPlayoffWeek=False, matchups=[matchup2])
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
 
         year = Year(yearNumber=2000, teams=[team1, team2], weeks=[week1, week2])
 
@@ -42,8 +42,8 @@ class TestYearCalculator(unittest.TestCase):
         matchup1 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=1, teamBScore=2)
         matchup2 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=1, teamBScore=2)
 
-        week1 = Week(weekNumber=1, isPlayoffWeek=False, matchups=[matchup1])
-        week2 = Week(weekNumber=2, isPlayoffWeek=False, matchups=[matchup2])
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
 
         year = Year(yearNumber=2000, teams=[team1, team2], weeks=[week1, week2])
 
@@ -61,8 +61,8 @@ class TestYearCalculator(unittest.TestCase):
         matchup1 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=1, teamBScore=2)
         matchup2 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=1, teamBScore=2)
 
-        week1 = Week(weekNumber=1, isPlayoffWeek=False, matchups=[matchup1])
-        week2 = Week(weekNumber=2, isPlayoffWeek=False, matchups=[matchup2])
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
 
         year = Year(yearNumber=2000, teams=[team1, team2], weeks=[week1, week2])
 
@@ -80,8 +80,8 @@ class TestYearCalculator(unittest.TestCase):
         matchup1 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=1, teamBScore=2)
         matchup2 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=1, teamBScore=2)
 
-        week1 = Week(weekNumber=1, isPlayoffWeek=False, matchups=[matchup1])
-        week2 = Week(weekNumber=2, isPlayoffWeek=False, matchups=[matchup2])
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
 
         year = Year(yearNumber=2000, teams=[team1, team2], weeks=[week1, week2])
 
@@ -99,8 +99,8 @@ class TestYearCalculator(unittest.TestCase):
         matchup1 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=1, teamBScore=2)
         matchup2 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=1, teamBScore=2)
 
-        week1 = Week(weekNumber=1, isPlayoffWeek=False, matchups=[matchup1])
-        week2 = Week(weekNumber=2, isPlayoffWeek=False, matchups=[matchup2])
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
 
         year = Year(yearNumber=2000, teams=[team1, team2], weeks=[week1, week2])
 
@@ -118,8 +118,8 @@ class TestYearCalculator(unittest.TestCase):
         matchup1 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=1, teamBScore=2)
         matchup2 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=1, teamBScore=2)
 
-        week1 = Week(weekNumber=1, isPlayoffWeek=False, matchups=[matchup1])
-        week2 = Week(weekNumber=2, isPlayoffWeek=False, matchups=[matchup2])
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
 
         year = Year(yearNumber=2000, teams=[team1, team2], weeks=[week1, week2])
 
@@ -137,8 +137,8 @@ class TestYearCalculator(unittest.TestCase):
         matchup1 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=1, teamBScore=2)
         matchup2 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=1, teamBScore=2)
 
-        week1 = Week(weekNumber=1, isPlayoffWeek=False, matchups=[matchup1])
-        week2 = Week(weekNumber=2, isPlayoffWeek=False, matchups=[matchup2])
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
 
         year = Year(yearNumber=2000, teams=[team1, team2], weeks=[week1, week2])
 
@@ -157,8 +157,8 @@ class TestYearCalculator(unittest.TestCase):
         matchup1 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=1, teamBScore=2)
         matchup2 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=1, teamBScore=2)
 
-        week1 = Week(weekNumber=1, isPlayoffWeek=False, matchups=[matchup1])
-        week2 = Week(weekNumber=2, isPlayoffWeek=False, matchups=[matchup2])
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
 
         year = Year(yearNumber=2000, teams=[team1, team2], weeks=[week1, week2])
 
@@ -172,8 +172,8 @@ class TestYearCalculator(unittest.TestCase):
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
 
-        week1 = Week(weekNumber=1, isPlayoffWeek=False, matchups=[matchup1])
-        week2 = Week(weekNumber=2, isPlayoffWeek=False, matchups=[matchup2])
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2])
 
@@ -188,13 +188,13 @@ class TestYearCalculator(unittest.TestCase):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
         matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
                            isChampionshipMatchup=True)
 
-        week1 = Week(weekNumber=1, isPlayoffWeek=False, matchups=[matchup1])
-        week2 = Week(weekNumber=2, isPlayoffWeek=True, matchups=[matchup2])
-        week3 = Week(weekNumber=3, isPlayoffWeek=True, matchups=[matchup3])
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+        week3 = Week(weekNumber=3, matchups=[matchup3])
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
 
@@ -209,13 +209,13 @@ class TestYearCalculator(unittest.TestCase):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
         matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
                            isChampionshipMatchup=True)
 
-        week1 = Week(weekNumber=1, isPlayoffWeek=False, matchups=[matchup1])
-        week2 = Week(weekNumber=2, isPlayoffWeek=True, matchups=[matchup2])
-        week3 = Week(weekNumber=3, isPlayoffWeek=True, matchups=[matchup3])
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+        week3 = Week(weekNumber=3, matchups=[matchup3])
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
 
@@ -230,13 +230,13 @@ class TestYearCalculator(unittest.TestCase):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
         matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
                            isChampionshipMatchup=True)
 
-        week1 = Week(weekNumber=1, isPlayoffWeek=False, matchups=[matchup1])
-        week2 = Week(weekNumber=2, isPlayoffWeek=True, matchups=[matchup2])
-        week3 = Week(weekNumber=3, isPlayoffWeek=True, matchups=[matchup3])
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+        week3 = Week(weekNumber=3, matchups=[matchup3])
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
 
@@ -251,13 +251,13 @@ class TestYearCalculator(unittest.TestCase):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
         matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
                            isChampionshipMatchup=True)
 
-        week1 = Week(weekNumber=1, isPlayoffWeek=False, matchups=[matchup1])
-        week2 = Week(weekNumber=2, isPlayoffWeek=True, matchups=[matchup2])
-        week3 = Week(weekNumber=3, isPlayoffWeek=True, matchups=[matchup3])
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+        week3 = Week(weekNumber=3, matchups=[matchup3])
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
 
@@ -272,15 +272,15 @@ class TestYearCalculator(unittest.TestCase):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
+        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
         matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
                            isChampionshipMatchup=True)
 
-        week1 = Week(weekNumber=1, isPlayoffWeek=False, matchups=[matchup1])
-        week2 = Week(weekNumber=2, isPlayoffWeek=True, matchups=[matchup2])
-        week3 = Week(weekNumber=3, isPlayoffWeek=True, matchups=[matchup3])
-        week4 = Week(weekNumber=4, isPlayoffWeek=True, matchups=[matchup4])
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+        week3 = Week(weekNumber=3, matchups=[matchup3])
+        week4 = Week(weekNumber=4, matchups=[matchup4])
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3, week4])
 
