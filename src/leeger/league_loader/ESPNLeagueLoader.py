@@ -18,9 +18,9 @@ class ESPNLeagueLoader(LeagueLoader):
     """
     __owners = None
     __espnTeamIdToTeamMap = dict()
-    __espnWinOutcome = "W"
-    __espnLossOutcome = "L"
-    __espnTieOutcome = "T"
+    __ESPN_WIN_OUTCOME = "W"
+    __ESPN_LOSS_OUTCOME = "L"
+    __ESPN_TIE_OUTCOME = "T"
 
     @classmethod
     def loadLeague(cls, leagueId: int, years: list[int]) -> League:
@@ -69,9 +69,9 @@ class ESPNLeagueLoader(LeagueLoader):
                 # figure out tiebreakers if there needs to be one
                 teamAHasTiebreaker = False
                 teamBHasTiebreaker = False
-                if teamAScore == teamBScore and espnTeamA.outcomes[i] == cls.__espnWinOutcome:
+                if teamAScore == teamBScore and espnTeamA.outcomes[i] == cls.__ESPN_WIN_OUTCOME:
                     teamAHasTiebreaker = True
-                elif teamAScore == teamBScore and espnTeamB.outcomes[i] == cls.__espnWinOutcome:
+                elif teamAScore == teamBScore and espnTeamB.outcomes[i] == cls.__ESPN_WIN_OUTCOME:
                     teamBHasTiebreaker = True
                 matchups.append(Matchup(teamAId=teamA.id,
                                         teamBId=teamB.id,
