@@ -36,14 +36,14 @@ class ESPNLeagueLoader(LeagueLoader):
         leagueName = None
         for espnLeague in espnLeagues:
             leagueName = espnLeague.settings.name if leagueName is None else leagueName
-            owners = cls.__buildOwners(espnLeague.teams) if owners is None else owners
-            years.append(cls.__buildYear(espnLeague, owners))
+            cls.__loadOwners(espnLeague.teams)
+            years.append(cls.__buildYear(espnLeague))
 
         return League(name=leagueName, owners=owners, years=years)
 
     @classmethod
-    def __buildYear(cls, espnLeague: ESPNLeague, owners: list[Owner]) -> Year:
-        teams = cls.__buildTeams(espnLeague.teams, owners)
+    def __buildYear(cls, espnLeague: ESPNLeague) -> Year:
+        teams = cls.__buildTeams(espnLeague.teams)
         weeks = cls.__buildWeeks(espnLeague)
         return Year(yearNumber=espnLeague.year, teams=teams, weeks=weeks)
 
@@ -93,10 +93,10 @@ class ESPNLeagueLoader(LeagueLoader):
                 return espnTeam
 
     @classmethod
-    def __buildTeams(cls, espnTeams: list[ESPNTeam], owners: list[Owner]) -> list[Team]:
+    def __buildTeams(cls, espnTeams: list[ESPNTeam]) -> list[Team]:
         teams = list()
         for espnTeam in espnTeams:
-            owner = cls.__getOwnerByName(espnTeam.owner, owners)
+            owner = cls.__getOwnerByName(espnTeam.owner)
             team = Team(ownerId=owner.id, name=espnTeam.team_name)
             teams.append(team)
             cls.__espnTeamIdToTeamMap[espnTeam.team_id] = team
@@ -104,17 +104,16 @@ class ESPNLeagueLoader(LeagueLoader):
         return teams
 
     @classmethod
-    def __buildOwners(cls, espnTeams: list[ESPNTeam]) -> list[Owner]:
+    def __loadOwners(cls, espnTeams: list[ESPNTeam]) -> None:
         if cls.__owners is None:
             owners = list()
             for espnTeam in espnTeams:
                 owners.append(Owner(name=espnTeam.owner))
             cls.__owners = owners
-        return cls.__owners
 
-    @staticmethod
-    def __getOwnerByName(ownerName: str, owners: list[Owner]) -> Owner:
-        for owner in owners:
+    @classmethod
+    def __getOwnerByName(cls, ownerName: str) -> Owner:
+        for owner in cls.__owners:
             if ownerName == owner.name:
                 return owner
         # TODO: Raise exception if owner not found and handle it
