@@ -1,5 +1,6 @@
 import unittest
 
+from src.leeger.enum.MatchupType import MatchupType
 from src.leeger.model.Matchup import Matchup
 from src.leeger.model.Owner import Owner
 from src.leeger.model.Team import Team
@@ -17,11 +18,12 @@ class TestYearNavigator(unittest.TestCase):
         a_team2 = Team(ownerId=owner2.id, name="2")
 
         a_matchup1 = Matchup(teamAId=a_team1.id, teamBId=a_team2.id, teamAScore=1, teamBScore=2)
-        a_matchup2 = Matchup(teamAId=a_team1.id, teamBId=a_team2.id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
+        a_matchup2 = Matchup(teamAId=a_team1.id, teamBId=a_team2.id, teamAScore=1, teamBScore=2,
+                             matchupType=MatchupType.PLAYOFF)
         a_matchup3 = Matchup(teamAId=a_team1.id, teamBId=a_team2.id, teamAScore=1, teamBScore=1,
-                             teamAHasTiebreaker=True, isPlayoffMatchup=True)
+                             teamAHasTiebreaker=True, matchupType=MatchupType.PLAYOFF)
         a_matchup4 = Matchup(teamAId=a_team1.id, teamBId=a_team2.id, teamAScore=1, teamBScore=2,
-                             isChampionshipMatchup=True)
+                             matchupType=MatchupType.CHAMPIONSHIP)
 
         a_week1 = Week(weekNumber=1, matchups=[a_matchup1])
         a_week2 = Week(weekNumber=2, matchups=[a_matchup2])

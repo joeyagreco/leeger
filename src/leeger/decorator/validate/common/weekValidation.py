@@ -1,4 +1,5 @@
 from src.leeger.decorator.validate.common import matchupValidation
+from src.leeger.enum.MatchupType import MatchupType
 from src.leeger.exception.InvalidWeekFormatException import InvalidWeekFormatException
 from src.leeger.model.Week import Week
 
@@ -75,7 +76,7 @@ def checkWeekDoesNotHaveMoreThanOneChampionshipMatchup(week: Week) -> None:
     """
     championshipMatchupCount = 0
     for matchup in week.matchups:
-        if matchup.isChampionshipMatchup:
+        if matchup.matchupType == MatchupType.CHAMPIONSHIP:
             championshipMatchupCount += 1
     if championshipMatchupCount > 1:
         raise InvalidWeekFormatException(
