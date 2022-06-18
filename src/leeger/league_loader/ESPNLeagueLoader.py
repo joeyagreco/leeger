@@ -16,6 +16,7 @@ class ESPNLeagueLoader(LeagueLoader):
     Responsible for loading a League from ESPN Fantasy Football.
     https://www.espn.com/fantasy/football/
     """
+    __owners = None
     __espnTeamIdToTeamMap = dict()
     __espnWinOutcome = "W"
     __espnLossOutcome = "L"
@@ -58,17 +59,19 @@ class ESPNLeagueLoader(LeagueLoader):
                 if espnTeam.team_id in espnTeamIDsWithMatchups:
                     continue
                 # team A is *this* team
+                espnTeamA = espnTeam
                 teamA = cls.__espnTeamIdToTeamMap[espnTeam.team_id]
                 teamAScore = espnTeam.scores[i]
                 # team B is their opponent
+                espnTeamB = espnTeam.schedule[i]
                 teamB = cls.__espnTeamIdToTeamMap[espnTeam.schedule[i].team_id]
                 teamBScore = cls.__getESPNTeamById(espnTeam.schedule[i].team_id, espnLeague.teams).scores[i]
                 # figure out tiebreakers if there needs to be one
                 teamAHasTiebreaker = False
                 teamBHasTiebreaker = False
-                if teamAScore == teamBScore and teamA.outcomes[i] == cls.__espnWinOutcome:
+                if teamAScore == teamBScore and espnTeamA.outcomes[i] == cls.__espnWinOutcome:
                     teamAHasTiebreaker = True
-                elif teamAScore == teamBScore and teamB.outcomes[i] == cls.__espnWinOutcome:
+                elif teamAScore == teamBScore and espnTeamB.outcomes[i] == cls.__espnWinOutcome:
                     teamBHasTiebreaker = True
                 matchups.append(Matchup(teamAId=teamA.id,
                                         teamBId=teamB.id,
@@ -100,12 +103,14 @@ class ESPNLeagueLoader(LeagueLoader):
 
         return teams
 
-    @staticmethod
-    def __buildOwners(espnTeams: list[ESPNTeam]) -> list[Owner]:
-        owners = list()
-        for espnTeam in espnTeams:
-            owners.append(Owner(name=espnTeam.owner))
-        return owners
+    @classmethod
+    def __buildOwners(cls, espnTeams: list[ESPNTeam]) -> list[Owner]:
+        if cls.__owners is None:
+            owners = list()
+            for espnTeam in espnTeams:
+                owners.append(Owner(name=espnTeam.owner))
+            cls.__owners = owners
+        return cls.__owners
 
     @staticmethod
     def __getOwnerByName(ownerName: str, owners: list[Owner]) -> Owner:
