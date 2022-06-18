@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+from src.leeger.enum.MatchupType import MatchupType
 from src.leeger.model.Matchup import Matchup
 from src.leeger.model.abstract.UniqueId import UniqueId
 
@@ -13,16 +14,16 @@ class Week(UniqueId):
     def isPlayoffWeek(self) -> bool:
         isPlayoffWeek = False
         for matchup in self.matchups:
-            if matchup.isPlayoffMatchup:
+            if matchup.matchupType == MatchupType.PLAYOFF:
                 isPlayoffWeek = True
                 break
-        return isPlayoffWeek
+        return isPlayoffWeek or self.isChampionshipWeek
 
     @property
     def isChampionshipWeek(self) -> bool:
         isChampionshipWeek = False
         for matchup in self.matchups:
-            if matchup.isChampionshipMatchup:
+            if matchup.matchupType == MatchupType.CHAMPIONSHIP:
                 isChampionshipWeek = True
                 break
         return isChampionshipWeek

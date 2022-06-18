@@ -25,5 +25,3 @@ def checkAllTypes(matchup: Matchup) -> None:
         raise InvalidMatchupFormatException("teamAHasTiebreaker must be type 'bool'.")
     if type(matchup.teamBHasTiebreaker) != bool:
         raise InvalidMatchupFormatException("teamBHasTiebreaker must be type 'bool'.")
-    if type(matchup.isChampionshipMatchup) != bool:
-        raise InvalidMatchupFormatException("isChampionshipMatchup must be type 'bool'.")

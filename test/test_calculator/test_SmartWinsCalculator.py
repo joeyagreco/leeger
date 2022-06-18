@@ -1,6 +1,7 @@
 import unittest
 
 from src.leeger.calculator.SmartWinsCalculator import SmartWinsCalculator
+from src.leeger.enum.MatchupType import MatchupType
 from src.leeger.model.Matchup import Matchup
 from src.leeger.model.Week import Week
 from src.leeger.model.Year import Year
@@ -54,16 +55,21 @@ class TestSmartWinsCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4, isPlayoffMatchup=True)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
+                           matchupType=MatchupType.PLAYOFF)
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           isChampionshipMatchup=True)
+                           matchupType=MatchupType.CHAMPIONSHIP)
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -90,16 +96,21 @@ class TestSmartWinsCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4, isPlayoffMatchup=True)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
+                           matchupType=MatchupType.PLAYOFF)
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           isChampionshipMatchup=True)
+                           matchupType=MatchupType.CHAMPIONSHIP)
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -126,16 +137,21 @@ class TestSmartWinsCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4, isPlayoffMatchup=True)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
+                           matchupType=MatchupType.PLAYOFF)
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           isChampionshipMatchup=True)
+                           matchupType=MatchupType.CHAMPIONSHIP)
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -162,22 +178,30 @@ class TestSmartWinsCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4, isPlayoffMatchup=True)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
+                           matchupType=MatchupType.PLAYOFF)
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4, isPlayoffMatchup=True)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
+                           matchupType=MatchupType.PLAYOFF)
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           isChampionshipMatchup=True)
+                           matchupType=MatchupType.CHAMPIONSHIP)
 
         week4 = Week(weekNumber=4, matchups=[matchup1, matchup2, matchup3])
 
@@ -239,16 +263,21 @@ class TestSmartWinsCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4, isPlayoffMatchup=True)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
+                           matchupType=MatchupType.PLAYOFF)
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           isChampionshipMatchup=True)
+                           matchupType=MatchupType.CHAMPIONSHIP)
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -275,16 +304,21 @@ class TestSmartWinsCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4, isPlayoffMatchup=True)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
+                           matchupType=MatchupType.PLAYOFF)
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           isChampionshipMatchup=True)
+                           matchupType=MatchupType.CHAMPIONSHIP)
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -311,16 +345,21 @@ class TestSmartWinsCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4, isPlayoffMatchup=True)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
+                           matchupType=MatchupType.PLAYOFF)
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           isChampionshipMatchup=True)
+                           matchupType=MatchupType.CHAMPIONSHIP)
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -347,22 +386,30 @@ class TestSmartWinsCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4, isPlayoffMatchup=True)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
+                           matchupType=MatchupType.PLAYOFF)
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4, isPlayoffMatchup=True)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
+                           matchupType=MatchupType.PLAYOFF)
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           isChampionshipMatchup=True)
+                           matchupType=MatchupType.CHAMPIONSHIP)
 
         week4 = Week(weekNumber=4, matchups=[matchup1, matchup2, matchup3])
 
@@ -424,16 +471,21 @@ class TestSmartWinsCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4, isPlayoffMatchup=True)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
+                           matchupType=MatchupType.PLAYOFF)
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           isChampionshipMatchup=True)
+                           matchupType=MatchupType.CHAMPIONSHIP)
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -460,16 +512,21 @@ class TestSmartWinsCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4, isPlayoffMatchup=True)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
+                           matchupType=MatchupType.PLAYOFF)
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           isChampionshipMatchup=True)
+                           matchupType=MatchupType.CHAMPIONSHIP)
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -496,16 +553,21 @@ class TestSmartWinsCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4, isPlayoffMatchup=True)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
+                           matchupType=MatchupType.PLAYOFF)
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           isChampionshipMatchup=True)
+                           matchupType=MatchupType.CHAMPIONSHIP)
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -532,22 +594,30 @@ class TestSmartWinsCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4, isPlayoffMatchup=True)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
+                           matchupType=MatchupType.PLAYOFF)
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4, isPlayoffMatchup=True)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
+                           matchupType=MatchupType.PLAYOFF)
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           isChampionshipMatchup=True)
+                           matchupType=MatchupType.CHAMPIONSHIP)
 
         week4 = Week(weekNumber=4, matchups=[matchup1, matchup2, matchup3])
 
@@ -609,16 +679,21 @@ class TestSmartWinsCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4, isPlayoffMatchup=True)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
+                           matchupType=MatchupType.PLAYOFF)
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           isChampionshipMatchup=True)
+                           matchupType=MatchupType.CHAMPIONSHIP)
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -645,16 +720,21 @@ class TestSmartWinsCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4, isPlayoffMatchup=True)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
+                           matchupType=MatchupType.PLAYOFF)
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           isChampionshipMatchup=True)
+                           matchupType=MatchupType.CHAMPIONSHIP)
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -681,16 +761,21 @@ class TestSmartWinsCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4, isPlayoffMatchup=True)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
+                           matchupType=MatchupType.PLAYOFF)
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           isChampionshipMatchup=True)
+                           matchupType=MatchupType.CHAMPIONSHIP)
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -717,22 +802,30 @@ class TestSmartWinsCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4, isPlayoffMatchup=True)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
+                           matchupType=MatchupType.PLAYOFF)
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4, isPlayoffMatchup=True)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
+                           matchupType=MatchupType.PLAYOFF)
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, isPlayoffMatchup=True)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4, isPlayoffMatchup=True)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           isChampionshipMatchup=True)
+                           matchupType=MatchupType.CHAMPIONSHIP)
 
         week4 = Week(weekNumber=4, matchups=[matchup1, matchup2, matchup3])
 
