@@ -39,7 +39,7 @@ class ESPNLeagueLoader(LeagueLoader):
             cls.__loadOwners(espnLeague.teams)
             years.append(cls.__buildYear(espnLeague))
 
-        return League(name=leagueName, owners=owners, years=years)
+        return League(name=leagueName, owners=cls.__owners, years=years)
 
     @classmethod
     def __buildYear(cls, espnLeague: ESPNLeague) -> Year:
@@ -116,4 +116,5 @@ class ESPNLeagueLoader(LeagueLoader):
         for owner in cls.__owners:
             if ownerName == owner.name:
                 return owner
+        print()
         # TODO: Raise exception if owner not found and handle it
