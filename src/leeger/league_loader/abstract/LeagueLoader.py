@@ -10,5 +10,5 @@ class LeagueLoader(ABC):
     """
 
     @abstractmethod
-    def loadLeague(self) -> League:
+    def loadLeague(self, *args, **kwargs) -> League:
         ...
