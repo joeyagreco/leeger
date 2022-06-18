@@ -8,7 +8,15 @@ from src.leeger.model.abstract.UniqueId import UniqueId
 class Week(UniqueId):
     weekNumber: int
     matchups: list[Matchup]
-    isPlayoffWeek: bool = False
+
+    @property
+    def isPlayoffWeek(self) -> bool:
+        isPlayoffWeek = False
+        for matchup in self.matchups:
+            if matchup.isPlayoffMatchup:
+                isPlayoffWeek = True
+                break
+        return isPlayoffWeek
 
     @property
     def isChampionshipWeek(self) -> bool:
