@@ -28,9 +28,8 @@ class SingleScoreCalculator(YearCalculator):
 
         for i in range(cls._weekNumberStart - 1, cls._weekNumberEnd):
             week = year.weeks[i]
-            if (week.isPlayoffWeek and not cls._onlyRegularSeason) or (
-                    not week.isPlayoffWeek and not cls._onlyPostSeason):
-                for matchup in week.matchups:
+            for matchup in week.matchups:
+                if matchup.matchupType in cls._includeMatchupTypes:
                     if matchup.teamAId in teamIdAndMaxScore:
                         teamIdAndMaxScore[matchup.teamAId] = max(teamIdAndMaxScore[matchup.teamAId], matchup.teamAScore)
                     else:
@@ -62,9 +61,8 @@ class SingleScoreCalculator(YearCalculator):
 
         for i in range(cls._weekNumberStart - 1, cls._weekNumberEnd):
             week = year.weeks[i]
-            if (week.isPlayoffWeek and not cls._onlyRegularSeason) or (
-                    not week.isPlayoffWeek and not cls._onlyPostSeason):
-                for matchup in week.matchups:
+            for matchup in week.matchups:
+                if matchup.matchupType in cls._includeMatchupTypes:
                     if matchup.teamAId in teamIdAndMinScore:
                         teamIdAndMinScore[matchup.teamAId] = min(teamIdAndMinScore[matchup.teamAId], matchup.teamAScore)
                     else:
