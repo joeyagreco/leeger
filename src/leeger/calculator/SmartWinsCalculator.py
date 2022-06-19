@@ -51,14 +51,14 @@ class SmartWinsCalculator(YearCalculator):
         ####################
         ####################
 
-        cls.getFilters(year, validateYear=False, **kwargs)
+        filters = cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdsAndScores = list()
 
-        for i in range(cls._weekNumberStart - 1, cls._weekNumberEnd):
+        for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
             week = year.weeks[i]
             for matchup in week.matchups:
-                if matchup.matchupType in cls._includeMatchupTypes:
+                if matchup.matchupType in filters.includeMatchupTypes:
                     teamIdsAndScores.append((matchup.teamAId, matchup.teamAScore))
                     teamIdsAndScores.append((matchup.teamBId, matchup.teamBScore))
 
@@ -89,7 +89,7 @@ class SmartWinsCalculator(YearCalculator):
             ...
             }
         """
-        cls.getFilters(year, validateYear=False, **kwargs)
+        filters = cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdAndSmartWins = SmartWinsCalculator.getSmartWins(year, **kwargs)
         teamIdAndNumberOfGamesPlayed = cls.getNumberOfGamesPlayed(year, **kwargs)
@@ -134,14 +134,14 @@ class SmartWinsCalculator(YearCalculator):
         ####################
         ####################
 
-        cls.getFilters(year, validateYear=False, **kwargs)
+        filters = cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdsAndOpponentScores = list()
 
-        for i in range(cls._weekNumberStart - 1, cls._weekNumberEnd):
+        for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
             week = year.weeks[i]
             for matchup in week.matchups:
-                if matchup.matchupType in cls._includeMatchupTypes:
+                if matchup.matchupType in filters.includeMatchupTypes:
                     teamIdsAndOpponentScores.append((matchup.teamAId, matchup.teamBScore))
                     teamIdsAndOpponentScores.append((matchup.teamBId, matchup.teamAScore))
 
@@ -172,7 +172,7 @@ class SmartWinsCalculator(YearCalculator):
             ...
             }
         """
-        cls.getFilters(year, validateYear=False, **kwargs)
+        filters = cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdAndOpponentSmartWins = SmartWinsCalculator.getOpponentSmartWins(year, **kwargs)
         teamIdAndNumberOfGamesPlayed = cls.getNumberOfGamesPlayed(year, **kwargs)
