@@ -32,9 +32,8 @@ class PointsScoredCalculator(YearCalculator):
 
         for i in range(cls._weekNumberStart - 1, cls._weekNumberEnd):
             week = year.weeks[i]
-            if (week.isPlayoffWeek and not cls._onlyRegularSeason) or (
-                    not week.isPlayoffWeek and not cls._onlyPostSeason):
-                for matchup in week.matchups:
+            for matchup in week.matchups:
+                if matchup.matchupType in cls._includeMatchupTypes:
                     teamIdAndPointsScored[matchup.teamAId] += Deci(matchup.teamAScore)
                     teamIdAndPointsScored[matchup.teamBId] += Deci(matchup.teamBScore)
 
@@ -88,9 +87,8 @@ class PointsScoredCalculator(YearCalculator):
 
         for i in range(cls._weekNumberStart - 1, cls._weekNumberEnd):
             week = year.weeks[i]
-            if (week.isPlayoffWeek and not cls._onlyRegularSeason) or (
-                    not week.isPlayoffWeek and not cls._onlyPostSeason):
-                for matchup in week.matchups:
+            for matchup in week.matchups:
+                if matchup.matchupType in cls._includeMatchupTypes:
                     teamIdAndOpponentPointsScored[matchup.teamAId] += Deci(matchup.teamBScore)
                     teamIdAndOpponentPointsScored[matchup.teamBId] += Deci(matchup.teamAScore)
 

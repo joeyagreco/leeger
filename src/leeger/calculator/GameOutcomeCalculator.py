@@ -32,9 +32,8 @@ class GameOutcomeCalculator(YearCalculator):
 
         for i in range(cls._weekNumberStart - 1, cls._weekNumberEnd):
             week = year.weeks[i]
-            if (week.isPlayoffWeek and not cls._onlyRegularSeason) or (
-                    not week.isPlayoffWeek and not cls._onlyPostSeason):
-                for matchup in week.matchups:
+            for matchup in week.matchups:
+                if matchup.matchupType in cls._includeMatchupTypes:
                     # team A won
                     if (matchup.teamAScore > matchup.teamBScore) or (
                             matchup.teamAScore == matchup.teamBScore and matchup.teamAHasTiebreaker):
@@ -67,9 +66,8 @@ class GameOutcomeCalculator(YearCalculator):
 
         for i in range(cls._weekNumberStart - 1, cls._weekNumberEnd):
             week = year.weeks[i]
-            if (week.isPlayoffWeek and not cls._onlyRegularSeason) or (
-                    not week.isPlayoffWeek and not cls._onlyPostSeason):
-                for matchup in week.matchups:
+            for matchup in week.matchups:
+                if matchup.matchupType in cls._includeMatchupTypes:
                     # team A lost
                     if (matchup.teamAScore < matchup.teamBScore) or (
                             matchup.teamAScore == matchup.teamBScore and matchup.teamBHasTiebreaker):
@@ -102,9 +100,8 @@ class GameOutcomeCalculator(YearCalculator):
 
         for i in range(cls._weekNumberStart - 1, cls._weekNumberEnd):
             week = year.weeks[i]
-            if (week.isPlayoffWeek and not cls._onlyRegularSeason) or (
-                    not week.isPlayoffWeek and not cls._onlyPostSeason):
-                for matchup in week.matchups:
+            for matchup in week.matchups:
+                if matchup.matchupType in cls._includeMatchupTypes:
                     if matchup.teamAScore == matchup.teamBScore and not matchup.teamAHasTiebreaker and not matchup.teamBHasTiebreaker:
                         teamIdAndTies[matchup.teamAId] += 1
                         teamIdAndTies[matchup.teamBId] += 1
