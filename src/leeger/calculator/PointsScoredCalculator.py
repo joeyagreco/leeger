@@ -24,7 +24,7 @@ class PointsScoredCalculator(YearCalculator):
             ...
             }
         """
-        cls.loadFilters(year, validateYear=False, **kwargs)
+        cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdAndPointsScored = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
@@ -53,7 +53,7 @@ class PointsScoredCalculator(YearCalculator):
             ...
             }
         """
-        cls.loadFilters(year, validateYear=False, **kwargs)
+        cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdAndPointsScored = cls.getPointsScored(year, **kwargs)
         teamIdAndNumberOfGamesPlayed = cls.getNumberOfGamesPlayed(year, **kwargs)
@@ -79,7 +79,7 @@ class PointsScoredCalculator(YearCalculator):
             ...
             }
         """
-        cls.loadFilters(year, validateYear=False, **kwargs)
+        cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdAndOpponentPointsScored = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
@@ -108,7 +108,7 @@ class PointsScoredCalculator(YearCalculator):
             ...
             }
         """
-        cls.loadFilters(year, validateYear=False, **kwargs)
+        cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdAndOpponentPointsScored = cls.getOpponentPointsScored(year, **kwargs)
         teamIdAndNumberOfGamesPlayed = cls.getNumberOfGamesPlayed(year, **kwargs)

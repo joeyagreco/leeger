@@ -33,7 +33,7 @@ class ScoringStandardDeviationCalculator(YearCalculator):
             ...
             }
         """
-        cls.loadFilters(year, validateYear=False, **kwargs)
+        cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdAndScores = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)

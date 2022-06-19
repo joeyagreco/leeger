@@ -22,7 +22,7 @@ class SingleScoreCalculator(YearCalculator):
             ...
             }
         """
-        cls.loadFilters(year, validateYear=False, **kwargs)
+        cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdAndMaxScore = dict()
 
@@ -55,7 +55,7 @@ class SingleScoreCalculator(YearCalculator):
             ...
             }
         """
-        cls.loadFilters(year, validateYear=False, **kwargs)
+        cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdAndMinScore = dict()
 

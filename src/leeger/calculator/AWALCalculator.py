@@ -36,7 +36,7 @@ class AWALCalculator(YearCalculator):
             ...
             }
         """
-        cls.loadFilters(year, validateYear=False, **kwargs)
+        cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdAndAWAL = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
@@ -90,7 +90,7 @@ class AWALCalculator(YearCalculator):
             ...
             }
         """
-        cls.loadFilters(year, validateYear=False, **kwargs)
+        cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdAndAWAL = AWALCalculator.getAWAL(year, **kwargs)
         teamIdAndNumberOfGamesPlayed = cls.getNumberOfGamesPlayed(year, **kwargs)
@@ -116,7 +116,7 @@ class AWALCalculator(YearCalculator):
             ...
             }
         """
-        cls.loadFilters(year, validateYear=False, **kwargs)
+        cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdAndOpponentAWAL = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
@@ -170,7 +170,7 @@ class AWALCalculator(YearCalculator):
             ...
             }
         """
-        cls.loadFilters(year, validateYear=False, **kwargs)
+        cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdAndOpponentAWAL = AWALCalculator.getOpponentAWAL(year, **kwargs)
         teamIdAndNumberOfGamesPlayed = cls.getNumberOfGamesPlayed(year, **kwargs)

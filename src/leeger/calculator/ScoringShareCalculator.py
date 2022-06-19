@@ -31,7 +31,7 @@ class ScoringShareCalculator(YearCalculator):
             ...
             }
         """
-        cls.loadFilters(year, validateYear=False, **kwargs)
+        cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdAndPointsScored = PointsScoredCalculator.getPointsScored(year, **kwargs)
         totalPointsScoredInYear = sum(teamIdAndPointsScored.values())
@@ -61,7 +61,7 @@ class ScoringShareCalculator(YearCalculator):
             ...
             }
         """
-        cls.loadFilters(year, validateYear=False, **kwargs)
+        cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdAndOpponentPointsScored = PointsScoredCalculator.getOpponentPointsScored(year, **kwargs)
         totalPointsScoredInYear = sum(teamIdAndOpponentPointsScored.values())
