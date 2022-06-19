@@ -45,6 +45,25 @@ class TestYearCalculator(unittest.TestCase):
         self.assertEqual(1, yearFilters4.weekNumberStart)
         self.assertEqual(1, yearFilters4.weekNumberEnd)
 
+    def test_getFilters_onlyChampionshipWrongType_raisesException(self):
+        owner1 = Owner(name="1")
+        owner2 = Owner(name="2")
+
+        team1 = Team(ownerId=owner1.id, name="1")
+        team2 = Team(ownerId=owner2.id, name="2")
+
+        matchup1 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=team1.id, teamBId=team2.id, teamAScore=1, teamBScore=2)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+
+        year = Year(yearNumber=2000, teams=[team1, team2], weeks=[week1, week2])
+
+        with self.assertRaises(InvalidFilterException) as context:
+            YearCalculator.getFilters(year, onlyChampionship=None)
+        self.assertEqual("'onlyChampionship' must be type 'bool'", str(context.exception))
+
     def test_getFilters_onlyPostSeasonWrongType_raisesException(self):
         owner1 = Owner(name="1")
         owner2 = Owner(name="2")
@@ -121,7 +140,7 @@ class TestYearCalculator(unittest.TestCase):
             YearCalculator.getFilters(year, weekNumberEnd=None)
         self.assertEqual("'weekNumberEnd' must be type 'int'", str(context.exception))
 
-    def test_getFilters_onlyPostSeasonAndOnlyRegularSeasonAreTrue_raisesException(self):
+    def test_getFilters_multipleOnlyParametersAreTrue_raisesException(self):
         owner1 = Owner(name="1")
         owner2 = Owner(name="2")
 
@@ -138,7 +157,18 @@ class TestYearCalculator(unittest.TestCase):
 
         with self.assertRaises(InvalidFilterException) as context:
             YearCalculator.getFilters(year, onlyPostSeason=True, onlyRegularSeason=True)
-        self.assertEqual("'onlyPostSeason' and 'onlyRegularSeason' cannot both be True.", str(context.exception))
+        self.assertEqual("Only one of 'onlyChampionship', 'onlyPostSeason', 'onlyRegularSeason' can be True",
+                         str(context.exception))
+
+        with self.assertRaises(InvalidFilterException) as context:
+            YearCalculator.getFilters(year, onlyPostSeason=True, onlyChampionship=True)
+        self.assertEqual("Only one of 'onlyChampionship', 'onlyPostSeason', 'onlyRegularSeason' can be True",
+                         str(context.exception))
+
+        with self.assertRaises(InvalidFilterException) as context:
+            YearCalculator.getFilters(year, onlyRegularSeason=True, onlyChampionship=True)
+        self.assertEqual("Only one of 'onlyChampionship', 'onlyPostSeason', 'onlyRegularSeason' can be True",
+                         str(context.exception))
 
     def test_getFilters_weekNumberStartLessThanOne_raisesException(self):
         owner1 = Owner(name="1")

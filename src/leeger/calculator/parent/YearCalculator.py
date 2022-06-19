@@ -15,12 +15,17 @@ class YearCalculator:
     @classmethod
     @validateYear
     def getFilters(cls, year: Year, **kwargs) -> YearFilters:
+        onlyChampionship = kwargs.pop("onlyChampionship", False)
         onlyPostSeason = kwargs.pop("onlyPostSeason", False)
         onlyRegularSeason = kwargs.pop("onlyRegularSeason", False)
         weekNumberStart = kwargs.pop("weekNumberStart", year.weeks[0].weekNumber)
         weekNumberEnd = kwargs.pop("weekNumberEnd", year.weeks[-1].weekNumber)
 
-        if onlyPostSeason:
+        if onlyChampionship:
+            includeMatchupTypes = [
+                MatchupType.CHAMPIONSHIP
+            ]
+        elif onlyPostSeason:
             includeMatchupTypes = [
                 MatchupType.PLAYOFF,
                 MatchupType.CHAMPIONSHIP
@@ -40,6 +45,8 @@ class YearCalculator:
         # validate filters #
         ####################
         # type checks
+        if type(onlyChampionship) != bool:
+            raise InvalidFilterException("'onlyChampionship' must be type 'bool'")
         if type(onlyPostSeason) != bool:
             raise InvalidFilterException("'onlyPostSeason' must be type 'bool'")
         if type(onlyRegularSeason) != bool:
@@ -50,8 +57,9 @@ class YearCalculator:
             raise InvalidFilterException("'weekNumberEnd' must be type 'int'")
 
         # logic checks
-        if onlyPostSeason and onlyRegularSeason:
-            raise InvalidFilterException("'onlyPostSeason' and 'onlyRegularSeason' cannot both be True.")
+        if [onlyChampionship, onlyPostSeason, onlyRegularSeason].count(True) > 1:
+            raise InvalidFilterException(
+                "Only one of 'onlyChampionship', 'onlyPostSeason', 'onlyRegularSeason' can be True")
         if weekNumberStart < 1:
             raise InvalidFilterException("'weekNumberStart' cannot be less than 1.")
         if weekNumberEnd > len(year.weeks):
