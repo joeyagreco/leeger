@@ -1,5 +1,6 @@
 from src.leeger.decorator.validate.validators import validateWeek
 from src.leeger.model.Week import Week
+from src.leeger.model.WeekFilters import WeekFilters
 
 
 class WeekNavigator:
@@ -9,7 +10,7 @@ class WeekNavigator:
 
     @staticmethod
     @validateWeek
-    def getTeamIdsAndScores(week: Week, **kwargs) -> dict[str, float | int]:
+    def getTeamIdsAndScores(week: Week, weekFilters: WeekFilters, **kwargs) -> dict[str, float | int]:
         """
         Returns all scores for each team in the given Week.
 
@@ -23,8 +24,9 @@ class WeekNavigator:
         """
         teamIdAndScores = dict()
         for matchup in week.matchups:
-            teamIdAndScores[matchup.teamAId] = matchup.teamAScore
-            teamIdAndScores[matchup.teamBId] = matchup.teamBScore
+            if matchup.matchupType in weekFilters.includeMatchupTypes:
+                teamIdAndScores[matchup.teamAId] = matchup.teamAScore
+                teamIdAndScores[matchup.teamBId] = matchup.teamBScore
         return teamIdAndScores
 
     @staticmethod

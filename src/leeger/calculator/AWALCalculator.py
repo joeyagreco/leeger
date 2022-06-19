@@ -1,5 +1,6 @@
 from src.leeger.calculator.parent.YearCalculator import YearCalculator
 from src.leeger.decorator.validate.validators import validateYear
+from src.leeger.model.WeekFilters import WeekFilters
 from src.leeger.model.Year import Year
 from src.leeger.util.Deci import Deci
 from src.leeger.util.WeekNavigator import WeekNavigator
@@ -36,43 +37,42 @@ class AWALCalculator(YearCalculator):
             ...
             }
         """
-        cls.getFilters(year, validateYear=False, **kwargs)
+        filters = cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdAndAWAL = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
         for teamId in allTeamIds:
             teamIdAndAWAL[teamId] = Deci(0)
 
-        for i in range(cls._weekNumberStart - 1, cls._weekNumberEnd):
+        for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
             week = year.weeks[i]
-            if (week.isPlayoffWeek and not cls._onlyRegularSeason) or (
-                    not week.isPlayoffWeek and not cls._onlyPostSeason):
-                opponentsInWeek = (len(week.matchups) * 2) - 1
-                teamsOutscored = dict()
-                teamsTied = dict()
-                for teamId in allTeamIds:
-                    teamsOutscored[teamId] = 0
-                    teamsTied[teamId] = 0
-                allTeamIdsAndScoresForWeek = WeekNavigator.getTeamIdsAndScores(week)
-                allScores = allTeamIdsAndScoresForWeek.values()
+            opponentsInWeek = cls.getNumberOfValidTeamsInWeek(year, i + 1, **kwargs) - 1
+            teamsOutscored = dict()
+            teamsTied = dict()
+            for teamId in allTeamIds:
+                teamsOutscored[teamId] = 0
+                teamsTied[teamId] = 0
+            allTeamIdsAndScoresForWeek = WeekNavigator.getTeamIdsAndScores(week, WeekFilters(
+                includeMatchupTypes=filters.includeMatchupTypes))
+            allScores = allTeamIdsAndScoresForWeek.values()
 
-                for teamId in allTeamIdsAndScoresForWeek.keys():
-                    teamsOutscored[teamId] = 0
-                    teamsTied[teamId] = 0
-                    score = allTeamIdsAndScoresForWeek[teamId]
-                    for s in allScores:
-                        if score > s:
-                            teamsOutscored[teamId] += 1
-                        if score == s:
-                            teamsTied[teamId] += 1
-                    # remove 1 from the teamsTied tracker since we will always find a tie for this team's score in the list of all scores in the week
-                    teamsTied[teamId] -= 1
-                    # calculate the AWAL for each team for this week
-                    teamIdAndAWAL[teamId] += (
-                            (Deci(teamsOutscored[teamId])
-                             * (Deci(1) / Deci(opponentsInWeek)))
-                            + (Deci(teamsTied[teamId])
-                               * (Deci(0.5) / Deci(opponentsInWeek))))
+            for teamId in allTeamIdsAndScoresForWeek.keys():
+                teamsOutscored[teamId] = 0
+                teamsTied[teamId] = 0
+                score = allTeamIdsAndScoresForWeek[teamId]
+                for s in allScores:
+                    if score > s:
+                        teamsOutscored[teamId] += 1
+                    if score == s:
+                        teamsTied[teamId] += 1
+                # remove 1 from the teamsTied tracker since we will always find a tie for this team's score in the list of all scores in the week
+                teamsTied[teamId] -= 1
+                # calculate the AWAL for each team for this week
+                teamIdAndAWAL[teamId] += (
+                        (Deci(teamsOutscored[teamId])
+                         * (Deci(1) / Deci(opponentsInWeek)))
+                        + (Deci(teamsTied[teamId])
+                           * (Deci(0.5) / Deci(opponentsInWeek))))
 
         return teamIdAndAWAL
 
