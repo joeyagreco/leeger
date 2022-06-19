@@ -57,9 +57,8 @@ class SmartWinsCalculator(YearCalculator):
 
         for i in range(cls._weekNumberStart - 1, cls._weekNumberEnd):
             week = year.weeks[i]
-            if (week.isPlayoffWeek and not cls._onlyRegularSeason) or (
-                    not week.isPlayoffWeek and not cls._onlyPostSeason):
-                for matchup in week.matchups:
+            for matchup in week.matchups:
+                if matchup.matchupType in cls._includeMatchupTypes:
                     teamIdsAndScores.append((matchup.teamAId, matchup.teamAScore))
                     teamIdsAndScores.append((matchup.teamBId, matchup.teamBScore))
 
@@ -141,9 +140,8 @@ class SmartWinsCalculator(YearCalculator):
 
         for i in range(cls._weekNumberStart - 1, cls._weekNumberEnd):
             week = year.weeks[i]
-            if (week.isPlayoffWeek and not cls._onlyRegularSeason) or (
-                    not week.isPlayoffWeek and not cls._onlyPostSeason):
-                for matchup in week.matchups:
+            for matchup in week.matchups:
+                if matchup.matchupType in cls._includeMatchupTypes:
                     teamIdsAndOpponentScores.append((matchup.teamAId, matchup.teamBScore))
                     teamIdsAndOpponentScores.append((matchup.teamBId, matchup.teamAScore))
 
