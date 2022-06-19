@@ -30,7 +30,6 @@ class PlusMinusCalculator(YearCalculator):
             ...
             }
         """
-        cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdAndPlusMinus = dict()
         teamIdAndPointsScored = PointsScoredCalculator.getPointsScored(year, **kwargs)
