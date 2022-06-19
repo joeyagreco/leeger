@@ -31,7 +31,7 @@ class WeekNavigator:
 
     @staticmethod
     @validateWeek
-    def getTeamIdsAndOpponentScores(week: Week, **kwargs) -> dict[str, float | int]:
+    def getTeamIdsAndOpponentScores(week: Week, weekFilters: WeekFilters, **kwargs) -> dict[str, float | int]:
         """
         Returns all scores for each team's opponent in the given Week.
 
@@ -45,6 +45,7 @@ class WeekNavigator:
         """
         teamIdAndScores = dict()
         for matchup in week.matchups:
-            teamIdAndScores[matchup.teamAId] = matchup.teamBScore
-            teamIdAndScores[matchup.teamBId] = matchup.teamAScore
+            if matchup.matchupType in weekFilters.includeMatchupTypes:
+                teamIdAndScores[matchup.teamAId] = matchup.teamBScore
+                teamIdAndScores[matchup.teamBId] = matchup.teamAScore
         return teamIdAndScores

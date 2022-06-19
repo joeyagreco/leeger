@@ -90,7 +90,6 @@ class AWALCalculator(YearCalculator):
             ...
             }
         """
-        cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdAndAWAL = AWALCalculator.getAWAL(year, **kwargs)
         teamIdAndNumberOfGamesPlayed = cls.getNumberOfGamesPlayed(year, **kwargs)
@@ -116,43 +115,42 @@ class AWALCalculator(YearCalculator):
             ...
             }
         """
-        cls.getFilters(year, validateYear=False, **kwargs)
+        filters = cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdAndOpponentAWAL = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
         for teamId in allTeamIds:
             teamIdAndOpponentAWAL[teamId] = Deci(0)
 
-        for i in range(cls._weekNumberStart - 1, cls._weekNumberEnd):
+        for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
             week = year.weeks[i]
-            if (week.isPlayoffWeek and not cls._onlyRegularSeason) or (
-                    not week.isPlayoffWeek and not cls._onlyPostSeason):
-                opponentsInWeek = (len(week.matchups) * 2) - 1
-                teamsOutscored = dict()
-                teamsTied = dict()
-                for teamId in allTeamIds:
-                    teamsOutscored[teamId] = 0
-                    teamsTied[teamId] = 0
-                allTeamIdsAndOpponentScoresForWeek = WeekNavigator.getTeamIdsAndOpponentScores(week)
-                allScores = allTeamIdsAndOpponentScoresForWeek.values()
+            opponentsInWeek = cls.getNumberOfValidTeamsInWeek(year, i + 1, **kwargs) - 1
+            teamsOutscored = dict()
+            teamsTied = dict()
+            for teamId in allTeamIds:
+                teamsOutscored[teamId] = 0
+                teamsTied[teamId] = 0
+            allTeamIdsAndOpponentScoresForWeek = WeekNavigator.getTeamIdsAndOpponentScores(week, WeekFilters(
+                includeMatchupTypes=filters.includeMatchupTypes))
+            allScores = allTeamIdsAndOpponentScoresForWeek.values()
 
-                for teamId in allTeamIdsAndOpponentScoresForWeek.keys():
-                    teamsOutscored[teamId] = 0
-                    teamsTied[teamId] = 0
-                    score = allTeamIdsAndOpponentScoresForWeek[teamId]
-                    for s in allScores:
-                        if score > s:
-                            teamsOutscored[teamId] += 1
-                        if score == s:
-                            teamsTied[teamId] += 1
-                    # remove 1 from the teamsTied tracker since we will always find a tie for this team's opponent's score in the list of all scores in the week
-                    teamsTied[teamId] -= 1
-                    # calculate the AWAL for each team for this week
-                    teamIdAndOpponentAWAL[teamId] += (
-                            (Deci(teamsOutscored[teamId])
-                             * (Deci(1) / Deci(opponentsInWeek)))
-                            + (Deci(teamsTied[teamId])
-                               * (Deci(0.5) / Deci(opponentsInWeek))))
+            for teamId in allTeamIdsAndOpponentScoresForWeek.keys():
+                teamsOutscored[teamId] = 0
+                teamsTied[teamId] = 0
+                score = allTeamIdsAndOpponentScoresForWeek[teamId]
+                for s in allScores:
+                    if score > s:
+                        teamsOutscored[teamId] += 1
+                    if score == s:
+                        teamsTied[teamId] += 1
+                # remove 1 from the teamsTied tracker since we will always find a tie for this team's score in the list of all scores in the week
+                teamsTied[teamId] -= 1
+                # calculate the AWAL for each team's opponent for this week
+                teamIdAndOpponentAWAL[teamId] += (
+                        (Deci(teamsOutscored[teamId])
+                         * (Deci(1) / Deci(opponentsInWeek)))
+                        + (Deci(teamsTied[teamId])
+                           * (Deci(0.5) / Deci(opponentsInWeek))))
 
         return teamIdAndOpponentAWAL
 
