@@ -30,6 +30,14 @@ class TestWeekValidation(unittest.TestCase):
                 Week(weekNumber=1, matchups=[matchup1, matchup2]))
         self.assertEqual("Week 1 has 2 championship matchups. Maximum is 1.", str(context.exception))
 
+    def test_checkWeekHasMatchupsWithNoDuplicateTeamIds_teamHasMultipleMatchupsInWeek_raisesException(self):
+        matchup1 = Matchup(teamAId="a", teamBId="b", teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId="c", teamBId="b", teamAScore=1, teamBScore=2)
+        with self.assertRaises(InvalidWeekFormatException) as context:
+            weekValidation.checkWeekHasMatchupsWithNoDuplicateTeamIds(
+                Week(weekNumber=1, matchups=[matchup1, matchup2]))
+        self.assertEqual("Week 1 has matchups with duplicate team IDs.", str(context.exception))
+
     """
     TYPE CHECK TESTS
     """
