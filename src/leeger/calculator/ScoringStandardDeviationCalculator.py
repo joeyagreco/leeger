@@ -33,17 +33,17 @@ class ScoringStandardDeviationCalculator(YearCalculator):
             ...
             }
         """
-        cls.getFilters(year, validateYear=False, **kwargs)
+        filters = cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdAndScores = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
         for teamId in allTeamIds:
             teamIdAndScores[teamId] = list()
 
-        for i in range(cls._weekNumberStart - 1, cls._weekNumberEnd):
+        for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
             week = year.weeks[i]
             for matchup in week.matchups:
-                if matchup.matchupType in cls._includeMatchupTypes:
+                if matchup.matchupType in filters.includeMatchupTypes:
                     teamIdAndScores[matchup.teamAId].append(Deci(matchup.teamAScore))
                     teamIdAndScores[matchup.teamBId].append(Deci(matchup.teamBScore))
 
