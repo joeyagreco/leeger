@@ -9,6 +9,6 @@ class MatchupType(Enum):
     Used to hold the different types of matchup
     """
     CHAMPIONSHIP = auto()
-    IGNORED = auto()
+    IGNORE = auto()
     PLAYOFF = auto()
     REGULAR_SEASON = auto()

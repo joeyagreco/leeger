@@ -125,7 +125,7 @@ class ESPNLeagueLoader(LeagueLoader):
             else:
                 # this matchup was played by teams that missed the playoffs during a playoff week.
                 # ignore it.
-                return MatchupType.IGNORED
+                return MatchupType.IGNORE
         else:
             return MatchupType.REGULAR_SEASON
 
