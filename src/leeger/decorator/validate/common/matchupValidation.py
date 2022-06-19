@@ -1,3 +1,4 @@
+from src.leeger.enum.MatchupType import MatchupType
 from src.leeger.exception.InvalidMatchupFormatException import InvalidMatchupFormatException
 from src.leeger.model.Matchup import Matchup
 
@@ -25,3 +26,5 @@ def checkAllTypes(matchup: Matchup) -> None:
         raise InvalidMatchupFormatException("teamAHasTiebreaker must be type 'bool'.")
     if type(matchup.teamBHasTiebreaker) != bool:
         raise InvalidMatchupFormatException("teamBHasTiebreaker must be type 'bool'.")
+    if type(matchup.matchupType) != MatchupType:
+        raise InvalidMatchupFormatException("matchupType must be type 'MatchupType'.")
