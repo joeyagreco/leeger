@@ -328,3 +328,57 @@ class TestYearCalculator(unittest.TestCase):
         self.assertEqual(2, len(response.keys()))
         self.assertEqual(Deci("2"), response[teams[0].id])
         self.assertEqual(Deci("2"), response[teams[1].id])
+
+    def test_getNumberOfValidTeamsInWeek_happyPath(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.IGNORE)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2])
+
+        response1 = YearCalculator.getNumberOfValidTeamsInWeek(year, 1)
+        response2 = YearCalculator.getNumberOfValidTeamsInWeek(year, 2)
+
+        self.assertIsInstance(response1, int)
+        self.assertEqual(2, response1)
+        self.assertIsInstance(response2, int)
+        self.assertEqual(0, response2)
+
+    def test_getNumberOfValidTeamsInWeek_onlyPostSeasonIsTrue(self):
+        owners, teams = getNDefaultOwnersAndTeams(4)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.CHAMPIONSHIP)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1, matchup2])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1])
+
+        response = YearCalculator.getNumberOfValidTeamsInWeek(year, 1, onlyPostSeason=True)
+
+        self.assertIsInstance(response, int)
+        self.assertEqual(4, response)
+
+    def test_getNumberOfValidTeamsInWeek_onlyRegularSeasonIsTrue(self):
+        owners, teams = getNDefaultOwnersAndTeams(4)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.REGULAR_SEASON)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.REGULAR_SEASON)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1, matchup2])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1])
+
+        response = YearCalculator.getNumberOfValidTeamsInWeek(year, 1, onlyRegularSeason=True)
+
+        self.assertIsInstance(response, int)
+        self.assertEqual(4, response)
