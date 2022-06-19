@@ -168,7 +168,6 @@ class AWALCalculator(YearCalculator):
             ...
             }
         """
-        cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdAndOpponentAWAL = AWALCalculator.getOpponentAWAL(year, **kwargs)
         teamIdAndNumberOfGamesPlayed = cls.getNumberOfGamesPlayed(year, **kwargs)
