@@ -42,9 +42,8 @@ class ScoringStandardDeviationCalculator(YearCalculator):
 
         for i in range(cls._weekNumberStart - 1, cls._weekNumberEnd):
             week = year.weeks[i]
-            if (week.isPlayoffWeek and not cls._onlyRegularSeason) or (
-                    not week.isPlayoffWeek and not cls._onlyPostSeason):
-                for matchup in week.matchups:
+            for matchup in week.matchups:
+                if matchup.matchupType in cls._includeMatchupTypes:
                     teamIdAndScores[matchup.teamAId].append(Deci(matchup.teamAScore))
                     teamIdAndScores[matchup.teamBId].append(Deci(matchup.teamBScore))
 
