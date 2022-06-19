@@ -24,17 +24,16 @@ class GameOutcomeCalculator(YearCalculator):
             ...
             }
         """
-        cls.loadFilters(year, validateYear=False, **kwargs)
+        filters = cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdAndWins = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
             teamIdAndWins[teamId] = 0
 
-        for i in range(cls._weekNumberStart - 1, cls._weekNumberEnd):
+        for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
             week = year.weeks[i]
-            if (week.isPlayoffWeek and not cls._onlyRegularSeason) or (
-                    not week.isPlayoffWeek and not cls._onlyPostSeason):
-                for matchup in week.matchups:
+            for matchup in week.matchups:
+                if matchup.matchupType in filters.includeMatchupTypes:
                     # team A won
                     if (matchup.teamAScore > matchup.teamBScore) or (
                             matchup.teamAScore == matchup.teamBScore and matchup.teamAHasTiebreaker):
@@ -59,17 +58,16 @@ class GameOutcomeCalculator(YearCalculator):
             ...
             }
         """
-        cls.loadFilters(year, validateYear=False, **kwargs)
+        filters = cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdAndLosses = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
             teamIdAndLosses[teamId] = 0
 
-        for i in range(cls._weekNumberStart - 1, cls._weekNumberEnd):
+        for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
             week = year.weeks[i]
-            if (week.isPlayoffWeek and not cls._onlyRegularSeason) or (
-                    not week.isPlayoffWeek and not cls._onlyPostSeason):
-                for matchup in week.matchups:
+            for matchup in week.matchups:
+                if matchup.matchupType in filters.includeMatchupTypes:
                     # team A lost
                     if (matchup.teamAScore < matchup.teamBScore) or (
                             matchup.teamAScore == matchup.teamBScore and matchup.teamBHasTiebreaker):
@@ -94,17 +92,16 @@ class GameOutcomeCalculator(YearCalculator):
             ...
             }
         """
-        cls.loadFilters(year, validateYear=False, **kwargs)
+        filters = cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdAndTies = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
             teamIdAndTies[teamId] = 0
 
-        for i in range(cls._weekNumberStart - 1, cls._weekNumberEnd):
+        for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
             week = year.weeks[i]
-            if (week.isPlayoffWeek and not cls._onlyRegularSeason) or (
-                    not week.isPlayoffWeek and not cls._onlyPostSeason):
-                for matchup in week.matchups:
+            for matchup in week.matchups:
+                if matchup.matchupType in filters.includeMatchupTypes:
                     if matchup.teamAScore == matchup.teamBScore and not matchup.teamAHasTiebreaker and not matchup.teamBHasTiebreaker:
                         teamIdAndTies[matchup.teamAId] += 1
                         teamIdAndTies[matchup.teamBId] += 1
@@ -128,7 +125,6 @@ class GameOutcomeCalculator(YearCalculator):
             ...
             }
         """
-        cls.loadFilters(year, validateYear=False, **kwargs)
 
         teamIdAndWinPercentage = dict()
         teamIdAndWins = GameOutcomeCalculator.getWins(year, **kwargs)
@@ -161,7 +157,6 @@ class GameOutcomeCalculator(YearCalculator):
             ...
             }
         """
-        cls.loadFilters(year, validateYear=False, **kwargs)
 
         teamIdAndWAL = dict()
         teamIdAndWins = GameOutcomeCalculator.getWins(year, **kwargs)

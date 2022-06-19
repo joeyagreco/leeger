@@ -751,8 +751,10 @@ class TestAWALCalculator(unittest.TestCase):
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
                            matchupType=MatchupType.CHAMPIONSHIP)
 

@@ -1,6 +1,8 @@
 from src.leeger.decorator.validate.validators import validateYear
+from src.leeger.enum.MatchupType import MatchupType
 from src.leeger.exception.InvalidFilterException import InvalidFilterException
 from src.leeger.model.Year import Year
+from src.leeger.model.YearFilters import YearFilters
 from src.leeger.util.Deci import Deci
 from src.leeger.util.YearNavigator import YearNavigator
 
@@ -9,41 +11,56 @@ class YearCalculator:
     """
     Should be inherited by all stat calculators that calculate stats for a Year.
     """
-    _onlyPostSeason: bool  # only include post season wins
-    _onlyRegularSeason: bool  # only include regular season wins
-    _weekNumberStart: int  # week to start the calculations at (inclusive)
-    _weekNumberEnd: int  # week to end the calculations at (inclusive)
 
     @classmethod
     @validateYear
-    def loadFilters(cls, year: Year, **kwargs) -> None:
-        cls._onlyPostSeason = kwargs.pop("onlyPostSeason", False)
-        cls._onlyRegularSeason = kwargs.pop("onlyRegularSeason", False)
-        cls._weekNumberStart = kwargs.pop("weekNumberStart", year.weeks[0].weekNumber)
-        cls._weekNumberEnd = kwargs.pop("weekNumberEnd", year.weeks[-1].weekNumber)
+    def getFilters(cls, year: Year, **kwargs) -> YearFilters:
+        onlyPostSeason = kwargs.pop("onlyPostSeason", False)
+        onlyRegularSeason = kwargs.pop("onlyRegularSeason", False)
+        weekNumberStart = kwargs.pop("weekNumberStart", year.weeks[0].weekNumber)
+        weekNumberEnd = kwargs.pop("weekNumberEnd", year.weeks[-1].weekNumber)
+
+        if onlyPostSeason:
+            includeMatchupTypes = [
+                MatchupType.PLAYOFF,
+                MatchupType.CHAMPIONSHIP
+            ]
+        elif onlyRegularSeason:
+            includeMatchupTypes = [
+                MatchupType.REGULAR_SEASON
+            ]
+        else:
+            includeMatchupTypes = [
+                MatchupType.REGULAR_SEASON,
+                MatchupType.PLAYOFF,
+                MatchupType.CHAMPIONSHIP
+            ]
 
         ####################
         # validate filters #
         ####################
         # type checks
-        if type(cls._onlyPostSeason) != bool:
+        if type(onlyPostSeason) != bool:
             raise InvalidFilterException("'onlyPostSeason' must be type 'bool'")
-        if type(cls._onlyRegularSeason) != bool:
+        if type(onlyRegularSeason) != bool:
             raise InvalidFilterException("'onlyRegularSeason' must be type 'bool'")
-        if type(cls._weekNumberStart) != int:
+        if type(weekNumberStart) != int:
             raise InvalidFilterException("'weekNumberStart' must be type 'int'")
-        if type(cls._weekNumberEnd) != int:
+        if type(weekNumberEnd) != int:
             raise InvalidFilterException("'weekNumberEnd' must be type 'int'")
 
         # logic checks
-        if cls._onlyPostSeason and cls._onlyRegularSeason:
+        if onlyPostSeason and onlyRegularSeason:
             raise InvalidFilterException("'onlyPostSeason' and 'onlyRegularSeason' cannot both be True.")
-        if cls._weekNumberStart < 1:
+        if weekNumberStart < 1:
             raise InvalidFilterException("'weekNumberStart' cannot be less than 1.")
-        if cls._weekNumberEnd > len(year.weeks):
+        if weekNumberEnd > len(year.weeks):
             raise InvalidFilterException("'weekNumberEnd' cannot be greater than the number of weeks in the year.")
-        if cls._weekNumberStart > cls._weekNumberEnd:
+        if weekNumberStart > weekNumberEnd:
             raise InvalidFilterException("'weekNumberEnd' cannot be greater than 'weekNumberStart'.")
+
+        return YearFilters(weekNumberStart=weekNumberStart, weekNumberEnd=weekNumberEnd,
+                           includeMatchupTypes=includeMatchupTypes)
 
     @classmethod
     @validateYear
@@ -59,18 +76,34 @@ class YearCalculator:
             ...
             }
         """
-        cls.loadFilters(year, **kwargs)
+        filters = cls.getFilters(year, **kwargs)
 
         teamIdAndNumberOfGamesPlayed = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
         for teamId in allTeamIds:
             teamIdAndNumberOfGamesPlayed[teamId] = Deci(0)
 
-        for i in range(cls._weekNumberStart - 1, cls._weekNumberEnd):
+        for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
             week = year.weeks[i]
-            if (week.isPlayoffWeek and not cls._onlyRegularSeason) or (
-                    not week.isPlayoffWeek and not cls._onlyPostSeason):
-                for matchup in week.matchups:
+            for matchup in week.matchups:
+                if matchup.matchupType in filters.includeMatchupTypes:
                     teamIdAndNumberOfGamesPlayed[matchup.teamAId] += Deci(1)
                     teamIdAndNumberOfGamesPlayed[matchup.teamBId] += Deci(1)
         return teamIdAndNumberOfGamesPlayed
+
+    @classmethod
+    @validateYear
+    def getNumberOfValidTeamsInWeek(cls, year: Year, weekNumber: int, **kwargs) -> int:
+        """
+        Returns the number of valid teams that are playing in the given week.
+        A valid team is a team that is NOT in a matchup that is marked to be ignored and also matches the given filters.
+        """
+        filters = cls.getFilters(year, **kwargs)
+
+        numberOfValidTeams = 0
+        for week in year.weeks:
+            if week.weekNumber == weekNumber:
+                for matchup in week.matchups:
+                    if matchup.matchupType in filters.includeMatchupTypes:
+                        numberOfValidTeams += 2
+        return numberOfValidTeams

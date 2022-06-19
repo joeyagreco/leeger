@@ -22,15 +22,14 @@ class SingleScoreCalculator(YearCalculator):
             ...
             }
         """
-        cls.loadFilters(year, validateYear=False, **kwargs)
+        filters = cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdAndMaxScore = dict()
 
-        for i in range(cls._weekNumberStart - 1, cls._weekNumberEnd):
+        for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
             week = year.weeks[i]
-            if (week.isPlayoffWeek and not cls._onlyRegularSeason) or (
-                    not week.isPlayoffWeek and not cls._onlyPostSeason):
-                for matchup in week.matchups:
+            for matchup in week.matchups:
+                if matchup.matchupType in filters.includeMatchupTypes:
                     if matchup.teamAId in teamIdAndMaxScore:
                         teamIdAndMaxScore[matchup.teamAId] = max(teamIdAndMaxScore[matchup.teamAId], matchup.teamAScore)
                     else:
@@ -56,15 +55,14 @@ class SingleScoreCalculator(YearCalculator):
             ...
             }
         """
-        cls.loadFilters(year, validateYear=False, **kwargs)
+        filters = cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdAndMinScore = dict()
 
-        for i in range(cls._weekNumberStart - 1, cls._weekNumberEnd):
+        for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
             week = year.weeks[i]
-            if (week.isPlayoffWeek and not cls._onlyRegularSeason) or (
-                    not week.isPlayoffWeek and not cls._onlyPostSeason):
-                for matchup in week.matchups:
+            for matchup in week.matchups:
+                if matchup.matchupType in filters.includeMatchupTypes:
                     if matchup.teamAId in teamIdAndMinScore:
                         teamIdAndMinScore[matchup.teamAId] = min(teamIdAndMinScore[matchup.teamAId], matchup.teamAScore)
                     else:

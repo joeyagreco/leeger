@@ -24,17 +24,16 @@ class PointsScoredCalculator(YearCalculator):
             ...
             }
         """
-        cls.loadFilters(year, validateYear=False, **kwargs)
+        filters = cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdAndPointsScored = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
             teamIdAndPointsScored[teamId] = Deci(0)
 
-        for i in range(cls._weekNumberStart - 1, cls._weekNumberEnd):
+        for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
             week = year.weeks[i]
-            if (week.isPlayoffWeek and not cls._onlyRegularSeason) or (
-                    not week.isPlayoffWeek and not cls._onlyPostSeason):
-                for matchup in week.matchups:
+            for matchup in week.matchups:
+                if matchup.matchupType in filters.includeMatchupTypes:
                     teamIdAndPointsScored[matchup.teamAId] += Deci(matchup.teamAScore)
                     teamIdAndPointsScored[matchup.teamBId] += Deci(matchup.teamBScore)
 
@@ -54,7 +53,7 @@ class PointsScoredCalculator(YearCalculator):
             ...
             }
         """
-        cls.loadFilters(year, validateYear=False, **kwargs)
+        filters = cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdAndPointsScored = cls.getPointsScored(year, **kwargs)
         teamIdAndNumberOfGamesPlayed = cls.getNumberOfGamesPlayed(year, **kwargs)
@@ -80,17 +79,16 @@ class PointsScoredCalculator(YearCalculator):
             ...
             }
         """
-        cls.loadFilters(year, validateYear=False, **kwargs)
+        filters = cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdAndOpponentPointsScored = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
             teamIdAndOpponentPointsScored[teamId] = Deci(0)
 
-        for i in range(cls._weekNumberStart - 1, cls._weekNumberEnd):
+        for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
             week = year.weeks[i]
-            if (week.isPlayoffWeek and not cls._onlyRegularSeason) or (
-                    not week.isPlayoffWeek and not cls._onlyPostSeason):
-                for matchup in week.matchups:
+            for matchup in week.matchups:
+                if matchup.matchupType in filters.includeMatchupTypes:
                     teamIdAndOpponentPointsScored[matchup.teamAId] += Deci(matchup.teamBScore)
                     teamIdAndOpponentPointsScored[matchup.teamBId] += Deci(matchup.teamAScore)
 
@@ -110,7 +108,7 @@ class PointsScoredCalculator(YearCalculator):
             ...
             }
         """
-        cls.loadFilters(year, validateYear=False, **kwargs)
+        filters = cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdAndOpponentPointsScored = cls.getOpponentPointsScored(year, **kwargs)
         teamIdAndNumberOfGamesPlayed = cls.getNumberOfGamesPlayed(year, **kwargs)
