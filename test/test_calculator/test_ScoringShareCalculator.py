@@ -79,6 +79,29 @@ class TestScoringShareCalculator(unittest.TestCase):
         self.assertEqual(Deci("31.94444444444444444444444444"), response[teams[0].id])
         self.assertEqual(Deci("68.05555555555555555555555556"), response[teams[1].id])
 
+    def test_getScoringShare_onlyChampionshipIsTrue(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.6,
+                           matchupType=MatchupType.CHAMPIONSHIP)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+        week3 = Week(weekNumber=3, matchups=[matchup3])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
+
+        response = ScoringShareCalculator.getScoringShare(year, onlyChampionship=True)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(2, len(response.keys()))
+        self.assertEqual(Deci(100), sum(response.values()))
+        self.assertEqual(Deci("33.33333333333333333333333333"), response[teams[0].id])
+        self.assertEqual(Deci("66.66666666666666666666666667"), response[teams[1].id])
+
     def test_getScoringShare_weekNumberStartGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
@@ -215,6 +238,29 @@ class TestScoringShareCalculator(unittest.TestCase):
         self.assertEqual(Deci(100), sum(response.values()))
         self.assertEqual(Deci("68.05555555555555555555555556"), response[teams[0].id])
         self.assertEqual(Deci("31.94444444444444444444444444"), response[teams[1].id])
+
+    def test_getOpponentScoringShare_onlyChampionshipIsTrue(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.6,
+                           matchupType=MatchupType.CHAMPIONSHIP)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+        week3 = Week(weekNumber=3, matchups=[matchup3])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
+
+        response = ScoringShareCalculator.getOpponentScoringShare(year, onlyChampionship=True)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(2, len(response.keys()))
+        self.assertEqual(Deci(100), sum(response.values()))
+        self.assertEqual(Deci("66.66666666666666666666666667"), response[teams[0].id])
+        self.assertEqual(Deci("33.33333333333333333333333333"), response[teams[1].id])
 
     def test_getOpponentScoringShare_weekNumberStartGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
