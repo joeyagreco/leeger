@@ -97,7 +97,11 @@ class SmartWinsCalculator(YearCalculator):
         teamIdAndSmartWinsPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
         for teamId in allTeamIds:
-            teamIdAndSmartWinsPerGame[teamId] = teamIdAndSmartWins[teamId] / teamIdAndNumberOfGamesPlayed[teamId]
+            # to avoid division by zero, we'll just set the Smart Wins per game to 0 if the team has no games played
+            if teamIdAndNumberOfGamesPlayed[teamId] == 0:
+                teamIdAndSmartWinsPerGame[teamId] = Deci(0)
+            else:
+                teamIdAndSmartWinsPerGame[teamId] = teamIdAndSmartWins[teamId] / teamIdAndNumberOfGamesPlayed[teamId]
 
         return teamIdAndSmartWinsPerGame
 
@@ -177,10 +181,14 @@ class SmartWinsCalculator(YearCalculator):
         teamIdAndOpponentSmartWins = SmartWinsCalculator.getOpponentSmartWins(year, **kwargs)
         teamIdAndNumberOfGamesPlayed = cls.getNumberOfGamesPlayed(year, **kwargs)
 
-        teamIdAndSmartWinsPerGame = dict()
+        teamIdAndOpponentSmartWinsPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
         for teamId in allTeamIds:
-            teamIdAndSmartWinsPerGame[teamId] = teamIdAndOpponentSmartWins[teamId] / teamIdAndNumberOfGamesPlayed[
-                teamId]
+            # to avoid division by zero, we'll just set the opponent Smart Wins per game to 0 if the team has no games played
+            if teamIdAndNumberOfGamesPlayed[teamId] == 0:
+                teamIdAndOpponentSmartWinsPerGame[teamId] = Deci(0)
+            else:
+                teamIdAndOpponentSmartWinsPerGame[teamId] = teamIdAndOpponentSmartWins[teamId] / \
+                                                            teamIdAndNumberOfGamesPlayed[teamId]
 
-        return teamIdAndSmartWinsPerGame
+        return teamIdAndOpponentSmartWinsPerGame

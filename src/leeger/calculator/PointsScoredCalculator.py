@@ -60,7 +60,7 @@ class PointsScoredCalculator(YearCalculator):
         teamIdAndPointsScoredPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
         for teamId in allTeamIds:
-            # to avoid division by zero, we'll just set the AWAL per game to 0 if the team has no games played
+            # to avoid division by zero, we'll just set the points scored per game to 0 if the team has no games played
             if teamIdAndNumberOfGamesPlayed[teamId] == 0:
                 teamIdAndPointsScoredPerGame[teamId] = Deci(0)
             else:
@@ -119,7 +119,7 @@ class PointsScoredCalculator(YearCalculator):
         teamIdAndOpponentPointsScoredPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
         for teamId in allTeamIds:
-            # to avoid division by zero, we'll just set the AWAL per game to 0 if the team has no games played
+            # to avoid division by zero, we'll just set the opponent points scored per game to 0 if the team has no games played
             if teamIdAndNumberOfGamesPlayed[teamId] == 0:
                 teamIdAndOpponentPointsScoredPerGame[teamId] = Deci(0)
             else:
