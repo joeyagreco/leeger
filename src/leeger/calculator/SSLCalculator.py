@@ -58,7 +58,7 @@ class SSLCalculator(YearCalculator):
             maxScore = SingleScoreCalculator.getMaxScore(year, **kwargs)[teamId]
             minScore = SingleScoreCalculator.getMinScore(year, **kwargs)[teamId]
 
-            teamIdAndTeamScore[teamId] = (awalPerGame * cls.__AWALAndWALPerGameMultiplier) \
-                                         + (scoringShare * cls.__ScoringShareMultiplier) \
-                                         + (Deci(maxScore + minScore) * cls.__MaxAndMinScoreMultiplier)
+            teamIdAndTeamScore[teamId] = (awalPerGame * cls.__AWALAndWALPerGameMultiplier) + \
+                                         (scoringShare * cls.__ScoringShareMultiplier) + \
+                                         ((Deci(maxScore) + Deci(minScore)) * cls.__MaxAndMinScoreMultiplier)
         return teamIdAndTeamScore
