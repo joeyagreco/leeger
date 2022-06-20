@@ -26,9 +26,9 @@ class SSLCalculator(YearCalculator):
     This stat is more accurate with larger sample sizes (the more games played, the better).
     """
 
-    __AWALAndWALPerGameMultiplier: Deci = Deci("100")
-    __ScoringShareMultiplier: Deci = Deci("2")
-    __MaxAndMinScoreMultiplier: Deci = Deci("0.05")
+    __AWALAndWALPerGameMultiplier: Deci = 100
+    __ScoringShareMultiplier: Deci = 2
+    __MaxAndMinScoreMultiplier: Deci = 0.05
 
     @classmethod
     @validateYear
@@ -57,7 +57,7 @@ class SSLCalculator(YearCalculator):
             maxScore = SingleScoreCalculator.getMaxScore(year, **kwargs)[teamId]
             minScore = SingleScoreCalculator.getMinScore(year, **kwargs)[teamId]
 
-            teamIdAndTeamScore[teamId] = (awalPerGame * cls.__AWALAndWALPerGameMultiplier) + \
-                                         (scoringShare * cls.__ScoringShareMultiplier) + \
-                                         ((Deci(maxScore) + Deci(minScore)) * cls.__MaxAndMinScoreMultiplier)
+            teamIdAndTeamScore[teamId] = (awalPerGame * Deci(cls.__AWALAndWALPerGameMultiplier)) + \
+                                         (scoringShare * Deci(cls.__ScoringShareMultiplier)) + \
+                                         ((Deci(maxScore) + Deci(minScore)) * Deci(cls.__MaxAndMinScoreMultiplier))
         return teamIdAndTeamScore
