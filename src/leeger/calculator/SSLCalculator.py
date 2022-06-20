@@ -18,8 +18,7 @@ class SSLCalculator(YearCalculator):
     Team Success = How successful a team is
     Team Luck = How lucky a team is
 
-    Formula:
-    Team Luck = Team Success = Team Score
+    So Team Luck = Team Success = Team Score
 
     NOTE:
     These formulas uses several "magic" numbers as multipliers, which typically should be avoided.
