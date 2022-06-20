@@ -128,6 +128,47 @@ class TestAWALCalculator(unittest.TestCase):
         self.assertEqual(Deci("0.7"), response[teams[4].id])
         self.assertEqual(Deci("1"), response[teams[5].id])
 
+    def test_getAWAL_onlyChampionshipIsTrue(self):
+        owners, teams = getNDefaultOwnersAndTeams(6)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
+                           matchupType=MatchupType.PLAYOFF)
+
+        week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
+                           matchupType=MatchupType.CHAMPIONSHIP)
+
+        week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
+
+        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+                    weeks=[week1, week2, week3])
+
+        response = AWALCalculator.getAWAL(year, onlyChampionship=True)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(6, len(response.keys()))
+        self.assertEqual(Deci("0"), response[teams[0].id])
+        self.assertEqual(Deci("0"), response[teams[1].id])
+        self.assertEqual(Deci("0"), response[teams[2].id])
+        self.assertEqual(Deci("0"), response[teams[3].id])
+        self.assertEqual(Deci("0"), response[teams[4].id])
+        self.assertEqual(Deci("1"), response[teams[5].id])
+
     def test_getAWAL_weekNumberStartGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
@@ -497,6 +538,47 @@ class TestAWALCalculator(unittest.TestCase):
         self.assertEqual(Deci("0.7"), response[teams[4].id])
         self.assertEqual(Deci("1"), response[teams[5].id])
 
+    def test_getAWALPerGame_onlyChampionshipIsTrue(self):
+        owners, teams = getNDefaultOwnersAndTeams(6)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
+                           matchupType=MatchupType.PLAYOFF)
+
+        week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
+                           matchupType=MatchupType.CHAMPIONSHIP)
+
+        week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
+
+        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+                    weeks=[week1, week2, week3])
+
+        response = AWALCalculator.getAWALPerGame(year, onlyChampionship=True)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(6, len(response.keys()))
+        self.assertEqual(Deci("0"), response[teams[0].id])
+        self.assertEqual(Deci("0"), response[teams[1].id])
+        self.assertEqual(Deci("0"), response[teams[2].id])
+        self.assertEqual(Deci("0"), response[teams[3].id])
+        self.assertEqual(Deci("0"), response[teams[4].id])
+        self.assertEqual(Deci("1"), response[teams[5].id])
+
     def test_getAWALPerGame_weekNumberStartGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
@@ -773,6 +855,47 @@ class TestAWALCalculator(unittest.TestCase):
         self.assertEqual(Deci("0.4"), response[teams[3].id])
         self.assertEqual(Deci("1"), response[teams[4].id])
         self.assertEqual(Deci("0.7"), response[teams[5].id])
+
+    def test_getOpponentAWAL_onlyChampionshipIsTrue(self):
+        owners, teams = getNDefaultOwnersAndTeams(6)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
+                           matchupType=MatchupType.PLAYOFF)
+
+        week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
+                           matchupType=MatchupType.CHAMPIONSHIP)
+
+        week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
+
+        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+                    weeks=[week1, week2, week3])
+
+        response = AWALCalculator.getOpponentAWAL(year, onlyChampionship=True)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(6, len(response.keys()))
+        self.assertEqual(Deci("0"), response[teams[0].id])
+        self.assertEqual(Deci("0"), response[teams[1].id])
+        self.assertEqual(Deci("0"), response[teams[2].id])
+        self.assertEqual(Deci("0"), response[teams[3].id])
+        self.assertEqual(Deci("1"), response[teams[4].id])
+        self.assertEqual(Deci("0"), response[teams[5].id])
 
     def test_getOpponentAWAL_weekNumberStartGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
@@ -1142,6 +1265,47 @@ class TestAWALCalculator(unittest.TestCase):
         self.assertEqual(Deci("0.4"), response[teams[3].id])
         self.assertEqual(Deci("1"), response[teams[4].id])
         self.assertEqual(Deci("0.7"), response[teams[5].id])
+
+    def test_getOpponentAWALPerGame_onlyChampionshipIsTrue(self):
+        owners, teams = getNDefaultOwnersAndTeams(6)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
+                           matchupType=MatchupType.PLAYOFF)
+
+        week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
+                           matchupType=MatchupType.CHAMPIONSHIP)
+
+        week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
+
+        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+                    weeks=[week1, week2, week3])
+
+        response = AWALCalculator.getOpponentAWALPerGame(year, onlyChampionship=True)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(6, len(response.keys()))
+        self.assertEqual(Deci("0"), response[teams[0].id])
+        self.assertEqual(Deci("0"), response[teams[1].id])
+        self.assertEqual(Deci("0"), response[teams[2].id])
+        self.assertEqual(Deci("0"), response[teams[3].id])
+        self.assertEqual(Deci("1"), response[teams[4].id])
+        self.assertEqual(Deci("0"), response[teams[5].id])
 
     def test_getOpponentAWALPerGame_weekNumberStartGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(6)

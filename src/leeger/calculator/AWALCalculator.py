@@ -97,7 +97,11 @@ class AWALCalculator(YearCalculator):
         teamIdAndAwalPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
         for teamId in allTeamIds:
-            teamIdAndAwalPerGame[teamId] = teamIdAndAWAL[teamId] / teamIdAndNumberOfGamesPlayed[teamId]
+            # to avoid division by zero, we'll just set the AWAL per game to 0 if the team has no games played
+            if teamIdAndNumberOfGamesPlayed[teamId] == 0:
+                teamIdAndAwalPerGame[teamId] = Deci(0)
+            else:
+                teamIdAndAwalPerGame[teamId] = teamIdAndAWAL[teamId] / teamIdAndNumberOfGamesPlayed[teamId]
 
         return teamIdAndAwalPerGame
 
@@ -175,6 +179,11 @@ class AWALCalculator(YearCalculator):
         teamIdAndOpponentAwalPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
         for teamId in allTeamIds:
-            teamIdAndOpponentAwalPerGame[teamId] = teamIdAndOpponentAWAL[teamId] / teamIdAndNumberOfGamesPlayed[teamId]
+            # to avoid division by zero, we'll just set the AWAL per game to 0 if the team has no games played
+            if teamIdAndNumberOfGamesPlayed[teamId] == 0:
+                teamIdAndOpponentAwalPerGame[teamId] = Deci(0)
+            else:
+                teamIdAndOpponentAwalPerGame[teamId] = teamIdAndOpponentAWAL[teamId] / teamIdAndNumberOfGamesPlayed[
+                    teamId]
 
         return teamIdAndOpponentAwalPerGame
