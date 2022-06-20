@@ -19,13 +19,10 @@ class ESPNLeagueLoader(LeagueLoader):
     Responsible for loading a League from ESPN Fantasy Football.
     https://www.espn.com/fantasy/football/
     """
-    __owners = None
-    __espnTeamIdToTeamMap = dict()
-    __ownerNamesAndAliases = dict()
-    __ESPN_WIN_OUTCOME = "W"
-    __ESPN_LOSS_OUTCOME = "L"
-    __ESPN_TIE_OUTCOME = "T"
-    __TEAMS_IN_PLAYOFFS_TO_PLAYOFF_WEEK_COUNT_MAP = {
+    __ESPN_WIN_OUTCOME: str = "W"
+    __ESPN_LOSS_OUTCOME: str = "L"
+    __ESPN_TIE_OUTCOME: str = "T"
+    __TEAMS_IN_PLAYOFFS_TO_PLAYOFF_WEEK_COUNT_MAP: dict[int, int] = {
         2: 1,
         3: 2,
         4: 2,
@@ -35,7 +32,14 @@ class ESPNLeagueLoader(LeagueLoader):
     }
 
     @classmethod
+    def __initializeClassVariables(cls) -> None:
+        cls.__owners: Optional[list[Owner]] = None
+        cls.__espnTeamIdToTeamMap: dict[str, Team] = dict()
+        cls.__ownerNamesAndAliases: dict[str, list[str]] = dict()
+
+    @classmethod
     def loadLeague(cls, leagueId: int, years: list[int], **kwargs) -> League:
+        cls.__initializeClassVariables()
         # owners may have multiple names across different years,
         # defining owner names and aliases allows users to have multiple names that can belong to the same owner.
         # this prevents issues where an owner with a name change across years is counted as 2 different owners.
