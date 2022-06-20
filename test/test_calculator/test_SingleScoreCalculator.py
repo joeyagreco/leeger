@@ -75,6 +75,28 @@ class TestSingleScoreCalculator(unittest.TestCase):
         self.assertEqual(1.2, response[teams[0].id])
         self.assertEqual(5, response[teams[1].id])
 
+    def test_getMaxScore_onlyChampionshipIsTrue(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=6, teamBScore=7,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=5, teamBScore=6,
+                           matchupType=MatchupType.CHAMPIONSHIP)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+        week3 = Week(weekNumber=3, matchups=[matchup3])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
+
+        response = SingleScoreCalculator.getMaxScore(year, onlyChampionship=True)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(2, len(response.keys()))
+        self.assertEqual(5, response[teams[0].id])
+        self.assertEqual(6, response[teams[1].id])
+
     def test_getMaxScore_weekNumberStartGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
@@ -205,6 +227,28 @@ class TestSingleScoreCalculator(unittest.TestCase):
         self.assertEqual(2, len(response.keys()))
         self.assertEqual(1.1, response[teams[0].id])
         self.assertEqual(2, response[teams[1].id])
+
+    def test_getMinScore_onlyChampionshipIsTrue(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.CHAMPIONSHIP)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+        week3 = Week(weekNumber=3, matchups=[matchup3])
+
+        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
+
+        response = SingleScoreCalculator.getMinScore(year, onlyChampionship=True)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(2, len(response.keys()))
+        self.assertEqual(3, response[teams[0].id])
+        self.assertEqual(4, response[teams[1].id])
 
     def test_getMinScore_weekNumberStartGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
