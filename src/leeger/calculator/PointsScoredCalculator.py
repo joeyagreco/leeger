@@ -53,7 +53,6 @@ class PointsScoredCalculator(YearCalculator):
             ...
             }
         """
-        filters = cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdAndPointsScored = cls.getPointsScored(year, **kwargs)
         teamIdAndNumberOfGamesPlayed = cls.getNumberOfGamesPlayed(year, **kwargs)
@@ -61,7 +60,12 @@ class PointsScoredCalculator(YearCalculator):
         teamIdAndPointsScoredPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
         for teamId in allTeamIds:
-            teamIdAndPointsScoredPerGame[teamId] = teamIdAndPointsScored[teamId] / teamIdAndNumberOfGamesPlayed[teamId]
+            # to avoid division by zero, we'll just set the AWAL per game to 0 if the team has no games played
+            if teamIdAndNumberOfGamesPlayed[teamId] == 0:
+                teamIdAndPointsScoredPerGame[teamId] = Deci(0)
+            else:
+                teamIdAndPointsScoredPerGame[teamId] = teamIdAndPointsScored[teamId] / teamIdAndNumberOfGamesPlayed[
+                    teamId]
 
         return teamIdAndPointsScoredPerGame
 
@@ -108,7 +112,6 @@ class PointsScoredCalculator(YearCalculator):
             ...
             }
         """
-        filters = cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdAndOpponentPointsScored = cls.getOpponentPointsScored(year, **kwargs)
         teamIdAndNumberOfGamesPlayed = cls.getNumberOfGamesPlayed(year, **kwargs)
@@ -116,7 +119,11 @@ class PointsScoredCalculator(YearCalculator):
         teamIdAndOpponentPointsScoredPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
         for teamId in allTeamIds:
-            teamIdAndOpponentPointsScoredPerGame[teamId] = teamIdAndOpponentPointsScored[teamId] / \
-                                                           teamIdAndNumberOfGamesPlayed[teamId]
+            # to avoid division by zero, we'll just set the AWAL per game to 0 if the team has no games played
+            if teamIdAndNumberOfGamesPlayed[teamId] == 0:
+                teamIdAndOpponentPointsScoredPerGame[teamId] = Deci(0)
+            else:
+                teamIdAndOpponentPointsScoredPerGame[teamId] = teamIdAndOpponentPointsScored[teamId] / \
+                                                               teamIdAndNumberOfGamesPlayed[teamId]
 
         return teamIdAndOpponentPointsScoredPerGame

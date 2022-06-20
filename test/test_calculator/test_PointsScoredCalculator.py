@@ -75,6 +75,28 @@ class TestPointsScoredCalculator(unittest.TestCase):
         self.assertEqual(Deci("2.3"), response[teams[0].id])
         self.assertEqual(Deci("4.9"), response[teams[1].id])
 
+    def test_getPointsScored_onlyChampionshipIsTrue(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.6,
+                           matchupType=MatchupType.CHAMPIONSHIP)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+        week3 = Week(weekNumber=3, matchups=[matchup3])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
+
+        response = PointsScoredCalculator.getPointsScored(year, onlyChampionship=True)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(2, len(response.keys()))
+        self.assertEqual(Deci("1.3"), response[teams[0].id])
+        self.assertEqual(Deci("2.6"), response[teams[1].id])
+
     def test_getPointsScored_weekNumberStartGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
@@ -205,6 +227,32 @@ class TestPointsScoredCalculator(unittest.TestCase):
         self.assertEqual(2, len(response.keys()))
         self.assertEqual(Deci("1.15"), response[teams[0].id])
         self.assertEqual(Deci("2.45"), response[teams[1].id])
+
+    def test_getPointsScoredPerGame_onlyChampionshipIsTrue(self):
+        owners, teams = getNDefaultOwnersAndTeams(4)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.6,
+                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup4 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=1.3, teamBScore=2.6,
+                           matchupType=MatchupType.PLAYOFF)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+        week3 = Week(weekNumber=3, matchups=[matchup3, matchup4])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
+
+        response = PointsScoredCalculator.getPointsScoredPerGame(year, onlyChampionship=True)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(4, len(response.keys()))
+        self.assertEqual(Deci("1.3"), response[teams[0].id])
+        self.assertEqual(Deci("2.6"), response[teams[1].id])
+        self.assertEqual(Deci("0"), response[teams[2].id])
+        self.assertEqual(Deci("0"), response[teams[3].id])
 
     def test_getPointsScoredPerGame_weekNumberStartGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
@@ -337,6 +385,28 @@ class TestPointsScoredCalculator(unittest.TestCase):
         self.assertEqual(Deci("4.9"), response[teams[0].id])
         self.assertEqual(Deci("2.3"), response[teams[1].id])
 
+    def test_getOpponentPointsScored_onlyChampionshipIsTrue(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.6,
+                           matchupType=MatchupType.CHAMPIONSHIP)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+        week3 = Week(weekNumber=3, matchups=[matchup3])
+
+        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
+
+        response = PointsScoredCalculator.getOpponentPointsScored(year, onlyChampionship=True)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(2, len(response.keys()))
+        self.assertEqual(Deci("2.6"), response[teams[0].id])
+        self.assertEqual(Deci("1.3"), response[teams[1].id])
+
     def test_getOpponentPointsScored_weekNumberStartGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
@@ -467,6 +537,32 @@ class TestPointsScoredCalculator(unittest.TestCase):
         self.assertEqual(2, len(response.keys()))
         self.assertEqual(Deci("2.45"), response[teams[0].id])
         self.assertEqual(Deci("1.15"), response[teams[1].id])
+
+    def test_getOpponentPointsScoredPerGame_onlyChampionshipIsTrue(self):
+        owners, teams = getNDefaultOwnersAndTeams(4)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.6,
+                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup4 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=1.3, teamBScore=2.6,
+                           matchupType=MatchupType.PLAYOFF)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+        week3 = Week(weekNumber=3, matchups=[matchup3, matchup4])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
+
+        response = PointsScoredCalculator.getOpponentPointsScoredPerGame(year, onlyChampionship=True)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(4, len(response.keys()))
+        self.assertEqual(Deci("2.6"), response[teams[0].id])
+        self.assertEqual(Deci("1.3"), response[teams[1].id])
+        self.assertEqual(Deci("0"), response[teams[2].id])
+        self.assertEqual(Deci("0"), response[teams[3].id])
 
     def test_getOpponentPointsScoredPerGame_weekNumberStartGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
