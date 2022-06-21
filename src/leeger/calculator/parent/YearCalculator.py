@@ -3,8 +3,6 @@ from src.leeger.enum.MatchupType import MatchupType
 from src.leeger.exception.InvalidFilterException import InvalidFilterException
 from src.leeger.model.Year import Year
 from src.leeger.model.YearFilters import YearFilters
-from src.leeger.util.Deci import Deci
-from src.leeger.util.YearNavigator import YearNavigator
 
 
 class YearCalculator:
@@ -14,7 +12,7 @@ class YearCalculator:
 
     @classmethod
     @validateYear
-    def getFilters(cls, year: Year, **kwargs) -> YearFilters:
+    def getYearFilters(cls, year: Year, **kwargs) -> YearFilters:
         onlyChampionship = kwargs.pop("onlyChampionship", False)
         onlyPostSeason = kwargs.pop("onlyPostSeason", False)
         onlyRegularSeason = kwargs.pop("onlyRegularSeason", False)
@@ -72,41 +70,12 @@ class YearCalculator:
 
     @classmethod
     @validateYear
-    def getNumberOfGamesPlayed(cls, year: Year, **kwargs) -> dict[str, Deci]:
-        """
-        Returns the number of games played for each team in the given Year.
-
-        Example response:
-            {
-            "someTeamId": Deci("4"),
-            "someOtherTeamId": Deci("4"),
-            "yetAnotherTeamId": Deci("5"),
-            ...
-            }
-        """
-        filters = cls.getFilters(year, **kwargs)
-
-        teamIdAndNumberOfGamesPlayed = dict()
-        allTeamIds = YearNavigator.getAllTeamIds(year)
-        for teamId in allTeamIds:
-            teamIdAndNumberOfGamesPlayed[teamId] = Deci(0)
-
-        for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
-            week = year.weeks[i]
-            for matchup in week.matchups:
-                if matchup.matchupType in filters.includeMatchupTypes:
-                    teamIdAndNumberOfGamesPlayed[matchup.teamAId] += Deci(1)
-                    teamIdAndNumberOfGamesPlayed[matchup.teamBId] += Deci(1)
-        return teamIdAndNumberOfGamesPlayed
-
-    @classmethod
-    @validateYear
     def getNumberOfValidTeamsInWeek(cls, year: Year, weekNumber: int, **kwargs) -> int:
         """
         Returns the number of valid teams that are playing in the given week.
         A valid team is a team that is NOT in a matchup that is marked to be ignored and also matches the given filters.
         """
-        filters = cls.getFilters(year, **kwargs)
+        filters = cls.getYearFilters(year, **kwargs)
 
         numberOfValidTeams = 0
         for week in year.weeks:

@@ -24,7 +24,7 @@ class PointsScoredCalculator(YearCalculator):
             ...
             }
         """
-        filters = cls.getFilters(year, validateYear=False, **kwargs)
+        filters = cls.getYearFilters(year, validateYear=False, **kwargs)
 
         teamIdAndPointsScored = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
@@ -55,7 +55,7 @@ class PointsScoredCalculator(YearCalculator):
         """
 
         teamIdAndPointsScored = cls.getPointsScored(year, **kwargs)
-        teamIdAndNumberOfGamesPlayed = cls.getNumberOfGamesPlayed(year, **kwargs)
+        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year, cls.getYearFilters(year, **kwargs))
 
         teamIdAndPointsScoredPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
@@ -83,7 +83,7 @@ class PointsScoredCalculator(YearCalculator):
             ...
             }
         """
-        filters = cls.getFilters(year, validateYear=False, **kwargs)
+        filters = cls.getYearFilters(year, validateYear=False, **kwargs)
 
         teamIdAndOpponentPointsScored = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
@@ -114,7 +114,7 @@ class PointsScoredCalculator(YearCalculator):
         """
 
         teamIdAndOpponentPointsScored = cls.getOpponentPointsScored(year, **kwargs)
-        teamIdAndNumberOfGamesPlayed = cls.getNumberOfGamesPlayed(year, **kwargs)
+        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year, cls.getYearFilters(year, **kwargs))
 
         teamIdAndOpponentPointsScoredPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)

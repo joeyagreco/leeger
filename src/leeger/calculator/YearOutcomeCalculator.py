@@ -27,7 +27,7 @@ class YearOutcomeCalculator(YearCalculator):
             ...
             }
         """
-        filters = cls.getFilters(year, validateYear=False, **kwargs)
+        filters = cls.getYearFilters(year, validateYear=False, **kwargs)
 
         teamIdAndChampionships = dict()
         for teamId in YearNavigator.getAllTeamIds(year):

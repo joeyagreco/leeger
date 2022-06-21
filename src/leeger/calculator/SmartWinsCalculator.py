@@ -51,7 +51,7 @@ class SmartWinsCalculator(YearCalculator):
         ####################
         ####################
 
-        filters = cls.getFilters(year, validateYear=False, **kwargs)
+        filters = cls.getYearFilters(year, validateYear=False, **kwargs)
 
         teamIdsAndScores = list()
 
@@ -89,10 +89,9 @@ class SmartWinsCalculator(YearCalculator):
             ...
             }
         """
-        filters = cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdAndSmartWins = SmartWinsCalculator.getSmartWins(year, **kwargs)
-        teamIdAndNumberOfGamesPlayed = cls.getNumberOfGamesPlayed(year, **kwargs)
+        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year, cls.getYearFilters(year, **kwargs))
 
         teamIdAndSmartWinsPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
@@ -138,7 +137,7 @@ class SmartWinsCalculator(YearCalculator):
         ####################
         ####################
 
-        filters = cls.getFilters(year, validateYear=False, **kwargs)
+        filters = cls.getYearFilters(year, validateYear=False, **kwargs)
 
         teamIdsAndOpponentScores = list()
 
@@ -176,10 +175,9 @@ class SmartWinsCalculator(YearCalculator):
             ...
             }
         """
-        filters = cls.getFilters(year, validateYear=False, **kwargs)
 
         teamIdAndOpponentSmartWins = SmartWinsCalculator.getOpponentSmartWins(year, **kwargs)
-        teamIdAndNumberOfGamesPlayed = cls.getNumberOfGamesPlayed(year, **kwargs)
+        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year, cls.getYearFilters(year, **kwargs))
 
         teamIdAndOpponentSmartWinsPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)

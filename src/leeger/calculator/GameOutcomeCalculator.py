@@ -25,7 +25,7 @@ class GameOutcomeCalculator(YearCalculator):
             ...
             }
         """
-        filters = cls.getFilters(year, validateYear=False, **kwargs)
+        filters = cls.getYearFilters(year, validateYear=False, **kwargs)
 
         teamIdAndWins = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
@@ -55,7 +55,7 @@ class GameOutcomeCalculator(YearCalculator):
             ...
             }
         """
-        filters = cls.getFilters(year, validateYear=False, **kwargs)
+        filters = cls.getYearFilters(year, validateYear=False, **kwargs)
 
         teamIdAndLosses = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
@@ -87,7 +87,7 @@ class GameOutcomeCalculator(YearCalculator):
             ...
             }
         """
-        filters = cls.getFilters(year, validateYear=False, **kwargs)
+        filters = cls.getYearFilters(year, validateYear=False, **kwargs)
 
         teamIdAndTies = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
@@ -177,7 +177,7 @@ class GameOutcomeCalculator(YearCalculator):
             }
         """
         teamIdAndWAL = cls.getWAL(year, **kwargs)
-        teamIdAndNumberOfGamesPlayed = cls.getNumberOfGamesPlayed(year, **kwargs)
+        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year, cls.getYearFilters(year, **kwargs))
 
         teamIdAndWALPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
