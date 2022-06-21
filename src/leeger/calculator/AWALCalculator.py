@@ -94,16 +94,16 @@ class AWALCalculator(YearCalculator):
         teamIdAndAWAL = AWALCalculator.getAWAL(year, **kwargs)
         teamIdAndNumberOfGamesPlayed = cls.getNumberOfGamesPlayed(year, **kwargs)
 
-        teamIdAndAwalPerGame = dict()
+        teamIdAndAWALPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
         for teamId in allTeamIds:
             # to avoid division by zero, we'll just set the AWAL per game to 0 if the team has no games played
             if teamIdAndNumberOfGamesPlayed[teamId] == 0:
-                teamIdAndAwalPerGame[teamId] = Deci(0)
+                teamIdAndAWALPerGame[teamId] = Deci(0)
             else:
-                teamIdAndAwalPerGame[teamId] = teamIdAndAWAL[teamId] / teamIdAndNumberOfGamesPlayed[teamId]
+                teamIdAndAWALPerGame[teamId] = teamIdAndAWAL[teamId] / teamIdAndNumberOfGamesPlayed[teamId]
 
-        return teamIdAndAwalPerGame
+        return teamIdAndAWALPerGame
 
     @classmethod
     @validateYear
@@ -176,14 +176,14 @@ class AWALCalculator(YearCalculator):
         teamIdAndOpponentAWAL = AWALCalculator.getOpponentAWAL(year, **kwargs)
         teamIdAndNumberOfGamesPlayed = cls.getNumberOfGamesPlayed(year, **kwargs)
 
-        teamIdAndOpponentAwalPerGame = dict()
+        teamIdAndOpponentAWALPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
         for teamId in allTeamIds:
             # to avoid division by zero, we'll just set the AWAL per game to 0 if the team has no games played
             if teamIdAndNumberOfGamesPlayed[teamId] == 0:
-                teamIdAndOpponentAwalPerGame[teamId] = Deci(0)
+                teamIdAndOpponentAWALPerGame[teamId] = Deci(0)
             else:
-                teamIdAndOpponentAwalPerGame[teamId] = teamIdAndOpponentAWAL[teamId] / teamIdAndNumberOfGamesPlayed[
+                teamIdAndOpponentAWALPerGame[teamId] = teamIdAndOpponentAWAL[teamId] / teamIdAndNumberOfGamesPlayed[
                     teamId]
 
-        return teamIdAndOpponentAwalPerGame
+        return teamIdAndOpponentAWALPerGame
