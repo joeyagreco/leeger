@@ -166,3 +166,31 @@ class GameOutcomeCalculator(YearCalculator):
             teamIdAndWAL[teamId] = teamIdAndWins[teamId] + (Deci(0.5) * Deci(teamIdAndTies[teamId]))
 
         return teamIdAndWAL
+
+    @classmethod
+    @validateYear
+    def getWALPerGame(cls, year: Year, **kwargs) -> dict[str, Deci]:
+        """
+        Returns the number of Wins Against the League per game for each team in the given Year.
+
+        Example response:
+            {
+            "someTeamId": Deci("0.7"),
+            "someOtherTeamId": Deci("0.29"),
+            "yetAnotherTeamId": Deci("0.48"),
+            ...
+            }
+        """
+        teamIdAndWAL = cls.getWAL(year, **kwargs)
+        teamIdAndNumberOfGamesPlayed = cls.getNumberOfGamesPlayed(year, **kwargs)
+
+        teamIdAndWALPerGame = dict()
+        allTeamIds = YearNavigator.getAllTeamIds(year)
+        for teamId in allTeamIds:
+            # to avoid division by zero, we'll just set the WAL per game to 0 if the team has no games played
+            if teamIdAndNumberOfGamesPlayed[teamId] == 0:
+                teamIdAndWALPerGame[teamId] = Deci(0)
+            else:
+                teamIdAndWALPerGame[teamId] = teamIdAndWAL[teamId] / teamIdAndNumberOfGamesPlayed[teamId]
+
+        return teamIdAndWALPerGame
