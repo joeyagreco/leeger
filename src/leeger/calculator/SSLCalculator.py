@@ -26,9 +26,9 @@ class SSLCalculator(YearCalculator):
     This stat is more accurate with larger sample sizes (the more games played, the better).
     """
 
-    __AWALAndWALPerGameMultiplier: Deci = 100
-    __ScoringShareMultiplier: Deci = 2
-    __MaxAndMinScoreMultiplier: Deci = 0.05
+    __AWALAndWALPerGameMultiplier: float = 100.0
+    __ScoringShareMultiplier: float = 2.0
+    __MaxAndMinScoreMultiplier: float = 0.05
 
     @classmethod
     @validateYear
