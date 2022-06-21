@@ -67,20 +67,3 @@ class YearCalculator:
 
         return YearFilters(weekNumberStart=weekNumberStart, weekNumberEnd=weekNumberEnd,
                            includeMatchupTypes=includeMatchupTypes)
-
-    @classmethod
-    @validateYear
-    def getNumberOfValidTeamsInWeek(cls, year: Year, weekNumber: int, **kwargs) -> int:
-        """
-        Returns the number of valid teams that are playing in the given week.
-        A valid team is a team that is NOT in a matchup that is marked to be ignored and also matches the given filters.
-        """
-        filters = cls.getYearFilters(year, **kwargs)
-
-        numberOfValidTeams = 0
-        for week in year.weeks:
-            if week.weekNumber == weekNumber:
-                for matchup in week.matchups:
-                    if matchup.matchupType in filters.includeMatchupTypes:
-                        numberOfValidTeams += 2
-        return numberOfValidTeams

@@ -46,7 +46,8 @@ class AWALCalculator(YearCalculator):
 
         for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
             week = year.weeks[i]
-            opponentsInWeek = cls.getNumberOfValidTeamsInWeek(year, i + 1, **kwargs) - 1
+            opponentsInWeek = WeekNavigator.getNumberOfValidTeamsInWeek(week, WeekFilters(
+                includeMatchupTypes=filters.includeMatchupTypes)) - 1
             teamsOutscored = dict()
             teamsTied = dict()
             for teamId in allTeamIds:
@@ -128,7 +129,8 @@ class AWALCalculator(YearCalculator):
 
         for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
             week = year.weeks[i]
-            opponentsInWeek = cls.getNumberOfValidTeamsInWeek(year, i + 1, **kwargs) - 1
+            opponentsInWeek = WeekNavigator.getNumberOfValidTeamsInWeek(week, WeekFilters(
+                includeMatchupTypes=filters.includeMatchupTypes)) - 1
             teamsOutscored = dict()
             teamsTied = dict()
             for teamId in allTeamIds:

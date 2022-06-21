@@ -49,3 +49,17 @@ class WeekNavigator:
                 teamIdAndScores[matchup.teamAId] = matchup.teamBScore
                 teamIdAndScores[matchup.teamBId] = matchup.teamAScore
         return teamIdAndScores
+
+    @classmethod
+    @validateWeek
+    def getNumberOfValidTeamsInWeek(cls, week: Week, weekFilters: WeekFilters, **kwargs) -> int:
+        """
+        Returns the number of valid teams that are playing in the given week.
+        A valid team is a team that is NOT in a matchup that is marked to be ignored and also matches the given filters.
+        """
+
+        numberOfValidTeams = 0
+        for matchup in week.matchups:
+            if matchup.matchupType in weekFilters.includeMatchupTypes:
+                numberOfValidTeams += 2
+        return numberOfValidTeams
