@@ -94,3 +94,29 @@ class SSLCalculator(YearCalculator):
                                            (scoringShare * Deci(cls.__ScoringShareMultiplier)) + \
                                            ((Deci(maxScore) + Deci(minScore)) * Deci(cls.__MaxAndMinScoreMultiplier))
         return teamIdAndTeamSuccess
+
+    @classmethod
+    @validateYear
+    def getTeamLuck(cls, year: Year, **kwargs) -> dict[str, Deci]:
+        """
+        Team Luck is a score given to a team that is representative of how lucky that team is.
+
+        Formula:
+        Team Luck = Team Success - Team Score
+
+        Returns the Team Luck for each team in the given Year.
+
+        Example response:
+            {
+            "someTeamId": Deci("18.7"),
+            "someOtherTeamId": Deci("12.2"),
+            "yetAnotherTeamId": Deci("-9.1"),
+            ...
+            }
+        """
+
+        teamIdAndTeamLuck = dict()
+        for teamId in YearNavigator.getAllTeamIds(year):
+            teamIdAndTeamLuck[teamId] = cls.getTeamSuccess(year, **kwargs)[teamId] \
+                                        - cls.getTeamScore(year, **kwargs)[teamId]
+        return teamIdAndTeamLuck
