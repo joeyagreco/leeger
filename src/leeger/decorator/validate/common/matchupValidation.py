@@ -8,6 +8,7 @@ def runAllChecks(matchup: Matchup) -> None:
     Runs all checks on the given Matchup.
     """
     checkAllTypes(matchup)
+    checkForIllegalMatchupOutcomes(matchup)
 
 
 def checkAllTypes(matchup: Matchup) -> None:
@@ -28,3 +29,14 @@ def checkAllTypes(matchup: Matchup) -> None:
         raise InvalidMatchupFormatException("teamBHasTiebreaker must be type 'bool'.")
     if type(matchup.matchupType) != MatchupType:
         raise InvalidMatchupFormatException("matchupType must be type 'MatchupType'.")
+
+
+def checkForIllegalMatchupOutcomes(matchup: Matchup) -> None:
+    """
+    Checks that no playoff/championship matchup ends in a tie.
+    """
+    from src.leeger.util.MatchupNavigator import MatchupNavigator
+    if matchup.matchupType in [MatchupType.PLAYOFF,
+                               MatchupType.CHAMPIONSHIP] and MatchupNavigator.getTeamIdOfMatchupWinner(
+        matchup, validateMatchup=False) is None:
+        raise InvalidMatchupFormatException("Playoff and Championship matchups cannot end in a tie.")

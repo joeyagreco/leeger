@@ -324,9 +324,9 @@ class TestGameOutcomeCalculator(unittest.TestCase):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1,
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
                            matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1,
+        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
                            matchupType=MatchupType.CHAMPIONSHIP)
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
@@ -339,15 +339,15 @@ class TestGameOutcomeCalculator(unittest.TestCase):
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
-        self.assertEqual(2, response[teams[0].id])
-        self.assertEqual(2, response[teams[1].id])
+        self.assertEqual(0, response[teams[0].id])
+        self.assertEqual(0, response[teams[1].id])
 
     def test_getTies_onlyRegularSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1)
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1,
+        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
                            matchupType=MatchupType.PLAYOFF)
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
@@ -367,9 +367,9 @@ class TestGameOutcomeCalculator(unittest.TestCase):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1,
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=0,
                            matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1,
+        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=0,
                            matchupType=MatchupType.CHAMPIONSHIP)
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
@@ -382,16 +382,15 @@ class TestGameOutcomeCalculator(unittest.TestCase):
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
-        self.assertEqual(1, response[teams[0].id])
-        self.assertEqual(1, response[teams[1].id])
+        self.assertEqual(0, response[teams[0].id])
+        self.assertEqual(0, response[teams[1].id])
 
     def test_getTies_weekNumberStartGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1)
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1)
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -411,8 +410,7 @@ class TestGameOutcomeCalculator(unittest.TestCase):
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1)
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1)
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -432,10 +430,8 @@ class TestGameOutcomeCalculator(unittest.TestCase):
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1)
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=2, teamBScore=1)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1)
+        matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1)
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -607,8 +603,8 @@ class TestGameOutcomeCalculator(unittest.TestCase):
     def test_getWAL_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1,
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1)
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
                            matchupType=MatchupType.PLAYOFF)
         matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
                            matchupType=MatchupType.CHAMPIONSHIP)
@@ -760,8 +756,8 @@ class TestGameOutcomeCalculator(unittest.TestCase):
     def test_getWALPerGame_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1,
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1)
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
                            matchupType=MatchupType.PLAYOFF)
         matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
                            matchupType=MatchupType.CHAMPIONSHIP)
