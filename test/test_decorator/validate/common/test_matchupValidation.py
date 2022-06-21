@@ -8,13 +8,13 @@ from src.leeger.model.Matchup import Matchup
 
 class TestMatchupValidation(unittest.TestCase):
 
-    def test_checkForIllegalMatchupOutcomes_playoffMatchupHasTie_raisesException(self):
+    def test_checkForIllegalMatchupOutcomes_playoffMatchupIsTie_raisesException(self):
         with self.assertRaises(InvalidMatchupFormatException) as context:
             matchupValidation.checkForIllegalMatchupOutcomes(
                 Matchup(teamAId="", teamBId="", teamAScore=1, teamBScore=1, matchupType=MatchupType.PLAYOFF))
         self.assertEqual("Playoff and Championship matchups cannot end in a tie.", str(context.exception))
 
-    def test_checkForIllegalMatchupOutcomes_championshipMatchupHasTie_raisesException(self):
+    def test_checkForIllegalMatchupOutcomes_championshipMatchupIsTie_raisesException(self):
         with self.assertRaises(InvalidMatchupFormatException) as context:
             matchupValidation.checkForIllegalMatchupOutcomes(
                 Matchup(teamAId="", teamBId="", teamAScore=1, teamBScore=1, matchupType=MatchupType.CHAMPIONSHIP))
