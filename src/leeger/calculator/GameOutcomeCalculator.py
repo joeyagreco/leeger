@@ -2,6 +2,7 @@ from src.leeger.calculator.parent.YearCalculator import YearCalculator
 from src.leeger.decorator.validate.validators import validateYear
 from src.leeger.model.Year import Year
 from src.leeger.util.Deci import Deci
+from src.leeger.util.MatchupNavigator import MatchupNavigator
 from src.leeger.util.YearNavigator import YearNavigator
 
 
@@ -34,14 +35,10 @@ class GameOutcomeCalculator(YearCalculator):
             week = year.weeks[i]
             for matchup in week.matchups:
                 if matchup.matchupType in filters.includeMatchupTypes:
-                    # team A won
-                    if (matchup.teamAScore > matchup.teamBScore) or (
-                            matchup.teamAScore == matchup.teamBScore and matchup.teamAHasTiebreaker):
-                        teamIdAndWins[matchup.teamAId] += 1
-                    # team B won
-                    elif (matchup.teamBScore > matchup.teamAScore) or (
-                            matchup.teamAScore == matchup.teamBScore and matchup.teamBHasTiebreaker):
-                        teamIdAndWins[matchup.teamBId] += 1
+                    # get winner team ID (if this wasn't a tie)
+                    winnerTeamId = MatchupNavigator.getTeamIdOfMatchupWinner(matchup)
+                    if winnerTeamId is not None:
+                        teamIdAndWins[winnerTeamId] += 1
         return teamIdAndWins
 
     @classmethod
@@ -68,14 +65,12 @@ class GameOutcomeCalculator(YearCalculator):
             week = year.weeks[i]
             for matchup in week.matchups:
                 if matchup.matchupType in filters.includeMatchupTypes:
-                    # team A lost
-                    if (matchup.teamAScore < matchup.teamBScore) or (
-                            matchup.teamAScore == matchup.teamBScore and matchup.teamBHasTiebreaker):
-                        teamIdAndLosses[matchup.teamAId] += 1
-                    # team B lost
-                    elif (matchup.teamBScore < matchup.teamAScore) or (
-                            matchup.teamAScore == matchup.teamBScore and matchup.teamAHasTiebreaker):
-                        teamIdAndLosses[matchup.teamBId] += 1
+                    # get loser team ID (if this wasn't a tie)
+                    winnerTeamId = MatchupNavigator.getTeamIdOfMatchupWinner(matchup)
+                    if winnerTeamId is not None:
+                        # return the OTHER team's ID
+                        loserTeamId = matchup.teamAId if winnerTeamId != matchup.teamAId else matchup.teamBId
+                        teamIdAndLosses[loserTeamId] += 1
         return teamIdAndLosses
 
     @classmethod
@@ -102,7 +97,7 @@ class GameOutcomeCalculator(YearCalculator):
             week = year.weeks[i]
             for matchup in week.matchups:
                 if matchup.matchupType in filters.includeMatchupTypes:
-                    if matchup.teamAScore == matchup.teamBScore and not matchup.teamAHasTiebreaker and not matchup.teamBHasTiebreaker:
+                    if MatchupNavigator.getTeamIdOfMatchupWinner(matchup) is None:
                         teamIdAndTies[matchup.teamAId] += 1
                         teamIdAndTies[matchup.teamBId] += 1
         return teamIdAndTies
