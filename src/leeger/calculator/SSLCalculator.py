@@ -1,4 +1,5 @@
 from src.leeger.calculator.AWALCalculator import AWALCalculator
+from src.leeger.calculator.GameOutcomeCalculator import GameOutcomeCalculator
 from src.leeger.calculator.ScoringShareCalculator import ScoringShareCalculator
 from src.leeger.calculator.SingleScoreCalculator import SingleScoreCalculator
 from src.leeger.calculator.parent.YearCalculator import YearCalculator
@@ -34,7 +35,7 @@ class SSLCalculator(YearCalculator):
     @validateYear
     def getTeamScore(cls, year: Year, **kwargs) -> dict[str, Deci]:
         """
-        Team Score is a score given to a team that is representative of how "good" that team is.
+        Team Score is a score given to a team that is representative of how good that team is.
 
         Formula:
         Team Score = ((AWAL Per Game) * aMultiplier) + (Scoring Share * bMultiplier) + ((Max Score + Min Score) * cMultiplier)
@@ -61,3 +62,35 @@ class SSLCalculator(YearCalculator):
                                          (scoringShare * Deci(cls.__ScoringShareMultiplier)) + \
                                          ((Deci(maxScore) + Deci(minScore)) * Deci(cls.__MaxAndMinScoreMultiplier))
         return teamIdAndTeamScore
+
+    @classmethod
+    @validateYear
+    def getTeamSuccess(cls, year: Year, **kwargs) -> dict[str, Deci]:
+        """
+        Team Success is a score given to a team that is representative of how successful that team is.
+
+        Formula:
+        Team Success = ((WAL Per Game) * aMultiplier) + (Scoring Share * bMultiplier) + ((Max Score + Min Score) * cMultiplier)
+
+        Returns the Team Success for each team in the given Year.
+
+        Example response:
+            {
+            "someTeamId": Deci("118.7"),
+            "someOtherTeamId": Deci("112.2"),
+            "yetAnotherTeamId": Deci("79.1"),
+            ...
+            }
+        """
+
+        teamIdAndTeamSuccess = dict()
+        for teamId in YearNavigator.getAllTeamIds(year):
+            walPerGame = GameOutcomeCalculator.getWALPerGame(year, **kwargs)[teamId]
+            scoringShare = ScoringShareCalculator.getScoringShare(year, **kwargs)[teamId]
+            maxScore = SingleScoreCalculator.getMaxScore(year, **kwargs)[teamId]
+            minScore = SingleScoreCalculator.getMinScore(year, **kwargs)[teamId]
+
+            teamIdAndTeamSuccess[teamId] = (walPerGame * Deci(cls.__AWALAndWALPerGameMultiplier)) + \
+                                           (scoringShare * Deci(cls.__ScoringShareMultiplier)) + \
+                                           ((Deci(maxScore) + Deci(minScore)) * Deci(cls.__MaxAndMinScoreMultiplier))
+        return teamIdAndTeamSuccess
