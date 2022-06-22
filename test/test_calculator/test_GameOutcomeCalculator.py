@@ -1,6 +1,6 @@
 import unittest
 
-from src.leeger.calculator.GameOutcomeCalculator import GameOutcomeCalculator
+from src.leeger.calculator.year_calculator.GameOutcomeCalculator import GameOutcomeCalculator
 from src.leeger.enum.MatchupType import MatchupType
 from src.leeger.model.Matchup import Matchup
 from src.leeger.model.Week import Week

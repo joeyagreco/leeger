@@ -1,15 +1,14 @@
-from src.leeger.calculator.AWALCalculator import AWALCalculator
-from src.leeger.calculator.GameOutcomeCalculator import GameOutcomeCalculator
-from src.leeger.calculator.ScoringShareCalculator import ScoringShareCalculator
-from src.leeger.calculator.SingleScoreCalculator import SingleScoreCalculator
-from src.leeger.calculator.parent.YearCalculator import YearCalculator
+from src.leeger.calculator.year_calculator.AWALCalculator import AWALCalculator
+from src.leeger.calculator.year_calculator.GameOutcomeCalculator import GameOutcomeCalculator
+from src.leeger.calculator.year_calculator.ScoringShareCalculator import ScoringShareCalculator
+from src.leeger.calculator.year_calculator.SingleScoreCalculator import SingleScoreCalculator
 from src.leeger.decorator.validate.validators import validateYear
 from src.leeger.model.Year import Year
 from src.leeger.util.Deci import Deci
 from src.leeger.util.YearNavigator import YearNavigator
 
 
-class SSLCalculator(YearCalculator):
+class SSLCalculator:
     """
     Used to calculate all SSL stats.
 

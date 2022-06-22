@@ -1,6 +1,6 @@
 import unittest
 
-from src.leeger.calculator.SingleScoreCalculator import SingleScoreCalculator
+from src.leeger.calculator.year_calculator.SingleScoreCalculator import SingleScoreCalculator
 from src.leeger.enum.MatchupType import MatchupType
 from src.leeger.model.Matchup import Matchup
 from src.leeger.model.Week import Week

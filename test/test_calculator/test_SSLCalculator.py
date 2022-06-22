@@ -1,6 +1,6 @@
 import unittest
 
-from src.leeger.calculator.SSLCalculator import SSLCalculator
+from src.leeger.calculator.year_calculator.SSLCalculator import SSLCalculator
 from src.leeger.enum.MatchupType import MatchupType
 from src.leeger.model.Matchup import Matchup
 from src.leeger.model.Week import Week

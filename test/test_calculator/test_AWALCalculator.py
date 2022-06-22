@@ -1,6 +1,6 @@
 import unittest
 
-from src.leeger.calculator.AWALCalculator import AWALCalculator
+from src.leeger.calculator.year_calculator.AWALCalculator import AWALCalculator
 from src.leeger.enum.MatchupType import MatchupType
 from src.leeger.model.Matchup import Matchup
 from src.leeger.model.Week import Week

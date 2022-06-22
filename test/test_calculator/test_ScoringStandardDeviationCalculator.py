@@ -1,6 +1,6 @@
 import unittest
 
-from src.leeger.calculator.ScoringStandardDeviationCalculator import ScoringStandardDeviationCalculator
+from src.leeger.calculator.year_calculator.ScoringStandardDeviationCalculator import ScoringStandardDeviationCalculator
 from src.leeger.enum.MatchupType import MatchupType
 from src.leeger.model.Matchup import Matchup
 from src.leeger.model.Week import Week

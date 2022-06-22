@@ -1,11 +1,11 @@
-from src.leeger.calculator.parent.YearCalculator import YearCalculator
 from src.leeger.decorator.validate.validators import validateYear
 from src.leeger.model.Year import Year
+from src.leeger.service.YearFiltersService import YearFiltersService
 from src.leeger.util.Deci import Deci
 from src.leeger.util.YearNavigator import YearNavigator
 
 
-class PointsScoredCalculator(YearCalculator):
+class PointsScoredCalculator:
     """
     Used to calculate all points scored.
     """
@@ -24,7 +24,7 @@ class PointsScoredCalculator(YearCalculator):
             ...
             }
         """
-        filters = cls.getYearFilters(year, validateYear=False, **kwargs)
+        filters = YearFiltersService.getYearFilters(year, validateYear=False, **kwargs)
 
         teamIdAndPointsScored = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
@@ -55,7 +55,9 @@ class PointsScoredCalculator(YearCalculator):
         """
 
         teamIdAndPointsScored = cls.getPointsScored(year, **kwargs)
-        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year, cls.getYearFilters(year, **kwargs))
+        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year,
+                                                                            YearFiltersService.getYearFilters(year,
+                                                                                                              **kwargs))
 
         teamIdAndPointsScoredPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
@@ -83,7 +85,7 @@ class PointsScoredCalculator(YearCalculator):
             ...
             }
         """
-        filters = cls.getYearFilters(year, validateYear=False, **kwargs)
+        filters = YearFiltersService.getYearFilters(year, validateYear=False, **kwargs)
 
         teamIdAndOpponentPointsScored = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
@@ -114,7 +116,9 @@ class PointsScoredCalculator(YearCalculator):
         """
 
         teamIdAndOpponentPointsScored = cls.getOpponentPointsScored(year, **kwargs)
-        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year, cls.getYearFilters(year, **kwargs))
+        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year,
+                                                                            YearFiltersService.getYearFilters(year,
+                                                                                                              **kwargs))
 
         teamIdAndOpponentPointsScoredPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)

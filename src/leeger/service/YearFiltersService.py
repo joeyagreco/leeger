@@ -5,9 +5,9 @@ from src.leeger.model.Year import Year
 from src.leeger.model.YearFilters import YearFilters
 
 
-class YearCalculator:
+class YearFiltersService:
     """
-    Should be inherited by all stat calculators that calculate stats for a Year.
+    For use with YearFilters.
     """
 
     @classmethod
