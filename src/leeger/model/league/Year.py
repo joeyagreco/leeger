@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 from openpyxl import Workbook
 from openpyxl.utils import get_column_letter
+from openpyxl.worksheet.table import Table
 
 from src.leeger.model.abstract.UniqueId import UniqueId
 from src.leeger.model.league.Team import Team
@@ -114,6 +115,11 @@ class Year(UniqueId):
                     worksheet[f"{char}{row}"] = statWithTitle[0]
                 # add stat value
                 worksheet[f"{char}{row + 2}"] = statWithTitle[1][teamId]
+
+        # put stats into table
+        table = Table(displayName="YearStats",
+                      ref="A1:" + get_column_letter(worksheet.max_column) + str(worksheet.max_row))
+        worksheet.add_table(table)
 
         # save
         workbook.save(filePath)
