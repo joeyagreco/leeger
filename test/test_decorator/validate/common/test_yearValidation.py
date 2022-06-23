@@ -128,6 +128,36 @@ class TestYearValidation(unittest.TestCase):
             yearValidation.checkTeamNamesInYear(Year(yearNumber=2000, teams=[team1, team2], weeks=[week1]))
         self.assertEqual("Year 2000 has teams with duplicate names.", str(context.exception))
 
+    def test_checkTeamNamesInYear_teamsInAYearHaveSimilarNames_raisesException(self):
+        week1 = Week(weekNumber=1, matchups=list())
+
+        # SPACE DIFFERENCE
+        owner1 = Owner(name="1")
+        owner2 = Owner(name="2")
+
+        team1 = Team(ownerId=owner1.id, name="1 ")  # has a space in name
+        team2 = Team(ownerId=owner2.id, name="1")
+
+        with self.assertRaises(InvalidYearFormatException) as context:
+            yearValidation.checkTeamNamesInYear(Year(yearNumber=2000, teams=[team1, team2], weeks=[week1]))
+        self.assertEqual("Year 2000 has teams with very similar names.", str(context.exception))
+
+        # TAB DIFFERENCE
+        team1 = Team(ownerId=owner1.id, name="1\t")  # has a tab in name
+        team2 = Team(ownerId=owner2.id, name="1")
+
+        with self.assertRaises(InvalidYearFormatException) as context:
+            yearValidation.checkTeamNamesInYear(Year(yearNumber=2000, teams=[team1, team2], weeks=[week1]))
+        self.assertEqual("Year 2000 has teams with very similar names.", str(context.exception))
+
+        # NEWLINE DIFFERENCE
+        team1 = Team(ownerId=owner1.id, name="1\n")  # has a newline in name
+        team2 = Team(ownerId=owner2.id, name="1")
+
+        with self.assertRaises(InvalidYearFormatException) as context:
+            yearValidation.checkTeamNamesInYear(Year(yearNumber=2000, teams=[team1, team2], weeks=[week1]))
+        self.assertEqual("Year 2000 has teams with very similar names.", str(context.exception))
+
     def test_checkForDuplicateTeams_duplicateTeams_raisesException(self):
         owners, teams = getNDefaultOwnersAndTeams(1)
         with self.assertRaises(InvalidYearFormatException) as context:

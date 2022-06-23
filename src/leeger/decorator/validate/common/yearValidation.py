@@ -171,12 +171,12 @@ def checkGivenYearHasValidYearNumber(year: Year) -> None:
 def checkTeamNamesInYear(year: Year) -> None:
     """
     Checks that each team in the given Year has a unique name
+    Counts names as the same if they are the same when whitespace is removed
     """
-    teamNames = list()
-    for team in year.teams:
-        teamNames.append(team.name)
-    if len(set(teamNames)) != len(teamNames):
+    if len(set([team.name for team in year.teams])) != len([team.name for team in year.teams]):
         raise InvalidYearFormatException(f"Year {year.yearNumber} has teams with duplicate names.")
+    if len(set([team.name.strip() for team in year.teams])) != len([team.name for team in year.teams]):
+        raise InvalidYearFormatException(f"Year {year.yearNumber} has teams with very similar names.")
 
 
 def checkTeamOwnerIdsInYear(year: Year) -> None:
