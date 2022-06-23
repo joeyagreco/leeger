@@ -27,7 +27,7 @@ class TestYear(unittest.TestCase):
         week = Week(weekNumber=1, matchups=[matchup])
         year = Year(yearNumber=2000, teams=teams, weeks=[week])
 
-        yearStatSheet = year.statSheet
+        yearStatSheet = year.statSheet()
 
         self.assertIsInstance(yearStatSheet, YearStatSheet)
         self.assertIsInstance(yearStatSheet.wins, dict)
