@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
 from openpyxl import Workbook
+from openpyxl.styles import Font
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.table import Table
 
@@ -98,12 +99,18 @@ class Year(UniqueId):
         worksheet = workbook.active
         worksheet.title = str(self.yearNumber)
 
+        # style for table
+        headerColumnFont = Font(size=12, bold=True)
+        teamNameFont = Font(size=11, bold=True)
+
         # add title
         worksheet["A1"] = "Team Names"
+        worksheet["A1"].font = headerColumnFont
         # add all team names
         for i, team in enumerate(self.teams):
             col = "A"
             worksheet[f"{col}{i + 2}"] = team.name
+            worksheet[f"{col}{i + 2}"].font = teamNameFont
 
         # add all stats
         statsWithTitles = self.statSheet(**kwargs).preferredOrderWithTitle()
@@ -111,9 +118,10 @@ class Year(UniqueId):
             for col, statWithTitle in enumerate(statsWithTitles):
                 char = get_column_letter(col + 2)
                 if row == 1:
-                    # add stat title
+                    # add stat header
                     worksheet[f"{char}{row}"] = statWithTitle[0]
-                # add stat value
+                    worksheet[f"{char}{row}"].font = headerColumnFont
+                    # add stat value
                 worksheet[f"{char}{row + 2}"] = statWithTitle[1][teamId]
 
         # put stats into table
