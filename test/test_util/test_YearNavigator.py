@@ -1,12 +1,12 @@
 import unittest
 
 from src.leeger.enum.MatchupType import MatchupType
-from src.leeger.model.Matchup import Matchup
-from src.leeger.model.Owner import Owner
-from src.leeger.model.Team import Team
-from src.leeger.model.Week import Week
-from src.leeger.model.Year import Year
-from src.leeger.model.YearFilters import YearFilters
+from src.leeger.model.filter.YearFilters import YearFilters
+from src.leeger.model.league.Matchup import Matchup
+from src.leeger.model.league.Owner import Owner
+from src.leeger.model.league.Team import Team
+from src.leeger.model.league.Week import Week
+from src.leeger.model.league.Year import Year
 from src.leeger.util.Deci import Deci
 from src.leeger.util.YearNavigator import YearNavigator
 from test.helper.prototypes import getNDefaultOwnersAndTeams

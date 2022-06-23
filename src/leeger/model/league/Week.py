@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 
 from src.leeger.enum.MatchupType import MatchupType
-from src.leeger.model.Matchup import Matchup
 from src.leeger.model.abstract.UniqueId import UniqueId
+from src.leeger.model.league.Matchup import Matchup
 
 
 @dataclass(kw_only=True)

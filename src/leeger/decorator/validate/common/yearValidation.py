@@ -1,6 +1,6 @@
 from src.leeger.decorator.validate.common import teamValidation, weekValidation
 from src.leeger.exception.InvalidYearFormatException import InvalidYearFormatException
-from src.leeger.model.Year import Year
+from src.leeger.model.league.Year import Year
 
 """
 Checker Functions

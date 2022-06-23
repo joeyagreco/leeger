@@ -1,5 +1,5 @@
 from src.leeger.exception.InvalidOwnerFormatException import InvalidOwnerFormatException
-from src.leeger.model.Owner import Owner
+from src.leeger.model.league.Owner import Owner
 
 
 def runAllChecks(owner: Owner) -> None:

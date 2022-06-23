@@ -1,7 +1,7 @@
 from typing import Optional
 
 from src.leeger.decorator.validate.validators import validateMatchup
-from src.leeger.model.Matchup import Matchup
+from src.leeger.model.league.Matchup import Matchup
 
 
 class MatchupNavigator:

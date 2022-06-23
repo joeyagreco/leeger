@@ -1,6 +1,6 @@
 from src.leeger.calculator.year_calculator.PointsScoredCalculator import PointsScoredCalculator
 from src.leeger.decorator.validate.validators import validateYear
-from src.leeger.model.Year import Year
+from src.leeger.model.league.Year import Year
 from src.leeger.util.Deci import Deci
 from src.leeger.util.YearNavigator import YearNavigator
 
@@ -14,7 +14,7 @@ class ScoringShareCalculator:
     @validateYear
     def getScoringShare(cls, year: Year, **kwargs) -> dict[str, Deci]:
         """
-        Scoring Share is used to show what percentage of league scoring a team was responsible for.
+        Scoring Share is used to show what percentage of test_league scoring a team was responsible for.
         Scoring Share = ((ΣA) / (ΣB)) * 100
         WHERE:
         A = All scores by a Team in a Year
@@ -43,7 +43,7 @@ class ScoringShareCalculator:
     @validateYear
     def getOpponentScoringShare(cls, year: Year, **kwargs) -> dict[str, Deci]:
         """
-        Opponent Scoring Share is used to show what percentage of league scoring a team's opponent was responsible for.
+        Opponent Scoring Share is used to show what percentage of test_league scoring a team's opponent was responsible for.
         Opponent Scoring Share = ((ΣA) / (ΣB)) * 100
         WHERE:
         A = All scores by a Team's opponent in a Year

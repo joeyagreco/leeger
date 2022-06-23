@@ -1,7 +1,7 @@
 from src.leeger.decorator.validate.common import matchupValidation
 from src.leeger.enum.MatchupType import MatchupType
 from src.leeger.exception.InvalidWeekFormatException import InvalidWeekFormatException
-from src.leeger.model.Week import Week
+from src.leeger.model.league.Week import Week
 
 
 def runAllChecks(week: Week) -> None:

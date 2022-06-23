@@ -1,5 +1,5 @@
-from src.leeger.model.Owner import Owner
-from src.leeger.model.Team import Team
+from src.leeger.model.league.Owner import Owner
+from src.leeger.model.league.Team import Team
 
 
 def getNDefaultOwnersAndTeams(n: int) -> tuple[list[Owner], list[Team]]:

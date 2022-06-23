@@ -3,8 +3,8 @@ import unittest
 from src.leeger.decorator.validate.common import weekValidation
 from src.leeger.enum.MatchupType import MatchupType
 from src.leeger.exception.InvalidWeekFormatException import InvalidWeekFormatException
-from src.leeger.model.Matchup import Matchup
-from src.leeger.model.Week import Week
+from src.leeger.model.league.Matchup import Matchup
+from src.leeger.model.league.Week import Week
 
 
 class TestWeekValidation(unittest.TestCase):

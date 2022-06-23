@@ -2,7 +2,7 @@ import unittest
 
 from src.leeger.decorator.validate.common import ownerValidation
 from src.leeger.exception.InvalidOwnerFormatException import InvalidOwnerFormatException
-from src.leeger.model.Owner import Owner
+from src.leeger.model.league.Owner import Owner
 
 
 class TestOwnerValidation(unittest.TestCase):

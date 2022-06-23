@@ -2,9 +2,9 @@ import unittest
 
 from src.leeger.calculator.year_calculator.YearOutcomeCalculator import YearOutcomeCalculator
 from src.leeger.enum.MatchupType import MatchupType
-from src.leeger.model.Matchup import Matchup
-from src.leeger.model.Week import Week
-from src.leeger.model.Year import Year
+from src.leeger.model.league.Matchup import Matchup
+from src.leeger.model.league.Week import Week
+from src.leeger.model.league.Year import Year
 from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 

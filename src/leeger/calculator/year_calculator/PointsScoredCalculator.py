@@ -1,5 +1,5 @@
 from src.leeger.decorator.validate.validators import validateYear
-from src.leeger.model.Year import Year
+from src.leeger.model.league.Year import Year
 from src.leeger.service.YearFiltersService import YearFiltersService
 from src.leeger.util.Deci import Deci
 from src.leeger.util.YearNavigator import YearNavigator

@@ -1,6 +1,6 @@
 from src.leeger.decorator.validate.common import ownerValidation, yearValidation
 from src.leeger.exception.InvalidLeagueFormatException import InvalidLeagueFormatException
-from src.leeger.model.League import League
+from src.leeger.model.league.League import League
 
 """
 Checker Functions
@@ -91,7 +91,7 @@ def checkNoDuplicateYearNumbers(league: League) -> None:
     Checks that all the years in the League have a unique year number.
     """
     if len(set([year.yearNumber for year in league.years])) != len([year.yearNumber for year in league.years]):
-        raise InvalidLeagueFormatException("Can only have 1 of each year number within a league.")
+        raise InvalidLeagueFormatException("Can only have 1 of each year number within a test_league.")
 
 
 def checkNoDuplicateOwnerNames(league: League) -> None:

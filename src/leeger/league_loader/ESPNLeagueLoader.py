@@ -6,12 +6,12 @@ from espn_api.football import Team as ESPNTeam
 
 from src.leeger.enum.MatchupType import MatchupType
 from src.leeger.league_loader.abstract.LeagueLoader import LeagueLoader
-from src.leeger.model.League import League
-from src.leeger.model.Matchup import Matchup
-from src.leeger.model.Owner import Owner
-from src.leeger.model.Team import Team
-from src.leeger.model.Week import Week
-from src.leeger.model.Year import Year
+from src.leeger.model.league.League import League
+from src.leeger.model.league.Matchup import Matchup
+from src.leeger.model.league.Owner import Owner
+from src.leeger.model.league.Team import Team
+from src.leeger.model.league.Week import Week
+from src.leeger.model.league.Year import Year
 
 
 class ESPNLeagueLoader(LeagueLoader):
@@ -73,7 +73,7 @@ class ESPNLeagueLoader(LeagueLoader):
     @classmethod
     def __buildWeeks(cls, espnLeague: ESPNLeague) -> list[Week]:
         weeks = list()
-        for i in range(espnLeague.current_week):  # current week seems to be the last week in the league
+        for i in range(espnLeague.current_week):  # current week seems to be the last week in the test_league
             # get each teams matchup for that week
             matchups = list()
             # to avoid adding matchups twice, we keep track of the ESPN team IDs that have already had a matchup added

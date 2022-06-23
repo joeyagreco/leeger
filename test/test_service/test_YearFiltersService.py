@@ -2,11 +2,11 @@ import unittest
 
 from src.leeger.enum.MatchupType import MatchupType
 from src.leeger.exception.InvalidFilterException import InvalidFilterException
-from src.leeger.model.Matchup import Matchup
-from src.leeger.model.Owner import Owner
-from src.leeger.model.Team import Team
-from src.leeger.model.Week import Week
-from src.leeger.model.Year import Year
+from src.leeger.model.league.Matchup import Matchup
+from src.leeger.model.league.Owner import Owner
+from src.leeger.model.league.Team import Team
+from src.leeger.model.league.Week import Week
+from src.leeger.model.league.Year import Year
 from src.leeger.service.YearFiltersService import YearFiltersService
 from test.helper.prototypes import getNDefaultOwnersAndTeams
 

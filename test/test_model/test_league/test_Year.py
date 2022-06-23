@@ -1,8 +1,8 @@
 import unittest
 
-from src.leeger.model.Team import Team
-from src.leeger.model.Week import Week
-from src.leeger.model.Year import Year
+from src.leeger.model.league.Team import Team
+from src.leeger.model.league.Week import Week
+from src.leeger.model.league.Year import Year
 
 
 class TestYear(unittest.TestCase):

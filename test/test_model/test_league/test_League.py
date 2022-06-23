@@ -1,8 +1,8 @@
 import unittest
 
-from src.leeger.model.League import League
-from src.leeger.model.Owner import Owner
-from src.leeger.model.Year import Year
+from src.leeger.model.league.League import League
+from src.leeger.model.league.Owner import Owner
+from src.leeger.model.league.Year import Year
 
 
 class TestLeague(unittest.TestCase):

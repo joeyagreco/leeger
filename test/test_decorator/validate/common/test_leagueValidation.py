@@ -3,12 +3,12 @@ import unittest
 from src.leeger.decorator.validate.common import leagueValidation
 from src.leeger.enum.MatchupType import MatchupType
 from src.leeger.exception.InvalidLeagueFormatException import InvalidLeagueFormatException
-from src.leeger.model.League import League
-from src.leeger.model.Matchup import Matchup
-from src.leeger.model.Owner import Owner
-from src.leeger.model.Team import Team
-from src.leeger.model.Week import Week
-from src.leeger.model.Year import Year
+from src.leeger.model.league.League import League
+from src.leeger.model.league.Matchup import Matchup
+from src.leeger.model.league.Owner import Owner
+from src.leeger.model.league.Team import Team
+from src.leeger.model.league.Week import Week
+from src.leeger.model.league.Year import Year
 
 
 class TestLeagueValidation(unittest.TestCase):
@@ -83,7 +83,7 @@ class TestLeagueValidation(unittest.TestCase):
 
         with self.assertRaises(InvalidLeagueFormatException) as context:
             leagueValidation.checkNoDuplicateYearNumbers(League(name="TEST", owners=list(), years=[a_year, b_year]))
-        self.assertEqual("Can only have 1 of each year number within a league.", str(context.exception))
+        self.assertEqual("Can only have 1 of each year number within a test_league.", str(context.exception))
 
     def test_checkNumberOfOwnersEqualsTheNumberOfTeams_numberOfTeamsGreaterThanNumberOfOwners_raisesException(self):
         week1 = Week(weekNumber=1, matchups=list())

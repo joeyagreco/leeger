@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 
-from src.leeger.model.Team import Team
-from src.leeger.model.Week import Week
 from src.leeger.model.abstract.UniqueId import UniqueId
+from src.leeger.model.league.Team import Team
+from src.leeger.model.league.Week import Week
 
 
 @dataclass(kw_only=True)

@@ -2,12 +2,12 @@ import unittest
 
 from src.leeger.enum.MatchupType import MatchupType
 from src.leeger.exception.DoesNotExistException import DoesNotExistException
-from src.leeger.model.League import League
-from src.leeger.model.Matchup import Matchup
-from src.leeger.model.Owner import Owner
-from src.leeger.model.Team import Team
-from src.leeger.model.Week import Week
-from src.leeger.model.Year import Year
+from src.leeger.model.league.League import League
+from src.leeger.model.league.Matchup import Matchup
+from src.leeger.model.league.Owner import Owner
+from src.leeger.model.league.Team import Team
+from src.leeger.model.league.Week import Week
+from src.leeger.model.league.Year import Year
 from src.leeger.util.LeagueNavigator import LeagueNavigator
 
 

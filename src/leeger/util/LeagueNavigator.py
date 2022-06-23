@@ -1,7 +1,7 @@
 from src.leeger.decorator.validate.validators import validateLeague
 from src.leeger.exception.DoesNotExistException import DoesNotExistException
-from src.leeger.model.League import League
-from src.leeger.model.Year import Year
+from src.leeger.model.league.League import League
+from src.leeger.model.league.Year import Year
 
 
 class LeagueNavigator:

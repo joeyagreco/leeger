@@ -1,6 +1,6 @@
 from src.leeger.decorator.validate.validators import validateYear
-from src.leeger.model.WeekFilters import WeekFilters
-from src.leeger.model.Year import Year
+from src.leeger.model.filter.WeekFilters import WeekFilters
+from src.leeger.model.league.Year import Year
 from src.leeger.service.YearFiltersService import YearFiltersService
 from src.leeger.util.Deci import Deci
 from src.leeger.util.WeekNavigator import WeekNavigator
@@ -25,7 +25,7 @@ class AWALCalculator:
         Where:
         W = Teams outscored in a week
         T = Teams tied in a week
-        L = Opponents in a week (usually league size - 1)
+        L = Opponents in a week (usually test_league size - 1)
 
         Returns the number of Adjusted Wins Against the League for each team in the given Year.
 

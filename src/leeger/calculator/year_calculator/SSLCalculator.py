@@ -3,7 +3,7 @@ from src.leeger.calculator.year_calculator.GameOutcomeCalculator import GameOutc
 from src.leeger.calculator.year_calculator.ScoringShareCalculator import ScoringShareCalculator
 from src.leeger.calculator.year_calculator.SingleScoreCalculator import SingleScoreCalculator
 from src.leeger.decorator.validate.validators import validateYear
-from src.leeger.model.Year import Year
+from src.leeger.model.league.Year import Year
 from src.leeger.util.Deci import Deci
 from src.leeger.util.YearNavigator import YearNavigator
 
@@ -22,7 +22,7 @@ class SSLCalculator:
 
     NOTE:
     These formulas uses several "magic" numbers as multipliers, which typically should be avoided.
-    However, these numbers can be tweaked and the Team SSL relative to the league will remain roughly the same.
+    However, these numbers can be tweaked and the Team SSL relative to the test_league will remain roughly the same.
     This stat is more accurate with larger sample sizes (the more games played, the better).
     """
 

@@ -1,6 +1,6 @@
 from src.leeger.enum.MatchupType import MatchupType
 from src.leeger.exception.InvalidMatchupFormatException import InvalidMatchupFormatException
-from src.leeger.model.Matchup import Matchup
+from src.leeger.model.league.Matchup import Matchup
 
 
 def runAllChecks(matchup: Matchup) -> None:

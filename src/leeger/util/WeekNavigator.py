@@ -1,6 +1,6 @@
 from src.leeger.decorator.validate.validators import validateWeek
-from src.leeger.model.Week import Week
-from src.leeger.model.WeekFilters import WeekFilters
+from src.leeger.model.filter.WeekFilters import WeekFilters
+from src.leeger.model.league.Week import Week
 
 
 class WeekNavigator:

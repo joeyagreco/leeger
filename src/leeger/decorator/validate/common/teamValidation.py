@@ -1,5 +1,5 @@
 from src.leeger.exception.InvalidTeamFormatException import InvalidTeamFormatException
-from src.leeger.model.Team import Team
+from src.leeger.model.league.Team import Team
 
 
 def runAllChecks(team: Team) -> None:
