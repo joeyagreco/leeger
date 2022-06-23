@@ -2,7 +2,6 @@ import math
 import os
 import tempfile
 import unittest
-from decimal import Decimal
 
 from openpyxl import load_workbook
 from openpyxl.utils import get_column_letter
@@ -76,7 +75,6 @@ class TestYear(unittest.TestCase):
         self.assertIsInstance(yearStatSheet.championshipCount, dict)
 
     def test_year_toExcel(self):
-        d = Decimal("1.12232323232")
         owners, teams = getNDefaultOwnersAndTeams(2)
         teams[0].name = "a"
         teams[1].name = "b"
