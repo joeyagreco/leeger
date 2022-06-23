@@ -1,5 +1,8 @@
 from dataclasses import dataclass
 
+from openpyxl import Workbook
+from openpyxl.utils import get_column_letter
+
 from src.leeger.model.abstract.UniqueId import UniqueId
 from src.leeger.model.league.Team import Team
 from src.leeger.model.league.Week import Week
@@ -12,8 +15,7 @@ class Year(UniqueId):
     teams: list[Team]
     weeks: list[Week]
 
-    @property
-    def statSheet(self) -> YearStatSheet:
+    def statSheet(self, **kwargs) -> YearStatSheet:
         from src.leeger.calculator.year_calculator.AWALCalculator import AWALCalculator
         from src.leeger.calculator.year_calculator.GameOutcomeCalculator import GameOutcomeCalculator
         from src.leeger.calculator.year_calculator.PlusMinusCalculator import PlusMinusCalculator
@@ -27,52 +29,52 @@ class Year(UniqueId):
         from src.leeger.calculator.year_calculator.YearOutcomeCalculator import YearOutcomeCalculator
 
         # Game Outcome
-        wins = GameOutcomeCalculator.getWins(self)
-        losses = GameOutcomeCalculator.getLosses(self)
-        ties = GameOutcomeCalculator.getTies(self)
-        winPercentage = GameOutcomeCalculator.getWinPercentage(self)
-        wal = GameOutcomeCalculator.getWAL(self)
-        walPerGame = GameOutcomeCalculator.getWALPerGame(self)
+        wins = GameOutcomeCalculator.getWins(self, **kwargs)
+        losses = GameOutcomeCalculator.getLosses(self, **kwargs)
+        ties = GameOutcomeCalculator.getTies(self, **kwargs)
+        winPercentage = GameOutcomeCalculator.getWinPercentage(self, **kwargs)
+        wal = GameOutcomeCalculator.getWAL(self, **kwargs)
+        walPerGame = GameOutcomeCalculator.getWALPerGame(self, **kwargs)
 
         # AWAL
-        awal = AWALCalculator.getAWAL(self)
-        awalPerGame = AWALCalculator.getAWALPerGame(self)
-        opponentAWAL = AWALCalculator.getOpponentAWAL(self)
-        opponentAWALPerGame = AWALCalculator.getOpponentAWALPerGame(self)
+        awal = AWALCalculator.getAWAL(self, **kwargs)
+        awalPerGame = AWALCalculator.getAWALPerGame(self, **kwargs)
+        opponentAWAL = AWALCalculator.getOpponentAWAL(self, **kwargs)
+        opponentAWALPerGame = AWALCalculator.getOpponentAWALPerGame(self, **kwargs)
 
         # Smart Wins
-        smartWins = SmartWinsCalculator.getSmartWins(self)
-        smartWinsPerGame = SmartWinsCalculator.getSmartWinsPerGame(self)
-        opponentSmartWins = SmartWinsCalculator.getOpponentSmartWins(self)
-        opponentSmartWinsPerGame = SmartWinsCalculator.getOpponentSmartWinsPerGame(self)
+        smartWins = SmartWinsCalculator.getSmartWins(self, **kwargs)
+        smartWinsPerGame = SmartWinsCalculator.getSmartWinsPerGame(self, **kwargs)
+        opponentSmartWins = SmartWinsCalculator.getOpponentSmartWins(self, **kwargs)
+        opponentSmartWinsPerGame = SmartWinsCalculator.getOpponentSmartWinsPerGame(self, **kwargs)
 
         # Points Scored
-        pointsScored = PointsScoredCalculator.getPointsScored(self)
-        pointsScoredPerGame = PointsScoredCalculator.getPointsScoredPerGame(self)
-        opponentPointsScored = PointsScoredCalculator.getOpponentPointsScored(self)
-        opponentPointsScoredPerGame = PointsScoredCalculator.getOpponentPointsScoredPerGame(self)
+        pointsScored = PointsScoredCalculator.getPointsScored(self, **kwargs)
+        pointsScoredPerGame = PointsScoredCalculator.getPointsScoredPerGame(self, **kwargs)
+        opponentPointsScored = PointsScoredCalculator.getOpponentPointsScored(self, **kwargs)
+        opponentPointsScoredPerGame = PointsScoredCalculator.getOpponentPointsScoredPerGame(self, **kwargs)
 
         # Scoring Share
-        scoringShare = ScoringShareCalculator.getScoringShare(self)
-        opponentScoringShare = ScoringShareCalculator.getOpponentScoringShare(self)
+        scoringShare = ScoringShareCalculator.getScoringShare(self, **kwargs)
+        opponentScoringShare = ScoringShareCalculator.getOpponentScoringShare(self, **kwargs)
 
         # Single Score
-        maxScore = SingleScoreCalculator.getMaxScore(self)
-        minScore = SingleScoreCalculator.getMinScore(self)
+        maxScore = SingleScoreCalculator.getMaxScore(self, **kwargs)
+        minScore = SingleScoreCalculator.getMinScore(self, **kwargs)
 
         # Scoring Standard Deviation
-        scoringStandardDeviation = ScoringStandardDeviationCalculator.getScoringStandardDeviation(self)
+        scoringStandardDeviation = ScoringStandardDeviationCalculator.getScoringStandardDeviation(self, **kwargs)
 
         # Plus Minus
-        plusMinus = PlusMinusCalculator.getPlusMinus(self)
+        plusMinus = PlusMinusCalculator.getPlusMinus(self, **kwargs)
 
         # SSL
-        teamScore = SSLCalculator.getTeamScore(self)
-        teamSuccess = SSLCalculator.getTeamSuccess(self)
-        teamLuck = SSLCalculator.getTeamLuck(self)
+        teamScore = SSLCalculator.getTeamScore(self, **kwargs)
+        teamSuccess = SSLCalculator.getTeamSuccess(self, **kwargs)
+        teamLuck = SSLCalculator.getTeamLuck(self, **kwargs)
 
         # Year Outcome
-        championshipCount = YearOutcomeCalculator.getChampionshipCount(self)
+        championshipCount = YearOutcomeCalculator.getChampionshipCount(self, **kwargs)
 
         return YearStatSheet(wins=wins, losses=losses, ties=ties, winPercentage=winPercentage, wal=wal,
                              walPerGame=walPerGame, awal=awal, awalPerGame=awalPerGame, opponentAWAL=opponentAWAL,
@@ -85,3 +87,33 @@ class Year(UniqueId):
                              scoringStandardDeviation=scoringStandardDeviation, plusMinus=plusMinus,
                              teamScore=teamScore, teamSuccess=teamSuccess, teamLuck=teamLuck,
                              championshipCount=championshipCount)
+
+    def toExcel(self, filePath: str, **kwargs) -> None:
+        """
+        Saves *this* Year to an Excel sheet at the given file path.
+        """
+        # create workbook and sheet
+        workbook = Workbook()
+        worksheet = workbook.active
+        worksheet.title = str(self.yearNumber)
+
+        # add title
+        worksheet["A1"] = "Team Names"
+        # add all team names
+        for i, team in enumerate(self.teams):
+            col = "A"
+            worksheet[f"{col}{i + 2}"] = team.name
+
+        # add all stats
+        statsWithTitles = self.statSheet(**kwargs).preferredOrderWithTitle()
+        for row, teamId in enumerate([team.id for team in self.teams]):
+            for col, statWithTitle in enumerate(statsWithTitles):
+                char = get_column_letter(col + 2)
+                if row == 1:
+                    # add stat title
+                    worksheet[f"{char}{row}"] = statWithTitle[0]
+                # add stat value
+                worksheet[f"{char}{row + 2}"] = statWithTitle[1][teamId]
+
+        # save
+        workbook.save(filePath)

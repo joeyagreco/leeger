@@ -52,3 +52,38 @@ class YearStatSheet:
 
     # Year Outcome
     championshipCount: dict[str, Deci]
+
+    def preferredOrderWithTitle(self) -> list[tuple[str, dict]]:
+        """
+        Returns all stats in the preferred order with the title for the stat.
+        """
+        return [
+            ("Wins", self.wins),
+            ("Losses", self.losses),
+            ("Ties", self.ties),
+            ("Win Percentage", self.winPercentage),
+            ("WAL", self.wal),
+            ("WAL Per Game", self.walPerGame),
+            ("AWAL", self.awal),
+            ("AWAL Per Game", self.awalPerGame),
+            ("Opponent AWAL", self.opponentAWAL),
+            ("Opponent AWAL Per Game", self.opponentAWALPerGame),
+            ("Smart Wins", self.smartWins),
+            ("Smart Wins Per Game", self.smartWinsPerGame),
+            ("Opponent Smart Wins", self.opponentSmartWins),
+            ("Opponent Smart Wins Per Game", self.opponentSmartWinsPerGame),
+            ("Points Scored", self.pointsScored),
+            ("Points Scored Per Game", self.pointsScoredPerGame),
+            ("Opponent Points Scored", self.opponentPointsScored),
+            ("Opponent Points Scored Per Game", self.opponentPointsScoredPerGame),
+            ("Scoring Share", self.scoringShare),
+            ("Opponent Scoring Share", self.opponentScoringShare),
+            ("Max Score", self.maxScore),
+            ("Min Score", self.minScore),
+            ("Scoring Standard Deviation", self.scoringStandardDeviation),
+            ("Plus/Minus", self.plusMinus),
+            ("Team Score", self.teamScore),
+            ("Team Success", self.teamSuccess),
+            ("Team Luck", self.teamLuck),
+            ("Championship Count", self.championshipCount)
+        ]
