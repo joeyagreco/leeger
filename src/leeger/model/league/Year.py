@@ -1,7 +1,8 @@
+import random
 from dataclasses import dataclass
 
 from openpyxl import Workbook
-from openpyxl.styles import Font
+from openpyxl.styles import Font, Color, PatternFill
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.table import Table
 
@@ -99,13 +100,33 @@ class Year(UniqueId):
         worksheet = workbook.active
         worksheet.title = str(self.yearNumber)
 
-        # style for table
+        ###################
+        # Styles for table #
+        ###################
+
+        # fonts
         headerColumnFont = Font(size=12, bold=True)
         teamNameFont = Font(size=11, bold=True)
+
+        # colors
+        GRAY = Color(rgb="B8B8B8")
+
+        def getRandomColor(tint: float = 0) -> Color:
+            r = lambda: random.randint(0, 255)
+            hexCode = "%02X%02X%02X" % (r(), r(), r())
+            return Color(rgb=hexCode, tint=tint)
+
+        # fills
+        headerFill = PatternFill(patternType="solid", fgColor=GRAY)
+
+        #################
+        # Fill in table #
+        #################
 
         # add title
         worksheet["A1"] = "Team Names"
         worksheet["A1"].font = headerColumnFont
+        worksheet["A1"].fill = headerFill
         # add all team names
         for i, team in enumerate(self.teams):
             col = "A"
@@ -115,14 +136,17 @@ class Year(UniqueId):
         # add all stats
         statsWithTitles = self.statSheet(**kwargs).preferredOrderWithTitle()
         for row, teamId in enumerate([team.id for team in self.teams]):
+            rowFill = PatternFill(patternType="solid", fgColor=getRandomColor(0.6))
             for col, statWithTitle in enumerate(statsWithTitles):
                 char = get_column_letter(col + 2)
                 if row == 1:
                     # add stat header
                     worksheet[f"{char}{row}"] = statWithTitle[0]
                     worksheet[f"{char}{row}"].font = headerColumnFont
+                    worksheet[f"{char}{row}"].fill = headerFill
                 # add stat value
                 worksheet[f"{char}{row + 2}"] = statWithTitle[1][teamId]
+                worksheet[f"{char}{row + 2}"].fill = rowFill
 
         # put stats into table
         table = Table(displayName="YearStats",
