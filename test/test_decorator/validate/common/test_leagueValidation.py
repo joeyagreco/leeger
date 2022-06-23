@@ -126,6 +126,14 @@ class TestLeagueValidation(unittest.TestCase):
                 League(name="TEST", owners=[owner], years=[year, year]))
         self.assertEqual("Years must all be unique instances.", str(context.exception))
 
+    def test_checkNoDuplicateOwnerNames_duplicateOwnerNames_raisesException(self):
+        owner1 = Owner(name="name")
+        owner2 = Owner(name="name")
+        with self.assertRaises(InvalidLeagueFormatException) as context:
+            leagueValidation.checkNoDuplicateOwnerNames(
+                League(name="TEST", owners=[owner1, owner2], years=list()))
+        self.assertEqual("All owners must have a unique name.", str(context.exception))
+
     """
     TYPE CHECK TESTS
     """
