@@ -116,6 +116,8 @@ class Year(UniqueId):
             hexCode = "%02X%02X%02X" % (r(), r(), r())
             return Color(rgb=hexCode, tint=tint)
 
+        TEAM_ROW_COLORS = [getRandomColor(0.5) for _ in range(len(self.teams))]
+
         # fills
         headerFill = PatternFill(patternType="solid", fgColor=GRAY)
 
@@ -132,11 +134,12 @@ class Year(UniqueId):
             col = "A"
             worksheet[f"{col}{i + 2}"] = team.name
             worksheet[f"{col}{i + 2}"].font = teamNameFont
+            worksheet[f"{col}{i + 2}"].fill = PatternFill(patternType="solid", fgColor=TEAM_ROW_COLORS[i])
 
         # add all stats
         statsWithTitles = self.statSheet(**kwargs).preferredOrderWithTitle()
         for row, teamId in enumerate([team.id for team in self.teams]):
-            rowFill = PatternFill(patternType="solid", fgColor=getRandomColor(0.6))
+            rowFill = PatternFill(patternType="solid", fgColor=TEAM_ROW_COLORS[row])
             for col, statWithTitle in enumerate(statsWithTitles):
                 char = get_column_letter(col + 2)
                 if row == 1:
