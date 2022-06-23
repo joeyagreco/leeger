@@ -121,7 +121,7 @@ class Year(UniqueId):
                     # add stat header
                     worksheet[f"{char}{row}"] = statWithTitle[0]
                     worksheet[f"{char}{row}"].font = headerColumnFont
-                    # add stat value
+                # add stat value
                 worksheet[f"{char}{row + 2}"] = statWithTitle[1][teamId]
 
         # put stats into table

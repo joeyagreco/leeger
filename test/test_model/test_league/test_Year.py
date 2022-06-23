@@ -1,4 +1,11 @@
+import math
+import os
+import tempfile
 import unittest
+from decimal import Decimal
+
+from openpyxl import load_workbook
+from openpyxl.utils import get_column_letter
 
 from src.leeger.model.league.Matchup import Matchup
 from src.leeger.model.league.Team import Team
@@ -67,3 +74,38 @@ class TestYear(unittest.TestCase):
         self.assertIsInstance(yearStatSheet.teamLuck, dict)
 
         self.assertIsInstance(yearStatSheet.championshipCount, dict)
+
+    def test_year_toExcel(self):
+        d = Decimal("1.12232323232")
+        owners, teams = getNDefaultOwnersAndTeams(2)
+        teams[0].name = "a"
+        teams[1].name = "b"
+        matchup = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        week = Week(weekNumber=1, matchups=[matchup])
+        year = Year(yearNumber=2000, teams=teams, weeks=[week])
+
+        with tempfile.TemporaryDirectory() as tempDir:
+            fullPath = os.path.join(tempDir, "tmp.xlsx")
+            year.toExcel(fullPath)
+
+            # open created Excel file to check that it was saved correctly
+            workbook = load_workbook(filename=fullPath)
+            worksheet = workbook.active
+
+            self.assertEqual(1, len(workbook.sheetnames))
+            self.assertEqual("2000", workbook.sheetnames[0])
+            self.assertEqual("Team Names", worksheet["A1"].value)
+            self.assertEqual("a", worksheet["A2"].value)
+            self.assertEqual("b", worksheet["A3"].value)
+
+            statsWithTitles = year.statSheet().preferredOrderWithTitle()
+            for row, teamId in enumerate([team.id for team in year.teams]):
+                for col, statWithTitle in enumerate(statsWithTitles):
+                    char = get_column_letter(col + 2)
+                    if row == 1:
+                        # check stat header
+                        self.assertEqual(statWithTitle[0], worksheet[f"{char}{row}"].value)
+                    # check stat value
+                    # due to Excel rounding values, we assert that the values are very, very close
+                    assert math.isclose(float(statWithTitle[1][teamId]), worksheet[f"{char}{row + 2}"].value,
+                                        rel_tol=0.000000000000001)
