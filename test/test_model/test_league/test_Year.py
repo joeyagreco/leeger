@@ -74,7 +74,7 @@ class TestYear(unittest.TestCase):
 
         self.assertIsInstance(yearStatSheet.championshipCount, dict)
 
-    def test_year_toExcel(self):
+    def test_year_toExcel_excelSheetDoesntAlreadyExist(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
         teams[0].name = "a"
         teams[1].name = "b"
@@ -98,6 +98,48 @@ class TestYear(unittest.TestCase):
 
             statsWithTitles = year.statSheet().preferredOrderWithTitle()
             for row, teamId in enumerate([team.id for team in year.teams]):
+                for col, statWithTitle in enumerate(statsWithTitles):
+                    char = get_column_letter(col + 2)
+                    if row == 1:
+                        # check stat header
+                        self.assertEqual(statWithTitle[0], worksheet[f"{char}{row}"].value)
+                    # check stat value
+                    # due to Excel rounding values, we assert that the values are very, very close
+                    assert math.isclose(float(statWithTitle[1][teamId]), worksheet[f"{char}{row + 2}"].value,
+                                        rel_tol=0.000000000000001)
+
+    def test_year_toExcel_excelSheetAlreadyExists(self):
+        owners, teams1 = getNDefaultOwnersAndTeams(2)
+        teams1[0].name = "a1"
+        teams1[1].name = "b1"
+        matchup1 = Matchup(teamAId=teams1[0].id, teamBId=teams1[1].id, teamAScore=1, teamBScore=2)
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        year1 = Year(yearNumber=2000, teams=teams1, weeks=[week1])
+
+        teams2 = [Team(ownerId=owners[0].id, name="a2"), Team(ownerId=owners[1].id, name="b2")]
+        matchup2 = Matchup(teamAId=teams2[0].id, teamBId=teams2[1].id, teamAScore=1, teamBScore=2)
+        week2 = Week(weekNumber=1, matchups=[matchup2])
+        year2 = Year(yearNumber=2001, teams=teams2, weeks=[week2])
+
+        with tempfile.TemporaryDirectory() as tempDir:
+            fullPath = os.path.join(tempDir, "tmp.xlsx")
+            year1.toExcel(fullPath)
+
+            year2.toExcel(fullPath)
+
+            # open created Excel file to check that it was saved correctly
+            workbook = load_workbook(filename=fullPath)
+            worksheet = workbook.worksheets[workbook.sheetnames.index("2001")]
+
+            self.assertEqual(2, len(workbook.sheetnames))
+            self.assertEqual("2000", workbook.sheetnames[0])
+            self.assertEqual("2001", workbook.sheetnames[1])
+            self.assertEqual("Team Names", worksheet["A1"].value)
+            self.assertEqual("a2", worksheet["A2"].value)
+            self.assertEqual("b2", worksheet["A3"].value)
+
+            statsWithTitles = year2.statSheet().preferredOrderWithTitle()
+            for row, teamId in enumerate([team.id for team in year2.teams]):
                 for col, statWithTitle in enumerate(statsWithTitles):
                     char = get_column_letter(col + 2)
                     if row == 1:

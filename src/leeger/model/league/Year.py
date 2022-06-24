@@ -1,7 +1,8 @@
+import os
 import random
 from dataclasses import dataclass
 
-from openpyxl import Workbook
+from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font, Color, PatternFill
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.table import Table
@@ -93,16 +94,31 @@ class Year(UniqueId):
 
     def toExcel(self, filePath: str, **kwargs) -> None:
         """
-        Saves *this* Year to an Excel sheet at the given file path.
+        If the given Excel file exists already, add a worksheet to it with this year.
+        If the given Excel file does not exist, create a new workbook and add a worksheet to it with this year.
         """
-        # create workbook and sheet
-        workbook = Workbook()
-        worksheet = workbook.active
-        worksheet.title = str(self.yearNumber)
 
-        ###################
+        if os.path.exists(filePath):
+            workbook = load_workbook(filename=filePath)
+            # figure out index to put this sheet into
+            # we want the years as sheets in order from oldest -> newest year
+            index = 0
+            for i, sheetname in enumerate(workbook.sheetnames):
+                if self.yearNumber > int(sheetname):
+                    index += 1
+            workbook.create_sheet(str(self.yearNumber), index=index)
+            worksheet = workbook[str(self.yearNumber)]
+        else:
+            # create workbook and sheet
+            workbook = Workbook()
+            workbook.create_sheet(str(self.yearNumber), index=0)
+            worksheet = workbook[str(self.yearNumber)]
+            # remove default sheet
+            del workbook["Sheet"]
+
+        ####################
         # Styles for table #
-        ###################
+        ####################
 
         # fonts
         headerColumnFont = Font(size=12, bold=True)
@@ -152,7 +168,7 @@ class Year(UniqueId):
                 worksheet[f"{char}{row + 2}"].fill = rowFill
 
         # put stats into table
-        table = Table(displayName="YearStats",
+        table = Table(displayName=f"YearStats{self.yearNumber}",
                       ref="A1:" + get_column_letter(worksheet.max_column) + str(worksheet.max_row))
         worksheet.add_table(table)
 

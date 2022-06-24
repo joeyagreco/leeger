@@ -10,3 +10,7 @@ class League(UniqueId):
     name: str
     owners: list[Owner]
     years: list[Year]
+
+    def yearsToExcel(self, filePath: str, **kwargs) -> None:
+        for year in self.years:
+            year.toExcel(filePath, **kwargs)
