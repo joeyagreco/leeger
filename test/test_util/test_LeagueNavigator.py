@@ -86,3 +86,25 @@ class TestLeagueNavigator(unittest.TestCase):
         with self.assertRaises(DoesNotExistException) as context:
             LeagueNavigator.getYearByYearNumber(league, 2001)
         self.assertEqual("Year 2001 does not exist in the given League.", str(context.exception))
+
+    def test_getAllOwnerIds_happyPath(self):
+        owner1 = Owner(name="1")
+        owner2 = Owner(name="2")
+
+        a_team1 = Team(ownerId=owner1.id, name="1")
+        a_team2 = Team(ownerId=owner2.id, name="2")
+
+        a_matchup1 = Matchup(teamAId=a_team1.id, teamBId=a_team2.id, teamAScore=1, teamBScore=2)
+
+        a_week1 = Week(weekNumber=1, matchups=[a_matchup1])
+
+        a_year = Year(yearNumber=2000, teams=[a_team1, a_team2], weeks=[a_week1])
+
+        league = League(name="TEST", owners=[owner1, owner2], years=[a_year])
+
+        response = LeagueNavigator.getAllOwnerIds(league)
+
+        self.assertIsInstance(response, list)
+        self.assertEqual(2, len(response))
+        self.assertEqual(owner1.id, response[0])
+        self.assertEqual(owner2.id, response[1])
