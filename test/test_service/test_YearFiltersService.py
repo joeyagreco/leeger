@@ -225,4 +225,4 @@ class TestYearFiltersService(unittest.TestCase):
 
         with self.assertRaises(InvalidFilterException) as context:
             YearFiltersService.getYearFilters(year, weekNumberStart=2, weekNumberEnd=1)
-        self.assertEqual("'weekNumberEnd' cannot be greater than 'weekNumberStart'.", str(context.exception))
+        self.assertEqual("'weekNumberStart' cannot be greater than 'weekNumberEnd'.", str(context.exception))

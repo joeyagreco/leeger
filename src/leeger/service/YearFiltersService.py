@@ -63,7 +63,7 @@ class YearFiltersService:
         if weekNumberEnd > len(year.weeks):
             raise InvalidFilterException("'weekNumberEnd' cannot be greater than the number of weeks in the year.")
         if weekNumberStart > weekNumberEnd:
-            raise InvalidFilterException("'weekNumberEnd' cannot be greater than 'weekNumberStart'.")
+            raise InvalidFilterException("'weekNumberStart' cannot be greater than 'weekNumberEnd'.")
 
         return YearFilters(weekNumberStart=weekNumberStart, weekNumberEnd=weekNumberEnd,
                            includeMatchupTypes=includeMatchupTypes)
