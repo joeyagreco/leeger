@@ -135,6 +135,21 @@ class TestLeagueValidation(unittest.TestCase):
                 League(name="TEST", owners=[owner1, owner2], years=list()))
         self.assertEqual("All owners must have a unique name.", str(context.exception))
 
+    def test_checkForDuplicateTeams_duplicateTeams_raisesException(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        year1 = Year(yearNumber=2000, teams=teams, weeks=[week1])
+
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        week2 = Week(weekNumber=1, matchups=[matchup2])
+        year2 = Year(yearNumber=2001, teams=teams, weeks=[week2])
+
+        with self.assertRaises(InvalidLeagueFormatException) as context:
+            leagueValidation.checkForDuplicateTeams(League(name="", owners=owners, years=[year1, year2]))
+        self.assertEqual("Teams must all be unique instances.", str(context.exception))
+
     def test_checkLeagueHasAtLeastOneYear_leagueHasNoYears_raisesException(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 

@@ -20,6 +20,7 @@ def runAllChecks(league: League) -> None:
     checkAllYears(league)
     checkForDuplicateOwners(league)
     checkForDuplicateYears(league)
+    checkForDuplicateTeams(league)
     checkYearsAreInCorrectOrder(league)
     checkNoDuplicateYearNumbers(league)
     checkNoDuplicateOwnerNames(league)
@@ -77,6 +78,19 @@ def checkForDuplicateYears(league: League) -> None:
             raise InvalidLeagueFormatException("Years must all be unique instances.")
         else:
             yearInstanceIds.append(id(year))
+
+
+def checkForDuplicateTeams(league: League) -> None:
+    """
+    Checks that all Teams within the given League are unique instances.
+    """
+    teamInstanceIds = list()
+    for year in league.years:
+        for team in year.teams:
+            if id(team) in teamInstanceIds:
+                raise InvalidLeagueFormatException("Teams must all be unique instances.")
+            else:
+                teamInstanceIds.append(id(team))
 
 
 def checkYearsAreInCorrectOrder(league: League) -> None:
