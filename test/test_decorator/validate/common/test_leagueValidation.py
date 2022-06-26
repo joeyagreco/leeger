@@ -9,6 +9,7 @@ from src.leeger.model.league.Owner import Owner
 from src.leeger.model.league.Team import Team
 from src.leeger.model.league.Week import Week
 from src.leeger.model.league.Year import Year
+from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestLeagueValidation(unittest.TestCase):
@@ -133,6 +134,14 @@ class TestLeagueValidation(unittest.TestCase):
             leagueValidation.checkNoDuplicateOwnerNames(
                 League(name="TEST", owners=[owner1, owner2], years=list()))
         self.assertEqual("All owners must have a unique name.", str(context.exception))
+
+    def test_checkLeagueHasAtLeastOneYear_leagueHasNoYears_raisesException(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        with self.assertRaises(InvalidLeagueFormatException) as context:
+            leagueValidation.checkLeagueHasAtLeastOneYear(
+                League(name="TEST", owners=owners, years=list()))
+        self.assertEqual("League must have at least 1 year.", str(context.exception))
 
     """
     TYPE CHECK TESTS
