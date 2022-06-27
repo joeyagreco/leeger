@@ -66,7 +66,7 @@ class AllTimeCalculator:
 
     @classmethod
     @validateLeague
-    def _sumAndCombineResults(cls, league: League, function: callable, **kwargs) -> dict[str, int | float | Deci]:
+    def _addAndCombineResults(cls, league: League, function: callable, **kwargs) -> dict[str, int | float | Deci]:
 
         allTimeFilters = cls.__getAllTimeFilters(league, **kwargs)
 

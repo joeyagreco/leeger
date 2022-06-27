@@ -20,7 +20,7 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
             ...
             }
         """
-        return cls._sumAndCombineResults(league, GameOutcomeYearCalculator.getWins, **kwargs)
+        return cls._addAndCombineResults(league, GameOutcomeYearCalculator.getWins, **kwargs)
 
     @classmethod
     @validateLeague
@@ -36,4 +36,20 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
             ...
             }
         """
-        return cls._sumAndCombineResults(league, GameOutcomeYearCalculator.getLosses, **kwargs)
+        return cls._addAndCombineResults(league, GameOutcomeYearCalculator.getLosses, **kwargs)
+
+    @classmethod
+    @validateLeague
+    def getTies(cls, league: League, **kwargs) -> dict[str, int]:
+        """
+        Returns the number of ties for each team in the given League.
+
+        Example response:
+            {
+            "someTeamId": 1,
+            "someOtherTeamId": 0,
+            "yetAnotherTeamId": 2,
+            ...
+            }
+        """
+        return cls._addAndCombineResults(league, GameOutcomeYearCalculator.getTies, **kwargs)
