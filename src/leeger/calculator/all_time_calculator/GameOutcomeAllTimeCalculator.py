@@ -21,3 +21,19 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
             }
         """
         return cls._sumAndCombineResults(league, GameOutcomeYearCalculator.getWins, **kwargs)
+
+    @classmethod
+    @validateLeague
+    def getLosses(cls, league: League, **kwargs) -> dict[str, int]:
+        """
+        Returns the number of losses for each team in the given League.
+
+        Example response:
+            {
+            "someTeamId": 18,
+            "someOtherTeamId": 21,
+            "yetAnotherTeamId": 17,
+            ...
+            }
+        """
+        return cls._sumAndCombineResults(league, GameOutcomeYearCalculator.getLosses, **kwargs)
