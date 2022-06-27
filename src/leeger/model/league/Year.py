@@ -107,14 +107,13 @@ class Year(UniqueId):
                 if self.yearNumber > int(sheetname):
                     index += 1
             workbook.create_sheet(str(self.yearNumber), index=index)
-            worksheet = workbook[str(self.yearNumber)]
         else:
             # create workbook and sheet
             workbook = Workbook()
             workbook.create_sheet(str(self.yearNumber), index=0)
-            worksheet = workbook[str(self.yearNumber)]
             # remove default sheet
             del workbook["Sheet"]
+        worksheet = workbook[str(self.yearNumber)]
 
         ####################
         # Styles for table #
