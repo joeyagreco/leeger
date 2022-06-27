@@ -67,6 +67,43 @@ class AllTimeCalculator:
     @classmethod
     @validateLeague
     def _addAndCombineResults(cls, league: League, function: callable, **kwargs) -> dict[str, int | float | Deci]:
+        allResultDicts = cls.__getAllResultDicts(league, function, **kwargs)
+
+        # sum all results
+        result: dict[str, int | float | Deci] = dict()
+        for ownerId in LeagueNavigator.getAllOwnerIds(league):
+            result[ownerId] = 0  # TODO: this may have a Deci/int/float so test for bugs there
+
+        for resultDict in allResultDicts:
+            # go through each team ID and value to get the owner ID and add to result
+            for teamId in resultDict.keys():
+                team = LeagueNavigator.getTeamById(league, teamId)
+                result[team.ownerId] += resultDict[teamId]
+        return result
+
+    @classmethod
+    @validateLeague
+    def _averageAndCombineResults(cls, league: League, function: callable, **kwargs) -> dict[str, int | float | Deci]:
+        allResultDicts = cls.__getAllResultDicts(league, function, **kwargs)
+
+        # average all results
+        result: dict[str, int | float | Deci] = dict()
+        for ownerId in LeagueNavigator.getAllOwnerIds(league):
+            result[ownerId] = 0  # TODO: this may have a Deci/int/float so test for bugs there
+
+        for resultDict in allResultDicts:
+            # go through each team ID and value to get the owner ID and add to result
+            for teamId in resultDict.keys():
+                team = LeagueNavigator.getTeamById(league, teamId)
+                result[team.ownerId] += resultDict[teamId]
+        # divide by number of result dicts to get average
+        for teamId in result.keys():
+            result[teamId] = result[teamId] / Deci(len(allResultDicts))
+        return result
+
+    @classmethod
+    @validateLeague
+    def __getAllResultDicts(cls, league: League, function: callable, **kwargs) -> list[dict]:
 
         allTimeFilters = cls.__getAllTimeFilters(league, **kwargs)
 
@@ -103,15 +140,4 @@ class AllTimeCalculator:
                                            onlyRegularSeason=allTimeFilters.onlyRegularSeason,
                                            weekNumberStart=currentWeekNumberStart,
                                            weekNumberEnd=currentWeekNumberEnd))
-
-        # sum all results
-        result: dict[str, int | float | Deci] = dict()
-        for ownerId in LeagueNavigator.getAllOwnerIds(league):
-            result[ownerId] = 0  # TODO: this may have a Deci/int/float so test for bugs there
-
-        for resultDict in allResultDicts:
-            # go through each team ID and value to get the owner ID and add to result
-            for teamId in resultDict.keys():
-                team = LeagueNavigator.getTeamById(league, teamId)
-                result[team.ownerId] += resultDict[teamId]
-        return result
+        return allResultDicts
