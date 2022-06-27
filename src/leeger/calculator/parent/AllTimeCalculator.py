@@ -87,8 +87,8 @@ class AllTimeCalculator:
                     # last year we want, make sure week number end matches what was requested
                     # first week and every week til givenWeekEnd
                     yearWeekNumberStartWeekNumberEnd.append((year, 1, allTimeFilters.weekNumberEnd))
-                else:
-                    # include every week in this year
+                elif allTimeFilters.yearNumberStart < year.yearNumber < allTimeFilters.yearNumberEnd:
+                    # this year is in our year range, include every week in this year
                     yearWeekNumberStartWeekNumberEnd.append((year, 1, len(year.weeks)))
 
         allResultDicts: list[dict] = list()
