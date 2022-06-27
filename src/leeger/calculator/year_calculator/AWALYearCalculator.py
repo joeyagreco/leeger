@@ -7,7 +7,7 @@ from src.leeger.util.WeekNavigator import WeekNavigator
 from src.leeger.util.YearNavigator import YearNavigator
 
 
-class AWALCalculator(YearCalculator):
+class AWALYearCalculator(YearCalculator):
     """
     Used to calculate all AWAL stats.
     """
@@ -92,7 +92,7 @@ class AWALCalculator(YearCalculator):
             }
         """
 
-        teamIdAndAWAL = AWALCalculator.getAWAL(year, **kwargs)
+        teamIdAndAWAL = AWALYearCalculator.getAWAL(year, **kwargs)
         teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year,
                                                                             cls._getYearFilters(year,
                                                                                                 **kwargs))
@@ -177,7 +177,7 @@ class AWALCalculator(YearCalculator):
             }
         """
 
-        teamIdAndOpponentAWAL = AWALCalculator.getOpponentAWAL(year, **kwargs)
+        teamIdAndOpponentAWAL = AWALYearCalculator.getOpponentAWAL(year, **kwargs)
         teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year,
                                                                             cls._getYearFilters(year,
                                                                                                 **kwargs))

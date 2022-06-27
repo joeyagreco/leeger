@@ -1,6 +1,7 @@
 import unittest
 
-from src.leeger.calculator.year_calculator.ScoringStandardDeviationCalculator import ScoringStandardDeviationCalculator
+from src.leeger.calculator.year_calculator.ScoringStandardDeviationYearCalculator import \
+    ScoringStandardDeviationYearCalculator
 from src.leeger.enum.MatchupType import MatchupType
 from src.leeger.model.league.Matchup import Matchup
 from src.leeger.model.league.Week import Week
@@ -9,7 +10,7 @@ from src.leeger.util.Deci import Deci
 from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
-class TestScoringStandardDeviationCalculator(unittest.TestCase):
+class TestScoringStandardDeviationYearCalculator(unittest.TestCase):
 
     def test_getScoringStandardDeviation_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
@@ -26,7 +27,7 @@ class TestScoringStandardDeviationCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = ScoringStandardDeviationCalculator.getScoringStandardDeviation(year)
+        response = ScoringStandardDeviationYearCalculator.getScoringStandardDeviation(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -48,7 +49,7 @@ class TestScoringStandardDeviationCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = ScoringStandardDeviationCalculator.getScoringStandardDeviation(year, onlyPostSeason=True)
+        response = ScoringStandardDeviationYearCalculator.getScoringStandardDeviation(year, onlyPostSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -69,7 +70,7 @@ class TestScoringStandardDeviationCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = ScoringStandardDeviationCalculator.getScoringStandardDeviation(year, onlyRegularSeason=True)
+        response = ScoringStandardDeviationYearCalculator.getScoringStandardDeviation(year, onlyRegularSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -90,7 +91,7 @@ class TestScoringStandardDeviationCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = ScoringStandardDeviationCalculator.getScoringStandardDeviation(year, weekNumberStart=2)
+        response = ScoringStandardDeviationYearCalculator.getScoringStandardDeviation(year, weekNumberStart=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -111,7 +112,7 @@ class TestScoringStandardDeviationCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = ScoringStandardDeviationCalculator.getScoringStandardDeviation(year, weekNumberEnd=2)
+        response = ScoringStandardDeviationYearCalculator.getScoringStandardDeviation(year, weekNumberEnd=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -135,8 +136,8 @@ class TestScoringStandardDeviationCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3, week4])
 
-        response = ScoringStandardDeviationCalculator.getScoringStandardDeviation(year, weekNumberStart=2,
-                                                                                  weekNumberEnd=3)
+        response = ScoringStandardDeviationYearCalculator.getScoringStandardDeviation(year, weekNumberStart=2,
+                                                                                      weekNumberEnd=3)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))

@@ -3,7 +3,7 @@ from src.leeger.decorator.validate.validators import validateYear
 from src.leeger.model.league.Year import Year
 
 
-class SingleScoreCalculator(YearCalculator):
+class SingleScoreYearCalculator(YearCalculator):
     """
     Used to calculate all single score stats.
     """

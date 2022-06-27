@@ -1,5 +1,5 @@
 from src.leeger.calculator.parent.AllTimeCalculator import AllTimeCalculator
-from src.leeger.calculator.year_calculator.GameOutcomeCalculator import GameOutcomeCalculator
+from src.leeger.calculator.year_calculator.GameOutcomeYearCalculator import GameOutcomeYearCalculator
 from src.leeger.decorator.validate.validators import validateLeague
 from src.leeger.model.league.League import League
 
@@ -20,4 +20,4 @@ class GameOutcomeAllTime(AllTimeCalculator):
             ...
             }
         """
-        return cls._sumAndCombineResults(league, GameOutcomeCalculator.getWins, **kwargs)
+        return cls._sumAndCombineResults(league, GameOutcomeYearCalculator.getWins, **kwargs)

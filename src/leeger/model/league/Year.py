@@ -20,65 +20,65 @@ class Year(UniqueId):
     weeks: list[Week]
 
     def statSheet(self, **kwargs) -> YearStatSheet:
-        from src.leeger.calculator.year_calculator.AWALCalculator import AWALCalculator
-        from src.leeger.calculator.year_calculator.GameOutcomeCalculator import GameOutcomeCalculator
-        from src.leeger.calculator.year_calculator.PlusMinusCalculator import PlusMinusCalculator
-        from src.leeger.calculator.year_calculator.PointsScoredCalculator import PointsScoredCalculator
-        from src.leeger.calculator.year_calculator.ScoringShareCalculator import ScoringShareCalculator
-        from src.leeger.calculator.year_calculator.ScoringStandardDeviationCalculator import \
-            ScoringStandardDeviationCalculator
-        from src.leeger.calculator.year_calculator.SingleScoreCalculator import SingleScoreCalculator
-        from src.leeger.calculator.year_calculator.SmartWinsCalculator import SmartWinsCalculator
-        from src.leeger.calculator.year_calculator.SSLCalculator import SSLCalculator
-        from src.leeger.calculator.year_calculator.YearOutcomeCalculator import YearOutcomeCalculator
+        from src.leeger.calculator.year_calculator.AWALYearCalculator import AWALYearCalculator
+        from src.leeger.calculator.year_calculator.GameOutcomeYearCalculator import GameOutcomeYearCalculator
+        from src.leeger.calculator.year_calculator.PlusMinusYearCalculator import PlusMinusYearCalculator
+        from src.leeger.calculator.year_calculator.PointsScoredYearCalculator import PointsScoredYearCalculator
+        from src.leeger.calculator.year_calculator.ScoringShareYearCalculator import ScoringShareYearCalculator
+        from src.leeger.calculator.year_calculator.ScoringStandardDeviationYearCalculator import \
+            ScoringStandardDeviationYearCalculator
+        from src.leeger.calculator.year_calculator.SingleScoreYearCalculator import SingleScoreYearCalculator
+        from src.leeger.calculator.year_calculator.SmartWinsYearCalculator import SmartWinsYearCalculator
+        from src.leeger.calculator.year_calculator.SSLYearCalculator import SSLYearCalculator
+        from src.leeger.calculator.year_calculator.YearOutcomeYearCalculator import YearOutcomeYearCalculator
 
         # Game Outcome
-        wins = GameOutcomeCalculator.getWins(self, **kwargs)
-        losses = GameOutcomeCalculator.getLosses(self, **kwargs)
-        ties = GameOutcomeCalculator.getTies(self, **kwargs)
-        winPercentage = GameOutcomeCalculator.getWinPercentage(self, **kwargs)
-        wal = GameOutcomeCalculator.getWAL(self, **kwargs)
-        walPerGame = GameOutcomeCalculator.getWALPerGame(self, **kwargs)
+        wins = GameOutcomeYearCalculator.getWins(self, **kwargs)
+        losses = GameOutcomeYearCalculator.getLosses(self, **kwargs)
+        ties = GameOutcomeYearCalculator.getTies(self, **kwargs)
+        winPercentage = GameOutcomeYearCalculator.getWinPercentage(self, **kwargs)
+        wal = GameOutcomeYearCalculator.getWAL(self, **kwargs)
+        walPerGame = GameOutcomeYearCalculator.getWALPerGame(self, **kwargs)
 
         # AWAL
-        awal = AWALCalculator.getAWAL(self, **kwargs)
-        awalPerGame = AWALCalculator.getAWALPerGame(self, **kwargs)
-        opponentAWAL = AWALCalculator.getOpponentAWAL(self, **kwargs)
-        opponentAWALPerGame = AWALCalculator.getOpponentAWALPerGame(self, **kwargs)
+        awal = AWALYearCalculator.getAWAL(self, **kwargs)
+        awalPerGame = AWALYearCalculator.getAWALPerGame(self, **kwargs)
+        opponentAWAL = AWALYearCalculator.getOpponentAWAL(self, **kwargs)
+        opponentAWALPerGame = AWALYearCalculator.getOpponentAWALPerGame(self, **kwargs)
 
         # Smart Wins
-        smartWins = SmartWinsCalculator.getSmartWins(self, **kwargs)
-        smartWinsPerGame = SmartWinsCalculator.getSmartWinsPerGame(self, **kwargs)
-        opponentSmartWins = SmartWinsCalculator.getOpponentSmartWins(self, **kwargs)
-        opponentSmartWinsPerGame = SmartWinsCalculator.getOpponentSmartWinsPerGame(self, **kwargs)
+        smartWins = SmartWinsYearCalculator.getSmartWins(self, **kwargs)
+        smartWinsPerGame = SmartWinsYearCalculator.getSmartWinsPerGame(self, **kwargs)
+        opponentSmartWins = SmartWinsYearCalculator.getOpponentSmartWins(self, **kwargs)
+        opponentSmartWinsPerGame = SmartWinsYearCalculator.getOpponentSmartWinsPerGame(self, **kwargs)
 
         # Points Scored
-        pointsScored = PointsScoredCalculator.getPointsScored(self, **kwargs)
-        pointsScoredPerGame = PointsScoredCalculator.getPointsScoredPerGame(self, **kwargs)
-        opponentPointsScored = PointsScoredCalculator.getOpponentPointsScored(self, **kwargs)
-        opponentPointsScoredPerGame = PointsScoredCalculator.getOpponentPointsScoredPerGame(self, **kwargs)
+        pointsScored = PointsScoredYearCalculator.getPointsScored(self, **kwargs)
+        pointsScoredPerGame = PointsScoredYearCalculator.getPointsScoredPerGame(self, **kwargs)
+        opponentPointsScored = PointsScoredYearCalculator.getOpponentPointsScored(self, **kwargs)
+        opponentPointsScoredPerGame = PointsScoredYearCalculator.getOpponentPointsScoredPerGame(self, **kwargs)
 
         # Scoring Share
-        scoringShare = ScoringShareCalculator.getScoringShare(self, **kwargs)
-        opponentScoringShare = ScoringShareCalculator.getOpponentScoringShare(self, **kwargs)
+        scoringShare = ScoringShareYearCalculator.getScoringShare(self, **kwargs)
+        opponentScoringShare = ScoringShareYearCalculator.getOpponentScoringShare(self, **kwargs)
 
         # Single Score
-        maxScore = SingleScoreCalculator.getMaxScore(self, **kwargs)
-        minScore = SingleScoreCalculator.getMinScore(self, **kwargs)
+        maxScore = SingleScoreYearCalculator.getMaxScore(self, **kwargs)
+        minScore = SingleScoreYearCalculator.getMinScore(self, **kwargs)
 
         # Scoring Standard Deviation
-        scoringStandardDeviation = ScoringStandardDeviationCalculator.getScoringStandardDeviation(self, **kwargs)
+        scoringStandardDeviation = ScoringStandardDeviationYearCalculator.getScoringStandardDeviation(self, **kwargs)
 
         # Plus Minus
-        plusMinus = PlusMinusCalculator.getPlusMinus(self, **kwargs)
+        plusMinus = PlusMinusYearCalculator.getPlusMinus(self, **kwargs)
 
         # SSL
-        teamScore = SSLCalculator.getTeamScore(self, **kwargs)
-        teamSuccess = SSLCalculator.getTeamSuccess(self, **kwargs)
-        teamLuck = SSLCalculator.getTeamLuck(self, **kwargs)
+        teamScore = SSLYearCalculator.getTeamScore(self, **kwargs)
+        teamSuccess = SSLYearCalculator.getTeamSuccess(self, **kwargs)
+        teamLuck = SSLYearCalculator.getTeamLuck(self, **kwargs)
 
         # Year Outcome
-        championshipCount = YearOutcomeCalculator.getChampionshipCount(self, **kwargs)
+        championshipCount = YearOutcomeYearCalculator.getChampionshipCount(self, **kwargs)
 
         return YearStatSheet(wins=wins, losses=losses, ties=ties, winPercentage=winPercentage, wal=wal,
                              walPerGame=walPerGame, awal=awal, awalPerGame=awalPerGame, opponentAWAL=opponentAWAL,

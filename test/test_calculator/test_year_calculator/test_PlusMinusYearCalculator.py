@@ -1,6 +1,6 @@
 import unittest
 
-from src.leeger.calculator.year_calculator.PlusMinusCalculator import PlusMinusCalculator
+from src.leeger.calculator.year_calculator.PlusMinusYearCalculator import PlusMinusYearCalculator
 from src.leeger.enum.MatchupType import MatchupType
 from src.leeger.model.league.Matchup import Matchup
 from src.leeger.model.league.Week import Week
@@ -9,7 +9,7 @@ from src.leeger.util.Deci import Deci
 from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
-class TestPlusMinusCalculator(unittest.TestCase):
+class TestPlusMinusYearCalculator(unittest.TestCase):
 
     def test_getPlusMinus_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
@@ -26,7 +26,7 @@ class TestPlusMinusCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = PlusMinusCalculator.getPlusMinus(year)
+        response = PlusMinusYearCalculator.getPlusMinus(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -48,7 +48,7 @@ class TestPlusMinusCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = PlusMinusCalculator.getPlusMinus(year, onlyPostSeason=True)
+        response = PlusMinusYearCalculator.getPlusMinus(year, onlyPostSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -69,7 +69,7 @@ class TestPlusMinusCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = PlusMinusCalculator.getPlusMinus(year, onlyRegularSeason=True)
+        response = PlusMinusYearCalculator.getPlusMinus(year, onlyRegularSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -91,7 +91,7 @@ class TestPlusMinusCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = PlusMinusCalculator.getPlusMinus(year, onlyChampionship=True)
+        response = PlusMinusYearCalculator.getPlusMinus(year, onlyChampionship=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -112,7 +112,7 @@ class TestPlusMinusCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = PlusMinusCalculator.getPlusMinus(year, weekNumberStart=2)
+        response = PlusMinusYearCalculator.getPlusMinus(year, weekNumberStart=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -133,7 +133,7 @@ class TestPlusMinusCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = PlusMinusCalculator.getPlusMinus(year, weekNumberEnd=2)
+        response = PlusMinusYearCalculator.getPlusMinus(year, weekNumberEnd=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -157,7 +157,7 @@ class TestPlusMinusCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3, week4])
 
-        response = PlusMinusCalculator.getPlusMinus(year, weekNumberStart=2, weekNumberEnd=3)
+        response = PlusMinusYearCalculator.getPlusMinus(year, weekNumberStart=2, weekNumberEnd=3)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))

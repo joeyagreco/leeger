@@ -5,7 +5,7 @@ from src.leeger.util.Deci import Deci
 from src.leeger.util.YearNavigator import YearNavigator
 
 
-class SmartWinsCalculator(YearCalculator):
+class SmartWinsYearCalculator(YearCalculator):
     """
     Used to calculate all Smart Wins stats.
     """
@@ -90,7 +90,7 @@ class SmartWinsCalculator(YearCalculator):
             }
         """
 
-        teamIdAndSmartWins = SmartWinsCalculator.getSmartWins(year, **kwargs)
+        teamIdAndSmartWins = SmartWinsYearCalculator.getSmartWins(year, **kwargs)
         teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year,
                                                                             cls._getYearFilters(year,
                                                                                                 **kwargs))
@@ -178,7 +178,7 @@ class SmartWinsCalculator(YearCalculator):
             }
         """
 
-        teamIdAndOpponentSmartWins = SmartWinsCalculator.getOpponentSmartWins(year, **kwargs)
+        teamIdAndOpponentSmartWins = SmartWinsYearCalculator.getOpponentSmartWins(year, **kwargs)
         teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year,
                                                                             cls._getYearFilters(year,
                                                                                                 **kwargs))

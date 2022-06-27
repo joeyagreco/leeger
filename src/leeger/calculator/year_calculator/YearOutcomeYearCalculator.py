@@ -6,7 +6,7 @@ from src.leeger.util.MatchupNavigator import MatchupNavigator
 from src.leeger.util.YearNavigator import YearNavigator
 
 
-class YearOutcomeCalculator(YearCalculator):
+class YearOutcomeYearCalculator(YearCalculator):
     """
     Used to calculate all year outcomes.
     """

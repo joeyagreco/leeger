@@ -1,6 +1,6 @@
 import unittest
 
-from src.leeger.calculator.year_calculator.SSLCalculator import SSLCalculator
+from src.leeger.calculator.year_calculator.SSLYearCalculator import SSLYearCalculator
 from src.leeger.enum.MatchupType import MatchupType
 from src.leeger.model.league.Matchup import Matchup
 from src.leeger.model.league.Week import Week
@@ -9,7 +9,7 @@ from src.leeger.util.Deci import Deci
 from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
-class TestSSLCalculator(unittest.TestCase):
+class TestSSLYearCalculator(unittest.TestCase):
 
     def test_getTeamScore_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
@@ -26,7 +26,7 @@ class TestSSLCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
 
-        response = SSLCalculator.getTeamScore(year)
+        response = SSLYearCalculator.getTeamScore(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -48,7 +48,7 @@ class TestSSLCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = SSLCalculator.getTeamScore(year, onlyPostSeason=True)
+        response = SSLYearCalculator.getTeamScore(year, onlyPostSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -69,7 +69,7 @@ class TestSSLCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = SSLCalculator.getTeamScore(year, onlyRegularSeason=True)
+        response = SSLYearCalculator.getTeamScore(year, onlyRegularSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -91,7 +91,7 @@ class TestSSLCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
 
-        response = SSLCalculator.getTeamScore(year, onlyChampionship=True)
+        response = SSLYearCalculator.getTeamScore(year, onlyChampionship=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -112,7 +112,7 @@ class TestSSLCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = SSLCalculator.getTeamScore(year, weekNumberStart=2)
+        response = SSLYearCalculator.getTeamScore(year, weekNumberStart=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -133,7 +133,7 @@ class TestSSLCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = SSLCalculator.getTeamScore(year, weekNumberEnd=2)
+        response = SSLYearCalculator.getTeamScore(year, weekNumberEnd=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -157,7 +157,7 @@ class TestSSLCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3, week4])
 
-        response = SSLCalculator.getTeamScore(year, weekNumberStart=2, weekNumberEnd=3)
+        response = SSLYearCalculator.getTeamScore(year, weekNumberStart=2, weekNumberEnd=3)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -179,7 +179,7 @@ class TestSSLCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
 
-        response = SSLCalculator.getTeamSuccess(year)
+        response = SSLYearCalculator.getTeamSuccess(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -201,7 +201,7 @@ class TestSSLCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = SSLCalculator.getTeamSuccess(year, onlyPostSeason=True)
+        response = SSLYearCalculator.getTeamSuccess(year, onlyPostSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -222,7 +222,7 @@ class TestSSLCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = SSLCalculator.getTeamSuccess(year, onlyRegularSeason=True)
+        response = SSLYearCalculator.getTeamSuccess(year, onlyRegularSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -244,7 +244,7 @@ class TestSSLCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
 
-        response = SSLCalculator.getTeamSuccess(year, onlyChampionship=True)
+        response = SSLYearCalculator.getTeamSuccess(year, onlyChampionship=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -265,7 +265,7 @@ class TestSSLCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = SSLCalculator.getTeamSuccess(year, weekNumberStart=2)
+        response = SSLYearCalculator.getTeamSuccess(year, weekNumberStart=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -286,7 +286,7 @@ class TestSSLCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = SSLCalculator.getTeamSuccess(year, weekNumberEnd=2)
+        response = SSLYearCalculator.getTeamSuccess(year, weekNumberEnd=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -310,7 +310,7 @@ class TestSSLCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3, week4])
 
-        response = SSLCalculator.getTeamSuccess(year, weekNumberStart=2, weekNumberEnd=3)
+        response = SSLYearCalculator.getTeamSuccess(year, weekNumberStart=2, weekNumberEnd=3)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -332,7 +332,7 @@ class TestSSLCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
 
-        response = SSLCalculator.getTeamLuck(year)
+        response = SSLYearCalculator.getTeamLuck(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -354,7 +354,7 @@ class TestSSLCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = SSLCalculator.getTeamLuck(year, onlyPostSeason=True)
+        response = SSLYearCalculator.getTeamLuck(year, onlyPostSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -375,7 +375,7 @@ class TestSSLCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = SSLCalculator.getTeamLuck(year, onlyRegularSeason=True)
+        response = SSLYearCalculator.getTeamLuck(year, onlyRegularSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -397,7 +397,7 @@ class TestSSLCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
 
-        response = SSLCalculator.getTeamLuck(year, onlyChampionship=True)
+        response = SSLYearCalculator.getTeamLuck(year, onlyChampionship=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -418,7 +418,7 @@ class TestSSLCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = SSLCalculator.getTeamLuck(year, weekNumberStart=2)
+        response = SSLYearCalculator.getTeamLuck(year, weekNumberStart=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -439,7 +439,7 @@ class TestSSLCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = SSLCalculator.getTeamLuck(year, weekNumberEnd=2)
+        response = SSLYearCalculator.getTeamLuck(year, weekNumberEnd=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -463,7 +463,7 @@ class TestSSLCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3, week4])
 
-        response = SSLCalculator.getTeamLuck(year, weekNumberStart=2, weekNumberEnd=3)
+        response = SSLYearCalculator.getTeamLuck(year, weekNumberStart=2, weekNumberEnd=3)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))

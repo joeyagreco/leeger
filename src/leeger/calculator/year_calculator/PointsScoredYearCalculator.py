@@ -5,7 +5,7 @@ from src.leeger.util.Deci import Deci
 from src.leeger.util.YearNavigator import YearNavigator
 
 
-class PointsScoredCalculator(YearCalculator):
+class PointsScoredYearCalculator(YearCalculator):
     """
     Used to calculate all points scored.
     """

@@ -1,12 +1,12 @@
 from src.leeger.calculator.parent.YearCalculator import YearCalculator
-from src.leeger.calculator.year_calculator.PointsScoredCalculator import PointsScoredCalculator
+from src.leeger.calculator.year_calculator.PointsScoredYearCalculator import PointsScoredYearCalculator
 from src.leeger.decorator.validate.validators import validateYear
 from src.leeger.model.league.Year import Year
 from src.leeger.util.Deci import Deci
 from src.leeger.util.YearNavigator import YearNavigator
 
 
-class ScoringShareCalculator(YearCalculator):
+class ScoringShareYearCalculator(YearCalculator):
     """
     Used to calculate all scoring shares.
     """
@@ -32,7 +32,7 @@ class ScoringShareCalculator(YearCalculator):
             }
         """
 
-        teamIdAndPointsScored = PointsScoredCalculator.getPointsScored(year, **kwargs)
+        teamIdAndPointsScored = PointsScoredYearCalculator.getPointsScored(year, **kwargs)
         totalPointsScoredInYear = sum(teamIdAndPointsScored.values())
         teamIdAndScoringShare = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
@@ -61,7 +61,7 @@ class ScoringShareCalculator(YearCalculator):
             }
         """
 
-        teamIdAndOpponentPointsScored = PointsScoredCalculator.getOpponentPointsScored(year, **kwargs)
+        teamIdAndOpponentPointsScored = PointsScoredYearCalculator.getOpponentPointsScored(year, **kwargs)
         totalPointsScoredInYear = sum(teamIdAndOpponentPointsScored.values())
         teamIdAndOpponentScoringShare = dict()
         for teamId in YearNavigator.getAllTeamIds(year):

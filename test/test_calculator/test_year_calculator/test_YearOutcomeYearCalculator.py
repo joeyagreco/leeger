@@ -1,6 +1,6 @@
 import unittest
 
-from src.leeger.calculator.year_calculator.YearOutcomeCalculator import YearOutcomeCalculator
+from src.leeger.calculator.year_calculator.YearOutcomeYearCalculator import YearOutcomeYearCalculator
 from src.leeger.enum.MatchupType import MatchupType
 from src.leeger.model.league.Matchup import Matchup
 from src.leeger.model.league.Week import Week
@@ -8,7 +8,7 @@ from src.leeger.model.league.Year import Year
 from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
-class TestYearOutcomeCalculator(unittest.TestCase):
+class TestYearOutcomeYearCalculator(unittest.TestCase):
 
     def test_getChampionshipCount_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
@@ -25,7 +25,7 @@ class TestYearOutcomeCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
 
-        response = YearOutcomeCalculator.getChampionshipCount(year)
+        response = YearOutcomeYearCalculator.getChampionshipCount(year)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -47,7 +47,7 @@ class TestYearOutcomeCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = YearOutcomeCalculator.getChampionshipCount(year, onlyPostSeason=True)
+        response = YearOutcomeYearCalculator.getChampionshipCount(year, onlyPostSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -68,7 +68,7 @@ class TestYearOutcomeCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = YearOutcomeCalculator.getChampionshipCount(year, onlyRegularSeason=True)
+        response = YearOutcomeYearCalculator.getChampionshipCount(year, onlyRegularSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -90,7 +90,7 @@ class TestYearOutcomeCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
 
-        response = YearOutcomeCalculator.getChampionshipCount(year, onlyChampionship=True)
+        response = YearOutcomeYearCalculator.getChampionshipCount(year, onlyChampionship=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -111,7 +111,7 @@ class TestYearOutcomeCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = YearOutcomeCalculator.getChampionshipCount(year, weekNumberStart=2)
+        response = YearOutcomeYearCalculator.getChampionshipCount(year, weekNumberStart=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -132,7 +132,7 @@ class TestYearOutcomeCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
 
-        response = YearOutcomeCalculator.getChampionshipCount(year, weekNumberEnd=2)
+        response = YearOutcomeYearCalculator.getChampionshipCount(year, weekNumberEnd=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -156,7 +156,7 @@ class TestYearOutcomeCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3, week4])
 
-        response = YearOutcomeCalculator.getChampionshipCount(year, weekNumberStart=2, weekNumberEnd=3)
+        response = YearOutcomeYearCalculator.getChampionshipCount(year, weekNumberStart=2, weekNumberEnd=3)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))

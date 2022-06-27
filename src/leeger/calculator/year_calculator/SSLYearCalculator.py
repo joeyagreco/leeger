@@ -1,15 +1,15 @@
 from src.leeger.calculator.parent.YearCalculator import YearCalculator
-from src.leeger.calculator.year_calculator.AWALCalculator import AWALCalculator
-from src.leeger.calculator.year_calculator.GameOutcomeCalculator import GameOutcomeCalculator
-from src.leeger.calculator.year_calculator.ScoringShareCalculator import ScoringShareCalculator
-from src.leeger.calculator.year_calculator.SingleScoreCalculator import SingleScoreCalculator
+from src.leeger.calculator.year_calculator.AWALYearCalculator import AWALYearCalculator
+from src.leeger.calculator.year_calculator.GameOutcomeYearCalculator import GameOutcomeYearCalculator
+from src.leeger.calculator.year_calculator.ScoringShareYearCalculator import ScoringShareYearCalculator
+from src.leeger.calculator.year_calculator.SingleScoreYearCalculator import SingleScoreYearCalculator
 from src.leeger.decorator.validate.validators import validateYear
 from src.leeger.model.league.Year import Year
 from src.leeger.util.Deci import Deci
 from src.leeger.util.YearNavigator import YearNavigator
 
 
-class SSLCalculator(YearCalculator):
+class SSLYearCalculator(YearCalculator):
     """
     Used to calculate all SSL stats.
 
@@ -53,10 +53,10 @@ class SSLCalculator(YearCalculator):
 
         teamIdAndTeamScore = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
-            awalPerGame = AWALCalculator.getAWALPerGame(year, **kwargs)[teamId]
-            scoringShare = ScoringShareCalculator.getScoringShare(year, **kwargs)[teamId]
-            maxScore = SingleScoreCalculator.getMaxScore(year, **kwargs)[teamId]
-            minScore = SingleScoreCalculator.getMinScore(year, **kwargs)[teamId]
+            awalPerGame = AWALYearCalculator.getAWALPerGame(year, **kwargs)[teamId]
+            scoringShare = ScoringShareYearCalculator.getScoringShare(year, **kwargs)[teamId]
+            maxScore = SingleScoreYearCalculator.getMaxScore(year, **kwargs)[teamId]
+            minScore = SingleScoreYearCalculator.getMinScore(year, **kwargs)[teamId]
 
             teamIdAndTeamScore[teamId] = (awalPerGame * Deci(cls.__AWALAndWALPerGameMultiplier)) + \
                                          (scoringShare * Deci(cls.__ScoringShareMultiplier)) + \
@@ -85,10 +85,10 @@ class SSLCalculator(YearCalculator):
 
         teamIdAndTeamSuccess = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
-            walPerGame = GameOutcomeCalculator.getWALPerGame(year, **kwargs)[teamId]
-            scoringShare = ScoringShareCalculator.getScoringShare(year, **kwargs)[teamId]
-            maxScore = SingleScoreCalculator.getMaxScore(year, **kwargs)[teamId]
-            minScore = SingleScoreCalculator.getMinScore(year, **kwargs)[teamId]
+            walPerGame = GameOutcomeYearCalculator.getWALPerGame(year, **kwargs)[teamId]
+            scoringShare = ScoringShareYearCalculator.getScoringShare(year, **kwargs)[teamId]
+            maxScore = SingleScoreYearCalculator.getMaxScore(year, **kwargs)[teamId]
+            minScore = SingleScoreYearCalculator.getMinScore(year, **kwargs)[teamId]
 
             teamIdAndTeamSuccess[teamId] = (walPerGame * Deci(cls.__AWALAndWALPerGameMultiplier)) + \
                                            (scoringShare * Deci(cls.__ScoringShareMultiplier)) + \

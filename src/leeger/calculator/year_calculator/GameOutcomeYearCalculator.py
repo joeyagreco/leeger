@@ -6,7 +6,7 @@ from src.leeger.util.MatchupNavigator import MatchupNavigator
 from src.leeger.util.YearNavigator import YearNavigator
 
 
-class GameOutcomeCalculator(YearCalculator):
+class GameOutcomeYearCalculator(YearCalculator):
     """
     Used to calculate all game outcomes.
     """
@@ -122,9 +122,9 @@ class GameOutcomeCalculator(YearCalculator):
         """
 
         teamIdAndWinPercentage = dict()
-        teamIdAndWins = GameOutcomeCalculator.getWins(year, **kwargs)
-        teamIdAndLosses = GameOutcomeCalculator.getLosses(year, **kwargs)
-        teamIdAndTies = GameOutcomeCalculator.getTies(year, **kwargs)
+        teamIdAndWins = GameOutcomeYearCalculator.getWins(year, **kwargs)
+        teamIdAndLosses = GameOutcomeYearCalculator.getLosses(year, **kwargs)
+        teamIdAndTies = GameOutcomeYearCalculator.getTies(year, **kwargs)
 
         for teamId in YearNavigator.getAllTeamIds(year):
             numberOfWins = teamIdAndWins[teamId]
@@ -154,8 +154,8 @@ class GameOutcomeCalculator(YearCalculator):
         """
 
         teamIdAndWAL = dict()
-        teamIdAndWins = GameOutcomeCalculator.getWins(year, **kwargs)
-        teamIdAndTies = GameOutcomeCalculator.getTies(year, **kwargs)
+        teamIdAndWins = GameOutcomeYearCalculator.getWins(year, **kwargs)
+        teamIdAndTies = GameOutcomeYearCalculator.getTies(year, **kwargs)
 
         for teamId in YearNavigator.getAllTeamIds(year):
             teamIdAndWAL[teamId] = teamIdAndWins[teamId] + (Deci(0.5) * Deci(teamIdAndTies[teamId]))

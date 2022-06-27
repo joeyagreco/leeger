@@ -7,7 +7,7 @@ from src.leeger.util.Deci import Deci
 from src.leeger.util.YearNavigator import YearNavigator
 
 
-class ScoringStandardDeviationCalculator(YearCalculator):
+class ScoringStandardDeviationYearCalculator(YearCalculator):
     """
     Used to calculate all scoring standard deviations.
     """
