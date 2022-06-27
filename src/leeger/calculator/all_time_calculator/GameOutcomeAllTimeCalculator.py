@@ -4,7 +4,7 @@ from src.leeger.decorator.validate.validators import validateLeague
 from src.leeger.model.league.League import League
 
 
-class GameOutcomeAllTime(AllTimeCalculator):
+class GameOutcomeAllTimeCalculator(AllTimeCalculator):
 
     @classmethod
     @validateLeague

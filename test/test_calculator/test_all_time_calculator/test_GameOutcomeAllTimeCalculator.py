@@ -1,6 +1,6 @@
 import unittest
 
-from src.leeger.calculator.all_time_calculator.GameOutcomeAllTime import GameOutcomeAllTime
+from src.leeger.calculator.all_time_calculator.GameOutcomeAllTimeCalculator import GameOutcomeAllTimeCalculator
 from src.leeger.enum.MatchupType import MatchupType
 from src.leeger.model.league.League import League
 from src.leeger.model.league.Matchup import Matchup
@@ -9,7 +9,7 @@ from src.leeger.model.league.Year import Year
 from test.helper.prototypes import getNDefaultOwnersAndTeams, getTeamsFromOwners
 
 
-class TestGameOutcomeAllTime(unittest.TestCase):
+class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
 
     def test_getWins_happyPath(self):
         owners, teamsA = getNDefaultOwnersAndTeams(2)
@@ -48,7 +48,7 @@ class TestGameOutcomeAllTime(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = GameOutcomeAllTime.getWins(league)
+        response = GameOutcomeAllTimeCalculator.getWins(league)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -92,7 +92,7 @@ class TestGameOutcomeAllTime(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = GameOutcomeAllTime.getWins(league, onlyPostSeason=True)
+        response = GameOutcomeAllTimeCalculator.getWins(league, onlyPostSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -136,7 +136,7 @@ class TestGameOutcomeAllTime(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = GameOutcomeAllTime.getWins(league, onlyRegularSeason=True)
+        response = GameOutcomeAllTimeCalculator.getWins(league, onlyRegularSeason=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -180,7 +180,7 @@ class TestGameOutcomeAllTime(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = GameOutcomeAllTime.getWins(league, onlyChampionship=True)
+        response = GameOutcomeAllTimeCalculator.getWins(league, onlyChampionship=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -224,7 +224,7 @@ class TestGameOutcomeAllTime(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = GameOutcomeAllTime.getWins(league, yearNumberStart=2001, weekNumberStart=2)
+        response = GameOutcomeAllTimeCalculator.getWins(league, yearNumberStart=2001, weekNumberStart=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -268,7 +268,7 @@ class TestGameOutcomeAllTime(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = GameOutcomeAllTime.getWins(league, yearNumberEnd=2001, weekNumberEnd=2)
+        response = GameOutcomeAllTimeCalculator.getWins(league, yearNumberEnd=2001, weekNumberEnd=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -323,8 +323,9 @@ class TestGameOutcomeAllTime(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC, yearD])
 
-        response = GameOutcomeAllTime.getWins(league, yearNumberStart=2001, weekNumberStart=2, yearNumberEnd=2002,
-                                              weekNumberEnd=2)
+        response = GameOutcomeAllTimeCalculator.getWins(league, yearNumberStart=2001, weekNumberStart=2,
+                                                        yearNumberEnd=2002,
+                                                        weekNumberEnd=2)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
