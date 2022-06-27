@@ -1,4 +1,4 @@
-from src.leeger.calculator.all_time_calculator.parent.AllTimeCalculator import AllTimeCalculator
+from src.leeger.calculator.parent.AllTimeCalculator import AllTimeCalculator
 from src.leeger.calculator.year_calculator.GameOutcomeCalculator import GameOutcomeCalculator
 from src.leeger.decorator.validate.validators import validateLeague
 from src.leeger.model.league.League import League

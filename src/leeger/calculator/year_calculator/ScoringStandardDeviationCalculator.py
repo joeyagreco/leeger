@@ -1,6 +1,6 @@
 import numpy
 
-from src.leeger.calculator.all_time_calculator.parent.YearCalculator import YearCalculator
+from src.leeger.calculator.parent.YearCalculator import YearCalculator
 from src.leeger.decorator.validate.validators import validateYear
 from src.leeger.model.league.Year import Year
 from src.leeger.util.Deci import Deci

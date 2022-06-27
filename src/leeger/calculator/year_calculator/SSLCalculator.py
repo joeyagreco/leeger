@@ -1,4 +1,4 @@
-from src.leeger.calculator.all_time_calculator.parent.YearCalculator import YearCalculator
+from src.leeger.calculator.parent.YearCalculator import YearCalculator
 from src.leeger.calculator.year_calculator.AWALCalculator import AWALCalculator
 from src.leeger.calculator.year_calculator.GameOutcomeCalculator import GameOutcomeCalculator
 from src.leeger.calculator.year_calculator.ScoringShareCalculator import ScoringShareCalculator
