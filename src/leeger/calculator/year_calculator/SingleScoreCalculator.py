@@ -1,9 +1,9 @@
+from src.leeger.calculator.all_time_calculator.parent.YearCalculator import YearCalculator
 from src.leeger.decorator.validate.validators import validateYear
 from src.leeger.model.league.Year import Year
-from src.leeger.service.YearFiltersService import YearFiltersService
 
 
-class SingleScoreCalculator:
+class SingleScoreCalculator(YearCalculator):
     """
     Used to calculate all single score stats.
     """
@@ -22,7 +22,7 @@ class SingleScoreCalculator:
             ...
             }
         """
-        filters = YearFiltersService.getYearFilters(year, validateYear=False, **kwargs)
+        filters = cls._getYearFilters(year, validateYear=False, **kwargs)
 
         teamIdAndMaxScore = dict()
 
@@ -55,7 +55,7 @@ class SingleScoreCalculator:
             ...
             }
         """
-        filters = YearFiltersService.getYearFilters(year, validateYear=False, **kwargs)
+        filters = cls._getYearFilters(year, validateYear=False, **kwargs)
 
         teamIdAndMinScore = dict()
 

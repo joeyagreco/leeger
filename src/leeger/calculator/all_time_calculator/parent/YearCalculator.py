@@ -5,14 +5,14 @@ from src.leeger.model.filter.YearFilters import YearFilters
 from src.leeger.model.league.Year import Year
 
 
-class YearFiltersService:
+class YearCalculator:
     """
-    For use with YearFilters.
+    Should be inherited by all Year calculators
     """
 
     @classmethod
     @validateYear
-    def getYearFilters(cls, year: Year, **kwargs) -> YearFilters:
+    def _getYearFilters(cls, year: Year, **kwargs) -> YearFilters:
         onlyChampionship = kwargs.pop("onlyChampionship", False)
         onlyPostSeason = kwargs.pop("onlyPostSeason", False)
         onlyRegularSeason = kwargs.pop("onlyRegularSeason", False)

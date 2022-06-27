@@ -1,3 +1,4 @@
+from src.leeger.calculator.all_time_calculator.parent.YearCalculator import YearCalculator
 from src.leeger.calculator.year_calculator.PointsScoredCalculator import PointsScoredCalculator
 from src.leeger.decorator.validate.validators import validateYear
 from src.leeger.model.league.Year import Year
@@ -5,7 +6,7 @@ from src.leeger.util.Deci import Deci
 from src.leeger.util.YearNavigator import YearNavigator
 
 
-class PlusMinusCalculator:
+class PlusMinusCalculator(YearCalculator):
     """
     Used to calculate all plus/minuses.
     """

@@ -1,12 +1,12 @@
+from src.leeger.calculator.all_time_calculator.parent.YearCalculator import YearCalculator
 from src.leeger.decorator.validate.validators import validateYear
 from src.leeger.model.league.Year import Year
-from src.leeger.service.YearFiltersService import YearFiltersService
 from src.leeger.util.Deci import Deci
 from src.leeger.util.MatchupNavigator import MatchupNavigator
 from src.leeger.util.YearNavigator import YearNavigator
 
 
-class GameOutcomeCalculator:
+class GameOutcomeCalculator(YearCalculator):
     """
     Used to calculate all game outcomes.
     """
@@ -25,7 +25,7 @@ class GameOutcomeCalculator:
             ...
             }
         """
-        filters = YearFiltersService.getYearFilters(year, validateYear=False, **kwargs)
+        filters = cls._getYearFilters(year, validateYear=False, **kwargs)
 
         teamIdAndWins = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
@@ -55,7 +55,7 @@ class GameOutcomeCalculator:
             ...
             }
         """
-        filters = YearFiltersService.getYearFilters(year, validateYear=False, **kwargs)
+        filters = cls._getYearFilters(year, validateYear=False, **kwargs)
 
         teamIdAndLosses = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
@@ -87,7 +87,7 @@ class GameOutcomeCalculator:
             ...
             }
         """
-        filters = YearFiltersService.getYearFilters(year, validateYear=False, **kwargs)
+        filters = cls._getYearFilters(year, validateYear=False, **kwargs)
 
         teamIdAndTies = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
@@ -178,8 +178,8 @@ class GameOutcomeCalculator:
         """
         teamIdAndWAL = cls.getWAL(year, **kwargs)
         teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year,
-                                                                            YearFiltersService.getYearFilters(year,
-                                                                                                              **kwargs))
+                                                                            cls._getYearFilters(year,
+                                                                                                **kwargs))
 
         teamIdAndWALPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)

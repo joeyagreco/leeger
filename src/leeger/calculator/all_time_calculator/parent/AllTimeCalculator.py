@@ -7,6 +7,9 @@ from src.leeger.util.LeagueNavigator import LeagueNavigator
 
 
 class AllTimeCalculator:
+    """
+    Should be inherited by all All-Time calculators
+    """
 
     @classmethod
     def __getAllTimeFilters(cls, league: League, **kwargs) -> AllTimeFilters:

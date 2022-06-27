@@ -1,13 +1,13 @@
 import numpy
 
+from src.leeger.calculator.all_time_calculator.parent.YearCalculator import YearCalculator
 from src.leeger.decorator.validate.validators import validateYear
 from src.leeger.model.league.Year import Year
-from src.leeger.service.YearFiltersService import YearFiltersService
 from src.leeger.util.Deci import Deci
 from src.leeger.util.YearNavigator import YearNavigator
 
 
-class ScoringStandardDeviationCalculator:
+class ScoringStandardDeviationCalculator(YearCalculator):
     """
     Used to calculate all scoring standard deviations.
     """
@@ -33,7 +33,7 @@ class ScoringStandardDeviationCalculator:
             ...
             }
         """
-        filters = YearFiltersService.getYearFilters(year, validateYear=False, **kwargs)
+        filters = cls._getYearFilters(year, validateYear=False, **kwargs)
 
         teamIdAndScores = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)

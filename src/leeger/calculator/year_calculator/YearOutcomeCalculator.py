@@ -1,12 +1,12 @@
+from src.leeger.calculator.all_time_calculator.parent.YearCalculator import YearCalculator
 from src.leeger.decorator.validate.validators import validateYear
 from src.leeger.enum.MatchupType import MatchupType
 from src.leeger.model.league.Year import Year
-from src.leeger.service.YearFiltersService import YearFiltersService
 from src.leeger.util.MatchupNavigator import MatchupNavigator
 from src.leeger.util.YearNavigator import YearNavigator
 
 
-class YearOutcomeCalculator:
+class YearOutcomeCalculator(YearCalculator):
     """
     Used to calculate all year outcomes.
     """
@@ -27,7 +27,7 @@ class YearOutcomeCalculator:
             ...
             }
         """
-        filters = YearFiltersService.getYearFilters(year, validateYear=False, **kwargs)
+        filters = cls._getYearFilters(year, validateYear=False, **kwargs)
 
         teamIdAndChampionships = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
