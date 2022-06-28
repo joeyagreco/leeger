@@ -87,3 +87,29 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
                 numberOfGamesPlayed)
 
         return ownerIdAndWinPercentage
+
+    @classmethod
+    @validateLeague
+    def getWAL(cls, league: League, **kwargs) -> dict[str, Deci]:
+        """
+        WAL is "Wins Against the League"
+        Formula: (Number of Wins * 1) + (Number of Ties * 0.5)
+        Returns the number of Wins Against the League for each team in the given League.
+
+        Example response:
+            {
+            "someTeamId": Deci("18.5"),
+            "someOtherTeamId": Deci("21.0"),
+            "yetAnotherTeamId": Deci("27.5"),
+            ...
+            }
+        """
+
+        ownerIdAndWAL = dict()
+        ownerIdAndWins = GameOutcomeAllTimeCalculator.getWins(league, **kwargs)
+        ownerIdAndTies = GameOutcomeAllTimeCalculator.getTies(league, **kwargs)
+
+        for ownerId in [owner.id for owner in league.owners]:
+            ownerIdAndWAL[ownerId] = ownerIdAndWins[ownerId] + (Deci(0.5) * Deci(ownerIdAndTies[ownerId]))
+
+        return ownerIdAndWAL
