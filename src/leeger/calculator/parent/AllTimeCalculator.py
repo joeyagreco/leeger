@@ -67,6 +67,20 @@ class AllTimeCalculator:
     @classmethod
     @validateLeague
     def _addAndCombineResults(cls, league: League, function: callable, **kwargs) -> dict[str, int | float | Deci]:
+        """
+        Sums all results retrieved from passing each Year in the given League into the given callable.
+        The given callable should be a YearCalculator method.
+
+        Example response:
+            {
+            "someOwnerId": Deci("18.7"),
+            "someOtherOwnerId": Deci("21.2"),
+            "yetAnotherOwnerId": Deci("17.1"),
+            ...
+            }
+        NOTE: the type in the return dictionary values will match whatever the type the callable returns in its values for each Year.
+        """
+
         allResultDicts = cls.__getAllResultDicts(league, function, **kwargs)
 
         # sum all results
