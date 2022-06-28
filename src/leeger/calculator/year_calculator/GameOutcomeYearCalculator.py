@@ -131,7 +131,7 @@ class GameOutcomeYearCalculator(YearCalculator):
             numberOfLosses = teamIdAndLosses[teamId]
             numberOfTies = teamIdAndTies[teamId]
             numberOfGamesPlayed = numberOfWins + numberOfLosses + numberOfTies
-            teamIdAndWinPercentage[teamId] = (Deci(numberOfWins) + (Deci(0.5) * Deci(numberOfTies))) / Deci(
+            teamIdAndWinPercentage[teamId] = (Deci(numberOfWins) + (Deci("0.5") * Deci(numberOfTies))) / Deci(
                 numberOfGamesPlayed)
 
         return teamIdAndWinPercentage
@@ -158,7 +158,7 @@ class GameOutcomeYearCalculator(YearCalculator):
         teamIdAndTies = GameOutcomeYearCalculator.getTies(year, **kwargs)
 
         for teamId in YearNavigator.getAllTeamIds(year):
-            teamIdAndWAL[teamId] = teamIdAndWins[teamId] + (Deci(0.5) * Deci(teamIdAndTies[teamId]))
+            teamIdAndWAL[teamId] = teamIdAndWins[teamId] + (Deci("0.5") * Deci(teamIdAndTies[teamId]))
 
         return teamIdAndWAL
 
@@ -186,7 +186,7 @@ class GameOutcomeYearCalculator(YearCalculator):
         for teamId in allTeamIds:
             # to avoid division by zero, we'll just set the WAL per game to 0 if the team has no games played
             if teamIdAndNumberOfGamesPlayed[teamId] == 0:
-                teamIdAndWALPerGame[teamId] = Deci(0)
+                teamIdAndWALPerGame[teamId] = Deci("0")
             else:
                 teamIdAndWALPerGame[teamId] = teamIdAndWAL[teamId] / teamIdAndNumberOfGamesPlayed[teamId]
 

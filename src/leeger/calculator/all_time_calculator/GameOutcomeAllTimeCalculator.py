@@ -83,7 +83,7 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
             numberOfLosses = ownerIdAndLosses[ownerId]
             numberOfTies = ownerIdAndTies[ownerId]
             numberOfGamesPlayed = numberOfWins + numberOfLosses + numberOfTies
-            ownerIdAndWinPercentage[ownerId] = (Deci(numberOfWins) + (Deci(0.5) * Deci(numberOfTies))) / Deci(
+            ownerIdAndWinPercentage[ownerId] = (Deci(numberOfWins) + (Deci("0.5") * Deci(numberOfTies))) / Deci(
                 numberOfGamesPlayed)
 
         return ownerIdAndWinPercentage
@@ -110,6 +110,6 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
         ownerIdAndTies = GameOutcomeAllTimeCalculator.getTies(league, **kwargs)
 
         for ownerId in [owner.id for owner in league.owners]:
-            ownerIdAndWAL[ownerId] = ownerIdAndWins[ownerId] + (Deci(0.5) * Deci(ownerIdAndTies[ownerId]))
+            ownerIdAndWAL[ownerId] = ownerIdAndWins[ownerId] + (Deci("0.5") * Deci(ownerIdAndTies[ownerId]))
 
         return ownerIdAndWAL
