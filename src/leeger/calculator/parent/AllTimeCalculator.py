@@ -12,7 +12,7 @@ class AllTimeCalculator:
     """
 
     @classmethod
-    def __getAllTimeFilters(cls, league: League, **kwargs) -> AllTimeFilters:
+    def _getAllTimeFilters(cls, league: League, **kwargs) -> AllTimeFilters:
         onlyChampionship = kwargs.pop("onlyChampionship", False)
         onlyPostSeason = kwargs.pop("onlyPostSeason", False)
         onlyRegularSeason = kwargs.pop("onlyRegularSeason", False)
@@ -105,7 +105,7 @@ class AllTimeCalculator:
     @validateLeague
     def __getAllResultDicts(cls, league: League, function: callable, **kwargs) -> list[dict]:
 
-        allTimeFilters = cls.__getAllTimeFilters(league, **kwargs)
+        allTimeFilters = cls._getAllTimeFilters(league, **kwargs)
 
         # parse filters
         yearWeekNumberStartWeekNumberEnd: list[tuple] = list()

@@ -3,6 +3,7 @@ from src.leeger.calculator.year_calculator.GameOutcomeYearCalculator import Game
 from src.leeger.decorator.validate.validators import validateLeague
 from src.leeger.model.league.League import League
 from src.leeger.util.Deci import Deci
+from src.leeger.util.LeagueNavigator import LeagueNavigator
 
 
 class GameOutcomeAllTimeCalculator(AllTimeCalculator):
@@ -113,3 +114,32 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
             ownerIdAndWAL[ownerId] = ownerIdAndWins[ownerId] + (Deci("0.5") * Deci(ownerIdAndTies[ownerId]))
 
         return ownerIdAndWAL
+
+    @classmethod
+    @validateLeague
+    def getWALPerGame(cls, league: League, **kwargs) -> dict[str, Deci]:
+        """
+        Returns the number of Wins Against the League per game for each owner in the given League.
+
+        Example response:
+            {
+            "someTeamId": Deci("0.7"),
+            "someOtherTeamId": Deci("0.29"),
+            "yetAnotherTeamId": Deci("0.48"),
+            ...
+            }
+        """
+        ownerIdAndWAL = cls.getWAL(league, **kwargs)
+        ownerIdAndNumberOfGamesPlayed = LeagueNavigator.getNumberOfGamesPlayed(league,
+                                                                               cls._getAllTimeFilters(league, **kwargs))
+
+        ownerIdAndWALPerGame = dict()
+        allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
+        for ownerId in allOwnerIds:
+            # to avoid division by zero, we'll just set the WAL per game to 0 if the owner has no games played
+            if ownerIdAndNumberOfGamesPlayed[ownerId] == 0:
+                ownerIdAndWALPerGame[ownerId] = Deci("0")
+            else:
+                ownerIdAndWALPerGame[ownerId] = ownerIdAndWAL[ownerId] / ownerIdAndNumberOfGamesPlayed[ownerId]
+
+        return ownerIdAndWALPerGame
