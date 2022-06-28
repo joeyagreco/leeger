@@ -1016,8 +1016,8 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
-        self.assertEqual(Deci("0.4444444444444444444444444443"), response[owners[0].id])
-        self.assertEqual(Deci("0.5555555555555555555555555557"), response[owners[1].id])
+        self.assertEqual(Deci("0.4444444444444444444444444444"), response[owners[0].id])
+        self.assertEqual(Deci("0.5555555555555555555555555556"), response[owners[1].id])
 
     def test_getWinPercentage_onlyPostSeasonIsTrue(self):
         owners, teamsA = getNDefaultOwnersAndTeams(2)

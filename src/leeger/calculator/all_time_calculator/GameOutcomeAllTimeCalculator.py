@@ -73,4 +73,17 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
             ...
             }
         """
-        return cls._averageAndCombineResults(league, GameOutcomeYearCalculator.getWinPercentage, **kwargs)
+        ownerIdAndWinPercentage = dict()
+        ownerIdAndWins = GameOutcomeAllTimeCalculator.getWins(league, **kwargs)
+        ownerIdAndLosses = GameOutcomeAllTimeCalculator.getLosses(league, **kwargs)
+        ownerIdAndTies = GameOutcomeAllTimeCalculator.getTies(league, **kwargs)
+
+        for ownerId in [owner.id for owner in league.owners]:
+            numberOfWins = ownerIdAndWins[ownerId]
+            numberOfLosses = ownerIdAndLosses[ownerId]
+            numberOfTies = ownerIdAndTies[ownerId]
+            numberOfGamesPlayed = numberOfWins + numberOfLosses + numberOfTies
+            ownerIdAndWinPercentage[ownerId] = (Deci(numberOfWins) + (Deci(0.5) * Deci(numberOfTies))) / Deci(
+                numberOfGamesPlayed)
+
+        return ownerIdAndWinPercentage
