@@ -5,6 +5,7 @@ from espn_api.football import League as ESPNLeague
 from espn_api.football import Team as ESPNTeam
 
 from src.leeger.enum.MatchupType import MatchupType
+from src.leeger.exception.DoesNotExistException import DoesNotExistException
 from src.leeger.league_loader.abstract.LeagueLoader import LeagueLoader
 from src.leeger.model.league.League import League
 from src.leeger.model.league.Matchup import Matchup
@@ -176,4 +177,5 @@ class ESPNLeagueLoader(LeagueLoader):
         for owner in cls.__owners:
             if ownerName == owner.name or generalOwnerName == owner.name:
                 return owner
-        # TODO: Raise exception if owner not found and handle it
+        raise DoesNotExistException(
+            f"Owner name '{ownerName}' does not match any previously loaded owner names. To add multiple names for a single owner, use the 'ownerNamesAndAliases' keyword argument to define them.")
