@@ -14,6 +14,7 @@ def runAllChecks(week: Week) -> None:
     checkWeekHasAtLeastOneMatchup(week)
     checkWeekHasMatchupsWithNoDuplicateTeamIds(week)
     checkWeekDoesNotHaveMoreThanOneChampionshipMatchup(week)
+    checkWeekWithPlayoffOrChampionshipMatchupDoesNotHaveRegularSeasonMatchup(week)
 
 
 def checkAllTypes(week: Week) -> None:
@@ -81,3 +82,19 @@ def checkWeekDoesNotHaveMoreThanOneChampionshipMatchup(week: Week) -> None:
     if championshipMatchupCount > 1:
         raise InvalidWeekFormatException(
             f"Week {week.weekNumber} has {championshipMatchupCount} championship matchups. Maximum is 1.")
+
+
+def checkWeekWithPlayoffOrChampionshipMatchupDoesNotHaveRegularSeasonMatchup(week: Week) -> None:
+    """
+    Checks that the given Week has no Regular Season Matchups IF it has a Playoff or Championship Matchup.
+    """
+    playoffOrChampionshipMatchupCount = 0
+    regularSeasonMatchupCount = 0
+    for matchup in week.matchups:
+        if matchup.matchupType in (MatchupType.PLAYOFF, MatchupType.CHAMPIONSHIP):
+            playoffOrChampionshipMatchupCount += 1
+        elif matchup.matchupType == MatchupType.REGULAR_SEASON:
+            regularSeasonMatchupCount += 1
+    if regularSeasonMatchupCount > 0 and playoffOrChampionshipMatchupCount > 0:
+        raise InvalidWeekFormatException(
+            f"Week {week.weekNumber} has regular season matchups and playoff/championship matchups in the same week.")
