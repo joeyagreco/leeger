@@ -85,9 +85,9 @@ class AWALYearCalculator(YearCalculator):
 
         Example response:
             {
-            "someTeamId": Deci("8.7"),
-            "someOtherTeamId": Deci("11.2"),
-            "yetAnotherTeamId": Deci("7.1"),
+            "someTeamId": Deci("0.7"),
+            "someOtherTeamId": Deci("0.2"),
+            "yetAnotherTeamId": Deci("0.1"),
             ...
             }
         """

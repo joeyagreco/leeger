@@ -16,9 +16,9 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
 
         Example response:
             {
-            "someTeamId": 18,
-            "someOtherTeamId": 21,
-            "yetAnotherTeamId": 17,
+            "someOwnerId": 18,
+            "someOtherOwnerId": 21,
+            "yetAnotherOwnerId": 17,
             ...
             }
         """
@@ -32,9 +32,9 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
 
         Example response:
             {
-            "someTeamId": 18,
-            "someOtherTeamId": 21,
-            "yetAnotherTeamId": 17,
+            "someOwnerId": 18,
+            "someOtherOwnerId": 21,
+            "yetAnotherOwnerId": 17,
             ...
             }
         """
@@ -48,9 +48,9 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
 
         Example response:
             {
-            "someTeamId": 1,
-            "someOtherTeamId": 0,
-            "yetAnotherTeamId": 2,
+            "someOwnerId": 1,
+            "someOtherOwnerId": 0,
+            "yetAnotherOwnerId": 2,
             ...
             }
         """
@@ -68,9 +68,9 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
 
         Example response:
             {
-            "someTeamId": Deci("0.85"),
-            "someOtherTeamId": Deci("0.1156"),
-            "yetAnotherTeamId": Deci("0.72"),
+            "someOwnerId": Deci("0.85"),
+            "someOtherOwnerId": Deci("0.1156"),
+            "yetAnotherOwnerId": Deci("0.72"),
             ...
             }
         """
@@ -99,9 +99,9 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
 
         Example response:
             {
-            "someTeamId": Deci("18.5"),
-            "someOtherTeamId": Deci("21.0"),
-            "yetAnotherTeamId": Deci("27.5"),
+            "someOwnerId": Deci("18.5"),
+            "someOtherOwnerId": Deci("21.0"),
+            "yetAnotherOwnerId": Deci("27.5"),
             ...
             }
         """
@@ -123,9 +123,9 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
 
         Example response:
             {
-            "someTeamId": Deci("0.7"),
-            "someOtherTeamId": Deci("0.29"),
-            "yetAnotherTeamId": Deci("0.48"),
+            "someOwnerId": Deci("0.7"),
+            "someOtherOwnerId": Deci("0.29"),
+            "yetAnotherOwnerId": Deci("0.48"),
             ...
             }
         """

@@ -3,6 +3,7 @@ from src.leeger.calculator.year_calculator.AWALYearCalculator import AWALYearCal
 from src.leeger.decorator.validate.validators import validateLeague
 from src.leeger.model.league.League import League
 from src.leeger.util.Deci import Deci
+from src.leeger.util.LeagueNavigator import LeagueNavigator
 
 
 class AWALAllTimeCalculator(AllTimeCalculator):
@@ -29,10 +30,40 @@ class AWALAllTimeCalculator(AllTimeCalculator):
 
         Example response:
             {
-            "someTeamId": Deci("18.7"),
-            "someOtherTeamId": Deci("21.2"),
-            "yetAnotherTeamId": Deci("17.1"),
+            "someOwnerId": Deci("18.7"),
+            "someOtherOwnerId": Deci("21.2"),
+            "yetAnotherOwnerId": Deci("17.1"),
             ...
             }
         """
         return cls._addAndCombineResults(league, AWALYearCalculator.getAWAL, **kwargs)
+
+    @classmethod
+    @validateLeague
+    def getAWALPerGame(cls, league: League, **kwargs) -> dict[str, Deci]:
+        """
+        Returns the number of Adjusted Wins Against the League per game for each team in the given League.
+
+        Example response:
+            {
+            "someOwnerId": Deci("0.7"),
+            "someOtherOwnerId": Deci("0.2"),
+            "yetAnotherOwnerId": Deci("0.1"),
+            ...
+            }
+        """
+
+        ownerIdAndAWAL = cls.getAWAL(league, **kwargs)
+        ownerIdAndNumberOfGamesPlayed = LeagueNavigator.getNumberOfGamesPlayed(league,
+                                                                               cls._getAllTimeFilters(league, **kwargs))
+
+        ownerIdAndAWALPerGame = dict()
+        allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
+        for ownerId in allOwnerIds:
+            # to avoid division by zero, we'll just set the AWAL per game to 0 if the team has no games played
+            if ownerIdAndNumberOfGamesPlayed[ownerId] == 0:
+                ownerIdAndAWALPerGame[ownerId] = Deci(0)
+            else:
+                ownerIdAndAWALPerGame[ownerId] = ownerIdAndAWAL[ownerId] / ownerIdAndNumberOfGamesPlayed[ownerId]
+
+        return ownerIdAndAWALPerGame
