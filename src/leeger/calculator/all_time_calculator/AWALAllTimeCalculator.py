@@ -67,3 +67,19 @@ class AWALAllTimeCalculator(AllTimeCalculator):
                 ownerIdAndAWALPerGame[ownerId] = ownerIdAndAWAL[ownerId] / ownerIdAndNumberOfGamesPlayed[ownerId]
 
         return ownerIdAndAWALPerGame
+
+    @classmethod
+    @validateLeague
+    def getOpponentAWAL(cls, league: League, **kwargs) -> dict[str, Deci]:
+        """
+        Returns the number of Adjusted Wins Against the League for each Owner's opponents in the given League.
+
+        Example response:
+            {
+            "someOwnerId": Deci("18.7"),
+            "someOtherOwnerId": Deci("21.2"),
+            "yetAnotherOwnerId": Deci("17.1"),
+            ...
+            }
+        """
+        return cls._addAndCombineResults(league, AWALYearCalculator.getOpponentAWAL, **kwargs)
