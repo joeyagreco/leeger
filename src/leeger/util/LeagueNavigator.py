@@ -103,3 +103,19 @@ class LeagueNavigator:
                 ownerIdAndNumberOfGamesPlayed[LeagueNavigator.getTeamById(league, teamId).ownerId] += resultDict[teamId]
 
         return ownerIdAndNumberOfGamesPlayed
+
+    @staticmethod
+    @validateLeague
+    def getAllScoresInLeague(league: League, **kwargs) -> list[float | int]:
+        """
+        Returns a list of all scores for the given League.
+        Will count all scores EXCEPT for IGNORE Matchups.
+        """
+        allScores = list()
+        for year in league.years:
+            for week in year.weeks:
+                for matchup in week.matchups:
+                    if matchup.matchupType != MatchupType.IGNORE:
+                        allScores.append(matchup.teamAScore)
+                        allScores.append(matchup.teamBScore)
+        return allScores

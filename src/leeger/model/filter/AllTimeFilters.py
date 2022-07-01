@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+from src.leeger.enum.MatchupType import MatchupType
+
 
 @dataclass(kw_only=True)
 class AllTimeFilters:
@@ -13,3 +15,14 @@ class AllTimeFilters:
     onlyChampionship: bool  # only include championship weeks
     onlyPostSeason: bool  # only include playoff weeks
     onlyRegularSeason: bool  # only include regular season weeks
+
+    @property
+    def includeMatchupTypes(self) -> list[MatchupType]:
+        if self.onlyChampionship:
+            return [MatchupType.CHAMPIONSHIP]
+        elif self.onlyPostSeason:
+            return [MatchupType.PLAYOFF, MatchupType.CHAMPIONSHIP]
+        elif self.onlyRegularSeason:
+            return [MatchupType.REGULAR_SEASON]
+        else:
+            return [MatchupType.REGULAR_SEASON, MatchupType.PLAYOFF, MatchupType.CHAMPIONSHIP]

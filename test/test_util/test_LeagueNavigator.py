@@ -551,3 +551,76 @@ class TestLeagueNavigator(unittest.TestCase):
         self.assertEqual(2, len(response.keys()))
         self.assertEqual(4, response[owners[0].id])
         self.assertEqual(4, response[owners[1].id])
+
+    def test_getAllScoresInLeague_happyPath(self):
+        owners, teamsA = getNDefaultOwnersAndTeams(2)
+        teamsB = getTeamsFromOwners(owners)
+        teamsC = getTeamsFromOwners(owners)
+        teamsD = getTeamsFromOwners(owners)
+
+        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
+                             matchupType=MatchupType.IGNORE)
+        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=3, teamBScore=4,
+                             matchupType=MatchupType.PLAYOFF)
+        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=5, teamBScore=6,
+                             matchupType=MatchupType.CHAMPIONSHIP)
+        week1_a = Week(weekNumber=1, matchups=[matchup1_a])
+        week2_a = Week(weekNumber=2, matchups=[matchup2_a])
+        week3_a = Week(weekNumber=3, matchups=[matchup3_a])
+        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
+
+        matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=7, teamBScore=8,
+                             matchupType=MatchupType.IGNORE)
+        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=9, teamBScore=10,
+                             matchupType=MatchupType.PLAYOFF)
+        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=11, teamBScore=12,
+                             matchupType=MatchupType.CHAMPIONSHIP)
+        week1_b = Week(weekNumber=1, matchups=[matchup1_b])
+        week2_b = Week(weekNumber=2, matchups=[matchup2_b])
+        week3_b = Week(weekNumber=3, matchups=[matchup3_b])
+        yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
+
+        matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=13, teamBScore=14,
+                             matchupType=MatchupType.IGNORE)
+        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=15, teamBScore=16,
+                             matchupType=MatchupType.PLAYOFF)
+        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=17, teamBScore=18,
+                             matchupType=MatchupType.CHAMPIONSHIP)
+        week1_c = Week(weekNumber=1, matchups=[matchup1_c])
+        week2_c = Week(weekNumber=2, matchups=[matchup2_c])
+        week3_c = Week(weekNumber=3, matchups=[matchup3_c])
+        yearC = Year(yearNumber=2002, teams=teamsC, weeks=[week1_c, week2_c, week3_c])
+
+        matchup1_d = Matchup(teamAId=teamsD[0].id, teamBId=teamsD[1].id, teamAScore=19, teamBScore=20,
+                             matchupType=MatchupType.IGNORE)
+        matchup2_d = Matchup(teamAId=teamsD[0].id, teamBId=teamsD[1].id, teamAScore=21, teamBScore=22,
+                             matchupType=MatchupType.PLAYOFF)
+        matchup3_d = Matchup(teamAId=teamsD[0].id, teamBId=teamsD[1].id, teamAScore=23, teamBScore=24,
+                             matchupType=MatchupType.CHAMPIONSHIP)
+        week1_d = Week(weekNumber=1, matchups=[matchup1_d])
+        week2_d = Week(weekNumber=2, matchups=[matchup2_d])
+        week3_d = Week(weekNumber=3, matchups=[matchup3_d])
+        yearD = Year(yearNumber=2003, teams=teamsD, weeks=[week1_d, week2_d, week3_d])
+
+        league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC, yearD])
+
+        response = LeagueNavigator.getAllScoresInLeague(league)
+
+        self.assertIsInstance(response, list)
+        self.assertEqual(16, len(response))
+        self.assertEqual(3, response[0])
+        self.assertEqual(4, response[1])
+        self.assertEqual(5, response[2])
+        self.assertEqual(6, response[3])
+        self.assertEqual(9, response[4])
+        self.assertEqual(10, response[5])
+        self.assertEqual(11, response[6])
+        self.assertEqual(12, response[7])
+        self.assertEqual(15, response[8])
+        self.assertEqual(16, response[9])
+        self.assertEqual(17, response[10])
+        self.assertEqual(18, response[11])
+        self.assertEqual(21, response[12])
+        self.assertEqual(22, response[13])
+        self.assertEqual(23, response[14])
+        self.assertEqual(24, response[15])

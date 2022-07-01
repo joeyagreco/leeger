@@ -2,6 +2,7 @@ from src.leeger.decorator.validate.validators import validateLeague
 from src.leeger.exception.InvalidFilterException import InvalidFilterException
 from src.leeger.model.filter.AllTimeFilters import AllTimeFilters
 from src.leeger.model.league.League import League
+from src.leeger.model.league.Matchup import Matchup
 from src.leeger.util.Deci import Deci
 from src.leeger.util.LeagueNavigator import LeagueNavigator
 
@@ -155,3 +156,46 @@ class AllTimeCalculator:
                                            weekNumberStart=currentWeekNumberStart,
                                            weekNumberEnd=currentWeekNumberEnd))
         return allResultDicts
+
+    @classmethod
+    @validateLeague
+    def _getAllFilteredMatchups(cls, league: League, allTimeFilters: AllTimeFilters, **kwargs) -> list[Matchup]:
+        """
+        Returns all Matchups in the given League that are remaining after the given filters are applied.
+        """
+
+        # parse filters
+        yearWeekNumberStartWeekNumberEnd: list[tuple] = list()
+        if allTimeFilters.yearNumberStart == allTimeFilters.yearNumberEnd:
+            yearWeekNumberStartWeekNumberEnd.append(
+                (LeagueNavigator.getYearByYearNumber(league, allTimeFilters.yearNumberStart),
+                 allTimeFilters.weekNumberStart,
+                 allTimeFilters.weekNumberEnd))
+        else:
+            for year in league.years:
+                if year.yearNumber == allTimeFilters.yearNumberStart:
+                    # first year we want, make sure week number start matches what was requested
+                    # givenWeekStart and every week greater
+                    yearWeekNumberStartWeekNumberEnd.append((year, allTimeFilters.weekNumberStart, len(year.weeks)))
+                elif year.yearNumber == allTimeFilters.yearNumberEnd:
+                    # last year we want, make sure week number end matches what was requested
+                    # first week and every week til givenWeekEnd
+                    yearWeekNumberStartWeekNumberEnd.append((year, 1, allTimeFilters.weekNumberEnd))
+                elif allTimeFilters.yearNumberStart < year.yearNumber < allTimeFilters.yearNumberEnd:
+                    # this year is in our year range, include every week in this year
+                    yearWeekNumberStartWeekNumberEnd.append((year, 1, len(year.weeks)))
+
+        allFilteredMatchups: list[Matchup] = list()
+
+        for yse in yearWeekNumberStartWeekNumberEnd:
+            currentYear = yse[0]
+            currentWeekNumberStart = yse[1]
+            currentWeekNumberEnd = yse[2]
+
+            for week in currentYear.weeks:
+                if week.weekNumber >= currentWeekNumberStart and week.weekNumber <= currentWeekNumberEnd:
+                    for matchup in week.matchups:
+                        if matchup.matchupType in allTimeFilters.includeMatchupTypes:
+                            allFilteredMatchups.append(matchup)
+
+        return allFilteredMatchups
