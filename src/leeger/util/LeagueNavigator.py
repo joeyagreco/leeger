@@ -113,9 +113,5 @@ class LeagueNavigator:
         """
         allScores = list()
         for year in league.years:
-            for week in year.weeks:
-                for matchup in week.matchups:
-                    if matchup.matchupType != MatchupType.IGNORE:
-                        allScores.append(matchup.teamAScore)
-                        allScores.append(matchup.teamBScore)
+            allScores += YearNavigator.getAllScoresInYear(year)
         return allScores

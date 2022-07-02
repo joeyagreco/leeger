@@ -53,6 +53,7 @@ class SmartWinsYearCalculator(YearCalculator):
 
         filters = cls._getYearFilters(year, validateYear=False, **kwargs)
 
+        # get all scores we want to include in our smart wins calculation
         teamIdsAndScores = list()
 
         for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
@@ -67,10 +68,10 @@ class SmartWinsYearCalculator(YearCalculator):
         for teamId in allTeamIds:
             teamIdAndSmartWins[teamId] = Deci(0)
 
-        allScores = [teamIdAndScore[1] for teamIdAndScore in teamIdsAndScores]
+        allScores = YearNavigator.getAllScoresInYear(year)
         for teamIdAndScore in teamIdsAndScores:
             scoresBeat, scoresTied = getNumberOfScoresBeatAndTied(teamIdAndScore[1], allScores)
-            smartWins = (scoresBeat + (scoresTied / Deci(2))) / (len(allScores) - Deci(1))
+            smartWins = (scoresBeat + (scoresTied / Deci("2"))) / (len(allScores) - Deci("1"))
             teamIdAndSmartWins[teamIdAndScore[0]] += smartWins
 
         return teamIdAndSmartWins

@@ -187,3 +187,26 @@ class TestYearNavigator(unittest.TestCase):
         self.assertEqual(2, len(response.keys()))
         self.assertEqual(Deci("2"), response[teams[0].id])
         self.assertEqual(Deci("2"), response[teams[1].id])
+
+    def test_getAllScoresInYear_happyPath(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=3, teamBScore=4,
+                           matchupType=MatchupType.IGNORE)
+        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=5, teamBScore=6)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+        week3 = Week(weekNumber=3, matchups=[matchup3])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
+
+        response = YearNavigator.getAllScoresInYear(year)
+
+        self.assertIsInstance(response, list)
+        self.assertEqual(4, len(response))
+        self.assertEqual(1, response[0])
+        self.assertEqual(2, response[1])
+        self.assertEqual(5, response[2])
+        self.assertEqual(6, response[3])

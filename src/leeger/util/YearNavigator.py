@@ -1,4 +1,5 @@
 from src.leeger.decorator.validate.validators import validateYear
+from src.leeger.enum.MatchupType import MatchupType
 from src.leeger.model.filter.YearFilters import YearFilters
 from src.leeger.model.league.Year import Year
 
@@ -40,3 +41,18 @@ class YearNavigator:
                     teamIdAndNumberOfGamesPlayed[matchup.teamAId] += 1
                     teamIdAndNumberOfGamesPlayed[matchup.teamBId] += 1
         return teamIdAndNumberOfGamesPlayed
+
+    @staticmethod
+    @validateYear
+    def getAllScoresInYear(year: Year, **kwargs) -> list[float | int]:
+        """
+        Returns a list of all scores for the given Year.
+        Will count all scores EXCEPT for IGNORE Matchups.
+        """
+        allScores = list()
+        for week in year.weeks:
+            for matchup in week.matchups:
+                if matchup.matchupType != MatchupType.IGNORE:
+                    allScores.append(matchup.teamAScore)
+                    allScores.append(matchup.teamBScore)
+        return allScores
