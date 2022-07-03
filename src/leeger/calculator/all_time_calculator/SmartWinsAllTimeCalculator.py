@@ -162,3 +162,35 @@ class SmartWinsAllTimeCalculator(AllTimeCalculator):
             ownerIdAndOpponentSmartWins[ownerIdAndOpponentScore[0]] += smartWins
 
         return ownerIdAndOpponentSmartWins
+
+    @classmethod
+    @validateLeague
+    def getOpponentSmartWinsPerGame(cls, league: League, **kwargs) -> dict[str, Deci]:
+        """
+        Returns the number of Smart Wins per game for each Owner's opponent in the given League.
+
+        Example response:
+            {
+            "someTeamId": Deci("0.7"),
+            "someOtherTeamId": Deci("0.2"),
+            "yetAnotherTeamId": Deci("0.1"),
+            ...
+            }
+        """
+
+        ownerIdAndOpponentSmartWins = cls.getOpponentSmartWins(league, **kwargs)
+        ownerIdAndNumberOfGamesPlayed = LeagueNavigator.getNumberOfGamesPlayed(league,
+                                                                               cls._getAllTimeFilters(league, **kwargs))
+
+        ownerIdAndOpponentSmartWinsPerGame = dict()
+        allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
+        for ownerId in allOwnerIds:
+            # to avoid division by zero, we'll just set the AWAL per game to 0 if the team has no games played
+            if ownerIdAndNumberOfGamesPlayed[ownerId] == 0:
+                ownerIdAndOpponentSmartWinsPerGame[ownerId] = Deci(0)
+            else:
+                ownerIdAndOpponentSmartWinsPerGame[ownerId] = ownerIdAndOpponentSmartWins[ownerId] / \
+                                                              ownerIdAndNumberOfGamesPlayed[
+                                                                  ownerId]
+
+        return ownerIdAndOpponentSmartWinsPerGame
