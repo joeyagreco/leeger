@@ -105,3 +105,60 @@ class SmartWinsAllTimeCalculator(AllTimeCalculator):
                     ownerId]
 
         return ownerIdAndSmartWinsPerGame
+
+    @classmethod
+    @validateLeague
+    def getOpponentSmartWins(cls, league: League, **kwargs) -> dict[str, Deci]:
+        """
+        Returns the number of Smart Wins for each Owner's opponent in the given League.
+
+        Example response:
+            {
+            "someTeamId": Deci("8.7"),
+            "someOtherTeamId": Deci("11.2"),
+            "yetAnotherTeamId": Deci("7.1"),
+            ...
+            }
+        """
+
+        ####################
+        # Helper functions #
+        ####################
+        def getNumberOfScoresBeatAndTied(score: float | int, scores: list[float | int]) -> list[int, int]:
+            scoresBeatAndTied = [0, 0]
+            for s in scores:
+                if score > s:
+                    scoresBeatAndTied[0] += 1
+                elif score == s:
+                    scoresBeatAndTied[1] += 1
+            # remove 1 from the scores tied tracker since we will always find a tie for this teams score in the list of all scores
+            scoresBeatAndTied[1] -= 1
+            return scoresBeatAndTied
+
+        ####################
+        ####################
+        ####################
+
+        filters = cls._getAllTimeFilters(league, validateLeague=False, **kwargs)
+
+        # get all scores we want to include in our smart wins calculation
+        ownerIdsAndOpponentScores: list[tuple] = list()
+
+        for matchup in cls._getAllFilteredMatchups(league, filters):
+            teamA = LeagueNavigator.getTeamById(league, matchup.teamAId)
+            teamB = LeagueNavigator.getTeamById(league, matchup.teamBId)
+            ownerIdsAndOpponentScores.append((teamA.ownerId, matchup.teamBScore))
+            ownerIdsAndOpponentScores.append((teamB.ownerId, matchup.teamAScore))
+
+        allScores = LeagueNavigator.getAllScoresInLeague(league)
+        ownerIdAndOpponentSmartWins = dict()
+        allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
+        for ownerId in allOwnerIds:
+            ownerIdAndOpponentSmartWins[ownerId] = Deci(0)
+
+        for ownerIdAndOpponentScore in ownerIdsAndOpponentScores:
+            scoresBeat, scoresTied = getNumberOfScoresBeatAndTied(ownerIdAndOpponentScore[1], allScores)
+            smartWins = (scoresBeat + (scoresTied / Deci(2))) / (len(allScores) - Deci(1))
+            ownerIdAndOpponentSmartWins[ownerIdAndOpponentScore[0]] += smartWins
+
+        return ownerIdAndOpponentSmartWins
