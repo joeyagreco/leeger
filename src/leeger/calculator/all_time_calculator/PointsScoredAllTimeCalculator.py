@@ -73,3 +73,34 @@ class PointsScoredAllTimeCalculator(AllTimeCalculator):
             }
         """
         return cls._addAndCombineResults(league, PointsScoredYearCalculator.getOpponentPointsScored, **kwargs)
+
+    @classmethod
+    @validateLeague
+    def getOpponentPointsScoredPerGame(cls, league: League, **kwargs) -> dict[str, Deci]:
+        """
+        Returns the number of Points Scored per game for each Owner's opponent in the given League.
+
+        Example response:
+            {
+            "someTeamId": Deci("100.7"),
+            "someOtherTeamId": Deci("141.2"),
+            "yetAnotherTeamId": Deci("122.1"),
+            ...
+            }
+        """
+
+        ownerIdAndOpponentPointsScored = cls.getOpponentPointsScored(league, **kwargs)
+        ownerIdAndNumberOfGamesPlayed = LeagueNavigator.getNumberOfGamesPlayed(league,
+                                                                               cls._getAllTimeFilters(league, **kwargs))
+
+        ownerIdAndOpponentPointsScoredPerGame = dict()
+        allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
+        for ownerId in allOwnerIds:
+            # to avoid division by zero, we'll just set the Points Scored per game to 0 if the team has no games played
+            if ownerIdAndNumberOfGamesPlayed[ownerId] == 0:
+                ownerIdAndOpponentPointsScoredPerGame[ownerId] = Deci(0)
+            else:
+                ownerIdAndOpponentPointsScoredPerGame[ownerId] = ownerIdAndOpponentPointsScored[ownerId] / \
+                                                                 ownerIdAndNumberOfGamesPlayed[ownerId]
+
+        return ownerIdAndOpponentPointsScoredPerGame
