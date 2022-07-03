@@ -74,4 +74,4 @@ class TestValidators(unittest.TestCase):
         self.assertEqual("No valid Matchup argument given to validate.", str(context.exception))
 
     def test_validateMatchup_validateMatchupKwargIsFalse_doesntRunValidation(self):
-        self.dummyWeekFunction(None, validateWeek=False)
+        self.dummyMatchupFunction(None, validateMatchup=False)
