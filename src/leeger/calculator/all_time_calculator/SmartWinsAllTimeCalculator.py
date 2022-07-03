@@ -97,7 +97,7 @@ class SmartWinsAllTimeCalculator(AllTimeCalculator):
         ownerIdAndSmartWinsPerGame = dict()
         allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
         for ownerId in allOwnerIds:
-            # to avoid division by zero, we'll just set the AWAL per game to 0 if the team has no games played
+            # to avoid division by zero, we'll just set the Smart Wins per game to 0 if the team has no games played
             if ownerIdAndNumberOfGamesPlayed[ownerId] == 0:
                 ownerIdAndSmartWinsPerGame[ownerId] = Deci(0)
             else:
@@ -185,7 +185,7 @@ class SmartWinsAllTimeCalculator(AllTimeCalculator):
         ownerIdAndOpponentSmartWinsPerGame = dict()
         allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
         for ownerId in allOwnerIds:
-            # to avoid division by zero, we'll just set the AWAL per game to 0 if the team has no games played
+            # to avoid division by zero, we'll just set the opponent Smart Wins per game to 0 if the team has no games played
             if ownerIdAndNumberOfGamesPlayed[ownerId] == 0:
                 ownerIdAndOpponentSmartWinsPerGame[ownerId] = Deci(0)
             else:
