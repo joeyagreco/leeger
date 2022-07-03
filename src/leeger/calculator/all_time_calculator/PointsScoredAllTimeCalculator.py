@@ -57,3 +57,19 @@ class PointsScoredAllTimeCalculator(AllTimeCalculator):
                                                          ownerIdAndNumberOfGamesPlayed[ownerId]
 
         return ownerIdAndPointsScoredPerGame
+
+    @classmethod
+    @validateLeague
+    def getOpponentPointsScored(cls, league: League, **kwargs) -> dict[str, Deci]:
+        """
+        Returns the number of Points Scored for each Owner's opponent in the given League.
+
+        Example response:
+            {
+            "someTeamId": Deci("1009.7"),
+            "someOtherTeamId": Deci("1412.2"),
+            "yetAnotherTeamId": Deci("1227.1"),
+            ...
+            }
+        """
+        return cls._addAndCombineResults(league, PointsScoredYearCalculator.getOpponentPointsScored, **kwargs)
