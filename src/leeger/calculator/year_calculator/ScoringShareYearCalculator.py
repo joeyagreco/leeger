@@ -15,7 +15,7 @@ class ScoringShareYearCalculator(YearCalculator):
     @validateYear
     def getScoringShare(cls, year: Year, **kwargs) -> dict[str, Deci]:
         """
-        Scoring Share is used to show what percentage of test_league scoring a team was responsible for.
+        Scoring Share is used to show what percentage of league scoring a team was responsible for.
         Scoring Share = ((ΣA) / (ΣB)) * 100
         WHERE:
         A = All scores by a Team in a Year
