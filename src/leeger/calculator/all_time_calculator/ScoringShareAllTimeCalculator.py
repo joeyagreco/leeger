@@ -40,3 +40,28 @@ class ScoringShareAllTimeCalculator(AllTimeCalculator):
                 "100")
 
         return ownerIdAndScoringShare
+
+    @classmethod
+    @validateLeague
+    def getOpponentScoringShare(cls, league: League, **kwargs) -> dict[str, Deci]:
+        """
+        Returns the Scoring Share for each Owner's opponent in the given League.
+
+        Example response:
+            {
+            "someTeamId": Deci("10.7"),
+            "someOtherTeamId": Deci("14.2"),
+            "yetAnotherTeamId": Deci("12.1"),
+            ...
+            }
+        """
+
+        ownerIdAndOpponentPointsScored = PointsScoredAllTimeCalculator.getOpponentPointsScored(league, **kwargs)
+        totalPointsScoredInLeague = sum(ownerIdAndOpponentPointsScored.values())
+        ownerIdAndOpponentScoringShare = dict()
+        for ownerId in LeagueNavigator.getAllOwnerIds(league):
+            ownerIdAndOpponentScoringShare[ownerId] = (ownerIdAndOpponentPointsScored[
+                                                           ownerId] / totalPointsScoredInLeague) * Deci(
+                "100")
+
+        return ownerIdAndOpponentScoringShare
