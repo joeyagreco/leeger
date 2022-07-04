@@ -48,9 +48,10 @@ class SingleScoreYearCalculator(YearCalculator):
 
     @classmethod
     @validateYear
-    def getMinScore(cls, year: Year, **kwargs) -> dict[str, float | int]:
+    def getMinScore(cls, year: Year, **kwargs) -> dict[str, Optional[float | int]]:
         """
-        Returns the Min Score for each team in the given Year.
+        Returns the Min Score for each Team in the given Year.
+        If a Team has no scores in the range, None is returned for them.
 
         Example response:
             {
@@ -64,17 +65,18 @@ class SingleScoreYearCalculator(YearCalculator):
 
         teamIdAndMinScore = dict()
 
-        for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
-            week = year.weeks[i]
-            for matchup in week.matchups:
-                if matchup.matchupType in filters.includeMatchupTypes:
-                    if matchup.teamAId in teamIdAndMinScore:
-                        teamIdAndMinScore[matchup.teamAId] = min(teamIdAndMinScore[matchup.teamAId], matchup.teamAScore)
-                    else:
-                        teamIdAndMinScore[matchup.teamAId] = matchup.teamAScore
-                    if matchup.teamBId in teamIdAndMinScore:
-                        teamIdAndMinScore[matchup.teamBId] = min(teamIdAndMinScore[matchup.teamBId], matchup.teamBScore)
-                    else:
-                        teamIdAndMinScore[matchup.teamBId] = matchup.teamBScore
+        allMatchups = cls._getAllFilteredMatchups(year, filters, validateYear=False)
+
+        for teamId in YearNavigator.getAllTeamIds(year, validateYear=False):
+            teamIdAndMinScore[teamId] = None
+
+        for matchup in allMatchups:
+            aPreviousMinScore = teamIdAndMinScore[matchup.teamAId]
+            if aPreviousMinScore is None or matchup.teamAScore < aPreviousMinScore:
+                teamIdAndMinScore[matchup.teamAId] = matchup.teamAScore
+
+            bPreviousMinScore = teamIdAndMinScore[matchup.teamBId]
+            if bPreviousMinScore is None or matchup.teamBScore < bPreviousMinScore:
+                teamIdAndMinScore[matchup.teamBId] = matchup.teamBScore
 
         return teamIdAndMinScore
