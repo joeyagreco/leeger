@@ -15,7 +15,7 @@ class PlusMinusYearCalculator(YearCalculator):
     @validateYear
     def getPlusMinus(cls, year: Year, **kwargs) -> dict[str, Deci]:
         """
-        Plus/Minus (+/-) is used to show the net score differential for a team in Year.
+        Plus/Minus (+/-) is used to show the net score differential for a team in a Year.
         Plus/Minus = ΣA - ΣB
         WHERE:
         A = All scores by a team in a Year
