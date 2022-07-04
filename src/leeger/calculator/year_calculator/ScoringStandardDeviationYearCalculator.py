@@ -1,3 +1,5 @@
+from typing import Optional
+
 import numpy
 
 from src.leeger.calculator.parent.YearCalculator import YearCalculator
@@ -14,7 +16,7 @@ class ScoringStandardDeviationYearCalculator(YearCalculator):
 
     @classmethod
     @validateYear
-    def getScoringStandardDeviation(cls, year: Year, **kwargs) -> dict[str, float | int]:
+    def getScoringStandardDeviation(cls, year: Year, **kwargs) -> dict[str, Optional[Deci]]:
         """
         Scoring STDEV (Standard Deviation) is used to show how volatile a team's scoring was.
         This stat measures a team's scores relative to the mean (or PPG) of all of their scores.
@@ -24,6 +26,8 @@ class ScoringStandardDeviationYearCalculator(YearCalculator):
         u = PPG
         N = Number of scores (typically weeks played)
         Returns the Scoring Standard Deviation for each team in the given Year.
+
+        If a Team has no scores in the given range, None will be returned for them.
 
         Example response:
             {
@@ -49,6 +53,11 @@ class ScoringStandardDeviationYearCalculator(YearCalculator):
 
         teamIdAndScoringStandardDeviation = dict()
         for teamId in allTeamIds:
-            teamIdAndScoringStandardDeviation[teamId] = Deci(numpy.std(teamIdAndScores[teamId]))
+            if len(teamIdAndScores[teamId]) > 0:
+                # the Team has scores in this range
+                teamIdAndScoringStandardDeviation[teamId] = Deci(numpy.std(teamIdAndScores[teamId]))
+            else:
+                # no scores for this Team in this range, return None for them
+                teamIdAndScoringStandardDeviation[teamId] = None
 
         return teamIdAndScoringStandardDeviation
