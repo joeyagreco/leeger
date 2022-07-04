@@ -1,3 +1,5 @@
+from typing import Optional
+
 from src.leeger.calculator.parent.AllTimeCalculator import AllTimeCalculator
 from src.leeger.calculator.year_calculator.SSLYearCalculator import SSLYearCalculator
 from src.leeger.decorator.validate.validators import validateLeague
@@ -25,7 +27,7 @@ class SSLAllTimeCalculator(AllTimeCalculator):
 
     @classmethod
     @validateLeague
-    def getTeamScore(cls, league: League, **kwargs) -> dict[str, Deci]:
+    def getTeamScore(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
         """
         Team Score is a score given to a team that is representative of how good that team is.
 
@@ -33,6 +35,7 @@ class SSLAllTimeCalculator(AllTimeCalculator):
         Team Score = ((AWAL Per Game) * aMultiplier) + (Scoring Share * bMultiplier) + ((Max Score + Min Score) * cMultiplier)
 
         Returns the combined Team Score for each Owner in the given League.
+        Returns None for an Owner if all Years for that Owner are None
 
         Example response:
             {
@@ -44,3 +47,25 @@ class SSLAllTimeCalculator(AllTimeCalculator):
         """
 
         return cls._addAndCombineResults(league, SSLYearCalculator.getTeamScore, **kwargs)
+
+    @classmethod
+    @validateLeague
+    def getTeamSuccess(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
+        """
+        Team Success is a score given to a team that is representative of how successful that team is.
+
+        Formula:
+        Team Success = ((WAL Per Game) * aMultiplier) + (Scoring Share * bMultiplier) + ((Max Score + Min Score) * cMultiplier)
+
+        Returns the combined Team Success for each Owner in the given League.
+        Returns None for an Owner if all Years for that Owner are None
+
+        Example response:
+            {
+            "someTeamId": Deci("118.7"),
+            "someOtherTeamId": Deci("112.2"),
+            "yetAnotherTeamId": Deci("79.1"),
+            ...
+            }
+        """
+        return cls._addAndCombineResults(league, SSLYearCalculator.getTeamSuccess, **kwargs)
