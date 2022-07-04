@@ -1,3 +1,5 @@
+from typing import Optional
+
 from src.leeger.calculator.parent.YearCalculator import YearCalculator
 from src.leeger.calculator.year_calculator.AWALYearCalculator import AWALYearCalculator
 from src.leeger.calculator.year_calculator.GameOutcomeYearCalculator import GameOutcomeYearCalculator
@@ -33,7 +35,7 @@ class SSLYearCalculator(YearCalculator):
 
     @classmethod
     @validateYear
-    def getTeamScore(cls, year: Year, **kwargs) -> dict[str, Deci]:
+    def getTeamScore(cls, year: Year, **kwargs) -> dict[str, Optional[Deci]]:
         """
         Team Score is a score given to a team that is representative of how good that team is.
 
@@ -41,6 +43,7 @@ class SSLYearCalculator(YearCalculator):
         Team Score = ((AWAL Per Game) * aMultiplier) + (Scoring Share * bMultiplier) + ((Max Score + Min Score) * cMultiplier)
 
         Returns the Team Score for each team in the given Year.
+        Returns None if any stat used to calculate this is not found in the given range.
 
         Example response:
             {
@@ -58,14 +61,19 @@ class SSLYearCalculator(YearCalculator):
             maxScore = SingleScoreYearCalculator.getMaxScore(year, **kwargs)[teamId]
             minScore = SingleScoreYearCalculator.getMinScore(year, **kwargs)[teamId]
 
-            teamIdAndTeamScore[teamId] = (awalPerGame * Deci(cls.__AWAL_AND_WAL_PER_GAME_MULTIPLIER)) + \
-                                         (scoringShare * Deci(cls.__SCORING_SHARE_MULTIPLIER)) + \
-                                         ((Deci(maxScore) + Deci(minScore)) * Deci(cls.__MAX_AND_MIN_SCORE_MULTIPLIER))
+            # check if all stats could be found
+            if None not in (awalPerGame, scoringShare, maxScore, minScore):
+                teamIdAndTeamScore[teamId] = (awalPerGame * Deci(cls.__AWAL_AND_WAL_PER_GAME_MULTIPLIER)) + \
+                                             (scoringShare * Deci(cls.__SCORING_SHARE_MULTIPLIER)) + \
+                                             ((Deci(maxScore) + Deci(minScore)) * Deci(
+                                                 cls.__MAX_AND_MIN_SCORE_MULTIPLIER))
+            else:
+                teamIdAndTeamScore[teamId] = None
         return teamIdAndTeamScore
 
     @classmethod
     @validateYear
-    def getTeamSuccess(cls, year: Year, **kwargs) -> dict[str, Deci]:
+    def getTeamSuccess(cls, year: Year, **kwargs) -> dict[str, Optional[Deci]]:
         """
         Team Success is a score given to a team that is representative of how successful that team is.
 
@@ -73,6 +81,7 @@ class SSLYearCalculator(YearCalculator):
         Team Success = ((WAL Per Game) * aMultiplier) + (Scoring Share * bMultiplier) + ((Max Score + Min Score) * cMultiplier)
 
         Returns the Team Success for each team in the given Year.
+        Returns None if any stat used to calculate this is not found in the given range.
 
         Example response:
             {
@@ -90,15 +99,19 @@ class SSLYearCalculator(YearCalculator):
             maxScore = SingleScoreYearCalculator.getMaxScore(year, **kwargs)[teamId]
             minScore = SingleScoreYearCalculator.getMinScore(year, **kwargs)[teamId]
 
-            teamIdAndTeamSuccess[teamId] = (walPerGame * Deci(cls.__AWAL_AND_WAL_PER_GAME_MULTIPLIER)) + \
-                                           (scoringShare * Deci(cls.__SCORING_SHARE_MULTIPLIER)) + \
-                                           ((Deci(maxScore) + Deci(minScore)) * Deci(
-                                               cls.__MAX_AND_MIN_SCORE_MULTIPLIER))
+            # check if all stats could be found
+            if None not in (walPerGame, scoringShare, maxScore, minScore):
+                teamIdAndTeamSuccess[teamId] = (walPerGame * Deci(cls.__AWAL_AND_WAL_PER_GAME_MULTIPLIER)) + \
+                                               (scoringShare * Deci(cls.__SCORING_SHARE_MULTIPLIER)) + \
+                                               ((Deci(maxScore) + Deci(minScore)) * Deci(
+                                                   cls.__MAX_AND_MIN_SCORE_MULTIPLIER))
+            else:
+                teamIdAndTeamSuccess[teamId] = None
         return teamIdAndTeamSuccess
 
     @classmethod
     @validateYear
-    def getTeamLuck(cls, year: Year, **kwargs) -> dict[str, Deci]:
+    def getTeamLuck(cls, year: Year, **kwargs) -> dict[str, Optional[Deci]]:
         """
         Team Luck is a score given to a team that is representative of how lucky that team is.
 
@@ -106,6 +119,7 @@ class SSLYearCalculator(YearCalculator):
         Team Luck = Team Success - Team Score
 
         Returns the Team Luck for each team in the given Year.
+        Returns None if any stat used to calculate this is not found in the given range.
 
         Example response:
             {
@@ -118,6 +132,11 @@ class SSLYearCalculator(YearCalculator):
 
         teamIdAndTeamLuck = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
-            teamIdAndTeamLuck[teamId] = cls.getTeamSuccess(year, **kwargs)[teamId] \
-                                        - cls.getTeamScore(year, **kwargs)[teamId]
+            teamScore = cls.getTeamScore(year, **kwargs)[teamId]
+            teamSuccess = cls.getTeamSuccess(year, **kwargs)[teamId]
+
+            if None not in (teamScore, teamSuccess):
+                teamIdAndTeamLuck[teamId] = teamSuccess - teamScore
+            else:
+                teamIdAndTeamLuck[teamId] = None
         return teamIdAndTeamLuck
