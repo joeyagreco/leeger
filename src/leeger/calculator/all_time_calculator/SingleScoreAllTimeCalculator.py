@@ -47,3 +47,40 @@ class SingleScoreAllTimeCalculator(AllTimeCalculator):
                 ownerIdAndMaxScore[bOwnerId] = matchup.teamBScore
 
         return ownerIdAndMaxScore
+
+    @classmethod
+    @validateLeague
+    def getMinScore(cls, league: League, **kwargs) -> dict[str, Optional[float | int]]:
+        """
+        Returns the Min Score for each Owner in the given League.
+        If an Owner has no scores in the range, None is returned for them.
+
+        Example response:
+            {
+            "someOwnerId": 90.7,
+            "someOtherOwnerId": 71,
+            "yetAnotherOwnerId": 82.2,
+            ...
+            }
+        """
+        filters = cls._getAllTimeFilters(league, validateLeague=False, **kwargs)
+
+        ownerIdAndMinScore = dict()
+
+        allMatchups = cls._getAllFilteredMatchups(league, filters, validateLeague=False)
+
+        for ownerId in LeagueNavigator.getAllOwnerIds(league, validateLeague=False):
+            ownerIdAndMinScore[ownerId] = None
+
+        for matchup in allMatchups:
+            aOwnerId = LeagueNavigator.getTeamById(league, matchup.teamAId).ownerId
+            aPreviousMinScore = ownerIdAndMinScore[aOwnerId]
+            if aPreviousMinScore is None or matchup.teamAScore < aPreviousMinScore:
+                ownerIdAndMinScore[aOwnerId] = matchup.teamAScore
+
+            bOwnerId = LeagueNavigator.getTeamById(league, matchup.teamBId).ownerId
+            bPreviousMinScore = ownerIdAndMinScore[bOwnerId]
+            if bPreviousMinScore is None or matchup.teamBScore < bPreviousMinScore:
+                ownerIdAndMinScore[bOwnerId] = matchup.teamBScore
+
+        return ownerIdAndMinScore
