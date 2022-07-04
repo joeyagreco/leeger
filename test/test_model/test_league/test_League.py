@@ -25,7 +25,7 @@ class TestLeague(unittest.TestCase):
         self.assertEqual(owner.id, league.owners[0].id)
         self.assertEqual(year.id, league.years[0].id)
 
-    def test_league_yearsToExcel_happyPath(self):
+    def test_league_toExcel_happyPath(self):
         owners, teams1 = getNDefaultOwnersAndTeams(2)
         teams1[0].name = "a"
         teams1[1].name = "b"
@@ -41,23 +41,24 @@ class TestLeague(unittest.TestCase):
         teams3 = [Team(ownerId=owners[0].id, name="a3"), Team(ownerId=owners[1].id, name="b3")]
         matchup3 = Matchup(teamAId=teams3[0].id, teamBId=teams3[1].id, teamAScore=1, teamBScore=2)
         week3 = Week(weekNumber=1, matchups=[matchup3])
-        year3 = Year(yearNumber=1999, teams=teams3, weeks=[week3])
+        year3 = Year(yearNumber=2002, teams=teams3, weeks=[week3])
 
         league = League(name="", owners=owners, years=[year1, year2, year3])
 
         with tempfile.TemporaryDirectory() as tempDir:
             fullPath = os.path.join(tempDir, "tmp.xlsx")
-            league.yearsToExcel(fullPath)
+            league.toExcel(fullPath)
 
             # open created Excel file to check that it was saved correctly
             workbook = load_workbook(filename=fullPath)
 
-            self.assertEqual(3, len(workbook.sheetnames))
-            self.assertEqual("1999", workbook.sheetnames[0])
-            self.assertEqual("2000", workbook.sheetnames[1])
-            self.assertEqual("2001", workbook.sheetnames[2])
+            self.assertEqual(4, len(workbook.sheetnames))
+            self.assertEqual("2000", workbook.sheetnames[0])
+            self.assertEqual("2001", workbook.sheetnames[1])
+            self.assertEqual("2002", workbook.sheetnames[2])
+            self.assertEqual("All Time", workbook.sheetnames[3])
 
-    def test_league_yearsToExcel_fileAlreadyExists_raisesException(self):
+    def test_league_toExcel_fileAlreadyExists_raisesException(self):
         owners, teams1 = getNDefaultOwnersAndTeams(2)
         teams1[0].name = "a"
         teams1[1].name = "b"
@@ -83,6 +84,6 @@ class TestLeague(unittest.TestCase):
                 # create a file with this same name/path first
                 with open(fullPath, "w") as f:
                     ...
-                league.yearsToExcel(fullPath)
+                league.toExcel(fullPath)
         self.assertEqual(f"Cannot create file at path: '{fullPath}' because there is already a file there.",
                          str(context.exception))
