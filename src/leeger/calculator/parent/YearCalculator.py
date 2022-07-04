@@ -2,6 +2,7 @@ from src.leeger.decorator.validate.validators import validateYear
 from src.leeger.enum.MatchupType import MatchupType
 from src.leeger.exception.InvalidFilterException import InvalidFilterException
 from src.leeger.model.filter.YearFilters import YearFilters
+from src.leeger.model.league.Matchup import Matchup
 from src.leeger.model.league.Year import Year
 
 
@@ -67,3 +68,18 @@ class YearCalculator:
 
         return YearFilters(weekNumberStart=weekNumberStart, weekNumberEnd=weekNumberEnd,
                            includeMatchupTypes=includeMatchupTypes)
+
+    @classmethod
+    @validateYear
+    def _getAllFilteredMatchups(cls, year: Year, yearFilters: YearFilters, **kwargs) -> list[Matchup]:
+        """
+        Returns all Matchups in the given Year that are remaining after the given filters are applied.
+        """
+        allFilteredMatchups: list[Matchup] = list()
+        for i in range(yearFilters.weekNumberStart - 1, yearFilters.weekNumberEnd):
+            week = year.weeks[i]
+            for matchup in week.matchups:
+                if matchup.matchupType in yearFilters.includeMatchupTypes:
+                    allFilteredMatchups.append(matchup)
+
+        return allFilteredMatchups

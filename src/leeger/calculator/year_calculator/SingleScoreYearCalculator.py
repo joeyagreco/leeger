@@ -1,6 +1,9 @@
+from typing import Optional
+
 from src.leeger.calculator.parent.YearCalculator import YearCalculator
 from src.leeger.decorator.validate.validators import validateYear
 from src.leeger.model.league.Year import Year
+from src.leeger.util.YearNavigator import YearNavigator
 
 
 class SingleScoreYearCalculator(YearCalculator):
@@ -10,9 +13,10 @@ class SingleScoreYearCalculator(YearCalculator):
 
     @classmethod
     @validateYear
-    def getMaxScore(cls, year: Year, **kwargs) -> dict[str, float | int]:
+    def getMaxScore(cls, year: Year, **kwargs) -> dict[str, Optional[float | int]]:
         """
-        Returns the Max Score for each team in the given Year.
+        Returns the Max Score for each Team in the given Year.
+        If a Team has no scores in the range, None is returned for them.
 
         Example response:
             {
@@ -26,18 +30,19 @@ class SingleScoreYearCalculator(YearCalculator):
 
         teamIdAndMaxScore = dict()
 
-        for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
-            week = year.weeks[i]
-            for matchup in week.matchups:
-                if matchup.matchupType in filters.includeMatchupTypes:
-                    if matchup.teamAId in teamIdAndMaxScore:
-                        teamIdAndMaxScore[matchup.teamAId] = max(teamIdAndMaxScore[matchup.teamAId], matchup.teamAScore)
-                    else:
-                        teamIdAndMaxScore[matchup.teamAId] = matchup.teamAScore
-                    if matchup.teamBId in teamIdAndMaxScore:
-                        teamIdAndMaxScore[matchup.teamBId] = max(teamIdAndMaxScore[matchup.teamBId], matchup.teamBScore)
-                    else:
-                        teamIdAndMaxScore[matchup.teamBId] = matchup.teamBScore
+        allMatchups = cls._getAllFilteredMatchups(year, filters, validateYear=False)
+
+        for teamId in YearNavigator.getAllTeamIds(year, validateYear=False):
+            teamIdAndMaxScore[teamId] = None
+
+        for matchup in allMatchups:
+            aPreviousMaxScore = teamIdAndMaxScore[matchup.teamAId]
+            if aPreviousMaxScore is None or matchup.teamAScore > aPreviousMaxScore:
+                teamIdAndMaxScore[matchup.teamAId] = matchup.teamAScore
+
+            bPreviousMaxScore = teamIdAndMaxScore[matchup.teamBId]
+            if bPreviousMaxScore is None or matchup.teamBScore > bPreviousMaxScore:
+                teamIdAndMaxScore[matchup.teamBId] = matchup.teamBScore
 
         return teamIdAndMaxScore
 
