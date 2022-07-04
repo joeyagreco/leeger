@@ -1,3 +1,5 @@
+from typing import Optional
+
 from src.leeger.decorator.validate.validators import validateLeague
 from src.leeger.exception.InvalidFilterException import InvalidFilterException
 from src.leeger.model.filter.AllTimeFilters import AllTimeFilters
@@ -67,7 +69,8 @@ class AllTimeCalculator:
 
     @classmethod
     @validateLeague
-    def _addAndCombineResults(cls, league: League, function: callable, **kwargs) -> dict[str, int | float | Deci]:
+    def _addAndCombineResults(cls, league: League, function: callable, **kwargs) -> dict[
+        str, Optional[int | float | Deci]]:
         """
         Sums all results retrieved from passing each Year in the given League into the given callable.
         The given callable should be a YearCalculator method.
@@ -79,21 +82,35 @@ class AllTimeCalculator:
             "yetAnotherOwnerId": Deci("17.1"),
             ...
             }
-        NOTE: the type in the return dictionary values will match whatever the type the callable returns in its values for each Year.
+        NOTE: The type in the return dictionary values will match whatever the type the callable returns in its values for each Year.
+        NOTE2: If ALL results for an Owner are None, the response will have None for that Owner. If only SOME results are None, then the None results will be ignored.
         """
 
         allResultDicts = cls.__getAllResultDicts(league, function, **kwargs)
+
+        # this will keep track of whether an Owner has had a non-None result
+        ownerIdAndWhetherOwnerHasHadAValidResult: dict[str, bool] = dict()
 
         # sum all results
         result: dict[str, int | float | Deci] = dict()
         for ownerId in LeagueNavigator.getAllOwnerIds(league):
             result[ownerId] = 0  # TODO: this may have a Deci/int/float so test for bugs there
+            ownerIdAndWhetherOwnerHasHadAValidResult[ownerId] = False
 
         for resultDict in allResultDicts:
             # go through each team ID and value to get the owner ID and add to result
             for teamId in resultDict.keys():
+                # check if this is a valid result
+                if resultDict[teamId] is None:
+                    continue
                 team = LeagueNavigator.getTeamById(league, teamId)
                 result[team.ownerId] += resultDict[teamId]
+                ownerIdAndWhetherOwnerHasHadAValidResult[team.ownerId] = True
+
+        # set None for each Owner that did not have a single valid result
+        for ownerId in ownerIdAndWhetherOwnerHasHadAValidResult:
+            if not ownerIdAndWhetherOwnerHasHadAValidResult[ownerId]:
+                result[ownerId] = None
         return result
 
     @classmethod
