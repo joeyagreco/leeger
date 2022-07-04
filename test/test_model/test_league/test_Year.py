@@ -72,8 +72,6 @@ class TestYear(unittest.TestCase):
         self.assertIsInstance(yearStatSheet.teamSuccess, dict)
         self.assertIsInstance(yearStatSheet.teamLuck, dict)
 
-        self.assertIsInstance(yearStatSheet.championshipCount, dict)
-
     def test_year_toExcel_excelSheetDoesntAlreadyExist(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
         teams[0].name = "a"

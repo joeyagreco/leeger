@@ -30,7 +30,6 @@ class Year(UniqueId):
         from src.leeger.calculator.year_calculator.SingleScoreYearCalculator import SingleScoreYearCalculator
         from src.leeger.calculator.year_calculator.SmartWinsYearCalculator import SmartWinsYearCalculator
         from src.leeger.calculator.year_calculator.SSLYearCalculator import SSLYearCalculator
-        from src.leeger.calculator.year_calculator.YearOutcomeYearCalculator import YearOutcomeYearCalculator
 
         # Game Outcome
         wins = GameOutcomeYearCalculator.getWins(self, **kwargs)
@@ -77,9 +76,6 @@ class Year(UniqueId):
         teamSuccess = SSLYearCalculator.getTeamSuccess(self, **kwargs)
         teamLuck = SSLYearCalculator.getTeamLuck(self, **kwargs)
 
-        # Year Outcome
-        championshipCount = YearOutcomeYearCalculator.getChampionshipCount(self, **kwargs)
-
         return YearStatSheet(wins=wins, losses=losses, ties=ties, winPercentage=winPercentage, wal=wal,
                              walPerGame=walPerGame, awal=awal, awalPerGame=awalPerGame, opponentAWAL=opponentAWAL,
                              opponentAWALPerGame=opponentAWALPerGame, smartWins=smartWins,
@@ -89,8 +85,7 @@ class Year(UniqueId):
                              opponentPointsScoredPerGame=opponentPointsScoredPerGame, scoringShare=scoringShare,
                              opponentScoringShare=opponentScoringShare, maxScore=maxScore, minScore=minScore,
                              scoringStandardDeviation=scoringStandardDeviation, plusMinus=plusMinus,
-                             teamScore=teamScore, teamSuccess=teamSuccess, teamLuck=teamLuck,
-                             championshipCount=championshipCount)
+                             teamScore=teamScore, teamSuccess=teamSuccess, teamLuck=teamLuck)
 
     def toExcel(self, filePath: str, **kwargs) -> None:
         """

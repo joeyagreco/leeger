@@ -50,9 +50,6 @@ class YearStatSheet:
     teamSuccess: dict[str, Deci]
     teamLuck: dict[str, Deci]
 
-    # Year Outcome
-    championshipCount: dict[str, Deci]
-
     def preferredOrderWithTitle(self) -> list[tuple[str, dict]]:
         """
         Returns all stats in the preferred order with the title for the stat.
@@ -84,6 +81,5 @@ class YearStatSheet:
             ("Plus/Minus", self.plusMinus),
             ("Team Score", self.teamScore),
             ("Team Success", self.teamSuccess),
-            ("Team Luck", self.teamLuck),
-            ("Championship Count", self.championshipCount)
+            ("Team Luck", self.teamLuck)
         ]
