@@ -62,10 +62,32 @@ class SSLAllTimeCalculator(AllTimeCalculator):
 
         Example response:
             {
-            "someTeamId": Deci("118.7"),
-            "someOtherTeamId": Deci("112.2"),
-            "yetAnotherTeamId": Deci("79.1"),
+            "someTeamId": Deci("1118.7"),
+            "someOtherTeamId": Deci("1112.2"),
+            "yetAnotherTeamId": Deci("779.1"),
             ...
             }
         """
         return cls._addAndCombineResults(league, SSLYearCalculator.getTeamSuccess, **kwargs)
+
+    @classmethod
+    @validateLeague
+    def getTeamLuck(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
+        """
+        Team Luck is a score given to a team that is representative of how lucky that team is.
+
+        Formula:
+        Team Luck = Team Success - Team Score
+
+        Returns the combined Team Luck for each Owner in the given League.
+        Returns None for an Owner if all Years for that Owner are None
+
+        Example response:
+            {
+            "someTeamId": Deci("118.7"),
+            "someOtherTeamId": Deci("112.2"),
+            "yetAnotherTeamId": Deci("-19.1"),
+            ...
+            }
+        """
+        return cls._addAndCombineResults(league, SSLYearCalculator.getTeamLuck, **kwargs)
