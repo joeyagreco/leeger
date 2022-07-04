@@ -25,9 +25,9 @@ class ScoringShareAllTimeCalculator(AllTimeCalculator):
 
         Example response:
             {
-            "someTeamId": Deci("10.7"),
-            "someOtherTeamId": Deci("14.2"),
-            "yetAnotherTeamId": Deci("12.1"),
+            "someOwnerId": Deci("10.7"),
+            "someOtherOwnerId": Deci("14.2"),
+            "yetAnotherOwnerId": Deci("12.1"),
             ...
             }
         """
@@ -49,9 +49,9 @@ class ScoringShareAllTimeCalculator(AllTimeCalculator):
 
         Example response:
             {
-            "someTeamId": Deci("10.7"),
-            "someOtherTeamId": Deci("14.2"),
-            "yetAnotherTeamId": Deci("12.1"),
+            "someOwnerId": Deci("10.7"),
+            "someOtherOwnerId": Deci("14.2"),
+            "yetAnotherOwnerId": Deci("12.1"),
             ...
             }
         """
