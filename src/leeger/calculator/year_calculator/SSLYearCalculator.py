@@ -27,9 +27,9 @@ class SSLYearCalculator(YearCalculator):
     This stat is more accurate with larger sample sizes (the more games played, the better).
     """
 
-    __AWALAndWALPerGameMultiplier: float = 100.0
-    __ScoringShareMultiplier: float = 2.0
-    __MaxAndMinScoreMultiplier: float = 0.05
+    __AWAL_AND_WAL_PER_GAME_MULTIPLIER: float = 100.0
+    __SCORING_SHARE_MULTIPLIER: float = 2.0
+    __MAX_AND_MIN_SCORE_MULTIPLIER: float = 0.05
 
     @classmethod
     @validateYear
@@ -58,9 +58,9 @@ class SSLYearCalculator(YearCalculator):
             maxScore = SingleScoreYearCalculator.getMaxScore(year, **kwargs)[teamId]
             minScore = SingleScoreYearCalculator.getMinScore(year, **kwargs)[teamId]
 
-            teamIdAndTeamScore[teamId] = (awalPerGame * Deci(cls.__AWALAndWALPerGameMultiplier)) + \
-                                         (scoringShare * Deci(cls.__ScoringShareMultiplier)) + \
-                                         ((Deci(maxScore) + Deci(minScore)) * Deci(cls.__MaxAndMinScoreMultiplier))
+            teamIdAndTeamScore[teamId] = (awalPerGame * Deci(cls.__AWAL_AND_WAL_PER_GAME_MULTIPLIER)) + \
+                                         (scoringShare * Deci(cls.__SCORING_SHARE_MULTIPLIER)) + \
+                                         ((Deci(maxScore) + Deci(minScore)) * Deci(cls.__MAX_AND_MIN_SCORE_MULTIPLIER))
         return teamIdAndTeamScore
 
     @classmethod
@@ -90,9 +90,10 @@ class SSLYearCalculator(YearCalculator):
             maxScore = SingleScoreYearCalculator.getMaxScore(year, **kwargs)[teamId]
             minScore = SingleScoreYearCalculator.getMinScore(year, **kwargs)[teamId]
 
-            teamIdAndTeamSuccess[teamId] = (walPerGame * Deci(cls.__AWALAndWALPerGameMultiplier)) + \
-                                           (scoringShare * Deci(cls.__ScoringShareMultiplier)) + \
-                                           ((Deci(maxScore) + Deci(minScore)) * Deci(cls.__MaxAndMinScoreMultiplier))
+            teamIdAndTeamSuccess[teamId] = (walPerGame * Deci(cls.__AWAL_AND_WAL_PER_GAME_MULTIPLIER)) + \
+                                           (scoringShare * Deci(cls.__SCORING_SHARE_MULTIPLIER)) + \
+                                           ((Deci(maxScore) + Deci(minScore)) * Deci(
+                                               cls.__MAX_AND_MIN_SCORE_MULTIPLIER))
         return teamIdAndTeamSuccess
 
     @classmethod
