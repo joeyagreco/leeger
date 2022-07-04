@@ -36,7 +36,11 @@ class ScoringShareYearCalculator(YearCalculator):
         totalPointsScoredInYear = sum(teamIdAndPointsScored.values())
         teamIdAndScoringShare = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
-            teamIdAndScoringShare[teamId] = (teamIdAndPointsScored[teamId] / totalPointsScoredInYear) * Deci(100)
+            if totalPointsScoredInYear == 0:
+                # avoid division by 0
+                teamIdAndScoringShare[teamId] = 0
+            else:
+                teamIdAndScoringShare[teamId] = (teamIdAndPointsScored[teamId] / totalPointsScoredInYear) * Deci(100)
 
         return teamIdAndScoringShare
 
@@ -65,7 +69,11 @@ class ScoringShareYearCalculator(YearCalculator):
         totalPointsScoredInYear = sum(teamIdAndOpponentPointsScored.values())
         teamIdAndOpponentScoringShare = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
-            teamIdAndOpponentScoringShare[teamId] = (teamIdAndOpponentPointsScored[
-                                                         teamId] / totalPointsScoredInYear) * Deci(100)
+            if totalPointsScoredInYear == 0:
+                # avoid division by 0
+                teamIdAndOpponentScoringShare[teamId] = 0
+            else:
+                teamIdAndOpponentScoringShare[teamId] = (teamIdAndOpponentPointsScored[
+                                                             teamId] / totalPointsScoredInYear) * Deci(100)
 
         return teamIdAndOpponentScoringShare

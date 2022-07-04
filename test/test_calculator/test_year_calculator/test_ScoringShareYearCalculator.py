@@ -34,6 +34,26 @@ class TestScoringShareYearCalculator(unittest.TestCase):
         self.assertEqual(Deci("32.43243243243243243243243243"), response[teams[0].id])
         self.assertEqual(Deci("67.56756756756756756756756757"), response[teams[1].id])
 
+    def test_getScoringShare_noPointsScoredInYear(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=0, teamBScore=0)
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=0, teamBScore=0)
+        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=0, teamBScore=0)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+        week3 = Week(weekNumber=3, matchups=[matchup3])
+
+        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
+
+        response = ScoringShareYearCalculator.getScoringShare(year)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(2, len(response.keys()))
+        self.assertEqual(Deci("0"), response[teams[0].id])
+        self.assertEqual(Deci("0"), response[teams[1].id])
+
     def test_getScoringShare_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
@@ -193,6 +213,26 @@ class TestScoringShareYearCalculator(unittest.TestCase):
         self.assertEqual(Deci(100), sum(response.values()))
         self.assertEqual(Deci("67.56756756756756756756756757"), response[teams[0].id])
         self.assertEqual(Deci("32.43243243243243243243243243"), response[teams[1].id])
+
+    def test_getOpponentScoringShare_noPointsScoredInYear(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=0, teamBScore=0)
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=0, teamBScore=0)
+        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=0, teamBScore=0)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+        week3 = Week(weekNumber=3, matchups=[matchup3])
+
+        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
+
+        response = ScoringShareYearCalculator.getOpponentScoringShare(year)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(2, len(response.keys()))
+        self.assertEqual(Deci("0"), response[teams[0].id])
+        self.assertEqual(Deci("0"), response[teams[1].id])
 
     def test_getOpponentScoringShare_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(2)

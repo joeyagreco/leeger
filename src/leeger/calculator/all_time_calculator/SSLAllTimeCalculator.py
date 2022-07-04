@@ -1,0 +1,46 @@
+from src.leeger.calculator.parent.AllTimeCalculator import AllTimeCalculator
+from src.leeger.calculator.year_calculator.SSLYearCalculator import SSLYearCalculator
+from src.leeger.decorator.validate.validators import validateLeague
+from src.leeger.model.league.League import League
+from src.leeger.util.Deci import Deci
+
+
+class SSLAllTimeCalculator(AllTimeCalculator):
+    """
+    Used to calculate all SSL stats.
+
+    SSL stands for "Score Success Luck", which are 3 stats calculated here that go hand in hand.
+
+    Team Score = How good a team is
+    Team Success = How successful a team is
+    Team Luck = How lucky a team is
+
+    So Team Luck = Team Success = Team Score
+
+    NOTE:
+    These formulas uses several "magic" numbers as multipliers, which typically should be avoided.
+    However, these numbers can be tweaked and the Team SSL relative to the test_league will remain roughly the same.
+    This stat is more accurate with larger sample sizes (the more games played, the better).
+    """
+
+    @classmethod
+    @validateLeague
+    def getTeamScore(cls, league: League, **kwargs) -> dict[str, Deci]:
+        """
+        Team Score is a score given to a team that is representative of how good that team is.
+
+        Formula:
+        Team Score = ((AWAL Per Game) * aMultiplier) + (Scoring Share * bMultiplier) + ((Max Score + Min Score) * cMultiplier)
+
+        Returns the combined Team Score for each Owner in the given League.
+
+        Example response:
+            {
+            "someOwnerId": Deci("1118.7"),
+            "someOtherOwnerId": Deci("1112.2"),
+            "yetAnotherOwnerId": Deci("779.1"),
+            ...
+            }
+        """
+
+        return cls._addAndCombineResults(league, SSLYearCalculator.getTeamScore, **kwargs)

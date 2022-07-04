@@ -36,8 +36,12 @@ class ScoringShareAllTimeCalculator(AllTimeCalculator):
         totalPointsScoredInLeague = sum(ownerIdAndPointsScored.values())
         ownerIdAndScoringShare = dict()
         for ownerId in LeagueNavigator.getAllOwnerIds(league):
-            ownerIdAndScoringShare[ownerId] = (ownerIdAndPointsScored[ownerId] / totalPointsScoredInLeague) * Deci(
-                "100")
+            if totalPointsScoredInLeague == 0:
+                # avoid division by 0
+                ownerIdAndScoringShare[ownerId] = 0
+            else:
+                ownerIdAndScoringShare[ownerId] = (ownerIdAndPointsScored[ownerId] / totalPointsScoredInLeague) * Deci(
+                    "100")
 
         return ownerIdAndScoringShare
 
@@ -60,8 +64,11 @@ class ScoringShareAllTimeCalculator(AllTimeCalculator):
         totalPointsScoredInLeague = sum(ownerIdAndOpponentPointsScored.values())
         ownerIdAndOpponentScoringShare = dict()
         for ownerId in LeagueNavigator.getAllOwnerIds(league):
-            ownerIdAndOpponentScoringShare[ownerId] = (ownerIdAndOpponentPointsScored[
-                                                           ownerId] / totalPointsScoredInLeague) * Deci(
-                "100")
+            if totalPointsScoredInLeague == 0:
+                # avoid division by 0
+                ownerIdAndOpponentScoringShare[ownerId] = 0
+            else:
+                ownerIdAndOpponentScoringShare[ownerId] = (ownerIdAndOpponentPointsScored[
+                                                               ownerId] / totalPointsScoredInLeague) * Deci("100")
 
         return ownerIdAndOpponentScoringShare
