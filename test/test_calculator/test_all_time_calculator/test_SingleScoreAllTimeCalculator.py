@@ -53,6 +53,26 @@ class TestSingleScoreAllTimeCalculator(unittest.TestCase):
         self.assertEqual(4.3, response[owners[4].id])
         self.assertEqual(7, response[owners[5].id])
 
+    def test_getMaxScore_noneIfNoGamesPlayed(self):
+        owners, teamsA = getNDefaultOwnersAndTeams(3)
+
+        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=10, teamBScore=11)
+        matchup2_a = Matchup(teamAId=teamsA[1].id, teamBId=teamsA[2].id, teamAScore=3.1, teamBScore=4.1)
+        week1_a = Week(weekNumber=1, matchups=[matchup1_a])
+        week2_a = Week(weekNumber=2, matchups=[matchup2_a])
+
+        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a])
+
+        league = League(name="TEST", owners=owners, years=[yearA])
+
+        response = SingleScoreAllTimeCalculator.getMaxScore(league, weekNumberEnd=1)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(3, len(response.keys()))
+        self.assertEqual(10, response[owners[0].id])
+        self.assertEqual(11, response[owners[1].id])
+        self.assertIsNone(response[owners[2].id])
+
     def test_getMaxScore_onlyPostSeasonIsTrue(self):
         owners, teamsA = getNDefaultOwnersAndTeams(6)
         teamsB = getTeamsFromOwners(owners)
@@ -359,6 +379,26 @@ class TestSingleScoreAllTimeCalculator(unittest.TestCase):
         self.assertEqual(4.1, response[owners[3].id])
         self.assertEqual(4.1, response[owners[4].id])
         self.assertEqual(5, response[owners[5].id])
+
+    def test_getMinScore_noneIfNoGamesPlayed(self):
+        owners, teamsA = getNDefaultOwnersAndTeams(3)
+
+        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=10, teamBScore=11)
+        matchup2_a = Matchup(teamAId=teamsA[1].id, teamBId=teamsA[2].id, teamAScore=3.1, teamBScore=4.1)
+        week1_a = Week(weekNumber=1, matchups=[matchup1_a])
+        week2_a = Week(weekNumber=2, matchups=[matchup2_a])
+
+        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a])
+
+        league = League(name="TEST", owners=owners, years=[yearA])
+
+        response = SingleScoreAllTimeCalculator.getMinScore(league, weekNumberEnd=1)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(3, len(response.keys()))
+        self.assertEqual(10, response[owners[0].id])
+        self.assertEqual(11, response[owners[1].id])
+        self.assertIsNone(response[owners[2].id])
 
     def test_getMinScore_onlyPostSeasonIsTrue(self):
         owners, teamsA = getNDefaultOwnersAndTeams(6)
