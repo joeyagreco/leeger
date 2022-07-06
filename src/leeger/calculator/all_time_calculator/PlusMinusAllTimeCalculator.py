@@ -1,3 +1,5 @@
+from typing import Optional
+
 from src.leeger.calculator.parent.AllTimeCalculator import AllTimeCalculator
 from src.leeger.calculator.year_calculator.PlusMinusYearCalculator import PlusMinusYearCalculator
 from src.leeger.decorator.validate.validators import validateLeague
@@ -12,14 +14,17 @@ class PlusMinusAllTimeCalculator(AllTimeCalculator):
 
     @classmethod
     @validateLeague
-    def getPlusMinus(cls, league: League, **kwargs) -> dict[str, Deci]:
+    def getPlusMinus(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
         """
         Plus/Minus (+/-) is used to show the net score differential for an Owner in a League.
+
         Plus/Minus = ΣA - ΣB
         WHERE:
-        A = All scores by an Owner in a League
-        B = All scores against an Owner in a League
+            A = All scores by an Owner in a League
+            B = All scores against an Owner in a League
+
         Returns the Plus/Minus for each Owner in the given League.
+        Returns None for an Owner if they have no games played in the range.
 
         Example response:
             {
