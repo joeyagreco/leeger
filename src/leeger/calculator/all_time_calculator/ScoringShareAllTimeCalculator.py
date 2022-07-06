@@ -1,3 +1,5 @@
+from typing import Optional
+
 from src.leeger.calculator.all_time_calculator.PointsScoredAllTimeCalculator import PointsScoredAllTimeCalculator
 from src.leeger.calculator.parent.AllTimeCalculator import AllTimeCalculator
 from src.leeger.decorator.validate.validators import validateLeague
@@ -14,15 +16,17 @@ class ScoringShareAllTimeCalculator(AllTimeCalculator):
 
     @classmethod
     @validateLeague
-    def getScoringShare(cls, league: League, **kwargs) -> dict[str, Deci]:
+    def getScoringShare(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
         """
         Scoring Share is used to show what percentage of league scoring a team was responsible for.
+
         Scoring Share = ((ΣA) / (ΣB)) * 100
         WHERE:
         A = All scores by an Owner in a League
         B = All scores by all Owners in a League
 
         Returns the Scoring Share for each Owner in the given League.
+        Returns None for an Owner if they have no games played in the range.
 
         Example response:
             {
@@ -52,9 +56,10 @@ class ScoringShareAllTimeCalculator(AllTimeCalculator):
 
     @classmethod
     @validateLeague
-    def getOpponentScoringShare(cls, league: League, **kwargs) -> dict[str, Deci]:
+    def getOpponentScoringShare(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
         """
         Returns the Scoring Share for each Owner's opponent in the given League.
+        Returns None for an Owner if they have no games played in the range.
 
         Example response:
             {

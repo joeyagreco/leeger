@@ -56,6 +56,27 @@ class TestScoringShareAllTimeCalculator(unittest.TestCase):
         self.assertEqual(Deci("22.22222222222222222222222222"), response[owners[4].id])
         self.assertEqual(Deci("27.77777777777777777777777778"), response[owners[5].id])
 
+    def test_getScoringShare_noneIfNoGamesPlayed(self):
+        owners, teamsA = getNDefaultOwnersAndTeams(3)
+
+        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1.1, teamBScore=2.2)
+        matchup2_a = Matchup(teamAId=teamsA[1].id, teamBId=teamsA[2].id, teamAScore=3.3, teamBScore=4.4)
+        week1_a = Week(weekNumber=1, matchups=[matchup1_a])
+        week2_a = Week(weekNumber=2, matchups=[matchup2_a])
+
+        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a])
+
+        league = League(name="TEST", owners=owners, years=[yearA])
+
+        response = ScoringShareAllTimeCalculator.getScoringShare(league, weekNumberEnd=1)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(3, len(response.keys()))
+        self.assertEqual(Deci("100"), sum(filter(None, response.values())))
+        self.assertEqual(Deci("33.33333333333333333333333333"), response[owners[0].id])
+        self.assertEqual(Deci("66.66666666666666666666666667"), response[owners[1].id])
+        self.assertIsNone(response[owners[2].id])
+
     def test_getScoringShare_noPointsScoredInYears(self):
         owners, teamsA = getNDefaultOwnersAndTeams(6)
         teamsB = getTeamsFromOwners(owners)
@@ -409,6 +430,27 @@ class TestScoringShareAllTimeCalculator(unittest.TestCase):
         self.assertEqual(Deci("16.66666666666666666666666667"), response[owners[3].id])
         self.assertEqual(Deci("27.77777777777777777777777778"), response[owners[4].id])
         self.assertEqual(Deci("22.22222222222222222222222222"), response[owners[5].id])
+
+    def test_getOpponentScoringShare_noneIfNoGamesPlayed(self):
+        owners, teamsA = getNDefaultOwnersAndTeams(3)
+
+        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1.1, teamBScore=2.2)
+        matchup2_a = Matchup(teamAId=teamsA[1].id, teamBId=teamsA[2].id, teamAScore=3.3, teamBScore=4.4)
+        week1_a = Week(weekNumber=1, matchups=[matchup1_a])
+        week2_a = Week(weekNumber=2, matchups=[matchup2_a])
+
+        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a])
+
+        league = League(name="TEST", owners=owners, years=[yearA])
+
+        response = ScoringShareAllTimeCalculator.getOpponentScoringShare(league, weekNumberEnd=1)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(3, len(response.keys()))
+        self.assertEqual(Deci("100"), sum(filter(None, response.values())))
+        self.assertEqual(Deci("66.66666666666666666666666667"), response[owners[0].id])
+        self.assertEqual(Deci("33.33333333333333333333333333"), response[owners[1].id])
+        self.assertIsNone(response[owners[2].id])
 
     def test_getOpponentScoringShare_noPointsScoredInYears(self):
         owners, teamsA = getNDefaultOwnersAndTeams(6)
