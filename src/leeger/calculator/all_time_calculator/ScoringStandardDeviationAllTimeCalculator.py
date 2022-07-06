@@ -20,14 +20,15 @@ class ScoringStandardDeviationAllTimeCalculator(AllTimeCalculator):
         """
         Scoring STDEV (Standard Deviation) is used to show how volatile a team's scoring was.
         This stat measures an Owner's scores relative to the mean (or PPG) of all of their scores.
+
         Scoring STDEV = sqrt((Σ|x-u|²)/N)
         WHERE:
         x = A score
         u = PPG
         N = Number of scores (typically weeks played)
-        Returns the Scoring Standard Deviation for each Owner in the given League.
 
-        If an Owner has no scores in the given range, None will be returned for them.
+        Returns the Scoring Standard Deviation for each Owner in the given League.
+        Returns None for an Owner if they have no games played in the range.
 
         Example response:
             {
