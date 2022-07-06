@@ -16,7 +16,7 @@ class SingleScoreYearCalculator(YearCalculator):
     def getMaxScore(cls, year: Year, **kwargs) -> dict[str, Optional[float | int]]:
         """
         Returns the Max Score for each Team in the given Year.
-        If a Team has no scores in the range, None is returned for them.
+        Returns None for a Team if they have no games played in the range.
 
         Example response:
             {
@@ -51,7 +51,7 @@ class SingleScoreYearCalculator(YearCalculator):
     def getMinScore(cls, year: Year, **kwargs) -> dict[str, Optional[float | int]]:
         """
         Returns the Min Score for each Team in the given Year.
-        If a Team has no scores in the range, None is returned for them.
+        Returns None for a Team if they have no games played in the range.
 
         Example response:
             {

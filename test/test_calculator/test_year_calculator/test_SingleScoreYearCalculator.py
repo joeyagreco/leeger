@@ -45,6 +45,24 @@ class TestSingleScoreYearCalculator(unittest.TestCase):
         self.assertEqual(4.3, response[teams[4].id])
         self.assertEqual(7, response[teams[5].id])
 
+    def test_getMaxScore_noneIfNoGamesPlayed(self):
+        owners, teams = getNDefaultOwnersAndTeams(3)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.1)
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        matchup2 = Matchup(teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=1.2, teamBScore=2.2)
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2])
+
+        response = SingleScoreYearCalculator.getMaxScore(year, weekNumberEnd=1)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(3, len(response.keys()))
+        self.assertEqual(1.1, response[teams[0].id])
+        self.assertEqual(2.1, response[teams[1].id])
+        self.assertIsNone(response[teams[2].id])
+
     def test_getMaxScore_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
@@ -294,6 +312,24 @@ class TestSingleScoreYearCalculator(unittest.TestCase):
         self.assertEqual(4.1, response[teams[3].id])
         self.assertEqual(4.1, response[teams[4].id])
         self.assertEqual(5, response[teams[5].id])
+
+    def test_getMinScore_noneIfNoGamesPlayed(self):
+        owners, teams = getNDefaultOwnersAndTeams(3)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.1)
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        matchup2 = Matchup(teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=1.2, teamBScore=2.2)
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2])
+
+        response = SingleScoreYearCalculator.getMinScore(year, weekNumberEnd=1)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(3, len(response.keys()))
+        self.assertEqual(1.1, response[teams[0].id])
+        self.assertEqual(2.1, response[teams[1].id])
+        self.assertIsNone(response[teams[2].id])
 
     def test_getMinScore_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
