@@ -54,6 +54,27 @@ class TestPlusMinusAllTimeCalculator(unittest.TestCase):
         self.assertEqual(Deci("-3"), response[owners[4].id])
         self.assertEqual(Deci("3"), response[owners[5].id])
 
+    def test_getPlusMinus_noneIfNoGamesPlayed(self):
+        owners, teamsA = getNDefaultOwnersAndTeams(3)
+
+        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1.1, teamBScore=2.1)
+        matchup2_a = Matchup(teamAId=teamsA[1].id, teamBId=teamsA[2].id, teamAScore=3.1, teamBScore=4.1)
+
+        week1_a = Week(weekNumber=1, matchups=[matchup1_a])
+        week2_a = Week(weekNumber=2, matchups=[matchup2_a])
+
+        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a])
+
+        league = League(name="TEST", owners=owners, years=[yearA])
+
+        response = PlusMinusAllTimeCalculator.getPlusMinus(league, weekNumberEnd=1)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(3, len(response.keys()))
+        self.assertEqual(Deci("-1"), response[owners[0].id])
+        self.assertEqual(Deci("1"), response[owners[1].id])
+        self.assertIsNone(response[owners[2].id])
+
     def test_getPlusMinus_onlyPostSeasonIsTrue(self):
         owners, teamsA = getNDefaultOwnersAndTeams(6)
         teamsB = getTeamsFromOwners(owners)
