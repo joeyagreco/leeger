@@ -1,3 +1,5 @@
+from typing import Optional
+
 from src.leeger.calculator.parent.AllTimeCalculator import AllTimeCalculator
 from src.leeger.decorator.validate.validators import validateLeague
 from src.leeger.model.league.League import League
@@ -12,10 +14,11 @@ class SmartWinsAllTimeCalculator(AllTimeCalculator):
 
     @classmethod
     @validateLeague
-    def getSmartWins(cls, league: League, **kwargs) -> dict[str, Deci]:
+    def getSmartWins(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
         """
         Smart Wins show how many wins a team would have if it played against every score in a given collection.
         In this case, the collection is every score in the given League.
+
         Smart Wins = Σ((W + (T/2)) / S)
         WHERE:
         W = Total scores in the League beat
@@ -23,6 +26,7 @@ class SmartWinsAllTimeCalculator(AllTimeCalculator):
         S = Number of scores in the League - 1
 
         Returns the number of Smart Wins for each Owner in the given League.
+        Returns None for an Owner if they have no games played in the range.
 
         Example response:
             {
@@ -66,20 +70,24 @@ class SmartWinsAllTimeCalculator(AllTimeCalculator):
         ownerIdAndSmartWins = dict()
         allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
         for ownerId in allOwnerIds:
-            ownerIdAndSmartWins[ownerId] = Deci(0)
+            ownerIdAndSmartWins[ownerId] = None
 
         for ownerIdAndScore in ownerIdsAndScores:
             scoresBeat, scoresTied = getNumberOfScoresBeatAndTied(ownerIdAndScore[1], allScores)
             smartWins = (scoresBeat + (scoresTied / Deci(2))) / (len(allScores) - Deci(1))
-            ownerIdAndSmartWins[ownerIdAndScore[0]] += smartWins
+            if ownerIdAndSmartWins[ownerIdAndScore[0]] is None:
+                ownerIdAndSmartWins[ownerIdAndScore[0]] = smartWins
+            else:
+                ownerIdAndSmartWins[ownerIdAndScore[0]] += smartWins
 
         return ownerIdAndSmartWins
 
     @classmethod
     @validateLeague
-    def getSmartWinsPerGame(cls, league: League, **kwargs) -> dict[str, Deci]:
+    def getSmartWinsPerGame(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
         """
         Returns the number of Smart Wins per game for each Owner in the given League.
+        Returns None for an Owner if they have no games played in the range.
 
         Example response:
             {
@@ -97,9 +105,8 @@ class SmartWinsAllTimeCalculator(AllTimeCalculator):
         ownerIdAndSmartWinsPerGame = dict()
         allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
         for ownerId in allOwnerIds:
-            # to avoid division by zero, we'll just set the Smart Wins per game to 0 if the team has no games played
             if ownerIdAndNumberOfGamesPlayed[ownerId] == 0:
-                ownerIdAndSmartWinsPerGame[ownerId] = Deci(0)
+                ownerIdAndSmartWinsPerGame[ownerId] = None
             else:
                 ownerIdAndSmartWinsPerGame[ownerId] = ownerIdAndSmartWins[ownerId] / ownerIdAndNumberOfGamesPlayed[
                     ownerId]
@@ -108,9 +115,10 @@ class SmartWinsAllTimeCalculator(AllTimeCalculator):
 
     @classmethod
     @validateLeague
-    def getOpponentSmartWins(cls, league: League, **kwargs) -> dict[str, Deci]:
+    def getOpponentSmartWins(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
         """
         Returns the number of Smart Wins for each Owner's opponent in the given League.
+        Returns None for an Owner if they have no games played in the range.
 
         Example response:
             {
@@ -154,20 +162,24 @@ class SmartWinsAllTimeCalculator(AllTimeCalculator):
         ownerIdAndOpponentSmartWins = dict()
         allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
         for ownerId in allOwnerIds:
-            ownerIdAndOpponentSmartWins[ownerId] = Deci(0)
+            ownerIdAndOpponentSmartWins[ownerId] = None
 
         for ownerIdAndOpponentScore in ownerIdsAndOpponentScores:
             scoresBeat, scoresTied = getNumberOfScoresBeatAndTied(ownerIdAndOpponentScore[1], allScores)
             smartWins = (scoresBeat + (scoresTied / Deci(2))) / (len(allScores) - Deci(1))
-            ownerIdAndOpponentSmartWins[ownerIdAndOpponentScore[0]] += smartWins
+            if ownerIdAndOpponentSmartWins[ownerIdAndOpponentScore[0]] is None:
+                ownerIdAndOpponentSmartWins[ownerIdAndOpponentScore[0]] = smartWins
+            else:
+                ownerIdAndOpponentSmartWins[ownerIdAndOpponentScore[0]] += smartWins
 
         return ownerIdAndOpponentSmartWins
 
     @classmethod
     @validateLeague
-    def getOpponentSmartWinsPerGame(cls, league: League, **kwargs) -> dict[str, Deci]:
+    def getOpponentSmartWinsPerGame(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
         """
         Returns the number of Smart Wins per game for each Owner's opponent in the given League.
+        Returns None for an Owner if they have no games played in the range.
 
         Example response:
             {
@@ -185,9 +197,8 @@ class SmartWinsAllTimeCalculator(AllTimeCalculator):
         ownerIdAndOpponentSmartWinsPerGame = dict()
         allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
         for ownerId in allOwnerIds:
-            # to avoid division by zero, we'll just set the opponent Smart Wins per game to 0 if the team has no games played
             if ownerIdAndNumberOfGamesPlayed[ownerId] == 0:
-                ownerIdAndOpponentSmartWinsPerGame[ownerId] = Deci(0)
+                ownerIdAndOpponentSmartWinsPerGame[ownerId] = None
             else:
                 ownerIdAndOpponentSmartWinsPerGame[ownerId] = ownerIdAndOpponentSmartWins[ownerId] / \
                                                               ownerIdAndNumberOfGamesPlayed[
