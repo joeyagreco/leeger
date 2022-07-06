@@ -20,14 +20,16 @@ class ScoringStandardDeviationYearCalculator(YearCalculator):
         """
         Scoring STDEV (Standard Deviation) is used to show how volatile a team's scoring was.
         This stat measures a team's scores relative to the mean (or PPG) of all of their scores.
+
         Scoring STDEV = sqrt((Σ|x-u|²)/N)
         WHERE:
         x = A score
         u = PPG
         N = Number of scores (typically weeks played)
-        Returns the Scoring Standard Deviation for each team in the given Year.
 
-        If a Team has no scores in the given range, None will be returned for them.
+        Returns the Scoring Standard Deviation for each team in the given Year.
+        Returns None for a Team if they have no games played in the range.
+
 
         Example response:
             {
