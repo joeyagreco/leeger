@@ -1,3 +1,5 @@
+from typing import Optional
+
 from src.leeger.calculator.parent.YearCalculator import YearCalculator
 from src.leeger.decorator.validate.validators import validateYear
 from src.leeger.model.league.Year import Year
@@ -12,9 +14,10 @@ class PointsScoredYearCalculator(YearCalculator):
 
     @classmethod
     @validateYear
-    def getPointsScored(cls, year: Year, **kwargs) -> dict[str, Deci]:
+    def getPointsScored(cls, year: Year, **kwargs) -> dict[str, Optional[Deci]]:
         """
         Returns the number of Points Scored for each team in the given Year.
+        Returns None for a Team if they have no games played in the range.
 
         Example response:
             {
@@ -37,13 +40,15 @@ class PointsScoredYearCalculator(YearCalculator):
                     teamIdAndPointsScored[matchup.teamAId] += Deci(matchup.teamAScore)
                     teamIdAndPointsScored[matchup.teamBId] += Deci(matchup.teamBScore)
 
+        cls._setToNoneIfNoGamesPlayed(teamIdAndPointsScored, year, filters, **kwargs)
         return teamIdAndPointsScored
 
     @classmethod
     @validateYear
-    def getPointsScoredPerGame(cls, year: Year, **kwargs) -> dict[str, Deci]:
+    def getPointsScoredPerGame(cls, year: Year, **kwargs) -> dict[str, Optional[Deci]]:
         """
         Returns the number of Points Scored per game for each team in the given Year.
+        Returns None for a Team if they have no games played in the range.
 
         Example response:
             {
@@ -64,7 +69,7 @@ class PointsScoredYearCalculator(YearCalculator):
         for teamId in allTeamIds:
             # to avoid division by zero, we'll just set the points scored per game to 0 if the team has no games played
             if teamIdAndNumberOfGamesPlayed[teamId] == 0:
-                teamIdAndPointsScoredPerGame[teamId] = Deci(0)
+                teamIdAndPointsScoredPerGame[teamId] = None
             else:
                 teamIdAndPointsScoredPerGame[teamId] = teamIdAndPointsScored[teamId] / teamIdAndNumberOfGamesPlayed[
                     teamId]
@@ -73,9 +78,10 @@ class PointsScoredYearCalculator(YearCalculator):
 
     @classmethod
     @validateYear
-    def getOpponentPointsScored(cls, year: Year, **kwargs) -> dict[str, Deci]:
+    def getOpponentPointsScored(cls, year: Year, **kwargs) -> dict[str, Optional[Deci]]:
         """
         Returns the number of opponent Points Scored for each team in the given Year.
+        Returns None for a Team if they have no games played in the range.
 
         Example response:
             {
@@ -98,13 +104,15 @@ class PointsScoredYearCalculator(YearCalculator):
                     teamIdAndOpponentPointsScored[matchup.teamAId] += Deci(matchup.teamBScore)
                     teamIdAndOpponentPointsScored[matchup.teamBId] += Deci(matchup.teamAScore)
 
+        cls._setToNoneIfNoGamesPlayed(teamIdAndOpponentPointsScored, year, filters, **kwargs)
         return teamIdAndOpponentPointsScored
 
     @classmethod
     @validateYear
-    def getOpponentPointsScoredPerGame(cls, year: Year, **kwargs) -> dict[str, Deci]:
+    def getOpponentPointsScoredPerGame(cls, year: Year, **kwargs) -> dict[str, Optional[Deci]]:
         """
         Returns the number of opponent Points Scored per game for each team in the given Year.
+        Returns None for a Team if they have no games played in the range.
 
         Example response:
             {
@@ -125,7 +133,7 @@ class PointsScoredYearCalculator(YearCalculator):
         for teamId in allTeamIds:
             # to avoid division by zero, we'll just set the opponent points scored per game to 0 if the team has no games played
             if teamIdAndNumberOfGamesPlayed[teamId] == 0:
-                teamIdAndOpponentPointsScoredPerGame[teamId] = Deci(0)
+                teamIdAndOpponentPointsScoredPerGame[teamId] = None
             else:
                 teamIdAndOpponentPointsScoredPerGame[teamId] = teamIdAndOpponentPointsScored[teamId] / \
                                                                teamIdAndNumberOfGamesPlayed[teamId]

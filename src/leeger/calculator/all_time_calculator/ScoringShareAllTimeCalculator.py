@@ -3,6 +3,7 @@ from src.leeger.calculator.parent.AllTimeCalculator import AllTimeCalculator
 from src.leeger.decorator.validate.validators import validateLeague
 from src.leeger.model.league.League import League
 from src.leeger.util.Deci import Deci
+from src.leeger.util.GeneralUtil import GeneralUtil
 from src.leeger.util.LeagueNavigator import LeagueNavigator
 
 
@@ -33,15 +34,19 @@ class ScoringShareAllTimeCalculator(AllTimeCalculator):
         """
 
         ownerIdAndPointsScored = PointsScoredAllTimeCalculator.getPointsScored(league, **kwargs)
-        totalPointsScoredInLeague = sum(ownerIdAndPointsScored.values())
+        allScores = GeneralUtil.filter(valueToFilterOut=None, listToFilterFrom=ownerIdAndPointsScored.values())
+        totalPointsScoredInLeague = sum(allScores)
         ownerIdAndScoringShare = dict()
         for ownerId in LeagueNavigator.getAllOwnerIds(league):
-            if totalPointsScoredInLeague == 0:
-                # avoid division by 0
-                ownerIdAndScoringShare[ownerId] = 0
+            if len(allScores) == 0 or ownerIdAndPointsScored[ownerId] is None:
+                ownerIdAndScoringShare[ownerId] = None
             else:
-                ownerIdAndScoringShare[ownerId] = (ownerIdAndPointsScored[ownerId] / totalPointsScoredInLeague) * Deci(
-                    "100")
+                # avoid division by 0
+                if totalPointsScoredInLeague == 0:
+                    ownerIdAndScoringShare[ownerId] = Deci("0")
+                else:
+                    ownerIdAndScoringShare[ownerId] = (ownerIdAndPointsScored[
+                                                           ownerId] / totalPointsScoredInLeague) * Deci("100")
 
         return ownerIdAndScoringShare
 
@@ -61,14 +66,18 @@ class ScoringShareAllTimeCalculator(AllTimeCalculator):
         """
 
         ownerIdAndOpponentPointsScored = PointsScoredAllTimeCalculator.getOpponentPointsScored(league, **kwargs)
-        totalPointsScoredInLeague = sum(ownerIdAndOpponentPointsScored.values())
+        allScores = GeneralUtil.filter(valueToFilterOut=None, listToFilterFrom=ownerIdAndOpponentPointsScored.values())
+        totalPointsScoredInLeague = sum(allScores)
         ownerIdAndOpponentScoringShare = dict()
         for ownerId in LeagueNavigator.getAllOwnerIds(league):
-            if totalPointsScoredInLeague == 0:
-                # avoid division by 0
-                ownerIdAndOpponentScoringShare[ownerId] = 0
+            if len(allScores) == 0 or ownerIdAndOpponentPointsScored[ownerId] is None:
+                ownerIdAndOpponentScoringShare[ownerId] = None
             else:
-                ownerIdAndOpponentScoringShare[ownerId] = (ownerIdAndOpponentPointsScored[
-                                                               ownerId] / totalPointsScoredInLeague) * Deci("100")
+                # avoid division by 0
+                if totalPointsScoredInLeague == 0:
+                    ownerIdAndOpponentScoringShare[ownerId] = Deci("0")
+                else:
+                    ownerIdAndOpponentScoringShare[ownerId] = (ownerIdAndOpponentPointsScored[
+                                                                   ownerId] / totalPointsScoredInLeague) * Deci("100")
 
         return ownerIdAndOpponentScoringShare

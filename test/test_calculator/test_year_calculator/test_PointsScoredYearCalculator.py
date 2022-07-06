@@ -32,6 +32,24 @@ class TestPointsScoredYearCalculator(unittest.TestCase):
         self.assertEqual(Deci("3.6"), response[teams[0].id])
         self.assertEqual(Deci("7.5"), response[teams[1].id])
 
+    def test_getPointsScored_noneIfNoGamesPlayed(self):
+        owners, teams = getNDefaultOwnersAndTeams(3)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
+        matchup2 = Matchup(teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=1.2, teamBScore=2.5)
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2])
+
+        response = PointsScoredYearCalculator.getPointsScored(year, weekNumberEnd=1)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(3, len(response.keys()))
+        self.assertEqual(Deci("1.1"), response[teams[0].id])
+        self.assertEqual(Deci("2.4"), response[teams[1].id])
+        self.assertIsNone(response[teams[2].id])
+
     def test_getPointsScored_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
@@ -185,6 +203,24 @@ class TestPointsScoredYearCalculator(unittest.TestCase):
         self.assertEqual(Deci("1.2"), response[teams[0].id])
         self.assertEqual(Deci("2.5"), response[teams[1].id])
 
+    def test_getPointsScoredPerGame_noneIfNoGamesPlayed(self):
+        owners, teams = getNDefaultOwnersAndTeams(3)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
+        matchup2 = Matchup(teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=1.2, teamBScore=2.5)
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2])
+
+        response = PointsScoredYearCalculator.getPointsScoredPerGame(year, weekNumberEnd=1)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(3, len(response.keys()))
+        self.assertEqual(Deci("1.1"), response[teams[0].id])
+        self.assertEqual(Deci("2.4"), response[teams[1].id])
+        self.assertIsNone(response[teams[2].id])
+
     def test_getPointsScoredPerGame_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
@@ -251,8 +287,8 @@ class TestPointsScoredYearCalculator(unittest.TestCase):
         self.assertEqual(4, len(response.keys()))
         self.assertEqual(Deci("1.3"), response[teams[0].id])
         self.assertEqual(Deci("2.6"), response[teams[1].id])
-        self.assertEqual(Deci("0"), response[teams[2].id])
-        self.assertEqual(Deci("0"), response[teams[3].id])
+        self.assertIsNone(response[teams[2].id])
+        self.assertIsNone(response[teams[3].id])
 
     def test_getPointsScoredPerGame_weekNumberStartGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
@@ -341,6 +377,24 @@ class TestPointsScoredYearCalculator(unittest.TestCase):
         self.assertEqual(2, len(response.keys()))
         self.assertEqual(Deci("7.5"), response[teams[0].id])
         self.assertEqual(Deci("3.6"), response[teams[1].id])
+
+    def test_getOpponentPointsScored_noneIfNoGamesPlayed(self):
+        owners, teams = getNDefaultOwnersAndTeams(3)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
+        matchup2 = Matchup(teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=1.2, teamBScore=2.5)
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2])
+
+        response = PointsScoredYearCalculator.getOpponentPointsScored(year, weekNumberEnd=1)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(3, len(response.keys()))
+        self.assertEqual(Deci("2.4"), response[teams[0].id])
+        self.assertEqual(Deci("1.1"), response[teams[1].id])
+        self.assertIsNone(response[teams[2].id])
 
     def test_getOpponentPointsScored_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
@@ -495,6 +549,24 @@ class TestPointsScoredYearCalculator(unittest.TestCase):
         self.assertEqual(Deci("2.5"), response[teams[0].id])
         self.assertEqual(Deci("1.2"), response[teams[1].id])
 
+    def test_getOpponentPointsScoredPerGame_noneIfNoGamesPlayed(self):
+        owners, teams = getNDefaultOwnersAndTeams(3)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
+        matchup2 = Matchup(teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=1.2, teamBScore=2.5)
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2])
+
+        response = PointsScoredYearCalculator.getOpponentPointsScoredPerGame(year, weekNumberEnd=1)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(3, len(response.keys()))
+        self.assertEqual(Deci("2.4"), response[teams[0].id])
+        self.assertEqual(Deci("1.1"), response[teams[1].id])
+        self.assertIsNone(response[teams[2].id])
+
     def test_getOpponentPointsScoredPerGame_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
@@ -561,8 +633,8 @@ class TestPointsScoredYearCalculator(unittest.TestCase):
         self.assertEqual(4, len(response.keys()))
         self.assertEqual(Deci("2.6"), response[teams[0].id])
         self.assertEqual(Deci("1.3"), response[teams[1].id])
-        self.assertEqual(Deci("0"), response[teams[2].id])
-        self.assertEqual(Deci("0"), response[teams[3].id])
+        self.assertIsNone(response[teams[2].id])
+        self.assertIsNone(response[teams[3].id])
 
     def test_getOpponentPointsScoredPerGame_weekNumberStartGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)

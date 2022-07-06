@@ -215,11 +215,11 @@ class TestScoringShareAllTimeCalculator(unittest.TestCase):
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
-        self.assertEqual(Deci("100"), sum(response.values()))
-        self.assertEqual(Deci("0"), response[owners[0].id])
-        self.assertEqual(Deci("0"), response[owners[1].id])
-        self.assertEqual(Deci("0"), response[owners[2].id])
-        self.assertEqual(Deci("0"), response[owners[3].id])
+        self.assertEqual(Deci("100"), sum(filter(None, response.values())))
+        self.assertIsNone(response[owners[0].id])
+        self.assertIsNone(response[owners[1].id])
+        self.assertIsNone(response[owners[2].id])
+        self.assertIsNone(response[owners[3].id])
         self.assertEqual(Deci("44.44444444444444444444444444"), response[owners[4].id])
         self.assertEqual(Deci("55.55555555555555555555555556"), response[owners[5].id])
 
@@ -569,11 +569,11 @@ class TestScoringShareAllTimeCalculator(unittest.TestCase):
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
-        self.assertEqual(Deci("100"), sum(response.values()))
-        self.assertEqual(Deci("0"), response[owners[0].id])
-        self.assertEqual(Deci("0"), response[owners[1].id])
-        self.assertEqual(Deci("0"), response[owners[2].id])
-        self.assertEqual(Deci("0"), response[owners[3].id])
+        self.assertEqual(Deci("100"), sum(filter(None, response.values())))
+        self.assertIsNone(response[owners[0].id])
+        self.assertIsNone(response[owners[1].id])
+        self.assertIsNone(response[owners[2].id])
+        self.assertIsNone(response[owners[3].id])
         self.assertEqual(Deci("55.55555555555555555555555556"), response[owners[4].id])
         self.assertEqual(Deci("44.44444444444444444444444444"), response[owners[5].id])
 
