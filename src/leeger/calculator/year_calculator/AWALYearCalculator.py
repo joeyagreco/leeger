@@ -1,3 +1,5 @@
+from typing import Optional
+
 from src.leeger.calculator.parent.YearCalculator import YearCalculator
 from src.leeger.decorator.validate.validators import validateYear
 from src.leeger.model.filter.WeekFilters import WeekFilters
@@ -14,7 +16,7 @@ class AWALYearCalculator(YearCalculator):
 
     @classmethod
     @validateYear
-    def getAWAL(cls, year: Year, **kwargs) -> dict[str, Deci]:
+    def getAWAL(cls, year: Year, **kwargs) -> dict[str, Optional[Deci]]:
         """
         AWAL stands for Adjusted Wins Against the League.
         It is exactly that, an adjustment added to the Wins Against the League (or WAL) of a team.
@@ -28,6 +30,7 @@ class AWALYearCalculator(YearCalculator):
         L = Opponents in a week (usually test_league size - 1)
 
         Returns the number of Adjusted Wins Against the League for each team in the given Year.
+        Returns None for a Team if they have no games played in the range.
 
         Example response:
             {
@@ -75,13 +78,15 @@ class AWALYearCalculator(YearCalculator):
                         + (Deci(teamsTied[teamId])
                            * (Deci(0.5) / Deci(opponentsInWeek))))
 
+        cls._setToNoneIfNoGamesPlayed(teamIdAndAWAL, year, filters, **kwargs)
         return teamIdAndAWAL
 
     @classmethod
     @validateYear
-    def getAWALPerGame(cls, year: Year, **kwargs) -> dict[str, Deci]:
+    def getAWALPerGame(cls, year: Year, **kwargs) -> dict[str, Optional[Deci]]:
         """
         Returns the number of Adjusted Wins Against the League per game for each team in the given Year.
+        Returns None for a Team if they have no games played in the range.
 
         Example response:
             {
@@ -100,9 +105,8 @@ class AWALYearCalculator(YearCalculator):
         teamIdAndAWALPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
         for teamId in allTeamIds:
-            # to avoid division by zero, we'll just set the AWAL per game to 0 if the team has no games played
             if teamIdAndNumberOfGamesPlayed[teamId] == 0:
-                teamIdAndAWALPerGame[teamId] = Deci(0)
+                teamIdAndAWALPerGame[teamId] = None
             else:
                 teamIdAndAWALPerGame[teamId] = teamIdAndAWAL[teamId] / teamIdAndNumberOfGamesPlayed[teamId]
 
@@ -110,9 +114,10 @@ class AWALYearCalculator(YearCalculator):
 
     @classmethod
     @validateYear
-    def getOpponentAWAL(cls, year: Year, **kwargs) -> dict[str, Deci]:
+    def getOpponentAWAL(cls, year: Year, **kwargs) -> dict[str, Optional[Deci]]:
         """
         Returns the number of Adjusted Wins Against the League for each team's opponents in the given Year.
+        Returns None for a Team if they have no games played in the range.
 
         Example response:
             {
@@ -160,13 +165,15 @@ class AWALYearCalculator(YearCalculator):
                         + (Deci(teamsTied[teamId])
                            * (Deci(0.5) / Deci(opponentsInWeek))))
 
+        cls._setToNoneIfNoGamesPlayed(teamIdAndOpponentAWAL, year, filters, **kwargs)
         return teamIdAndOpponentAWAL
 
     @classmethod
     @validateYear
-    def getOpponentAWALPerGame(cls, year: Year, **kwargs) -> dict[str, Deci]:
+    def getOpponentAWALPerGame(cls, year: Year, **kwargs) -> dict[str, Optional[Deci]]:
         """
         Returns the number of Adjusted Wins Against the League per game for each team's opponents in the given Year.
+        Returns None for a Team if they have no games played in the range.
 
         Example response:
             {
@@ -185,9 +192,8 @@ class AWALYearCalculator(YearCalculator):
         teamIdAndOpponentAWALPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
         for teamId in allTeamIds:
-            # to avoid division by zero, we'll just set the AWAL per game to 0 if the team has no games played
             if teamIdAndNumberOfGamesPlayed[teamId] == 0:
-                teamIdAndOpponentAWALPerGame[teamId] = Deci(0)
+                teamIdAndOpponentAWALPerGame[teamId] = None
             else:
                 teamIdAndOpponentAWALPerGame[teamId] = teamIdAndOpponentAWAL[teamId] / teamIdAndNumberOfGamesPlayed[
                     teamId]

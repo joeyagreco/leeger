@@ -158,10 +158,10 @@ class TestAWALAllTimeCalculator(unittest.TestCase):
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
-        self.assertEqual(Deci("0"), response[owners[0].id])
-        self.assertEqual(Deci("0"), response[owners[1].id])
-        self.assertEqual(Deci("0"), response[owners[2].id])
-        self.assertEqual(Deci("0"), response[owners[3].id])
+        self.assertIsNone(response[owners[0].id])
+        self.assertIsNone(response[owners[1].id])
+        self.assertIsNone(response[owners[2].id])
+        self.assertIsNone(response[owners[3].id])
         self.assertEqual(Deci("0"), response[owners[4].id])
         self.assertEqual(Deci("1"), response[owners[5].id])
 
@@ -707,10 +707,10 @@ class TestAWALAllTimeCalculator(unittest.TestCase):
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
-        self.assertEqual(Deci("0"), response[owners[0].id])
-        self.assertEqual(Deci("0"), response[owners[1].id])
-        self.assertEqual(Deci("0"), response[owners[2].id])
-        self.assertEqual(Deci("0"), response[owners[3].id])
+        self.assertIsNone(response[owners[0].id])
+        self.assertIsNone(response[owners[1].id])
+        self.assertIsNone(response[owners[2].id])
+        self.assertIsNone(response[owners[3].id])
         self.assertEqual(Deci("1"), response[owners[4].id])
         self.assertEqual(Deci("0"), response[owners[5].id])
 

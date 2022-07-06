@@ -46,6 +46,30 @@ class TestAWALYearCalculator(unittest.TestCase):
         self.assertEqual(Deci("2.1"), response[teams[4].id])
         self.assertEqual(Deci("3"), response[teams[5].id])
 
+    def test_getAWAL_noneIfNoGamesPlayed(self):
+        owners, teams = getNDefaultOwnersAndTeams(6)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+
+        matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup5 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
+        matchup6 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        week2 = Week(weekNumber=2, matchups=[matchup4, matchup5, matchup6])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2])
+
+        response = AWALYearCalculator.getAWAL(year, weekNumberEnd=1)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(6, len(response.keys()))
+        self.assertEqual(Deci("0"), response[teams[0].id])
+        self.assertEqual(Deci("1"), response[teams[1].id])
+        self.assertIsNone(response[teams[2].id])
+        self.assertIsNone(response[teams[3].id])
+        self.assertIsNone(response[teams[4].id])
+        self.assertIsNone(response[teams[5].id])
+
     def test_getAWAL_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
@@ -162,10 +186,10 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
-        self.assertEqual(Deci("0"), response[teams[0].id])
-        self.assertEqual(Deci("0"), response[teams[1].id])
-        self.assertEqual(Deci("0"), response[teams[2].id])
-        self.assertEqual(Deci("0"), response[teams[3].id])
+        self.assertIsNone(response[teams[0].id])
+        self.assertIsNone(response[teams[1].id])
+        self.assertIsNone(response[teams[2].id])
+        self.assertIsNone(response[teams[3].id])
         self.assertEqual(Deci("0"), response[teams[4].id])
         self.assertEqual(Deci("1"), response[teams[5].id])
 
@@ -456,6 +480,30 @@ class TestAWALYearCalculator(unittest.TestCase):
         self.assertEqual(Deci("0.7"), response[teams[4].id])
         self.assertEqual(Deci("1"), response[teams[5].id])
 
+    def test_getAWALPerGame_noneIfNoGamesPlayed(self):
+        owners, teams = getNDefaultOwnersAndTeams(6)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+
+        matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup5 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
+        matchup6 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        week2 = Week(weekNumber=2, matchups=[matchup4, matchup5, matchup6])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2])
+
+        response = AWALYearCalculator.getAWALPerGame(year, weekNumberEnd=1)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(6, len(response.keys()))
+        self.assertEqual(Deci("0"), response[teams[0].id])
+        self.assertEqual(Deci("1"), response[teams[1].id])
+        self.assertIsNone(response[teams[2].id])
+        self.assertIsNone(response[teams[3].id])
+        self.assertIsNone(response[teams[4].id])
+        self.assertIsNone(response[teams[5].id])
+
     def test_getAWALPerGame_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
@@ -572,10 +620,10 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
-        self.assertEqual(Deci("0"), response[teams[0].id])
-        self.assertEqual(Deci("0"), response[teams[1].id])
-        self.assertEqual(Deci("0"), response[teams[2].id])
-        self.assertEqual(Deci("0"), response[teams[3].id])
+        self.assertIsNone(response[teams[0].id])
+        self.assertIsNone(response[teams[1].id])
+        self.assertIsNone(response[teams[2].id])
+        self.assertIsNone(response[teams[3].id])
         self.assertEqual(Deci("0"), response[teams[4].id])
         self.assertEqual(Deci("1"), response[teams[5].id])
 
@@ -774,6 +822,30 @@ class TestAWALYearCalculator(unittest.TestCase):
         self.assertEqual(Deci("3"), response[teams[4].id])
         self.assertEqual(Deci("2.1"), response[teams[5].id])
 
+    def test_getOpponentAWAL_noneIfNoGamesPlayed(self):
+        owners, teams = getNDefaultOwnersAndTeams(6)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+
+        matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup5 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
+        matchup6 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        week2 = Week(weekNumber=2, matchups=[matchup4, matchup5, matchup6])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2])
+
+        response = AWALYearCalculator.getOpponentAWAL(year, weekNumberEnd=1)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(6, len(response.keys()))
+        self.assertEqual(Deci("1"), response[teams[0].id])
+        self.assertEqual(Deci("0"), response[teams[1].id])
+        self.assertIsNone(response[teams[2].id])
+        self.assertIsNone(response[teams[3].id])
+        self.assertIsNone(response[teams[4].id])
+        self.assertIsNone(response[teams[5].id])
+
     def test_getOpponentAWAL_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
@@ -890,10 +962,10 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
-        self.assertEqual(Deci("0"), response[teams[0].id])
-        self.assertEqual(Deci("0"), response[teams[1].id])
-        self.assertEqual(Deci("0"), response[teams[2].id])
-        self.assertEqual(Deci("0"), response[teams[3].id])
+        self.assertIsNone(response[teams[0].id])
+        self.assertIsNone(response[teams[1].id])
+        self.assertIsNone(response[teams[2].id])
+        self.assertIsNone(response[teams[3].id])
         self.assertEqual(Deci("1"), response[teams[4].id])
         self.assertEqual(Deci("0"), response[teams[5].id])
 
@@ -1184,6 +1256,30 @@ class TestAWALYearCalculator(unittest.TestCase):
         self.assertEqual(Deci("1"), response[teams[4].id])
         self.assertEqual(Deci("0.7"), response[teams[5].id])
 
+    def test_getOpponentAWALPerGame_noneIfNoGamesPlayed(self):
+        owners, teams = getNDefaultOwnersAndTeams(6)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+
+        matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup5 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
+        matchup6 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        week2 = Week(weekNumber=2, matchups=[matchup4, matchup5, matchup6])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2])
+
+        response = AWALYearCalculator.getOpponentAWALPerGame(year, weekNumberEnd=1)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(6, len(response.keys()))
+        self.assertEqual(Deci("1"), response[teams[0].id])
+        self.assertEqual(Deci("0"), response[teams[1].id])
+        self.assertIsNone(response[teams[2].id])
+        self.assertIsNone(response[teams[3].id])
+        self.assertIsNone(response[teams[4].id])
+        self.assertIsNone(response[teams[5].id])
+
     def test_getOpponentAWALPerGame_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
@@ -1300,10 +1396,10 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
-        self.assertEqual(Deci("0"), response[teams[0].id])
-        self.assertEqual(Deci("0"), response[teams[1].id])
-        self.assertEqual(Deci("0"), response[teams[2].id])
-        self.assertEqual(Deci("0"), response[teams[3].id])
+        self.assertIsNone(response[teams[0].id])
+        self.assertIsNone(response[teams[1].id])
+        self.assertIsNone(response[teams[2].id])
+        self.assertIsNone(response[teams[3].id])
         self.assertEqual(Deci("1"), response[teams[4].id])
         self.assertEqual(Deci("0"), response[teams[5].id])
 
