@@ -62,13 +62,13 @@ class SSLYearCalculator(YearCalculator):
             minScore = SingleScoreYearCalculator.getMinScore(year, **kwargs)[teamId]
 
             # check if all stats could be found
-            if None not in (awalPerGame, scoringShare, maxScore, minScore):
+            if None in (awalPerGame, scoringShare, maxScore, minScore):
+                teamIdAndTeamScore[teamId] = None
+            else:
                 teamIdAndTeamScore[teamId] = (awalPerGame * Deci(cls.__AWAL_AND_WAL_PER_GAME_MULTIPLIER)) + \
                                              (scoringShare * Deci(cls.__SCORING_SHARE_MULTIPLIER)) + \
                                              ((Deci(maxScore) + Deci(minScore)) * Deci(
                                                  cls.__MAX_AND_MIN_SCORE_MULTIPLIER))
-            else:
-                teamIdAndTeamScore[teamId] = None
         return teamIdAndTeamScore
 
     @classmethod
@@ -100,13 +100,14 @@ class SSLYearCalculator(YearCalculator):
             minScore = SingleScoreYearCalculator.getMinScore(year, **kwargs)[teamId]
 
             # check if all stats could be found
-            if None not in (walPerGame, scoringShare, maxScore, minScore):
+            if None in (walPerGame, scoringShare, maxScore, minScore):
+                teamIdAndTeamSuccess[teamId] = None
+            else:
                 teamIdAndTeamSuccess[teamId] = (walPerGame * Deci(cls.__AWAL_AND_WAL_PER_GAME_MULTIPLIER)) + \
                                                (scoringShare * Deci(cls.__SCORING_SHARE_MULTIPLIER)) + \
                                                ((Deci(maxScore) + Deci(minScore)) * Deci(
                                                    cls.__MAX_AND_MIN_SCORE_MULTIPLIER))
-            else:
-                teamIdAndTeamSuccess[teamId] = None
+
         return teamIdAndTeamSuccess
 
     @classmethod
@@ -135,8 +136,9 @@ class SSLYearCalculator(YearCalculator):
             teamScore = cls.getTeamScore(year, **kwargs)[teamId]
             teamSuccess = cls.getTeamSuccess(year, **kwargs)[teamId]
 
-            if None not in (teamScore, teamSuccess):
-                teamIdAndTeamLuck[teamId] = teamSuccess - teamScore
-            else:
+            if None in (teamScore, teamSuccess):
                 teamIdAndTeamLuck[teamId] = None
+            else:
+                teamIdAndTeamLuck[teamId] = teamSuccess - teamScore
+
         return teamIdAndTeamLuck

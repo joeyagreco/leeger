@@ -33,6 +33,24 @@ class TestSSLYearCalculator(unittest.TestCase):
         self.assertEqual(Deci("57.72"), response[teams[0].id])
         self.assertEqual(Deci("242.695"), response[teams[1].id])
 
+    def test_getTeamScore_happyPath(self):
+        owners, teams = getNDefaultOwnersAndTeams(3)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=3)
+        matchup2 = Matchup(teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=1.2, teamBScore=3)
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2])
+
+        response = SSLYearCalculator.getTeamScore(year, weekNumberEnd=1)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(3, len(response.keys()))
+        self.assertEqual(Deci("53.76853658536585365853658536"), response[teams[0].id])
+        self.assertEqual(Deci("246.6414634146341463414634146"), response[teams[1].id])
+        self.assertIsNone(response[teams[2].id])
+
     def test_getTeamScore_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
@@ -189,6 +207,24 @@ class TestSSLYearCalculator(unittest.TestCase):
         self.assertEqual(Deci("57.72"), response[teams[0].id])
         self.assertEqual(Deci("242.695"), response[teams[1].id])
 
+    def test_getTeamSuccess_happyPath(self):
+        owners, teams = getNDefaultOwnersAndTeams(3)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=3)
+        matchup2 = Matchup(teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=1.2, teamBScore=3)
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2])
+
+        response = SSLYearCalculator.getTeamSuccess(year, weekNumberEnd=1)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(3, len(response.keys()))
+        self.assertEqual(Deci("53.76853658536585365853658536"), response[teams[0].id])
+        self.assertEqual(Deci("246.6414634146341463414634146"), response[teams[1].id])
+        self.assertIsNone(response[teams[2].id])
+
     def test_getTeamSuccess_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
@@ -344,6 +380,24 @@ class TestSSLYearCalculator(unittest.TestCase):
         self.assertEqual(2, len(response.keys()))
         self.assertEqual(Deci("0"), response[teams[0].id])
         self.assertEqual(Deci("0"), response[teams[1].id])
+
+    def test_getTeamLuck_happyPath(self):
+        owners, teams = getNDefaultOwnersAndTeams(3)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=3)
+        matchup2 = Matchup(teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=1.2, teamBScore=3)
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2])
+
+        response = SSLYearCalculator.getTeamLuck(year, weekNumberEnd=1)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(3, len(response.keys()))
+        self.assertEqual(Deci("0"), response[teams[0].id])
+        self.assertEqual(Deci("0"), response[teams[1].id])
+        self.assertIsNone(response[teams[2].id])
 
     def test_getTeamLuck_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
