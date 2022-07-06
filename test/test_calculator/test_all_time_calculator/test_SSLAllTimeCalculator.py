@@ -41,6 +41,27 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
         self.assertEqual(Deci("133.5333333333333333333333333"), response[owners[0].id])
         self.assertEqual(Deci("467.0666666666666666666666666"), response[owners[1].id])
 
+    def test_getTeamScore_noneIfNoGamesPlayed(self):
+        owners, teamsA = getNDefaultOwnersAndTeams(3)
+
+        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup2_a = Matchup(teamAId=teamsA[1].id, teamBId=teamsA[2].id, teamAScore=1, teamBScore=2)
+
+        week1_a = Week(weekNumber=1, matchups=[matchup1_a])
+        week2_a = Week(weekNumber=2, matchups=[matchup2_a])
+
+        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a])
+
+        league = League(name="TEST", owners=owners, years=[yearA])
+
+        response = SSLAllTimeCalculator.getTeamScore(league, weekNumberEnd=1)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(3, len(response.keys()))
+        self.assertEqual(Deci("66.76666666666666666666666666"), response[owners[0].id])
+        self.assertEqual(Deci("233.5333333333333333333333333"), response[owners[1].id])
+        self.assertIsNone(response[owners[2].id])
+
     def test_getTeamScore_onlyPostSeasonIsTrue(self):
         owners, teamsA = getNDefaultOwnersAndTeams(2)
         teamsB = getTeamsFromOwners(owners)
@@ -255,6 +276,27 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
         self.assertEqual(Deci("133.5333333333333333333333333"), response[owners[0].id])
         self.assertEqual(Deci("467.0666666666666666666666666"), response[owners[1].id])
 
+    def test_getTeamSuccess_noneIfNoGamesPlayed(self):
+        owners, teamsA = getNDefaultOwnersAndTeams(3)
+
+        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup2_a = Matchup(teamAId=teamsA[1].id, teamBId=teamsA[2].id, teamAScore=1, teamBScore=2)
+
+        week1_a = Week(weekNumber=1, matchups=[matchup1_a])
+        week2_a = Week(weekNumber=2, matchups=[matchup2_a])
+
+        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a])
+
+        league = League(name="TEST", owners=owners, years=[yearA])
+
+        response = SSLAllTimeCalculator.getTeamSuccess(league, weekNumberEnd=1)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(3, len(response.keys()))
+        self.assertEqual(Deci("66.76666666666666666666666666"), response[owners[0].id])
+        self.assertEqual(Deci("233.5333333333333333333333333"), response[owners[1].id])
+        self.assertIsNone(response[owners[2].id])
+
     def test_getTeamSuccess_onlyPostSeasonIsTrue(self):
         owners, teamsA = getNDefaultOwnersAndTeams(2)
         teamsB = getTeamsFromOwners(owners)
@@ -468,6 +510,27 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
         self.assertEqual(2, len(response.keys()))
         self.assertEqual(Deci("0"), response[owners[0].id])
         self.assertEqual(Deci("0"), response[owners[1].id])
+
+    def test_getTeamLuck_noneIfNoGamesPlayed(self):
+        owners, teamsA = getNDefaultOwnersAndTeams(3)
+
+        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup2_a = Matchup(teamAId=teamsA[1].id, teamBId=teamsA[2].id, teamAScore=1, teamBScore=2)
+
+        week1_a = Week(weekNumber=1, matchups=[matchup1_a])
+        week2_a = Week(weekNumber=2, matchups=[matchup2_a])
+
+        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a])
+
+        league = League(name="TEST", owners=owners, years=[yearA])
+
+        response = SSLAllTimeCalculator.getTeamLuck(league, weekNumberEnd=1)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(3, len(response.keys()))
+        self.assertEqual(Deci("0"), response[owners[0].id])
+        self.assertEqual(Deci("0"), response[owners[1].id])
+        self.assertIsNone(response[owners[2].id])
 
     def test_getTeamLuck_onlyPostSeasonIsTrue(self):
         owners, teamsA = getNDefaultOwnersAndTeams(2)
