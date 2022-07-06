@@ -34,7 +34,7 @@ class ScoringShareAllTimeCalculator(AllTimeCalculator):
         """
 
         ownerIdAndPointsScored = PointsScoredAllTimeCalculator.getPointsScored(league, **kwargs)
-        allScores = GeneralUtil.filter(valueToFilterOut=None, listToFilterFrom=ownerIdAndPointsScored.values())
+        allScores = GeneralUtil.filter(value=None, list_=ownerIdAndPointsScored.values())
         totalPointsScoredInLeague = sum(allScores)
         ownerIdAndScoringShare = dict()
         for ownerId in LeagueNavigator.getAllOwnerIds(league):
@@ -66,7 +66,7 @@ class ScoringShareAllTimeCalculator(AllTimeCalculator):
         """
 
         ownerIdAndOpponentPointsScored = PointsScoredAllTimeCalculator.getOpponentPointsScored(league, **kwargs)
-        allScores = GeneralUtil.filter(valueToFilterOut=None, listToFilterFrom=ownerIdAndOpponentPointsScored.values())
+        allScores = GeneralUtil.filter(value=None, list_=ownerIdAndOpponentPointsScored.values())
         totalPointsScoredInLeague = sum(allScores)
         ownerIdAndOpponentScoringShare = dict()
         for ownerId in LeagueNavigator.getAllOwnerIds(league):

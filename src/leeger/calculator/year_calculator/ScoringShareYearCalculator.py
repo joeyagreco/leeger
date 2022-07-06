@@ -38,7 +38,7 @@ class ScoringShareYearCalculator(YearCalculator):
         """
 
         teamIdAndPointsScored = PointsScoredYearCalculator.getPointsScored(year, **kwargs)
-        allScores = GeneralUtil.filter(valueToFilterOut=None, listToFilterFrom=teamIdAndPointsScored.values())
+        allScores = GeneralUtil.filter(value=None, list_=teamIdAndPointsScored.values())
         totalPointsScoredInYear = sum(allScores)
         teamIdAndScoringShare = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
@@ -78,7 +78,7 @@ class ScoringShareYearCalculator(YearCalculator):
         """
 
         teamIdAndOpponentPointsScored = PointsScoredYearCalculator.getOpponentPointsScored(year, **kwargs)
-        allScores = GeneralUtil.filter(valueToFilterOut=None, listToFilterFrom=teamIdAndOpponentPointsScored.values())
+        allScores = GeneralUtil.filter(value=None, list_=teamIdAndOpponentPointsScored.values())
         totalPointsScoredInYear = sum(allScores)
         teamIdAndOpponentScoringShare = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
