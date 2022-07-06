@@ -1,3 +1,5 @@
+from typing import Optional
+
 from src.leeger.calculator.parent.YearCalculator import YearCalculator
 from src.leeger.decorator.validate.validators import validateYear
 from src.leeger.model.league.Year import Year
@@ -12,7 +14,7 @@ class SmartWinsYearCalculator(YearCalculator):
 
     @classmethod
     @validateYear
-    def getSmartWins(cls, year: Year, **kwargs) -> dict[str, Deci]:
+    def getSmartWins(cls, year: Year, **kwargs) -> dict[str, Optional[Deci]]:
         """
         Smart Wins show how many wins a team would have if it played against every score in a given collection.
         In this case, the collection is every score in the given Year.
@@ -23,6 +25,7 @@ class SmartWinsYearCalculator(YearCalculator):
         S = Number of scores in the Year - 1
 
         Returns the number of Smart Wins for each team in the given Year.
+        Returns None for a Team if they have no games played in the range.
 
         Example response:
             {
@@ -74,13 +77,15 @@ class SmartWinsYearCalculator(YearCalculator):
             smartWins = (scoresBeat + (scoresTied / Deci("2"))) / (len(allScores) - Deci("1"))
             teamIdAndSmartWins[teamIdAndScore[0]] += smartWins
 
+        cls._setToNoneIfNoGamesPlayed(teamIdAndSmartWins, year, filters, **kwargs)
         return teamIdAndSmartWins
 
     @classmethod
     @validateYear
-    def getSmartWinsPerGame(cls, year: Year, **kwargs) -> dict[str, Deci]:
+    def getSmartWinsPerGame(cls, year: Year, **kwargs) -> dict[str, Optional[Deci]]:
         """
         Returns the number of Smart Wins per game for each team in the given Year.
+        Returns None for a Team if they have no games played in the range.
 
         Example response:
             {
@@ -99,9 +104,8 @@ class SmartWinsYearCalculator(YearCalculator):
         teamIdAndSmartWinsPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
         for teamId in allTeamIds:
-            # to avoid division by zero, we'll just set the Smart Wins per game to 0 if the team has no games played
             if teamIdAndNumberOfGamesPlayed[teamId] == 0:
-                teamIdAndSmartWinsPerGame[teamId] = Deci(0)
+                teamIdAndSmartWinsPerGame[teamId] = None
             else:
                 teamIdAndSmartWinsPerGame[teamId] = teamIdAndSmartWins[teamId] / teamIdAndNumberOfGamesPlayed[teamId]
 
@@ -109,9 +113,10 @@ class SmartWinsYearCalculator(YearCalculator):
 
     @classmethod
     @validateYear
-    def getOpponentSmartWins(cls, year: Year, **kwargs) -> dict[str, Deci]:
+    def getOpponentSmartWins(cls, year: Year, **kwargs) -> dict[str, Optional[Deci]]:
         """
         Returns the number of Smart Wins for each team's opponents in the given Year.
+        Returns None for a Team if they have no games played in the range.
 
         Example response:
             {
@@ -163,13 +168,15 @@ class SmartWinsYearCalculator(YearCalculator):
             smartWins = (scoresBeat + (scoresTied / Deci("2"))) / (len(allScores) - Deci("1"))
             teamIdAndOpponentSmartWins[teamIdAndOpponentScore[0]] += smartWins
 
+        cls._setToNoneIfNoGamesPlayed(teamIdAndOpponentSmartWins, year, filters, **kwargs)
         return teamIdAndOpponentSmartWins
 
     @classmethod
     @validateYear
-    def getOpponentSmartWinsPerGame(cls, year: Year, **kwargs) -> dict[str, Deci]:
+    def getOpponentSmartWinsPerGame(cls, year: Year, **kwargs) -> dict[str, Optional[Deci]]:
         """
         Returns the number of Smart Wins per game for each team's opponents in the given Year.
+        Returns None for a Team if they have no games played in the range.
 
         Example response:
             {
@@ -190,7 +197,7 @@ class SmartWinsYearCalculator(YearCalculator):
         for teamId in allTeamIds:
             # to avoid division by zero, we'll just set the opponent Smart Wins per game to 0 if the team has no games played
             if teamIdAndNumberOfGamesPlayed[teamId] == 0:
-                teamIdAndOpponentSmartWinsPerGame[teamId] = Deci(0)
+                teamIdAndOpponentSmartWinsPerGame[teamId] = None
             else:
                 teamIdAndOpponentSmartWinsPerGame[teamId] = teamIdAndOpponentSmartWins[teamId] / \
                                                             teamIdAndNumberOfGamesPlayed[teamId]

@@ -49,6 +49,25 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
         self.assertEqual(Deci("1.9"), response[teams[4].id])
         self.assertEqual(Deci("2.8"), response[teams[5].id])
 
+    def test_getSmartWins_noneIfNoGamesPlayed(self):
+        owners, teams = getNDefaultOwnersAndTeams(3)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+
+        matchup2 = Matchup(teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=3, teamBScore=4)
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2])
+
+        response = SmartWinsYearCalculator.getSmartWins(year, weekNumberEnd=1)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(3, len(response.keys()))
+        self.assertEqual(Deci("0"), response[teams[0].id])
+        self.assertEqual(Deci("0.3333333333333333333333333333"), response[teams[1].id])
+        self.assertIsNone(response[teams[2].id])
+
     def test_getSmartWins_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
@@ -156,10 +175,10 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
-        self.assertEqual(Deci("0"), response[teams[0].id])
-        self.assertEqual(Deci("0"), response[teams[1].id])
-        self.assertEqual(Deci("0"), response[teams[2].id])
-        self.assertEqual(Deci("0"), response[teams[3].id])
+        self.assertIsNone(response[teams[0].id])
+        self.assertIsNone(response[teams[1].id])
+        self.assertIsNone(response[teams[2].id])
+        self.assertIsNone(response[teams[3].id])
         self.assertEqual(Deci("0.6333333333333333333333333333"), response[teams[4].id])
         self.assertEqual(Deci("0.9333333333333333333333333333"), response[teams[5].id])
 
@@ -321,6 +340,25 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
         self.assertEqual(Deci("0.6333333333333333333333333333"), response[teams[4].id])
         self.assertEqual(Deci("0.9333333333333333333333333333"), response[teams[5].id])
 
+    def test_getSmartWinsPerGame_noneIfNoGamesPlayed(self):
+        owners, teams = getNDefaultOwnersAndTeams(3)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+
+        matchup2 = Matchup(teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=3, teamBScore=4)
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2])
+
+        response = SmartWinsYearCalculator.getSmartWinsPerGame(year, weekNumberEnd=1)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(3, len(response.keys()))
+        self.assertEqual(Deci("0"), response[teams[0].id])
+        self.assertEqual(Deci("0.3333333333333333333333333333"), response[teams[1].id])
+        self.assertIsNone(response[teams[2].id])
+
     def test_getSmartWinsPerGame_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
@@ -428,10 +466,10 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
-        self.assertEqual(Deci("0"), response[teams[0].id])
-        self.assertEqual(Deci("0"), response[teams[1].id])
-        self.assertEqual(Deci("0"), response[teams[2].id])
-        self.assertEqual(Deci("0"), response[teams[3].id])
+        self.assertIsNone(response[teams[0].id])
+        self.assertIsNone(response[teams[1].id])
+        self.assertIsNone(response[teams[2].id])
+        self.assertIsNone(response[teams[3].id])
         self.assertEqual(Deci("0.6333333333333333333333333333"), response[teams[4].id])
         self.assertEqual(Deci("0.9333333333333333333333333333"), response[teams[5].id])
 
@@ -593,6 +631,25 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
         self.assertEqual(Deci("2.8"), response[teams[4].id])
         self.assertEqual(Deci("1.9"), response[teams[5].id])
 
+    def test_getOpponentSmartWins_noneIfNoGamesPlayed(self):
+        owners, teams = getNDefaultOwnersAndTeams(3)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+
+        matchup2 = Matchup(teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=3, teamBScore=4)
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2])
+
+        response = SmartWinsYearCalculator.getOpponentSmartWins(year, weekNumberEnd=1)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(3, len(response.keys()))
+        self.assertEqual(Deci("0.3333333333333333333333333333"), response[teams[0].id])
+        self.assertEqual(Deci("0"), response[teams[1].id])
+        self.assertIsNone(response[teams[2].id])
+
     def test_getOpponentSmartWins_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
@@ -700,10 +757,10 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
-        self.assertEqual(Deci("0"), response[teams[0].id])
-        self.assertEqual(Deci("0"), response[teams[1].id])
-        self.assertEqual(Deci("0"), response[teams[2].id])
-        self.assertEqual(Deci("0"), response[teams[3].id])
+        self.assertIsNone(response[teams[0].id])
+        self.assertIsNone(response[teams[1].id])
+        self.assertIsNone(response[teams[2].id])
+        self.assertIsNone(response[teams[3].id])
         self.assertEqual(Deci("0.9333333333333333333333333333"), response[teams[4].id])
         self.assertEqual(Deci("0.6333333333333333333333333333"), response[teams[5].id])
 
@@ -865,6 +922,25 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
         self.assertEqual(Deci("0.9333333333333333333333333333"), response[teams[4].id])
         self.assertEqual(Deci("0.6333333333333333333333333333"), response[teams[5].id])
 
+    def test_getOpponentSmartWinsPerGame_noneIfNoGamesPlayed(self):
+        owners, teams = getNDefaultOwnersAndTeams(3)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+
+        matchup2 = Matchup(teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=3, teamBScore=4)
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2])
+
+        response = SmartWinsYearCalculator.getOpponentSmartWinsPerGame(year, weekNumberEnd=1)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(3, len(response.keys()))
+        self.assertEqual(Deci("0.3333333333333333333333333333"), response[teams[0].id])
+        self.assertEqual(Deci("0"), response[teams[1].id])
+        self.assertIsNone(response[teams[2].id])
+
     def test_getOpponentSmartWinsPerGame_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
@@ -972,10 +1048,10 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
-        self.assertEqual(Deci("0"), response[teams[0].id])
-        self.assertEqual(Deci("0"), response[teams[1].id])
-        self.assertEqual(Deci("0"), response[teams[2].id])
-        self.assertEqual(Deci("0"), response[teams[3].id])
+        self.assertIsNone(response[teams[0].id])
+        self.assertIsNone(response[teams[1].id])
+        self.assertIsNone(response[teams[2].id])
+        self.assertIsNone(response[teams[3].id])
         self.assertEqual(Deci("0.9333333333333333333333333333"), response[teams[4].id])
         self.assertEqual(Deci("0.6333333333333333333333333333"), response[teams[5].id])
 
