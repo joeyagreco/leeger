@@ -1,3 +1,5 @@
+from typing import Optional
+
 from src.leeger.calculator.parent.AllTimeCalculator import AllTimeCalculator
 from src.leeger.calculator.year_calculator.GameOutcomeYearCalculator import GameOutcomeYearCalculator
 from src.leeger.decorator.validate.validators import validateLeague
@@ -10,9 +12,10 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
 
     @classmethod
     @validateLeague
-    def getWins(cls, league: League, **kwargs) -> dict[str, int]:
+    def getWins(cls, league: League, **kwargs) -> dict[str, Optional[int]]:
         """
         Returns the number of wins for each team in the given League.
+        Returns None for an Owner if they have no games played in the range.
 
         Example response:
             {
@@ -26,9 +29,10 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
 
     @classmethod
     @validateLeague
-    def getLosses(cls, league: League, **kwargs) -> dict[str, int]:
+    def getLosses(cls, league: League, **kwargs) -> dict[str, Optional[int]]:
         """
         Returns the number of losses for each team in the given League.
+        Returns None for an Owner if they have no games played in the range.
 
         Example response:
             {
@@ -42,9 +46,10 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
 
     @classmethod
     @validateLeague
-    def getTies(cls, league: League, **kwargs) -> dict[str, int]:
+    def getTies(cls, league: League, **kwargs) -> dict[str, Optional[int]]:
         """
         Returns the number of ties for each team in the given League.
+        Returns None for an Owner if they have no games played in the range.
 
         Example response:
             {
@@ -58,10 +63,12 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
 
     @classmethod
     @validateLeague
-    def getWinPercentage(cls, league: League, **kwargs) -> dict[str, Deci]:
+    def getWinPercentage(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
         """
         Returns the win percentage for each team in the given League.
+        Returns None for an Owner if they have no games played in the range.
         Win percentage will be represented as a non-rounded decimal.
+
         Example:
             33% win percentage -> Deci("0.3333333333333333333333333333")
             100% win percentage -> Deci("1.0")
@@ -83,19 +90,25 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
             numberOfWins = ownerIdAndWins[ownerId]
             numberOfLosses = ownerIdAndLosses[ownerId]
             numberOfTies = ownerIdAndTies[ownerId]
-            numberOfGamesPlayed = numberOfWins + numberOfLosses + numberOfTies
-            ownerIdAndWinPercentage[ownerId] = (Deci(numberOfWins) + (Deci("0.5") * Deci(numberOfTies))) / Deci(
-                numberOfGamesPlayed)
+
+            if None in (numberOfWins, numberOfLosses, numberOfTies):
+                ownerIdAndWinPercentage[ownerId] = None
+            else:
+                numberOfGamesPlayed = numberOfWins + numberOfLosses + numberOfTies
+                ownerIdAndWinPercentage[ownerId] = (Deci(numberOfWins) + (Deci("0.5") * Deci(numberOfTies))) / Deci(
+                    numberOfGamesPlayed)
 
         return ownerIdAndWinPercentage
 
     @classmethod
     @validateLeague
-    def getWAL(cls, league: League, **kwargs) -> dict[str, Deci]:
+    def getWAL(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
         """
         WAL is "Wins Against the League"
         Formula: (Number of Wins * 1) + (Number of Ties * 0.5)
+
         Returns the number of Wins Against the League for each team in the given League.
+        Returns None for an Owner if they have no games played in the range.
 
         Example response:
             {
@@ -111,15 +124,21 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
         ownerIdAndTies = GameOutcomeAllTimeCalculator.getTies(league, **kwargs)
 
         for ownerId in [owner.id for owner in league.owners]:
-            ownerIdAndWAL[ownerId] = ownerIdAndWins[ownerId] + (Deci("0.5") * Deci(ownerIdAndTies[ownerId]))
+            wins = ownerIdAndWins[ownerId]
+            ties = ownerIdAndTies[ownerId]
+            if None in (wins, ties):
+                ownerIdAndWAL[ownerId] = None
+            else:
+                ownerIdAndWAL[ownerId] = Deci(wins) + (Deci("0.5") * Deci(ties))
 
         return ownerIdAndWAL
 
     @classmethod
     @validateLeague
-    def getWALPerGame(cls, league: League, **kwargs) -> dict[str, Deci]:
+    def getWALPerGame(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
         """
         Returns the number of Wins Against the League per game for each owner in the given League.
+        Returns None for an Owner if they have no games played in the range.
 
         Example response:
             {
@@ -136,9 +155,8 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
         ownerIdAndWALPerGame = dict()
         allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
         for ownerId in allOwnerIds:
-            # to avoid division by zero, we'll just set the WAL per game to 0 if the owner has no games played
             if ownerIdAndNumberOfGamesPlayed[ownerId] == 0:
-                ownerIdAndWALPerGame[ownerId] = Deci("0")
+                ownerIdAndWALPerGame[ownerId] = None
             else:
                 ownerIdAndWALPerGame[ownerId] = ownerIdAndWAL[ownerId] / ownerIdAndNumberOfGamesPlayed[ownerId]
 

@@ -56,6 +56,25 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         self.assertEqual(0, response[owners[0].id])
         self.assertEqual(9, response[owners[1].id])
 
+    def test_getWins_noneIfNoGamesPlayed(self):
+        owners, teamsA = getNDefaultOwnersAndTeams(3)
+
+        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup2_a = Matchup(teamAId=teamsA[1].id, teamBId=teamsA[2].id, teamAScore=1, teamBScore=2)
+        week1_a = Week(weekNumber=1, matchups=[matchup1_a])
+        week2_a = Week(weekNumber=2, matchups=[matchup2_a])
+        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a])
+
+        league = League(name="TEST", owners=owners, years=[yearA])
+
+        response = GameOutcomeAllTimeCalculator.getWins(league, weekNumberEnd=1)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(3, len(response.keys()))
+        self.assertEqual(0, response[owners[0].id])
+        self.assertEqual(1, response[owners[1].id])
+        self.assertIsNone(response[owners[2].id])
+
     def test_getWins_onlyPostSeasonIsTrue(self):
         owners, teamsA = getNDefaultOwnersAndTeams(2)
         teamsB = getTeamsFromOwners(owners)
@@ -376,6 +395,25 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         self.assertEqual(2, len(response.keys()))
         self.assertEqual(9, response[owners[0].id])
         self.assertEqual(0, response[owners[1].id])
+
+    def test_getLosses_noneIfNoGamesPlayed(self):
+        owners, teamsA = getNDefaultOwnersAndTeams(3)
+
+        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup2_a = Matchup(teamAId=teamsA[1].id, teamBId=teamsA[2].id, teamAScore=1, teamBScore=2)
+        week1_a = Week(weekNumber=1, matchups=[matchup1_a])
+        week2_a = Week(weekNumber=2, matchups=[matchup2_a])
+        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a])
+
+        league = League(name="TEST", owners=owners, years=[yearA])
+
+        response = GameOutcomeAllTimeCalculator.getLosses(league, weekNumberEnd=1)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(3, len(response.keys()))
+        self.assertEqual(1, response[owners[0].id])
+        self.assertEqual(0, response[owners[1].id])
+        self.assertIsNone(response[owners[2].id])
 
     def test_getLosses_onlyPostSeasonIsTrue(self):
         owners, teamsA = getNDefaultOwnersAndTeams(2)
@@ -698,6 +736,25 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         self.assertEqual(3, response[owners[0].id])
         self.assertEqual(3, response[owners[1].id])
 
+    def test_getTies_noneIfNoGamesPlayed(self):
+        owners, teamsA = getNDefaultOwnersAndTeams(3)
+
+        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=1)
+        matchup2_a = Matchup(teamAId=teamsA[1].id, teamBId=teamsA[2].id, teamAScore=1, teamBScore=1)
+        week1_a = Week(weekNumber=1, matchups=[matchup1_a])
+        week2_a = Week(weekNumber=2, matchups=[matchup2_a])
+        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a])
+
+        league = League(name="TEST", owners=owners, years=[yearA])
+
+        response = GameOutcomeAllTimeCalculator.getTies(league, weekNumberEnd=1)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(3, len(response.keys()))
+        self.assertEqual(1, response[owners[0].id])
+        self.assertEqual(1, response[owners[1].id])
+        self.assertIsNone(response[owners[2].id])
+
     def test_getTies_onlyPostSeasonIsTrue(self):
         owners, teamsA = getNDefaultOwnersAndTeams(2)
         teamsB = getTeamsFromOwners(owners)
@@ -1018,6 +1075,25 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         self.assertEqual(2, len(response.keys()))
         self.assertEqual(Deci("0.4444444444444444444444444444"), response[owners[0].id])
         self.assertEqual(Deci("0.5555555555555555555555555556"), response[owners[1].id])
+
+    def test_getWinPercentage_noneIfNoGamesPlayed(self):
+        owners, teamsA = getNDefaultOwnersAndTeams(3)
+
+        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup2_a = Matchup(teamAId=teamsA[1].id, teamBId=teamsA[2].id, teamAScore=1, teamBScore=2)
+        week1_a = Week(weekNumber=1, matchups=[matchup1_a])
+        week2_a = Week(weekNumber=2, matchups=[matchup2_a])
+        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a])
+
+        league = League(name="TEST", owners=owners, years=[yearA])
+
+        response = GameOutcomeAllTimeCalculator.getWinPercentage(league, weekNumberEnd=1)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(3, len(response.keys()))
+        self.assertEqual(Deci("0"), response[owners[0].id])
+        self.assertEqual(Deci("1"), response[owners[1].id])
+        self.assertIsNone(response[owners[2].id])
 
     def test_getWinPercentage_onlyPostSeasonIsTrue(self):
         owners, teamsA = getNDefaultOwnersAndTeams(2)
@@ -1342,6 +1418,25 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         self.assertEqual(Deci("4.5"), response[owners[0].id])
         self.assertEqual(Deci("4.5"), response[owners[1].id])
 
+    def test_getWAL_noneIfNoGamesPlayed(self):
+        owners, teamsA = getNDefaultOwnersAndTeams(3)
+
+        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup2_a = Matchup(teamAId=teamsA[1].id, teamBId=teamsA[2].id, teamAScore=1, teamBScore=2)
+        week1_a = Week(weekNumber=1, matchups=[matchup1_a])
+        week2_a = Week(weekNumber=2, matchups=[matchup2_a])
+        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a])
+
+        league = League(name="TEST", owners=owners, years=[yearA])
+
+        response = GameOutcomeAllTimeCalculator.getWAL(league, weekNumberEnd=1)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(3, len(response.keys()))
+        self.assertEqual(Deci("0"), response[owners[0].id])
+        self.assertEqual(Deci("1"), response[owners[1].id])
+        self.assertIsNone(response[owners[2].id])
+
     def test_getWAL_onlyPostSeasonIsTrue(self):
         owners, teamsA = getNDefaultOwnersAndTeams(2)
         teamsB = getTeamsFromOwners(owners)
@@ -1664,6 +1759,25 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         self.assertEqual(2, len(response.keys()))
         self.assertEqual(Deci("0.5"), response[owners[0].id])
         self.assertEqual(Deci("0.5"), response[owners[1].id])
+
+    def test_getWALPerGame_noneIfNoGamesPlayed(self):
+        owners, teamsA = getNDefaultOwnersAndTeams(3)
+
+        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup2_a = Matchup(teamAId=teamsA[1].id, teamBId=teamsA[2].id, teamAScore=1, teamBScore=2)
+        week1_a = Week(weekNumber=1, matchups=[matchup1_a])
+        week2_a = Week(weekNumber=2, matchups=[matchup2_a])
+        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a])
+
+        league = League(name="TEST", owners=owners, years=[yearA])
+
+        response = GameOutcomeAllTimeCalculator.getWALPerGame(league, weekNumberEnd=1)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(3, len(response.keys()))
+        self.assertEqual(Deci("0"), response[owners[0].id])
+        self.assertEqual(Deci("1"), response[owners[1].id])
+        self.assertIsNone(response[owners[2].id])
 
     def test_getWALPerGame_onlyPostSeasonIsTrue(self):
         owners, teamsA = getNDefaultOwnersAndTeams(2)
