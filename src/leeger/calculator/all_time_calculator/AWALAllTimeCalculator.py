@@ -1,3 +1,5 @@
+from typing import Optional
+
 from src.leeger.calculator.parent.AllTimeCalculator import AllTimeCalculator
 from src.leeger.calculator.year_calculator.AWALYearCalculator import AWALYearCalculator
 from src.leeger.decorator.validate.validators import validateLeague
@@ -13,7 +15,7 @@ class AWALAllTimeCalculator(AllTimeCalculator):
 
     @classmethod
     @validateLeague
-    def getAWAL(cls, league: League, **kwargs) -> dict[str, Deci]:
+    def getAWAL(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
         """
         AWAL stands for Adjusted Wins Against the League.
         It is exactly that, an adjustment added to the Wins Against the League (or WAL) of a team.
@@ -27,6 +29,7 @@ class AWALAllTimeCalculator(AllTimeCalculator):
         L = Opponents in a week (usually test_league size - 1)
 
         Returns the number of Adjusted Wins Against the League for each Owner in the given League.
+        Returns None for an Owner if they have no games played in the range.
 
         Example response:
             {
@@ -40,9 +43,10 @@ class AWALAllTimeCalculator(AllTimeCalculator):
 
     @classmethod
     @validateLeague
-    def getAWALPerGame(cls, league: League, **kwargs) -> dict[str, Deci]:
+    def getAWALPerGame(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
         """
         Returns the number of Adjusted Wins Against the League per game for each Owner in the given League.
+        Returns None for an Owner if they have no games played in the range.
 
         Example response:
             {
@@ -60,9 +64,8 @@ class AWALAllTimeCalculator(AllTimeCalculator):
         ownerIdAndAWALPerGame = dict()
         allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
         for ownerId in allOwnerIds:
-            # to avoid division by zero, we'll just set the AWAL per game to 0 if the team has no games played
             if ownerIdAndNumberOfGamesPlayed[ownerId] == 0:
-                ownerIdAndAWALPerGame[ownerId] = Deci(0)
+                ownerIdAndAWALPerGame[ownerId] = None
             else:
                 ownerIdAndAWALPerGame[ownerId] = ownerIdAndAWAL[ownerId] / ownerIdAndNumberOfGamesPlayed[ownerId]
 
@@ -70,9 +73,10 @@ class AWALAllTimeCalculator(AllTimeCalculator):
 
     @classmethod
     @validateLeague
-    def getOpponentAWAL(cls, league: League, **kwargs) -> dict[str, Deci]:
+    def getOpponentAWAL(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
         """
         Returns the number of Adjusted Wins Against the League for each Owner's opponents in the given League.
+        Returns None for an Owner if they have no games played in the range.
 
         Example response:
             {
@@ -86,9 +90,10 @@ class AWALAllTimeCalculator(AllTimeCalculator):
 
     @classmethod
     @validateLeague
-    def getOpponentAWALPerGame(cls, league: League, **kwargs) -> dict[str, Deci]:
+    def getOpponentAWALPerGame(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
         """
         Returns the number of Adjusted Wins Against the League per game for each Owner's opponent in the given League.
+        Returns None for an Owner if they have no games played in the range.
 
         Example response:
             {
@@ -106,9 +111,8 @@ class AWALAllTimeCalculator(AllTimeCalculator):
         ownerIdAndOpponentAWALPerGame = dict()
         allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
         for ownerId in allOwnerIds:
-            # to avoid division by zero, we'll just set the AWAL per game to 0 if the team has no games played
             if ownerIdAndNumberOfGamesPlayed[ownerId] == 0:
-                ownerIdAndOpponentAWALPerGame[ownerId] = Deci(0)
+                ownerIdAndOpponentAWALPerGame[ownerId] = None
             else:
                 ownerIdAndOpponentAWALPerGame[ownerId] = ownerIdAndOpponentAWAL[ownerId] / \
                                                          ownerIdAndNumberOfGamesPlayed[ownerId]
