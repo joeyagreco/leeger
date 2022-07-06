@@ -1,9 +1,12 @@
+from typing import Any
+
 from src.leeger.decorator.validate.validators import validateYear
 from src.leeger.enum.MatchupType import MatchupType
 from src.leeger.exception.InvalidFilterException import InvalidFilterException
 from src.leeger.model.filter.YearFilters import YearFilters
 from src.leeger.model.league.Matchup import Matchup
 from src.leeger.model.league.Year import Year
+from src.leeger.util.YearNavigator import YearNavigator
 
 
 class YearCalculator:
@@ -83,3 +86,17 @@ class YearCalculator:
                     allFilteredMatchups.append(matchup)
 
         return allFilteredMatchups
+
+    @classmethod
+    @validateYear
+    def _setToNoneIfNoGamesPlayed(cls, responseDict: dict[str, Any], year: Year, yearFilters: YearFilters = None,
+                                  **kwargs) -> None:
+        """
+        Takes a response dict and sets any value to None where the Team ID has no games played in the given range.
+        """
+        yearFilters = yearFilters if yearFilters is not None else cls._getYearFilters(year, **kwargs)
+        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year, yearFilters)
+
+        for teamId in responseDict:
+            if teamIdAndNumberOfGamesPlayed[teamId] == 0:
+                responseDict[teamId] = None

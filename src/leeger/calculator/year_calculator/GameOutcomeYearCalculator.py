@@ -1,3 +1,5 @@
+from typing import Optional
+
 from src.leeger.calculator.parent.YearCalculator import YearCalculator
 from src.leeger.decorator.validate.validators import validateYear
 from src.leeger.model.league.Year import Year
@@ -13,9 +15,10 @@ class GameOutcomeYearCalculator(YearCalculator):
 
     @classmethod
     @validateYear
-    def getWins(cls, year: Year, **kwargs) -> dict[str, int]:
+    def getWins(cls, year: Year, **kwargs) -> dict[str, Optional[int]]:
         """
         Returns the number of wins for each team in the given Year.
+        Returns None for a Team if they have no games played in the range.
 
         Example response:
             {
@@ -39,13 +42,16 @@ class GameOutcomeYearCalculator(YearCalculator):
                     winnerTeamId = MatchupNavigator.getTeamIdOfMatchupWinner(matchup)
                     if winnerTeamId is not None:
                         teamIdAndWins[winnerTeamId] += 1
+
+        cls._setToNoneIfNoGamesPlayed(teamIdAndWins, year, filters, **kwargs)
         return teamIdAndWins
 
     @classmethod
     @validateYear
-    def getLosses(cls, year: Year, **kwargs) -> dict[str, int]:
+    def getLosses(cls, year: Year, **kwargs) -> dict[str, Optional[int]]:
         """
         Returns the number of losses for each team in the given Year.
+        Returns None for a Team if they have no games played in the range.
 
         Example response:
             {
@@ -71,13 +77,15 @@ class GameOutcomeYearCalculator(YearCalculator):
                         # return the OTHER team's ID
                         loserTeamId = matchup.teamAId if winnerTeamId != matchup.teamAId else matchup.teamBId
                         teamIdAndLosses[loserTeamId] += 1
+        cls._setToNoneIfNoGamesPlayed(teamIdAndLosses, year, filters, **kwargs)
         return teamIdAndLosses
 
     @classmethod
     @validateYear
-    def getTies(cls, year: Year, **kwargs) -> dict[str, int]:
+    def getTies(cls, year: Year, **kwargs) -> dict[str, Optional[int]]:
         """
         Returns the number of ties for each team in the given Year.
+        Returns None for a Team if they have no games played in the range.
 
         Example response:
             {
@@ -100,13 +108,15 @@ class GameOutcomeYearCalculator(YearCalculator):
                     if MatchupNavigator.getTeamIdOfMatchupWinner(matchup) is None:
                         teamIdAndTies[matchup.teamAId] += 1
                         teamIdAndTies[matchup.teamBId] += 1
+        cls._setToNoneIfNoGamesPlayed(teamIdAndTies, year, filters, **kwargs)
         return teamIdAndTies
 
     @classmethod
     @validateYear
-    def getWinPercentage(cls, year: Year, **kwargs) -> dict[str, Deci]:
+    def getWinPercentage(cls, year: Year, **kwargs) -> dict[str, Optional[Deci]]:
         """
         Returns the win percentage for each team in the given Year.
+        Returns None for a Team if they have no games played in the range.
         Win percentage will be represented as a non-rounded decimal.
         Example:
             33% win percentage -> Deci("0.3333333333333333333333333333")
@@ -130,19 +140,23 @@ class GameOutcomeYearCalculator(YearCalculator):
             numberOfWins = teamIdAndWins[teamId]
             numberOfLosses = teamIdAndLosses[teamId]
             numberOfTies = teamIdAndTies[teamId]
-            numberOfGamesPlayed = numberOfWins + numberOfLosses + numberOfTies
-            teamIdAndWinPercentage[teamId] = (Deci(numberOfWins) + (Deci("0.5") * Deci(numberOfTies))) / Deci(
-                numberOfGamesPlayed)
+            if None in (numberOfWins, numberOfLosses, numberOfTies):
+                teamIdAndWinPercentage[teamId] = None
+            else:
+                numberOfGamesPlayed = numberOfWins + numberOfLosses + numberOfTies
+                teamIdAndWinPercentage[teamId] = (Deci(numberOfWins) + (Deci("0.5") * Deci(numberOfTies))) / Deci(
+                    numberOfGamesPlayed)
 
         return teamIdAndWinPercentage
 
     @classmethod
     @validateYear
-    def getWAL(cls, year: Year, **kwargs) -> dict[str, Deci]:
+    def getWAL(cls, year: Year, **kwargs) -> dict[str, Optional[Deci]]:
         """
         WAL is "Wins Against the League"
         Formula: (Number of Wins * 1) + (Number of Ties * 0.5)
         Returns the number of Wins Against the League for each team in the given Year.
+        Returns None for a Team if they have no games played in the range.
 
         Example response:
             {
@@ -158,15 +172,21 @@ class GameOutcomeYearCalculator(YearCalculator):
         teamIdAndTies = GameOutcomeYearCalculator.getTies(year, **kwargs)
 
         for teamId in YearNavigator.getAllTeamIds(year):
-            teamIdAndWAL[teamId] = teamIdAndWins[teamId] + (Deci("0.5") * Deci(teamIdAndTies[teamId]))
+            wins = teamIdAndWins[teamId]
+            ties = teamIdAndTies[teamId]
+            if None in (wins, ties):
+                teamIdAndWAL[teamId] = None
+            else:
+                teamIdAndWAL[teamId] = Deci(wins) + (Deci("0.5") * Deci(ties))
 
         return teamIdAndWAL
 
     @classmethod
     @validateYear
-    def getWALPerGame(cls, year: Year, **kwargs) -> dict[str, Deci]:
+    def getWALPerGame(cls, year: Year, **kwargs) -> dict[str, Optional[Deci]]:
         """
         Returns the number of Wins Against the League per game for each team in the given Year.
+        Returns None for a Team if they have no games played in the range.
 
         Example response:
             {
@@ -190,4 +210,5 @@ class GameOutcomeYearCalculator(YearCalculator):
             else:
                 teamIdAndWALPerGame[teamId] = teamIdAndWAL[teamId] / teamIdAndNumberOfGamesPlayed[teamId]
 
+        cls._setToNoneIfNoGamesPlayed(teamIdAndWALPerGame, year, **kwargs)
         return teamIdAndWALPerGame
