@@ -1,3 +1,5 @@
+from typing import Optional
+
 from src.leeger.calculator.parent.AllTimeCalculator import AllTimeCalculator
 from src.leeger.calculator.year_calculator.PointsScoredYearCalculator import PointsScoredYearCalculator
 from src.leeger.decorator.validate.validators import validateLeague
@@ -13,9 +15,10 @@ class PointsScoredAllTimeCalculator(AllTimeCalculator):
 
     @classmethod
     @validateLeague
-    def getPointsScored(cls, league: League, **kwargs) -> dict[str, Deci]:
+    def getPointsScored(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
         """
         Returns the number of Points Scored for each Owner in the given League.
+        Returns None for an Owner if they have no games played in the range.
 
         Example response:
             {
@@ -29,7 +32,7 @@ class PointsScoredAllTimeCalculator(AllTimeCalculator):
 
     @classmethod
     @validateLeague
-    def getPointsScoredPerGame(cls, league: League, **kwargs) -> dict[str, Deci]:
+    def getPointsScoredPerGame(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
         """
         Returns the number of Points Scored per game for each Owner in the given League.
 
@@ -49,9 +52,8 @@ class PointsScoredAllTimeCalculator(AllTimeCalculator):
         ownerIdAndPointsScoredPerGame = dict()
         allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
         for ownerId in allOwnerIds:
-            # to avoid division by zero, we'll just set the Points Scored per game to 0 if the team has no games played
             if ownerIdAndNumberOfGamesPlayed[ownerId] == 0:
-                ownerIdAndPointsScoredPerGame[ownerId] = Deci(0)
+                ownerIdAndPointsScoredPerGame[ownerId] = None
             else:
                 ownerIdAndPointsScoredPerGame[ownerId] = ownerIdAndPointsScored[ownerId] / \
                                                          ownerIdAndNumberOfGamesPlayed[ownerId]
@@ -60,9 +62,10 @@ class PointsScoredAllTimeCalculator(AllTimeCalculator):
 
     @classmethod
     @validateLeague
-    def getOpponentPointsScored(cls, league: League, **kwargs) -> dict[str, Deci]:
+    def getOpponentPointsScored(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
         """
         Returns the number of Points Scored for each Owner's opponent in the given League.
+        Returns None for an Owner if they have no games played in the range.
 
         Example response:
             {
@@ -76,9 +79,10 @@ class PointsScoredAllTimeCalculator(AllTimeCalculator):
 
     @classmethod
     @validateLeague
-    def getOpponentPointsScoredPerGame(cls, league: League, **kwargs) -> dict[str, Deci]:
+    def getOpponentPointsScoredPerGame(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
         """
         Returns the number of Points Scored per game for each Owner's opponent in the given League.
+        Returns None for an Owner if they have no games played in the range.
 
         Example response:
             {
@@ -96,9 +100,8 @@ class PointsScoredAllTimeCalculator(AllTimeCalculator):
         ownerIdAndOpponentPointsScoredPerGame = dict()
         allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
         for ownerId in allOwnerIds:
-            # to avoid division by zero, we'll just set the Points Scored per game to 0 if the team has no games played
             if ownerIdAndNumberOfGamesPlayed[ownerId] == 0:
-                ownerIdAndOpponentPointsScoredPerGame[ownerId] = Deci(0)
+                ownerIdAndOpponentPointsScoredPerGame[ownerId] = None
             else:
                 ownerIdAndOpponentPointsScoredPerGame[ownerId] = ownerIdAndOpponentPointsScored[ownerId] / \
                                                                  ownerIdAndNumberOfGamesPlayed[ownerId]
