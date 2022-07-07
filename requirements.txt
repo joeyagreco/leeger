@@ -1,4 +1,4 @@
 numpy==1.22.4
 setuptools==62.3.4
 openpyxl~=3.0.10
-espn-api==0.19.4
+espn-api==0.20.0

@@ -46,7 +46,7 @@ class SSLAllTimeCalculator(AllTimeCalculator):
             }
         """
 
-        return cls._addAndCombineResults(league, SSLYearCalculator.getTeamScore, **kwargs)
+        return cls._addAndCombineResults(league, SSLYearCalculator.getTeamScore, validateLeague=False, **kwargs)
 
     @classmethod
     @validateLeague
@@ -68,7 +68,7 @@ class SSLAllTimeCalculator(AllTimeCalculator):
             ...
             }
         """
-        return cls._addAndCombineResults(league, SSLYearCalculator.getTeamSuccess, **kwargs)
+        return cls._addAndCombineResults(league, SSLYearCalculator.getTeamSuccess, validateLeague=False, **kwargs)
 
     @classmethod
     @validateLeague
@@ -90,4 +90,4 @@ class SSLAllTimeCalculator(AllTimeCalculator):
             ...
             }
         """
-        return cls._addAndCombineResults(league, SSLYearCalculator.getTeamLuck, **kwargs)
+        return cls._addAndCombineResults(league, SSLYearCalculator.getTeamLuck, validateLeague=False, **kwargs)

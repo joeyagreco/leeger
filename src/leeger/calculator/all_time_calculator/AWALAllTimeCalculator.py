@@ -39,7 +39,7 @@ class AWALAllTimeCalculator(AllTimeCalculator):
             ...
             }
         """
-        return cls._addAndCombineResults(league, AWALYearCalculator.getAWAL, **kwargs)
+        return cls._addAndCombineResults(league, AWALYearCalculator.getAWAL, validateLeague=False, **kwargs)
 
     @classmethod
     @validateLeague
@@ -86,7 +86,7 @@ class AWALAllTimeCalculator(AllTimeCalculator):
             ...
             }
         """
-        return cls._addAndCombineResults(league, AWALYearCalculator.getOpponentAWAL, **kwargs)
+        return cls._addAndCombineResults(league, AWALYearCalculator.getOpponentAWAL, validateLeague=False, **kwargs)
 
     @classmethod
     @validateLeague

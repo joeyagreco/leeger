@@ -28,7 +28,8 @@ class PointsScoredAllTimeCalculator(AllTimeCalculator):
             ...
             }
         """
-        return cls._addAndCombineResults(league, PointsScoredYearCalculator.getPointsScored, **kwargs)
+        return cls._addAndCombineResults(league, PointsScoredYearCalculator.getPointsScored, validateLeague=False,
+                                         **kwargs)
 
     @classmethod
     @validateLeague
@@ -75,7 +76,8 @@ class PointsScoredAllTimeCalculator(AllTimeCalculator):
             ...
             }
         """
-        return cls._addAndCombineResults(league, PointsScoredYearCalculator.getOpponentPointsScored, **kwargs)
+        return cls._addAndCombineResults(league, PointsScoredYearCalculator.getOpponentPointsScored,
+                                         validateLeague=False, **kwargs)
 
     @classmethod
     @validateLeague
