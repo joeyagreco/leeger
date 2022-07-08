@@ -2,13 +2,18 @@ from typing import Optional
 
 from yahoofantasy import Context
 from yahoofantasy import League as YahooLeague
+from yahoofantasy import Matchup as YahooMatchup
 from yahoofantasy import Team as YahooTeam
+from yahoofantasy import Week as YahooWeek
 
+from src.leeger.enum.MatchupType import MatchupType
 from src.leeger.exception.DoesNotExistException import DoesNotExistException
 from src.leeger.league_loader.abstract.LeagueLoader import LeagueLoader
 from src.leeger.model.league.League import League
+from src.leeger.model.league.Matchup import Matchup
 from src.leeger.model.league.Owner import Owner
 from src.leeger.model.league.Team import Team
+from src.leeger.model.league.Week import Week
 from src.leeger.model.league.Year import Year
 
 
@@ -23,6 +28,7 @@ class YahooLeagueLoader(LeagueLoader):
     def __initializeClassVariables(cls) -> None:
         cls.__owners: Optional[list[Owner]] = None
         cls.__yahooTeamIdToTeamMap: dict[str, Team] = dict()
+        cls.__yearToTeamIdHasLostInPlayoffs: dict[int, dict[int, bool]] = dict()
 
     @classmethod
     def loadLeague(cls, leagueId: int, years: list[int], **kwargs) -> League:
@@ -52,9 +58,65 @@ class YahooLeagueLoader(LeagueLoader):
 
     @classmethod
     def __buildYear(cls, yahooLeague: YahooLeague) -> Year:
+        cls.__yearToTeamIdHasLostInPlayoffs[yahooLeague.season] = dict()
         teams = cls.__buildTeams(yahooLeague.teams())
-        # weeks = cls.__buildWeeks(yahooLeague)
-        return Year(yearNumber=yahooLeague.season, teams=teams, weeks=[])
+        weeks = cls.__buildWeeks(yahooLeague)
+        return Year(yearNumber=yahooLeague.season, teams=teams, weeks=weeks)
+
+    @classmethod
+    def __buildWeeks(cls, yahooLeague: YahooLeague) -> list[Week]:
+        weeks = list()
+        for i in range(yahooLeague.current_week):  # current week seems to be the last week in the league
+            yahooWeek: YahooWeek = yahooLeague.weeks()[i]
+            # get each teams matchup for that week
+            matchups = list()
+            for yahooMatchup in yahooWeek.matchups:
+                # team A is *this* team
+                yahooTeamA = yahooMatchup.team1
+                teamA = cls.__yahooTeamIdToTeamMap[yahooMatchup.team1.team_id]
+                teamAScore = yahooMatchup.teams.team[0].team_points.total
+                # team B is their opponent
+                yahooTeamB = yahooMatchup.team2
+                teamB = cls.__yahooTeamIdToTeamMap[yahooMatchup.team2.team_id]
+                teamBScore = yahooMatchup.teams.team[1].team_points.total
+                # figure out tiebreakers if there needs to be one
+                teamAHasTiebreaker = yahooMatchup.winner_team_key == yahooTeamA.team_key and yahooMatchup.is_tied == 0
+                teamBHasTiebreaker = yahooMatchup.winner_team_key == yahooTeamB.team_key and yahooMatchup.is_tied == 0
+                matchupType = cls.__getMatchupType(yahooMatchup)
+                matchups.append(Matchup(teamAId=teamA.id,
+                                        teamBId=teamB.id,
+                                        teamAScore=teamAScore,
+                                        teamBScore=teamBScore,
+                                        teamAHasTiebreaker=teamAHasTiebreaker,
+                                        teamBHasTiebreaker=teamBHasTiebreaker,
+                                        matchupType=matchupType))
+            weeks.append(Week(weekNumber=i + 1, matchups=matchups))
+        return weeks
+
+    @classmethod
+    def __getMatchupType(cls, yahooMatchup: YahooMatchup) -> MatchupType:
+        team1Id = yahooMatchup.team1.team_id
+        team2Id = yahooMatchup.team2.team_id
+        # check if this is a playoff week
+        if yahooMatchup.is_playoffs == 1:
+            # figure out if this is the last week of playoffs (the championship week)
+            if yahooMatchup.week == yahooMatchup.league.end_week:
+                # this is the championship week
+                # figure out if either team has lost in the playoffs yet
+                if team1Id in cls.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season] \
+                        and not cls.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season][team1Id] \
+                        and team2Id in cls.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season] \
+                        and not cls.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season][team2Id]:
+                    return MatchupType.CHAMPIONSHIP
+            # update class dict with the team that lost
+            for yahooTeamResult in yahooMatchup.teams.team:
+                if yahooTeamResult.win_probability == 0:
+                    cls.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season][yahooTeamResult.team_id] = True
+                elif yahooTeamResult.win_probability == 1:
+                    cls.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season][yahooTeamResult.team_id] = False
+            return MatchupType.PLAYOFF
+        else:
+            return MatchupType.REGULAR_SEASON
 
     @classmethod
     def __buildTeams(cls, yahooTeams: list[YahooTeam]) -> list[Team]:
