@@ -1,5 +1,3 @@
-from typing import Optional
-
 from yahoofantasy import Context
 from yahoofantasy import League as YahooLeague
 from yahoofantasy import Matchup as YahooMatchup
@@ -26,7 +24,7 @@ class YahooLeagueLoader(LeagueLoader):
 
     @classmethod
     def __initializeClassVariables(cls) -> None:
-        cls.__owners: Optional[list[Owner]] = None
+        cls.__yahooManagerIdToOwnerMap: dict[int, Owner] = dict()
         cls.__yahooTeamIdToTeamMap: dict[str, Team] = dict()
         cls.__yearToTeamIdHasLostInPlayoffs: dict[int, dict[int, bool]] = dict()
 
@@ -40,7 +38,6 @@ class YahooLeagueLoader(LeagueLoader):
             for league in leagues:
                 if league.league_id == leagueId:
                     yahooLeagues.append(league)
-        test = league.teams()
         if len(yahooLeagues) != len(years):
             # TODO: Give a more descriptive // accurate error message
             raise DoesNotExistException(f"Found {len(yahooLeagues)} years, expected to find {len(years)}.")
@@ -54,7 +51,7 @@ class YahooLeagueLoader(LeagueLoader):
             leagueName = yahooLeague.name if leagueName is None else leagueName
             cls.__loadOwners(yahooLeague.teams())
             years.append(cls.__buildYear(yahooLeague))
-        return League(name=leagueName, owners=cls.__owners, years=years)
+        return League(name=leagueName, owners=cls.__yahooManagerIdToOwnerMap.values(), years=years)
 
     @classmethod
     def __buildYear(cls, yahooLeague: YahooLeague) -> Year:
@@ -122,7 +119,7 @@ class YahooLeagueLoader(LeagueLoader):
     def __buildTeams(cls, yahooTeams: list[YahooTeam]) -> list[Team]:
         teams = list()
         for yahooTeam in yahooTeams:
-            owner = cls.__getOwnerByName(yahooTeam.manager.nickname)
+            owner = cls.__getOwnerByYahooTeam(yahooTeam)
             team = Team(ownerId=owner.id, name=yahooTeam.name)
             teams.append(team)
             cls.__yahooTeamIdToTeamMap[yahooTeam.team_id] = team
@@ -130,16 +127,23 @@ class YahooLeagueLoader(LeagueLoader):
 
     @classmethod
     def __loadOwners(cls, yahooTeams: list[YahooTeam]) -> None:
-        if cls.__owners is None:
-            owners = list()
+        if len(cls.__yahooManagerIdToOwnerMap.values()) == 0:
+            yahooManagerIdToOwnerMap = dict()
+            yahooOwnerTeamNames = list()
             for yahooTeam in yahooTeams:
-                owners.append(Owner(name=yahooTeam.manager.nickname))
-            cls.__owners = owners
+                ownerName = yahooTeam.manager.nickname
+                # prevent duplicate owner names
+                i = 2
+                while ownerName in yahooOwnerTeamNames:
+                    ownerName = f"{yahooTeam.manager.nickname}({i})"
+                yahooManagerIdToOwnerMap[yahooTeam.manager.manager_id] = Owner(name=ownerName)
+                yahooOwnerTeamNames.append(ownerName)
+            cls.__yahooManagerIdToOwnerMap = yahooManagerIdToOwnerMap
 
     @classmethod
-    def __getOwnerByName(cls, ownerName: str) -> Owner:
-        for owner in cls.__owners:
-            if ownerName == owner.name:
-                return owner
+    def __getOwnerByYahooTeam(cls, yahooTeam: YahooTeam) -> Owner:
+        yahooManagerId = yahooTeam.manager.manager_id
+        if yahooManagerId in cls.__yahooManagerIdToOwnerMap:
+            return cls.__yahooManagerIdToOwnerMap[yahooManagerId]
         raise DoesNotExistException(
-            f"Owner name '{ownerName}' does not match any previously loaded owner names. To add multiple names for a single owner, use the 'ownerNamesAndAliases' keyword argument to define them.")
+            f"Yahoo Manager ID {yahooManagerId} not found in saved Yahoo Manager IDs.")
