@@ -1,3 +1,5 @@
+import subprocess
+
 from yahoofantasy import Context
 from yahoofantasy import League as YahooLeague
 from yahoofantasy import Matchup as YahooMatchup
@@ -29,8 +31,18 @@ class YahooLeagueLoader(LeagueLoader):
         cls.__yearToTeamIdHasLostInPlayoffs: dict[int, dict[int, bool]] = dict()
 
     @classmethod
-    def loadLeague(cls, leagueId: int, years: list[int], **kwargs) -> League:
+    def __login(cls, clientId: str, clientSecret: str) -> None:
+        """
+        Logs in via Yahoo OAuth.
+        """
+        CLIENT_ID_COMMAND = "--client-id"
+        CLIENT_SECRET_COMMAND = "--client-secret"
+        subprocess.call(["yahoofantasy", "login", CLIENT_ID_COMMAND, clientId, CLIENT_SECRET_COMMAND, clientSecret])
+
+    @classmethod
+    def loadLeague(cls, leagueId: int, years: list[int], *, clientId: str, clientSecret: str, **kwargs) -> League:
         cls.__initializeClassVariables()
+        cls.__login(clientId, clientSecret)
         ctx = Context()
         yahooLeagues = list()
         for year in years:
