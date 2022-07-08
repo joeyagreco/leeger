@@ -34,10 +34,11 @@ class YahooLeagueLoader(LeagueLoader):
     def __login(cls, clientId: str, clientSecret: str) -> None:
         """
         Logs in via Yahoo OAuth.
+        Will open up a browser window.
         """
-        CLIENT_ID_COMMAND = "--client-id"
-        CLIENT_SECRET_COMMAND = "--client-secret"
-        subprocess.call(["yahoofantasy", "login", CLIENT_ID_COMMAND, clientId, CLIENT_SECRET_COMMAND, clientSecret])
+        CLIENT_ID_OPTION = "--client-id"
+        CLIENT_SECRET_OPTION = "--client-secret"
+        subprocess.call(["yahoofantasy", "login", CLIENT_ID_OPTION, clientId, CLIENT_SECRET_OPTION, clientSecret])
 
     @classmethod
     def loadLeague(cls, leagueId: int, years: list[int], *, clientId: str, clientSecret: str, **kwargs) -> League:
