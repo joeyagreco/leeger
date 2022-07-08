@@ -56,7 +56,6 @@ class ESPNLeagueLoader(LeagueLoader):
     @classmethod
     def __buildLeague(cls, espnLeagues: list[ESPNLeague]) -> League:
         years = list()
-        owners = None
         leagueName = None
         for espnLeague in espnLeagues:
             leagueName = espnLeague.settings.name if leagueName is None else leagueName
