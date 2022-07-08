@@ -9,7 +9,9 @@ class TestESPNLeagueLoader(unittest.TestCase):
     """
 
     def test_loadLeague_intendedFailure(self):
-        with self.assertRaises(ValueError) as context:
-            YahooLeagueLoader.loadLeague(0, [2000])  # 0 is a bad league ID
-        self.assertEqual("Client ID, secret, and refresh token are required. Did you run 'yahoofantasy login' already?",
-                         str(context.exception))
+        with self.assertRaises(TimeoutError) as context:
+            badClientId = badClientSecret = "bad"
+            badLeagueId = 0
+            YahooLeagueLoader.loadLeague(badLeagueId, [2000], clientId=badClientId,
+                                         clientSecret=badClientSecret, loginTimeoutSeconds=1)
+        self.assertEqual("Login to yahoofantasy timed out.", str(context.exception))

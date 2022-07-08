@@ -1,3 +1,4 @@
+import multiprocessing
 import subprocess
 
 from yahoofantasy import Context
@@ -23,6 +24,7 @@ class YahooLeagueLoader(LeagueLoader):
     https://football.fantasysports.yahoo.com/
     """
     __NFL = "nfl"
+    __LOGIN_TIMEOUT_SECONDS = 20
 
     @classmethod
     def __initializeClassVariables(cls) -> None:
@@ -31,7 +33,7 @@ class YahooLeagueLoader(LeagueLoader):
         cls.__yearToTeamIdHasLostInPlayoffs: dict[int, dict[int, bool]] = dict()
 
     @classmethod
-    def __login(cls, clientId: str, clientSecret: str) -> None:
+    def login(cls, clientId: str, clientSecret: str) -> None:
         """
         Logs in via Yahoo OAuth.
         Will open up a browser window.
@@ -43,7 +45,13 @@ class YahooLeagueLoader(LeagueLoader):
     @classmethod
     def loadLeague(cls, leagueId: int, years: list[int], *, clientId: str, clientSecret: str, **kwargs) -> League:
         cls.__initializeClassVariables()
-        cls.__login(clientId, clientSecret)
+        timeoutSeconds = kwargs.pop("loginTimeoutSeconds", cls.__LOGIN_TIMEOUT_SECONDS)
+        loginProcess = multiprocessing.Process(target=cls.login, args=(clientId, clientSecret))
+        loginProcess.start()
+        loginProcess.join(timeoutSeconds)
+        if loginProcess.is_alive():
+            loginProcess.terminate()
+            raise TimeoutError("Login to yahoofantasy timed out.")
         ctx = Context()
         yahooLeagues = list()
         for year in years:
