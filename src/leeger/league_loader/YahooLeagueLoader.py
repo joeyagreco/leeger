@@ -51,7 +51,7 @@ class YahooLeagueLoader(LeagueLoader):
             leagueName = yahooLeague.name if leagueName is None else leagueName
             cls.__loadOwners(yahooLeague.teams())
             years.append(cls.__buildYear(yahooLeague))
-        return League(name=leagueName, owners=cls.__yahooManagerIdToOwnerMap.values(), years=years)
+        return League(name=leagueName, owners=list(cls.__yahooManagerIdToOwnerMap.values()), years=years)
 
     @classmethod
     def __buildYear(cls, yahooLeague: YahooLeague) -> Year:
