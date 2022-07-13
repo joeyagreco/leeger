@@ -1,6 +1,6 @@
 import unittest
 
-from src.leeger.model.league.Owner import Owner
+from leeger.model.league.Owner import Owner
 
 
 class TestOwner(unittest.TestCase):

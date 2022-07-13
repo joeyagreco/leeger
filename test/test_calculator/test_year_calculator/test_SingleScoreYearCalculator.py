@@ -1,10 +1,10 @@
 import unittest
 
-from src.leeger.calculator.year_calculator.SingleScoreYearCalculator import SingleScoreYearCalculator
-from src.leeger.enum.MatchupType import MatchupType
-from src.leeger.model.league.Matchup import Matchup
-from src.leeger.model.league.Week import Week
-from src.leeger.model.league.Year import Year
+from leeger.calculator.year_calculator.SingleScoreYearCalculator import SingleScoreYearCalculator
+from leeger.enum.MatchupType import MatchupType
+from leeger.model.league.Matchup import Matchup
+from leeger.model.league.Week import Week
+from leeger.model.league.Year import Year
 from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 

@@ -4,13 +4,13 @@ import unittest
 
 from openpyxl import load_workbook
 
-from src.leeger.model.league.League import League
-from src.leeger.model.league.Matchup import Matchup
-from src.leeger.model.league.Owner import Owner
-from src.leeger.model.league.Team import Team
-from src.leeger.model.league.Week import Week
-from src.leeger.model.league.Year import Year
-from src.leeger.model.stat.AllTimeStatSheet import AllTimeStatSheet
+from leeger.model.league.League import League
+from leeger.model.league.Matchup import Matchup
+from leeger.model.league.Owner import Owner
+from leeger.model.league.Team import Team
+from leeger.model.league.Week import Week
+from leeger.model.league.Year import Year
+from leeger.model.stat.AllTimeStatSheet import AllTimeStatSheet
 from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 

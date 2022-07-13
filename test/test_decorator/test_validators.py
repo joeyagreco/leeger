@@ -1,9 +1,9 @@
 import unittest
 
-from src.leeger.decorator.validate.validators import validateLeague, validateYear, validateWeek, validateMatchup
-from src.leeger.model.league.League import League
-from src.leeger.model.league.Week import Week
-from src.leeger.model.league.Year import Year
+from leeger.decorator.validate.validators import validateLeague, validateYear, validateWeek, validateMatchup
+from leeger.model.league.League import League
+from leeger.model.league.Week import Week
+from leeger.model.league.Year import Year
 
 
 class TestValidators(unittest.TestCase):

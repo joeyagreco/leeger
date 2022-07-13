@@ -1,6 +1,6 @@
 import unittest
 
-from src.leeger.util.IdGenerator import IdGenerator
+from leeger.util.IdGenerator import IdGenerator
 
 
 class TestIdGenerator(unittest.TestCase):

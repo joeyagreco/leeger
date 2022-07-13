@@ -1,6 +1,6 @@
 import unittest
 
-from src.leeger.util.GeneralUtil import GeneralUtil
+from leeger.util.GeneralUtil import GeneralUtil
 
 
 class TestGeneralUtil(unittest.TestCase):

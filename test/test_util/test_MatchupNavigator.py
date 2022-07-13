@@ -1,7 +1,7 @@
 import unittest
 
-from src.leeger.model.league.Matchup import Matchup
-from src.leeger.util.MatchupNavigator import MatchupNavigator
+from leeger.model.league.Matchup import Matchup
+from leeger.util.MatchupNavigator import MatchupNavigator
 from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 

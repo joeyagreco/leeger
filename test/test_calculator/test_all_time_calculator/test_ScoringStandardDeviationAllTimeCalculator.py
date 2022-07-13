@@ -1,13 +1,13 @@
 import unittest
 
-from src.leeger.calculator.all_time_calculator.ScoringStandardDeviationAllTimeCalculator import \
+from leeger.calculator.all_time_calculator.ScoringStandardDeviationAllTimeCalculator import \
     ScoringStandardDeviationAllTimeCalculator
-from src.leeger.enum.MatchupType import MatchupType
-from src.leeger.model.league.League import League
-from src.leeger.model.league.Matchup import Matchup
-from src.leeger.model.league.Week import Week
-from src.leeger.model.league.Year import Year
-from src.leeger.util.Deci import Deci
+from leeger.enum.MatchupType import MatchupType
+from leeger.model.league.League import League
+from leeger.model.league.Matchup import Matchup
+from leeger.model.league.Week import Week
+from leeger.model.league.Year import Year
+from leeger.util.Deci import Deci
 from test.helper.prototypes import getNDefaultOwnersAndTeams, getTeamsFromOwners
 
 

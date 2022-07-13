@@ -1,7 +1,7 @@
 import unittest
 
-from src.leeger.enum.MatchupType import MatchupType
-from src.leeger.model.filter.AllTimeFilters import AllTimeFilters
+from leeger.enum.MatchupType import MatchupType
+from leeger.model.filter.AllTimeFilters import AllTimeFilters
 
 
 class TestAllTimeFilters(unittest.TestCase):

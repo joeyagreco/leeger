@@ -1,6 +1,6 @@
 import unittest
 
-from src.leeger.model.abstract.UniqueId import UniqueId
+from leeger.model.abstract.UniqueId import UniqueId
 
 
 class TestUniqueId(unittest.TestCase):

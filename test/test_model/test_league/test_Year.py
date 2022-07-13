@@ -6,11 +6,11 @@ import unittest
 from openpyxl import load_workbook
 from openpyxl.utils import get_column_letter
 
-from src.leeger.model.league.Matchup import Matchup
-from src.leeger.model.league.Team import Team
-from src.leeger.model.league.Week import Week
-from src.leeger.model.league.Year import Year
-from src.leeger.model.stat.YearStatSheet import YearStatSheet
+from leeger.model.league.Matchup import Matchup
+from leeger.model.league.Team import Team
+from leeger.model.league.Week import Week
+from leeger.model.league.Year import Year
+from leeger.model.stat.YearStatSheet import YearStatSheet
 from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 

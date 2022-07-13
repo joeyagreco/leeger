@@ -2,7 +2,7 @@ import unittest
 
 from espn_api.requests.espn_requests import ESPNInvalidLeague
 
-from src.leeger.league_loader.ESPNLeagueLoader import ESPNLeagueLoader
+from leeger.league_loader.ESPNLeagueLoader import ESPNLeagueLoader
 
 
 class TestESPNLeagueLoader(unittest.TestCase):

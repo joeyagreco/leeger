@@ -1,6 +1,6 @@
 import unittest
 
-from src.leeger.league_loader.YahooLeagueLoader import YahooLeagueLoader
+from leeger.league_loader.YahooLeagueLoader import YahooLeagueLoader
 
 
 class TestESPNLeagueLoader(unittest.TestCase):

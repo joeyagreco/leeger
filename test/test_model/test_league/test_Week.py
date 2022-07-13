@@ -1,8 +1,8 @@
 import unittest
 
-from src.leeger.enum.MatchupType import MatchupType
-from src.leeger.model.league.Matchup import Matchup
-from src.leeger.model.league.Week import Week
+from leeger.enum.MatchupType import MatchupType
+from leeger.model.league.Matchup import Matchup
+from leeger.model.league.Week import Week
 from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 

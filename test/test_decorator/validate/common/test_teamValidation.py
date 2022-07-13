@@ -1,8 +1,8 @@
 import unittest
 
-from src.leeger.decorator.validate.common import teamValidation
-from src.leeger.exception.InvalidTeamFormatException import InvalidTeamFormatException
-from src.leeger.model.league.Team import Team
+from leeger.decorator.validate.common import teamValidation
+from leeger.exception.InvalidTeamFormatException import InvalidTeamFormatException
+from leeger.model.league.Team import Team
 
 
 class TestYearValidation(unittest.TestCase):

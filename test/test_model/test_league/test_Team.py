@@ -1,6 +1,6 @@
 import unittest
 
-from src.leeger.model.league.Team import Team
+from leeger.model.league.Team import Team
 
 
 class TestTeam(unittest.TestCase):

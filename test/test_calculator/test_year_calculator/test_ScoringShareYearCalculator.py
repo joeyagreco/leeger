@@ -1,11 +1,11 @@
 import unittest
 
-from src.leeger.calculator.year_calculator.ScoringShareYearCalculator import ScoringShareYearCalculator
-from src.leeger.enum.MatchupType import MatchupType
-from src.leeger.model.league.Matchup import Matchup
-from src.leeger.model.league.Week import Week
-from src.leeger.model.league.Year import Year
-from src.leeger.util.Deci import Deci
+from leeger.calculator.year_calculator.ScoringShareYearCalculator import ScoringShareYearCalculator
+from leeger.enum.MatchupType import MatchupType
+from leeger.model.league.Matchup import Matchup
+from leeger.model.league.Week import Week
+from leeger.model.league.Year import Year
+from leeger.util.Deci import Deci
 from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 

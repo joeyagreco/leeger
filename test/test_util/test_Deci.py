@@ -1,7 +1,7 @@
 import unittest
 from decimal import Decimal
 
-from src.leeger.util.Deci import Deci
+from leeger.util.Deci import Deci
 
 
 class TestDeci(unittest.TestCase):

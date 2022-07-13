@@ -1,10 +1,10 @@
 import unittest
 
-from src.leeger.enum.MatchupType import MatchupType
-from src.leeger.model.filter.WeekFilters import WeekFilters
-from src.leeger.model.league.Matchup import Matchup
-from src.leeger.model.league.Week import Week
-from src.leeger.util.WeekNavigator import WeekNavigator
+from leeger.enum.MatchupType import MatchupType
+from leeger.model.filter.WeekFilters import WeekFilters
+from leeger.model.league.Matchup import Matchup
+from leeger.model.league.Week import Week
+from leeger.util.WeekNavigator import WeekNavigator
 from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
