@@ -1,4 +1,4 @@
-import leeger
+from leeger import YahooLeagueLoader
 
 if __name__ == "__main__":
     # You will need an application registered on the Yahoo Developer Site: https://developer.yahoo.com/apps/.
@@ -9,7 +9,7 @@ if __name__ == "__main__":
     # Get a League object with years 2019 and 2020 for Yahoo league with ID: 123456.
     clientId = "myClientId"
     clientSecret = "myClientSecret"
-    league = leeger.YahooLeagueLoader.loadLeague(123456, [2019, 2020], clientId=clientId, clientSecret=clientSecret)
+    league = YahooLeagueLoader.loadLeague(123456, [2019, 2020], clientId=clientId, clientSecret=clientSecret)
 
     # Save league stats to an Excel sheet.
     league.toExcel("C:\\myLeagueStats.xlsx")
@@ -18,5 +18,5 @@ if __name__ == "__main__":
     # You can set a timeout for this by passing in loginTimeoutSeconds.
     clientId = "myClientId"
     clientSecret = "myClientSecret"
-    league = leeger.YahooLeagueLoader.loadLeague(123456, [2019, 2020], clientId=clientId, clientSecret=clientSecret,
-                                                 loginTimeoutSeconds=4)
+    league = YahooLeagueLoader.loadLeague(123456, [2019, 2020], clientId=clientId, clientSecret=clientSecret,
+                                          loginTimeoutSeconds=4)

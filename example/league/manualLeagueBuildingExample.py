@@ -1,9 +1,4 @@
-from leeger.model.league.League import League
-from leeger.model.league.Matchup import Matchup
-from leeger.model.league.Owner import Owner
-from leeger.model.league.Team import Team
-from leeger.model.league.Week import Week
-from leeger.model.league.Year import Year
+from leeger import Owner, Team, Matchup, Week, Year, League
 
 if __name__ == "__main__":
     # Build a league manually.
