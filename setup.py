@@ -8,7 +8,7 @@ with open("LICENSE") as f:
 
 setuptools.setup(
     name="leeger",
-    version="0.1.0",
+    version="0.2.0",
     author="Joey Greco",
     author_email="joeyagreco@gmail.com",
     description="Instant stats for your fantasy football league.",
