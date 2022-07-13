@@ -12,6 +12,7 @@ setuptools.setup(
     author="Joey Greco",
     author_email="joeyagreco@gmail.com",
     description="Instant stats for your fantasy football league.",
+    long_description_content_type="text/markdown",
     long_description=readme,
     license=license,
     packages=setuptools.find_packages(exclude=("test", "docs")),
