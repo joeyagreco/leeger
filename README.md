@@ -16,6 +16,9 @@ Sites that you can automatically load your league data from.
 | Sleeper         | https://sleeper.com/fantasy-football      | :x:                |
 | Yahoo           | https://football.fantasysports.yahoo.com/ | :heavy_check_mark: |
 
+If a fantasy site you use is not listed here, and you would like it to be,
+please [open an issue](https://github.com/joeyagreco/leeger/issues).
+
 ## Installation
 
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install.
