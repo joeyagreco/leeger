@@ -10,21 +10,21 @@ if __name__ == "__main__":
 
     # Create owners.
     # One owner can have multiple teams (1 per year) but a team can only have 1 owner.
-    ownerFrankie = Owner("Frankie")
-    ownerMonika = Owner("Monika")
-    ownerJoseph = Owner("Joseph")
-    ownerVincent = Owner("Vincent")
-    ownerGiovanna = Owner("Giovanna")
-    ownerDominic = Owner("Dominic")
+    ownerFrankie = Owner(name="Frankie")
+    ownerMonika = Owner(name="Monika")
+    ownerJoseph = Owner(name="Joseph")
+    ownerVincent = Owner(name="Vincent")
+    ownerGiovanna = Owner(name="Giovanna")
+    ownerDominic = Owner(name="Dominic")
 
     # Create teams for 2019 season
     # Use the owner IDs for that team's owner when creating a team.
-    teamFrankie2019 = Team(ownerFrankie.id, "Basil Bombers")
-    teamMonika2019 = Team(ownerMonika.id, "Philosopher's Thrown")
-    teamJoseph2019 = Team(ownerJoseph.id, "Leeger Legends")
-    teamVincent2019 = Team(ownerVincent.id, "Team 300")
-    teamGiovanna2019 = Team(ownerGiovanna.id, "High Notes")
-    teamDominic2019 = Team(ownerDominic.id, "Bike Ridas")
+    teamFrankie2019 = Team(ownerId=ownerFrankie.id, name="Basil Bombers")
+    teamMonika2019 = Team(ownerId=ownerMonika.id, name="Philosopher's Thrown")
+    teamJoseph2019 = Team(ownerId=ownerJoseph.id, name="Leeger Legends")
+    teamVincent2019 = Team(ownerId=ownerVincent.id, name="Team 300")
+    teamGiovanna2019 = Team(ownerId=ownerGiovanna.id, name="High Notes")
+    teamDominic2019 = Team(ownerId=ownerDominic.id, name="Bike Ridas")
 
     # Create matchups for week 1.
     # Use the team IDs when creating a matchup.
