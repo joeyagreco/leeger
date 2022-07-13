@@ -6,6 +6,7 @@ Instant stats for your fantasy football league.
 ![Last Commit](https://img.shields.io/github/last-commit/joeyagreco/leeger)
 
 ## Supported Fantasy Sites
+Sites that you can automatically load your league data from.
 
 | Name            | Website                                   | Supported          |
 |-----------------|-------------------------------------------|--------------------|
