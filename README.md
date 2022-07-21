@@ -29,7 +29,8 @@ pip install leeger
 
 ## Usage
 
-For examples on how to utilize the different features of this library, see the `example` folder.
+For examples on how to utilize the different features of this library, see
+the [`example`](https://github.com/joeyagreco/leeger/tree/main/example) folder.
 
 ## Contributing
 
