@@ -1,4 +1,4 @@
-# Leeger
+# leeger
 
 Instant stats for your fantasy football league.
 
@@ -26,6 +26,10 @@ Use the package manager [pip](https://pip.pypa.io/en/stable/) to install.
 ```bash
 pip install leeger
 ```
+
+## Usage
+
+For examples on how to utilize the different features of this library, see the `example` folder.
 
 ## Contributing
 
