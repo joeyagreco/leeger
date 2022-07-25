@@ -155,7 +155,11 @@ class SleeperLeagueLoader(LeagueLoader):
                 raise DoesNotExistException(
                     f"No Roster ID match found for Sleeper User with ID: '{sleeperUser.user_id}'.")
             owner = cls.__sleeperUserIdToOwnerMap[sleeperUser.user_id]
-            team = Team(ownerId=owner.id, name=sleeperUser.display_name)
+            teamName = sleeperUser.display_name
+            # if we can find a team name for this user, use it instead of their display name
+            if isinstance(sleeperUser.metadata, dict) and "team_name" in sleeperUser.metadata.keys():
+                teamName = sleeperUser.metadata["team_name"]
+            team = Team(ownerId=owner.id, name=teamName)
             teams.append(team)
             cls.__sleeperRosterIdToTeamMap[rosterId] = team
         return teams
