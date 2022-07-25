@@ -115,9 +115,7 @@ class SleeperLeagueLoader(LeagueLoader):
                     teamBHasTiebreaker = sleeperPlayoffMatchup.winning_roster_id == sleeperPlayoffMatchup.team_2_roster_id
                     # determine if this is a championship matchup or not
                     matchupType = MatchupType.PLAYOFF
-                    if weekNumber == numberOfPlayoffWeeks \
-                            and sleeperPlayoffMatchup.team_1_from.won_matchup_id is not None \
-                            and sleeperPlayoffMatchup.team_2_from.won_matchup_id is not None:
+                    if i == numberOfPlayoffWeeks and sleeperPlayoffMatchup.p == 1:
                         matchupType = MatchupType.CHAMPIONSHIP
                     if teamARosterId not in countedRosterIds and teamBRosterId not in countedRosterIds:
                         matchups.append(Matchup(teamAId=teamA.id,
