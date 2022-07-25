@@ -24,7 +24,6 @@ def runAllChecks(league: League) -> None:
     checkYearsAreInCorrectOrder(league)
     checkNoDuplicateYearNumbers(league)
     checkNoDuplicateOwnerNames(league)
-    checkNumberOfOwnersEqualsTheNumberOfTeams(league)
     checkLeagueHasAtLeastOneYear(league)
 
 
@@ -115,16 +114,6 @@ def checkNoDuplicateOwnerNames(league: League) -> None:
     """
     if len(set([owner.name for owner in league.owners])) != len([owner.name for owner in league.owners]):
         raise InvalidLeagueFormatException("All owners must have a unique name.")
-
-
-def checkNumberOfOwnersEqualsTheNumberOfTeams(league: League) -> None:
-    """
-    Checks that the number of Owners in a League matches the number of Teams.
-    """
-    for year in league.years:
-        if len(year.teams) != len(league.owners):
-            raise InvalidLeagueFormatException(
-                f"Number of owners in a League must match the number of Teams in a year. (League has {len(league.owners)} owners, Year {year.yearNumber} has {len(year.teams)} team/s)")
 
 
 def checkLeagueHasAtLeastOneYear(league: League) -> None:

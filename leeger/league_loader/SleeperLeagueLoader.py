@@ -45,7 +45,9 @@ class SleeperLeagueLoader(LeagueLoader):
         owners = list(cls.__sleeperUserIdToOwnerMap.values())
         for sleeperLeague in sleeperLeagues:
             leagueName = sleeperLeague.name if leagueName is None else leagueName
-            years.append(cls.__buildYear(sleeperLeague))
+            year = cls.__buildYear(sleeperLeague)
+            if len(year.weeks) > 0:
+                years.append(year)
         return League(name=leagueName, owners=owners, years=years)
 
     @classmethod

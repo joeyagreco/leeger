@@ -86,33 +86,6 @@ class TestLeagueValidation(unittest.TestCase):
             leagueValidation.checkNoDuplicateYearNumbers(League(name="TEST", owners=list(), years=[a_year, b_year]))
         self.assertEqual("Can only have 1 of each year number within a test_league.", str(context.exception))
 
-    def test_checkNumberOfOwnersEqualsTheNumberOfTeams_numberOfTeamsGreaterThanNumberOfOwners_raisesException(self):
-        week1 = Week(weekNumber=1, matchups=list())
-        team1 = Team(ownerId="1", name="1")
-
-        a_year = Year(yearNumber=2000, teams=[team1], weeks=[week1])
-
-        with self.assertRaises(InvalidLeagueFormatException) as context:
-            leagueValidation.checkNumberOfOwnersEqualsTheNumberOfTeams(
-                League(name="TEST", owners=list(), years=[a_year]))
-        self.assertEqual(
-            "Number of owners in a League must match the number of Teams in a year. (League has 0 owners, Year 2000 has 1 team/s)",
-            str(context.exception))
-
-    def test_checkNumberOfOwnersEqualsTheNumberOfTeams_numberOfTeamsLessThanNumberOfOwners_raisesException(self):
-        owner = Owner(name="1")
-
-        week1 = Week(weekNumber=1, matchups=list())
-
-        year = Year(yearNumber=2000, teams=list(), weeks=[week1])
-
-        with self.assertRaises(InvalidLeagueFormatException) as context:
-            leagueValidation.checkNumberOfOwnersEqualsTheNumberOfTeams(
-                League(name="TEST", owners=[owner], years=[year]))
-        self.assertEqual(
-            "Number of owners in a League must match the number of Teams in a year. (League has 1 owners, Year 2000 has 0 team/s)",
-            str(context.exception))
-
     def test_checkForDuplicateOwners_duplicateOwnerInstances_raisesException(self):
         owner = Owner(name="1")
         with self.assertRaises(InvalidLeagueFormatException) as context:
