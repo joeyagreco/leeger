@@ -13,7 +13,7 @@ Sites that you can automatically load your league data from.
 | ESPN            | https://www.espn.com/fantasy/football/    | :heavy_check_mark: |
 | MyFantasyLeague | http://home.myfantasyleague.com/          | :x:                |
 | NFL             | https://fantasy.nfl.com/                  | :x:                |
-| Sleeper         | https://sleeper.com/fantasy-football      | :x:                |
+| Sleeper         | https://sleeper.com/fantasy-football      | :heavy_check_mark: |
 | Yahoo           | https://football.fantasysports.yahoo.com/ | :heavy_check_mark: |
 
 If a fantasy site you use is not listed here and you would like it to be,
