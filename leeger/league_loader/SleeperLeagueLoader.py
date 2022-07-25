@@ -3,11 +3,15 @@ from sleeper.model import League as SleeperLeague
 from sleeper.model import Matchup as SleeperMatchup
 from sleeper.model import PlayoffMatchup as SleeperPlayoffMatchup
 
-from leeger import Owner, Year, Team, Week, Matchup
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception.DoesNotExistException import DoesNotExistException
 from leeger.league_loader.abstract.LeagueLoader import LeagueLoader
 from leeger.model.league.League import League
+from leeger.model.league.Matchup import Matchup
+from leeger.model.league.Owner import Owner
+from leeger.model.league.Team import Team
+from leeger.model.league.Week import Week
+from leeger.model.league.Year import Year
 
 
 class SleeperLeagueLoader(LeagueLoader):
