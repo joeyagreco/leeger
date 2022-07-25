@@ -20,5 +20,6 @@ setuptools.setup(
                       "setuptools",
                       "openpyxl",
                       "espn-api",
-                      "yahoofantasy"]
+                      "yahoofantasy",
+                      "sleeper"]
 )
