@@ -152,6 +152,9 @@ class YahooLeagueLoader(LeagueLoader):
             yahooOwnerTeamNames = list()
             for yahooTeam in yahooTeams:
                 ownerName = yahooTeam.manager.nickname
+                # get general owner name if there is one
+                generalOwnerName = self._getGeneralOwnerNameFromGivenOwnerName(ownerName)
+                ownerName = generalOwnerName if generalOwnerName is not None else ownerName
                 # prevent duplicate owner names
                 i = 2
                 while ownerName in yahooOwnerTeamNames:
