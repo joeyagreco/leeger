@@ -32,7 +32,7 @@ class YahooLeagueLoader(LeagueLoader):
             int(leagueId)
         except ValueError:
             raise ValueError(f"League ID '{leagueId}' could not be turned into an int.")
-        super().__init__(leagueId, years)
+        super().__init__(leagueId, years, **kwargs)
         self.__clientId = clientId
         self.__clientSecret = clientSecret
         self.__timeoutSeconds = kwargs.pop("loginTimeoutSeconds", self.__LOGIN_TIMEOUT_SECONDS)

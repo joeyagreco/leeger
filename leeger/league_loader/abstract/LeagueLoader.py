@@ -12,7 +12,7 @@ class LeagueLoader:
     The point of a test_league loader is to load a League object from different Fantasy Football sources.
     """
 
-    def __init__(self, leagueId: str | str, years: list[int], **kwargs):
+    def __init__(self, leagueId: str | str, years: list[int] = None, **kwargs):
         self._leagueId = leagueId
         self._years = years
         self._owners: Optional[list[Owner]] = None
