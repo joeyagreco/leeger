@@ -13,5 +13,12 @@ class TestESPNLeagueLoader(unittest.TestCase):
 
     def test_loadLeague_intendedFailure(self):
         with self.assertRaises(ESPNInvalidLeague) as context:
-            ESPNLeagueLoader.loadLeague(0, [2000])  # 0 is a bad league ID
+            leagueLoader = ESPNLeagueLoader("0", [2000])
+            leagueLoader.loadLeague()  # 0 is a bad league ID
         self.assertEqual("League 0 does not exist", str(context.exception))
+
+    def test_loadLeague_non_int_passing_string(self):
+        with self.assertRaises(ValueError) as context:
+            leagueLoader = ESPNLeagueLoader("a", [2000])
+            leagueLoader.loadLeague()
+        self.assertEqual("League ID 'a' could not be turned into an int.", str(context.exception))
