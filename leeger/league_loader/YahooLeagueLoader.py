@@ -26,11 +26,19 @@ class YahooLeagueLoader(LeagueLoader):
     __NFL = "nfl"
     __LOGIN_TIMEOUT_SECONDS = 20
 
-    @classmethod
-    def __initializeClassVariables(cls) -> None:
-        cls.__yahooManagerIdToOwnerMap: dict[int, Owner] = dict()
-        cls.__yahooTeamIdToTeamMap: dict[str, Team] = dict()
-        cls.__yearToTeamIdHasLostInPlayoffs: dict[int, dict[int, bool]] = dict()
+    def __init__(self, leagueId: str, years: list[int], *, clientId: str, clientSecret: str, **kwargs):
+        # validation
+        try:
+            int(leagueId)
+        except ValueError:
+            raise ValueError(f"League ID '{leagueId}' could not be turned into an int.")
+        super().__init__(leagueId, years)
+        self.__clientId = clientId
+        self.__clientSecret = clientSecret
+        self.__timeoutSeconds = kwargs.pop("loginTimeoutSeconds", self.__LOGIN_TIMEOUT_SECONDS)
+        self.__yahooManagerIdToOwnerMap: dict[int, Owner] = dict()
+        self.__yahooTeamIdToTeamMap: dict[str, Team] = dict()
+        self.__yearToTeamIdHasLostInPlayoffs: dict[int, dict[int, bool]] = dict()
 
     @classmethod
     def login(cls, clientId: str, clientSecret: str) -> None:
@@ -42,47 +50,41 @@ class YahooLeagueLoader(LeagueLoader):
         CLIENT_SECRET_OPTION = "--client-secret"
         subprocess.call(["yahoofantasy", "login", CLIENT_ID_OPTION, clientId, CLIENT_SECRET_OPTION, clientSecret])
 
-    @classmethod
-    def loadLeague(cls, leagueId: int, years: list[int], *, clientId: str, clientSecret: str, **kwargs) -> League:
-        cls.__initializeClassVariables()
-        timeoutSeconds = kwargs.pop("loginTimeoutSeconds", cls.__LOGIN_TIMEOUT_SECONDS)
-        loginProcess = multiprocessing.Process(target=cls.login, args=(clientId, clientSecret))
+    def loadLeague(self) -> League:
+        loginProcess = multiprocessing.Process(target=self.login, args=(self.__clientId, self.__clientSecret))
         loginProcess.start()
-        loginProcess.join(timeoutSeconds)
+        loginProcess.join(self.__timeoutSeconds)
         if loginProcess.is_alive():
             loginProcess.terminate()
             raise TimeoutError("Login to yahoofantasy timed out.")
         ctx = Context()
         yahooLeagues = list()
-        for year in years:
-            leagues = ctx.get_leagues(cls.__NFL, year)
+        for year in self._years:
+            leagues = ctx.get_leagues(self.__NFL, year)
             for league in leagues:
-                if league.league_id == leagueId:
+                if str(league.league_id) == self._leagueId:
                     yahooLeagues.append(league)
-        if len(yahooLeagues) != len(years):
+        if len(yahooLeagues) != len(self._years):
             # TODO: Give a more descriptive // accurate error message
-            raise DoesNotExistException(f"Found {len(yahooLeagues)} years, expected to find {len(years)}.")
-        return cls.__buildLeague(yahooLeagues)
+            raise DoesNotExistException(f"Found {len(yahooLeagues)} years, expected to find {len(self._years)}.")
+        return self.__buildLeague(yahooLeagues)
 
-    @classmethod
-    def __buildLeague(cls, yahooLeagues: list[YahooLeague]) -> League:
+    def __buildLeague(self, yahooLeagues: list[YahooLeague]) -> League:
         years = list()
         leagueName = None
         for yahooLeague in yahooLeagues:
             leagueName = yahooLeague.name if leagueName is None else leagueName
-            cls.__loadOwners(yahooLeague.teams())
-            years.append(cls.__buildYear(yahooLeague))
-        return League(name=leagueName, owners=list(cls.__yahooManagerIdToOwnerMap.values()), years=years)
+            self.__loadOwners(yahooLeague.teams())
+            years.append(self.__buildYear(yahooLeague))
+        return League(name=leagueName, owners=list(self.__yahooManagerIdToOwnerMap.values()), years=years)
 
-    @classmethod
-    def __buildYear(cls, yahooLeague: YahooLeague) -> Year:
-        cls.__yearToTeamIdHasLostInPlayoffs[yahooLeague.season] = dict()
-        teams = cls.__buildTeams(yahooLeague.teams())
-        weeks = cls.__buildWeeks(yahooLeague)
+    def __buildYear(self, yahooLeague: YahooLeague) -> Year:
+        self.__yearToTeamIdHasLostInPlayoffs[yahooLeague.season] = dict()
+        teams = self.__buildTeams(yahooLeague.teams())
+        weeks = self.__buildWeeks(yahooLeague)
         return Year(yearNumber=yahooLeague.season, teams=teams, weeks=weeks)
 
-    @classmethod
-    def __buildWeeks(cls, yahooLeague: YahooLeague) -> list[Week]:
+    def __buildWeeks(self, yahooLeague: YahooLeague) -> list[Week]:
         weeks = list()
         for i in range(yahooLeague.current_week):  # current week seems to be the last week in the league
             yahooWeek: YahooWeek = yahooLeague.weeks()[i]
@@ -91,16 +93,16 @@ class YahooLeagueLoader(LeagueLoader):
             for yahooMatchup in yahooWeek.matchups:
                 # team A is *this* team
                 yahooTeamA = yahooMatchup.team1
-                teamA = cls.__yahooTeamIdToTeamMap[yahooMatchup.team1.team_id]
+                teamA = self.__yahooTeamIdToTeamMap[yahooMatchup.team1.team_id]
                 teamAScore = yahooMatchup.teams.team[0].team_points.total
                 # team B is their opponent
                 yahooTeamB = yahooMatchup.team2
-                teamB = cls.__yahooTeamIdToTeamMap[yahooMatchup.team2.team_id]
+                teamB = self.__yahooTeamIdToTeamMap[yahooMatchup.team2.team_id]
                 teamBScore = yahooMatchup.teams.team[1].team_points.total
                 # figure out tiebreakers if there needs to be one
                 teamAHasTiebreaker = yahooMatchup.winner_team_key == yahooTeamA.team_key and yahooMatchup.is_tied == 0
                 teamBHasTiebreaker = yahooMatchup.winner_team_key == yahooTeamB.team_key and yahooMatchup.is_tied == 0
-                matchupType = cls.__getMatchupType(yahooMatchup)
+                matchupType = self.__getMatchupType(yahooMatchup)
                 matchups.append(Matchup(teamAId=teamA.id,
                                         teamBId=teamB.id,
                                         teamAScore=teamAScore,
@@ -111,8 +113,7 @@ class YahooLeagueLoader(LeagueLoader):
             weeks.append(Week(weekNumber=i + 1, matchups=matchups))
         return weeks
 
-    @classmethod
-    def __getMatchupType(cls, yahooMatchup: YahooMatchup) -> MatchupType:
+    def __getMatchupType(self, yahooMatchup: YahooMatchup) -> MatchupType:
         team1Id = yahooMatchup.team1.team_id
         team2Id = yahooMatchup.team2.team_id
         # check if this is a playoff week
@@ -121,34 +122,32 @@ class YahooLeagueLoader(LeagueLoader):
             if yahooMatchup.week == yahooMatchup.league.end_week:
                 # this is the championship week
                 # figure out if either team has lost in the playoffs yet
-                if team1Id in cls.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season] \
-                        and not cls.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season][team1Id] \
-                        and team2Id in cls.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season] \
-                        and not cls.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season][team2Id]:
+                if team1Id in self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season] \
+                        and not self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season][team1Id] \
+                        and team2Id in self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season] \
+                        and not self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season][team2Id]:
                     return MatchupType.CHAMPIONSHIP
             # update class dict with the team that lost
             for yahooTeamResult in yahooMatchup.teams.team:
                 if yahooTeamResult.win_probability == 0:
-                    cls.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season][yahooTeamResult.team_id] = True
+                    self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season][yahooTeamResult.team_id] = True
                 elif yahooTeamResult.win_probability == 1:
-                    cls.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season][yahooTeamResult.team_id] = False
+                    self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season][yahooTeamResult.team_id] = False
             return MatchupType.PLAYOFF
         else:
             return MatchupType.REGULAR_SEASON
 
-    @classmethod
-    def __buildTeams(cls, yahooTeams: list[YahooTeam]) -> list[Team]:
+    def __buildTeams(self, yahooTeams: list[YahooTeam]) -> list[Team]:
         teams = list()
         for yahooTeam in yahooTeams:
-            owner = cls.__getOwnerByYahooTeam(yahooTeam)
+            owner = self.__getOwnerByYahooTeam(yahooTeam)
             team = Team(ownerId=owner.id, name=yahooTeam.name)
             teams.append(team)
-            cls.__yahooTeamIdToTeamMap[yahooTeam.team_id] = team
+            self.__yahooTeamIdToTeamMap[yahooTeam.team_id] = team
         return teams
 
-    @classmethod
-    def __loadOwners(cls, yahooTeams: list[YahooTeam]) -> None:
-        if len(cls.__yahooManagerIdToOwnerMap.values()) == 0:
+    def __loadOwners(self, yahooTeams: list[YahooTeam]) -> None:
+        if len(self.__yahooManagerIdToOwnerMap.values()) == 0:
             yahooManagerIdToOwnerMap = dict()
             yahooOwnerTeamNames = list()
             for yahooTeam in yahooTeams:
@@ -159,12 +158,11 @@ class YahooLeagueLoader(LeagueLoader):
                     ownerName = f"{yahooTeam.manager.nickname}({i})"
                 yahooManagerIdToOwnerMap[yahooTeam.manager.manager_id] = Owner(name=ownerName)
                 yahooOwnerTeamNames.append(ownerName)
-            cls.__yahooManagerIdToOwnerMap = yahooManagerIdToOwnerMap
+            self.__yahooManagerIdToOwnerMap = yahooManagerIdToOwnerMap
 
-    @classmethod
-    def __getOwnerByYahooTeam(cls, yahooTeam: YahooTeam) -> Owner:
+    def __getOwnerByYahooTeam(self, yahooTeam: YahooTeam) -> Owner:
         yahooManagerId = yahooTeam.manager.manager_id
-        if yahooManagerId in cls.__yahooManagerIdToOwnerMap:
-            return cls.__yahooManagerIdToOwnerMap[yahooManagerId]
+        if yahooManagerId in self.__yahooManagerIdToOwnerMap:
+            return self.__yahooManagerIdToOwnerMap[yahooManagerId]
         raise DoesNotExistException(
             f"Yahoo Manager ID {yahooManagerId} not found in saved Yahoo Manager IDs.")

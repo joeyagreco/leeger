@@ -29,13 +29,13 @@ class ESPNLeagueLoader(LeagueLoader):
         8: 3
     }
 
-    def __init__(self, league_id: str, years: list[int], **kwargs):
+    def __init__(self, leagueId: str, years: list[int], **kwargs):
         # validation
         try:
-            int(league_id)
+            int(leagueId)
         except ValueError:
-            raise ValueError(f"League ID '{league_id}' could not be turned into an int.")
-        super().__init__(league_id, years, **kwargs)
+            raise ValueError(f"League ID '{leagueId}' could not be turned into an int.")
+        super().__init__(leagueId, years, **kwargs)
 
         self.__espnTeamIdToTeamMap: dict[str, Team] = dict()
         self.__ownerNamesAndAliases: dict[str, list[str]] = dict()
@@ -43,7 +43,7 @@ class ESPNLeagueLoader(LeagueLoader):
     def loadLeague(self) -> League:
         espnLeagueYears = list()
         for year in self._years:
-            espnLeagueYears.append(espn.League(league_id=int(self._league_id), year=year))
+            espnLeagueYears.append(espn.League(league_id=int(self._leagueId), year=year))
         return self.__buildLeague(espnLeagueYears)
 
     def __buildLeague(self, espnLeagues: list[ESPNLeague]) -> League:
