@@ -24,8 +24,8 @@ class SleeperLeagueLoader(LeagueLoader):
     def __init__(self, mostRecentLeagueId: str, **kwargs):
         super().__init__(mostRecentLeagueId, **kwargs)
 
-        self.__sleeperUserIdToOwnerMap: dict[int, Owner] = dict()
-        self.__sleeperRosterIdToTeamMap: dict[str, Team] = dict()
+        self.__sleeperUserIdToOwnerMap: dict[str, Owner] = dict()
+        self.__sleeperRosterIdToTeamMap: dict[int, Team] = dict()
 
     def loadLeague(self) -> League:
         # get all leagues
