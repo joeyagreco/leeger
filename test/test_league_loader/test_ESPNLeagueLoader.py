@@ -17,7 +17,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
             leagueLoader.loadLeague()  # 0 is a bad league ID
         self.assertEqual("League 0 does not exist", str(context.exception))
 
-    def test_loadLeague_non_int_passing_string(self):
+    def test_loadLeague_nonIntPassingStringForLeagueId(self):
         with self.assertRaises(ValueError) as context:
             leagueLoader = ESPNLeagueLoader("a", [2000])
             leagueLoader.loadLeague()
