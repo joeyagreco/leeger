@@ -2,7 +2,8 @@ from leeger import ESPNLeagueLoader
 
 if __name__ == "__main__":
     # Get a League object with years 2019 and 2020 for ESPN league with ID: 12345678.
-    league = ESPNLeagueLoader.loadLeague(12345678, [2019, 2020])
+    espnLeagueLoader = ESPNLeagueLoader("12345678", [2019, 2020])
+    league = espnLeagueLoader.loadLeague()
 
     # Save league stats to an Excel sheet.
     league.toExcel("C:\\myLeagueStats.xlsx")
@@ -12,4 +13,5 @@ if __name__ == "__main__":
     # To let the library know that you want these owners to be evaluated as the same owner,
     # a dictionary with the desired owner name and their aliases can be passed in.
     ownerNamesAndAliases = {"John Smith": ["John Smith", "Johnny Smith"]}
-    league = ESPNLeagueLoader.loadLeague(12345678, [2019, 2020], ownerNamesAndAliases=ownerNamesAndAliases)
+    espnLeagueLoader = ESPNLeagueLoader("12345678", [2019, 2020], ownerNamesAndAliases=ownerNamesAndAliases)
+    league = espnLeagueLoader.loadLeague()

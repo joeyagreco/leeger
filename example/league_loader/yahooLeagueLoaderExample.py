@@ -9,7 +9,8 @@ if __name__ == "__main__":
     # Get a League object with years 2019 and 2020 for Yahoo league with ID: 123456.
     clientId = "myClientId"
     clientSecret = "myClientSecret"
-    league = YahooLeagueLoader.loadLeague(123456, [2019, 2020], clientId=clientId, clientSecret=clientSecret)
+    yahooLeagueLoader = YahooLeagueLoader("123456", [2019, 2020], clientId=clientId, clientSecret=clientSecret)
+    league = yahooLeagueLoader.loadLeague()
 
     # Save league stats to an Excel sheet.
     league.toExcel("C:\\myLeagueStats.xlsx")
@@ -18,5 +19,6 @@ if __name__ == "__main__":
     # You can set a timeout for this by passing in loginTimeoutSeconds.
     clientId = "myClientId"
     clientSecret = "myClientSecret"
-    league = YahooLeagueLoader.loadLeague(123456, [2019, 2020], clientId=clientId, clientSecret=clientSecret,
+    yahooLeagueLoader = YahooLeagueLoader("123456", [2019, 2020], clientId=clientId, clientSecret=clientSecret,
                                           loginTimeoutSeconds=4)
+    league = yahooLeagueLoader.loadLeague()
