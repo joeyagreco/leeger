@@ -8,13 +8,13 @@ Instant stats for your fantasy football league.
 ## Supported Fantasy Sites
 Sites that you can automatically load your league data from.
 
-| Name            | Website                                   | Supported          |
-|-----------------|-------------------------------------------|--------------------|
-| [ESPN](https://github.com/joeyagreco/leeger#espn)        | https://www.espn.com/fantasy/football/    | :heavy_check_mark: |
-| MyFantasyLeague | http://home.myfantasyleague.com/          | :x:                |
-| NFL             | https://fantasy.nfl.com/                  | :x:                |
-| Sleeper         | https://sleeper.com/fantasy-football      | :heavy_check_mark: |
-| Yahoo           | https://football.fantasysports.yahoo.com/ | :heavy_check_mark: |
+| Name                                                 | Website                                   | Supported          |
+|------------------------------------------------------|-------------------------------------------|--------------------|
+| [ESPN](https://github.com/joeyagreco/leeger#espn)    | https://www.espn.com/fantasy/football/    | :heavy_check_mark: |
+| MyFantasyLeague                                      | http://home.myfantasyleague.com/          | :x:                |
+| NFL                                                  | https://fantasy.nfl.com/                  | :x:                |
+| [Sleeper](https://github.com/joeyagreco/leeger#espn) | https://sleeper.com/fantasy-football      | :heavy_check_mark: |
+| [Yahoo](https://github.com/joeyagreco/leeger#espn)   | https://football.fantasysports.yahoo.com/ | :heavy_check_mark: |
 
 If a fantasy site you use is not listed here and you would like it to be,
 please [open an issue](https://github.com/joeyagreco/leeger/issues).
