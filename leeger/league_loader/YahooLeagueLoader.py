@@ -9,7 +9,7 @@ from yahoofantasy import Week as YahooWeek
 
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception.DoesNotExistException import DoesNotExistException
-from leeger.league_loader.abstract.LeagueLoader import LeagueLoader
+from leeger.league_loader.LeagueLoader import LeagueLoader
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Owner import Owner
