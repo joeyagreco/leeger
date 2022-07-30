@@ -169,4 +169,8 @@ class SleeperLeagueLoader(LeagueLoader):
         for sleeperLeague in sleeperLeagues:
             sleeperUsers = LeagueAPIClient.get_users_in_league(league_id=sleeperLeague.league_id)
             for sleeperUser in sleeperUsers:
-                self.__sleeperUserIdToOwnerMap[sleeperUser.user_id] = Owner(name=sleeperUser.display_name)
+                ownerName = sleeperUser.display_name
+                # get general owner name if there is one
+                generalOwnerName = self._getGeneralOwnerNameFromGivenOwnerName(ownerName)
+                ownerName = generalOwnerName if generalOwnerName is not None else ownerName
+                self.__sleeperUserIdToOwnerMap[sleeperUser.user_id] = Owner(name=ownerName)
