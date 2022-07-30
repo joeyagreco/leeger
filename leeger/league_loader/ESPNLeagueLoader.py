@@ -29,7 +29,7 @@ class ESPNLeagueLoader(LeagueLoader):
         8: 3
     }
 
-    def __init__(self, leagueId: str, years: list[int], **kwargs):
+    def __init__(self, leagueId: str, years: list[int], espnS2: str = None, swid: str = None, **kwargs):
         # validation
         try:
             int(leagueId)
@@ -37,13 +37,16 @@ class ESPNLeagueLoader(LeagueLoader):
             raise ValueError(f"League ID '{leagueId}' could not be turned into an int.")
         super().__init__(leagueId, years, **kwargs)
 
+        self.__espnS2 = espnS2
+        self.__swid = swid
         self.__espnTeamIdToTeamMap: dict[str, Team] = dict()
         self.__ownerNamesAndAliases: dict[str, list[str]] = dict()
 
     def loadLeague(self) -> League:
         espnLeagueYears = list()
         for year in self._years:
-            espnLeagueYears.append(espn.League(league_id=int(self._leagueId), year=year))
+            espnLeagueYears.append(
+                espn.League(league_id=int(self._leagueId), year=year, espn_s2=self.__espnS2, swid=self.__swid))
         return self.__buildLeague(espnLeagueYears)
 
     def __buildLeague(self, espnLeagues: list[ESPNLeague]) -> League:
@@ -124,6 +127,9 @@ class ESPNLeagueLoader(LeagueLoader):
                         return MatchupType.PLAYOFF
                     else:
                         return MatchupType.CHAMPIONSHIP
+                else:
+                    # this is a non-championship playoff week
+                    return MatchupType.PLAYOFF
             else:
                 # this matchup was played by teams that missed the playoffs during a playoff week.
                 # ignore it.
