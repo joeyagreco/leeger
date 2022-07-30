@@ -102,4 +102,6 @@ Please make sure to update tests as appropriate.
 
 ## Credit
 
+- [ESPN API](https://github.com/cwendt94/espn-api)
 - [ESPN Private Leagues](https://cran.r-project.org/web/packages/ffscrapr/vignettes/espn_authentication.html)
+- [YahooFantasy](https://github.com/mattdodge/yahoofantasy)
