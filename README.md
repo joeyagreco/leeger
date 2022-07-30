@@ -61,7 +61,11 @@ To retrieve ESPN_S2 and SWID, follow these steps:
 
 ### Sleeper
 
+##### [Examples](https://github.com/joeyagreco/leeger/blob/main/example/league_loader/sleeperLeagueLoaderExample.py)
+
 ### Yahoo
+
+##### [Examples](https://github.com/joeyagreco/leeger/blob/main/example/league_loader/yahooLeagueLoaderExample.py)
 
 ## Contributing
 
