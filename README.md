@@ -79,6 +79,8 @@ To retrieve ESPN_S2 and SWID, follow these steps:
 - Client ID
 - Client secret
 
+[How to find your Yahoo league ID.](https://help.yahoo.com/kb/fantasy-football/find-league-group-number-sln8238.html)
+
 To set up your Yahoo account, follow these steps:
 
 - Register a new application on the [Yahoo Developer Site](https://developer.yahoo.com/apps/)
