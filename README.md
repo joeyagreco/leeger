@@ -38,11 +38,11 @@ the [`example`](https://github.com/joeyagreco/leeger/tree/main/example) folder.
 
 ##### [Examples](https://github.com/joeyagreco/leeger/blob/main/example/league_loader/espnLeagueLoaderExample.py)
 
-##### Public leagues need:
+##### League Info Needed [PUBLIC]
 
 - League ID
 
-##### Private leagues need:
+##### League Info Needed [PRIVATE]
 
 - League ID
 - ESPN_S2 parameter
@@ -63,9 +63,32 @@ To retrieve ESPN_S2 and SWID, follow these steps:
 
 ##### [Examples](https://github.com/joeyagreco/leeger/blob/main/example/league_loader/sleeperLeagueLoaderExample.py)
 
+##### League Info Needed
+
+- League ID
+
+[How to find your Sleeper league ID.](https://support.sleeper.app/en/articles/4121798-how-do-i-find-my-league-id)
+
 ### Yahoo
 
 ##### [Examples](https://github.com/joeyagreco/leeger/blob/main/example/league_loader/yahooLeagueLoaderExample.py)
+
+##### League Info Needed
+
+- League ID
+- Client ID
+- Client secret
+
+To set up your Yahoo account, follow these steps:
+
+- Register a new application on the [Yahoo Developer Site](https://developer.yahoo.com/apps/)
+- Retrieve the Client ID and Client secret for the application
+- Set the callback/redirect URI of the application to: https://localhost:8000
+- Make sure the application has READ permissions
+
+##### Notes
+
+- When the Yahoo League Loader is run, Yahoo OAuth will open up a new tab in a browser. You can close this tab.
 
 ## Contributing
 
