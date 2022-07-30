@@ -23,7 +23,6 @@ class LeagueLoader:
         # ownerNamesAndAliases = {"someOwnerNameIWant": ["alias1", "alias2"],
         #                           someOtherOwnerNameIWant: ["alias3", "alias4"]}
         self._ownerNamesAndAliases: dict[str, list[str]] = kwargs.get("ownerNamesAndAliases", dict())
-        # TODO: validate to make sure no duplicate general owner names are given
 
     def _getGeneralOwnerNameFromGivenOwnerName(self, givenOwnerName: str) -> Optional[str]:
         foundGeneralOwnerName = None
