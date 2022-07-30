@@ -22,3 +22,12 @@ if __name__ == "__main__":
     yahooLeagueLoader = YahooLeagueLoader("123456", [2019, 2020], clientId=clientId, clientSecret=clientSecret,
                                           loginTimeoutSeconds=4)
     league = yahooLeagueLoader.loadLeague()
+
+    # Sometimes the same owner will have a different name in different years.
+    # Here, the same owner has "John Smith" and "Johnny Smith" as their owner names in Yahoo.
+    # To let the library know that you want these owners to be evaluated as the same owner,
+    # a dictionary with the desired owner name and their aliases can be passed in.
+    ownerNamesAndAliases = {"John Smith": ["John Smith", "Johnny Smith"]}
+    yahooLeagueLoader = YahooLeagueLoader("123456", [2019, 2020], clientId=clientId, clientSecret=clientSecret,
+                                          ownerNamesAndAliases=ownerNamesAndAliases)
+    league = yahooLeagueLoader.loadLeague()
