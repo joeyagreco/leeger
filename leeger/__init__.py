@@ -9,4 +9,4 @@ from .model.league.Team import Team
 from .model.league.Week import Week
 from .model.league.Year import Year
 
-__version__ = "0.6.0"
+__version__ = "0.7.0"
