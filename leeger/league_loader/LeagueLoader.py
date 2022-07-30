@@ -9,7 +9,7 @@ from leeger.model.league.Owner import Owner
 class LeagueLoader:
     """
     League Loader classes should inherit this.
-    The point of a test_league loader is to load a League object from different Fantasy Football sources.
+    The point of a league loader is to load a League object from different Fantasy Football sources.
     """
 
     def __init__(self, leagueId: str, years: list[int] = None, **kwargs):
