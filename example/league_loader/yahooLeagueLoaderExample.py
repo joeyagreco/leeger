@@ -1,4 +1,4 @@
-from leeger import YahooLeagueLoader
+from leeger import YahooLeagueLoader, League
 
 if __name__ == "__main__":
     # You will need an application registered on the Yahoo Developer Site: https://developer.yahoo.com/apps/.
@@ -10,7 +10,7 @@ if __name__ == "__main__":
     clientId = "myClientId"
     clientSecret = "myClientSecret"
     yahooLeagueLoader = YahooLeagueLoader("123456", [2019, 2020], clientId=clientId, clientSecret=clientSecret)
-    league = yahooLeagueLoader.loadLeague()
+    league: League = yahooLeagueLoader.loadLeague()
 
     # Save league stats to an Excel sheet.
     league.toExcel("C:\\myLeagueStats.xlsx")
@@ -21,7 +21,7 @@ if __name__ == "__main__":
     clientSecret = "myClientSecret"
     yahooLeagueLoader = YahooLeagueLoader("123456", [2019, 2020], clientId=clientId, clientSecret=clientSecret,
                                           loginTimeoutSeconds=4)
-    league = yahooLeagueLoader.loadLeague()
+    league: League = yahooLeagueLoader.loadLeague()
 
     # Sometimes the same owner will have a different name in different years.
     # Here, the same owner has "John Smith" and "Johnny Smith" as their owner names in Yahoo.
@@ -30,4 +30,4 @@ if __name__ == "__main__":
     ownerNamesAndAliases = {"John Smith": ["John Smith", "Johnny Smith"]}
     yahooLeagueLoader = YahooLeagueLoader("123456", [2019, 2020], clientId=clientId, clientSecret=clientSecret,
                                           ownerNamesAndAliases=ownerNamesAndAliases)
-    league = yahooLeagueLoader.loadLeague()
+    league: League = yahooLeagueLoader.loadLeague()

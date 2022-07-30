@@ -1,9 +1,9 @@
-from leeger import ESPNLeagueLoader
+from leeger import ESPNLeagueLoader, League
 
 if __name__ == "__main__":
     # Get a League object with years 2019 and 2020 for ESPN league with ID: 12345678.
     espnLeagueLoader = ESPNLeagueLoader("12345678", [2019, 2020])
-    league = espnLeagueLoader.loadLeague()
+    league: League = espnLeagueLoader.loadLeague()
 
     # Save league stats to an Excel sheet.
     league.toExcel("C:\\myLeagueStats.xlsx")
@@ -14,4 +14,4 @@ if __name__ == "__main__":
     # a dictionary with the desired owner name and their aliases can be passed in.
     ownerNamesAndAliases = {"John Smith": ["John Smith", "Johnny Smith"]}
     espnLeagueLoader = ESPNLeagueLoader("12345678", [2019, 2020], ownerNamesAndAliases=ownerNamesAndAliases)
-    league = espnLeagueLoader.loadLeague()
+    league: League = espnLeagueLoader.loadLeague()

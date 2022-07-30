@@ -1,9 +1,9 @@
-from leeger import SleeperLeagueLoader
+from leeger import SleeperLeagueLoader, League
 
 if __name__ == "__main__":
     # Get a League object with all years for Sleeper league with ID: "12345678".
     sleeperLeagueLoader = SleeperLeagueLoader("12345678")
-    league = sleeperLeagueLoader.loadLeague()
+    league: League = sleeperLeagueLoader.loadLeague()
 
     # Save league stats to an Excel sheet.
     league.toExcel("C:\\myLeagueStats.xlsx")
@@ -14,4 +14,4 @@ if __name__ == "__main__":
     # a dictionary with the desired owner name and their aliases can be passed in.
     ownerNamesAndAliases = {"John Smith": ["John Smith", "Johnny Smith"]}
     sleeperLeagueLoader = SleeperLeagueLoader("12345678", ownerNamesAndAliases=ownerNamesAndAliases)
-    league = sleeperLeagueLoader.loadLeague()
+    league: League = sleeperLeagueLoader.loadLeague()
