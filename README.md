@@ -10,7 +10,7 @@ Sites that you can automatically load your league data from.
 
 | Name            | Website                                   | Supported          |
 |-----------------|-------------------------------------------|--------------------|
-| ESPN            | https://www.espn.com/fantasy/football/    | :heavy_check_mark: |
+| [ESPN](https://github.com/joeyagreco/leeger#espn)        | https://www.espn.com/fantasy/football/    | :heavy_check_mark: |
 | MyFantasyLeague | http://home.myfantasyleague.com/          | :x:                |
 | NFL             | https://fantasy.nfl.com/                  | :x:                |
 | Sleeper         | https://sleeper.com/fantasy-football      | :heavy_check_mark: |
