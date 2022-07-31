@@ -5,25 +5,34 @@ Instant stats for your fantasy football league.
 ![Main Build](https://github.com/joeyagreco/leeger/actions/workflows/main-build.yml/badge.svg)
 ![Last Commit](https://img.shields.io/github/last-commit/joeyagreco/leeger)
 
+- [Stats Explained](https://github.com/joeyagreco/leeger#stats-explained)
+   - [AWAL](https://github.com/joeyagreco/leeger#awal)
+   - [Margins of Victory](https://github.com/joeyagreco/leeger#margins-of-victory)
+   - [Max Score](https://github.com/joeyagreco/leeger#max-score)
+   - [Min Score](https://github.com/joeyagreco/leeger#min-score)
+   - [Opponent Points Scored Per Game](https://github.com/joeyagreco/leeger#opponent-points-scored-per-game)
+   - [Plus/Minus](https://github.com/joeyagreco/leeger#plusminus)
+   - [Points Scored Per Game](https://github.com/joeyagreco/leeger#points-scored-per-game)
+   - [Scoring Share](https://github.com/joeyagreco/leeger#scoring-share)
+   - [Scoring Share Against](https://github.com/joeyagreco/leeger#scoring-share-against)
+   - [Scoring Standard Deviation](https://github.com/joeyagreco/leeger#scoring-standard-deviation)
+   - [Smart Wins](https://github.com/joeyagreco/leeger#smart-wins)
+   - [Team Luck](https://github.com/joeyagreco/leeger#team-luck)
+   - [Team Score](https://github.com/joeyagreco/leeger#team-score)
+   - [Team Success](https://github.com/joeyagreco/leeger#team-success)
+   - [WAL](https://github.com/joeyagreco/leeger#wal)
+   - [Win Percentage](https://github.com/joeyagreco/leeger#win-percentage)
+- [Supported Fantasy Sites](https://github.com/joeyagreco/leeger#supported-fantasy-sites)
+- [Installation](https://github.com/joeyagreco/leeger#installation)
+- [League Loaders](https://github.com/joeyagreco/leeger#league-loaders)
+   - [ESPN](https://github.com/joeyagreco/leeger#espn)
+   - [Sleeper](https://github.com/joeyagreco/leeger#sleeper)
+   - [Yahoo](https://github.com/joeyagreco/leeger#yahoo)
+- [Contributing](https://github.com/joeyagreco/leeger#contributing)
+- [License](https://github.com/joeyagreco/leeger#license)
+- [Credit](https://github.com/joeyagreco/leeger#credit)
+
 ## Stats Explained
-
-[AWAL](https://github.com/joeyagreco/leeger#awal)\
-[Margins of Victory](https://github.com/joeyagreco/leeger#margins-of-victory)\
-[Max Score](https://github.com/joeyagreco/leeger#max-score)\
-[Min Score](https://github.com/joeyagreco/leeger#min-score)\
-[Opponent Points Scored Per Game](https://github.com/joeyagreco/leeger#opponent-points-scored-per-game)\
-[Plus/Minus](https://github.com/joeyagreco/leeger#plusminus)\
-[Points Scored Per Game](https://github.com/joeyagreco/leeger#points-scored-per-game)\
-[Scoring Share](https://github.com/joeyagreco/leeger#scoring-share)\
-[Scoring Share Against](https://github.com/joeyagreco/leeger#scoring-share-against)\
-[Scoring Standard Deviation](https://github.com/joeyagreco/leeger#scoring-standard-deviation)\
-[Smart Wins](https://github.com/joeyagreco/leeger#smart-wins)\
-[Team Luck](https://github.com/joeyagreco/leeger#team-luck)\
-[Team Score](https://github.com/joeyagreco/leeger#team-score)\
-[Team Success](https://github.com/joeyagreco/leeger#team-success)\
-[WAL](https://github.com/joeyagreco/leeger#wal)\
-[Win Percentage](https://github.com/joeyagreco/leeger#win-percentage)
-
 
 > ## AWAL
 > ___
