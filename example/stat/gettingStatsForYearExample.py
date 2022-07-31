@@ -1,11 +1,6 @@
-from leeger import ESPNLeagueLoader
-
-from leeger.calculator.year_calculator.GameOutcomeYearCalculator import GameOutcomeYearCalculator
-from leeger.calculator.year_calculator.PointsScoredYearCalculator import PointsScoredYearCalculator
-from leeger.calculator.year_calculator.ScoringShareYearCalculator import ScoringShareYearCalculator
-from leeger.calculator.year_calculator.ScoringStandardDeviationYearCalculator import \
-    ScoringStandardDeviationYearCalculator
-from leeger.calculator.year_calculator.SingleScoreYearCalculator import SingleScoreYearCalculator
+from leeger.calculator.year_calculator import GameOutcomeYearCalculator, PointsScoredYearCalculator, \
+    SingleScoreYearCalculator, ScoringShareYearCalculator, ScoringStandardDeviationYearCalculator
+from leeger.league_loader import ESPNLeagueLoader
 
 # Get a League object.
 # There are many ways to get a League object, here we will just grab one using the ESPN League Loader.

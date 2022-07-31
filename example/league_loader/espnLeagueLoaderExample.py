@@ -1,4 +1,5 @@
-from leeger import ESPNLeagueLoader, League
+from leeger.league_loader import ESPNLeagueLoader
+from leeger.model.league import League
 
 # PUBLIC LEAGUE
 # Get a League object with years 2019 and 2020 for ESPN league with ID: "12345678".

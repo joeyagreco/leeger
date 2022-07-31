@@ -1,12 +1,7 @@
-from leeger import ESPNLeagueLoader
-from leeger.calculator.all_time_calculator.AWALAllTimeCalculator import AWALAllTimeCalculator
-from leeger.calculator.all_time_calculator.GameOutcomeAllTimeCalculator import GameOutcomeAllTimeCalculator
-from leeger.calculator.all_time_calculator.PointsScoredAllTimeCalculator import PointsScoredAllTimeCalculator
-from leeger.calculator.all_time_calculator.ScoringShareAllTimeCalculator import ScoringShareAllTimeCalculator
-from leeger.calculator.all_time_calculator.ScoringStandardDeviationAllTimeCalculator import \
-    ScoringStandardDeviationAllTimeCalculator
-from leeger.calculator.all_time_calculator.SingleScoreAllTimeCalculator import SingleScoreAllTimeCalculator
-from leeger.calculator.all_time_calculator.SmartWinsAllTimeCalculator import SmartWinsAllTimeCalculator
+from leeger.calculator.all_time_calculator import GameOutcomeAllTimeCalculator, PointsScoredAllTimeCalculator, \
+    SingleScoreAllTimeCalculator, ScoringShareAllTimeCalculator, AWALAllTimeCalculator, \
+    ScoringStandardDeviationAllTimeCalculator, SmartWinsAllTimeCalculator
+from leeger.league_loader import ESPNLeagueLoader
 
 # Get a League object.
 # There are many ways to get a League object, here we will just grab one using the ESPN League Loader.

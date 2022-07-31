@@ -1,4 +1,5 @@
-from leeger import ESPNLeagueLoader, League, SleeperLeagueLoader
+from leeger.league_loader import ESPNLeagueLoader, SleeperLeagueLoader
+from leeger.model.league import League
 
 # The below examples can be done with ANY league loader.
 
@@ -6,7 +7,6 @@ from leeger import ESPNLeagueLoader, League, SleeperLeagueLoader
 # Here, the same owner has "John Smith" and "Johnny Smith" as their owner names on ESPN.
 # To let the library know that you want these owners to be evaluated as the same owner,
 # a dictionary with the desired owner name and their aliases can be passed in.
-
 
 ownerNamesAndAliases = {"John Smith": ["John Smith", "Johnny Smith"]}
 espnLeagueLoader = ESPNLeagueLoader("12345678", [2019, 2020], ownerNamesAndAliases=ownerNamesAndAliases)

@@ -1,4 +1,4 @@
-from leeger import ESPNLeagueLoader
+from leeger.league_loader import ESPNLeagueLoader
 
 # Get a League object.
 # There are many ways to get a League object, here we will just grab one using the ESPN League Loader.

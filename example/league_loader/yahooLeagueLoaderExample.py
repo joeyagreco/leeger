@@ -1,4 +1,5 @@
-from leeger import YahooLeagueLoader, League
+from leeger.league_loader import YahooLeagueLoader
+from leeger.model.league import League
 
 # You will need an application registered on the Yahoo Developer Site: https://developer.yahoo.com/apps/.
 # You will need your client ID and secret.

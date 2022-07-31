@@ -1,4 +1,4 @@
-from leeger import Owner, Team, Matchup, Week, Year, League
+from leeger.model.league import Owner, Team, Matchup, Week, Year, League
 
 # Build a league manually.
 
