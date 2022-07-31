@@ -112,9 +112,11 @@ please [open an issue](https://github.com/joeyagreco/leeger/issues).
 > ___
 > ### Purpose
 > AWAL stands for Adjusted Wins Against the League.\
-> It is exactly that, an adjustment added to the Wins Against the League (or WAL) of a team.\
-> In simple terms, this stat more accurately represents how many WAL any given team should have.\
-> Ex: A team with 6.3 AWAL "deserves" 6.3 WAL.
+> It is exactly that, an adjustment added to the Wins Against the League (
+> or [WAL](https://github.com/joeyagreco/leeger#wal)) of a team.\
+> In simple terms, this stat more accurately represents how many [WAL](https://github.com/joeyagreco/leeger#wal) any
+> given team should have.\
+> Ex: A team with 6.3 AWAL "deserves" 6.3 [WAL](https://github.com/joeyagreco/leeger#wal).
 > ### Formula
 > AWAL = W * (1/L) + T * (0.5/L)\
 > Where:\
@@ -143,7 +145,7 @@ please [open an issue](https://github.com/joeyagreco/leeger/issues).
 > ___
 > ### Purpose
 > Max Score is used to retrieve the highest score for an individual team.\
-> It is the inverse of Min Score.
+> It is the inverse of [Min Score](https://github.com/joeyagreco/leeger#min-score).
 > ### Formula
 > Max Score = max(A)\
 > WHERE:\
@@ -158,7 +160,7 @@ please [open an issue](https://github.com/joeyagreco/leeger/issues).
 > ___
 > ### Purpose
 > Min Score is used to retrieve the lowest score for an individual team.\
-> It is the inverse of Max Score.
+> It is the inverse of [Max Score](https://github.com/joeyagreco/leeger#max-score).
 > ### Formula
 > Min Score = min(A)\
 > WHERE:\
@@ -240,21 +242,31 @@ please [open an issue](https://github.com/joeyagreco/leeger/issues).
 > T = Total scores in the league tied within a sample\
 > S = Number of scores in the league within a sample - 1
 > ### Formula Explained
-> Smart Wins is a good compliment to AWAL when comparing both to a team's WAL.\
-> Smart Wins is better than AWAL at giving a team credit if they lose by a small margin in any given week.
+> Smart Wins is a good compliment to [AWAL](https://github.com/joeyagreco/leeger#awal) when comparing both to a
+> team's [WAL](https://github.com/joeyagreco/leeger#wal).\
+> Smart Wins is better than [AWAL](https://github.com/joeyagreco/leeger#awal) at giving a team credit if they lose by a
+> small margin in any given week.
 >
 > ## Team Luck
 > ___
 > ### Purpose
 > Team Luck is used to show how much more successful a team was than what they should have been.
 > ### Formula
-> Team Luck = Team Success - Team Score
+> Team Luck = [Team Success](https://github.com/joeyagreco/leeger#team-success)
+
+- [Team Score](https://github.com/joeyagreco/leeger#team-score)
+
 > ### Formula Explained
-> A team with a higher Team Success than Team Score likely has a higher WAL than they deserve.\
+> A team with a higher [Team Success](https://github.com/joeyagreco/leeger#team-success)
+> than [Team Score](https://github.com/joeyagreco/leeger#team-score) likely has a
+> higher [WAL](https://github.com/joeyagreco/leeger#wal)
+> than they deserve.\
 > Team Luck helps to quantify just how much better a team ended up than they should have.\
-> A team with 0 Team Luck has a "fair" amount of WAL.\
-> A team with positive (+) Team Luck has a higher amount of WAL than they deserve.\
-> A team with negative (-) Team Luck has a lower amount of WAL than they deserve.\
+> A team with 0 Team Luck has a "fair" amount of [WAL](https://github.com/joeyagreco/leeger#wal).\
+> A team with positive (+) Team Luck has a higher amount of [WAL](https://github.com/joeyagreco/leeger#wal) than they
+> deserve.\
+> A team with negative (-) Team Luck has a lower amount of [WAL](https://github.com/joeyagreco/leeger#wal) than they
+> deserve.\
 > Note: This stat is more accurate with larger sample sizes (the more games played, the better).\
 > Note2: The sum of all Team Luck's within a league will be ≈ 0.
 >
@@ -262,9 +274,15 @@ please [open an issue](https://github.com/joeyagreco/leeger/issues).
 > ___
 > ### Purpose
 > Team Score is a score given to a team that is representative of how "good" that team is.\
-> It is the sister score of Team Success.\
+> It is the sister score of [Team Success](https://github.com/joeyagreco/leeger#team-success).\
 > ### Formula
-> Team Score = ((AWAL / G) * 100) + (Scoring Share * 2) + ((Max Score + Min Score) * 0.05)\
+> Team Score = (([AWAL](https://github.com/joeyagreco/leeger#awal) / G) * 100)
+
++ ([Scoring Share](https://github.com/joeyagreco/leeger#scoring-share) * 2)
+
++ (([Max Score](https://github.com/joeyagreco/leeger#max-score)
+   + [Min Score](https://github.com/joeyagreco/leeger#min-score)) * 0.05)\
+
 > WHERE:\
 > G = Total games played by a team within a sample
 > ### Formula Explained
@@ -277,9 +295,15 @@ please [open an issue](https://github.com/joeyagreco/leeger/issues).
 > ___
 > ### Purpose
 > Team Success is a score given to a team that is representative of how successful that team has been.\
-> It is the sister score of Team Score.
+> It is the sister score of [Team Score](https://github.com/joeyagreco/leeger#team-score).
 > ### Formula
-> Team Success = ((WAL / G) * 100) + (Scoring Share * 2) + ((Max Score + Min Score) * 0.05)\
+> Team Success = (([WAL](https://github.com/joeyagreco/leeger#wal) / G) * 100)
+
++ ([Scoring Share](https://github.com/joeyagreco/leeger#scoring-share) * 2)
+
++ (([Max Score](https://github.com/joeyagreco/leeger#max-score) + Min
+
+> Score) * 0.05)\
 > WHERE:\
 > G = Total games played by a team in a sample size
 > ### Formula Explained
@@ -304,9 +328,9 @@ please [open an issue](https://github.com/joeyagreco/leeger/issues).
 > ## Win Percentage
 > ___
 > ### Purpose
-> Win Percentage is WAL represented as a percentage (%).
+> Win Percentage is [WAL](https://github.com/joeyagreco/leeger#wal) represented as a percentage (%).
 > ### Formula
-> Win Percentage = WAL / G\
+> Win Percentage = [WAL](https://github.com/joeyagreco/leeger#wal) / G\
 > WHERE:\
 > G = Total number of games played by a team within a sample
 > ### Formula Explained
