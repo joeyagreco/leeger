@@ -18,11 +18,3 @@ espnS2 = "ABCDEFG1234567"
 swid = "{ABC-DEF-GHI-JKL-MNOP}"
 espnLeagueLoader = ESPNLeagueLoader("12345678", [2019, 2020], espnS2=espnS2, swid=swid)
 league: League = espnLeagueLoader.loadLeague()
-
-# Sometimes the same owner will have a different name in different years.
-# Here, the same owner has "John Smith" and "Johnny Smith" as their owner names in ESPN.
-# To let the library know that you want these owners to be evaluated as the same owner,
-# a dictionary with the desired owner name and their aliases can be passed in.
-ownerNamesAndAliases = {"John Smith": ["John Smith", "Johnny Smith"]}
-espnLeagueLoader = ESPNLeagueLoader("12345678", [2019, 2020], ownerNamesAndAliases=ownerNamesAndAliases)
-league: League = espnLeagueLoader.loadLeague()
