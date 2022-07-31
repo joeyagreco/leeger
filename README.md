@@ -252,10 +252,9 @@ please [open an issue](https://github.com/joeyagreco/leeger/issues).
 > ### Purpose
 > Team Luck is used to show how much more successful a team was than what they should have been.
 > ### Formula
-> Team Luck = [Team Success](https://github.com/joeyagreco/leeger#team-success)
-
-- [Team Score](https://github.com/joeyagreco/leeger#team-score)
-
+> Team Luck = [Team Success](https://github.com/joeyagreco/leeger#team-success) -
+> [Team Score](https://github.com/joeyagreco/leeger#team-score)
+>
 > ### Formula Explained
 > A team with a higher [Team Success](https://github.com/joeyagreco/leeger#team-success)
 > than [Team Score](https://github.com/joeyagreco/leeger#team-score) likely has a
@@ -274,15 +273,13 @@ please [open an issue](https://github.com/joeyagreco/leeger/issues).
 > ___
 > ### Purpose
 > Team Score is a score given to a team that is representative of how "good" that team is.\
-> It is the sister score of [Team Success](https://github.com/joeyagreco/leeger#team-success).\
+> It is the sister score of [Team Success](https://github.com/joeyagreco/leeger#team-success).
 > ### Formula
-> Team Score = (([AWAL](https://github.com/joeyagreco/leeger#awal) / G) * 100)
-
-+ ([Scoring Share](https://github.com/joeyagreco/leeger#scoring-share) * 2)
-
-+ (([Max Score](https://github.com/joeyagreco/leeger#max-score)
-   + [Min Score](https://github.com/joeyagreco/leeger#min-score)) * 0.05)\
-
+> Team Score = (([AWAL](https://github.com/joeyagreco/leeger#awal) / G) * 100) +
+> ([Scoring Share](https://github.com/joeyagreco/leeger#scoring-share) * 2) +
+> (([Max Score](https://github.com/joeyagreco/leeger#max-score) +
+> [Min Score](https://github.com/joeyagreco/leeger#min-score)) * 0.05)
+>
 > WHERE:\
 > G = Total games played by a team within a sample
 > ### Formula Explained
@@ -297,13 +294,10 @@ please [open an issue](https://github.com/joeyagreco/leeger/issues).
 > Team Success is a score given to a team that is representative of how successful that team has been.\
 > It is the sister score of [Team Score](https://github.com/joeyagreco/leeger#team-score).
 > ### Formula
-> Team Success = (([WAL](https://github.com/joeyagreco/leeger#wal) / G) * 100)
-
-+ ([Scoring Share](https://github.com/joeyagreco/leeger#scoring-share) * 2)
-
-+ (([Max Score](https://github.com/joeyagreco/leeger#max-score) + Min
-
-> Score) * 0.05)\
+> Team Success = (([WAL](https://github.com/joeyagreco/leeger#wal) / G) * 100) +
+> ([Scoring Share](https://github.com/joeyagreco/leeger#scoring-share) * 2) +
+> (([Max Score](https://github.com/joeyagreco/leeger#max-score) +
+> [Min Score](https://github.com/joeyagreco/leeger#min-score)) * 0.05)\
 > WHERE:\
 > G = Total games played by a team in a sample size
 > ### Formula Explained
