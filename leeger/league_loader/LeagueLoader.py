@@ -4,6 +4,7 @@ from typing import Optional
 from leeger.exception.DoesNotExistException import DoesNotExistException
 from leeger.model.league.League import League
 from leeger.model.league.Owner import Owner
+from leeger.util.CustomLogger import CustomLogger
 
 
 class LeagueLoader:
@@ -12,7 +13,8 @@ class LeagueLoader:
     The point of a league loader is to load a League object from different Fantasy Football sources.
     """
 
-    def __init__(self, leagueId: str, years: list[int] = None, **kwargs):
+    def __init__(self, leagueId: str, years: list[int], **kwargs):
+        self._LOGGER = CustomLogger().getLogger()
         self._leagueId = leagueId
         self._years = years
         self._owners: Optional[list[Owner]] = None

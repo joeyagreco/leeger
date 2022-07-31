@@ -21,21 +21,34 @@ class SleeperLeagueLoader(LeagueLoader):
     """
     __INVALID_SLEEPER_LEAGUE_IDS = [None, "0"]
 
-    def __init__(self, mostRecentLeagueId: str, **kwargs):
-        super().__init__(mostRecentLeagueId, **kwargs)
+    def __init__(self, mostRecentLeagueId: str, years: list[int], **kwargs):
+        super().__init__(mostRecentLeagueId, years, **kwargs)
 
         self.__sleeperUserIdToOwnerMap: dict[str, Owner] = dict()
         self.__sleeperRosterIdToTeamMap: dict[int, Team] = dict()
 
     def loadLeague(self) -> League:
-        # get all leagues
-        mostRecentLeague: SleeperLeague = LeagueAPIClient.get_league(league_id=self._leagueId)
-        sleeperLeagues = [mostRecentLeague]
-        previousLeagueId = mostRecentLeague.previous_league_id
-        while previousLeagueId not in self.__INVALID_SLEEPER_LEAGUE_IDS:
-            previousLeague = LeagueAPIClient.get_league(league_id=previousLeagueId)
-            sleeperLeagues.append(previousLeague)
-            previousLeagueId = previousLeague.previous_league_id
+        # get all leagues with a year that we want
+        sleeperLeagues = list()
+        years = self._years.copy()
+        currentLeagueId = self._leagueId
+        while len(years) > 0 and currentLeagueId not in self.__INVALID_SLEEPER_LEAGUE_IDS:
+            currentLeague: SleeperLeague = LeagueAPIClient.get_league(league_id=currentLeagueId)
+            if int(currentLeague.season) in years:
+                sleeperLeagues.append(currentLeague)
+                years.remove(int(currentLeague.season))
+            currentLeagueId = currentLeague.previous_league_id
+
+        if len(years) > 0:
+            raise ValueError(f"Could not find years '{years}' for league.")
+
+        # mostRecentLeague: SleeperLeague = LeagueAPIClient.get_league(league_id=self._leagueId)
+        # sleeperLeagues = [mostRecentLeague]
+        # previousLeagueId = mostRecentLeague.previous_league_id
+        # while previousLeagueId not in self.__INVALID_SLEEPER_LEAGUE_IDS:
+        #     previousLeague = LeagueAPIClient.get_league(league_id=previousLeagueId)
+        #     sleeperLeagues.append(previousLeague)
+        #     previousLeagueId = previousLeague.previous_league_id
         # reverse list so most recent is last in list
         sleeperLeagues = sleeperLeagues[::-1]
         return self.__buildLeague(sleeperLeagues)
@@ -50,6 +63,8 @@ class SleeperLeagueLoader(LeagueLoader):
             year = self.__buildYear(sleeperLeague)
             if len(year.weeks) > 0:
                 years.append(year)
+            else:
+                self._LOGGER.warning(f"Year '{year.yearNumber}' discarded for not having any weeks.")
         return League(name=leagueName, owners=owners, years=years)
 
     def __buildYear(self, sleeperLeague: SleeperLeague) -> Year:
