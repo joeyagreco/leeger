@@ -5,6 +5,7 @@ Instant stats for your fantasy football league.
 ![Main Build](https://github.com/joeyagreco/leeger/actions/workflows/main-build.yml/badge.svg)
 ![Last Commit](https://img.shields.io/github/last-commit/joeyagreco/leeger)
 
+### Table of Contents
 - [Supported League Loaders](https://github.com/joeyagreco/leeger#supported-league-loaders)
    - [ESPN](https://github.com/joeyagreco/leeger#espn)
    - [Sleeper](https://github.com/joeyagreco/leeger#sleeper)
