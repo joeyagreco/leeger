@@ -15,18 +15,17 @@ Instant stats for your fantasy football league.
    - [Margins of Victory](https://github.com/joeyagreco/leeger#margins-of-victory)
    - [Max Score](https://github.com/joeyagreco/leeger#max-score)
    - [Min Score](https://github.com/joeyagreco/leeger#min-score)
-   - [Opponent Points Scored Per Game](https://github.com/joeyagreco/leeger#opponent-points-scored-per-game)
+   - [Opponent Points Scored](https://github.com/joeyagreco/leeger#opponent-points-scored)
+   - [Opponent Scoring Share](https://github.com/joeyagreco/leeger#opponent-scoring-share)
    - [Plus/Minus](https://github.com/joeyagreco/leeger#plusminus)
-   - [Points Scored Per Game](https://github.com/joeyagreco/leeger#points-scored-per-game)
+   - [Points Scored](https://github.com/joeyagreco/leeger#points-scored)
    - [Scoring Share](https://github.com/joeyagreco/leeger#scoring-share)
-   - [Scoring Share Against](https://github.com/joeyagreco/leeger#scoring-share-against)
    - [Scoring Standard Deviation](https://github.com/joeyagreco/leeger#scoring-standard-deviation)
    - [Smart Wins](https://github.com/joeyagreco/leeger#smart-wins)
    - [Team Luck](https://github.com/joeyagreco/leeger#team-luck)
    - [Team Score](https://github.com/joeyagreco/leeger#team-score)
    - [Team Success](https://github.com/joeyagreco/leeger#team-success)
    - [WAL](https://github.com/joeyagreco/leeger#wal)
-   - [WAL Per Game](https://github.com/joeyagreco/leeger#wal-per-game)
    - [Win Percentage](https://github.com/joeyagreco/leeger#win-percentage)
 - [Installation](https://github.com/joeyagreco/leeger#installation)
 - [Contributing](https://github.com/joeyagreco/leeger#contributing)
@@ -172,17 +171,33 @@ please [open an issue](https://github.com/joeyagreco/leeger/issues).
 > AND\
 > A team with scores: [99, 100, 100, 101] has a Min Score of 100.
 >
-> ## Opponent Points Scored Per Game
+> ## Opponent Points Scored
 > ___
 > ### Purpose
-> Opponent Points Scored Per Game is the average amount of points a team had scored against them per week.
+> Opponent Points Scored is the total number of points a team's opponents have scored against them.
 > ### Formula
-> PPG Against = (ΣA) / B\
+> Opponent Points Scored = (ΣA) / B\
 > WHERE:\
 > A = All scores against a team within a sample\
 > B = Number of games played by a team within a sample
 > ### Formula Explained
 > Opponent Points Scored Per Game is simply the average score against a team.
+> >
+> ## Opponent Scoring Share
+> ___
+> ### Purpose
+> Opponent Scoring Share is used to show what percentage of league scoring a team had scored against them.
+> ### Formula
+> Scoring Share Against = ((ΣA) / (ΣB)) * 100\
+> WHERE:\
+> A = All scores against a team within a sample\
+> B = All scores by all teams within a sample
+> ### Formula Explained
+> Opponent Scoring Share is a good way to compare how a team was performed against in a league one year vs another year.
+> While having 100 Points Scored Per Game against a team one year may not be equivalent to having 100 Points Scored Per
+> Game against a team another year,
+> having 10% of the league's points scored against a team *will* be equivalent to having 10% of the league's points
+> scored against a team another year.
 >
 > ## Plus/Minus
 > ___
@@ -199,17 +214,16 @@ please [open an issue](https://github.com/joeyagreco/leeger/issues).
 > However, it is typically a good indication of how successful a team was, as a positive net score differential
 > typically translates to more wins.
 >
-> ## Points Scored Per Game
+> ## Points Scored
 > ___
 > ### Purpose
-> Points Scored Per Game is the average amount of points a team scored per game.
+> Points Scored Per Game is the total number of points a team scored.
 > ### Formula
-> Points Scored Per Game = (ΣA) / B\
+> Points Scored Per Game = Σ A\
 > WHERE:\
 > A = All scores by a team within a sample\
-> B = Number of games played by a team within a sample
 > ### Formula Explained
-> Points Scored Per Game is simply the average score of a team.
+> N/A
 >
 > ## Scoring Share
 > ___
@@ -224,22 +238,6 @@ please [open an issue](https://github.com/joeyagreco/leeger/issues).
 > Scoring Share is a good way to compare how a team performed in a league one year vs another year.\
 > While 100 Points Scored Per Game one year may not be equivalent to 100 Points Scored Per Game another year,\
 > scoring 10% of the league's points *will* be equivalent to scoring 10% of the league's points another year.
->
-> ## Scoring Share Against
-> ___
-> ### Purpose
-> Scoring Share Against is used to show what percentage of league scoring a team had scored against them.
-> ### Formula
-> Scoring Share Against = ((ΣA) / (ΣB)) * 100\
-> WHERE:\
-> A = All scores against a team within a sample\
-> B = All scores by all teams within a sample
-> ### Formula Explained
-> Scoring Share Against is a good way to compare how a team was performed against in a league one year vs another year.
-> While having 100 Points Scored Per Game against a team one year may not be equivalent to having 100 Points Scored Per
-> Game against a team another year,
-> having 10% of the league's points scored against a team *will* be equivalent to having 10% of the league's points
-> scored against a team another year.
 >
 > ## Scoring Standard Deviation
 > ___
@@ -332,18 +330,6 @@ please [open an issue](https://github.com/joeyagreco/leeger/issues).
 > T = Total number of ties a team has within a sample
 > ### Formula Explained
 > WAL is a quick and useful stat that is used typically to see how successful a team has been.
->
-> ## WAL Per Game
-> ___
-> ### Purpose
-> WAL Per Game is the Wins Against the League per game a team has.
-> ### Formula
-> WAL = (W + (T * 0.5)) / N\
-> WHERE:\
-> W = Total number of wins a team has within a sample\
-> T = Total number of ties a team has within a sample\
-> N = Number of scores a team has within a sample (typically weeks played)
-> ### Formula Explained
 >
 > ## Win Percentage
 > ___
