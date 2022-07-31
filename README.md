@@ -5,7 +5,242 @@ Instant stats for your fantasy football league.
 ![Main Build](https://github.com/joeyagreco/leeger/actions/workflows/main-build.yml/badge.svg)
 ![Last Commit](https://img.shields.io/github/last-commit/joeyagreco/leeger)
 
+## Stats Explained
+
+> ## AWAL
+> ___
+> ### Purpose
+> AWAL stands for Adjusted Wins Against the League.\
+> It is exactly that, an adjustment added to the Wins Against the League (or WAL) of a team.\
+> In simple terms, this stat more accurately represents how many WAL any given team should have.\
+> Ex: A team with 6.3 AWAL "deserves" 6.3 WAL.
+> ### Formula
+> AWAL = W * (1/L) + T * (0.5/L)\
+> Where:\
+> W = Teams outscored in a week\
+> T = Teams tied in a week\
+> L = Opponents in a week (usually league size - 1)\
+> ### Formula Explained
+> To properly calculate AWAL, the AWAL must be calculated once for each team every week.
+> Each week's AWAL can then be added together to create an aggregate AWAL for each team.
+> A team's AWAL for any given week will always be between 0 and 1 (inclusive).
+>
+> ## Margins of Victory
+> ___
+> ### Purpose
+> Margins of Victory (or MOV) is used to measure the magnitude of any given win.
+> ### Formula
+> (In any given matchup)\
+> MOV = |Team A Score - Team B Score|\
+> OR\
+> MOV = Winning Team Score - Losing Team Score
+> ### Formula Explained
+> Note: Margins of Victory must be greater than 0.\
+> Games that result in a Tie will never qualify for the Margins of Victory stat.
+>
+> ## Max Score
+> ___
+> ### Purpose
+> Max Score is used to retrieve the highest score for an individual team.\
+> It is the inverse of Min Score.
+> ### Formula
+> Max Score = max(A)\
+> WHERE:\
+> A = List of every score by a single team within a sample
+> ### Formula Explained
+> Note: If a team has multiple "max" scores, this does not change the outcome.\
+> Ex: A team with scores: [100, 105, 104, 102] has a Max Score of 105.\
+> AND\
+> A team with scores: [99, 105, 105, 101] has a Max Score of 105.
+>
+> ## Min Score
+> ___
+> ### Purpose
+> Min Score is used to retrieve the lowest score for an individual team.\
+> It is the inverse of Max Score.
+> ### Formula
+> Min Score = min(A)\
+> WHERE:\
+> A = List of every score by a single team in a sample size
+> ### Formula Explained
+> Note: If a team has multiple "min" scores, this does not change the outcome.\
+> Ex: A team with scores: [100, 105, 104, 102] has a Min Score of 100.\
+> AND\
+> A team with scores: [99, 100, 100, 101] has a Min Score of 100.
+>
+> ## Points Scored Per Game
+> ___
+> ### Purpose
+> Points Scored Per Game is the average amount of points a team scored per game.
+> ### Formula
+> Points Scored Per Game = (ΣA) / B\
+> WHERE:\
+> A = All scores by a team within a sample\
+> B = Number of games played by a team within a sample
+> ### Formula Explained
+> Points Scored Per Game is simply the average score of a team.
+>
+> ## Opponent Points Scored Per Game
+> ___
+> ### Purpose
+> Opponent Points Scored Per Game is the average amount of points a team had scored against them per week.
+> ### Formula
+> PPG Against = (ΣA) / B\
+> WHERE:\
+> A = All scores against a team within a sample\
+> B = Number of games played by a team within a sample
+> ### Formula Explained
+> Opponent Points Scored Per Game is simply the average score against a team.
+>
+> ## Plus/Minus
+> ___
+> ### Purpose
+> Plus/Minus (+/-) is used to show the net score differential for a team within a sample.
+> ### Formula
+> Plus/Minus = ΣA - ΣB\
+> WHERE:\
+> A = All scores by a team within a sample\
+> B = All scores against a team within a sample
+> ### Formula Explained
+> Plus/Minus can be a misleading stat, as a team with a high Plus/Minus isn't necessarily a better team than one with a
+> low Plus/Minus.\
+> However, it is typically a good indication of how successful a team was, as a positive net score differential
+> typically translates to more wins.
+>
+> ## Scoring Standard Deviation
+> ___
+> ### Purpose
+> Scoring Standard Deviation is used to show how volatile a team's scoring was.\
+> This stat measures a team's scores relative to the Points Scored Per Game of all of their scores.
+> ### Formula
+> Scoring Standard Deviation = sqrt((Σ|x-u|²)/N)\
+> WHERE:\
+> x = A score\
+> u = PPG\
+> N = Number of scores (typically weeks played)
+> ### Formula Explained
+> A team with low Scoring Standard Deviation has been consistent in their scoring patterns.\
+> A team with high Scoring Standard Deviation has been volatile in their scoring patterns.\
+> It should be noted that if a team has lower Scoring Standard Deviation than another team, it is not an indication that
+> the team with lower Scoring Standard Deviation has performed better.\
+> Ex: Team A has scores: [100, 120, 150, 160] and a Scoring STDEV of 23.8\
+> Team B has scores: [70, 72, 71, 69] and a Scoring STDEV of 1.12\
+> Team B has a lower Scoring STDEV than Team A, but has definitely performed worse.
+>
+> ## Scoring Share
+> ___
+> ### Purpose
+> Scoring Share is used to show what percentage of league scoring a team was responsible for.
+> ### Formula
+> Scoring Share = ((ΣA) / (ΣB)) * 100\
+> WHERE:\
+> A = All scores by a team within a sample\
+> B = All scores by all teams within a sample
+> ### Formula Explained
+> Scoring Share is a good way to compare how a team performed in a league one year vs another year.\
+> While 100 Points Scored Per Game one year may not be equivalent to 100 Points Scored Per Game another year,\
+> scoring 10% of the league's points *will* be equivalent to scoring 10% of the league's points another year.
+>
+> ## Scoring Share Against
+> ___
+> ### Purpose
+> Scoring Share Against is used to show what percentage of league scoring a team had scored against them.
+> ### Formula
+> Scoring Share Against = ((ΣA) / (ΣB)) * 100\
+> WHERE:\
+> A = All scores against a team within a sample\
+> B = All scores by all teams within a sample
+> ### Formula Explained
+> Scoring Share Against is a good way to compare how a team was performed against in a league one year vs another year.
+> While having 100 Points Scored Per Game against a team one year may not be equivalent to having 100 Points Scored Per
+> Game against a team another year,
+> having 10% of the league's points scored against a team *will* be equivalent to having 10% of the league's points
+> scored against a team another year.
+> ## Smart Wins
+> ___
+> ### Purpose
+> Smart Wins show how many wins a team would have if it played against every score in the league within a sample.
+> ### Formula
+> Smart Wins = Σ((W + (T/2)) / S)\
+> WHERE:\
+> W = Total scores in the league beat within a sample\
+> T = Total scores in the league tied within a sample\
+> S = Number of scores in the league within a sample - 1
+> ### Formula Explained
+> Smart Wins is a good compliment to AWAL when comparing both to a team's WAL.\
+> Smart Wins is better than AWAL at giving a team credit if they lose by a small margin in any given week.
+>
+> ## Team Luck
+> ___
+> ### Purpose
+> Team Luck is used to show how much more successful a team was than what they should have been.
+> ### Formula
+> Team Luck = Team Success - Team Score
+> ### Formula Explained
+> A team with a higher Team Success than Team Score likely has a higher WAL than they deserve.\
+> Team Luck helps to quantify just how much better a team ended up than they should have.\
+> A team with 0 Team Luck has a "fair" amount of WAL.\
+> A team with positive (+) Team Luck has a higher amount of WAL than they deserve.\
+> A team with negative (-) Team Luck has a lower amount of WAL than they deserve.\
+> Note: This stat is more accurate with larger sample sizes (the more games played, the better).\
+> Note2: The sum of all Team Luck's within a league will be ≈ 0.
+>
+> ## Team Score
+> ___
+> ### Purpose
+> Team Score is a score given to a team that is representative of how "good" that team is.\
+> It is the sister score of Team Success.\
+> ### Formula
+> Team Score = ((AWAL / G) * 100) + (Scoring Share * 2) + ((Max Score + Min Score) * 0.05)\
+> WHERE:\
+> G = Total games played by a team within a sample
+> ### Formula Explained
+> This formula uses several "magic" numbers as multipliers, which typically should be avoided.\
+> However, these numbers can be tweaked and the general Team Score for each team relative to the league will remain
+> roughly the same.\
+> Note: This stat is more accurate with larger sample sizes (the more games played, the better).
+>
+> ## Team Success
+> ___
+> ### Purpose
+> Team Success is a score given to a team that is representative of how successful that team has been.\
+> It is the sister score of Team Score.
+> ### Formula
+> Team Success = ((WAL / G) * 100) + (Scoring Share * 2) + ((Max Score + Min Score) * 0.05)\
+> WHERE:\
+> G = Total games played by a team in a sample size
+> ### Formula Explained
+> This formula uses several "magic" numbers as multipliers, which typically should be avoided.\
+> However, these numbers can be tweaked and the general Team Success for each team relative to the league will remain
+> roughly the same.\
+> Note: This stat is more accurate with larger sample sizes (the more games played, the better).
+>
+> ## WAL
+> ___
+> ### Purpose
+> WAL stands for Wins Against the League.\
+> It is representative of the total amount of wins and ties a team has.
+> ### Formula
+> WAL = W + (T * 0.5)\
+> WHERE:\
+> W = Total number of wins a team has within a sample\
+> T = Total number of ties a team has within a sample
+> ### Formula Explained
+> WAL is a quick and useful stat that is used typically to see how successful a team has been.
+>
+> ## Win Percentage
+> ___
+> ### Purpose
+> Win Percentage is WAL represented as a percentage (%).
+> ### Formula
+> Win Percentage = WAL / G\
+> WHERE:\
+> G = Total number of games played by a team within a sample
+> ### Formula Explained
+> Win Percentage is simply another way of representing how successful a team has been throughout a sample.
+
 ## Supported Fantasy Sites
+
 Sites that you can automatically load your league data from.
 
 | Name                                                    | Website                                   | Supported          |
