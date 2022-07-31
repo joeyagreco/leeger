@@ -11,9 +11,6 @@ clientSecret = "myClientSecret"
 yahooLeagueLoader = YahooLeagueLoader("123456", [2019, 2020], clientId=clientId, clientSecret=clientSecret)
 league: League = yahooLeagueLoader.loadLeague()
 
-# Save league stats to an Excel sheet.
-league.toExcel("C:\\myLeagueStats.xlsx")
-
 # When you load your Yahoo league, it will attempt to authenticate based on your client ID and client secret.
 # You can set a timeout for this by passing in loginTimeoutSeconds.
 clientId = "myClientId"

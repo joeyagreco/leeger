@@ -5,9 +5,6 @@ from leeger import ESPNLeagueLoader, League
 espnLeagueLoader = ESPNLeagueLoader("12345678", [2019, 2020])
 league: League = espnLeagueLoader.loadLeague()
 
-# Save league stats to an Excel sheet.
-league.toExcel("C:\\myLeagueStats.xlsx")
-
 # PRIVATE LEAGUE
 # You will need the ESPN_S2 and SWID parameters to retrieve a private league.
 # To retrieve these, follow these steps:
