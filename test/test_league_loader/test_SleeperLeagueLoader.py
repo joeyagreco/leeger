@@ -1,6 +1,6 @@
 import unittest
 
-from leeger import SleeperLeagueLoader
+from leeger.league_loader import SleeperLeagueLoader
 
 
 class TestSleeperLeagueLoader(unittest.TestCase):
