@@ -7,22 +7,22 @@ Instant stats for your fantasy football league.
 
 ## Stats Explained
 
-AWAL
-Margins of Victory
-Max Score
-Min Score
-Opponent Points Scored Per Game
-Plus/Minus
-Points Scored Per Game
-Scoring Share
-Scoring Share Against
-Scoring Standard Deviation
-Smart Wins
-Team Luck
-Team Score
-Team Success
-WAL
-Win Percentage
+[AWAL](https://github.com/joeyagreco/leeger#awal)\
+[Margins of Victory](https://github.com/joeyagreco/leeger#margins-of-victory)\
+[Max Score](https://github.com/joeyagreco/leeger#max-score)\
+[Min Score](https://github.com/joeyagreco/leeger#min-score)\
+[Opponent Points Scored Per Game](https://github.com/joeyagreco/leeger#opponent-points-scored-per-game)\
+[Plus/Minus](https://github.com/joeyagreco/leeger#plusminus)\
+[Points Scored Per Game](https://github.com/joeyagreco/leeger#points-scored-per-game)\
+[Scoring Share](https://github.com/joeyagreco/leeger#scoring-share)\
+[Scoring Share Against](https://github.com/joeyagreco/leeger#scoring-share-against)\
+[Scoring Standard Deviation](https://github.com/joeyagreco/leeger#scoring-standard-deviation)\
+[Smart Wins](https://github.com/joeyagreco/leeger#smart-wins)\
+[Team Luck](https://github.com/joeyagreco/leeger#team-luck)\
+[Team Score](https://github.com/joeyagreco/leeger#team-score)\
+[Team Success](https://github.com/joeyagreco/leeger#team-success)\
+[WAL](https://github.com/joeyagreco/leeger#wal)\
+[Win Percentage](https://github.com/joeyagreco/leeger#win-percentage)
 
 
 > ## AWAL
