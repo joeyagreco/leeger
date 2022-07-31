@@ -44,7 +44,7 @@ awalPerGame = AWALAllTimeCalculator.getAWALPerGame(league, yearNumberEnd=2020)
 awalPerGame = AWALAllTimeCalculator.getAWALPerGame(league, yearNumberStart=2020, yearNumberEnd=2021)
 
 # To limit results to only certain weeks, specify that as a keyword argument.
-# Let's assume each year in this league has weeks 1-15
+# Let's assume each year in this league has weeks 1-15.
 
 # Will get weeks 5-15.
 scoringStandardDeviation = ScoringStandardDeviationAllTimeCalculator.getScoringStandardDeviation(league,
@@ -60,7 +60,7 @@ scoringStandardDeviation = ScoringStandardDeviationAllTimeCalculator.getScoringS
 # You can combine week and year filters to get specific weeks that span across years.
 # To limit results to only certain weeks across years, specify that as a keyword argument.
 # This league has years 2019, 2020, 2021, 2022.
-# Let's assume each year in this league has weeks 1-15
+# Let's assume each year in this league has weeks 1-15.
 
 # Will get week 5, 2020 - week 15, 2022.
 smartWins = SmartWinsAllTimeCalculator.getSmartWins(league, weekNumberStart=5, yearNumberStart=2020)
