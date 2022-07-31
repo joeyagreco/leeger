@@ -15,8 +15,6 @@ Instant stats for your fantasy football league.
    - [Margins of Victory](https://github.com/joeyagreco/leeger#margins-of-victory)
    - [Max Score](https://github.com/joeyagreco/leeger#max-score)
    - [Min Score](https://github.com/joeyagreco/leeger#min-score)
-   - [Opponent Points Scored](https://github.com/joeyagreco/leeger#opponent-points-scored)
-   - [Opponent Scoring Share](https://github.com/joeyagreco/leeger#opponent-scoring-share)
    - [Plus/Minus](https://github.com/joeyagreco/leeger#plusminus)
    - [Points Scored](https://github.com/joeyagreco/leeger#points-scored)
    - [Scoring Share](https://github.com/joeyagreco/leeger#scoring-share)
@@ -170,34 +168,6 @@ please [open an issue](https://github.com/joeyagreco/leeger/issues).
 > Ex: A team with scores: [100, 105, 104, 102] has a Min Score of 100.\
 > AND\
 > A team with scores: [99, 100, 100, 101] has a Min Score of 100.
->
-> ## Opponent Points Scored
-> ___
-> ### Purpose
-> Opponent Points Scored is the total number of points a team's opponents have scored against them.
-> ### Formula
-> Opponent Points Scored = (ΣA) / B\
-> WHERE:\
-> A = All scores against a team within a sample\
-> B = Number of games played by a team within a sample
-> ### Formula Explained
-> Opponent Points Scored Per Game is simply the average score against a team.
-> >
-> ## Opponent Scoring Share
-> ___
-> ### Purpose
-> Opponent Scoring Share is used to show what percentage of league scoring a team had scored against them.
-> ### Formula
-> Scoring Share Against = ((ΣA) / (ΣB)) * 100\
-> WHERE:\
-> A = All scores against a team within a sample\
-> B = All scores by all teams within a sample
-> ### Formula Explained
-> Opponent Scoring Share is a good way to compare how a team was performed against in a league one year vs another year.
-> While having 100 Points Scored Per Game against a team one year may not be equivalent to having 100 Points Scored Per
-> Game against a team another year,
-> having 10% of the league's points scored against a team *will* be equivalent to having 10% of the league's points
-> scored against a team another year.
 >
 > ## Plus/Minus
 > ___
