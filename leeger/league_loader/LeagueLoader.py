@@ -26,6 +26,10 @@ class LeagueLoader:
         #                           someOtherOwnerNameIWant: ["alias3", "alias4"]}
         self._ownerNamesAndAliases: dict[str, list[str]] = kwargs.get("ownerNamesAndAliases", dict())
 
+        # validation
+        if len(years) == 0:
+            raise ValueError(f"No years given to load league with ID '{self._leagueId}'.")
+
     def _getGeneralOwnerNameFromGivenOwnerName(self, givenOwnerName: str) -> Optional[str]:
         foundGeneralOwnerName = None
         for generalOwnerName, aliases in self._ownerNamesAndAliases.items():
