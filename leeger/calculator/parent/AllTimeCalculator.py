@@ -6,6 +6,7 @@ from leeger.model.filter.AllTimeFilters import AllTimeFilters
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup
 from leeger.util.Deci import Deci
+from leeger.util.GeneralUtil import GeneralUtil
 from leeger.util.LeagueNavigator import LeagueNavigator
 
 
@@ -25,6 +26,8 @@ class AllTimeCalculator:
         yearNumberEnd = kwargs.pop("yearNumberEnd", league.years[-1].yearNumber)
         weekNumberEnd = kwargs.pop("weekNumberEnd",
                                    LeagueNavigator.getYearByYearNumber(league, yearNumberEnd).weeks[-1].weekNumber)
+
+        GeneralUtil.warnForUnusedKwargs(kwargs)
 
         ####################
         # validate filters #

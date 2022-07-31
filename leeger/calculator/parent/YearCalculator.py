@@ -6,6 +6,7 @@ from leeger.exception.InvalidFilterException import InvalidFilterException
 from leeger.model.filter.YearFilters import YearFilters
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Year import Year
+from leeger.util.GeneralUtil import GeneralUtil
 from leeger.util.YearNavigator import YearNavigator
 
 
@@ -22,6 +23,8 @@ class YearCalculator:
         onlyRegularSeason = kwargs.pop("onlyRegularSeason", False)
         weekNumberStart = kwargs.pop("weekNumberStart", year.weeks[0].weekNumber)
         weekNumberEnd = kwargs.pop("weekNumberEnd", year.weeks[-1].weekNumber)
+
+        GeneralUtil.warnForUnusedKwargs(kwargs)
 
         if onlyChampionship:
             includeMatchupTypes = [

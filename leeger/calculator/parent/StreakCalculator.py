@@ -3,6 +3,7 @@ from leeger.exception.InvalidFilterException import InvalidFilterException
 from leeger.model.filter.StreakFilters import StreakFilters
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup
+from leeger.util.GeneralUtil import GeneralUtil
 from leeger.util.LeagueNavigator import LeagueNavigator
 
 
@@ -24,6 +25,8 @@ class StreakCalculator:
         weekNumberEnd = kwargs.pop("weekNumberEnd",
                                    LeagueNavigator.getYearByYearNumber(league, yearNumberEnd).weeks[-1].weekNumber)
         onlyOngoing = kwargs.pop("onlyOngoing", False)
+
+        GeneralUtil.warnForUnusedKwargs(kwargs)
 
         ####################
         # validate filters #
