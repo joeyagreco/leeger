@@ -26,6 +26,7 @@ Instant stats for your fantasy football league.
    - [Team Score](https://github.com/joeyagreco/leeger#team-score)
    - [Team Success](https://github.com/joeyagreco/leeger#team-success)
    - [WAL](https://github.com/joeyagreco/leeger#wal)
+   - [WAL Per Game](https://github.com/joeyagreco/leeger#wal-per-game)
    - [Win Percentage](https://github.com/joeyagreco/leeger#win-percentage)
 - [Installation](https://github.com/joeyagreco/leeger#installation)
 - [Contributing](https://github.com/joeyagreco/leeger#contributing)
@@ -331,6 +332,18 @@ please [open an issue](https://github.com/joeyagreco/leeger/issues).
 > T = Total number of ties a team has within a sample
 > ### Formula Explained
 > WAL is a quick and useful stat that is used typically to see how successful a team has been.
+>
+> ## WAL Per Game
+> ___
+> ### Purpose
+> WAL Per Game is the Wins Against the League per game a team has.
+> ### Formula
+> WAL = (W + (T * 0.5)) / N\
+> WHERE:\
+> W = Total number of wins a team has within a sample\
+> T = Total number of ties a team has within a sample\
+> N = Number of scores a team has within a sample (typically weeks played)
+> ### Formula Explained
 >
 > ## Win Percentage
 > ___
