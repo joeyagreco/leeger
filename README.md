@@ -22,12 +22,11 @@ Instant stats for your fantasy football league.
    - [Team Success](https://github.com/joeyagreco/leeger#team-success)
    - [WAL](https://github.com/joeyagreco/leeger#wal)
    - [Win Percentage](https://github.com/joeyagreco/leeger#win-percentage)
-- [Supported Fantasy Sites](https://github.com/joeyagreco/leeger#supported-fantasy-sites)
-- [Installation](https://github.com/joeyagreco/leeger#installation)
-- [League Loaders](https://github.com/joeyagreco/leeger#league-loaders)
+- [Supported League Loaders](https://github.com/joeyagreco/leeger#supported-league-loaders)
    - [ESPN](https://github.com/joeyagreco/leeger#espn)
    - [Sleeper](https://github.com/joeyagreco/leeger#sleeper)
    - [Yahoo](https://github.com/joeyagreco/leeger#yahoo)
+- [Installation](https://github.com/joeyagreco/leeger#installation)
 - [Contributing](https://github.com/joeyagreco/leeger#contributing)
 - [License](https://github.com/joeyagreco/leeger#license)
 - [Credit](https://github.com/joeyagreco/leeger#credit)
@@ -267,7 +266,7 @@ Instant stats for your fantasy football league.
 > ### Formula Explained
 > Win Percentage is simply another way of representing how successful a team has been throughout a sample.
 
-## Supported Fantasy Sites
+## Supported League Loaders
 
 Sites that you can automatically load your league data from.
 
@@ -278,24 +277,6 @@ Sites that you can automatically load your league data from.
 | NFL                                                     | https://fantasy.nfl.com/                  | :x:                |
 | [Sleeper](https://github.com/joeyagreco/leeger#sleeper) | https://sleeper.com/fantasy-football      | :heavy_check_mark: |
 | [Yahoo](https://github.com/joeyagreco/leeger#yahoo)     | https://football.fantasysports.yahoo.com/ | :heavy_check_mark: |
-
-If a fantasy site you use is not listed here and you would like it to be,
-please [open an issue](https://github.com/joeyagreco/leeger/issues).
-
-## Installation
-
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install.
-
-```bash
-pip install leeger
-```
-
-## Usage
-
-For examples on how to utilize the different features of this library, see
-the [`example`](https://github.com/joeyagreco/leeger/tree/main/example) folder.
-
-## League Loaders
 
 ### ESPN
 
@@ -354,6 +335,22 @@ To set up your Yahoo account, follow these steps:
 ##### Notes
 
 - When the Yahoo League Loader is run, Yahoo OAuth will open up a new tab in a browser. You can close this tab.
+
+If a fantasy site you use is not listed here and you would like it to be,
+please [open an issue](https://github.com/joeyagreco/leeger/issues).
+
+## Installation
+
+Use the package manager [pip](https://pip.pypa.io/en/stable/) to install.
+
+```bash
+pip install leeger
+```
+
+## Usage
+
+For examples on how to utilize the different features of this library, see
+the [`example`](https://github.com/joeyagreco/leeger/tree/main/example) folder.
 
 ## Contributing
 
