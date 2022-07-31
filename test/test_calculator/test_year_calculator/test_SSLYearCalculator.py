@@ -399,6 +399,20 @@ class TestSSLYearCalculator(unittest.TestCase):
         self.assertEqual(Deci("0"), response[teams[1].id])
         self.assertIsNone(response[teams[2].id])
 
+    def test_getTeamLuck_sumOfLeagueEqualsZero(self):
+        owners, teams = getNDefaultOwnersAndTeams(3)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=3)
+        matchup2 = Matchup(teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=1.2, teamBScore=3)
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2])
+
+        response = SSLYearCalculator.getTeamLuck(year, weekNumberEnd=1)
+
+        self.assertEqual(0, sum([response[teams[0].id], response[teams[1].id]]))
+
     def test_getTeamLuck_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 

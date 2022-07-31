@@ -511,6 +511,32 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
         self.assertEqual(Deci("0"), response[owners[0].id])
         self.assertEqual(Deci("0"), response[owners[1].id])
 
+    def test_getTeamLuck_sumOfLeagueEqualsZero(self):
+        owners, teamsA = getNDefaultOwnersAndTeams(2)
+        teamsB = getTeamsFromOwners(owners)
+        teamsC = getTeamsFromOwners(owners)
+
+        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
+                             matchupType=MatchupType.IGNORE)
+        week1_a = Week(weekNumber=1, matchups=[matchup1_a])
+        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a])
+
+        matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
+                             matchupType=MatchupType.PLAYOFF)
+        week1_b = Week(weekNumber=1, matchups=[matchup1_b])
+        yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b])
+
+        matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
+                             matchupType=MatchupType.CHAMPIONSHIP)
+        week1_c = Week(weekNumber=1, matchups=[matchup1_c])
+        yearC = Year(yearNumber=2002, teams=teamsC, weeks=[week1_c])
+
+        league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
+
+        response = SSLAllTimeCalculator.getTeamLuck(league)
+
+        self.assertEqual(0, sum(response.values()))
+
     def test_getTeamLuck_noneIfNoGamesPlayed(self):
         owners, teamsA = getNDefaultOwnersAndTeams(3)
 
