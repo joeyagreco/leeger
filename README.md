@@ -7,6 +7,24 @@ Instant stats for your fantasy football league.
 
 ## Stats Explained
 
+AWAL
+Margins of Victory
+Max Score
+Min Score
+Opponent Points Scored Per Game
+Plus/Minus
+Points Scored Per Game
+Scoring Share
+Scoring Share Against
+Scoring Standard Deviation
+Smart Wins
+Team Luck
+Team Score
+Team Success
+WAL
+Win Percentage
+
+
 > ## AWAL
 > ___
 > ### Purpose
@@ -68,18 +86,6 @@ Instant stats for your fantasy football league.
 > AND\
 > A team with scores: [99, 100, 100, 101] has a Min Score of 100.
 >
-> ## Points Scored Per Game
-> ___
-> ### Purpose
-> Points Scored Per Game is the average amount of points a team scored per game.
-> ### Formula
-> Points Scored Per Game = (ΣA) / B\
-> WHERE:\
-> A = All scores by a team within a sample\
-> B = Number of games played by a team within a sample
-> ### Formula Explained
-> Points Scored Per Game is simply the average score of a team.
->
 > ## Opponent Points Scored Per Game
 > ___
 > ### Purpose
@@ -107,25 +113,17 @@ Instant stats for your fantasy football league.
 > However, it is typically a good indication of how successful a team was, as a positive net score differential
 > typically translates to more wins.
 >
-> ## Scoring Standard Deviation
+> ## Points Scored Per Game
 > ___
 > ### Purpose
-> Scoring Standard Deviation is used to show how volatile a team's scoring was.\
-> This stat measures a team's scores relative to the Points Scored Per Game of all of their scores.
+> Points Scored Per Game is the average amount of points a team scored per game.
 > ### Formula
-> Scoring Standard Deviation = sqrt((Σ|x-u|²)/N)\
+> Points Scored Per Game = (ΣA) / B\
 > WHERE:\
-> x = A score\
-> u = PPG\
-> N = Number of scores (typically weeks played)
+> A = All scores by a team within a sample\
+> B = Number of games played by a team within a sample
 > ### Formula Explained
-> A team with low Scoring Standard Deviation has been consistent in their scoring patterns.\
-> A team with high Scoring Standard Deviation has been volatile in their scoring patterns.\
-> It should be noted that if a team has lower Scoring Standard Deviation than another team, it is not an indication that
-> the team with lower Scoring Standard Deviation has performed better.\
-> Ex: Team A has scores: [100, 120, 150, 160] and a Scoring STDEV of 23.8\
-> Team B has scores: [70, 72, 71, 69] and a Scoring STDEV of 1.12\
-> Team B has a lower Scoring STDEV than Team A, but has definitely performed worse.
+> Points Scored Per Game is simply the average score of a team.
 >
 > ## Scoring Share
 > ___
@@ -156,6 +154,27 @@ Instant stats for your fantasy football league.
 > Game against a team another year,
 > having 10% of the league's points scored against a team *will* be equivalent to having 10% of the league's points
 > scored against a team another year.
+>
+> ## Scoring Standard Deviation
+> ___
+> ### Purpose
+> Scoring Standard Deviation is used to show how volatile a team's scoring was.\
+> This stat measures a team's scores relative to the Points Scored Per Game of all of their scores.
+> ### Formula
+> Scoring Standard Deviation = sqrt((Σ|x-u|²)/N)\
+> WHERE:\
+> x = A score\
+> u = PPG\
+> N = Number of scores (typically weeks played)
+> ### Formula Explained
+> A team with low Scoring Standard Deviation has been consistent in their scoring patterns.\
+> A team with high Scoring Standard Deviation has been volatile in their scoring patterns.\
+> It should be noted that if a team has lower Scoring Standard Deviation than another team, it is not an indication that
+> the team with lower Scoring Standard Deviation has performed better.\
+> Ex: Team A has scores: [100, 120, 150, 160] and a Scoring STDEV of 23.8\
+> Team B has scores: [70, 72, 71, 69] and a Scoring STDEV of 1.12\
+> Team B has a lower Scoring STDEV than Team A, but has definitely performed worse.
+>
 > ## Smart Wins
 > ___
 > ### Purpose
