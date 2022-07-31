@@ -6,11 +6,10 @@ from leeger.calculator.all_time_calculator.ScoringShareAllTimeCalculator import 
 from leeger.calculator.all_time_calculator.ScoringStandardDeviationAllTimeCalculator import \
     ScoringStandardDeviationAllTimeCalculator
 from leeger.calculator.all_time_calculator.SingleScoreAllTimeCalculator import SingleScoreAllTimeCalculator
+from leeger.calculator.all_time_calculator.SmartWinsAllTimeCalculator import SmartWinsAllTimeCalculator
 
 # Get a League object.
 # There are many ways to get a League object, here we will just grab one using the ESPN League Loader.
-from leeger.calculator.all_time_calculator.SmartWinsAllTimeCalculator import SmartWinsAllTimeCalculator
-
 espnLeagueLoader = ESPNLeagueLoader("12345678", [2019, 2020, 2021, 2022])
 league = espnLeagueLoader.loadLeague()
 
