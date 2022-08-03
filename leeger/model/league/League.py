@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import os
 import random
 from dataclasses import dataclass
@@ -18,6 +20,55 @@ class League(UniqueId):
     name: str
     owners: list[Owner]
     years: list[Year]
+
+    def __add__(self, otherLeague: League) -> League:
+        """
+        Combines *this* League with the given League.
+        The combined League will be validated before it is returned.
+
+        Behaviors:
+            - name
+                - "name" will become a combination of both league's names IF the names are not the same.
+            - owners
+                - "owners" will be merged on Owner.name, since this field must be unique by League.
+                - Unmerged owners will simply be combined.
+            - years
+                - "years" will be combined in order oldestYearNumber -> newestYearNumber
+                - Duplicate Year.yearNumber across leagues will raise an exception.
+        """
+        from leeger.decorator.validate.common import leagueValidation
+        # first, validate the leagues we want to combine.
+        leagueValidation.runAllChecks(self)
+        leagueValidation.runAllChecks(otherLeague)
+
+        newName = f"'{self.name}' + '{otherLeague.name}' League" if self.name != otherLeague.name else self.name
+        newOwners = list()
+        newYears = list()
+
+        # merge/combine owners
+        thisLeagueOwnerNames = [owner.name for owner in self.owners]
+        otherLeagueOwnerNames = [owner.name for owner in otherLeague.owners]
+
+        for ownerName in thisLeagueOwnerNames:
+            if ownerName in otherLeagueOwnerNames:
+                otherLeagueOwnerNames.remove(ownerName)
+            newOwners.append(Owner(name=ownerName))
+        for ownerName in otherLeagueOwnerNames:
+            newOwners.append(Owner(name=ownerName))
+
+        # combine years in order
+        if self.years[-1].yearNumber < otherLeague.years[0].yearNumber:
+            # order of years goes *this* League -> otherLeague
+            newYears = self.years + otherLeague.years
+        else:
+            # order of years goes otherLeague -> *this* League
+            newYears = otherLeague.years + self.years
+
+        newLeague = League(name=newName, owners=newOwners, years=newYears)
+
+        # validate new league
+        leagueValidation.runAllChecks(newLeague)
+        return newLeague
 
     def statSheet(self, **kwargs) -> AllTimeStatSheet:
         from leeger.calculator.all_time_calculator.AWALAllTimeCalculator import AWALAllTimeCalculator
