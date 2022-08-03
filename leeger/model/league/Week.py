@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
 
 from leeger.enum.MatchupType import MatchupType
@@ -9,6 +11,15 @@ from leeger.model.league.Matchup import Matchup
 class Week(UniqueId):
     weekNumber: int
     matchups: list[Matchup]
+
+    def __eq__(self, otherWeek: Week) -> bool:
+        """
+        Checks if *this* Week is the same as the given Week.
+        Does not check for equality of IDs, just values.
+        """
+        equal = self.weekNumber == otherWeek.weekNumber
+        equal = equal and self.matchups == otherWeek.matchups
+        return equal
 
     @property
     def isPlayoffWeek(self) -> bool:

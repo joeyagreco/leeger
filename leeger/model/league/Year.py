@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import os
 import random
 from dataclasses import dataclass
@@ -18,6 +20,16 @@ class Year(UniqueId):
     yearNumber: int
     teams: list[Team]
     weeks: list[Week]
+
+    def __eq__(self, otherYear: Year) -> bool:
+        """
+        Checks if *this* Year is the same as the given Year.
+        Does not check for equality of IDs, just values.
+        """
+        equal = self.yearNumber == otherYear.yearNumber
+        equal = equal and self.teams == otherYear.teams
+        equal = equal and self.weeks == otherYear.weeks
+        return equal
 
     def statSheet(self, **kwargs) -> YearStatSheet:
         from leeger.calculator.year_calculator.AWALYearCalculator import AWALYearCalculator

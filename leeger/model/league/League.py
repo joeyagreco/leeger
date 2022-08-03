@@ -21,6 +21,16 @@ class League(UniqueId):
     owners: list[Owner]
     years: list[Year]
 
+    def __eq__(self, otherLeague: League) -> bool:
+        """
+        Checks if *this* League is the same as the given League.
+        Does not check for equality of IDs, just values.
+        """
+        equal = self.name == otherLeague.name
+        equal = equal and self.owners == otherLeague.owners
+        equal = equal and self.years == otherLeague.years
+        return equal
+
     def __add__(self, otherLeague: League) -> League:
         """
         Combines *this* League with the given League.
