@@ -3,6 +3,7 @@ import unittest
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception.InvalidMatchupFormatException import InvalidMatchupFormatException
 from leeger.model.league.Matchup import Matchup
+from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestMatchup(unittest.TestCase):
@@ -52,3 +53,29 @@ class TestMatchup(unittest.TestCase):
                 teamBHasTiebreaker=True
             )
         self.assertEqual("Team A and Team B cannot both have the tiebreaker.", str(context.exception))
+
+    def test_matchup_eq_equal(self):
+        # create Matchup 1
+        _, teams_1 = getNDefaultOwnersAndTeams(2)
+        matchup_1 = Matchup(teamAId=teams_1[0].id, teamBId=teams_1[1].id, teamAScore=1.1, teamBScore=2.2,
+                            matchupType=MatchupType.REGULAR_SEASON)
+
+        # create Matchup 2
+        _, teams_2 = getNDefaultOwnersAndTeams(2)
+        matchup_2 = Matchup(teamAId=teams_2[0].id, teamBId=teams_2[1].id, teamAScore=1.1, teamBScore=2.2,
+                            matchupType=MatchupType.REGULAR_SEASON)
+
+        self.assertEqual(matchup_1, matchup_2)
+
+    def test_matchup_eq_notEqual(self):
+        # create Matchup 1
+        _, teams_1 = getNDefaultOwnersAndTeams(2)
+        matchup_1 = Matchup(teamAId=teams_1[0].id, teamBId=teams_1[1].id, teamAScore=1.1, teamBScore=2.2,
+                            matchupType=MatchupType.REGULAR_SEASON)
+
+        # create Matchup 2
+        _, teams_2 = getNDefaultOwnersAndTeams(2)
+        matchup_2 = Matchup(teamAId=teams_2[0].id, teamBId=teams_2[1].id, teamAScore=1.1, teamBScore=2.2,
+                            matchupType=MatchupType.PLAYOFF)
+
+        self.assertNotEqual(matchup_1, matchup_2)
