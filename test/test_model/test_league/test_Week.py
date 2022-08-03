@@ -81,3 +81,33 @@ class TestWeek(unittest.TestCase):
 
         self.assertIsInstance(response, bool)
         self.assertFalse(response)
+
+    def test_week_eq_equal(self):
+        # create Week 1
+        _, teams_1 = getNDefaultOwnersAndTeams(2)
+        matchup_1 = Matchup(teamAId=teams_1[0].id, teamBId=teams_1[1].id, teamAScore=1.1, teamBScore=2.2,
+                            matchupType=MatchupType.REGULAR_SEASON)
+        week_1 = Week(weekNumber=1, matchups=[matchup_1])
+
+        # create Week 2
+        _, teams_2 = getNDefaultOwnersAndTeams(2)
+        matchup_2 = Matchup(teamAId=teams_2[0].id, teamBId=teams_2[1].id, teamAScore=1.1, teamBScore=2.2,
+                            matchupType=MatchupType.REGULAR_SEASON)
+        week_2 = Week(weekNumber=1, matchups=[matchup_2])
+
+        self.assertEqual(week_1, week_2)
+
+    def test_week_eq_notEqual(self):
+        # create Week 1
+        _, teams_1 = getNDefaultOwnersAndTeams(2)
+        matchup_1 = Matchup(teamAId=teams_1[0].id, teamBId=teams_1[1].id, teamAScore=1.1, teamBScore=2.2,
+                            matchupType=MatchupType.REGULAR_SEASON)
+        week_1 = Week(weekNumber=1, matchups=[matchup_1])
+
+        # create Week 2
+        _, teams_2 = getNDefaultOwnersAndTeams(2)
+        matchup_2 = Matchup(teamAId=teams_2[0].id, teamBId=teams_2[1].id, teamAScore=1.1, teamBScore=2.2,
+                            matchupType=MatchupType.REGULAR_SEASON)
+        week_2 = Week(weekNumber=2, matchups=[matchup_2])
+
+        self.assertNotEqual(week_1, week_2)
