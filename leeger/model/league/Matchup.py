@@ -5,10 +5,12 @@ from dataclasses import dataclass
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception.InvalidMatchupFormatException import InvalidMatchupFormatException
 from leeger.model.abstract.UniqueId import UniqueId
+from leeger.util.CustomLogger import CustomLogger
 
 
-@dataclass(kw_only=True)
+@dataclass(kw_only=True, eq=False)
 class Matchup(UniqueId):
+    __LOGGER = CustomLogger.getLogger()
     teamAId: str
     teamBId: str
     teamAScore: float | int
@@ -27,11 +29,18 @@ class Matchup(UniqueId):
         Checks if *this* Matchup is the same as the given Matchup.
         Does not check for equality of IDs, just values.
         """
-        equal = self.teamAId == otherMatchup.teamAId
-        equal = equal and self.teamBId == otherMatchup.teamBId
-        equal = equal and self.teamAScore == otherMatchup.teamAScore
+        equal = self.teamAScore == otherMatchup.teamAScore
         equal = equal and self.teamBScore == otherMatchup.teamBScore
         equal = equal and self.matchupType == otherMatchup.matchupType
         equal = equal and self.teamAHasTiebreaker == otherMatchup.teamAHasTiebreaker
         equal = equal and self.teamBHasTiebreaker == otherMatchup.teamBHasTiebreaker
+        # warn if this is going to return True but ID based fields are not equal
+        if equal:
+            notEqualStrings = list()
+            if self.teamAId != otherMatchup.teamAId:
+                notEqualStrings.append("teamAId")
+            if self.teamBId != otherMatchup.teamBId:
+                notEqualStrings.append("teamBId")
+            if len(notEqualStrings) > 0:
+                self.__LOGGER.warning(f"Returning True for equality check when {notEqualStrings} are not equal.")
         return equal

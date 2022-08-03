@@ -15,7 +15,7 @@ from leeger.model.league.Week import Week
 from leeger.model.stat.YearStatSheet import YearStatSheet
 
 
-@dataclass(kw_only=True)
+@dataclass(kw_only=True, eq=False)
 class Year(UniqueId):
     yearNumber: int
     teams: list[Team]

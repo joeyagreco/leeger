@@ -15,7 +15,7 @@ from leeger.model.league.Year import Year
 from leeger.model.stat.AllTimeStatSheet import AllTimeStatSheet
 
 
-@dataclass(kw_only=True)
+@dataclass(kw_only=True, eq=False)
 class League(UniqueId):
     name: str
     owners: list[Owner]

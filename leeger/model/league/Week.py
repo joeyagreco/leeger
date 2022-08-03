@@ -7,7 +7,7 @@ from leeger.model.abstract.UniqueId import UniqueId
 from leeger.model.league.Matchup import Matchup
 
 
-@dataclass(kw_only=True)
+@dataclass(kw_only=True, eq=False)
 class Week(UniqueId):
     weekNumber: int
     matchups: list[Matchup]

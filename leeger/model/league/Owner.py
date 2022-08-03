@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from leeger.model.abstract.UniqueId import UniqueId
 
 
-@dataclass(kw_only=True)
+@dataclass(kw_only=True, eq=False)
 class Owner(UniqueId):
     name: str
 
