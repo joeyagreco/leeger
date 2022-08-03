@@ -8,3 +8,21 @@ class TestOwner(unittest.TestCase):
         owner = Owner(name="name")
 
         self.assertEqual("name", owner.name)
+
+    def test_owner_eq_equal(self):
+        # create Owner 1
+        owner_1 = Owner(name="owner")
+
+        # create Owner 2
+        owner_2 = Owner(name="owner")
+
+        self.assertEqual(owner_1, owner_2)
+
+    def test_owner_eq_notEqual(self):
+        # create Owner 1
+        owner_1 = Owner(name="owner")
+
+        # create Owner 2
+        owner_2 = Owner(name="ownerDIF")
+
+        self.assertNotEqual(owner_1, owner_2)
