@@ -5,7 +5,7 @@ from leeger.model.league import League
 # This may be because you switched fantasy sites and now the league data is split across different sites.
 # You can combine League objects to solve this issue.
 
-# Say you had a league that had years 2019-2020 on ESPN and years 2021-2022 on Sleeper and you wanted to create a League object.
+# Say you had a league that had years 2019-2020 on ESPN and years 2021-2022 on Sleeper and you wanted to create a single League object for those years.
 
 # First, get League from ESPN for 2019-2020.
 espnLeagueLoader = ESPNLeagueLoader("12345678", [2019, 2020])
