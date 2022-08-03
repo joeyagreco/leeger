@@ -30,6 +30,11 @@ Instant stats for your fantasy football league.
 - [License](https://github.com/joeyagreco/leeger#license)
 - [Credit](https://github.com/joeyagreco/leeger#credit)
 
+## Usage
+
+For examples on how to utilize the different features of this library, see
+the [`example`](https://github.com/joeyagreco/leeger/tree/main/example) folder.
+
 ## Supported League Loaders
 
 Sites that you can automatically load your league data from.
@@ -337,11 +342,6 @@ Use the package manager [pip](https://pip.pypa.io/en/stable/) to install.
 ```bash
 pip install leeger
 ```
-
-## Usage
-
-For examples on how to utilize the different features of this library, see
-the [`example`](https://github.com/joeyagreco/leeger/tree/main/example) folder.
 
 ## Contributing
 
