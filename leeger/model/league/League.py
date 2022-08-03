@@ -26,14 +26,14 @@ class League(UniqueId):
         Combines *this* League with the given League.
         The combined League will be validated before it is returned.
 
-        Behaviors:
+        Special behaviors:
             - name
                 - "name" will become a combination of both league's names IF the names are not the same.
             - owners
                 - "owners" will be merged on Owner.name, since this field must be unique by League.
                 - Unmerged owners will simply be combined.
             - years
-                - "years" will be combined in order oldestYearNumber -> newestYearNumber
+                - "years" will be combined in order oldestYearNumber -> newestYearNumber.
                 - Duplicate Year.yearNumber across leagues will raise an exception.
         """
         from leeger.decorator.validate.common import leagueValidation
