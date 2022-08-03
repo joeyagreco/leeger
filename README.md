@@ -6,29 +6,38 @@ Instant stats for your fantasy football league.
 ![Last Commit](https://img.shields.io/github/last-commit/joeyagreco/leeger)
 
 ### Table of Contents
-- [Supported League Loaders](https://github.com/joeyagreco/leeger#supported-league-loaders)
-   - [ESPN](https://github.com/joeyagreco/leeger#espn)
-   - [Sleeper](https://github.com/joeyagreco/leeger#sleeper)
-   - [Yahoo](https://github.com/joeyagreco/leeger#yahoo)
-- [Stats Explained](https://github.com/joeyagreco/leeger#stats-explained)
-   - [AWAL](https://github.com/joeyagreco/leeger#awal)
-   - [Margins of Victory](https://github.com/joeyagreco/leeger#margins-of-victory)
-   - [Max Score](https://github.com/joeyagreco/leeger#max-score)
-   - [Min Score](https://github.com/joeyagreco/leeger#min-score)
-   - [Plus/Minus](https://github.com/joeyagreco/leeger#plusminus)
-   - [Points Scored](https://github.com/joeyagreco/leeger#points-scored)
-   - [Scoring Share](https://github.com/joeyagreco/leeger#scoring-share)
-   - [Scoring Standard Deviation](https://github.com/joeyagreco/leeger#scoring-standard-deviation)
-   - [Smart Wins](https://github.com/joeyagreco/leeger#smart-wins)
-   - [Team Luck](https://github.com/joeyagreco/leeger#team-luck)
-   - [Team Score](https://github.com/joeyagreco/leeger#team-score)
-   - [Team Success](https://github.com/joeyagreco/leeger#team-success)
-   - [WAL](https://github.com/joeyagreco/leeger#wal)
-   - [Win Percentage](https://github.com/joeyagreco/leeger#win-percentage)
 - [Installation](https://github.com/joeyagreco/leeger#installation)
+- [Usage](https://github.com/joeyagreco/leeger#usage)
+- [Supported League Loaders](https://github.com/joeyagreco/leeger#supported-league-loaders)
+  - [ESPN](https://github.com/joeyagreco/leeger#espn)
+  - [Sleeper](https://github.com/joeyagreco/leeger#sleeper)
+  - [Yahoo](https://github.com/joeyagreco/leeger#yahoo)
+- [Stats Explained](https://github.com/joeyagreco/leeger#stats-explained)
+  - [AWAL](https://github.com/joeyagreco/leeger#awal)
+  - [Margins of Victory](https://github.com/joeyagreco/leeger#margins-of-victory)
+  - [Max Score](https://github.com/joeyagreco/leeger#max-score)
+  - [Min Score](https://github.com/joeyagreco/leeger#min-score)
+  - [Plus/Minus](https://github.com/joeyagreco/leeger#plusminus)
+  - [Points Scored](https://github.com/joeyagreco/leeger#points-scored)
+  - [Scoring Share](https://github.com/joeyagreco/leeger#scoring-share)
+  - [Scoring Standard Deviation](https://github.com/joeyagreco/leeger#scoring-standard-deviation)
+  - [Smart Wins](https://github.com/joeyagreco/leeger#smart-wins)
+  - [Team Luck](https://github.com/joeyagreco/leeger#team-luck)
+  - [Team Score](https://github.com/joeyagreco/leeger#team-score)
+  - [Team Success](https://github.com/joeyagreco/leeger#team-success)
+  - [WAL](https://github.com/joeyagreco/leeger#wal)
+  - [Win Percentage](https://github.com/joeyagreco/leeger#win-percentage)
 - [Contributing](https://github.com/joeyagreco/leeger#contributing)
 - [License](https://github.com/joeyagreco/leeger#license)
 - [Credit](https://github.com/joeyagreco/leeger#credit)
+
+## Installation
+
+Use the package manager [pip](https://pip.pypa.io/en/stable/) to install.
+
+```bash
+pip install leeger
+```
 
 ## Usage
 
@@ -334,14 +343,6 @@ please [open an issue](https://github.com/joeyagreco/leeger/issues).
 > G = Total number of games played by a team within a sample
 > ### Formula Explained
 > Win Percentage is simply another way of representing how successful a team has been throughout a sample.
-
-## Installation
-
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install.
-
-```bash
-pip install leeger
-```
 
 ## Contributing
 
