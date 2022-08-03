@@ -1,6 +1,6 @@
-numpy==1.22.4
-setuptools==62.3.4
+numpy~=1.22.4
+setuptools~=62.3.4
 openpyxl~=3.0.10
-espn-api==0.20.0
+espn-api~=0.20.0
 yahoofantasy~=1.2.2
 sleeper~=1.0.0
