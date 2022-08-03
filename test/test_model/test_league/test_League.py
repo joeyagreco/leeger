@@ -109,6 +109,55 @@ class TestLeague(unittest.TestCase):
         self.assertEqual("league 2 owner 1", combinedLeague.owners[2].name)
         self.assertEqual("league 2 owner 2", combinedLeague.owners[3].name)
 
+    def test_league_add_combinedLeagueYearsAreInCorrectOrder(self):
+        # first example, League 1 has years that come first
+        # create League 1
+        owners_1, teams_1 = getNDefaultOwnersAndTeams(2)
+
+        matchup_1 = Matchup(teamAId=teams_1[0].id, teamBId=teams_1[1].id, teamAScore=1.1, teamBScore=2.2,
+                            matchupType=MatchupType.REGULAR_SEASON)
+        week_1 = Week(weekNumber=1, matchups=[matchup_1])
+        year_1 = Year(yearNumber=2000, teams=teams_1, weeks=[week_1])
+        league_1 = League(name="LEAGUE 1", owners=owners_1, years=[year_1])
+
+        # create League 2
+        owners_2, teams_2 = getNDefaultOwnersAndTeams(2)
+
+        matchup_2 = Matchup(teamAId=teams_2[0].id, teamBId=teams_2[1].id, teamAScore=1.1, teamBScore=2.2,
+                            matchupType=MatchupType.REGULAR_SEASON)
+        week_2 = Week(weekNumber=1, matchups=[matchup_2])
+        year_2 = Year(yearNumber=2001, teams=teams_2, weeks=[week_2])
+        league_2 = League(name="LEAGUE 2", owners=owners_2, years=[year_2])
+
+        combinedLeague = league_1 + league_2
+        self.assertIsInstance(combinedLeague, League)
+        self.assertEqual(2000, combinedLeague.years[0].yearNumber)
+        self.assertEqual(2001, combinedLeague.years[1].yearNumber)
+
+        # second example, League 2 has years that come first
+        # create League 1
+        owners_1, teams_1 = getNDefaultOwnersAndTeams(2)
+
+        matchup_1 = Matchup(teamAId=teams_1[0].id, teamBId=teams_1[1].id, teamAScore=1.1, teamBScore=2.2,
+                            matchupType=MatchupType.REGULAR_SEASON)
+        week_1 = Week(weekNumber=1, matchups=[matchup_1])
+        year_1 = Year(yearNumber=2001, teams=teams_1, weeks=[week_1])
+        league_1 = League(name="LEAGUE 1", owners=owners_1, years=[year_1])
+
+        # create League 2
+        owners_2, teams_2 = getNDefaultOwnersAndTeams(2)
+
+        matchup_2 = Matchup(teamAId=teams_2[0].id, teamBId=teams_2[1].id, teamAScore=1.1, teamBScore=2.2,
+                            matchupType=MatchupType.REGULAR_SEASON)
+        week_2 = Week(weekNumber=1, matchups=[matchup_2])
+        year_2 = Year(yearNumber=2000, teams=teams_2, weeks=[week_2])
+        league_2 = League(name="LEAGUE 2", owners=owners_2, years=[year_2])
+
+        combinedLeague = league_1 + league_2
+        self.assertIsInstance(combinedLeague, League)
+        self.assertEqual(2000, combinedLeague.years[0].yearNumber)
+        self.assertEqual(2001, combinedLeague.years[1].yearNumber)
+
     def test_league_statSheet(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
