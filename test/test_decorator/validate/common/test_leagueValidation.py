@@ -84,7 +84,7 @@ class TestLeagueValidation(unittest.TestCase):
 
         with self.assertRaises(InvalidLeagueFormatException) as context:
             leagueValidation.checkNoDuplicateYearNumbers(League(name="TEST", owners=list(), years=[a_year, b_year]))
-        self.assertEqual("Can only have 1 of each year number within a test_league.", str(context.exception))
+        self.assertEqual("Can only have 1 of each year number within a league.", str(context.exception))
 
     def test_checkForDuplicateOwners_duplicateOwnerInstances_raisesException(self):
         owner = Owner(name="1")
