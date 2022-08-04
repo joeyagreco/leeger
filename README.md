@@ -27,8 +27,8 @@ Instant stats for your fantasy football league.
   - [Team Success](https://github.com/joeyagreco/leeger#team-success)
   - [WAL](https://github.com/joeyagreco/leeger#wal)
   - [Win Percentage](https://github.com/joeyagreco/leeger#win-percentage)
-- [Contributing](https://github.com/joeyagreco/leeger#contributing)
 - [Running Tests](https://github.com/joeyagreco/leeger#running-tests)
+- [Contributing](https://github.com/joeyagreco/leeger#contributing)
 - [License](https://github.com/joeyagreco/leeger#license)
 - [Credit](https://github.com/joeyagreco/leeger#credit)
 
@@ -345,12 +345,6 @@ please [open an issue](https://github.com/joeyagreco/leeger/issues).
 > ### Formula Explained
 > Win Percentage is simply another way of representing how successful a team has been throughout a sample.
 
-## Contributing
-
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-Please make sure to update tests as appropriate.
-
 ## Running Tests
 
 To run tests, run the following command:
@@ -358,6 +352,12 @@ To run tests, run the following command:
 ```bash
   pytest
 ```
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
 
 ## License
 
