@@ -1,10 +1,3 @@
-___
-name: test Issue
-about: For any issues involving a League Loader
-title: "[LEAGUE LOADER]"
-labels: ''
-assignees: joeyagreco
-
 body:
 
 - type: dropdown
@@ -22,4 +15,3 @@ body:
   description: Describe the issue briefly below.
   validations:
   required: true
-- ___
