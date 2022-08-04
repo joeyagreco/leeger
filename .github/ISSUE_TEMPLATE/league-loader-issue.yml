@@ -1,5 +1,5 @@
-name:  League Loader Issue
-description: Report an issue for an existing League Loader
+name:  League Loader Bug
+description: Report an bug for an existing League Loader
 title: "[LEAGUE LOADER]: "
 labels:
   - bug
@@ -20,7 +20,7 @@ body:
 - type: textarea
   attributes:
     label: Summary
-    description: Describe the issue briefly below.
+    description: Describe the bug briefly below.
   validations:
     required: true
     
