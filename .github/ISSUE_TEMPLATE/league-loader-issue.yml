@@ -23,3 +23,10 @@ body:
     description: Describe the issue briefly below.
   validations:
     required: true
+    
+- type: textarea
+  attributes:
+    label: Error Logs
+    description: Paste any error logs here.
+  validations:
+    required: false
