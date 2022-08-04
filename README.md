@@ -28,6 +28,7 @@ Instant stats for your fantasy football league.
   - [WAL](https://github.com/joeyagreco/leeger#wal)
   - [Win Percentage](https://github.com/joeyagreco/leeger#win-percentage)
 - [Contributing](https://github.com/joeyagreco/leeger#contributing)
+- [Running Tests](https://github.com/joeyagreco/leeger#running-tests)
 - [License](https://github.com/joeyagreco/leeger#license)
 - [Credit](https://github.com/joeyagreco/leeger#credit)
 
@@ -349,6 +350,14 @@ please [open an issue](https://github.com/joeyagreco/leeger/issues).
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
+
+## Running Tests
+
+To run tests, run the following command:
+
+```bash
+  pytest
+```
 
 ## License
 
