@@ -1,5 +1,7 @@
 name:  League Loader Issue
 description: Report an issue for an existing League Loader
+labels:
+  - bug
 assignees:
   - joeyagreco
 
