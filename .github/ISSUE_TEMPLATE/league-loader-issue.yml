@@ -1,0 +1,37 @@
+name: League Loader Issue
+description: File an issue for a League Loader
+title: "[LEAGUE LOADER]: "
+labels: ["bug", "triage"]
+assignees:
+- joeyagreco
+  body:
+- type: textarea
+  id: issue
+  attributes:
+  label: What's the Issue?
+  description: Please leave a detailed description of the issue.
+  placeholder: Tell us what you see!
+  validations:
+  required: true
+
+- type: dropdown
+  id: league-loader
+  attributes:
+  label: League Loader
+  description: Which League Loader has this issue?
+  options:
+    - ESPN
+    - Sleeper
+    - Yahoo
+      validations:
+      required: true
+
+- type: textarea
+  id: logs
+  attributes:
+  label: Relevant log output
+  description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need
+  for backticks.
+  render: shell
+
+
