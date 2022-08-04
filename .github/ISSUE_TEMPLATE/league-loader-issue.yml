@@ -1,5 +1,5 @@
-name:  ✨ Feature request
-description: Suggest an idea for this project
+name:  League Loader Issue
+description: Report an issue for an existing League Loader
 
 body:
 - type: dropdown
