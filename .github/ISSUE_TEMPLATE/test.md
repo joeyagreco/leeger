@@ -1,3 +1,4 @@
+___
 name: test Issue
 about: For any issues involving a League Loader
 title: "[LEAGUE LOADER]"
@@ -10,10 +11,10 @@ body:
   attributes:
   label: League Loader
   options:
-    - ESPN
-    - Sleeper
-      validations:
-      required: true
+  - ESPN
+  - Sleeper
+    validations:
+    required: true
 
 - type: textarea
   attributes:
@@ -21,3 +22,4 @@ body:
   description: Describe the issue briefly below.
   validations:
   required: true
+- ___
