@@ -1,33 +1,22 @@
-name: League Loader Issue
-description: File an issue for a League Loader
-title: "[LEAGUE LOADER]: "
-labels: ["bug", "triage"]
-assignees:
-  - joeyagreco
-body:
-  - type: textarea
-    attributes:
-      label: What's the Issue?
-      description: Please leave a detailed description of the issue.
-      placeholder: Tell us what you see!
-    validations:
-      required: true
+name:  ✨ Feature request
+description: Suggest an idea for this project
 
+body:
 - type: dropdown
   attributes:
-    label: League Loader
-    description: Which League Loader has this issue?
+    label: Sport
     options:
-      - ESPN
-      - Sleeper
-      - Yahoo
+     - All
+     - Football
+     - Basketball
+     - Baseball
+     - Hockey
   validations:
     required: true
 
 - type: textarea
   attributes:
-    label: Relevant log output
-    description: Please copy and paste any relevant log output. This will be automatically formatted into code so no need for backticks.
-    render: shell
-
-
+    label: Summary
+    description: Describe the new feature/improvement briefly below.
+  validations:
+    required: true
