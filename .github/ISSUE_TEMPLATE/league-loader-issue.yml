@@ -1,5 +1,5 @@
-name: League Loader Issue
-description: File an issue for a League Loader
+name: "League Loader Issue"
+description: "File an issue for a League Loader"
 title: "[LEAGUE LOADER]: "
 labels: ["bug", "triage"]
 assignees:
