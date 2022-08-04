@@ -8,13 +8,11 @@ assignees:
 body:
 - type: dropdown
   attributes:
-    label: Sport
+    label: League Loader
     options:
-     - All
-     - Football
-     - Basketball
-     - Baseball
-     - Hockey
+     - ESPN
+     - Sleeper
+     - Yahoo
   validations:
     required: true
 
