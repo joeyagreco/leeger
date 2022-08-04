@@ -3,7 +3,7 @@ description: File an issue for a League Loader
 title: "[LEAGUE LOADER]: "
 labels: ["bug", "triage"]
 assignees:
-- joeyagreco
+  - joeyagreco
 body:
   - type: textarea
     id: issue
