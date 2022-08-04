@@ -26,6 +26,13 @@ body:
     
 - type: textarea
   attributes:
+    label: League Info
+    description: This is the league info you are using that is failing with the League Loader. This is not required but can help with debugging. PLEASE DO NOT SHARE LOGIN INFO!
+  validations:
+    required: false
+    
+- type: textarea
+  attributes:
     label: Error Logs
     description: Paste any error logs here.
   validations:
