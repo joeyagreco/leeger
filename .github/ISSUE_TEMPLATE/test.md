@@ -1,4 +1,4 @@
-name: League Loader Issue
+name: test Issue
 about: For any issues involving a League Loader
 title: "[LEAGUE LOADER]"
 labels: ''
