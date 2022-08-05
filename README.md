@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="https://raw.githubusercontent.com/joeyagreco/leeger/main/img/leeger-logo-final.png" alt="leeger logo" width="450"/>
+    <img src="" alt="leeger logo" width="450"/>
 Instant stats for your fantasy football league.
 </div>
 
