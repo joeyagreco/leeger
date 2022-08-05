@@ -1,6 +1,8 @@
-# leeger
+<div align="center">
+    <img src="" alt="leeger logo" width="350"/>
 
 Instant stats for your fantasy football league.
+</div>
 
 ![Main Build](https://github.com/joeyagreco/leeger/actions/workflows/main-build.yml/badge.svg)
 ![Last Commit](https://img.shields.io/github/last-commit/joeyagreco/leeger)
