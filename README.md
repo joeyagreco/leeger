@@ -1,5 +1,6 @@
 <div align="center">
-    <img src="" alt="leeger logo" width="450"/>
+    <img src="https://raw.githubusercontent.com/joeyagreco/leeger/main/img/leeger-logo-cropped.png" alt="leeger logo" width="250"/>
+
 Instant stats for your fantasy football league.
 </div>
 
@@ -7,6 +8,7 @@ Instant stats for your fantasy football league.
 ![Last Commit](https://img.shields.io/github/last-commit/joeyagreco/leeger)
 
 ### Table of Contents
+
 - [Installation](https://github.com/joeyagreco/leeger#installation)
 - [Usage](https://github.com/joeyagreco/leeger#usage)
 - [Supported League Loaders](https://github.com/joeyagreco/leeger#supported-league-loaders)
