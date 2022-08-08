@@ -7,9 +7,6 @@ with open("leeger/_version.py") as f:
 with open("README.md") as f:
     readme = f.read()
 
-with open("LICENSE") as f:
-    license_ = f.read()
-
 setuptools.setup(
     name="leeger",
     version=pkg_vars["__version__"],
@@ -18,7 +15,7 @@ setuptools.setup(
     description="Instant stats for your fantasy football league.",
     long_description_content_type="text/markdown",
     long_description=readme,
-    license=license_,
+    license="MIT",
     packages=setuptools.find_packages(exclude=("test", "docs")),
     install_requires=["numpy",
                       "setuptools",
