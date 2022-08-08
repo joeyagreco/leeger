@@ -3,5 +3,5 @@ setuptools~=63.3.0
 openpyxl~=3.0.10
 espn-api~=0.21.0
 yahoofantasy~=1.2.2
-sleeper~=1.0.0
+sleeper~=1.0.1
 pymfl~=0.7.1
