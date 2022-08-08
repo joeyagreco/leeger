@@ -42,13 +42,6 @@ class SleeperLeagueLoader(LeagueLoader):
         if len(years) > 0:
             raise ValueError(f"Could not find years '{years}' for league.")
 
-        # mostRecentLeague: SleeperLeague = LeagueAPIClient.get_league(league_id=self._leagueId)
-        # sleeperLeagues = [mostRecentLeague]
-        # previousLeagueId = mostRecentLeague.previous_league_id
-        # while previousLeagueId not in self.__INVALID_SLEEPER_LEAGUE_IDS:
-        #     previousLeague = LeagueAPIClient.get_league(league_id=previousLeagueId)
-        #     sleeperLeagues.append(previousLeague)
-        #     previousLeagueId = previousLeague.previous_league_id
         # reverse list so most recent is last in list
         sleeperLeagues = sleeperLeagues[::-1]
         return self.__buildLeague(sleeperLeagues)
