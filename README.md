@@ -112,7 +112,8 @@ please [open an issue](https://github.com/joeyagreco/leeger/issues).
     - Client Purpose = "Data Collection"\
     - Client User Agent is set (remember what this is as you will need it for the League Loader)\
     - Authorized Users has *at least* your MFL username
-> - Validate your client by selecting "Validate" for your newly-created client under "Configured Clients".
+> - Validate your client by selecting "Validate" for your newly-created client under "Configured Clients".\
+    - This will allow you to validate your API Client via text message.
 
 > ### Sleeper
 > ___

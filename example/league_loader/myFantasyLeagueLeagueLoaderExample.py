@@ -9,7 +9,7 @@ from leeger.model.league import League
 #   - Client User Agent is set (remember what this is as you will need it for the League Loader)
 #   - Authorized Users has at least your MFL username
 # Validate your client by selecting "Validate" for your newly-created client under "Configured Clients".
-# This will validate your client by validating via text message.
+#   - This will validate your client by validating via text message.
 
 # Get a League object with years 2019 and 2020 for MyFantasyLeague league with ID: "123456".
 
