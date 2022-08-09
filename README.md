@@ -52,13 +52,13 @@ the [`example`](https://github.com/joeyagreco/leeger/tree/main/example) folder.
 
 Sites that you can automatically load your league data from.
 
-| Name                                                    | Website                                   | Supported          |
-|---------------------------------------------------------|-------------------------------------------|--------------------|
-| [ESPN](https://github.com/joeyagreco/leeger#espn)       | https://www.espn.com/fantasy/football/    | :heavy_check_mark: |
-| MyFantasyLeague                                         | http://home.myfantasyleague.com/          | :x:                |
-| NFL                                                     | https://fantasy.nfl.com/                  | :x:                |
-| [Sleeper](https://github.com/joeyagreco/leeger#sleeper) | https://sleeper.com/fantasy-football      | :heavy_check_mark: |
-| [Yahoo](https://github.com/joeyagreco/leeger#yahoo)     | https://football.fantasysports.yahoo.com/ | :heavy_check_mark: |
+| Name                                                                    | Website                                   | Supported          |
+|-------------------------------------------------------------------------|-------------------------------------------|--------------------|
+| [ESPN](https://github.com/joeyagreco/leeger#espn)                       | https://www.espn.com/fantasy/football/    | :heavy_check_mark: |
+| [MyFantasyLeague](https://github.com/joeyagreco/leeger#myfantasyleague) | http://home.myfantasyleague.com/          | :heavy_check_mark: |
+| NFL                                                                     | https://fantasy.nfl.com/                  | :x:                |
+| [Sleeper](https://github.com/joeyagreco/leeger#sleeper)                 | https://sleeper.com/fantasy-football      | :heavy_check_mark: |
+| [Yahoo](https://github.com/joeyagreco/leeger#yahoo)                     | https://football.fantasysports.yahoo.com/ | :heavy_check_mark: |
 
 If a fantasy site you use is not listed here and you would like it to be,
 please [open an issue](https://github.com/joeyagreco/leeger/issues).
@@ -89,6 +89,38 @@ please [open an issue](https://github.com/joeyagreco/leeger/issues).
 > 4. Go to Storage (for Firefox) or Application (for Chrome) and browse the Cookies available for fantasy.espn.com
 > 5. The values you need are called "SWID" and "ESPN_S2". You can right-click and copy the values from here.
 
+> ### MyFantasyLeague
+> ___
+>
+> ##### [Examples](https://github.com/joeyagreco/leeger/blob/main/example/league_loader/myFantasyLeagueLeagueLoaderExample.py)
+>
+> ##### League Info Needed
+>
+> - League ID
+> - MFL Username
+> - MFL Password
+> - MFL User Agent Name
+>
+> [How to find your MyFantasyLeague league ID.](https://www.dynastyassistant.com/faq#:~:text=Visit%20your%20league's%20homepage%20and,example%20is%20your%20league's%20ID.)
+>
+> To set up your MyFantasyLeague account, follow these steps:
+>
+> - Register a client via
+    the [API Client Registration Page](http://www.myfantasyleague.com/current_year/csetup?C=APICLI) (replace "
+    current_year" with the current year)
+> - Set up your API Client, making sure that:
+    >
+
+- Client Purpose = "Data Collection"
+
+> - Client User Agent is set (remember what this is as you will need it for the League Loader)
+    >
+
+- Authorized Users has at least your MFL username
+
+> - Validate your client by selecting "Validate" for your newly-created client under "Configured Clients".
+>
+>
 > ### Sleeper
 > ___
 >
