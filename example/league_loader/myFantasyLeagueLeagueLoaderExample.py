@@ -13,13 +13,14 @@ from leeger.model.league import League
 
 # Get a League object with years 2019 and 2020 for MyFantasyLeague league with ID: "123456".
 
-mflUsername = "myUsername"  # The username for your MFL account.
-mflPassword = "myPassword"  # The password for your MFL account.
-mflUserAgentName = "myUserAgentName"  # The Client User Agent you set for your API Client.
+MFL_USERNAME = "myUsername"  # The username for your MFL account.
+MFL_PASSWORD = "myPassword"  # The password for your MFL account.
+MFL_USER_AGENT_NAME = "myUserAgentName"  # The Client User Agent you set for your API Client.
+LEAGUE_ID = "123456"
 
-myFantasyLeagueLoader = MyFantasyLeagueLeagueLoader("123456",
+myFantasyLeagueLoader = MyFantasyLeagueLeagueLoader(LEAGUE_ID,
                                                     [2019, 2020],
-                                                    mflUsername=mflUsername,
-                                                    mflPassword=mflPassword,
-                                                    mflUserAgentName=mflUserAgentName)
+                                                    mflUsername=MFL_USERNAME,
+                                                    mflPassword=MFL_PASSWORD,
+                                                    mflUserAgentName=MFL_USER_AGENT_NAME)
 league: League = myFantasyLeagueLoader.loadLeague()
