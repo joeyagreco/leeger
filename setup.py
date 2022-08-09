@@ -22,5 +22,6 @@ setuptools.setup(
                       "openpyxl",
                       "espn-api",
                       "yahoofantasy",
-                      "sleeper"]
+                      "sleeper",
+                      "pymfl"]
 )
