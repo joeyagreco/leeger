@@ -111,10 +111,9 @@ please [open an issue](https://github.com/joeyagreco/leeger/issues).
 > - Set up your API Client, making sure that:\
     - Client Purpose = "Data Collection"\
     - Client User Agent is set (remember what this is as you will need it for the League Loader)\
-    - Authorized Users has at least your MFL username
+    - Authorized Users has *at least* your MFL username
 > - Validate your client by selecting "Validate" for your newly-created client under "Configured Clients".
->
->
+
 > ### Sleeper
 > ___
 >
