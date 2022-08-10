@@ -10,14 +10,14 @@ body:
 - type: input
   attributes:
     label: Fantasy Site Name
-    description: The name of the fantasy site you would like added
+    description: The name of the fantasy site you would like added.
   validations:
     required: true
 
 - type: input
   attributes:
     label: Fantasy Site URL
-    description: The URL of the fantasy site you would like added
+    description: The URL of the fantasy site you would like added.
   validations:
     required: true
 
