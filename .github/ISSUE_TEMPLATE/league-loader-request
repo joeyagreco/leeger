@@ -1,0 +1,28 @@
+name:  League Loader Request
+description: Request support for a non-supported fantasy site
+title: "[LEAGUE LOADER]: "
+labels:
+  - enhancement
+assignees:
+  - joeyagreco
+
+body:
+- type: input
+  attributes:
+    label: Fantasy Site Name
+  validations:
+    required: true
+
+- type: input
+  attributes:
+    label: Fantasy Site URL
+  validations:
+    required: true
+
+- type: textarea
+  attributes:
+    label: Notes
+    description: Add any additional relevant info.
+  validations:
+    required: false
+
