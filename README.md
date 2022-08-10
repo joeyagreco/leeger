@@ -13,6 +13,7 @@ Instant stats for your fantasy football league.
 - [Usage](https://github.com/joeyagreco/leeger#usage)
 - [Supported League Loaders](https://github.com/joeyagreco/leeger#supported-league-loaders)
   - [ESPN](https://github.com/joeyagreco/leeger#espn)
+  - [MyFantasyLeague](https://github.com/joeyagreco/leeger#myfantasyleague)
   - [Sleeper](https://github.com/joeyagreco/leeger#sleeper)
   - [Yahoo](https://github.com/joeyagreco/leeger#yahoo)
 - [Stats Explained](https://github.com/joeyagreco/leeger#stats-explained)
