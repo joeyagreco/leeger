@@ -4,4 +4,4 @@ openpyxl~=3.0.10
 espn-api~=0.21.0
 yahoofantasy~=1.2.2
 sleeper~=1.1.1
-pymfl~=1.0.0
+pymfl~=1.0.2
