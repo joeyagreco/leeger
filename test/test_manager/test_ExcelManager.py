@@ -6,7 +6,7 @@ import unittest
 from openpyxl import load_workbook
 from openpyxl.utils import get_column_letter
 
-from leeger.excel.ExcelManager import ExcelManager
+from leeger.manager.ExcelManager import ExcelManager
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Team import Team
