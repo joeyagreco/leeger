@@ -30,12 +30,13 @@ matchup3 = Matchup(teamAId=teamJoseph2019.id, teamBId=teamVincent2019.id, teamAS
 week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
 # Create the 2019 year (season).
-year2019 = Year(yearNumber=2019, teams=[teamFrankie2019,
-                                        teamMonika2019,
-                                        teamJoseph2019,
-                                        teamVincent2019,
-                                        teamGiovanna2019,
-                                        teamDominic2019],
+year2019 = Year(yearNumber=2019,
+                teams=[teamFrankie2019,
+                       teamMonika2019,
+                       teamJoseph2019,
+                       teamVincent2019,
+                       teamGiovanna2019,
+                       teamDominic2019],
                 weeks=[week1])
 
 # Create the league.
