@@ -2,14 +2,18 @@ from leeger.calculator.all_time_calculator import GameOutcomeAllTimeCalculator, 
     SingleScoreAllTimeCalculator, ScoringShareAllTimeCalculator, AWALAllTimeCalculator, \
     ScoringStandardDeviationAllTimeCalculator, SmartWinsAllTimeCalculator
 from leeger.league_loader import ESPNLeagueLoader
+from leeger.model.league import League
+from leeger.model.stat.AllTimeStatSheet import AllTimeStatSheet
+from leeger.util.stat_sheet import leagueStatSheet
 
 # Get a League object.
 # There are many ways to get a League object, here we will just grab one using the ESPN League Loader.
+
 espnLeagueLoader = ESPNLeagueLoader("12345678", [2019, 2020, 2021, 2022])
-league = espnLeagueLoader.loadLeague()
+league: League = espnLeagueLoader.loadLeague()
 
 # To get all stats for this league, access the stat sheet.
-leagueStats = league.statSheet()
+leagueStats: AllTimeStatSheet = leagueStatSheet(league)
 
 # To get a specific stat for this league, use a stat calculator.
 # Get wins.
