@@ -1,13 +1,6 @@
 from __future__ import annotations
 
-import os
-import random
 from dataclasses import dataclass
-
-from openpyxl import load_workbook
-from openpyxl.styles import Font, Color, PatternFill
-from openpyxl.utils import get_column_letter
-from openpyxl.worksheet.table import Table
 
 from leeger.model.abstract.UniqueId import UniqueId
 from leeger.model.league.Owner import Owner
@@ -151,76 +144,3 @@ class League(UniqueId):
                                 opponentScoringShare=opponentScoringShare, maxScore=maxScore, minScore=minScore,
                                 scoringStandardDeviation=scoringStandardDeviation, plusMinus=plusMinus,
                                 teamScore=teamScore, teamSuccess=teamSuccess, teamLuck=teamLuck)
-
-    def toExcel(self, filePath: str, **kwargs) -> None:
-        if os.path.exists(filePath):
-            raise FileExistsError(f"Cannot create file at path: '{filePath}' because there is already a file there.")
-        for year in self.years:
-            year.toExcel(filePath, **kwargs)
-
-        # add All-Time stats sheet
-        workbook = load_workbook(filename=filePath)
-        # figure out index to put this sheet into
-        # we want the sheets to be ordered: oldest year -> newest year -> all time
-        index = len(workbook.sheetnames)
-        workbook.create_sheet("All Time", index=index)
-        worksheet = workbook["All Time"]
-
-        ####################
-        # Styles for table #
-        ####################
-
-        # fonts
-        headerColumnFont = Font(size=12, bold=True)
-        teamNameFont = Font(size=11, bold=True)
-
-        # colors
-        GRAY = Color(rgb="B8B8B8")
-
-        def getRandomColor(tint: float = 0) -> Color:
-            r = lambda: random.randint(0, 255)
-            hexCode = "%02X%02X%02X" % (r(), r(), r())
-            return Color(rgb=hexCode, tint=tint)
-
-        OWNER_ROW_COLORS = [getRandomColor(0.5) for _ in range(len(self.owners))]
-
-        # fills
-        headerFill = PatternFill(patternType="solid", fgColor=GRAY)
-
-        #################
-        # Fill in table #
-        #################
-
-        # add title
-        worksheet["A1"] = "Owner Names"
-        worksheet["A1"].font = headerColumnFont
-        worksheet["A1"].fill = headerFill
-        # add all team names
-        for i, owner in enumerate(self.owners):
-            col = "A"
-            worksheet[f"{col}{i + 2}"] = owner.name
-            worksheet[f"{col}{i + 2}"].font = teamNameFont
-            worksheet[f"{col}{i + 2}"].fill = PatternFill(patternType="solid", fgColor=OWNER_ROW_COLORS[i])
-
-        # add all stats
-        statsWithTitles = self.statSheet(**kwargs).preferredOrderWithTitle()
-        for row, ownerId in enumerate([owner.id for owner in self.owners]):
-            rowFill = PatternFill(patternType="solid", fgColor=OWNER_ROW_COLORS[row])
-            for col, statWithTitle in enumerate(statsWithTitles):
-                char = get_column_letter(col + 2)
-                if row == 1:
-                    # add stat header
-                    worksheet[f"{char}{row}"] = statWithTitle[0]
-                    worksheet[f"{char}{row}"].font = headerColumnFont
-                    worksheet[f"{char}{row}"].fill = headerFill
-                # add stat value
-                worksheet[f"{char}{row + 2}"] = statWithTitle[1][ownerId]
-                worksheet[f"{char}{row + 2}"].fill = rowFill
-
-        # put stats into table
-        table = Table(displayName=f"AllTimeStats",
-                      ref="A1:" + get_column_letter(worksheet.max_column) + str(worksheet.max_row))
-        worksheet.add_table(table)
-
-        # save
-        workbook.save(filePath)
