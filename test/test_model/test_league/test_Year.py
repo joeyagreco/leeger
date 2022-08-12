@@ -5,7 +5,6 @@ from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Team import Team
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
-from leeger.model.stat.YearStatSheet import YearStatSheet
 from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
@@ -58,49 +57,3 @@ class TestYear(unittest.TestCase):
         year_2 = Year(yearNumber=2001, teams=teams_2, weeks=[week_2])
 
         self.assertNotEqual(year_1, year_2)
-
-    def test_year_statSheet(self):
-        owners, teams = getNDefaultOwnersAndTeams(2)
-
-        matchup = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        week = Week(weekNumber=1, matchups=[matchup])
-        year = Year(yearNumber=2000, teams=teams, weeks=[week])
-
-        yearStatSheet = year.statSheet()
-
-        self.assertIsInstance(yearStatSheet, YearStatSheet)
-        self.assertIsInstance(yearStatSheet.wins, dict)
-        self.assertIsInstance(yearStatSheet.losses, dict)
-        self.assertIsInstance(yearStatSheet.ties, dict)
-        self.assertIsInstance(yearStatSheet.winPercentage, dict)
-        self.assertIsInstance(yearStatSheet.wal, dict)
-        self.assertIsInstance(yearStatSheet.walPerGame, dict)
-
-        self.assertIsInstance(yearStatSheet.awal, dict)
-        self.assertIsInstance(yearStatSheet.awalPerGame, dict)
-        self.assertIsInstance(yearStatSheet.opponentAWAL, dict)
-        self.assertIsInstance(yearStatSheet.opponentAWALPerGame, dict)
-
-        self.assertIsInstance(yearStatSheet.smartWins, dict)
-        self.assertIsInstance(yearStatSheet.smartWinsPerGame, dict)
-        self.assertIsInstance(yearStatSheet.opponentSmartWins, dict)
-        self.assertIsInstance(yearStatSheet.opponentSmartWinsPerGame, dict)
-
-        self.assertIsInstance(yearStatSheet.pointsScored, dict)
-        self.assertIsInstance(yearStatSheet.pointsScoredPerGame, dict)
-        self.assertIsInstance(yearStatSheet.opponentPointsScored, dict)
-        self.assertIsInstance(yearStatSheet.opponentPointsScoredPerGame, dict)
-
-        self.assertIsInstance(yearStatSheet.scoringShare, dict)
-        self.assertIsInstance(yearStatSheet.opponentScoringShare, dict)
-
-        self.assertIsInstance(yearStatSheet.maxScore, dict)
-        self.assertIsInstance(yearStatSheet.minScore, dict)
-
-        self.assertIsInstance(yearStatSheet.scoringStandardDeviation, dict)
-
-        self.assertIsInstance(yearStatSheet.plusMinus, dict)
-
-        self.assertIsInstance(yearStatSheet.teamScore, dict)
-        self.assertIsInstance(yearStatSheet.teamSuccess, dict)
-        self.assertIsInstance(yearStatSheet.teamLuck, dict)

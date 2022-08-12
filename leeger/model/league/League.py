@@ -5,7 +5,6 @@ from dataclasses import dataclass
 from leeger.model.abstract.UniqueId import UniqueId
 from leeger.model.league.Owner import Owner
 from leeger.model.league.Year import Year
-from leeger.model.stat.AllTimeStatSheet import AllTimeStatSheet
 
 
 @dataclass(kw_only=True, eq=False)
@@ -72,75 +71,3 @@ class League(UniqueId):
         # validate new league
         leagueValidation.runAllChecks(newLeague)
         return newLeague
-
-    def statSheet(self, **kwargs) -> AllTimeStatSheet:
-        from leeger.calculator.all_time_calculator import AWALAllTimeCalculator
-        from leeger.calculator.all_time_calculator.GameOutcomeAllTimeCalculator import \
-            GameOutcomeAllTimeCalculator
-        from leeger.calculator.all_time_calculator.PlusMinusAllTimeCalculator import PlusMinusAllTimeCalculator
-        from leeger.calculator.all_time_calculator.PointsScoredAllTimeCalculator import \
-            PointsScoredAllTimeCalculator
-        from leeger.calculator.all_time_calculator.SSLAllTimeCalculator import SSLAllTimeCalculator
-        from leeger.calculator.all_time_calculator.ScoringShareAllTimeCalculator import \
-            ScoringShareAllTimeCalculator
-        from leeger.calculator.all_time_calculator.ScoringStandardDeviationAllTimeCalculator import \
-            ScoringStandardDeviationAllTimeCalculator
-        from leeger.calculator.all_time_calculator.SingleScoreAllTimeCalculator import \
-            SingleScoreAllTimeCalculator
-        from leeger.calculator.all_time_calculator.SmartWinsAllTimeCalculator import SmartWinsAllTimeCalculator
-
-        # Game Outcome
-        wins = GameOutcomeAllTimeCalculator.getWins(self, **kwargs)
-        losses = GameOutcomeAllTimeCalculator.getLosses(self, **kwargs)
-        ties = GameOutcomeAllTimeCalculator.getTies(self, **kwargs)
-        winPercentage = GameOutcomeAllTimeCalculator.getWinPercentage(self, **kwargs)
-        wal = GameOutcomeAllTimeCalculator.getWAL(self, **kwargs)
-        walPerGame = GameOutcomeAllTimeCalculator.getWALPerGame(self, **kwargs)
-
-        # AWAL
-        awal = AWALAllTimeCalculator.getAWAL(self, **kwargs)
-        awalPerGame = AWALAllTimeCalculator.getAWALPerGame(self, **kwargs)
-        opponentAWAL = AWALAllTimeCalculator.getOpponentAWAL(self, **kwargs)
-        opponentAWALPerGame = AWALAllTimeCalculator.getOpponentAWALPerGame(self, **kwargs)
-
-        # Smart Wins
-        smartWins = SmartWinsAllTimeCalculator.getSmartWins(self, **kwargs)
-        smartWinsPerGame = SmartWinsAllTimeCalculator.getSmartWinsPerGame(self, **kwargs)
-        opponentSmartWins = SmartWinsAllTimeCalculator.getOpponentSmartWins(self, **kwargs)
-        opponentSmartWinsPerGame = SmartWinsAllTimeCalculator.getOpponentSmartWinsPerGame(self, **kwargs)
-
-        # Points Scored
-        pointsScored = PointsScoredAllTimeCalculator.getPointsScored(self, **kwargs)
-        pointsScoredPerGame = PointsScoredAllTimeCalculator.getPointsScoredPerGame(self, **kwargs)
-        opponentPointsScored = PointsScoredAllTimeCalculator.getOpponentPointsScored(self, **kwargs)
-        opponentPointsScoredPerGame = PointsScoredAllTimeCalculator.getOpponentPointsScoredPerGame(self, **kwargs)
-
-        # Scoring Share
-        scoringShare = ScoringShareAllTimeCalculator.getScoringShare(self, **kwargs)
-        opponentScoringShare = ScoringShareAllTimeCalculator.getOpponentScoringShare(self, **kwargs)
-
-        # Single Score
-        maxScore = SingleScoreAllTimeCalculator.getMaxScore(self, **kwargs)
-        minScore = SingleScoreAllTimeCalculator.getMinScore(self, **kwargs)
-
-        # Scoring Standard Deviation
-        scoringStandardDeviation = ScoringStandardDeviationAllTimeCalculator.getScoringStandardDeviation(self, **kwargs)
-
-        # Plus Minus
-        plusMinus = PlusMinusAllTimeCalculator.getPlusMinus(self, **kwargs)
-
-        # SSL
-        teamScore = SSLAllTimeCalculator.getTeamScore(self, **kwargs)
-        teamSuccess = SSLAllTimeCalculator.getTeamSuccess(self, **kwargs)
-        teamLuck = SSLAllTimeCalculator.getTeamLuck(self, **kwargs)
-
-        return AllTimeStatSheet(wins=wins, losses=losses, ties=ties, winPercentage=winPercentage, wal=wal,
-                                walPerGame=walPerGame, awal=awal, awalPerGame=awalPerGame, opponentAWAL=opponentAWAL,
-                                opponentAWALPerGame=opponentAWALPerGame, smartWins=smartWins,
-                                smartWinsPerGame=smartWinsPerGame, opponentSmartWins=opponentSmartWins,
-                                opponentSmartWinsPerGame=opponentSmartWinsPerGame, pointsScored=pointsScored,
-                                pointsScoredPerGame=pointsScoredPerGame, opponentPointsScored=opponentPointsScored,
-                                opponentPointsScoredPerGame=opponentPointsScoredPerGame, scoringShare=scoringShare,
-                                opponentScoringShare=opponentScoringShare, maxScore=maxScore, minScore=minScore,
-                                scoringStandardDeviation=scoringStandardDeviation, plusMinus=plusMinus,
-                                teamScore=teamScore, teamSuccess=teamSuccess, teamLuck=teamLuck)
