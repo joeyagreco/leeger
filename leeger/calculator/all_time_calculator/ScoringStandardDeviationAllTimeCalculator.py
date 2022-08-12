@@ -3,10 +3,10 @@ from typing import Optional
 import numpy
 
 from leeger.calculator.parent.AllTimeCalculator import AllTimeCalculator
-from leeger.decorator.validate.validators import validateLeague
+from leeger.decorator.validators import validateLeague
 from leeger.model.league.League import League
 from leeger.util.Deci import Deci
-from leeger.util.LeagueNavigator import LeagueNavigator
+from leeger.util.navigator.LeagueNavigator import LeagueNavigator
 
 
 class ScoringStandardDeviationAllTimeCalculator(AllTimeCalculator):

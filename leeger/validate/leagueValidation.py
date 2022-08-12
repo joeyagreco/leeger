@@ -1,6 +1,6 @@
-from leeger.decorator.validate.common import ownerValidation, yearValidation
 from leeger.exception.InvalidLeagueFormatException import InvalidLeagueFormatException
 from leeger.model.league.League import League
+from leeger.validate import ownerValidation, yearValidation
 
 """
 Checker Functions

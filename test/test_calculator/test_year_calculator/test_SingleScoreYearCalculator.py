@@ -1,6 +1,6 @@
 import unittest
 
-from leeger.calculator.year_calculator.SingleScoreYearCalculator import SingleScoreYearCalculator
+from leeger.calculator.year_calculator import SingleScoreYearCalculator
 from leeger.enum.MatchupType import MatchupType
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Week import Week

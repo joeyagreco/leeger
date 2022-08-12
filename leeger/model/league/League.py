@@ -46,7 +46,7 @@ class League(UniqueId):
                 - "years" will be combined in order oldestYearNumber -> newestYearNumber.
                 - Duplicate Year.yearNumber across leagues will raise an exception.
         """
-        from leeger.decorator.validate.common import leagueValidation
+        from leeger.validate import leagueValidation
         # first, validate the leagues we want to combine.
         leagueValidation.runAllChecks(self)
         leagueValidation.runAllChecks(otherLeague)
@@ -81,8 +81,9 @@ class League(UniqueId):
         return newLeague
 
     def statSheet(self, **kwargs) -> AllTimeStatSheet:
-        from leeger.calculator.all_time_calculator.AWALAllTimeCalculator import AWALAllTimeCalculator
-        from leeger.calculator.all_time_calculator.GameOutcomeAllTimeCalculator import GameOutcomeAllTimeCalculator
+        from leeger.calculator.all_time_calculator import AWALAllTimeCalculator
+        from leeger.calculator.all_time_calculator.GameOutcomeAllTimeCalculator import \
+            GameOutcomeAllTimeCalculator
         from leeger.calculator.all_time_calculator.PlusMinusAllTimeCalculator import PlusMinusAllTimeCalculator
         from leeger.calculator.all_time_calculator.PointsScoredAllTimeCalculator import \
             PointsScoredAllTimeCalculator
@@ -91,7 +92,8 @@ class League(UniqueId):
             ScoringShareAllTimeCalculator
         from leeger.calculator.all_time_calculator.ScoringStandardDeviationAllTimeCalculator import \
             ScoringStandardDeviationAllTimeCalculator
-        from leeger.calculator.all_time_calculator.SingleScoreAllTimeCalculator import SingleScoreAllTimeCalculator
+        from leeger.calculator.all_time_calculator.SingleScoreAllTimeCalculator import \
+            SingleScoreAllTimeCalculator
         from leeger.calculator.all_time_calculator.SmartWinsAllTimeCalculator import SmartWinsAllTimeCalculator
 
         # Game Outcome

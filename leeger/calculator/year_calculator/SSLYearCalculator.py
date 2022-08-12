@@ -5,10 +5,10 @@ from leeger.calculator.year_calculator.AWALYearCalculator import AWALYearCalcula
 from leeger.calculator.year_calculator.GameOutcomeYearCalculator import GameOutcomeYearCalculator
 from leeger.calculator.year_calculator.ScoringShareYearCalculator import ScoringShareYearCalculator
 from leeger.calculator.year_calculator.SingleScoreYearCalculator import SingleScoreYearCalculator
-from leeger.decorator.validate.validators import validateYear
+from leeger.decorator.validators import validateYear
 from leeger.model.league.Year import Year
 from leeger.util.Deci import Deci
-from leeger.util.YearNavigator import YearNavigator
+from leeger.util.navigator.YearNavigator import YearNavigator
 
 
 class SSLYearCalculator(YearCalculator):

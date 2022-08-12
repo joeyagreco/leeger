@@ -1,10 +1,10 @@
 from typing import Callable
 
-from leeger.decorator.validate.common import leagueValidation, yearValidation, weekValidation, matchupValidation
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
+from leeger.validate import matchupValidation, yearValidation, weekValidation, leagueValidation
 
 
 def validateLeague(function: Callable) -> Callable:

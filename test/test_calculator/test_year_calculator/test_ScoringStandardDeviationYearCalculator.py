@@ -1,6 +1,6 @@
 import unittest
 
-from leeger.calculator.year_calculator.ScoringStandardDeviationYearCalculator import \
+from leeger.calculator.year_calculator import \
     ScoringStandardDeviationYearCalculator
 from leeger.enum.MatchupType import MatchupType
 from leeger.model.league.Matchup import Matchup

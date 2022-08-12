@@ -1,6 +1,5 @@
 import unittest
 
-from leeger.decorator.validate.common import leagueValidation
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception.InvalidLeagueFormatException import InvalidLeagueFormatException
 from leeger.model.league.League import League
@@ -9,6 +8,7 @@ from leeger.model.league.Owner import Owner
 from leeger.model.league.Team import Team
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
+from leeger.validate import leagueValidation
 from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 

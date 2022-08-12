@@ -9,7 +9,7 @@ from leeger.model.league.Owner import Owner
 from leeger.model.league.Team import Team
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
-from leeger.util.LeagueNavigator import LeagueNavigator
+from leeger.util.navigator.LeagueNavigator import LeagueNavigator
 from test.helper.prototypes import getNDefaultOwnersAndTeams, getTeamsFromOwners
 
 

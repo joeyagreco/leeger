@@ -1,4 +1,4 @@
-from leeger.decorator.validate.validators import validateLeague
+from leeger.decorator.validators import validateLeague
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception.DoesNotExistException import DoesNotExistException
 from leeger.model.filter.AllTimeFilters import AllTimeFilters
@@ -6,7 +6,7 @@ from leeger.model.filter.YearFilters import YearFilters
 from leeger.model.league.League import League
 from leeger.model.league.Team import Team
 from leeger.model.league.Year import Year
-from leeger.util.YearNavigator import YearNavigator
+from leeger.util.navigator.YearNavigator import YearNavigator
 
 
 class LeagueNavigator:

@@ -2,11 +2,11 @@ from typing import Optional
 
 from leeger.calculator.parent.YearCalculator import YearCalculator
 from leeger.calculator.year_calculator.PointsScoredYearCalculator import PointsScoredYearCalculator
-from leeger.decorator.validate.validators import validateYear
+from leeger.decorator.validators import validateYear
 from leeger.model.league.Year import Year
 from leeger.util.Deci import Deci
 from leeger.util.GeneralUtil import GeneralUtil
-from leeger.util.YearNavigator import YearNavigator
+from leeger.util.navigator.YearNavigator import YearNavigator
 
 
 class ScoringShareYearCalculator(YearCalculator):

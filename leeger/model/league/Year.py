@@ -37,9 +37,9 @@ class Year(UniqueId):
         from leeger.calculator.year_calculator.PlusMinusYearCalculator import PlusMinusYearCalculator
         from leeger.calculator.year_calculator.PointsScoredYearCalculator import PointsScoredYearCalculator
         from leeger.calculator.year_calculator.ScoringShareYearCalculator import ScoringShareYearCalculator
-        from leeger.calculator.year_calculator.ScoringStandardDeviationYearCalculator import \
+        from leeger.calculator.year_calculator import \
             ScoringStandardDeviationYearCalculator
-        from leeger.calculator.year_calculator.SingleScoreYearCalculator import SingleScoreYearCalculator
+        from leeger.calculator.year_calculator import SingleScoreYearCalculator
         from leeger.calculator.year_calculator.SmartWinsYearCalculator import SmartWinsYearCalculator
         from leeger.calculator.year_calculator.SSLYearCalculator import SSLYearCalculator
 

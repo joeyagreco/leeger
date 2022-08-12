@@ -2,10 +2,10 @@ from typing import Optional
 
 from leeger.calculator.parent.AllTimeCalculator import AllTimeCalculator
 from leeger.calculator.year_calculator.PointsScoredYearCalculator import PointsScoredYearCalculator
-from leeger.decorator.validate.validators import validateLeague
+from leeger.decorator.validators import validateLeague
 from leeger.model.league.League import League
 from leeger.util.Deci import Deci
-from leeger.util.LeagueNavigator import LeagueNavigator
+from leeger.util.navigator.LeagueNavigator import LeagueNavigator
 
 
 class PointsScoredAllTimeCalculator(AllTimeCalculator):

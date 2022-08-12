@@ -1,13 +1,13 @@
 from typing import Optional
 
-from leeger.decorator.validate.validators import validateLeague
+from leeger.decorator.validators import validateLeague
 from leeger.exception.InvalidFilterException import InvalidFilterException
 from leeger.model.filter.AllTimeFilters import AllTimeFilters
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup
 from leeger.util.Deci import Deci
 from leeger.util.GeneralUtil import GeneralUtil
-from leeger.util.LeagueNavigator import LeagueNavigator
+from leeger.util.navigator.LeagueNavigator import LeagueNavigator
 
 
 class AllTimeCalculator:

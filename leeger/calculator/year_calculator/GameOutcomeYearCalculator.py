@@ -1,11 +1,11 @@
 from typing import Optional
 
 from leeger.calculator.parent.YearCalculator import YearCalculator
-from leeger.decorator.validate.validators import validateYear
+from leeger.decorator.validators import validateYear
 from leeger.model.league.Year import Year
 from leeger.util.Deci import Deci
-from leeger.util.MatchupNavigator import MatchupNavigator
-from leeger.util.YearNavigator import YearNavigator
+from leeger.util.navigator.MatchupNavigator import MatchupNavigator
+from leeger.util.navigator.YearNavigator import YearNavigator
 
 
 class GameOutcomeYearCalculator(YearCalculator):

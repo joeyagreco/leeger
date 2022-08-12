@@ -1,7 +1,7 @@
-from leeger.decorator.validate.common import matchupValidation
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception.InvalidWeekFormatException import InvalidWeekFormatException
 from leeger.model.league.Week import Week
+from leeger.validate import matchupValidation
 
 
 def runAllChecks(week: Week) -> None:

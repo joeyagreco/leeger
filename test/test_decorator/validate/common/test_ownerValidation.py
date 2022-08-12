@@ -1,8 +1,8 @@
 import unittest
 
-from leeger.decorator.validate.common import ownerValidation
 from leeger.exception.InvalidOwnerFormatException import InvalidOwnerFormatException
 from leeger.model.league.Owner import Owner
+from leeger.validate import ownerValidation
 
 
 class TestOwnerValidation(unittest.TestCase):

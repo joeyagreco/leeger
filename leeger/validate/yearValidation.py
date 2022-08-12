@@ -1,6 +1,6 @@
-from leeger.decorator.validate.common import teamValidation, weekValidation
 from leeger.exception.InvalidYearFormatException import InvalidYearFormatException
 from leeger.model.league.Year import Year
+from leeger.validate import teamValidation, weekValidation
 
 """
 Checker Functions
@@ -193,7 +193,7 @@ def checkEveryTeamInYearIsInAMatchup(year: Year) -> None:
     """
     Checks that every Team in the year appears in at least 1 matchup.
     """
-    from leeger.util.YearNavigator import YearNavigator
+    from leeger.util.navigator.YearNavigator import YearNavigator
     teamIds = YearNavigator.getAllTeamIds(year, validateYear=False)
     for week in year.weeks:
         for matchup in week.matchups:

@@ -8,7 +8,7 @@ from leeger.model.league.Team import Team
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
 from leeger.util.Deci import Deci
-from leeger.util.YearNavigator import YearNavigator
+from leeger.util.navigator.YearNavigator import YearNavigator
 from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 

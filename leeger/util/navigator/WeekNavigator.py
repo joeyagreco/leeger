@@ -1,4 +1,4 @@
-from leeger.decorator.validate.validators import validateWeek
+from leeger.decorator.validators import validateWeek
 from leeger.model.filter.WeekFilters import WeekFilters
 from leeger.model.league.Week import Week
 

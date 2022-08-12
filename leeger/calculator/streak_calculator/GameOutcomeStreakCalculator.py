@@ -1,10 +1,10 @@
 from leeger.calculator.parent.StreakCalculator import StreakCalculator
-from leeger.decorator.validate.validators import validateLeague
+from leeger.decorator.validators import validateLeague
 from leeger.model.league.League import League
 from leeger.model.league.Team import Team
 from leeger.model.stat.Streak import Streak
-from leeger.util.LeagueNavigator import LeagueNavigator
-from leeger.util.MatchupNavigator import MatchupNavigator
+from leeger.util.navigator.LeagueNavigator import LeagueNavigator
+from leeger.util.navigator.MatchupNavigator import MatchupNavigator
 
 
 class GameOutcomeStreakCalculator(StreakCalculator):

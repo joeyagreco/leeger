@@ -1,9 +1,9 @@
 import unittest
 
-from leeger.decorator.validate.common import matchupValidation
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception.InvalidMatchupFormatException import InvalidMatchupFormatException
 from leeger.model.league.Matchup import Matchup
+from leeger.validate import matchupValidation
 
 
 class TestMatchupValidation(unittest.TestCase):

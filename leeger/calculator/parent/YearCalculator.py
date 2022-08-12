@@ -1,13 +1,13 @@
 from typing import Any
 
-from leeger.decorator.validate.validators import validateYear
+from leeger.decorator.validators import validateYear
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception.InvalidFilterException import InvalidFilterException
 from leeger.model.filter.YearFilters import YearFilters
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Year import Year
 from leeger.util.GeneralUtil import GeneralUtil
-from leeger.util.YearNavigator import YearNavigator
+from leeger.util.navigator.YearNavigator import YearNavigator
 
 
 class YearCalculator:

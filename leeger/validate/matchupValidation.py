@@ -35,7 +35,7 @@ def checkForIllegalMatchupOutcomes(matchup: Matchup) -> None:
     """
     Checks that no playoff/championship matchup ends in a tie.
     """
-    from leeger.util.MatchupNavigator import MatchupNavigator
+    from leeger.util.navigator.MatchupNavigator import MatchupNavigator
     if matchup.matchupType in [MatchupType.PLAYOFF,
                                MatchupType.CHAMPIONSHIP] and MatchupNavigator.getTeamIdOfMatchupWinner(
         matchup, validateMatchup=False) is None:

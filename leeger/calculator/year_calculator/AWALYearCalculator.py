@@ -1,12 +1,12 @@
 from typing import Optional
 
 from leeger.calculator.parent.YearCalculator import YearCalculator
-from leeger.decorator.validate.validators import validateYear
+from leeger.decorator.validators import validateYear
 from leeger.model.filter.WeekFilters import WeekFilters
 from leeger.model.league.Year import Year
 from leeger.util.Deci import Deci
-from leeger.util.WeekNavigator import WeekNavigator
-from leeger.util.YearNavigator import YearNavigator
+from leeger.util.navigator.WeekNavigator import WeekNavigator
+from leeger.util.navigator.YearNavigator import YearNavigator
 
 
 class AWALYearCalculator(YearCalculator):

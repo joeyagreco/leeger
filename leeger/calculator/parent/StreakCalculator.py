@@ -1,10 +1,10 @@
-from leeger.decorator.validate.validators import validateLeague
+from leeger.decorator.validators import validateLeague
 from leeger.exception.InvalidFilterException import InvalidFilterException
 from leeger.model.filter.StreakFilters import StreakFilters
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup
 from leeger.util.GeneralUtil import GeneralUtil
-from leeger.util.LeagueNavigator import LeagueNavigator
+from leeger.util.navigator.LeagueNavigator import LeagueNavigator
 
 
 class StreakCalculator:

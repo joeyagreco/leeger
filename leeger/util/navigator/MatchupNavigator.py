@@ -1,6 +1,6 @@
 from typing import Optional
 
-from leeger.decorator.validate.validators import validateMatchup
+from leeger.decorator.validators import validateMatchup
 from leeger.model.league.Matchup import Matchup
 
 

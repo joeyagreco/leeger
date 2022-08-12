@@ -1,4 +1,4 @@
-from leeger.decorator.validate.validators import validateYear
+from leeger.decorator.validators import validateYear
 from leeger.enum.MatchupType import MatchupType
 from leeger.model.filter.YearFilters import YearFilters
 from leeger.model.league.Year import Year
