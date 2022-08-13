@@ -1,1 +1,1 @@
-from .validators import validateLeague, validateYear, validateWeek, validateMatchup  # noqa
+from .validators import validateLeague, validateYear, validateWeek, validateMatchup
