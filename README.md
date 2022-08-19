@@ -62,8 +62,13 @@ Sites that you can automatically load your league data from.
 | [Sleeper](https://github.com/joeyagreco/leeger#sleeper)                 | https://sleeper.com/fantasy-football      | :heavy_check_mark: |
 | [Yahoo](https://github.com/joeyagreco/leeger#yahoo)                     | https://football.fantasysports.yahoo.com/ | :heavy_check_mark: |
 
-If a fantasy site you use is not listed here and you would like it to be,
-please [open an issue](https://github.com/joeyagreco/leeger/issues).
+<!---
+// @formatter:off
+-->
+If a fantasy site you use is not listed here and you would like it to be, please [open an issue](https://github.com/joeyagreco/leeger/issues/new/choose).
+<!---
+// @formatter:on
+-->
 
 > ### ESPN
 > ___
