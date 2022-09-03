@@ -76,10 +76,16 @@ How do I use this library to pull stats from my online fantasy league?
 **Answer:**
 
 1. Find your fantasy site [here](https://github.com/joeyagreco/leeger#supported-league-loaders) and ensure you have
-   everything you need for the one you are using
+   everything you need for the site you are using
 2. Follow the [example code snippets](https://github.com/joeyagreco/leeger/tree/main/example/league_loader) for your
-   fantasy site
+   fantasy site to load the League object
 
+___
+**Q:**
+How can I get stats into Excel once I have my League object?
+
+**A:**
+Follow [this example code](https://github.com/joeyagreco/leeger/blob/main/example/stat/statsToExcelExample.py).
 ___
 **Q:**
 Can I combine years from different fantasy sites into 1 League object?
