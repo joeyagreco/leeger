@@ -1,7 +1,7 @@
-numpy~=1.23.1
-setuptools~=63.4.3
+numpy~=1.23.2
+setuptools~=65.3.0
 openpyxl~=3.0.10
 espn-api~=0.21.0
-yahoofantasy~=1.2.2
+yahoofantasy==1.2.3
 sleeper~=1.1.1
-pymfl~=1.0.0
+pymfl~=1.0.2
