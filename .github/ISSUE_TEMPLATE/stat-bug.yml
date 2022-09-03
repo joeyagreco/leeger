@@ -21,7 +21,7 @@ body:
      - Scoring Standard Deviation
      - Single Score
      - Smart Wins
-     - Not Listed
+     - *Not Listed*
   validations:
     required: true
 
