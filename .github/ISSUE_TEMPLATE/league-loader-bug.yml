@@ -34,6 +34,6 @@ body:
 - type: textarea
   attributes:
     label: Error Logs
-    description: Paste any error logs here.
+    description: Paste any error logs here. You can also put your League JSON here by using `print(myLeague.toJson)`.
   validations:
     required: false
