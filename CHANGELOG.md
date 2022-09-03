@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- N/A
+
+## [1.1.0]
+
 - Added way to get League objects in a Python dictionary / JSON via the toJson() method
 - Now allow users to turn off validation on methods that use League objects via the `validate=False` keyword argument
 - Added a FAQ section to README.md
@@ -12,6 +16,8 @@ All notable changes to this project will be documented in this file.
 
 ### Initial Release
 
-[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.1.0...HEAD
+
+[1.1.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.1.0
 
 [1.0.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.0.0
