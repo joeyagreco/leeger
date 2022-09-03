@@ -4,10 +4,11 @@ from dataclasses import dataclass
 
 from leeger.model.abstract.UniqueId import UniqueId
 from leeger.util.CustomLogger import CustomLogger
+from leeger.util.JSONSerializable import JSONSerializable
 
 
 @dataclass(kw_only=True, eq=False)
-class Team(UniqueId):
+class Team(UniqueId, JSONSerializable):
     __LOGGER = CustomLogger.getLogger()
     ownerId: str
     name: str
@@ -26,3 +27,10 @@ class Team(UniqueId):
             if len(notEqualStrings) > 0:
                 self.__LOGGER.warning(f"Returning True for equality check when {notEqualStrings} are not equal.")
         return equal
+
+    def toJson(self) -> dict:
+        return {
+            "id": self.id,
+            "ownerId": self.ownerId,
+            "name": self.name
+        }

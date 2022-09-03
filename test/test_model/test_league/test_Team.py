@@ -27,3 +27,10 @@ class TestTeam(unittest.TestCase):
         team_2 = Team(ownerId="2", name="2dif")
 
         self.assertNotEqual(team_1, team_2)
+
+    def test_team_toJson(self):
+        team = Team(ownerId="", name="team")
+        teamJson = team.toJson()
+
+        self.assertIsInstance(teamJson, dict)
+        self.assertEqual("team", teamJson["name"])

@@ -5,10 +5,11 @@ from dataclasses import dataclass
 from leeger.model.abstract.UniqueId import UniqueId
 from leeger.model.league.Team import Team
 from leeger.model.league.Week import Week
+from leeger.util.JSONSerializable import JSONSerializable
 
 
 @dataclass(kw_only=True, eq=False)
-class Year(UniqueId):
+class Year(UniqueId, JSONSerializable):
     yearNumber: int
     teams: list[Team]
     weeks: list[Week]
@@ -22,3 +23,11 @@ class Year(UniqueId):
         equal = equal and self.teams == otherYear.teams
         equal = equal and self.weeks == otherYear.weeks
         return equal
+
+    def toJson(self) -> dict:
+        return {
+            "id": self.id,
+            "yearNumber": self.yearNumber,
+            "teams": [team.toJson() for team in self.teams],
+            "weeks": [week.toJson() for week in self.weeks]
+        }

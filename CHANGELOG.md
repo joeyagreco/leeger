@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- N/A
+- Added way to get League objects in a Python dictionary / JSON via the toJson() method
 
 ## [1.0.0]
 

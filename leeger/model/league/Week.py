@@ -5,10 +5,11 @@ from dataclasses import dataclass
 from leeger.enum.MatchupType import MatchupType
 from leeger.model.abstract.UniqueId import UniqueId
 from leeger.model.league.Matchup import Matchup
+from leeger.util.JSONSerializable import JSONSerializable
 
 
 @dataclass(kw_only=True, eq=False)
-class Week(UniqueId):
+class Week(UniqueId, JSONSerializable):
     weekNumber: int
     matchups: list[Matchup]
 
@@ -38,3 +39,10 @@ class Week(UniqueId):
                 isChampionshipWeek = True
                 break
         return isChampionshipWeek
+
+    def toJson(self) -> dict:
+        return {
+            "id": self.id,
+            "weekNumber": self.weekNumber,
+            "matchups": [matchup.toJson() for matchup in self.matchups]
+        }
