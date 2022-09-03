@@ -57,8 +57,8 @@ Excel sheets will include:
 This library supports multiple fantasy sites AND manual league data input.\
 \
 For guides on how to use this library, see the guides
-under [Supported League Loaders](https://github.com/joeyagreco/leeger#supported-league-loaders/target="_blank") and
-the [`example`](https://github.com/joeyagreco/leeger/tree/main/example/target="_blank") folder.
+under [Supported League Loaders](https://github.com/joeyagreco/leeger#supported-league-loaders/target=_blank) and
+the [`example`](https://github.com/joeyagreco/leeger/tree/main/example/target=_blank) folder.
 
 ## Installation
 
