@@ -1,6 +1,5 @@
 from typing import Optional
 
-from leeger.decorator.validators import validateLeague
 from leeger.exception.InvalidFilterException import InvalidFilterException
 from leeger.model.filter.AllTimeFilters import AllTimeFilters
 from leeger.model.league.League import League
@@ -71,7 +70,6 @@ class AllTimeCalculator:
                               onlyRegularSeason=onlyRegularSeason)
 
     @classmethod
-    @validateLeague
     def _addAndCombineResults(cls, league: League, function: callable, **kwargs) -> dict[
         str, Optional[int | float | Deci]]:
         """
@@ -117,7 +115,6 @@ class AllTimeCalculator:
         return result
 
     @classmethod
-    @validateLeague
     def _averageAndCombineResults(cls, league: League, function: callable, **kwargs) -> dict[str, int | float | Deci]:
         allResultDicts = cls.__getAllResultDicts(league, function, **kwargs)
 
@@ -137,7 +134,6 @@ class AllTimeCalculator:
         return result
 
     @classmethod
-    @validateLeague
     def __getAllResultDicts(cls, league: League, function: callable, **kwargs) -> list[dict]:
 
         allTimeFilters = cls._getAllTimeFilters(league, **kwargs)
@@ -174,11 +170,11 @@ class AllTimeCalculator:
                                            onlyPostSeason=allTimeFilters.onlyPostSeason,
                                            onlyRegularSeason=allTimeFilters.onlyRegularSeason,
                                            weekNumberStart=currentWeekNumberStart,
-                                           weekNumberEnd=currentWeekNumberEnd))
+                                           weekNumberEnd=currentWeekNumberEnd,
+                                           validate=kwargs.get("validate", True)))
         return allResultDicts
 
     @classmethod
-    @validateLeague
     def _getAllFilteredMatchups(cls, league: League, allTimeFilters: AllTimeFilters, **kwargs) -> list[Matchup]:
         """
         Returns all Matchups in the given League that are remaining after the given filters are applied.

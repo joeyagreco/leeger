@@ -1,4 +1,3 @@
-from leeger.decorator.validators import validateLeague
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception.DoesNotExistException import DoesNotExistException
 from leeger.model.filter.AllTimeFilters import AllTimeFilters
@@ -15,7 +14,6 @@ class LeagueNavigator:
     """
 
     @staticmethod
-    @validateLeague
     def getYearByYearNumber(league: League, yearNumber: int, **kwargs) -> Year:
         for year in league.years:
             if year.yearNumber == yearNumber:
@@ -23,7 +21,6 @@ class LeagueNavigator:
         raise DoesNotExistException(f"Year {yearNumber} does not exist in the given League.")
 
     @staticmethod
-    @validateLeague
     def getTeamById(league: League, teamId: str, **kwargs) -> Team:
         for year in league.years:
             for team in year.teams:
@@ -32,12 +29,10 @@ class LeagueNavigator:
         raise DoesNotExistException(f"Team with ID {teamId} does not exist in the given League.")
 
     @staticmethod
-    @validateLeague
     def getAllOwnerIds(league: League, **kwargs) -> list[str]:
         return [owner.id for owner in league.owners]
 
     @classmethod
-    @validateLeague
     def getNumberOfGamesPlayed(cls, league: League, allTimeFilters: AllTimeFilters) -> dict[str, int]:
         """
         Returns the number of games played for each owner in the given League all time.
@@ -105,7 +100,6 @@ class LeagueNavigator:
         return ownerIdAndNumberOfGamesPlayed
 
     @staticmethod
-    @validateLeague
     def getAllScoresInLeague(league: League, **kwargs) -> list[float | int]:
         """
         Returns a list of all scores for the given League.

@@ -1,4 +1,3 @@
-from leeger.decorator.validators import validateWeek
 from leeger.model.filter.WeekFilters import WeekFilters
 from leeger.model.league.Week import Week
 
@@ -9,7 +8,6 @@ class WeekNavigator:
     """
 
     @staticmethod
-    @validateWeek
     def getTeamIdsAndScores(week: Week, weekFilters: WeekFilters, **kwargs) -> dict[str, float | int]:
         """
         Returns all scores for each team in the given Week.
@@ -30,7 +28,6 @@ class WeekNavigator:
         return teamIdAndScores
 
     @staticmethod
-    @validateWeek
     def getTeamIdsAndOpponentScores(week: Week, weekFilters: WeekFilters, **kwargs) -> dict[str, float | int]:
         """
         Returns all scores for each team's opponent in the given Week.
@@ -51,7 +48,6 @@ class WeekNavigator:
         return teamIdAndScores
 
     @classmethod
-    @validateWeek
     def getNumberOfValidTeamsInWeek(cls, week: Week, weekFilters: WeekFilters, **kwargs) -> int:
         """
         Returns the number of valid teams that are playing in the given week.

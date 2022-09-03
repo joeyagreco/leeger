@@ -54,7 +54,7 @@ class SmartWinsYearCalculator(YearCalculator):
         ####################
         ####################
 
-        filters = cls._getYearFilters(year, validateYear=False, **kwargs)
+        filters = cls._getYearFilters(year, **kwargs)
 
         # get all scores we want to include in our smart wins calculation
         teamIdsAndScores = list()
@@ -145,7 +145,7 @@ class SmartWinsYearCalculator(YearCalculator):
         ####################
         ####################
 
-        filters = cls._getYearFilters(year, validateYear=False, **kwargs)
+        filters = cls._getYearFilters(year, **kwargs)
 
         # get all scores we want to include in our smart wins calculation
         teamIdsAndOpponentScores = list()

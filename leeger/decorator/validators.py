@@ -1,3 +1,4 @@
+from functools import wraps
 from typing import Callable
 
 from leeger.model.league.League import League
@@ -7,19 +8,24 @@ from leeger.model.league.Year import Year
 from leeger.validate import matchupValidation, yearValidation, weekValidation, leagueValidation
 
 
+def __shouldValidate(kwargs) -> bool:
+    return "validate" not in kwargs or kwargs["validate"] is True
+
+
 def validateLeague(function: Callable) -> Callable:
     """
     It is expected that any function decorated with this will follow these rules:
         - Have a League object as a parameter
     This decorator will take the first League parameter found and use it for all validation
-    If a function that is decorated with this has the kwarg "validateLeague" set to False, this validation will not be run.
+    If a function that is decorated with this has the kwarg "validate" set to False, this validation will not be run.
 
     The purpose of this decorator is to do some initial checks on the League object to validate that it is correctly formatted.
     """
 
+    @wraps(function)
     def wrapFunction(*args, **kwargs):
         # check if we should run this method
-        if "validateLeague" in kwargs and not kwargs["validateLeague"]:
+        if not __shouldValidate(kwargs):
             return function(*args, **kwargs)
         league = None
         for arg in args:
@@ -39,14 +45,15 @@ def validateYear(function: Callable) -> Callable:
     It is expected that any function decorated with this will follow these rules:
         - Have a Year object as a parameter
     This decorator will take the first Year parameter found and use it for all validation
-    If a function that is decorated with this has the kwarg "validateYear" set to False, this validation will not be run.
+    If a function that is decorated with this has the kwarg "validate" set to False, this validation will not be run.
 
     The purpose of this decorator is to do some initial checks on the Year object to validate that it is correctly formatted.
     """
 
+    @wraps(function)
     def wrapFunction(*args, **kwargs):
         # check if we should run this method
-        if "validateYear" in kwargs and not kwargs["validateYear"]:
+        if not __shouldValidate(kwargs):
             return function(*args, **kwargs)
         year = None
         for arg in args:
@@ -66,14 +73,15 @@ def validateWeek(function: Callable) -> Callable:
     It is expected that any function decorated with this will follow these rules:
         - Have a Week object as a parameter
     This decorator will take the first Week parameter found and use it for all validation
-    If a function that is decorated with this has the kwarg "validateWeek" set to False, this validation will not be run.
+    If a function that is decorated with this has the kwarg "validate" set to False, this validation will not be run.
 
     The purpose of this decorator is to do some initial checks on the Week object to validate that it is correctly formatted.
     """
 
+    @wraps(function)
     def wrapFunction(*args, **kwargs):
         # check if we should run this method
-        if "validateWeek" in kwargs and not kwargs["validateWeek"]:
+        if not __shouldValidate(kwargs):
             return function(*args, **kwargs)
         week = None
         for arg in args:
@@ -93,14 +101,15 @@ def validateMatchup(function: Callable) -> Callable:
     It is expected that any function decorated with this will follow these rules:
         - Have a Matchup object as a parameter
     This decorator will take the first Week parameter found and use it for all validation
-    If a function that is decorated with this has the kwarg "validateMatchup" set to False, this validation will not be run.
+    If a function that is decorated with this has the kwarg "validate" set to False, this validation will not be run.
 
     The purpose of this decorator is to do some initial checks on the Matchup object to validate that it is correctly formatted.
     """
 
+    @wraps(function)
     def wrapFunction(*args, **kwargs):
         # check if we should run this method
-        if "validateMatchup" in kwargs and not kwargs["validateMatchup"]:
+        if not __shouldValidate(kwargs):
             return function(*args, **kwargs)
         matchup = None
         for arg in args:

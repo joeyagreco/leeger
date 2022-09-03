@@ -1,6 +1,5 @@
 from typing import Optional
 
-from leeger.decorator.validators import validateMatchup
 from leeger.model.league.Matchup import Matchup
 
 
@@ -10,7 +9,6 @@ class MatchupNavigator:
     """
 
     @staticmethod
-    @validateMatchup
     def getTeamIdOfMatchupWinner(matchup: Matchup, **kwargs) -> Optional[str]:
         """
         Returns the team ID of the team that won the matchup or None if the matchup was a tie.

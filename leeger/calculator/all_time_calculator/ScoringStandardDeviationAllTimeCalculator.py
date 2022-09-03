@@ -38,7 +38,7 @@ class ScoringStandardDeviationAllTimeCalculator(AllTimeCalculator):
             ...
             }
         """
-        filters = cls._getAllTimeFilters(league, validateLeague=False, **kwargs)
+        filters = cls._getAllTimeFilters(league, **kwargs)
 
         ownerIdAndScores = dict()
         allOwnerIds = LeagueNavigator.getAllOwnerIds(league)

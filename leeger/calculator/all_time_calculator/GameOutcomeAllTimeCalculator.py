@@ -25,7 +25,7 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
             ...
             }
         """
-        return cls._addAndCombineResults(league, GameOutcomeYearCalculator.getWins, validateLeague=False, **kwargs)
+        return cls._addAndCombineResults(league, GameOutcomeYearCalculator.getWins, **kwargs)
 
     @classmethod
     @validateLeague
@@ -42,7 +42,7 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
             ...
             }
         """
-        return cls._addAndCombineResults(league, GameOutcomeYearCalculator.getLosses, validateLeague=False, **kwargs)
+        return cls._addAndCombineResults(league, GameOutcomeYearCalculator.getLosses, **kwargs)
 
     @classmethod
     @validateLeague
@@ -59,7 +59,7 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
             ...
             }
         """
-        return cls._addAndCombineResults(league, GameOutcomeYearCalculator.getTies, validateLeague=False, **kwargs)
+        return cls._addAndCombineResults(league, GameOutcomeYearCalculator.getTies, **kwargs)
 
     @classmethod
     @validateLeague

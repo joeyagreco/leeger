@@ -26,13 +26,13 @@ class SingleScoreYearCalculator(YearCalculator):
             ...
             }
         """
-        filters = cls._getYearFilters(year, validateYear=False, **kwargs)
+        filters = cls._getYearFilters(year, **kwargs)
 
         teamIdAndMaxScore = dict()
 
-        allMatchups = cls._getAllFilteredMatchups(year, filters, validateYear=False)
+        allMatchups = cls._getAllFilteredMatchups(year, filters)
 
-        for teamId in YearNavigator.getAllTeamIds(year, validateYear=False):
+        for teamId in YearNavigator.getAllTeamIds(year):
             teamIdAndMaxScore[teamId] = None
 
         for matchup in allMatchups:
@@ -61,13 +61,13 @@ class SingleScoreYearCalculator(YearCalculator):
             ...
             }
         """
-        filters = cls._getYearFilters(year, validateYear=False, **kwargs)
+        filters = cls._getYearFilters(year, **kwargs)
 
         teamIdAndMinScore = dict()
 
-        allMatchups = cls._getAllFilteredMatchups(year, filters, validateYear=False)
+        allMatchups = cls._getAllFilteredMatchups(year, filters)
 
-        for teamId in YearNavigator.getAllTeamIds(year, validateYear=False):
+        for teamId in YearNavigator.getAllTeamIds(year):
             teamIdAndMinScore[teamId] = None
 
         for matchup in allMatchups:
