@@ -40,7 +40,7 @@ class AWALYearCalculator(YearCalculator):
             ...
             }
         """
-        filters = cls._getYearFilters(year, validateYear=False, **kwargs)
+        filters = cls._getYearFilters(year, **kwargs)
 
         teamIdAndAWAL = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
@@ -127,7 +127,7 @@ class AWALYearCalculator(YearCalculator):
             ...
             }
         """
-        filters = cls._getYearFilters(year, validateYear=False, **kwargs)
+        filters = cls._getYearFilters(year, **kwargs)
 
         teamIdAndOpponentAWAL = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)

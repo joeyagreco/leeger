@@ -27,7 +27,7 @@ class PointsScoredYearCalculator(YearCalculator):
             ...
             }
         """
-        filters = cls._getYearFilters(year, validateYear=False, **kwargs)
+        filters = cls._getYearFilters(year, **kwargs)
 
         teamIdAndPointsScored = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
@@ -91,7 +91,7 @@ class PointsScoredYearCalculator(YearCalculator):
             ...
             }
         """
-        filters = cls._getYearFilters(year, validateYear=False, **kwargs)
+        filters = cls._getYearFilters(year, **kwargs)
 
         teamIdAndOpponentPointsScored = dict()
         for teamId in YearNavigator.getAllTeamIds(year):

@@ -1,6 +1,5 @@
 from typing import Any
 
-from leeger.decorator.validators import validateYear
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception.InvalidFilterException import InvalidFilterException
 from leeger.model.filter.YearFilters import YearFilters
@@ -16,7 +15,6 @@ class YearCalculator:
     """
 
     @classmethod
-    @validateYear
     def _getYearFilters(cls, year: Year, **kwargs) -> YearFilters:
         onlyChampionship = kwargs.pop("onlyChampionship", False)
         onlyPostSeason = kwargs.pop("onlyPostSeason", False)
@@ -76,7 +74,6 @@ class YearCalculator:
                            includeMatchupTypes=includeMatchupTypes)
 
     @classmethod
-    @validateYear
     def _getAllFilteredMatchups(cls, year: Year, yearFilters: YearFilters, **kwargs) -> list[Matchup]:
         """
         Returns all Matchups in the given Year that are remaining after the given filters are applied.
@@ -91,7 +88,6 @@ class YearCalculator:
         return allFilteredMatchups
 
     @classmethod
-    @validateYear
     def _setToNoneIfNoGamesPlayed(cls, responseDict: dict[str, Any], year: Year, yearFilters: YearFilters = None,
                                   **kwargs) -> None:
         """

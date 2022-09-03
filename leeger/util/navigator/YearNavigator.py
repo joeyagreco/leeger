@@ -1,4 +1,3 @@
-from leeger.decorator.validators import validateYear
 from leeger.enum.MatchupType import MatchupType
 from leeger.model.filter.YearFilters import YearFilters
 from leeger.model.league.Year import Year
@@ -10,12 +9,10 @@ class YearNavigator:
     """
 
     @staticmethod
-    @validateYear
     def getAllTeamIds(year: Year, **kwargs) -> list[str]:
         return [team.id for team in year.teams]
 
     @classmethod
-    @validateYear
     def getNumberOfGamesPlayed(cls, year: Year, yearFilters: YearFilters) -> dict[str, int]:
         """
         Returns the number of games played for each team in the given Year.
@@ -43,7 +40,6 @@ class YearNavigator:
         return teamIdAndNumberOfGamesPlayed
 
     @staticmethod
-    @validateYear
     def getAllScoresInYear(year: Year, **kwargs) -> list[float | int]:
         """
         Returns a list of all scores for the given Year.

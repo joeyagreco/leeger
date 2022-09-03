@@ -38,5 +38,5 @@ def checkForIllegalMatchupOutcomes(matchup: Matchup) -> None:
     from leeger.util.navigator.MatchupNavigator import MatchupNavigator
     if matchup.matchupType in [MatchupType.PLAYOFF,
                                MatchupType.CHAMPIONSHIP] and MatchupNavigator.getTeamIdOfMatchupWinner(
-        matchup, validateMatchup=False) is None:
+        matchup, validate=False) is None:
         raise InvalidMatchupFormatException("Playoff and Championship matchups cannot end in a tie.")

@@ -26,13 +26,13 @@ class SingleScoreAllTimeCalculator(AllTimeCalculator):
             ...
             }
         """
-        filters = cls._getAllTimeFilters(league, validateLeague=False, **kwargs)
+        filters = cls._getAllTimeFilters(league, **kwargs)
 
         ownerIdAndMaxScore = dict()
 
-        allMatchups = cls._getAllFilteredMatchups(league, filters, validateLeague=False)
+        allMatchups = cls._getAllFilteredMatchups(league, filters)
 
-        for ownerId in LeagueNavigator.getAllOwnerIds(league, validateLeague=False):
+        for ownerId in LeagueNavigator.getAllOwnerIds(league):
             ownerIdAndMaxScore[ownerId] = None
 
         for matchup in allMatchups:
@@ -63,13 +63,13 @@ class SingleScoreAllTimeCalculator(AllTimeCalculator):
             ...
             }
         """
-        filters = cls._getAllTimeFilters(league, validateLeague=False, **kwargs)
+        filters = cls._getAllTimeFilters(league, **kwargs)
 
         ownerIdAndMinScore = dict()
 
-        allMatchups = cls._getAllFilteredMatchups(league, filters, validateLeague=False)
+        allMatchups = cls._getAllFilteredMatchups(league, filters)
 
-        for ownerId in LeagueNavigator.getAllOwnerIds(league, validateLeague=False):
+        for ownerId in LeagueNavigator.getAllOwnerIds(league):
             ownerIdAndMinScore[ownerId] = None
 
         for matchup in allMatchups:

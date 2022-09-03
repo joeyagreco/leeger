@@ -55,7 +55,7 @@ class SmartWinsAllTimeCalculator(AllTimeCalculator):
         ####################
         ####################
 
-        filters = cls._getAllTimeFilters(league, validateLeague=False, **kwargs)
+        filters = cls._getAllTimeFilters(league, **kwargs)
 
         # get all scores we want to include in our smart wins calculation
         ownerIdsAndScores: list[tuple] = list()
@@ -147,7 +147,7 @@ class SmartWinsAllTimeCalculator(AllTimeCalculator):
         ####################
         ####################
 
-        filters = cls._getAllTimeFilters(league, validateLeague=False, **kwargs)
+        filters = cls._getAllTimeFilters(league, **kwargs)
 
         # get all scores we want to include in our smart wins calculation
         ownerIdsAndOpponentScores: list[tuple] = list()

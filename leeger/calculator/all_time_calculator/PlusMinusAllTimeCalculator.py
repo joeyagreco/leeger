@@ -35,4 +35,4 @@ class PlusMinusAllTimeCalculator(AllTimeCalculator):
             }
         """
 
-        return cls._addAndCombineResults(league, PlusMinusYearCalculator.getPlusMinus, validateLeague=False, **kwargs)
+        return cls._addAndCombineResults(league, PlusMinusYearCalculator.getPlusMinus, **kwargs)
