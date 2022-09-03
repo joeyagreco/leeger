@@ -10,6 +10,7 @@ body:
 - type: dropdown
   attributes:
     label: Stat Category
+    description: Select the category which this bug falls under.
     options:
      - AWAL
      - Game Outcome
@@ -20,6 +21,7 @@ body:
      - Scoring Standard Deviation
      - Single Score
      - Smart Wins
+     - Not Listed
   validations:
     required: true
 
