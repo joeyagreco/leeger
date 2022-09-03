@@ -56,9 +56,15 @@ Excel sheets will include:
 
 This library supports multiple fantasy sites AND manual league data input.\
 \
-For guides on how to use this library, see the guides
+The main idea behind this library is:
+
+1. Load stats into a League object
+2. Pass this League object into various library methods to extract stats
+
+\
+For guides on how to use this library, see the information
 under [Supported League Loaders](https://github.com/joeyagreco/leeger#supported-league-loaders) and
-the [`example`](https://github.com/joeyagreco/leeger/tree/main/example) folder.
+in the [`example`](https://github.com/joeyagreco/leeger/tree/main/example) folder.
 
 ## Installation
 
