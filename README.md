@@ -11,6 +11,7 @@ Instant stats for your fantasy football league.
 ### Table of Contents
 
 - [Overview](https://github.com/joeyagreco/leeger#overview)
+- [FAQ](https://github.com/joeyagreco/leeger#faq)
 - [Installation](https://github.com/joeyagreco/leeger#installation)
 - [Supported League Loaders](https://github.com/joeyagreco/leeger#supported-league-loaders)
     - [ESPN](https://github.com/joeyagreco/leeger#espn)
@@ -32,7 +33,6 @@ Instant stats for your fantasy football league.
     - [Team Success](https://github.com/joeyagreco/leeger#team-success)
     - [WAL](https://github.com/joeyagreco/leeger#wal)
     - [Win Percentage](https://github.com/joeyagreco/leeger#win-percentage)
-- [FAQ](https://github.com/joeyagreco/leeger#faq)
 - [Running Tests](https://github.com/joeyagreco/leeger#running-tests)
 - [Contributing](https://github.com/joeyagreco/leeger#contributing)
 - [License](https://github.com/joeyagreco/leeger#license)
@@ -67,6 +67,33 @@ The main idea behind this library is:
 For guides on how to use this library, see the information
 under [Supported League Loaders](https://github.com/joeyagreco/leeger#supported-league-loaders) and
 in the [`example`](https://github.com/joeyagreco/leeger/tree/main/example) folder.
+
+## FAQ
+
+**Question:**
+How do I use this library to pull stats from my online fantasy league?
+
+**Answer:**
+
+1. Find your fantasy site [here](https://github.com/joeyagreco/leeger#supported-league-loaders) and ensure you have
+   everything you need for the one you are using
+2. Follow the [example code snippets](https://github.com/joeyagreco/leeger/tree/main/example/league_loader) for your
+   fantasy site
+
+___
+**Q:**
+Can I combine years from different fantasy sites into 1 League object?
+
+**A:**
+Yes, the League object supports addition (+) to combine multiple league objects.\
+An example of this can be found [here](https://github.com/joeyagreco/leeger/blob/main/example/league/leagueFeatures.py).
+___
+**Q:**
+Can I disable validation on my League object?
+
+**A:**
+Yes. While it is not recommended that you disable this, as validation ensures the stats are calculated properly,
+disabling validation can be done by passing `validate=False` into any method that takes a League object.
 
 ## Installation
 
@@ -415,33 +442,6 @@ If a fantasy site you use is not listed here and you would like it to be, please
 > G = Total number of games played by a team within a sample
 > ### Formula Explained
 > Win Percentage is simply another way of representing how successful a team has been throughout a sample.
-
-## FAQ
-
-**Question:**
-How do I use this library to pull stats from my online fantasy league?
-
-**Answer:**
-
-1. Find your fantasy site [here](https://github.com/joeyagreco/leeger#supported-league-loaders) and ensure you have
-   everything you need for the one you are using
-2. Follow the [example code snippets](https://github.com/joeyagreco/leeger/tree/main/example/league_loader) for your
-   fantasy site
-
-___
-**Q:**
-Can I combine years from different fantasy sites into 1 League object?
-
-**A:**
-Yes, the League object supports addition (+) to combine multiple league objects.\
-An example of this can be found [here](https://github.com/joeyagreco/leeger/blob/main/example/league/leagueFeatures.py).
-___
-**Q:**
-Can I disable validation on my League object?
-
-**A:**
-Yes. While it is not recommended that you disable this, as validation ensures the stats are calculated properly,
-disabling validation can be done by passing `validate=False` into any method that takes a League object.
 
 ## Running Tests
 
