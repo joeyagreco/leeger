@@ -76,6 +76,7 @@ class League(UniqueId, JSONSerializable):
     def toJson(self) -> dict:
         return {
             "id": self.id,
+            "name": self.name,
             "owners": [owner.toJson() for owner in self.owners],
             "years": [year.toJson() for year in self.years]
         }

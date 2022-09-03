@@ -243,4 +243,33 @@ class TestLeague(unittest.TestCase):
             league_1 + league_2
         self.assertEqual("Can only have 1 of each year number within a league.", str(context.exception))
 
+    def test_league_toJson(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
 
+        matchup_1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
+                            matchupType=MatchupType.REGULAR_SEASON)
+        week_1 = Week(weekNumber=1, matchups=[matchup_1])
+        year_1 = Year(yearNumber=2000, teams=teams, weeks=[week_1])
+        league = League(name="LEAGUE", owners=owners, years=[year_1])
+        leagueJson = league.toJson()
+
+        self.assertIsInstance(leagueJson, dict)
+        self.assertEqual("LEAGUE", leagueJson["name"])
+        self.assertEqual(2, len(leagueJson["owners"]))
+        self.assertEqual("1", leagueJson["owners"][0]["name"])
+        self.assertEqual("2", leagueJson["owners"][1]["name"])
+        self.assertEqual(1, len(leagueJson["years"]))
+        self.assertEqual(2000, leagueJson["years"][0]["yearNumber"])
+        self.assertEqual(2, len(leagueJson["years"][0]["teams"]))
+        self.assertEqual("1", leagueJson["years"][0]["teams"][0]["name"])
+        self.assertEqual("2", leagueJson["years"][0]["teams"][1]["name"])
+        self.assertEqual(1, len(leagueJson["years"][0]["weeks"]))
+        self.assertEqual(1, leagueJson["years"][0]["weeks"][0]["weekNumber"])
+        self.assertEqual(1, len(leagueJson["years"][0]["weeks"][0]["matchups"]))
+        self.assertEqual(teams[0].id, leagueJson["years"][0]["weeks"][0]["matchups"][0]["teamAId"])
+        self.assertEqual(teams[1].id, leagueJson["years"][0]["weeks"][0]["matchups"][0]["teamBId"])
+        self.assertEqual(1.1, leagueJson["years"][0]["weeks"][0]["matchups"][0]["teamAScore"])
+        self.assertEqual(2.2, leagueJson["years"][0]["weeks"][0]["matchups"][0]["teamBScore"])
+        self.assertEqual("REGULAR_SEASON", leagueJson["years"][0]["weeks"][0]["matchups"][0]["matchupType"])
+        self.assertFalse(leagueJson["years"][0]["weeks"][0]["matchups"][0]["teamAHasTieBreaker"])
+        self.assertFalse(leagueJson["years"][0]["weeks"][0]["matchups"][0]["teamBHasTieBreaker"])
