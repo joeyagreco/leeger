@@ -79,3 +79,19 @@ class TestMatchup(unittest.TestCase):
                             matchupType=MatchupType.PLAYOFF)
 
         self.assertNotEqual(matchup_1, matchup_2)
+
+    def test_matchup_toJson(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
+                          matchupType=MatchupType.REGULAR_SEASON)
+        matchupJson = matchup.toJson()
+
+        self.assertIsInstance(matchupJson, dict)
+        self.assertEqual(teams[0].id, matchupJson["teamAId"])
+        self.assertEqual(teams[1].id, matchupJson["teamBId"])
+        self.assertEqual(1.1, matchupJson["teamAScore"])
+        self.assertEqual(2.2, matchupJson["teamBScore"])
+        self.assertEqual("REGULAR_SEASON", matchupJson["matchupType"])
+        self.assertFalse(matchupJson["teamAHasTieBreaker"])
+        self.assertFalse(matchupJson["teamBHasTieBreaker"])
