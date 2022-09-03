@@ -39,7 +39,7 @@ Instant stats for your fantasy football league.
 
 ## Library Overview
 
-<img src="https://raw.githubusercontent.com/joeyagreco/leeger/main/img/library-overview.png" alt="leeger logo" width="800"/>
+<img src="https://raw.githubusercontent.com/joeyagreco/leeger/main/img/library-overview.png" alt="leeger logo" width="1000"/>
 
 ## Installation
 
