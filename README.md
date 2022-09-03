@@ -43,6 +43,8 @@ Instant stats for your fantasy football league.
 This library allows you to take data from an existing fantasy football league and get instant stats from that league
 into either a Python script or an Excel spreadsheet.\
 \
+This library supports multiple fantasy sites AND manual league data input.\
+\
 Python stats will be stored in these objects:
 
 - [AllTimeStatSheet](https://github.com/joeyagreco/leeger/blob/main/leeger/model/stat/AllTimeStatSheet.py)
@@ -54,7 +56,6 @@ Excel sheets will include:
 - A tab with all-time stats for the league
 - Sortable rows for each team and owner
 
-This library supports multiple fantasy sites AND manual league data input.\
 \
 The main idea behind this library is:
 
