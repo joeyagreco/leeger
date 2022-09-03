@@ -111,3 +111,22 @@ class TestWeek(unittest.TestCase):
         week_2 = Week(weekNumber=2, matchups=[matchup_2])
 
         self.assertNotEqual(week_1, week_2)
+
+    def test_week_toJson(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup_1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
+                            matchupType=MatchupType.REGULAR_SEASON)
+        week = Week(weekNumber=1, matchups=[matchup_1])
+        weekJson = week.toJson()
+
+        self.assertIsInstance(weekJson, dict)
+        self.assertEqual(1, weekJson["weekNumber"])
+        self.assertEqual(1, len(weekJson["matchups"]))
+        self.assertEqual(teams[0].id, weekJson["matchups"][0]["teamAId"])
+        self.assertEqual(teams[1].id, weekJson["matchups"][0]["teamBId"])
+        self.assertEqual(1.1, weekJson["matchups"][0]["teamAScore"])
+        self.assertEqual(2.2, weekJson["matchups"][0]["teamBScore"])
+        self.assertEqual("REGULAR_SEASON", weekJson["matchups"][0]["matchupType"])
+        self.assertFalse(weekJson["matchups"][0]["teamAHasTieBreaker"])
+        self.assertFalse(weekJson["matchups"][0]["teamBHasTieBreaker"])
