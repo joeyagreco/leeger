@@ -99,11 +99,11 @@ If a fantasy site you use is not listed here and you would like it to be, please
 >
 > ##### [Examples](https://github.com/joeyagreco/leeger/blob/main/example/league_loader/espnLeagueLoaderExample.py)
 >
-> ##### League Info Needed [PUBLIC]
+> ##### League Info Needed [PUBLIC LEAGUE]
 >
 > - League ID
 >
-> ##### League Info Needed [PRIVATE]
+> ##### League Info Needed [PRIVATE LEAGUE]
 >
 > - League ID
 > - ESPN_S2 parameter
@@ -186,6 +186,11 @@ If a fantasy site you use is not listed here and you would like it to be, please
 ### An explanation of some stats offered in this library that may not be obvious.
 
 #### _This is not a list of **all** stats in this library._
+
+#### To see a list of all stats retrieved by this library, see the following models:
+
+- [AllTimeStatSheet](https://github.com/joeyagreco/leeger/blob/main/leeger/model/stat/AllTimeStatSheet.py)
+- [YearStatSheet](https://github.com/joeyagreco/leeger/blob/main/leeger/model/stat/YearStatSheet.py)
 
 > ## AWAL
 > ___
