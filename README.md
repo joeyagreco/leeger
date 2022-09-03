@@ -37,6 +37,10 @@ Instant stats for your fantasy football league.
 - [License](https://github.com/joeyagreco/leeger#license)
 - [Credit](https://github.com/joeyagreco/leeger#credit)
 
+## Library Overview
+
+<img src="https://raw.githubusercontent.com/joeyagreco/leeger/main/img/library-overview.png" alt="leeger logo" width="800"/>
+
 ## Installation
 
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install.
