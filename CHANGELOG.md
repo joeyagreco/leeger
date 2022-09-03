@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 - Added way to get League objects in a Python dictionary / JSON via the toJson() method
 - Now allow users to turn off validation on methods that use League objects via the `validate=False` keyword argument
+- Added a FAQ section to README.md
 
 ## [1.0.0]
 
