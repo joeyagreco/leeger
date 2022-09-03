@@ -1,0 +1,16 @@
+name:  Feature Request
+description: Request a new feature
+title: "[FEATURE]: "
+labels:
+  - enhancement
+assignees:
+  - joeyagreco
+
+body:
+- type: textarea
+  attributes:
+    label: Notes
+    description: Describe the desired feature.
+  validations:
+    required: true
+
