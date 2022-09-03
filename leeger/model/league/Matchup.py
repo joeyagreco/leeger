@@ -6,10 +6,11 @@ from leeger.enum.MatchupType import MatchupType
 from leeger.exception.InvalidMatchupFormatException import InvalidMatchupFormatException
 from leeger.model.abstract.UniqueId import UniqueId
 from leeger.util.CustomLogger import CustomLogger
+from leeger.util.JSONSerializable import JSONSerializable
 
 
 @dataclass(kw_only=True, eq=False)
-class Matchup(UniqueId):
+class Matchup(UniqueId, JSONSerializable):
     __LOGGER = CustomLogger.getLogger()
     teamAId: str
     teamBId: str
@@ -44,3 +45,15 @@ class Matchup(UniqueId):
             if len(notEqualStrings) > 0:
                 self.__LOGGER.warning(f"Returning True for equality check when {notEqualStrings} are not equal.")
         return equal
+
+    def toJson(self) -> dict:
+        return {
+            "id": self.id,
+            "teamAId": self.teamAId,
+            "teamBId": self.teamBId,
+            "teamAScore": self.teamAScore,
+            "teamBScore": self.teamBScore,
+            "matchupType": self.matchupType.name,
+            "teamAHasTieBreaker": self.teamAHasTiebreaker,
+            "teamBHasTieBreaker": self.teamBHasTiebreaker
+        }

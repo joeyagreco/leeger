@@ -5,10 +5,11 @@ from dataclasses import dataclass
 from leeger.model.abstract.UniqueId import UniqueId
 from leeger.model.league.Owner import Owner
 from leeger.model.league.Year import Year
+from leeger.util.JSONSerializable import JSONSerializable
 
 
 @dataclass(kw_only=True, eq=False)
-class League(UniqueId):
+class League(UniqueId, JSONSerializable):
     name: str
     owners: list[Owner]
     years: list[Year]
@@ -71,3 +72,10 @@ class League(UniqueId):
         # validate new league
         leagueValidation.runAllChecks(newLeague)
         return newLeague
+
+    def toJson(self) -> dict:
+        return {
+            "id": self.id,
+            "owners": [owner.toJson() for owner in self.owners],
+            "years": [year.toJson() for year in self.years]
+        }
