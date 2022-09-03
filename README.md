@@ -415,6 +415,31 @@ If a fantasy site you use is not listed here and you would like it to be, please
 > ### Formula Explained
 > Win Percentage is simply another way of representing how successful a team has been throughout a sample.
 
+## FAQ
+
+**Question:**
+How do I use this library to pull stats from my online fantasy league?\
+**Answer:**
+
+1. Find your fantasy site [here](https://github.com/joeyagreco/leeger#supported-league-loaders) and ensure you have
+   everything you need for the one you are using
+2. Follow the [example code snippets](https://github.com/joeyagreco/leeger/tree/main/example/league_loader) for your
+   fantasy site
+
+___
+**Q:**
+Can I combine years from different fantasy sites into 1 League object?\
+**A:**
+Yes, the League object supports addition (+) to combine multiple league objects.\
+An example of this can be found [here](https://github.com/joeyagreco/leeger/blob/main/example/league/leagueFeatures.py).
+___
+**Q:**
+Can I disable validation on my League object?\
+**A:**
+Yes.\
+While it is not recommended that you disable this as validation ensures the stats are calculated properly, validation
+can be done by passing `validate=False` into any method that takes a League object.
+
 ## Running Tests
 
 To run tests, run the following command:
