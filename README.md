@@ -32,6 +32,7 @@ Instant stats for your fantasy football league.
     - [Team Success](https://github.com/joeyagreco/leeger#team-success)
     - [WAL](https://github.com/joeyagreco/leeger#wal)
     - [Win Percentage](https://github.com/joeyagreco/leeger#win-percentage)
+- [FAQ](https://github.com/joeyagreco/leeger#faq)
 - [Running Tests](https://github.com/joeyagreco/leeger#running-tests)
 - [Contributing](https://github.com/joeyagreco/leeger#contributing)
 - [License](https://github.com/joeyagreco/leeger#license)
@@ -418,7 +419,7 @@ If a fantasy site you use is not listed here and you would like it to be, please
 ## FAQ
 
 **Question:**
-How do I use this library to pull stats from my online fantasy league?\
+How do I use this library to pull stats from my online fantasy league?
 
 **Answer:**
 
@@ -429,18 +430,18 @@ How do I use this library to pull stats from my online fantasy league?\
 
 ___
 **Q:**
-Can I combine years from different fantasy sites into 1 League object?\
+Can I combine years from different fantasy sites into 1 League object?
 
 **A:**
 Yes, the League object supports addition (+) to combine multiple league objects.\
 An example of this can be found [here](https://github.com/joeyagreco/leeger/blob/main/example/league/leagueFeatures.py).
 ___
 **Q:**
-Can I disable validation on my League object?\
+Can I disable validation on my League object?
 
 **A:**
-Yes.\
-While it is not recommended that you disable this as validation ensures the stats are calculated properly, validation
+Yes. While it is not recommended that you disable this as validation ensures the stats are calculated properly,
+validation
 can be done by passing `validate=False` into any method that takes a League object.
 
 ## Running Tests
