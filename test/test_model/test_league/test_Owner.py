@@ -26,3 +26,10 @@ class TestOwner(unittest.TestCase):
         owner_2 = Owner(name="ownerDIF")
 
         self.assertNotEqual(owner_1, owner_2)
+
+    def test_owner_toJson(self):
+        owner = Owner(name="owner")
+        ownerJson = owner.toJson()
+
+        self.assertIsInstance(ownerJson, dict)
+        self.assertEqual("owner", ownerJson["name"])
