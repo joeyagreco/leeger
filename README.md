@@ -419,6 +419,7 @@ If a fantasy site you use is not listed here and you would like it to be, please
 
 **Question:**
 How do I use this library to pull stats from my online fantasy league?\
+
 **Answer:**
 
 1. Find your fantasy site [here](https://github.com/joeyagreco/leeger#supported-league-loaders) and ensure you have
@@ -429,12 +430,14 @@ How do I use this library to pull stats from my online fantasy league?\
 ___
 **Q:**
 Can I combine years from different fantasy sites into 1 League object?\
+
 **A:**
 Yes, the League object supports addition (+) to combine multiple league objects.\
 An example of this can be found [here](https://github.com/joeyagreco/leeger/blob/main/example/league/leagueFeatures.py).
 ___
 **Q:**
 Can I disable validation on my League object?\
+
 **A:**
 Yes.\
 While it is not recommended that you disable this as validation ensures the stats are calculated properly, validation
