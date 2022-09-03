@@ -1,0 +1,45 @@
+name:  Stat Bug
+description: Report a bug for an existing stat
+title: "[BUG]: "
+labels:
+  - bug
+assignees:
+  - joeyagreco
+
+body:
+- type: dropdown
+  attributes:
+    label: Stat Category
+    options:
+     - AWAL
+     - Game Outcome
+     - Plus/Minus
+     - Points Scored
+     - SSL
+     - Scoring Share
+     - Scoring Standard Deviation
+     - Single Score
+     - Smart Wins
+  validations:
+    required: true
+
+- type: textarea
+  attributes:
+    label: Summary
+    description: Describe the bug briefly below.
+  validations:
+    required: true
+
+- type: textarea
+  attributes:
+    label: League Info
+    description: "This is the league info you are using that is failing with the League Loader.\n This is not required but can help with debugging.\n PLEASE DO NOT SHARE LOGIN INFO!"
+  validations:
+    required: false
+
+- type: textarea
+  attributes:
+    label: Error Logs
+    description: Paste any error logs here.
+  validations:
+    required: false

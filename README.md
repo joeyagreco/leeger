@@ -159,6 +159,10 @@ If a fantasy site you use is not listed here and you would like it to be, please
 
 ## Stats Explained
 
+### An explanation of some stats offered in this library that may not be obvious.
+
+#### _This is not a list of **all** stats in this library._
+
 > ## AWAL
 > ___
 > ### Purpose
