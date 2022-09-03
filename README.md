@@ -88,7 +88,7 @@ How can I get stats into Excel once I have my League object?
 Follow [this example code](https://github.com/joeyagreco/leeger/blob/main/example/stat/statsToExcelExample.py).
 ___
 **Q:**
-Can I combine years from different fantasy sites into a single League object?
+Can I combine years from different fantasy sites that are loaded as separate League objects into a single League object?
 
 **A:**
 Yes, the League object supports addition (+) to combine multiple league objects.\
