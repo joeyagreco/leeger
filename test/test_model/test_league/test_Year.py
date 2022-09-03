@@ -57,3 +57,28 @@ class TestYear(unittest.TestCase):
         year_2 = Year(yearNumber=2001, teams=teams_2, weeks=[week_2])
 
         self.assertNotEqual(year_1, year_2)
+
+    def test_year_toJson(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup_1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
+                            matchupType=MatchupType.REGULAR_SEASON)
+        week_1 = Week(weekNumber=1, matchups=[matchup_1])
+        year = Year(yearNumber=2000, teams=teams, weeks=[week_1])
+        yearJson = year.toJson()
+
+        self.assertIsInstance(yearJson, dict)
+        self.assertEqual(2000, yearJson["yearNumber"])
+        self.assertEqual(2, len(yearJson["teams"]))
+        self.assertEqual("1", yearJson["teams"][0]["name"])
+        self.assertEqual("2", yearJson["teams"][1]["name"])
+        self.assertEqual(1, len(yearJson["weeks"]))
+        self.assertEqual(1, yearJson["weeks"][0]["weekNumber"])
+        self.assertEqual(1, len(yearJson["weeks"][0]["matchups"]))
+        self.assertEqual(teams[0].id, yearJson["weeks"][0]["matchups"][0]["teamAId"])
+        self.assertEqual(teams[1].id, yearJson["weeks"][0]["matchups"][0]["teamBId"])
+        self.assertEqual(1.1, yearJson["weeks"][0]["matchups"][0]["teamAScore"])
+        self.assertEqual(2.2, yearJson["weeks"][0]["matchups"][0]["teamBScore"])
+        self.assertEqual("REGULAR_SEASON", yearJson["weeks"][0]["matchups"][0]["matchupType"])
+        self.assertFalse(yearJson["weeks"][0]["matchups"][0]["teamAHasTieBreaker"])
+        self.assertFalse(yearJson["weeks"][0]["matchups"][0]["teamBHasTieBreaker"])
