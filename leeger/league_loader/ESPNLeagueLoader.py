@@ -20,6 +20,7 @@ class ESPNLeagueLoader(LeagueLoader):
     __ESPN_WIN_OUTCOME: str = "W"
     __ESPN_LOSS_OUTCOME: str = "L"
     __ESPN_TIE_OUTCOME: str = "T"
+    __ESPN_BYE_OUTCOME: str = "U"
     __TEAMS_IN_PLAYOFFS_TO_PLAYOFF_WEEK_COUNT_MAP: dict[int, int] = {
         2: 1,
         3: 2,
@@ -81,7 +82,10 @@ class ESPNLeagueLoader(LeagueLoader):
             # to avoid adding matchups twice, we keep track of the ESPN team IDs that have already had a matchup added
             espnTeamIDsWithMatchups = list()
             for espnTeam in espnLeague.teams:
-                if espnTeam.team_id in espnTeamIDsWithMatchups:
+                # skip if we already have this team in a matchup
+                # OR
+                # this team is on a bye
+                if espnTeam.team_id in espnTeamIDsWithMatchups or espnTeam.outcomes[i] == self.__ESPN_BYE_OUTCOME:
                     continue
                 # team A is *this* team
                 espnTeamA = espnTeam

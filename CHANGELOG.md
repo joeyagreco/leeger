@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- N/A
+- [ESPN League Loader] Added check for teams on bye week.
 
 ## [1.1.0]
 
