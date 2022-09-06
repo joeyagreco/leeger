@@ -1,3 +1,5 @@
+import itertools
+
 from sleeper.api import LeagueAPIClient
 from sleeper.model import League as SleeperLeague
 from sleeper.model import Matchup as SleeperMatchup
@@ -68,7 +70,7 @@ class SleeperLeagueLoader(LeagueLoader):
     def __buildWeeks(self, sleeperLeague: SleeperLeague) -> list[Week]:
         weeks = list()
         # get regular season weeks
-        for i in range(sleeperLeague.settings.playoff_week_start):
+        for i in range(sleeperLeague.settings.playoff_week_start - 1):
             # get each teams matchup for that week
             matchups = list()
             sleeperMatchups = LeagueAPIClient.get_matchups_for_week(league_id=sleeperLeague.league_id, week=i + 1)
@@ -106,20 +108,21 @@ class SleeperLeagueLoader(LeagueLoader):
                 playoffRoundAndSleeperPlayoffMatchups[sleeperPlayoffMatchup.round].append(sleeperPlayoffMatchup)
             else:
                 playoffRoundAndSleeperPlayoffMatchups[sleeperPlayoffMatchup.round] = [sleeperPlayoffMatchup]
-        numberOfPlayoffWeeks = max([playoffMatchup.round for playoffMatchup in
+        numberOfPlayoffRounds = max([playoffMatchup.round for playoffMatchup in
                                     sleeperPlayoffMatchups])  # don't know a better way to determine this
-        for i in range(1, numberOfPlayoffWeeks + 1):
-            weekNumber = sleeperLeague.settings.playoff_week_start + i
+        numberOfPlayoffWeeks = self.__calculate_number_of_playoff_weeks(sleeperLeague)
+        playoffWeeks = list(range(sleeperLeague.settings.playoff_week_start, sleeperLeague.settings.playoff_week_start + numberOfPlayoffWeeks))
+        playoffWeekRoundList = self.__create_playoff_week_round_list(sleeperLeague, playoffWeeks, numberOfPlayoffRounds)
+        for week, round in playoffWeekRoundList:
             # get each teams matchup for that week
             matchups = list()
-            sleeperMatchups = LeagueAPIClient.get_matchups_for_week(league_id=sleeperLeague.league_id, week=weekNumber)
+            sleeperMatchups = LeagueAPIClient.get_matchups_for_week(league_id=sleeperLeague.league_id, week=week)
             if self.__isCompletedWeek(sleeperMatchups):
-                # sort matchups by roster IDs
+                # # sort matchups by roster IDs
                 rosterIdToSleeperMatchupMap: dict[int, SleeperMatchup] = dict()
                 for sleeperMatchup in sleeperMatchups:
                     rosterIdToSleeperMatchupMap[sleeperMatchup.roster_id] = sleeperMatchup
-                # here, "i" will be the round of the playoffs
-                for sleeperPlayoffMatchup in playoffRoundAndSleeperPlayoffMatchups[i]:
+                for sleeperPlayoffMatchup in playoffRoundAndSleeperPlayoffMatchups[round]:
                     # team A
                     teamARosterId = sleeperPlayoffMatchup.team_1_roster_id
                     teamA = self.__sleeperRosterIdToTeamMap[teamARosterId]
@@ -132,7 +135,7 @@ class SleeperLeagueLoader(LeagueLoader):
                     teamBHasTiebreaker = sleeperPlayoffMatchup.winning_roster_id == sleeperPlayoffMatchup.team_2_roster_id
                     # determine if this is a championship matchup or not
                     matchupType = MatchupType.PLAYOFF
-                    if i == numberOfPlayoffWeeks and sleeperPlayoffMatchup.p == 1:
+                    if sleeperPlayoffMatchup.p == 1:
                         matchupType = MatchupType.CHAMPIONSHIP
                     matchups.append(Matchup(teamAId=teamA.id,
                                             teamBId=teamB.id,
@@ -141,7 +144,7 @@ class SleeperLeagueLoader(LeagueLoader):
                                             teamAHasTiebreaker=teamAHasTiebreaker,
                                             teamBHasTiebreaker=teamBHasTiebreaker,
                                             matchupType=matchupType))
-                weeks.append(Week(weekNumber=weekNumber, matchups=matchups))
+                weeks.append(Week(weekNumber=week, matchups=matchups))
 
         return weeks
 
@@ -182,3 +185,34 @@ class SleeperLeagueLoader(LeagueLoader):
                 generalOwnerName = self._getGeneralOwnerNameFromGivenOwnerName(ownerName)
                 ownerName = generalOwnerName if generalOwnerName is not None else ownerName
                 self.__sleeperUserIdToOwnerMap[sleeperUser.user_id] = Owner(name=ownerName)
+
+    def __calculate_number_of_playoff_weeks(self, sleeperLeague: SleeperLeague) -> int:
+        sleeperPlayoffMatchups = LeagueAPIClient.get_winners_bracket(league_id=sleeperLeague.league_id)
+        # sort sleeperPlayoffMatchups by round into a dict
+        playoffRoundAndSleeperPlayoffMatchups: dict[int, list[SleeperPlayoffMatchup]] = dict()
+        for sleeperPlayoffMatchup in sleeperPlayoffMatchups:
+            if sleeperPlayoffMatchup.round in playoffRoundAndSleeperPlayoffMatchups.keys():
+                playoffRoundAndSleeperPlayoffMatchups[sleeperPlayoffMatchup.round].append(sleeperPlayoffMatchup)
+            else:
+                playoffRoundAndSleeperPlayoffMatchups[sleeperPlayoffMatchup.round] = [sleeperPlayoffMatchup]
+        numberOfPlayoffRounds = max([playoffMatchup.round for playoffMatchup in
+                                    sleeperPlayoffMatchups])  # don't know a better way to determine this
+        playoff_round_type = sleeperLeague.settings.playoff_round_type
+        match playoff_round_type:
+            case 0:
+                return numberOfPlayoffRounds
+            case 1:
+                return numberOfPlayoffRounds + 1
+            case 2:
+                return numberOfPlayoffRounds*2
+
+    def __create_playoff_week_round_list(self, sleeperLeague: SleeperLeague, playoffWeeks: list, numberOfPlayoffRounds: int):
+        playoff_round_type = sleeperLeague.settings.playoff_round_type
+        match playoff_round_type:
+            case 0:
+                return list(zip(playoffWeeks, range(1, numberOfPlayoffRounds + 1)))
+            case 1:
+                return list(itertools.zip_longest(playoffWeeks, range(1, numberOfPlayoffRounds + 1), fillvalue=numberOfPlayoffRounds))
+            case 2:
+                playoffRounds = [playoffRound for playoffRound in range(1, numberOfPlayoffRounds + 1) for i in range(1, numberOfPlayoffRounds + 1)]
+                return list(zip(playoffWeeks, playoffRounds))
