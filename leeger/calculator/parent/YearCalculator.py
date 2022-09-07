@@ -48,15 +48,15 @@ class YearCalculator:
         # validate filters #
         ####################
         # type checks
-        if type(onlyChampionship) != bool:
+        if not isinstance(onlyChampionship, bool):
             raise InvalidFilterException("'onlyChampionship' must be type 'bool'")
-        if type(onlyPostSeason) != bool:
+        if not isinstance(onlyPostSeason, bool):
             raise InvalidFilterException("'onlyPostSeason' must be type 'bool'")
-        if type(onlyRegularSeason) != bool:
+        if not isinstance(onlyRegularSeason, bool):
             raise InvalidFilterException("'onlyRegularSeason' must be type 'bool'")
-        if type(weekNumberStart) != int:
+        if not isinstance(weekNumberStart, int):
             raise InvalidFilterException("'weekNumberStart' must be type 'int'")
-        if type(weekNumberEnd) != int:
+        if not isinstance(weekNumberEnd, int):
             raise InvalidFilterException("'weekNumberEnd' must be type 'int'")
 
         # logic checks
