@@ -47,11 +47,11 @@ def checkAllTypes(league: League) -> None:
     """
     Checks all types that are within the League object.
     """
-    if type(league.name) != str:
+    if not isinstance(league.name, str):
         raise InvalidLeagueFormatException("name must be type 'str'.")
-    if type(league.owners) != list:
+    if not isinstance(league.owners, list):
         raise InvalidLeagueFormatException("owners must be type 'list'.")
-    if type(league.years) != list:
+    if not isinstance(league.years, list):
         raise InvalidLeagueFormatException("years must be type 'list'.")
 
 

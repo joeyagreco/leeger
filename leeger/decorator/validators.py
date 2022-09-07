@@ -29,7 +29,7 @@ def validateLeague(function: Callable) -> Callable:
             return function(*args, **kwargs)
         league = None
         for arg in args:
-            if type(arg) == League:
+            if isinstance(arg, League):
                 league = arg
                 break
         if league is None:
@@ -57,7 +57,7 @@ def validateYear(function: Callable) -> Callable:
             return function(*args, **kwargs)
         year = None
         for arg in args:
-            if type(arg) == Year:
+            if isinstance(arg, Year):
                 year = arg
                 break
         if year is None:
@@ -85,7 +85,7 @@ def validateWeek(function: Callable) -> Callable:
             return function(*args, **kwargs)
         week = None
         for arg in args:
-            if type(arg) == Week:
+            if isinstance(arg, Week):
                 week = arg
                 break
         if week is None:
@@ -113,7 +113,7 @@ def validateMatchup(function: Callable) -> Callable:
             return function(*args, **kwargs)
         matchup = None
         for arg in args:
-            if type(arg) == Matchup:
+            if isinstance(arg, Matchup):
                 matchup = arg
                 break
         if matchup is None:

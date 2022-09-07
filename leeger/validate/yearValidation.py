@@ -53,11 +53,11 @@ def checkAllTypes(year: Year) -> None:
     Runs all checks on the given Year.
     """
 
-    if type(year.yearNumber) != int:
+    if not isinstance(year.yearNumber, int):
         raise InvalidYearFormatException("yearNumber must be type 'int'.")
-    if type(year.teams) != list:
+    if not isinstance(year.teams, list):
         raise InvalidYearFormatException("teams must be type 'list'.")
-    if type(year.weeks) != list:
+    if not isinstance(year.weeks, list):
         raise InvalidYearFormatException("weeks must be type 'list'.")
 
 

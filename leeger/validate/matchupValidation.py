@@ -15,19 +15,19 @@ def checkAllTypes(matchup: Matchup) -> None:
     """
     Checks all types that are within the Matchup object.
     """
-    if type(matchup.teamAId) != str:
+    if not isinstance(matchup.teamAId, str):
         raise InvalidMatchupFormatException("teamAId must be type 'str'.")
-    if type(matchup.teamBId) != str:
+    if not isinstance(matchup.teamBId, str):
         raise InvalidMatchupFormatException("teamBId must be type 'str'.")
-    if type(matchup.teamAScore) != float and type(matchup.teamAScore) != int:
+    if not isinstance(matchup.teamAScore, (float, int)):
         raise InvalidMatchupFormatException("teamAScore must be type 'float' or 'int'.")
-    if type(matchup.teamBScore) != float and type(matchup.teamBScore) != int:
+    if not isinstance(matchup.teamBScore, (float, int)):
         raise InvalidMatchupFormatException("teamBScore must be type 'float' or 'int'.")
-    if type(matchup.teamAHasTiebreaker) != bool:
+    if not isinstance(matchup.teamAHasTiebreaker, bool):
         raise InvalidMatchupFormatException("teamAHasTiebreaker must be type 'bool'.")
-    if type(matchup.teamBHasTiebreaker) != bool:
+    if not isinstance(matchup.teamBHasTiebreaker, bool):
         raise InvalidMatchupFormatException("teamBHasTiebreaker must be type 'bool'.")
-    if type(matchup.matchupType) != MatchupType:
+    if not isinstance(matchup.matchupType, MatchupType):
         raise InvalidMatchupFormatException("matchupType must be type 'MatchupType'.")
 
 
