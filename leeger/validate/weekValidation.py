@@ -22,9 +22,9 @@ def checkAllTypes(week: Week) -> None:
     Checks all types that are within the Week object.
     """
 
-    if type(week.matchups) != list:
+    if not isinstance(week.matchups, list):
         raise InvalidWeekFormatException("matchups must be type 'list'.")
-    if type(week.weekNumber) != int:
+    if not isinstance(week.weekNumber, int):
         raise InvalidWeekFormatException("weekNumber must be type 'int'.")
 
 

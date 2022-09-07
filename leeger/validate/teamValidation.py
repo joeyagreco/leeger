@@ -14,7 +14,7 @@ def checkAllTypes(team: Team) -> None:
     Checks all types that are within the Team object.
     """
 
-    if type(team.ownerId) != str:
+    if not isinstance(team.ownerId, str):
         raise InvalidTeamFormatException("ownerId must be type 'str'.")
-    if type(team.name) != str:
+    if not isinstance(team.name, str):
         raise InvalidTeamFormatException("name must be type 'str'.")
