@@ -30,6 +30,7 @@ def runAllChecks(year: Year) -> None:
     checkTeamNamesInYear(year)
     checkTeamOwnerIdsInYear(year)
     checkEveryTeamInYearIsInAMatchup(year)
+    checkMultiWeekMatchupsAreInConsecutiveWeeks(year)
 
 
 def checkAllWeeks(year: Year) -> None:
@@ -208,3 +209,36 @@ def checkEveryTeamInYearIsInAMatchup(year: Year) -> None:
     if len(teamIds) != 0:
         raise InvalidYearFormatException(
             f"Year {year.yearNumber} has teams that are not in any matchups. Team IDs not in matchups: {teamIds}")
+
+
+def checkMultiWeekMatchupsAreInConsecutiveWeeks(year: Year):
+    """
+    Checks that any multi-week matchups are in consecutive weeks.
+    """
+    weekNumberToMultiWeekMatchupIdListMap: dict[int, list[str]] = dict()
+    completedMultiWeekMatchupIds: list = list()
+
+    for i, week in enumerate(year.weeks):
+        weekNumberToMultiWeekMatchupIdListMap[week.weekNumber] = list()
+        for matchup in week.matchups:
+            mwmid = matchup.multiWeekMatchupId
+            if mwmid is not None:
+                # multi-week matchup
+                weekNumberToMultiWeekMatchupIdListMap[week.weekNumber].append(mwmid)
+
+            # check if previous week has any multi-week matchup IDs that this one has
+            # if not, the multi-week matchup is done, and any further usage of this ID is not allowed
+
+            # skip first week since we can't end or invalidate any multi-week matchups after just 1 week
+            if i != 0:
+                previousWeekMWMIDs = weekNumberToMultiWeekMatchupIdListMap[week.weekNumber - 1]
+                currentWeekMWMIDs = weekNumberToMultiWeekMatchupIdListMap[week.weekNumber]
+
+                for mwmid in previousWeekMWMIDs:
+                    if mwmid not in currentWeekMWMIDs:
+                        # this multi-week matchup is done, add to list of completed IDs
+                        completedMultiWeekMatchupIds.append(mwmid)
+                for mwmid in currentWeekMWMIDs:
+                    if mwmid in completedMultiWeekMatchupIds:
+                        raise InvalidYearFormatException(
+                            f"Year {year.yearNumber} has multi-week matchups with ID '{mwmid}' that are not in consecutive weeks.")

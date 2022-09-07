@@ -180,6 +180,35 @@ class TestYearValidation(unittest.TestCase):
             f"Year 2000 has teams that are not in any matchups. Team IDs not in matchups: ['{teams[2].id}']",
             str(context.exception))
 
+    def test_checkMultiWeekMatchupIdUsedInNonConsecutiveWeeks_raisesException(self):
+        owners, teams = getNDefaultOwnersAndTeams(3)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, multiWeekMatchupId="1")
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, multiWeekMatchupId="1")
+        week3 = Week(weekNumber=3, matchups=[matchup3])
+        with self.assertRaises(InvalidYearFormatException) as context:
+            yearValidation.checkMultiWeekMatchupsAreInConsecutiveWeeks(
+                Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3]))
+        self.assertEqual(
+            f"Year 2000 has multi-week matchups with ID '1' that are not in consecutive weeks.", str(context.exception))
+
+    def test_checkMultiWeekMatchupIdUsedInConsecutiveWeeks_doesNotRaiseException(self):
+        owners, teams = getNDefaultOwnersAndTeams(3)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, multiWeekMatchupId="1")
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, multiWeekMatchupId="1")
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+        yearValidation.checkMultiWeekMatchupsAreInConsecutiveWeeks(
+            Year(yearNumber=2000, teams=teams, weeks=[week1, week2]))
+
+    def test_checkMultiWeekMatchupIdUsedInOneWeek_doesNotRaiseException(self):
+        owners, teams = getNDefaultOwnersAndTeams(3)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, multiWeekMatchupId="1")
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        yearValidation.checkMultiWeekMatchupsAreInConsecutiveWeeks(Year(yearNumber=2000, teams=teams, weeks=[week1]))
+
     """
     TYPE CHECK TESTS
     """

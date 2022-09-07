@@ -61,3 +61,10 @@ class TestMatchupValidation(unittest.TestCase):
             matchupValidation.checkAllTypes(
                 Matchup(teamAId="aId", teamBId="bId", teamAScore=1, teamBScore=2, matchupType=None))
         self.assertEqual("matchupType must be type 'MatchupType'.", str(context.exception))
+
+    def test_checkAllTypes_multiWeekMatchupIsntNoneOrTypeStr_raisesException(self):
+        with self.assertRaises(InvalidMatchupFormatException) as context:
+            matchupValidation.checkAllTypes(
+                Matchup(teamAId="aId", teamBId="bId", teamAScore=1, teamBScore=2,
+                        matchupType=MatchupType.REGULAR_SEASON, multiWeekMatchupId=1))
+        self.assertEqual("multiWeekMatchupId must be 'None' or type 'str'.", str(context.exception))
