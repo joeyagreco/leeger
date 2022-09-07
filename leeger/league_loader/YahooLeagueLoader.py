@@ -59,11 +59,13 @@ class YahooLeagueLoader(LeagueLoader):
             raise TimeoutError("Login to yahoofantasy timed out.")
         ctx = Context()
         yahooLeagues = list()
+        curYearLeagueId = self._leagueId
         for year in self._years:
             leagues = ctx.get_leagues(self.__NFL, year)
             for league in leagues:
-                if str(league.league_id) == self._leagueId:
+                if str(league.league_id) == curYearLeagueId:
                     yahooLeagues.append(league)
+                    curYearLeagueId = self.__extractLeagueId(league.renewed, curYearLeagueId)
         if len(yahooLeagues) != len(self._years):
             # TODO: Give a more descriptive // accurate error message
             raise DoesNotExistException(f"Found {len(yahooLeagues)} years, expected to find {len(self._years)}.")
@@ -169,3 +171,12 @@ class YahooLeagueLoader(LeagueLoader):
             return self.__yahooManagerIdToOwnerMap[yahooManagerId]
         raise DoesNotExistException(
             f"Yahoo Manager ID {yahooManagerId} not found in saved Yahoo Manager IDs.")
+
+    # First 3 digits are the game_key, followed by the league_id which is typically 5-6 digits
+    # Need to remove the game_key in order to retrieve the league_id
+    def __extractLeagueId(self, leagueKey: int, curYearLeagueId: int) -> str:
+        if leagueKey is None:
+            return curYearLeagueId
+        leagueKeyStr = str(leagueKey)
+        leagueId = leagueKeyStr[3:len(leagueKeyStr)]
+        return leagueId

@@ -7,6 +7,7 @@ from leeger.model.league import League
 # The app will need to have a callback/redirect URI of https://localhost:8000
 
 # Get a League object with years 2019 and 2020 for Yahoo league with ID: 123456.
+# ID needs to be from the oldest year given, and then it will figure out the ID's for the newer years
 clientId = "myClientId"
 clientSecret = "myClientSecret"
 yahooLeagueLoader = YahooLeagueLoader("123456", [2019, 2020], clientId=clientId, clientSecret=clientSecret)
