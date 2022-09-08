@@ -31,6 +31,7 @@ def runAllChecks(year: Year) -> None:
     checkTeamOwnerIdsInYear(year)
     checkEveryTeamInYearIsInAMatchup(year)
     checkMultiWeekMatchupsAreInConsecutiveWeeks(year)
+    checkMultiWeekMatchupsAreInMoreThanOneWeekOrAreNotTheMostRecentWeek(year)
 
 
 def checkAllWeeks(year: Year) -> None:
@@ -242,3 +243,34 @@ def checkMultiWeekMatchupsAreInConsecutiveWeeks(year: Year):
                     if mwmid in completedMultiWeekMatchupIds:
                         raise InvalidYearFormatException(
                             f"Year {year.yearNumber} has multi-week matchups with ID '{mwmid}' that are not in consecutive weeks.")
+
+
+def checkMultiWeekMatchupsAreInMoreThanOneWeekOrAreNotTheMostRecentWeek(year: Year):
+    """
+    Checks that any multi-week matchups in a year appear in more than 1 week.
+    The exception is if the multi-week matchup is in the last (most recent) week of the year.
+    That week is allowed to have the only occurrence of a multi-week matchup ID since there could be another week coming in the future with that ID.
+    """
+    multiWeekMatchupIdToCountAndMostRecentWeekMap: dict[str, tuple[int, bool]] = dict()
+    # will hold an occurrence count and a boolean value of whether this ID was found in the most recent week of the year
+    # will look something like:
+    # {
+    #   "someId": (1, False),
+    #   "someOtherId": (3, True)
+    # }
+
+    for i, week in enumerate(year.weeks):
+        isMostRecentWeekInYear = i == (len(year.weeks) - 1)
+        for matchup in week.matchups:
+            mwmid = matchup.multiWeekMatchupId
+            if mwmid is not None:
+                if mwmid in multiWeekMatchupIdToCountAndMostRecentWeekMap.keys():
+                    multiWeekMatchupIdToCountAndMostRecentWeekMap[mwmid][0] += 1
+                else:
+                    multiWeekMatchupIdToCountAndMostRecentWeekMap[mwmid] = (1, isMostRecentWeekInYear)
+
+    for mwmid, countAndMostRecentWeek in multiWeekMatchupIdToCountAndMostRecentWeekMap.items():
+        count, isMostRecentWeek = countAndMostRecentWeek
+        if count == 1 and not isMostRecentWeek:
+            raise InvalidYearFormatException(
+                f"Year {year.yearNumber} has multi-week matchup with ID '{mwmid}' that only occurs once and is not the most recent week.")

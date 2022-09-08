@@ -210,6 +210,32 @@ class TestYearValidation(unittest.TestCase):
         week1 = Week(weekNumber=1, matchups=[matchup1])
         yearValidation.checkMultiWeekMatchupsAreInConsecutiveWeeks(Year(yearNumber=2000, teams=teams, weeks=[week1]))
 
+    def test_checkMultiWeekMatchupsAreInMoreThanOneWeekOrAreNotTheMostRecentWeek_multiWeekMatchupOnlyInOneWeekThatIsNotTheMostRecent_raisesException(
+            self):
+        owners, teams = getNDefaultOwnersAndTeams(3)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, multiWeekMatchupId="1")
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        week3 = Week(weekNumber=3, matchups=[matchup3])
+        with self.assertRaises(InvalidYearFormatException) as context:
+            yearValidation.checkMultiWeekMatchupsAreInMoreThanOneWeekOrAreNotTheMostRecentWeek(
+                Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3]))
+        self.assertEqual(
+            f"Year 2000 has multi-week matchup with ID '1' that only occurs once and is not the most recent week.",
+            str(context.exception))
+
+    def test_checkMultiWeekMatchupsAreInMoreThanOneWeekOrAreNotTheMostRecentWeek_multiWeekMatchupOnlyInOneWeekThatIsTheMostRecent_doesNotRaiseException(
+            self):
+        owners, teams = getNDefaultOwnersAndTeams(3)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, multiWeekMatchupId="1")
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+        yearValidation.checkMultiWeekMatchupsAreInMoreThanOneWeekOrAreNotTheMostRecentWeek(
+            Year(yearNumber=2000, teams=teams, weeks=[week1, week2]))
+
     """
     TYPE CHECK TESTS
     """
