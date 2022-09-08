@@ -58,6 +58,15 @@ class TestWeekValidation(unittest.TestCase):
         self.assertEqual("Week 1 has regular season matchups and playoff/championship matchups in the same week.",
                          str(context.exception))
 
+    def test_checkMultiWeekMatchupsWithSameIdAreOnlyInOneMatchupPerWeek_weekHasSameMultiMatchupIdInMultipleMatchups_raisesException(
+            self):
+        matchup1 = Matchup(teamAId="a", teamBId="b", teamAScore=1, teamBScore=2, multiWeekMatchupId="1")
+        matchup2 = Matchup(teamAId="c", teamBId="b", teamAScore=1, teamBScore=2, multiWeekMatchupId="1")
+        with self.assertRaises(InvalidWeekFormatException) as context:
+            weekValidation.checkMultiWeekMatchupsWithSameIdAreOnlyInOneMatchupPerWeek(
+                Week(weekNumber=1, matchups=[matchup1, matchup2]))
+        self.assertEqual("Week 1 has the multi-week matchup ID '1' in multiple matchups.", str(context.exception))
+
     """
     TYPE CHECK TESTS
     """

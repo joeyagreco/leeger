@@ -180,7 +180,8 @@ class TestYearValidation(unittest.TestCase):
             f"Year 2000 has teams that are not in any matchups. Team IDs not in matchups: ['{teams[2].id}']",
             str(context.exception))
 
-    def test_checkMultiWeekMatchupIdUsedInNonConsecutiveWeeks_raisesException(self):
+    def test_checkMultiWeekMatchupsAreInConsecutiveWeeks_multiWeekMatchupIdUsedInNonConsecutiveWeeks_raisesException(
+            self):
         owners, teams = getNDefaultOwnersAndTeams(3)
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, multiWeekMatchupId="1")
         week1 = Week(weekNumber=1, matchups=[matchup1])

@@ -216,7 +216,7 @@ def checkMultiWeekMatchupsAreInConsecutiveWeeks(year: Year):
     Checks that any multi-week matchups are in consecutive weeks.
     """
     weekNumberToMultiWeekMatchupIdListMap: dict[int, list[str]] = dict()
-    completedMultiWeekMatchupIds: list = list()
+    completedMultiWeekMatchupIds = list()
 
     for i, week in enumerate(year.weeks):
         weekNumberToMultiWeekMatchupIdListMap[week.weekNumber] = list()
