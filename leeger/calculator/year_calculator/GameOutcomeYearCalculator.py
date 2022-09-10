@@ -35,6 +35,8 @@ class GameOutcomeYearCalculator(YearCalculator):
         for teamId in YearNavigator.getAllTeamIds(year):
             teamIdAndWins[teamId] = 0
 
+        # keep track of all matchups to count towards this calculation
+        allMatchups = list()
         # keep track of scores and tiebreakers for multi-week matchups
         multiWeekMatchupIdToMatchupListMap: dict[str, list[Matchup]] = dict()
 
@@ -44,27 +46,25 @@ class GameOutcomeYearCalculator(YearCalculator):
                 if matchup.matchupType in filters.includeMatchupTypes:
                     mwmid = matchup.multiWeekMatchupId
                     if mwmid is not None:
-                        # deal with multi-week matchups
+                        # multi-week matchup
                         if mwmid in multiWeekMatchupIdToMatchupListMap:
                             multiWeekMatchupIdToMatchupListMap[mwmid].append(matchup)
                         else:
                             multiWeekMatchupIdToMatchupListMap[mwmid] = [matchup]
                     else:
-                        # deal with non multi-week matchups
-                        # get winner team ID (if this wasn't a tie)
-                        winnerTeamId = MatchupNavigator.getTeamIdOfMatchupWinner(matchup)
-                        if winnerTeamId is not None:
-                            teamIdAndWins[winnerTeamId] += 1
+                        # non multi-week matchup
+                        allMatchups.append(matchup)
 
-        # add wins from mult-week matchups
+        # simplify multi-week matchups into single Matchups
         for matchupList in multiWeekMatchupIdToMatchupListMap.values():
             # create a single matchup object with data from these matchups
-            matchup = Matchup(teamAId=matchupList[0].teamAId,
-                              teamBId=matchupList[0].teamBId,
-                              teamAScore=sum([matchup.teamAScore for matchup in matchupList]),
-                              teamBScore=sum([matchup.teamBScore for matchup in matchupList]),
-                              teamAHasTiebreaker=matchupList[0].teamAHasTiebreaker,
-                              teamBHasTiebreaker=matchupList[0].teamBHasTiebreaker)
+            allMatchups.append(Matchup(teamAId=matchupList[0].teamAId,
+                                       teamBId=matchupList[0].teamBId,
+                                       teamAScore=sum([matchup.teamAScore for matchup in matchupList]),
+                                       teamBScore=sum([matchup.teamBScore for matchup in matchupList]),
+                                       teamAHasTiebreaker=matchupList[0].teamAHasTiebreaker,
+                                       teamBHasTiebreaker=matchupList[0].teamBHasTiebreaker))
+        for matchup in allMatchups:
             # get winner team ID (if this wasn't a tie)
             winnerTeamId = MatchupNavigator.getTeamIdOfMatchupWinner(matchup)
             if winnerTeamId is not None:
@@ -93,6 +93,8 @@ class GameOutcomeYearCalculator(YearCalculator):
         for teamId in YearNavigator.getAllTeamIds(year):
             teamIdAndLosses[teamId] = 0
 
+        # keep track of all matchups to count towards this calculation
+        allMatchups = list()
         # keep track of scores and tiebreakers for multi-week matchups
         multiWeekMatchupIdToMatchupListMap: dict[str, list[Matchup]] = dict()
 
@@ -102,34 +104,29 @@ class GameOutcomeYearCalculator(YearCalculator):
                 if matchup.matchupType in filters.includeMatchupTypes:
                     mwmid = matchup.multiWeekMatchupId
                     if mwmid is not None:
-                        # deal with multi-week matchups
+                        # multi-week matchup
                         if mwmid in multiWeekMatchupIdToMatchupListMap:
                             multiWeekMatchupIdToMatchupListMap[mwmid].append(matchup)
                         else:
                             multiWeekMatchupIdToMatchupListMap[mwmid] = [matchup]
                     else:
-                        # deal with non multi-week matchups
-                        # get loser team ID (if this wasn't a tie)
-                        winnerTeamId = MatchupNavigator.getTeamIdOfMatchupWinner(matchup)
-                        if winnerTeamId is not None:
-                            # return the OTHER team's ID
-                            loserTeamId = matchup.teamAId if winnerTeamId != matchup.teamAId else matchup.teamBId
-                            teamIdAndLosses[loserTeamId] += 1
+                        # non multi-week matchup
+                        allMatchups.append(matchup)
 
-        # add losses from mult-week matchups
+        # simplify multi-week matchups into single Matchups
         for matchupList in multiWeekMatchupIdToMatchupListMap.values():
             # create a single matchup object with data from these matchups
-            matchup = Matchup(teamAId=matchupList[0].teamAId,
-                              teamBId=matchupList[0].teamBId,
-                              teamAScore=sum([matchup.teamAScore for matchup in matchupList]),
-                              teamBScore=sum([matchup.teamBScore for matchup in matchupList]),
-                              teamAHasTiebreaker=matchupList[0].teamAHasTiebreaker,
-                              teamBHasTiebreaker=matchupList[0].teamBHasTiebreaker)
+            allMatchups.append(Matchup(teamAId=matchupList[0].teamAId,
+                                       teamBId=matchupList[0].teamBId,
+                                       teamAScore=sum([matchup.teamAScore for matchup in matchupList]),
+                                       teamBScore=sum([matchup.teamBScore for matchup in matchupList]),
+                                       teamAHasTiebreaker=matchupList[0].teamAHasTiebreaker,
+                                       teamBHasTiebreaker=matchupList[0].teamBHasTiebreaker))
+        for matchup in allMatchups:
             # get loser team ID (if this wasn't a tie)
-            loserTeamId = MatchupNavigator.getTeamIdOfMatchupWinner(matchup)
-            if loserTeamId is not None:
-                # return the OTHER team's ID
-                loserTeamId = matchup.teamAId if loserTeamId != matchup.teamAId else matchup.teamBId
+            winnerTeamId = MatchupNavigator.getTeamIdOfMatchupWinner(matchup)
+            if winnerTeamId is not None:
+                loserTeamId = matchup.teamAId if winnerTeamId == matchup.teamBId else matchup.teamBId
                 teamIdAndLosses[loserTeamId] += 1
         cls._setToNoneIfNoGamesPlayed(teamIdAndLosses, year, filters, **kwargs)
         return teamIdAndLosses
