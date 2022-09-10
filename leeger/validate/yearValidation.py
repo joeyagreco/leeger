@@ -1,6 +1,7 @@
 from leeger.exception.InvalidYearFormatException import InvalidYearFormatException
 from leeger.model.league import Matchup
 from leeger.model.league.Year import Year
+from leeger.util.navigator import YearNavigator
 from leeger.validate import teamValidation, weekValidation
 
 """
@@ -34,6 +35,7 @@ def runAllChecks(year: Year) -> None:
     checkMultiWeekMatchupsAreInConsecutiveWeeks(year)
     checkMultiWeekMatchupsAreInMoreThanOneWeekOrAreNotTheMostRecentWeek(year)
     checkMultiWeekMatchupsWithSameIdHaveSameMatchupType(year)
+    checkMultiWeekMatchupsWithSameIdHaveSameTeamIds(year)
 
 
 def checkAllWeeks(year: Year) -> None:
@@ -279,19 +281,28 @@ def checkMultiWeekMatchupsAreInMoreThanOneWeekOrAreNotTheMostRecentWeek(year: Ye
 
 
 def checkMultiWeekMatchupsWithSameIdHaveSameMatchupType(year: Year):
-    multiWeekMatchupIdToMatchupListMap: dict[str, list[Matchup]] = dict()
-
-    for week in year.weeks:
-        for matchup in week.matchups:
-            mwmid = matchup.multiWeekMatchupId
-            if mwmid is not None:
-                if mwmid in multiWeekMatchupIdToMatchupListMap.keys():
-                    multiWeekMatchupIdToMatchupListMap[mwmid].append(matchup)
-                else:
-                    multiWeekMatchupIdToMatchupListMap[mwmid] = [matchup]
+    """
+    Checks that all multi-week matchups with the same ID have the same MatchupType.
+    """
+    multiWeekMatchupIdToMatchupListMap: dict[str, list[Matchup]] = YearNavigator.getAllMultiWeekMatchups(year)
 
     for mwmid, matchupList in multiWeekMatchupIdToMatchupListMap.items():
         if len(matchupList) > 0:
             if not all(matchup.matchupType == matchupList[0].matchupType for matchup in matchupList):
                 raise InvalidYearFormatException(
                     f"Multi-week matchups with ID '{mwmid}' do not all have the same matchup type.")
+
+
+def checkMultiWeekMatchupsWithSameIdHaveSameTeamIds(year: Year):
+    """
+    Checks that all multi-week matchups with the same ID have the same team A and team B
+    """
+    multiWeekMatchupIdToMatchupListMap: dict[str, list[Matchup]] = YearNavigator.getAllMultiWeekMatchups(year)
+
+    for mwmid, matchupList in multiWeekMatchupIdToMatchupListMap.items():
+        if len(matchupList) > 0:
+            if not all(
+                    matchup.teamAId == matchupList[0].teamAId and matchup.teamBId == matchupList[0].teamBId for matchup
+                    in matchupList):
+                raise InvalidYearFormatException(
+                    f"Multi-week matchups with ID '{mwmid}' do not all have the same teamA and teamB.")
