@@ -57,13 +57,7 @@ class GameOutcomeYearCalculator(YearCalculator):
 
         # simplify multi-week matchups into single Matchups
         for matchupList in multiWeekMatchupIdToMatchupListMap.values():
-            # create a single matchup object with data from these matchups
-            allMatchups.append(Matchup(teamAId=matchupList[0].teamAId,
-                                       teamBId=matchupList[0].teamBId,
-                                       teamAScore=sum([matchup.teamAScore for matchup in matchupList]),
-                                       teamBScore=sum([matchup.teamBScore for matchup in matchupList]),
-                                       teamAHasTiebreaker=matchupList[0].teamAHasTiebreaker,
-                                       teamBHasTiebreaker=matchupList[0].teamBHasTiebreaker))
+            allMatchups.append(MatchupNavigator.simplifyMultiWeekMatchups(matchupList))
         for matchup in allMatchups:
             # get winner team ID (if this wasn't a tie)
             winnerTeamId = MatchupNavigator.getTeamIdOfMatchupWinner(matchup)
@@ -115,13 +109,7 @@ class GameOutcomeYearCalculator(YearCalculator):
 
         # simplify multi-week matchups into single Matchups
         for matchupList in multiWeekMatchupIdToMatchupListMap.values():
-            # create a single matchup object with data from these matchups
-            allMatchups.append(Matchup(teamAId=matchupList[0].teamAId,
-                                       teamBId=matchupList[0].teamBId,
-                                       teamAScore=sum([matchup.teamAScore for matchup in matchupList]),
-                                       teamBScore=sum([matchup.teamBScore for matchup in matchupList]),
-                                       teamAHasTiebreaker=matchupList[0].teamAHasTiebreaker,
-                                       teamBHasTiebreaker=matchupList[0].teamBHasTiebreaker))
+            allMatchups.append(MatchupNavigator.simplifyMultiWeekMatchups(matchupList))
         for matchup in allMatchups:
             # get loser team ID (if this wasn't a tie)
             winnerTeamId = MatchupNavigator.getTeamIdOfMatchupWinner(matchup)
