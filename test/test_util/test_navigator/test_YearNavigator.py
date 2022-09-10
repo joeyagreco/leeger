@@ -210,3 +210,44 @@ class TestYearNavigator(unittest.TestCase):
         self.assertEqual(2, response[1])
         self.assertEqual(5, response[2])
         self.assertEqual(6, response[3])
+
+    def test_getAllMultiWeekMatchups_happyPath(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, multiWeekMatchupId="1")
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=3, teamBScore=4, multiWeekMatchupId="1")
+        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=5, teamBScore=6, multiWeekMatchupId="1")
+
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+        week3 = Week(weekNumber=3, matchups=[matchup3])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
+
+        response = YearNavigator.getAllMultiWeekMatchups(year)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(1, len(response.keys()))
+        self.assertIsInstance(response["1"], list)
+        self.assertEqual(3, len(response["1"]))
+        self.assertEqual(matchup1.id, response["1"][0].id)
+        self.assertEqual(matchup2.id, response["1"][1].id)
+        self.assertEqual(matchup3.id, response["1"][2].id)
+
+    def test_getAllMultiWeekMatchups_noMultiWeekMatchupsFound_returnsEmptyDict(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=3, teamBScore=4)
+        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=5, teamBScore=6)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+        week3 = Week(weekNumber=3, matchups=[matchup3])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
+
+        response = YearNavigator.getAllMultiWeekMatchups(year)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(0, len(response.keys()))

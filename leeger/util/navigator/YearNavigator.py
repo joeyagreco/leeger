@@ -1,5 +1,6 @@
 from leeger.enum.MatchupType import MatchupType
 from leeger.model.filter.YearFilters import YearFilters
+from leeger.model.league import Matchup
 from leeger.model.league.Year import Year
 
 
@@ -52,3 +53,20 @@ class YearNavigator:
                     allScores.append(matchup.teamAScore)
                     allScores.append(matchup.teamBScore)
         return allScores
+
+    @staticmethod
+    def getAllMultiWeekMatchups(year: Year) -> dict[str, list[Matchup]]:
+        """
+        Returns a dictionary that has the multi-week matchup ID as the key and a list of matchups as the value.
+        """
+        multiWeekMatchupIdToMatchupListMap: dict[str, list[Matchup]] = dict()
+
+        for week in year.weeks:
+            for matchup in week.matchups:
+                mwmid = matchup.multiWeekMatchupId
+                if mwmid is not None:
+                    if mwmid in multiWeekMatchupIdToMatchupListMap.keys():
+                        multiWeekMatchupIdToMatchupListMap[mwmid].append(matchup)
+                    else:
+                        multiWeekMatchupIdToMatchupListMap[mwmid] = [matchup]
+        return multiWeekMatchupIdToMatchupListMap
