@@ -296,6 +296,34 @@ class TestYearValidation(unittest.TestCase):
         self.assertEqual(f"Multi-week matchups with ID '1' do not all have the same teamA and teamB.",
                          str(context.exception))
 
+    def test_checkMultiWeekMatchupsWithSameIdHaveSameTiebreakers_differentTiebreakersForTeamA_raisesException(
+            self):
+        owners, teams = getNDefaultOwnersAndTeams(3)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, multiWeekMatchupId="1",
+                           teamAHasTiebreaker=True)
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        matchup2 = Matchup(teamAId=teams[1].id, teamBId=teams[0].id, teamAScore=1, teamBScore=2, multiWeekMatchupId="1")
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+        with self.assertRaises(InvalidYearFormatException) as context:
+            yearValidation.checkMultiWeekMatchupsWithSameIdHaveSameTiebreakers(
+                Year(yearNumber=2000, teams=teams, weeks=[week1, week2]))
+        self.assertEqual(f"Multi-week matchups with ID '1' do not all have the same tiebreakers.",
+                         str(context.exception))
+
+    def test_checkMultiWeekMatchupsWithSameIdHaveSameTiebreakers_differentTiebreakersForTeamB_raisesException(
+            self):
+        owners, teams = getNDefaultOwnersAndTeams(3)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, multiWeekMatchupId="1",
+                           teamBHasTiebreaker=True)
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        matchup2 = Matchup(teamAId=teams[1].id, teamBId=teams[0].id, teamAScore=1, teamBScore=2, multiWeekMatchupId="1")
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+        with self.assertRaises(InvalidYearFormatException) as context:
+            yearValidation.checkMultiWeekMatchupsWithSameIdHaveSameTiebreakers(
+                Year(yearNumber=2000, teams=teams, weeks=[week1, week2]))
+        self.assertEqual(f"Multi-week matchups with ID '1' do not all have the same tiebreakers.",
+                         str(context.exception))
+
     """
     TYPE CHECK TESTS
     """

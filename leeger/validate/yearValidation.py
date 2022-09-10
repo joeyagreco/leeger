@@ -36,6 +36,7 @@ def runAllChecks(year: Year) -> None:
     checkMultiWeekMatchupsAreInMoreThanOneWeekOrAreNotTheMostRecentWeek(year)
     checkMultiWeekMatchupsWithSameIdHaveSameMatchupType(year)
     checkMultiWeekMatchupsWithSameIdHaveSameTeamIds(year)
+    checkMultiWeekMatchupsWithSameIdHaveSameTiebreakers(year)
 
 
 def checkAllWeeks(year: Year) -> None:
@@ -306,3 +307,19 @@ def checkMultiWeekMatchupsWithSameIdHaveSameTeamIds(year: Year):
                     in matchupList):
                 raise InvalidYearFormatException(
                     f"Multi-week matchups with ID '{mwmid}' do not all have the same teamA and teamB.")
+
+
+def checkMultiWeekMatchupsWithSameIdHaveSameTiebreakers(year: Year):
+    """
+    Checks that all multi-week matchups with the same ID have the same tiebreakers
+    """
+    multiWeekMatchupIdToMatchupListMap: dict[str, list[Matchup]] = YearNavigator.getAllMultiWeekMatchups(year)
+
+    for mwmid, matchupList in multiWeekMatchupIdToMatchupListMap.items():
+        if len(matchupList) > 0:
+            if not all(
+                    matchup.teamAHasTiebreaker == matchupList[0].teamAHasTiebreaker and matchup.teamBHasTiebreaker ==
+                    matchupList[0].teamBHasTiebreaker for matchup
+                    in matchupList):
+                raise InvalidYearFormatException(
+                    f"Multi-week matchups with ID '{mwmid}' do not all have the same tiebreakers.")
