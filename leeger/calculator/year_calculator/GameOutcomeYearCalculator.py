@@ -140,13 +140,32 @@ class GameOutcomeYearCalculator(YearCalculator):
         for teamId in YearNavigator.getAllTeamIds(year):
             teamIdAndTies[teamId] = 0
 
+        # keep track of all matchups to count towards this calculation
+        allMatchups = list()
+        # keep track of scores and tiebreakers for multi-week matchups
+        multiWeekMatchupIdToMatchupListMap: dict[str, list[Matchup]] = dict()
+
         for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
             week = year.weeks[i]
             for matchup in week.matchups:
                 if matchup.matchupType in filters.includeMatchupTypes:
-                    if MatchupNavigator.getTeamIdOfMatchupWinner(matchup) is None:
-                        teamIdAndTies[matchup.teamAId] += 1
-                        teamIdAndTies[matchup.teamBId] += 1
+                    mwmid = matchup.multiWeekMatchupId
+                    if mwmid is not None:
+                        # multi-week matchup
+                        if mwmid in multiWeekMatchupIdToMatchupListMap:
+                            multiWeekMatchupIdToMatchupListMap[mwmid].append(matchup)
+                        else:
+                            multiWeekMatchupIdToMatchupListMap[mwmid] = [matchup]
+                    else:
+                        # non multi-week matchup
+                        allMatchups.append(matchup)
+        # simplify multi-week matchups into single Matchups
+        for matchupList in multiWeekMatchupIdToMatchupListMap.values():
+            allMatchups.append(MatchupNavigator.simplifyMultiWeekMatchups(matchupList))
+        for matchup in allMatchups:
+            if MatchupNavigator.getTeamIdOfMatchupWinner(matchup) is None:
+                teamIdAndTies[matchup.teamAId] += 1
+                teamIdAndTies[matchup.teamBId] += 1
         cls._setToNoneIfNoGamesPlayed(teamIdAndTies, year, filters, **kwargs)
         return teamIdAndTies
 

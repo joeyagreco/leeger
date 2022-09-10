@@ -400,6 +400,27 @@ class TestGameOutcomeYearCalculator(unittest.TestCase):
         self.assertEqual(1, response[teams[0].id])
         self.assertEqual(1, response[teams[1].id])
 
+    def test_getTies_multiWeekMatchups(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1, multiWeekMatchupId="1")
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1, multiWeekMatchupId="1")
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+
+        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1)
+        week3 = Week(weekNumber=3, matchups=[matchup3])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
+
+        response = GameOutcomeYearCalculator.getTies(year)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(2, len(response.keys()))
+        self.assertEqual(2, response[teams[0].id])
+        self.assertEqual(2, response[teams[1].id])
+
     def test_getTies_noneIfNoGamesPlayed(self):
         owners, teams = getNDefaultOwnersAndTeams(3)
 
