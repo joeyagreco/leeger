@@ -2,6 +2,7 @@ from typing import Optional
 
 from leeger.calculator.parent.YearCalculator import YearCalculator
 from leeger.decorator.validators import validateYear
+from leeger.model.league import Matchup
 from leeger.model.league.Year import Year
 from leeger.util.Deci import Deci
 from leeger.util.navigator.MatchupNavigator import MatchupNavigator
@@ -34,15 +35,40 @@ class GameOutcomeYearCalculator(YearCalculator):
         for teamId in YearNavigator.getAllTeamIds(year):
             teamIdAndWins[teamId] = 0
 
+        # keep track of scores and tiebreakers for multi-week matchups
+        multiWeekMatchupIdToMatchupListMap: dict[str, list[Matchup]] = dict()
+
         for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
             week = year.weeks[i]
             for matchup in week.matchups:
                 if matchup.matchupType in filters.includeMatchupTypes:
-                    # get winner team ID (if this wasn't a tie)
-                    winnerTeamId = MatchupNavigator.getTeamIdOfMatchupWinner(matchup)
-                    if winnerTeamId is not None:
-                        teamIdAndWins[winnerTeamId] += 1
+                    mwmid = matchup.multiWeekMatchupId
+                    if mwmid is not None:
+                        # deal with multi-week matchups
+                        if mwmid in multiWeekMatchupIdToMatchupListMap:
+                            multiWeekMatchupIdToMatchupListMap[mwmid].append(matchup)
+                        else:
+                            multiWeekMatchupIdToMatchupListMap[mwmid] = [matchup]
+                    else:
+                        # deal with non multi-week matchups
+                        # get winner team ID (if this wasn't a tie)
+                        winnerTeamId = MatchupNavigator.getTeamIdOfMatchupWinner(matchup)
+                        if winnerTeamId is not None:
+                            teamIdAndWins[winnerTeamId] += 1
 
+        # add wins from mult-week matchups
+        for matchupList in multiWeekMatchupIdToMatchupListMap.values():
+            # create a single matchup object with data from these matchups
+            matchup = Matchup(teamAId=matchupList[0].teamAId,
+                              teamBId=matchupList[0].teamBId,
+                              teamAScore=sum([matchup.teamAScore for matchup in matchupList]),
+                              teamBScore=sum([matchup.teamBScore for matchup in matchupList]),
+                              teamAHasTiebreaker=matchupList[0].teamAHasTiebreaker,
+                              teamBHasTiebreaker=matchupList[0].teamBHasTiebreaker)
+            # get winner team ID (if this wasn't a tie)
+            winnerTeamId = MatchupNavigator.getTeamIdOfMatchupWinner(matchup)
+            if winnerTeamId is not None:
+                teamIdAndWins[winnerTeamId] += 1
         cls._setToNoneIfNoGamesPlayed(teamIdAndWins, year, filters, **kwargs)
         return teamIdAndWins
 

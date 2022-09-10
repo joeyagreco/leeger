@@ -256,7 +256,7 @@ def checkMultiWeekMatchupsAreInMoreThanOneWeekOrAreNotTheMostRecentWeek(year: Ye
     The exception is if the multi-week matchup is in the last (most recent) week of the year.
     That week is allowed to have the only occurrence of a multi-week matchup ID since there could be another week coming in the future with that ID.
     """
-    multiWeekMatchupIdToCountAndMostRecentWeekMap: dict[str, tuple[int, bool]] = dict()
+    multiWeekMatchupIdToCountAndMostRecentWeekMap: dict[str, list[int, bool]] = dict()
     # will hold an occurrence count and a boolean value of whether this ID was found in the most recent week of the year
     # will look something like:
     # {
@@ -272,7 +272,7 @@ def checkMultiWeekMatchupsAreInMoreThanOneWeekOrAreNotTheMostRecentWeek(year: Ye
                 if mwmid in multiWeekMatchupIdToCountAndMostRecentWeekMap.keys():
                     multiWeekMatchupIdToCountAndMostRecentWeekMap[mwmid][0] += 1
                 else:
-                    multiWeekMatchupIdToCountAndMostRecentWeekMap[mwmid] = (1, isMostRecentWeekInYear)
+                    multiWeekMatchupIdToCountAndMostRecentWeekMap[mwmid] = [1, isMostRecentWeekInYear]
 
     for mwmid, countAndMostRecentWeek in multiWeekMatchupIdToCountAndMostRecentWeekMap.items():
         count, isMostRecentWeek = countAndMostRecentWeek
