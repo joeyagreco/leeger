@@ -7,7 +7,6 @@ from leeger.model.league.Owner import Owner
 from leeger.model.league.Team import Team
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
-from leeger.util.Deci import Deci
 from leeger.util.navigator.YearNavigator import YearNavigator
 from test.helper.prototypes import getNDefaultOwnersAndTeams
 
@@ -60,8 +59,50 @@ class TestYearNavigator(unittest.TestCase):
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
-        self.assertEqual(Deci("2"), response[teams[0].id])
-        self.assertEqual(Deci("2"), response[teams[1].id])
+        self.assertEqual(2, response[teams[0].id])
+        self.assertEqual(2, response[teams[1].id])
+
+    def test_getNumberOfGamesPlayed_countMultiWeekMatchupsAsOneGameIsTrue_countsMultiWeekMatchupsAsOneGame(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, multiWeekMatchupId="1")
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, multiWeekMatchupId="1")
+
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2])
+
+        yearFilters = YearFilters(weekNumberStart=1, weekNumberEnd=2,
+                                  includeMatchupTypes=[MatchupType.REGULAR_SEASON, MatchupType.PLAYOFF,
+                                                       MatchupType.CHAMPIONSHIP])
+        response = YearNavigator.getNumberOfGamesPlayed(year, yearFilters, countMultiWeekMatchupsAsOneGame=True)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(2, len(response.keys()))
+        self.assertEqual(1, response[teams[0].id])
+        self.assertEqual(1, response[teams[1].id])
+
+    def test_getNumberOfGamesPlayed_countMultiWeekMatchupsAsOneGameIsFalse_countsMultiWeekMatchupsAsMultipleGames(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, multiWeekMatchupId="1")
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, multiWeekMatchupId="1")
+
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2])
+
+        yearFilters = YearFilters(weekNumberStart=1, weekNumberEnd=2,
+                                  includeMatchupTypes=[MatchupType.REGULAR_SEASON, MatchupType.PLAYOFF,
+                                                       MatchupType.CHAMPIONSHIP])
+        response = YearNavigator.getNumberOfGamesPlayed(year, yearFilters, countMultiWeekMatchupsAsOneGame=False)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(2, len(response.keys()))
+        self.assertEqual(2, response[teams[0].id])
+        self.assertEqual(2, response[teams[1].id])
 
     def test_getNumberOfGamesPlayed_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
@@ -84,8 +125,8 @@ class TestYearNavigator(unittest.TestCase):
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
-        self.assertEqual(Deci("2"), response[teams[0].id])
-        self.assertEqual(Deci("2"), response[teams[1].id])
+        self.assertEqual(2, response[teams[0].id])
+        self.assertEqual(2, response[teams[1].id])
 
     def test_getNumberOfGamesPlayed_onlyRegularSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
@@ -107,8 +148,8 @@ class TestYearNavigator(unittest.TestCase):
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
-        self.assertEqual(Deci("1"), response[teams[0].id])
-        self.assertEqual(Deci("1"), response[teams[1].id])
+        self.assertEqual(1, response[teams[0].id])
+        self.assertEqual(1, response[teams[1].id])
 
     def test_getNumberOfGamesPlayed_weekNumberStartGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
@@ -132,8 +173,8 @@ class TestYearNavigator(unittest.TestCase):
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
-        self.assertEqual(Deci("2"), response[teams[0].id])
-        self.assertEqual(Deci("2"), response[teams[1].id])
+        self.assertEqual(2, response[teams[0].id])
+        self.assertEqual(2, response[teams[1].id])
 
     def test_getNumberOfGamesPlayed_weekNumberEndGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
@@ -157,8 +198,8 @@ class TestYearNavigator(unittest.TestCase):
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
-        self.assertEqual(Deci("2"), response[teams[0].id])
-        self.assertEqual(Deci("2"), response[teams[1].id])
+        self.assertEqual(2, response[teams[0].id])
+        self.assertEqual(2, response[teams[1].id])
 
     def test_getNumberOfGamesPlayed_weekNumberStartGivenAndWeekNumberEndGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
@@ -185,8 +226,8 @@ class TestYearNavigator(unittest.TestCase):
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
-        self.assertEqual(Deci("2"), response[teams[0].id])
-        self.assertEqual(Deci("2"), response[teams[1].id])
+        self.assertEqual(2, response[teams[0].id])
+        self.assertEqual(2, response[teams[1].id])
 
     def test_getAllScoresInYear_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(2)

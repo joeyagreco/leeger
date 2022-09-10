@@ -14,7 +14,8 @@ class YearNavigator:
         return [team.id for team in year.teams]
 
     @classmethod
-    def getNumberOfGamesPlayed(cls, year: Year, yearFilters: YearFilters) -> dict[str, int]:
+    def getNumberOfGamesPlayed(cls, year: Year, yearFilters: YearFilters, countMultiWeekMatchupsAsOneGame=False) -> \
+            dict[str, int]:
         """
         Returns the number of games played for each team in the given Year.
 
@@ -32,10 +33,20 @@ class YearNavigator:
         for teamId in allTeamIds:
             teamIdAndNumberOfGamesPlayed[teamId] = 0
 
+        # keep track of multi-week matchups that have been counted
+        multiWeekMatchupIdsCounted: list[str] = list()
+
         for i in range(yearFilters.weekNumberStart - 1, yearFilters.weekNumberEnd):
             week = year.weeks[i]
             for matchup in week.matchups:
                 if matchup.matchupType in yearFilters.includeMatchupTypes:
+                    mwmid = matchup.multiWeekMatchupId
+                    if mwmid is not None and countMultiWeekMatchupsAsOneGame is True:
+                        # these matchups will only count as 1 game
+                        if mwmid in multiWeekMatchupIdsCounted:
+                            # don't count this matchup as another game
+                            continue
+                        multiWeekMatchupIdsCounted.append(mwmid)
                     teamIdAndNumberOfGamesPlayed[matchup.teamAId] += 1
                     teamIdAndNumberOfGamesPlayed[matchup.teamBId] += 1
         return teamIdAndNumberOfGamesPlayed
