@@ -236,6 +236,21 @@ class TestYearValidation(unittest.TestCase):
         yearValidation.checkMultiWeekMatchupsAreInMoreThanOneWeekOrAreNotTheMostRecentWeek(
             Year(yearNumber=2000, teams=teams, weeks=[week1, week2]))
 
+    def test_checkMultiWeekMatchupsWithSameIdHaveSameMatchupType_multiWeekMatchupsDoNotAllHaveTheSameMatchupType_raisesException(
+            self):
+        owners, teams = getNDefaultOwnersAndTeams(3)
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.REGULAR_SEASON, multiWeekMatchupId="1")
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF, multiWeekMatchupId="1")
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+        with self.assertRaises(InvalidYearFormatException) as context:
+            yearValidation.checkMultiWeekMatchupsWithSameIdHaveSameMatchupType(
+                Year(yearNumber=2000, teams=teams, weeks=[week1, week2]))
+        self.assertEqual(f"Multi-week matchups with ID '1' do not all have the same matchup type.",
+                         str(context.exception))
+
     """
     TYPE CHECK TESTS
     """

@@ -1,4 +1,5 @@
 from leeger.exception.InvalidYearFormatException import InvalidYearFormatException
+from leeger.model.league import Matchup
 from leeger.model.league.Year import Year
 from leeger.validate import teamValidation, weekValidation
 
@@ -32,6 +33,7 @@ def runAllChecks(year: Year) -> None:
     checkEveryTeamInYearIsInAMatchup(year)
     checkMultiWeekMatchupsAreInConsecutiveWeeks(year)
     checkMultiWeekMatchupsAreInMoreThanOneWeekOrAreNotTheMostRecentWeek(year)
+    checkMultiWeekMatchupsWithSameIdHaveSameMatchupType(year)
 
 
 def checkAllWeeks(year: Year) -> None:
@@ -274,3 +276,22 @@ def checkMultiWeekMatchupsAreInMoreThanOneWeekOrAreNotTheMostRecentWeek(year: Ye
         if count == 1 and not isMostRecentWeek:
             raise InvalidYearFormatException(
                 f"Year {year.yearNumber} has multi-week matchup with ID '{mwmid}' that only occurs once and is not the most recent week.")
+
+
+def checkMultiWeekMatchupsWithSameIdHaveSameMatchupType(year: Year):
+    multiWeekMatchupIdToMatchupListMap: dict[str, list[Matchup]] = dict()
+
+    for week in year.weeks:
+        for matchup in week.matchups:
+            mwmid = matchup.multiWeekMatchupId
+            if mwmid is not None:
+                if mwmid in multiWeekMatchupIdToMatchupListMap.keys():
+                    multiWeekMatchupIdToMatchupListMap[mwmid].append(matchup)
+                else:
+                    multiWeekMatchupIdToMatchupListMap[mwmid] = [matchup]
+
+    for mwmid, matchupList in multiWeekMatchupIdToMatchupListMap.items():
+        if len(matchupList) > 0:
+            if not all(matchup.matchupType == matchupList[0].matchupType for matchup in matchupList):
+                raise InvalidYearFormatException(
+                    f"Multi-week matchups with ID '{mwmid}' do not all have the same matchup type.")
