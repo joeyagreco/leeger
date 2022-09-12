@@ -1,4 +1,4 @@
-numpy~=1.23.2
+numpy~=1.23.3
 setuptools~=65.3.0
 openpyxl~=3.0.10
 espn-api~=0.21.0
