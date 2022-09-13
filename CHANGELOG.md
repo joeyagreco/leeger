@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- N/A
+- Fixed bug where consolation matchups could count as a championship matchup
 
 ## [1.3.0]
 
@@ -18,7 +18,7 @@ All notable changes to this project will be documented in this file.
 
 ## [1.1.1]
 
-- [ESPN League Loader] Added check for teams on bye week.
+- For ESPN leagues, added check for teams on bye week.
 
 ## [1.1.0]
 
