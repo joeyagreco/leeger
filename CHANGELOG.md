@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 - Added better type checking for validation
+- Fixed bug in YahooLeagueLoader that caused tied matchups to raise an exception
 
 ## [1.1.1]
 

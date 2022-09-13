@@ -100,8 +100,12 @@ class YahooLeagueLoader(LeagueLoader):
                 teamB = self.__yahooTeamIdToTeamMap[yahooMatchup.team2.team_id]
                 teamBScore = yahooMatchup.teams.team[1].team_points.total
                 # figure out tiebreakers if there needs to be one
-                teamAHasTiebreaker = yahooMatchup.winner_team_key == yahooTeamA.team_key and yahooMatchup.is_tied == 0
-                teamBHasTiebreaker = yahooMatchup.winner_team_key == yahooTeamB.team_key and yahooMatchup.is_tied == 0
+                teamAHasTiebreaker = False
+                teamBHasTiebreaker = False
+                if yahooMatchup.is_tied == 0:
+                    # non-tied matchup
+                    teamAHasTiebreaker = yahooMatchup.winner_team_key == yahooTeamA.team_key
+                    teamBHasTiebreaker = yahooMatchup.winner_team_key == yahooTeamB.team_key
                 matchupType = self.__getMatchupType(yahooMatchup)
                 matchups.append(Matchup(teamAId=teamA.id,
                                         teamBId=teamB.id,
