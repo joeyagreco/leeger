@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- N/A
+
+## [1.3.0]
+
 - Updated versions of dependent libraries
 - Added ability to find multiple years for Yahoo leagues
 
@@ -26,7 +30,9 @@ All notable changes to this project will be documented in this file.
 
 ### Initial Release
 
-[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.3.0...HEAD
+
+[1.3.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.3.0
 
 [1.2.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.2.0
 
