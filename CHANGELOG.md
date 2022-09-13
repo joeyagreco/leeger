@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 - Updated versions of dependent libraries
+- Added ability to find multiple years for Yahoo leagues
 
 ## [1.2.0]
 

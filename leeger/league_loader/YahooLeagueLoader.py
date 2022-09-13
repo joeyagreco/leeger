@@ -59,14 +59,27 @@ class YahooLeagueLoader(LeagueLoader):
             raise TimeoutError("Login to yahoofantasy timed out.")
         ctx = Context()
         yahooLeagues = list()
-        for year in self._years:
-            leagues = ctx.get_leagues(self.__NFL, year)
+        nextLeagueId = self._leagueId
+        remainingYears = self._years.copy()
+        foundYears = list()
+        while len(remainingYears) > 0 and nextLeagueId is not None:
+            # get all leagues this user was in for this year
+            currentYear = remainingYears[0]
+            leagues = ctx.get_leagues(self.__NFL, currentYear)
+            # find the league ID we want
             for league in leagues:
-                if str(league.league_id) == self._leagueId:
+                if str(league.league_id) == nextLeagueId:
                     yahooLeagues.append(league)
+                    foundYears.append(currentYear)
+                    nextLeagueId = league.renew
+                    if nextLeagueId is not None:
+                        nextLeagueId = str(nextLeagueId)[3:]
+                        break
+            remainingYears.pop(0)
+
         if len(yahooLeagues) != len(self._years):
             # TODO: Give a more descriptive // accurate error message
-            raise DoesNotExistException(f"Found {len(yahooLeagues)} years, expected to find {len(self._years)}.")
+            raise DoesNotExistException(f"Found years {foundYears}, expected to find {self._years}.")
         return self.__buildLeague(yahooLeagues)
 
     def __buildLeague(self, yahooLeagues: list[YahooLeague]) -> League:
