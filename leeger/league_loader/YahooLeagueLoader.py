@@ -142,7 +142,8 @@ class YahooLeagueLoader(LeagueLoader):
                 if team1Id in self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season] \
                         and not self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season][team1Id] \
                         and team2Id in self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season] \
-                        and not self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season][team2Id]:
+                        and not self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season][team2Id] \
+                        and yahooMatchup.is_consolation == 0:
                     return MatchupType.CHAMPIONSHIP
             # update class dict with the team that lost
             for yahooTeamResult in yahooMatchup.teams.team:
