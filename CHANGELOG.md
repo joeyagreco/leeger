@@ -4,7 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- Fixed bug where consolation matchups could count as a championship matchup
+- N/A
+
+## [1.3.1]
+
+- Fixed bug where Yahoo consolation matchups could count as a championship matchup
 
 ## [1.3.0]
 
@@ -30,7 +34,9 @@ All notable changes to this project will be documented in this file.
 
 ### Initial Release
 
-[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.3.0...HEAD
+[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.3.1...HEAD
+
+[1.3.1]: https://github.com/joeyagreco/leeger/releases/tag/v1.3.1
 
 [1.3.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.3.0
 
