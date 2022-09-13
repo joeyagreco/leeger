@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- Updated versions of dependent libraries
+
+## [1.2.0]
+
 - Added better type checking for validation
 - Fixed bug in YahooLeagueLoader that caused tied matchups to raise an exception
 
@@ -21,7 +25,9 @@ All notable changes to this project will be documented in this file.
 
 ### Initial Release
 
-[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.1.1...HEAD
+[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.2.0...HEAD
+
+[1.2.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.2.0
 
 [1.1.1]: https://github.com/joeyagreco/leeger/releases/tag/v1.1.1
 
