@@ -103,7 +103,9 @@ class YahooLeagueLoader(LeagueLoader):
             yahooWeek: YahooWeek = yahooLeague.weeks()[i]
             # get each teams matchup for that week
             matchups = list()
-            for yahooMatchup in yahooWeek.matchups:
+            # only get matchups that are completed
+            validMatchups = [m for m in yahooWeek.matchups if m.status == "postevent"]
+            for yahooMatchup in validMatchups:
                 # team A is *this* team
                 yahooTeamA = yahooMatchup.team1
                 teamA = self.__yahooTeamIdToTeamMap[yahooMatchup.team1.team_id]
@@ -127,7 +129,8 @@ class YahooLeagueLoader(LeagueLoader):
                                         teamAHasTiebreaker=teamAHasTiebreaker,
                                         teamBHasTiebreaker=teamBHasTiebreaker,
                                         matchupType=matchupType))
-            weeks.append(Week(weekNumber=i + 1, matchups=matchups))
+            if len(matchups) > 0:
+                weeks.append(Week(weekNumber=i + 1, matchups=matchups))
         return weeks
 
     def __getMatchupType(self, yahooMatchup: YahooMatchup) -> MatchupType:
