@@ -4,7 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- Fixed bug where Yahoo leagues that had unfinished matchups would raise an exception
+- N/A
+
+## [1.3.2]
+
+- Fixed bug that caused Yahoo leagues that had unfinished matchups to raise an exception
 
 ## [1.3.1]
 
@@ -34,7 +38,9 @@ All notable changes to this project will be documented in this file.
 
 ### Initial Release
 
-[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.3.1...HEAD
+[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.3.2...HEAD
+
+[1.3.2]: https://github.com/joeyagreco/leeger/releases/tag/v1.3.2
 
 [1.3.1]: https://github.com/joeyagreco/leeger/releases/tag/v1.3.1
 
