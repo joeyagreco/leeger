@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- N/A
+- Fixed bug where Yahoo leagues that had unfinished matchups would raise an exception
 
 ## [1.3.1]
 
