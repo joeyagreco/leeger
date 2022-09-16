@@ -3,6 +3,7 @@ from typing import Optional
 from leeger.calculator.parent.AllTimeCalculator import AllTimeCalculator
 from leeger.calculator.year_calculator.PointsScoredYearCalculator import PointsScoredYearCalculator
 from leeger.decorator.validators import validateLeague
+from leeger.model.filter import AllTimeFilters
 from leeger.model.league.League import League
 from leeger.util.Deci import Deci
 from leeger.util.navigator.LeagueNavigator import LeagueNavigator
@@ -47,7 +48,8 @@ class PointsScoredAllTimeCalculator(AllTimeCalculator):
 
         ownerIdAndPointsScored = cls.getPointsScored(league, **kwargs)
         ownerIdAndNumberOfGamesPlayed = LeagueNavigator.getNumberOfGamesPlayed(league,
-                                                                               cls._getAllTimeFilters(league, **kwargs))
+                                                                               AllTimeFilters.getForLeague(league,
+                                                                                                           **kwargs))
 
         ownerIdAndPointsScoredPerGame = dict()
         allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
@@ -95,7 +97,8 @@ class PointsScoredAllTimeCalculator(AllTimeCalculator):
 
         ownerIdAndOpponentPointsScored = cls.getOpponentPointsScored(league, **kwargs)
         ownerIdAndNumberOfGamesPlayed = LeagueNavigator.getNumberOfGamesPlayed(league,
-                                                                               cls._getAllTimeFilters(league, **kwargs))
+                                                                               AllTimeFilters.getForLeague(league,
+                                                                                                           **kwargs))
 
         ownerIdAndOpponentPointsScoredPerGame = dict()
         allOwnerIds = LeagueNavigator.getAllOwnerIds(league)

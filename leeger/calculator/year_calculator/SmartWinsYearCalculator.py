@@ -2,6 +2,7 @@ from typing import Optional
 
 from leeger.calculator.parent.YearCalculator import YearCalculator
 from leeger.decorator.validators import validateYear
+from leeger.model.filter import YearFilters
 from leeger.model.league.Year import Year
 from leeger.util.Deci import Deci
 from leeger.util.navigator.YearNavigator import YearNavigator
@@ -54,7 +55,7 @@ class SmartWinsYearCalculator(YearCalculator):
         ####################
         ####################
 
-        filters = cls._getYearFilters(year, **kwargs)
+        filters = YearFilters.getForYear(year, **kwargs)
 
         # get all scores we want to include in our smart wins calculation
         teamIdsAndScores = list()
@@ -97,9 +98,8 @@ class SmartWinsYearCalculator(YearCalculator):
         """
 
         teamIdAndSmartWins = SmartWinsYearCalculator.getSmartWins(year, **kwargs)
-        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year,
-                                                                            cls._getYearFilters(year,
-                                                                                                **kwargs))
+        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year, YearFilters.getForYear(year,
+                                                                                                         **kwargs))
 
         teamIdAndSmartWinsPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
@@ -145,7 +145,7 @@ class SmartWinsYearCalculator(YearCalculator):
         ####################
         ####################
 
-        filters = cls._getYearFilters(year, **kwargs)
+        filters = YearFilters.getForYear(year, **kwargs)
 
         # get all scores we want to include in our smart wins calculation
         teamIdsAndOpponentScores = list()
@@ -188,9 +188,8 @@ class SmartWinsYearCalculator(YearCalculator):
         """
 
         teamIdAndOpponentSmartWins = SmartWinsYearCalculator.getOpponentSmartWins(year, **kwargs)
-        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year,
-                                                                            cls._getYearFilters(year,
-                                                                                                **kwargs))
+        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year, YearFilters.getForYear(year,
+                                                                                                         **kwargs))
 
         teamIdAndOpponentSmartWinsPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)

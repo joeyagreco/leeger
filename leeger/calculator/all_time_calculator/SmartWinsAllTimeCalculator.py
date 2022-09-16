@@ -2,6 +2,7 @@ from typing import Optional
 
 from leeger.calculator.parent.AllTimeCalculator import AllTimeCalculator
 from leeger.decorator.validators import validateLeague
+from leeger.model.filter import AllTimeFilters
 from leeger.model.league.League import League
 from leeger.util.Deci import Deci
 from leeger.util.navigator.LeagueNavigator import LeagueNavigator
@@ -55,7 +56,7 @@ class SmartWinsAllTimeCalculator(AllTimeCalculator):
         ####################
         ####################
 
-        filters = cls._getAllTimeFilters(league, **kwargs)
+        filters = AllTimeFilters.getForLeague(league, **kwargs)
 
         # get all scores we want to include in our smart wins calculation
         ownerIdsAndScores: list[tuple] = list()
@@ -100,7 +101,8 @@ class SmartWinsAllTimeCalculator(AllTimeCalculator):
 
         ownerIdAndSmartWins = cls.getSmartWins(league, **kwargs)
         ownerIdAndNumberOfGamesPlayed = LeagueNavigator.getNumberOfGamesPlayed(league,
-                                                                               cls._getAllTimeFilters(league, **kwargs))
+                                                                               AllTimeFilters.getForLeague(league,
+                                                                                                           **kwargs))
 
         ownerIdAndSmartWinsPerGame = dict()
         allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
@@ -147,7 +149,7 @@ class SmartWinsAllTimeCalculator(AllTimeCalculator):
         ####################
         ####################
 
-        filters = cls._getAllTimeFilters(league, **kwargs)
+        filters = AllTimeFilters.getForLeague(league, **kwargs)
 
         # get all scores we want to include in our smart wins calculation
         ownerIdsAndOpponentScores: list[tuple] = list()
@@ -192,7 +194,8 @@ class SmartWinsAllTimeCalculator(AllTimeCalculator):
 
         ownerIdAndOpponentSmartWins = cls.getOpponentSmartWins(league, **kwargs)
         ownerIdAndNumberOfGamesPlayed = LeagueNavigator.getNumberOfGamesPlayed(league,
-                                                                               cls._getAllTimeFilters(league, **kwargs))
+                                                                               AllTimeFilters.getForLeague(league,
+                                                                                                           **kwargs))
 
         ownerIdAndOpponentSmartWinsPerGame = dict()
         allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
