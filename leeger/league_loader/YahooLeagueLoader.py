@@ -59,14 +59,27 @@ class YahooLeagueLoader(LeagueLoader):
             raise TimeoutError("Login to yahoofantasy timed out.")
         ctx = Context()
         yahooLeagues = list()
-        for year in self._years:
-            leagues = ctx.get_leagues(self.__NFL, year)
+        nextLeagueId = self._leagueId
+        remainingYears = self._years.copy()
+        foundYears = list()
+        while len(remainingYears) > 0 and nextLeagueId is not None:
+            # get all leagues this user was in for this year
+            currentYear = remainingYears[0]
+            leagues = ctx.get_leagues(self.__NFL, currentYear)
+            # find the league ID we want
             for league in leagues:
-                if str(league.league_id) == self._leagueId:
+                if str(league.league_id) == nextLeagueId:
                     yahooLeagues.append(league)
+                    foundYears.append(currentYear)
+                    nextLeagueId = league.renew
+                    if nextLeagueId is not None:
+                        nextLeagueId = str(nextLeagueId)[3:]
+                        break
+            remainingYears.pop(0)
+
         if len(yahooLeagues) != len(self._years):
             # TODO: Give a more descriptive // accurate error message
-            raise DoesNotExistException(f"Found {len(yahooLeagues)} years, expected to find {len(self._years)}.")
+            raise DoesNotExistException(f"Found years {foundYears}, expected to find {self._years}.")
         return self.__buildLeague(yahooLeagues)
 
     def __buildLeague(self, yahooLeagues: list[YahooLeague]) -> League:
@@ -90,7 +103,9 @@ class YahooLeagueLoader(LeagueLoader):
             yahooWeek: YahooWeek = yahooLeague.weeks()[i]
             # get each teams matchup for that week
             matchups = list()
-            for yahooMatchup in yahooWeek.matchups:
+            # only get matchups that are completed
+            validMatchups = [m for m in yahooWeek.matchups if m.status == "postevent"]
+            for yahooMatchup in validMatchups:
                 # team A is *this* team
                 yahooTeamA = yahooMatchup.team1
                 teamA = self.__yahooTeamIdToTeamMap[yahooMatchup.team1.team_id]
@@ -100,8 +115,12 @@ class YahooLeagueLoader(LeagueLoader):
                 teamB = self.__yahooTeamIdToTeamMap[yahooMatchup.team2.team_id]
                 teamBScore = yahooMatchup.teams.team[1].team_points.total
                 # figure out tiebreakers if there needs to be one
-                teamAHasTiebreaker = yahooMatchup.winner_team_key == yahooTeamA.team_key and yahooMatchup.is_tied == 0
-                teamBHasTiebreaker = yahooMatchup.winner_team_key == yahooTeamB.team_key and yahooMatchup.is_tied == 0
+                teamAHasTiebreaker = False
+                teamBHasTiebreaker = False
+                if yahooMatchup.is_tied == 0:
+                    # non-tied matchup
+                    teamAHasTiebreaker = yahooMatchup.winner_team_key == yahooTeamA.team_key
+                    teamBHasTiebreaker = yahooMatchup.winner_team_key == yahooTeamB.team_key
                 matchupType = self.__getMatchupType(yahooMatchup)
                 matchups.append(Matchup(teamAId=teamA.id,
                                         teamBId=teamB.id,
@@ -110,7 +129,8 @@ class YahooLeagueLoader(LeagueLoader):
                                         teamAHasTiebreaker=teamAHasTiebreaker,
                                         teamBHasTiebreaker=teamBHasTiebreaker,
                                         matchupType=matchupType))
-            weeks.append(Week(weekNumber=i + 1, matchups=matchups))
+            if len(matchups) > 0:
+                weeks.append(Week(weekNumber=i + 1, matchups=matchups))
         return weeks
 
     def __getMatchupType(self, yahooMatchup: YahooMatchup) -> MatchupType:
@@ -125,7 +145,8 @@ class YahooLeagueLoader(LeagueLoader):
                 if team1Id in self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season] \
                         and not self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season][team1Id] \
                         and team2Id in self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season] \
-                        and not self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season][team2Id]:
+                        and not self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season][team2Id] \
+                        and yahooMatchup.is_consolation == 0:
                     return MatchupType.CHAMPIONSHIP
             # update class dict with the team that lost
             for yahooTeamResult in yahooMatchup.teams.team:
