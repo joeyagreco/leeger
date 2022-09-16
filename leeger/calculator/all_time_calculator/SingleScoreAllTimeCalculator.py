@@ -2,6 +2,7 @@ from typing import Optional
 
 from leeger.calculator.parent.AllTimeCalculator import AllTimeCalculator
 from leeger.decorator.validators import validateLeague
+from leeger.model.filter import AllTimeFilters
 from leeger.model.league.League import League
 from leeger.util.navigator.LeagueNavigator import LeagueNavigator
 
@@ -26,7 +27,7 @@ class SingleScoreAllTimeCalculator(AllTimeCalculator):
             ...
             }
         """
-        filters = cls._getAllTimeFilters(league, **kwargs)
+        filters = AllTimeFilters.getForLeague(league, **kwargs)
 
         ownerIdAndMaxScore = dict()
 
@@ -63,7 +64,7 @@ class SingleScoreAllTimeCalculator(AllTimeCalculator):
             ...
             }
         """
-        filters = cls._getAllTimeFilters(league, **kwargs)
+        filters = AllTimeFilters.getForLeague(league, **kwargs)
 
         ownerIdAndMinScore = dict()
 
