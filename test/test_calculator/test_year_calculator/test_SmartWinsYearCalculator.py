@@ -49,6 +49,34 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
         self.assertEqual(Deci("1.9"), response[teams[4].id])
         self.assertEqual(Deci("2.8"), response[teams[5].id])
 
+    def test_getSmartWins_multiWeekMatchups(self):
+        owners, teams = getNDefaultOwnersAndTeams(6)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, multiWeekMatchupId="1")
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
+
+        matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, multiWeekMatchupId="1")
+        matchup5 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
+        matchup6 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+
+        week2 = Week(weekNumber=2, matchups=[matchup4, matchup5, matchup6])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2])
+
+        response = SmartWinsYearCalculator.getSmartWins(year)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(6, len(response.keys()))
+        self.assertEqual(Deci("0"), response[teams[0].id])
+        self.assertEqual(Deci("0.5555555555555555555555555556"), response[teams[1].id])
+        self.assertEqual(Deci("0.3333333333333333333333333334"), response[teams[2].id])
+        self.assertEqual(Deci("1.111111111111111111111111111"), response[teams[3].id])
+        self.assertEqual(Deci("1.111111111111111111111111111"), response[teams[4].id])
+        self.assertEqual(Deci("1.888888888888888888888888889"), response[teams[5].id])
+
     def test_getSmartWins_noneIfNoGamesPlayed(self):
         owners, teams = getNDefaultOwnersAndTeams(3)
 

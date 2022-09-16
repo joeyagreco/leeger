@@ -608,19 +608,29 @@ class TestLeagueNavigator(unittest.TestCase):
 
         self.assertIsInstance(response, list)
         self.assertEqual(16, len(response))
-        self.assertEqual(3, response[0])
-        self.assertEqual(4, response[1])
-        self.assertEqual(5, response[2])
-        self.assertEqual(6, response[3])
-        self.assertEqual(9, response[4])
-        self.assertEqual(10, response[5])
-        self.assertEqual(11, response[6])
-        self.assertEqual(12, response[7])
-        self.assertEqual(15, response[8])
-        self.assertEqual(16, response[9])
-        self.assertEqual(17, response[10])
-        self.assertEqual(18, response[11])
-        self.assertEqual(21, response[12])
-        self.assertEqual(22, response[13])
-        self.assertEqual(23, response[14])
-        self.assertEqual(24, response[15])
+        self.assertEqual([3, 4, 5, 6, 9, 10, 11, 12, 15, 16, 17, 18, 21, 22, 23, 24], sorted(response))
+
+    def test_getAllScoresInLeague_simplifyMultiWeekMatchupsIsTrue(self):
+        owners, teamsA = getNDefaultOwnersAndTeams(2)
+        teamsB = getTeamsFromOwners(owners)
+        teamsC = getTeamsFromOwners(owners)
+        teamsD = getTeamsFromOwners(owners)
+
+        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
+                             multiWeekMatchupId="1")
+        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=3, teamBScore=4,
+                             multiWeekMatchupId="1")
+        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=5, teamBScore=6,
+                             matchupType=MatchupType.CHAMPIONSHIP)
+        week1_a = Week(weekNumber=1, matchups=[matchup1_a])
+        week2_a = Week(weekNumber=2, matchups=[matchup2_a])
+        week3_a = Week(weekNumber=3, matchups=[matchup3_a])
+        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
+
+        league = League(name="TEST", owners=owners, years=[yearA])
+
+        response = LeagueNavigator.getAllScoresInLeague(league, simplifyMultiWeekMatchups=True)
+
+        self.assertIsInstance(response, list)
+        self.assertEqual(4, len(response))
+        self.assertEqual([4, 5, 6, 6], sorted(response))

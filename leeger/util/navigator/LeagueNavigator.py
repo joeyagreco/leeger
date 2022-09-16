@@ -100,12 +100,12 @@ class LeagueNavigator:
         return ownerIdAndNumberOfGamesPlayed
 
     @staticmethod
-    def getAllScoresInLeague(league: League, **kwargs) -> list[float | int]:
+    def getAllScoresInLeague(league: League, simplifyMultiWeekMatchups=False) -> list[float | int]:
         """
         Returns a list of all scores for the given League.
         Will count all scores EXCEPT for IGNORE Matchups.
         """
         allScores = list()
         for year in league.years:
-            allScores += YearNavigator.getAllScoresInYear(year)
+            allScores += YearNavigator.getAllScoresInYear(year, simplifyMultiWeekMatchups=simplifyMultiWeekMatchups)
         return allScores

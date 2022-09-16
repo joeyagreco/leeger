@@ -247,10 +247,26 @@ class TestYearNavigator(unittest.TestCase):
 
         self.assertIsInstance(response, list)
         self.assertEqual(4, len(response))
-        self.assertEqual(1, response[0])
-        self.assertEqual(2, response[1])
-        self.assertEqual(5, response[2])
-        self.assertEqual(6, response[3])
+        self.assertEqual([1, 2, 5, 6], sorted(response))
+
+    def test_getAllScoresInYear_simplifyMultiWeekMatchupsIsTrue(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, multiWeekMatchupId="1")
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=3, teamBScore=4, multiWeekMatchupId="1")
+        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=5, teamBScore=6)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+        week3 = Week(weekNumber=3, matchups=[matchup3])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
+
+        response = YearNavigator.getAllScoresInYear(year, simplifyMultiWeekMatchups=True)
+
+        self.assertIsInstance(response, list)
+        self.assertEqual(4, len(response))
+        self.assertEqual([4, 5, 6, 6], sorted(response))
 
     def test_getAllMultiWeekMatchups_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
@@ -292,3 +308,179 @@ class TestYearNavigator(unittest.TestCase):
 
         self.assertIsInstance(response, dict)
         self.assertEqual(0, len(response.keys()))
+
+    def test_getAllMultiWeekMatchups_includeMultiWeekMatchupsIsFalse_raisesException(self):
+        with self.assertRaises(ValueError) as context:
+            YearNavigator.getAllMultiWeekMatchups(None, YearFilters(weekNumberStart=1,
+                                                                    weekNumberEnd=3,
+                                                                    includeMatchupTypes=[
+                                                                        MatchupType.REGULAR_SEASON],
+                                                                    includeMultiWeekMatchups=False))
+        self.assertEqual("Multi-Week matchups must be included in this calculation.", str(context.exception))
+
+    def test_getAllMatchupsInYear_noFilterGiven_happyPath(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        a_matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        a_matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                             matchupType=MatchupType.PLAYOFF)
+        a_matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1,
+                             teamAHasTiebreaker=True, matchupType=MatchupType.PLAYOFF)
+        a_matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                             matchupType=MatchupType.CHAMPIONSHIP)
+
+        a_week1 = Week(weekNumber=1, matchups=[a_matchup1])
+        a_week2 = Week(weekNumber=2, matchups=[a_matchup2])
+        a_week3 = Week(weekNumber=3, matchups=[a_matchup3])
+        a_week4 = Week(weekNumber=4, matchups=[a_matchup4])
+
+        a_year = Year(yearNumber=2000, teams=teams, weeks=[a_week1, a_week2, a_week3, a_week4])
+
+        response = YearNavigator.getAllMatchupsInYear(a_year)
+
+        self.assertIsInstance(response, list)
+        self.assertEqual(4, len(response))
+        self.assertEqual(a_matchup1.id, response[0].id)
+        self.assertEqual(a_matchup2.id, response[1].id)
+        self.assertEqual(a_matchup3.id, response[2].id)
+        self.assertEqual(a_matchup4.id, response[3].id)
+
+    def test_getAllMatchupsInYear_filterGiven_happyPath(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        a_matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        a_matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        a_matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1,
+                             teamAHasTiebreaker=True, matchupType=MatchupType.PLAYOFF)
+        a_matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                             matchupType=MatchupType.CHAMPIONSHIP)
+
+        a_week1 = Week(weekNumber=1, matchups=[a_matchup1])
+        a_week2 = Week(weekNumber=2, matchups=[a_matchup2])
+        a_week3 = Week(weekNumber=3, matchups=[a_matchup3])
+        a_week4 = Week(weekNumber=4, matchups=[a_matchup4])
+
+        a_year = Year(yearNumber=2000, teams=teams, weeks=[a_week1, a_week2, a_week3, a_week4])
+
+        response = YearNavigator.getAllMatchupsInYear(a_year, YearFilters(weekNumberStart=2, weekNumberEnd=3,
+                                                                          includeMatchupTypes=[MatchupType.PLAYOFF]))
+
+        self.assertIsInstance(response, list)
+        self.assertEqual(1, len(response))
+        self.assertEqual(a_matchup3.id, response[0].id)
+
+    def test_getAllMatchupsInYear_filterGiven_includeMultiWeekMatchupsIsTrue_happyPath(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        a_matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                             multiWeekMatchupId="1")
+        a_matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                             multiWeekMatchupId="1")
+        a_matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+
+        a_week1 = Week(weekNumber=1, matchups=[a_matchup1])
+        a_week2 = Week(weekNumber=2, matchups=[a_matchup2])
+        a_week3 = Week(weekNumber=3, matchups=[a_matchup3])
+
+        a_year = Year(yearNumber=2000, teams=teams, weeks=[a_week1, a_week2, a_week3])
+
+        response = YearNavigator.getAllMatchupsInYear(a_year, YearFilters(weekNumberStart=1,
+                                                                          weekNumberEnd=3,
+                                                                          includeMatchupTypes=[
+                                                                              MatchupType.REGULAR_SEASON],
+                                                                          includeMultiWeekMatchups=True))
+
+        self.assertIsInstance(response, list)
+        self.assertEqual(3, len(response))
+        self.assertEqual(a_matchup1.id, response[0].id)
+        self.assertEqual(a_matchup2.id, response[1].id)
+        self.assertEqual(a_matchup3.id, response[2].id)
+
+    def test_getAllMatchupsInYear_filterGiven_includeMultiWeekMatchupsIsFalse_happyPath(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        a_matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                             multiWeekMatchupId="1")
+        a_matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                             multiWeekMatchupId="1")
+        a_matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+
+        a_week1 = Week(weekNumber=1, matchups=[a_matchup1])
+        a_week2 = Week(weekNumber=2, matchups=[a_matchup2])
+        a_week3 = Week(weekNumber=3, matchups=[a_matchup3])
+
+        a_year = Year(yearNumber=2000, teams=teams, weeks=[a_week1, a_week2, a_week3])
+
+        response = YearNavigator.getAllMatchupsInYear(a_year, YearFilters(weekNumberStart=1,
+                                                                          weekNumberEnd=3,
+                                                                          includeMatchupTypes=[
+                                                                              MatchupType.REGULAR_SEASON],
+                                                                          includeMultiWeekMatchups=False))
+
+        self.assertIsInstance(response, list)
+        self.assertEqual(1, len(response))
+        self.assertEqual(a_matchup3.id, response[0].id)
+
+    def test_getAllSimplifiedMatchupsInYear_noFilterGiven_happyPath(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        a_matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                             multiWeekMatchupId="1")
+        a_matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                             multiWeekMatchupId="1")
+        a_matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+
+        a_week1 = Week(weekNumber=1, matchups=[a_matchup1])
+        a_week2 = Week(weekNumber=2, matchups=[a_matchup2])
+        a_week3 = Week(weekNumber=3, matchups=[a_matchup3])
+
+        a_year = Year(yearNumber=2000, teams=teams, weeks=[a_week1, a_week2, a_week3])
+
+        response = YearNavigator.getAllSimplifiedMatchupsInYear(a_year)
+
+        self.assertIsInstance(response, list)
+        self.assertEqual(2, len(response))
+        self.assertEqual(a_matchup3.id, response[0].id)
+        self.assertEqual(teams[0].id, response[1].teamAId)
+        self.assertEqual(teams[1].id, response[1].teamBId)
+        self.assertEqual(2, response[1].teamAScore)
+        self.assertEqual(4, response[1].teamBScore)
+
+    def test_getAllSimplifiedMatchupsInYear_filterGiven_happyPath(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        a_matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        a_matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                             multiWeekMatchupId="1")
+        a_matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                             multiWeekMatchupId="1")
+        a_matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                             matchupType=MatchupType.PLAYOFF)
+
+        a_week1 = Week(weekNumber=1, matchups=[a_matchup1])
+        a_week2 = Week(weekNumber=2, matchups=[a_matchup2])
+        a_week3 = Week(weekNumber=3, matchups=[a_matchup3])
+
+        a_year = Year(yearNumber=2000, teams=teams, weeks=[a_week1, a_week2, a_week3])
+
+        response = YearNavigator.getAllSimplifiedMatchupsInYear(a_year, YearFilters(weekNumberStart=2,
+                                                                                    weekNumberEnd=3,
+                                                                                    includeMatchupTypes=[
+                                                                                        MatchupType.REGULAR_SEASON],
+                                                                                    includeMultiWeekMatchups=True))
+
+        self.assertIsInstance(response, list)
+        self.assertEqual(1, len(response))
+        self.assertEqual(teams[0].id, response[0].teamAId)
+        self.assertEqual(teams[1].id, response[0].teamBId)
+        self.assertEqual(2, response[0].teamAScore)
+        self.assertEqual(4, response[0].teamBScore)
+
+    def test_getAllSimplifiedMatchupsInYear_includeMultiWeekMatchupsIsFalse_raisesException(self):
+        with self.assertRaises(ValueError) as context:
+            YearNavigator.getAllSimplifiedMatchupsInYear(None, YearFilters(weekNumberStart=1,
+                                                                           weekNumberEnd=3,
+                                                                           includeMatchupTypes=[
+                                                                               MatchupType.REGULAR_SEASON],
+                                                                           includeMultiWeekMatchups=False))
+        self.assertEqual("Multi-Week matchups must be included in this calculation.", str(context.exception))

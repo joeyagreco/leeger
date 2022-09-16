@@ -14,6 +14,7 @@ class YearFilters:
     weekNumberStart: int  # week to start at (inclusive)
     weekNumberEnd: int  # week to end at (inclusive)
     includeMatchupTypes: list[MatchupType]  # include matchups of these types
+    includeMultiWeekMatchups: bool = True
 
     @classmethod
     def getForYear(cls, year: Year, **kwargs) -> YearFilters:
@@ -24,6 +25,7 @@ class YearFilters:
         onlyRegularSeason = kwargs.pop("onlyRegularSeason", False)
         weekNumberStart = kwargs.pop("weekNumberStart", year.weeks[0].weekNumber)
         weekNumberEnd = kwargs.pop("weekNumberEnd", year.weeks[-1].weekNumber)
+        includeMultiWeekMatchups = kwargs.pop("includeMultiWeekMatchups", True)
 
         GeneralUtil.warnForUnusedKwargs(kwargs)
 
@@ -61,6 +63,8 @@ class YearFilters:
             raise InvalidFilterException("'weekNumberStart' must be type 'int'")
         if not isinstance(weekNumberEnd, int):
             raise InvalidFilterException("'weekNumberEnd' must be type 'int'")
+        if not isinstance(includeMultiWeekMatchups, bool):
+            raise InvalidFilterException("'includeMultiWeekMatchups' must be type 'bool'")
 
         # logic checks
         if [onlyChampionship, onlyPostSeason, onlyRegularSeason].count(True) > 1:
@@ -74,4 +78,4 @@ class YearFilters:
             raise InvalidFilterException("'weekNumberStart' cannot be greater than 'weekNumberEnd'.")
 
         return YearFilters(weekNumberStart=weekNumberStart, weekNumberEnd=weekNumberEnd,
-                           includeMatchupTypes=includeMatchupTypes)
+                           includeMatchupTypes=includeMatchupTypes, includeMultiWeekMatchups=includeMultiWeekMatchups)
