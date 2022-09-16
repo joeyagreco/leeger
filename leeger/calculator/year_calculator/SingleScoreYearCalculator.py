@@ -2,6 +2,7 @@ from typing import Optional
 
 from leeger.calculator.parent.YearCalculator import YearCalculator
 from leeger.decorator.validators import validateYear
+from leeger.model.filter import YearFilters
 from leeger.model.league.Year import Year
 from leeger.util.navigator.YearNavigator import YearNavigator
 
@@ -26,7 +27,7 @@ class SingleScoreYearCalculator(YearCalculator):
             ...
             }
         """
-        filters = cls._getYearFilters(year, **kwargs)
+        filters = YearFilters.getForYear(year, **kwargs)
 
         teamIdAndMaxScore = dict()
 
@@ -61,7 +62,7 @@ class SingleScoreYearCalculator(YearCalculator):
             ...
             }
         """
-        filters = cls._getYearFilters(year, **kwargs)
+        filters = YearFilters.getForYear(year, **kwargs)
 
         teamIdAndMinScore = dict()
 

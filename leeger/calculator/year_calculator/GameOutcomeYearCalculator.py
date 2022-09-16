@@ -2,6 +2,7 @@ from typing import Optional
 
 from leeger.calculator.parent.YearCalculator import YearCalculator
 from leeger.decorator.validators import validateYear
+from leeger.model.filter import YearFilters
 from leeger.model.league.Year import Year
 from leeger.util.Deci import Deci
 from leeger.util.navigator.MatchupNavigator import MatchupNavigator
@@ -28,7 +29,7 @@ class GameOutcomeYearCalculator(YearCalculator):
             ...
             }
         """
-        filters = cls._getYearFilters(year, **kwargs)
+        filters = YearFilters.getForYear(year, **kwargs)
 
         teamIdAndWins = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
@@ -61,7 +62,7 @@ class GameOutcomeYearCalculator(YearCalculator):
             ...
             }
         """
-        filters = cls._getYearFilters(year, **kwargs)
+        filters = YearFilters.getForYear(year, **kwargs)
 
         teamIdAndLosses = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
@@ -95,7 +96,7 @@ class GameOutcomeYearCalculator(YearCalculator):
             ...
             }
         """
-        filters = cls._getYearFilters(year, **kwargs)
+        filters = YearFilters.getForYear(year, **kwargs)
 
         teamIdAndTies = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
@@ -197,9 +198,8 @@ class GameOutcomeYearCalculator(YearCalculator):
             }
         """
         teamIdAndWAL = cls.getWAL(year, **kwargs)
-        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year,
-                                                                            cls._getYearFilters(year,
-                                                                                                **kwargs))
+        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year, YearFilters.getForYear(year,
+                                                                                                         **kwargs))
 
         teamIdAndWALPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)

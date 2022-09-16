@@ -2,6 +2,7 @@ from typing import Optional
 
 from leeger.calculator.parent.YearCalculator import YearCalculator
 from leeger.decorator.validators import validateYear
+from leeger.model.filter import YearFilters
 from leeger.model.filter.WeekFilters import WeekFilters
 from leeger.model.league.Year import Year
 from leeger.util.Deci import Deci
@@ -40,7 +41,7 @@ class AWALYearCalculator(YearCalculator):
             ...
             }
         """
-        filters = cls._getYearFilters(year, **kwargs)
+        filters = YearFilters.getForYear(year, **kwargs)
 
         teamIdAndAWAL = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
@@ -99,8 +100,8 @@ class AWALYearCalculator(YearCalculator):
 
         teamIdAndAWAL = AWALYearCalculator.getAWAL(year, **kwargs)
         teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year,
-                                                                            cls._getYearFilters(year,
-                                                                                                **kwargs))
+                                                                            YearFilters.getForYear(year,
+                                                                                                   **kwargs))
 
         teamIdAndAWALPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
@@ -127,7 +128,7 @@ class AWALYearCalculator(YearCalculator):
             ...
             }
         """
-        filters = cls._getYearFilters(year, **kwargs)
+        filters = YearFilters.getForYear(year, **kwargs)
 
         teamIdAndOpponentAWAL = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
@@ -185,9 +186,8 @@ class AWALYearCalculator(YearCalculator):
         """
 
         teamIdAndOpponentAWAL = AWALYearCalculator.getOpponentAWAL(year, **kwargs)
-        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year,
-                                                                            cls._getYearFilters(year,
-                                                                                                **kwargs))
+        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year, YearFilters.getForYear(year,
+                                                                                                         **kwargs))
 
         teamIdAndOpponentAWALPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
