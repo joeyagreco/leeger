@@ -98,7 +98,7 @@ Sites that you can automatically load your league data from.
 | Name       | Website                                   | Supported          | Setup Documentation                                                                                |
 |------------|-------------------------------------------|--------------------|----------------------------------------------------------------------------------------------------|
 | ESPN       | https://www.espn.com/fantasy/football/    | :heavy_check_mark: | [ESPN :page_facing_up:](https://github.com/joeyagreco/leeger/blob/doc/league_loader/espn.md)       |
-| NFL        | https://fantasy.nfl.com/                  | :x:                | N/A                                                                                                |
+| NFL        | https://fantasy.nfl.com/                  | :x:                | :x: :page_facing_up:                                                                               |
 | Sleeper    | https://sleeper.com/fantasy-football      | :heavy_check_mark: | [Sleeper :page_facing_up:](https://github.com/joeyagreco/leeger/blob/doc/league_loader/sleeper.md) |
 | Yahoo      | https://football.fantasysports.yahoo.com/ | :heavy_check_mark: | [Yahoo :page_facing_up:](https://github.com/joeyagreco/leeger/blob/doc/league_loader/yahoo.md)     |
 
