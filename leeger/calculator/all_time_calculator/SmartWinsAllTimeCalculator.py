@@ -61,25 +61,25 @@ class SmartWinsAllTimeCalculator(AllTimeCalculator):
         # get all scores we want to include in our smart wins calculation
         ownerIdsAndScores: list[tuple] = list()
 
-        for matchup in cls._getAllFilteredMatchups(league, filters):
+        for matchup in cls._getAllFilteredMatchups(league, filters, simplifyMultiWeekMatchups=True):
             teamA = LeagueNavigator.getTeamById(league, matchup.teamAId)
             teamB = LeagueNavigator.getTeamById(league, matchup.teamBId)
             ownerIdsAndScores.append((teamA.ownerId, matchup.teamAScore))
             ownerIdsAndScores.append((teamB.ownerId, matchup.teamBScore))
 
-        allScores = LeagueNavigator.getAllScoresInLeague(league)
+        allScores = LeagueNavigator.getAllScoresInLeague(league, simplifyMultiWeekMatchups=True)
         ownerIdAndSmartWins = dict()
         allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
         for ownerId in allOwnerIds:
             ownerIdAndSmartWins[ownerId] = None
 
-        for ownerIdAndScore in ownerIdsAndScores:
-            scoresBeat, scoresTied = getNumberOfScoresBeatAndTied(ownerIdAndScore[1], allScores)
+        for ownerId, score in ownerIdsAndScores:
+            scoresBeat, scoresTied = getNumberOfScoresBeatAndTied(score, allScores)
             smartWins = (scoresBeat + (scoresTied / Deci(2))) / (len(allScores) - Deci(1))
-            if ownerIdAndSmartWins[ownerIdAndScore[0]] is None:
-                ownerIdAndSmartWins[ownerIdAndScore[0]] = smartWins
+            if ownerIdAndSmartWins[ownerId] is None:
+                ownerIdAndSmartWins[ownerId] = smartWins
             else:
-                ownerIdAndSmartWins[ownerIdAndScore[0]] += smartWins
+                ownerIdAndSmartWins[ownerId] += smartWins
 
         return ownerIdAndSmartWins
 
@@ -102,7 +102,8 @@ class SmartWinsAllTimeCalculator(AllTimeCalculator):
         ownerIdAndSmartWins = cls.getSmartWins(league, **kwargs)
         ownerIdAndNumberOfGamesPlayed = LeagueNavigator.getNumberOfGamesPlayed(league,
                                                                                AllTimeFilters.getForLeague(league,
-                                                                                                           **kwargs))
+                                                                                                           **kwargs),
+                                                                               countMultiWeekMatchupsAsOneGame=True)
 
         ownerIdAndSmartWinsPerGame = dict()
         allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
@@ -154,25 +155,25 @@ class SmartWinsAllTimeCalculator(AllTimeCalculator):
         # get all scores we want to include in our smart wins calculation
         ownerIdsAndOpponentScores: list[tuple] = list()
 
-        for matchup in cls._getAllFilteredMatchups(league, filters):
+        for matchup in cls._getAllFilteredMatchups(league, filters, simplifyMultiWeekMatchups=True):
             teamA = LeagueNavigator.getTeamById(league, matchup.teamAId)
             teamB = LeagueNavigator.getTeamById(league, matchup.teamBId)
             ownerIdsAndOpponentScores.append((teamA.ownerId, matchup.teamBScore))
             ownerIdsAndOpponentScores.append((teamB.ownerId, matchup.teamAScore))
 
-        allScores = LeagueNavigator.getAllScoresInLeague(league)
+        allScores = LeagueNavigator.getAllScoresInLeague(league, simplifyMultiWeekMatchups=True)
         ownerIdAndOpponentSmartWins = dict()
         allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
         for ownerId in allOwnerIds:
             ownerIdAndOpponentSmartWins[ownerId] = None
 
-        for ownerIdAndOpponentScore in ownerIdsAndOpponentScores:
-            scoresBeat, scoresTied = getNumberOfScoresBeatAndTied(ownerIdAndOpponentScore[1], allScores)
+        for ownerId, opponentScore in ownerIdsAndOpponentScores:
+            scoresBeat, scoresTied = getNumberOfScoresBeatAndTied(opponentScore, allScores)
             smartWins = (scoresBeat + (scoresTied / Deci(2))) / (len(allScores) - Deci(1))
-            if ownerIdAndOpponentSmartWins[ownerIdAndOpponentScore[0]] is None:
-                ownerIdAndOpponentSmartWins[ownerIdAndOpponentScore[0]] = smartWins
+            if ownerIdAndOpponentSmartWins[ownerId] is None:
+                ownerIdAndOpponentSmartWins[ownerId] = smartWins
             else:
-                ownerIdAndOpponentSmartWins[ownerIdAndOpponentScore[0]] += smartWins
+                ownerIdAndOpponentSmartWins[ownerId] += smartWins
 
         return ownerIdAndOpponentSmartWins
 
@@ -195,7 +196,8 @@ class SmartWinsAllTimeCalculator(AllTimeCalculator):
         ownerIdAndOpponentSmartWins = cls.getOpponentSmartWins(league, **kwargs)
         ownerIdAndNumberOfGamesPlayed = LeagueNavigator.getNumberOfGamesPlayed(league,
                                                                                AllTimeFilters.getForLeague(league,
-                                                                                                           **kwargs))
+                                                                                                           **kwargs),
+                                                                               countMultiWeekMatchupsAsOneGame=True)
 
         ownerIdAndOpponentSmartWinsPerGame = dict()
         allOwnerIds = LeagueNavigator.getAllOwnerIds(league)

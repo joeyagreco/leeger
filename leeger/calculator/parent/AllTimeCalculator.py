@@ -4,6 +4,7 @@ from leeger.model.filter.AllTimeFilters import AllTimeFilters
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup
 from leeger.util.Deci import Deci
+from leeger.util.navigator import MatchupNavigator
 from leeger.util.navigator.LeagueNavigator import LeagueNavigator
 
 
@@ -118,7 +119,8 @@ class AllTimeCalculator:
         return allResultDicts
 
     @classmethod
-    def _getAllFilteredMatchups(cls, league: League, allTimeFilters: AllTimeFilters, **kwargs) -> list[Matchup]:
+    def _getAllFilteredMatchups(cls, league: League, allTimeFilters: AllTimeFilters, simplifyMultiWeekMatchups=False) -> \
+            list[Matchup]:
         """
         Returns all Matchups in the given League that are remaining after the given filters are applied.
         """
@@ -145,6 +147,7 @@ class AllTimeCalculator:
                     yearWeekNumberStartWeekNumberEnd.append((year, 1, len(year.weeks)))
 
         allFilteredMatchups: list[Matchup] = list()
+        multiWeekMatchupIdToMatchupsMap: dict[str, list[Matchup]] = dict()
 
         for yse in yearWeekNumberStartWeekNumberEnd:
             currentYear = yse[0]
@@ -155,6 +158,18 @@ class AllTimeCalculator:
                 if week.weekNumber >= currentWeekNumberStart and week.weekNumber <= currentWeekNumberEnd:
                     for matchup in week.matchups:
                         if matchup.matchupType in allTimeFilters.includeMatchupTypes:
-                            allFilteredMatchups.append(matchup)
+                            mwmid = matchup.multiWeekMatchupId
+                            if simplifyMultiWeekMatchups and mwmid is not None:
+                                if mwmid in multiWeekMatchupIdToMatchupsMap:
+                                    multiWeekMatchupIdToMatchupsMap[matchup.multiWeekMatchupId].append(matchup)
+                                else:
+                                    multiWeekMatchupIdToMatchupsMap[matchup.multiWeekMatchupId] = [matchup]
+                            else:
+                                allFilteredMatchups.append(matchup)
+
+        if simplifyMultiWeekMatchups:
+            # simplify any multi-week matchups and add them to the returning list
+            for _, matchupList in multiWeekMatchupIdToMatchupsMap.items():
+                allFilteredMatchups.append(MatchupNavigator.simplifyMultiWeekMatchups(matchupList))
 
         return allFilteredMatchups
