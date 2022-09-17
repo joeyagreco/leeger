@@ -1,7 +1,6 @@
 from leeger.enum import MatchupType
 
 from leeger.model.league import Owner, Team, Matchup, Week, Year, League
-from leeger.util.stat_sheet import leagueStatSheet
 
 if __name__ == '__main__':
     # Build a league manually.
@@ -73,5 +72,3 @@ if __name__ == '__main__':
                             ownerDominic],
                     years=[year2019])
 
-    ss = leagueStatSheet(league)
-    print()
