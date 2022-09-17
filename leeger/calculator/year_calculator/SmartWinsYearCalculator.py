@@ -148,25 +148,24 @@ class SmartWinsYearCalculator(YearCalculator):
         filters = YearFilters.getForYear(year, **kwargs)
 
         # get all scores we want to include in our smart wins calculation
-        teamIdsAndOpponentScores = list()
+        teamIdsAndScores = list()
 
-        for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
-            week = year.weeks[i]
-            for matchup in week.matchups:
-                if matchup.matchupType in filters.includeMatchupTypes:
-                    teamIdsAndOpponentScores.append((matchup.teamAId, matchup.teamBScore))
-                    teamIdsAndOpponentScores.append((matchup.teamBId, matchup.teamAScore))
+        allMatchups = YearNavigator.getAllSimplifiedMatchupsInYear(year, filters)
+
+        for matchup in allMatchups:
+            teamIdsAndScores.append((matchup.teamAId, matchup.teamBScore))
+            teamIdsAndScores.append((matchup.teamBId, matchup.teamAScore))
 
         teamIdAndOpponentSmartWins = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
         for teamId in allTeamIds:
             teamIdAndOpponentSmartWins[teamId] = Deci(0)
 
-        allScores = YearNavigator.getAllScoresInYear(year)
-        for teamIdAndOpponentScore in teamIdsAndOpponentScores:
-            scoresBeat, scoresTied = getNumberOfScoresBeatAndTied(teamIdAndOpponentScore[1], allScores)
+        allScores = YearNavigator.getAllScoresInYear(year, simplifyMultiWeekMatchups=True)
+        for teamId, score in teamIdsAndScores:
+            scoresBeat, scoresTied = getNumberOfScoresBeatAndTied(score, allScores)
             smartWins = (scoresBeat + (scoresTied / Deci("2"))) / (len(allScores) - Deci("1"))
-            teamIdAndOpponentSmartWins[teamIdAndOpponentScore[0]] += smartWins
+            teamIdAndOpponentSmartWins[teamId] += smartWins
 
         cls._setToNoneIfNoGamesPlayed(teamIdAndOpponentSmartWins, year, filters, **kwargs)
         return teamIdAndOpponentSmartWins
