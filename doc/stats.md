@@ -6,8 +6,8 @@
 
 #### To see a list of all stats retrieved by this library, see the following models:
 
-- [AllTimeStatSheet](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md/blob/main/leeger/model/stat/AllTimeStatSheet.py)
-- [YearStatSheet](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md/blob/main/leeger/model/stat/YearStatSheet.py)
+- [AllTimeStatSheet](https://github.com/joeyagreco/leeger/blob/main/leeger/model/stat/AllTimeStatSheet.py)
+- [YearStatSheet](https://github.com/joeyagreco/leeger/blob/main/leeger/model/stat/YearStatSheet.py)
 
 ___
 
