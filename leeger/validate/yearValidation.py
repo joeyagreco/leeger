@@ -23,7 +23,6 @@ def runAllChecks(year: Year) -> None:
     checkAllTeams(year)
     checkForDuplicateTeams(year)
     checkForDuplicateWeeks(year)
-    checkOnlyOneChampionshipWeekInYear(year)
     checkAtLeastOneWeekInYear(year)
     checkWeekNumberingInYear(year)
     checkPlayoffWeekOrderingInYear(year)
@@ -90,19 +89,6 @@ def checkForDuplicateWeeks(year: Year) -> None:
             raise InvalidYearFormatException("Weeks must all be unique instances.")
         else:
             weekInstanceIds.append(id(week))
-
-
-def checkOnlyOneChampionshipWeekInYear(year: Year) -> None:
-    """
-    Checks that there is a maximum of 1 championship week in the given Year.
-    """
-    championshipWeekCount = 0
-    for week in year.weeks:
-        if week.isChampionshipWeek:
-            championshipWeekCount += 1
-        if championshipWeekCount > 1:
-            raise InvalidYearFormatException(
-                f"Year {year.yearNumber} has {championshipWeekCount} championship weeks. Maximum is 1.")
 
 
 def checkAtLeastOneWeekInYear(year: Year) -> None:

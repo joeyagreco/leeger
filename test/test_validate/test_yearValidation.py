@@ -13,19 +13,6 @@ from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 class TestYearValidation(unittest.TestCase):
 
-    def test_checkOnlyOneChampionshipWeekInYear_twoChampionshipWeeksInYear_raisesException(self):
-        owners, teams = getNDefaultOwnersAndTeams(2)
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.CHAMPIONSHIP)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.CHAMPIONSHIP)
-        week1 = Week(weekNumber=1, matchups=[matchup1])
-        week2 = Week(weekNumber=2, matchups=[matchup2])
-
-        with self.assertRaises(InvalidYearFormatException) as context:
-            yearValidation.checkOnlyOneChampionshipWeekInYear(Year(yearNumber=2000, teams=list(), weeks=[week1, week2]))
-        self.assertEqual("Year 2000 has 2 championship weeks. Maximum is 1.", str(context.exception))
-
     def test_checkAtLeastOneWeekInYear_yearHasNoWeeks_raisesException(self):
         with self.assertRaises(InvalidYearFormatException) as context:
             yearValidation.checkAtLeastOneWeekInYear(Year(yearNumber=2000, teams=list(), weeks=list()))
