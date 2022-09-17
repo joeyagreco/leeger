@@ -1,4 +1,4 @@
-## Stats Explained
+# Stats Explained
 
 ### An explanation of some stats offered in this library that may not be obvious.
 
