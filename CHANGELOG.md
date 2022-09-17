@@ -6,6 +6,13 @@ All notable changes to this project will be documented in this file.
 
 - N/A
 
+## [1.4.0]
+
+- Added support for multi-week matchup stat calculations
+- Added support for multi-week matchups for Sleeper leagues
+- Organized parts of README into documentation files
+- Updated example files
+
 ## [1.3.3]
 
 - Fixed bug that caused Sleeper leagues to not count playoff weeks correctly

@@ -4,6 +4,7 @@ import numpy
 
 from leeger.calculator.parent.YearCalculator import YearCalculator
 from leeger.decorator.validators import validateYear
+from leeger.model.filter import YearFilters
 from leeger.model.league.Year import Year
 from leeger.util.Deci import Deci
 from leeger.util.navigator.YearNavigator import YearNavigator
@@ -39,19 +40,17 @@ class ScoringStandardDeviationYearCalculator(YearCalculator):
             ...
             }
         """
-        filters = cls._getYearFilters(year, **kwargs)
+        filters = YearFilters.getForYear(year, **kwargs)
 
         teamIdAndScores = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
         for teamId in allTeamIds:
             teamIdAndScores[teamId] = list()
 
-        for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
-            week = year.weeks[i]
-            for matchup in week.matchups:
-                if matchup.matchupType in filters.includeMatchupTypes:
-                    teamIdAndScores[matchup.teamAId].append(Deci(matchup.teamAScore))
-                    teamIdAndScores[matchup.teamBId].append(Deci(matchup.teamBScore))
+        allMatchups = YearNavigator.getAllSimplifiedMatchupsInYear(year, filters)
+        for matchup in allMatchups:
+            teamIdAndScores[matchup.teamAId].append(Deci(matchup.teamAScore))
+            teamIdAndScores[matchup.teamBId].append(Deci(matchup.teamBScore))
 
         teamIdAndScoringStandardDeviation = dict()
         for teamId in allTeamIds:

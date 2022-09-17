@@ -29,6 +29,8 @@ def checkAllTypes(matchup: Matchup) -> None:
         raise InvalidMatchupFormatException("teamBHasTiebreaker must be type 'bool'.")
     if not isinstance(matchup.matchupType, MatchupType):
         raise InvalidMatchupFormatException("matchupType must be type 'MatchupType'.")
+    if not isinstance(matchup.multiWeekMatchupId, (str, type(None))):
+        raise InvalidMatchupFormatException("multiWeekMatchupId must be 'None' or type 'str'.")
 
 
 def checkForIllegalMatchupOutcomes(matchup: Matchup) -> None:

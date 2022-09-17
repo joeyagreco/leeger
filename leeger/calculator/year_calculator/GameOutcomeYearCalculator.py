@@ -2,6 +2,8 @@ from typing import Optional
 
 from leeger.calculator.parent.YearCalculator import YearCalculator
 from leeger.decorator.validators import validateYear
+from leeger.model.filter import YearFilters
+from leeger.model.league import Matchup
 from leeger.model.league.Year import Year
 from leeger.util.Deci import Deci
 from leeger.util.navigator.MatchupNavigator import MatchupNavigator
@@ -28,21 +30,40 @@ class GameOutcomeYearCalculator(YearCalculator):
             ...
             }
         """
-        filters = cls._getYearFilters(year, **kwargs)
+        filters = YearFilters.getForYear(year, **kwargs)
 
         teamIdAndWins = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
             teamIdAndWins[teamId] = 0
 
+        # keep track of all matchups to count towards this calculation
+        allMatchups = list()
+        # keep track of scores and tiebreakers for multi-week matchups
+        multiWeekMatchupIdToMatchupListMap: dict[str, list[Matchup]] = dict()
+
         for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
             week = year.weeks[i]
             for matchup in week.matchups:
                 if matchup.matchupType in filters.includeMatchupTypes:
-                    # get winner team ID (if this wasn't a tie)
-                    winnerTeamId = MatchupNavigator.getTeamIdOfMatchupWinner(matchup)
-                    if winnerTeamId is not None:
-                        teamIdAndWins[winnerTeamId] += 1
+                    mwmid = matchup.multiWeekMatchupId
+                    if mwmid is not None:
+                        # multi-week matchup
+                        if mwmid in multiWeekMatchupIdToMatchupListMap:
+                            multiWeekMatchupIdToMatchupListMap[mwmid].append(matchup)
+                        else:
+                            multiWeekMatchupIdToMatchupListMap[mwmid] = [matchup]
+                    else:
+                        # non multi-week matchup
+                        allMatchups.append(matchup)
 
+        # simplify multi-week matchups into single Matchups
+        for matchupList in multiWeekMatchupIdToMatchupListMap.values():
+            allMatchups.append(MatchupNavigator.simplifyMultiWeekMatchups(matchupList))
+        for matchup in allMatchups:
+            # get winner team ID (if this wasn't a tie)
+            winnerTeamId = MatchupNavigator.getTeamIdOfMatchupWinner(matchup)
+            if winnerTeamId is not None:
+                teamIdAndWins[winnerTeamId] += 1
         cls._setToNoneIfNoGamesPlayed(teamIdAndWins, year, filters, **kwargs)
         return teamIdAndWins
 
@@ -61,22 +82,41 @@ class GameOutcomeYearCalculator(YearCalculator):
             ...
             }
         """
-        filters = cls._getYearFilters(year, **kwargs)
+        filters = YearFilters.getForYear(year, **kwargs)
 
         teamIdAndLosses = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
             teamIdAndLosses[teamId] = 0
 
+        # keep track of all matchups to count towards this calculation
+        allMatchups = list()
+        # keep track of scores and tiebreakers for multi-week matchups
+        multiWeekMatchupIdToMatchupListMap: dict[str, list[Matchup]] = dict()
+
         for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
             week = year.weeks[i]
             for matchup in week.matchups:
                 if matchup.matchupType in filters.includeMatchupTypes:
-                    # get loser team ID (if this wasn't a tie)
-                    winnerTeamId = MatchupNavigator.getTeamIdOfMatchupWinner(matchup)
-                    if winnerTeamId is not None:
-                        # return the OTHER team's ID
-                        loserTeamId = matchup.teamAId if winnerTeamId != matchup.teamAId else matchup.teamBId
-                        teamIdAndLosses[loserTeamId] += 1
+                    mwmid = matchup.multiWeekMatchupId
+                    if mwmid is not None:
+                        # multi-week matchup
+                        if mwmid in multiWeekMatchupIdToMatchupListMap:
+                            multiWeekMatchupIdToMatchupListMap[mwmid].append(matchup)
+                        else:
+                            multiWeekMatchupIdToMatchupListMap[mwmid] = [matchup]
+                    else:
+                        # non multi-week matchup
+                        allMatchups.append(matchup)
+
+        # simplify multi-week matchups into single Matchups
+        for matchupList in multiWeekMatchupIdToMatchupListMap.values():
+            allMatchups.append(MatchupNavigator.simplifyMultiWeekMatchups(matchupList))
+        for matchup in allMatchups:
+            # get loser team ID (if this wasn't a tie)
+            winnerTeamId = MatchupNavigator.getTeamIdOfMatchupWinner(matchup)
+            if winnerTeamId is not None:
+                loserTeamId = matchup.teamAId if winnerTeamId == matchup.teamBId else matchup.teamBId
+                teamIdAndLosses[loserTeamId] += 1
         cls._setToNoneIfNoGamesPlayed(teamIdAndLosses, year, filters, **kwargs)
         return teamIdAndLosses
 
@@ -95,19 +135,38 @@ class GameOutcomeYearCalculator(YearCalculator):
             ...
             }
         """
-        filters = cls._getYearFilters(year, **kwargs)
+        filters = YearFilters.getForYear(year, **kwargs)
 
         teamIdAndTies = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
             teamIdAndTies[teamId] = 0
 
+        # keep track of all matchups to count towards this calculation
+        allMatchups = list()
+        # keep track of scores and tiebreakers for multi-week matchups
+        multiWeekMatchupIdToMatchupListMap: dict[str, list[Matchup]] = dict()
+
         for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
             week = year.weeks[i]
             for matchup in week.matchups:
                 if matchup.matchupType in filters.includeMatchupTypes:
-                    if MatchupNavigator.getTeamIdOfMatchupWinner(matchup) is None:
-                        teamIdAndTies[matchup.teamAId] += 1
-                        teamIdAndTies[matchup.teamBId] += 1
+                    mwmid = matchup.multiWeekMatchupId
+                    if mwmid is not None:
+                        # multi-week matchup
+                        if mwmid in multiWeekMatchupIdToMatchupListMap:
+                            multiWeekMatchupIdToMatchupListMap[mwmid].append(matchup)
+                        else:
+                            multiWeekMatchupIdToMatchupListMap[mwmid] = [matchup]
+                    else:
+                        # non multi-week matchup
+                        allMatchups.append(matchup)
+        # simplify multi-week matchups into single Matchups
+        for matchupList in multiWeekMatchupIdToMatchupListMap.values():
+            allMatchups.append(MatchupNavigator.simplifyMultiWeekMatchups(matchupList))
+        for matchup in allMatchups:
+            if MatchupNavigator.getTeamIdOfMatchupWinner(matchup) is None:
+                teamIdAndTies[matchup.teamAId] += 1
+                teamIdAndTies[matchup.teamBId] += 1
         cls._setToNoneIfNoGamesPlayed(teamIdAndTies, year, filters, **kwargs)
         return teamIdAndTies
 
@@ -197,9 +256,9 @@ class GameOutcomeYearCalculator(YearCalculator):
             }
         """
         teamIdAndWAL = cls.getWAL(year, **kwargs)
-        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year,
-                                                                            cls._getYearFilters(year,
-                                                                                                **kwargs))
+        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year, YearFilters.getForYear(year,
+                                                                                                         **kwargs),
+                                                                            countMultiWeekMatchupsAsOneGame=True)
 
         teamIdAndWALPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)

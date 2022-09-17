@@ -1,3 +1,4 @@
+import math
 import unittest
 
 from leeger.calculator.all_time_calculator.SmartWinsAllTimeCalculator import SmartWinsAllTimeCalculator
@@ -47,6 +48,43 @@ class TestSmartWinsAllTimeCalculator(unittest.TestCase):
         self.assertEqual(Deci("0.9999999999999999999999999999"), response[owners[2].id])
         self.assertEqual(Deci("1.9"), response[owners[3].id])
         self.assertEqual(Deci("1.9"), response[owners[4].id])
+        self.assertEqual(Deci("2.8"), response[owners[5].id])
+
+    def test_getSmartWins_multiWeekMatchups(self):
+        owners, teamsA = getNDefaultOwnersAndTeams(6)
+        teamsB = getTeamsFromOwners(owners)
+        teamsC = getTeamsFromOwners(owners)
+
+        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
+                             multiWeekMatchupId="1")
+        matchup2_a = Matchup(teamAId=teamsA[2].id, teamBId=teamsA[3].id, teamAScore=3, teamBScore=4)
+        matchup3_a = Matchup(teamAId=teamsA[4].id, teamBId=teamsA[5].id, teamAScore=4, teamBScore=5)
+        week1_a = Week(weekNumber=1, matchups=[matchup1_a, matchup2_a, matchup3_a])
+
+        matchup4_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
+                             multiWeekMatchupId="1")
+        matchup5_a = Matchup(teamAId=teamsA[2].id, teamBId=teamsA[3].id, teamAScore=3, teamBScore=4)
+        matchup6_a = Matchup(teamAId=teamsA[4].id, teamBId=teamsA[5].id, teamAScore=4, teamBScore=5)
+        week2_a = Week(weekNumber=2, matchups=[matchup4_a, matchup5_a, matchup6_a])
+        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a])
+
+        matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
+        matchup2_b = Matchup(teamAId=teamsB[2].id, teamBId=teamsB[3].id, teamAScore=3, teamBScore=4)
+        matchup3_b = Matchup(teamAId=teamsB[4].id, teamBId=teamsB[5].id, teamAScore=4, teamBScore=5)
+        week1_b = Week(weekNumber=1, matchups=[matchup1_b, matchup2_b, matchup3_b])
+        yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b])
+
+        league = League(name="TEST", owners=owners, years=[yearA, yearB])
+
+        response = SmartWinsAllTimeCalculator.getSmartWins(league)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(6, len(response.keys()))
+        self.assertEqual(Deci("0.1"), response[owners[0].id])
+        self.assertEqual(Deci("0.7"), response[owners[1].id])
+        self.assertTrue(math.isclose(Deci("0.8"), response[owners[2].id]))
+        self.assertEqual(Deci("1.8"), response[owners[3].id])
+        self.assertEqual(Deci("1.8"), response[owners[4].id])
         self.assertEqual(Deci("2.8"), response[owners[5].id])
 
     def test_getSmartWins_noneIfNoGamesPlayed(self):
@@ -370,6 +408,43 @@ class TestSmartWinsAllTimeCalculator(unittest.TestCase):
         self.assertEqual(Deci("0.6333333333333333333333333333"), response[owners[4].id])
         self.assertEqual(Deci("0.9333333333333333333333333333"), response[owners[5].id])
 
+    def test_getSmartWinsPerGame_multiWeekMatchups(self):
+        owners, teamsA = getNDefaultOwnersAndTeams(6)
+        teamsB = getTeamsFromOwners(owners)
+        teamsC = getTeamsFromOwners(owners)
+
+        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
+                             multiWeekMatchupId="1")
+        matchup2_a = Matchup(teamAId=teamsA[2].id, teamBId=teamsA[3].id, teamAScore=3, teamBScore=4)
+        matchup3_a = Matchup(teamAId=teamsA[4].id, teamBId=teamsA[5].id, teamAScore=4, teamBScore=5)
+        week1_a = Week(weekNumber=1, matchups=[matchup1_a, matchup2_a, matchup3_a])
+
+        matchup4_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
+                             multiWeekMatchupId="1")
+        matchup5_a = Matchup(teamAId=teamsA[2].id, teamBId=teamsA[3].id, teamAScore=3, teamBScore=4)
+        matchup6_a = Matchup(teamAId=teamsA[4].id, teamBId=teamsA[5].id, teamAScore=4, teamBScore=5)
+        week2_a = Week(weekNumber=2, matchups=[matchup4_a, matchup5_a, matchup6_a])
+        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a])
+
+        matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
+        matchup2_b = Matchup(teamAId=teamsB[2].id, teamBId=teamsB[3].id, teamAScore=3, teamBScore=4)
+        matchup3_b = Matchup(teamAId=teamsB[4].id, teamBId=teamsB[5].id, teamAScore=4, teamBScore=5)
+        week1_b = Week(weekNumber=1, matchups=[matchup1_b, matchup2_b, matchup3_b])
+        yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b])
+
+        league = League(name="TEST", owners=owners, years=[yearA, yearB])
+
+        response = SmartWinsAllTimeCalculator.getSmartWinsPerGame(league)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(6, len(response.keys()))
+        self.assertEqual(Deci("0.05"), response[owners[0].id])
+        self.assertEqual(Deci("0.35"), response[owners[1].id])
+        self.assertEqual(Deci("0.2666666666666666666666666667"), response[owners[2].id])
+        self.assertEqual(Deci("0.6"), response[owners[3].id])
+        self.assertEqual(Deci("0.6"), response[owners[4].id])
+        self.assertEqual(Deci("0.9333333333333333333333333333"), response[owners[5].id])
+
     def test_getSmartWinsPerGame_noneIfNoGamesPlayed(self):
         owners, teamsA = getNDefaultOwnersAndTeams(3)
 
@@ -691,6 +766,43 @@ class TestSmartWinsAllTimeCalculator(unittest.TestCase):
         self.assertEqual(Deci("2.8"), response[owners[4].id])
         self.assertEqual(Deci("1.9"), response[owners[5].id])
 
+    def test_getOpponentSmartWins_multiWeekMatchups(self):
+        owners, teamsA = getNDefaultOwnersAndTeams(6)
+        teamsB = getTeamsFromOwners(owners)
+        teamsC = getTeamsFromOwners(owners)
+
+        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
+                             multiWeekMatchupId="1")
+        matchup2_a = Matchup(teamAId=teamsA[2].id, teamBId=teamsA[3].id, teamAScore=3, teamBScore=4)
+        matchup3_a = Matchup(teamAId=teamsA[4].id, teamBId=teamsA[5].id, teamAScore=4, teamBScore=5)
+        week1_a = Week(weekNumber=1, matchups=[matchup1_a, matchup2_a, matchup3_a])
+
+        matchup4_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
+                             multiWeekMatchupId="1")
+        matchup5_a = Matchup(teamAId=teamsA[2].id, teamBId=teamsA[3].id, teamAScore=3, teamBScore=4)
+        matchup6_a = Matchup(teamAId=teamsA[4].id, teamBId=teamsA[5].id, teamAScore=4, teamBScore=5)
+        week2_a = Week(weekNumber=2, matchups=[matchup4_a, matchup5_a, matchup6_a])
+        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a])
+
+        matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
+        matchup2_b = Matchup(teamAId=teamsB[2].id, teamBId=teamsB[3].id, teamAScore=3, teamBScore=4)
+        matchup3_b = Matchup(teamAId=teamsB[4].id, teamBId=teamsB[5].id, teamAScore=4, teamBScore=5)
+        week1_b = Week(weekNumber=1, matchups=[matchup1_b, matchup2_b, matchup3_b])
+        yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b])
+
+        league = League(name="TEST", owners=owners, years=[yearA, yearB])
+
+        response = SmartWinsAllTimeCalculator.getOpponentSmartWins(league)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(6, len(response.keys()))
+        self.assertEqual(Deci("0.7"), response[owners[0].id])
+        self.assertEqual(Deci("0.1"), response[owners[1].id])
+        self.assertEqual(Deci("1.8"), response[owners[2].id])
+        self.assertTrue(math.isclose(Deci("0.8"), response[owners[3].id]))
+        self.assertEqual(Deci("2.8"), response[owners[4].id])
+        self.assertEqual(Deci("1.8"), response[owners[5].id])
+
     def test_getOpponentSmartWins_noneIfNoGamesPlayed(self):
         owners, teamsA = getNDefaultOwnersAndTeams(3)
 
@@ -1011,6 +1123,43 @@ class TestSmartWinsAllTimeCalculator(unittest.TestCase):
         self.assertEqual(Deci("0.3333333333333333333333333333"), response[owners[3].id])
         self.assertEqual(Deci("0.9333333333333333333333333333"), response[owners[4].id])
         self.assertEqual(Deci("0.6333333333333333333333333333"), response[owners[5].id])
+
+    def test_getOpponentSmartWinsPerGame_multiWeekMatchups(self):
+        owners, teamsA = getNDefaultOwnersAndTeams(6)
+        teamsB = getTeamsFromOwners(owners)
+        teamsC = getTeamsFromOwners(owners)
+
+        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
+                             multiWeekMatchupId="1")
+        matchup2_a = Matchup(teamAId=teamsA[2].id, teamBId=teamsA[3].id, teamAScore=3, teamBScore=4)
+        matchup3_a = Matchup(teamAId=teamsA[4].id, teamBId=teamsA[5].id, teamAScore=4, teamBScore=5)
+        week1_a = Week(weekNumber=1, matchups=[matchup1_a, matchup2_a, matchup3_a])
+
+        matchup4_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
+                             multiWeekMatchupId="1")
+        matchup5_a = Matchup(teamAId=teamsA[2].id, teamBId=teamsA[3].id, teamAScore=3, teamBScore=4)
+        matchup6_a = Matchup(teamAId=teamsA[4].id, teamBId=teamsA[5].id, teamAScore=4, teamBScore=5)
+        week2_a = Week(weekNumber=2, matchups=[matchup4_a, matchup5_a, matchup6_a])
+        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a])
+
+        matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
+        matchup2_b = Matchup(teamAId=teamsB[2].id, teamBId=teamsB[3].id, teamAScore=3, teamBScore=4)
+        matchup3_b = Matchup(teamAId=teamsB[4].id, teamBId=teamsB[5].id, teamAScore=4, teamBScore=5)
+        week1_b = Week(weekNumber=1, matchups=[matchup1_b, matchup2_b, matchup3_b])
+        yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b])
+
+        league = League(name="TEST", owners=owners, years=[yearA, yearB])
+
+        response = SmartWinsAllTimeCalculator.getOpponentSmartWinsPerGame(league)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(6, len(response.keys()))
+        self.assertEqual(Deci("0.35"), response[owners[0].id])
+        self.assertEqual(Deci("0.05"), response[owners[1].id])
+        self.assertEqual(Deci("0.6"), response[owners[2].id])
+        self.assertEqual(Deci("0.2666666666666666666666666667"), response[owners[3].id])
+        self.assertEqual(Deci("0.9333333333333333333333333333"), response[owners[4].id])
+        self.assertEqual(Deci("0.6"), response[owners[5].id])
 
     def test_getOpponentSmartWinsPerGame_noneIfNoGamesPlayed(self):
         owners, teamsA = getNDefaultOwnersAndTeams(3)

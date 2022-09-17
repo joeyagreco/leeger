@@ -3,6 +3,7 @@ from typing import Optional
 from leeger.calculator.parent.AllTimeCalculator import AllTimeCalculator
 from leeger.calculator.year_calculator.AWALYearCalculator import AWALYearCalculator
 from leeger.decorator.validators import validateLeague
+from leeger.model.filter import AllTimeFilters
 from leeger.model.league.League import League
 from leeger.util.Deci import Deci
 from leeger.util.navigator.LeagueNavigator import LeagueNavigator
@@ -59,7 +60,8 @@ class AWALAllTimeCalculator(AllTimeCalculator):
 
         ownerIdAndAWAL = cls.getAWAL(league, **kwargs)
         ownerIdAndNumberOfGamesPlayed = LeagueNavigator.getNumberOfGamesPlayed(league,
-                                                                               cls._getAllTimeFilters(league, **kwargs))
+                                                                               AllTimeFilters.getForLeague(league,
+                                                                                                           **kwargs))
 
         ownerIdAndAWALPerGame = dict()
         allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
@@ -106,7 +108,8 @@ class AWALAllTimeCalculator(AllTimeCalculator):
 
         ownerIdAndOpponentAWAL = cls.getOpponentAWAL(league, **kwargs)
         ownerIdAndNumberOfGamesPlayed = LeagueNavigator.getNumberOfGamesPlayed(league,
-                                                                               cls._getAllTimeFilters(league, **kwargs))
+                                                                               AllTimeFilters.getForLeague(league,
+                                                                                                           **kwargs))
 
         ownerIdAndOpponentAWALPerGame = dict()
         allOwnerIds = LeagueNavigator.getAllOwnerIds(league)

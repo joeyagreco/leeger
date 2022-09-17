@@ -15,7 +15,8 @@ class TestMatchup(unittest.TestCase):
             teamBScore=2.2,
             matchupType=MatchupType.PLAYOFF,
             teamAHasTiebreaker=True,
-            teamBHasTiebreaker=False
+            teamBHasTiebreaker=False,
+            multiWeekMatchupId="id"
         )
 
         self.assertEqual("teamAId", matchup.teamAId)
@@ -25,6 +26,7 @@ class TestMatchup(unittest.TestCase):
         self.assertEqual(MatchupType.PLAYOFF, matchup.matchupType)
         self.assertTrue(matchup.teamAHasTiebreaker)
         self.assertFalse(matchup.teamBHasTiebreaker)
+        self.assertEqual("id", matchup.multiWeekMatchupId)
 
     def test_matchup_init_defaultValues(self):
         matchup = Matchup(
@@ -41,6 +43,7 @@ class TestMatchup(unittest.TestCase):
         self.assertEqual(MatchupType.REGULAR_SEASON, matchup.matchupType)
         self.assertFalse(matchup.teamAHasTiebreaker)
         self.assertFalse(matchup.teamBHasTiebreaker)
+        self.assertIsNone(matchup.multiWeekMatchupId)
 
     def test_matchup_init_aAndBHaveTieBreakers_raisesException(self):
         with self.assertRaises(InvalidMatchupFormatException) as context:

@@ -15,6 +15,7 @@ def runAllChecks(week: Week) -> None:
     checkWeekHasMatchupsWithNoDuplicateTeamIds(week)
     checkWeekDoesNotHaveMoreThanOneChampionshipMatchup(week)
     checkWeekWithPlayoffOrChampionshipMatchupDoesNotHaveRegularSeasonMatchup(week)
+    checkMultiWeekMatchupsWithSameIdAreOnlyInOneMatchupPerWeek(week)
 
 
 def checkAllTypes(week: Week) -> None:
@@ -98,3 +99,16 @@ def checkWeekWithPlayoffOrChampionshipMatchupDoesNotHaveRegularSeasonMatchup(wee
     if regularSeasonMatchupCount > 0 and playoffOrChampionshipMatchupCount > 0:
         raise InvalidWeekFormatException(
             f"Week {week.weekNumber} has regular season matchups and playoff/championship matchups in the same week.")
+
+
+def checkMultiWeekMatchupsWithSameIdAreOnlyInOneMatchupPerWeek(week: Week):
+    """
+    Checks that multi-week matchup IDs are only in 1 matchup per week.
+    """
+    multiWeekMatchupIds = list()
+    for matchup in week.matchups:
+        if matchup.multiWeekMatchupId is not None:
+            if matchup.multiWeekMatchupId in multiWeekMatchupIds:
+                raise InvalidWeekFormatException(
+                    f"Week {week.weekNumber} has the multi-week matchup ID '{matchup.multiWeekMatchupId}' in multiple matchups.")
+            multiWeekMatchupIds.append(matchup.multiWeekMatchupId)

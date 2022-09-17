@@ -1,11 +1,10 @@
 from typing import Optional
 
-from leeger.exception.InvalidFilterException import InvalidFilterException
 from leeger.model.filter.AllTimeFilters import AllTimeFilters
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup
 from leeger.util.Deci import Deci
-from leeger.util.GeneralUtil import GeneralUtil
+from leeger.util.navigator import MatchupNavigator
 from leeger.util.navigator.LeagueNavigator import LeagueNavigator
 
 
@@ -13,61 +12,6 @@ class AllTimeCalculator:
     """
     Should be inherited by all All-Time calculators
     """
-
-    @classmethod
-    def _getAllTimeFilters(cls, league: League, **kwargs) -> AllTimeFilters:
-        onlyChampionship = kwargs.pop("onlyChampionship", False)
-        onlyPostSeason = kwargs.pop("onlyPostSeason", False)
-        onlyRegularSeason = kwargs.pop("onlyRegularSeason", False)
-        yearNumberStart = kwargs.pop("yearNumberStart", league.years[0].yearNumber)
-        weekNumberStart = kwargs.pop("weekNumberStart",
-                                     LeagueNavigator.getYearByYearNumber(league, yearNumberStart).weeks[0].weekNumber)
-        yearNumberEnd = kwargs.pop("yearNumberEnd", league.years[-1].yearNumber)
-        weekNumberEnd = kwargs.pop("weekNumberEnd",
-                                   LeagueNavigator.getYearByYearNumber(league, yearNumberEnd).weeks[-1].weekNumber)
-
-        GeneralUtil.warnForUnusedKwargs(kwargs)
-
-        ####################
-        # validate filters #
-        ####################
-        # type checks
-        if not isinstance(onlyChampionship, bool):
-            raise InvalidFilterException("'onlyChampionship' must be type 'bool'")
-        if not isinstance(onlyPostSeason, bool):
-            raise InvalidFilterException("'onlyPostSeason' must be type 'bool'")
-        if not isinstance(onlyRegularSeason, bool):
-            raise InvalidFilterException("'onlyRegularSeason' must be type 'bool'")
-        if not isinstance(yearNumberStart, int):
-            raise InvalidFilterException("'yearNumberStart' must be type 'int'")
-        if not isinstance(weekNumberStart, int):
-            raise InvalidFilterException("'weekNumberStart' must be type 'int'")
-        if not isinstance(yearNumberEnd, int):
-            raise InvalidFilterException("'yearNumberEnd' must be type 'int'")
-        if not isinstance(weekNumberEnd, int):
-            raise InvalidFilterException("'weekNumberEnd' must be type 'int'")
-
-        # logic checks
-        if [onlyChampionship, onlyPostSeason, onlyRegularSeason].count(True) > 1:
-            raise InvalidFilterException(
-                "Only one of 'onlyChampionship', 'onlyPostSeason', 'onlyRegularSeason' can be True")
-        if yearNumberStart > yearNumberEnd:
-            raise InvalidFilterException("'yearNumberStart' cannot be greater than 'yearNumberEnd'.")
-        if weekNumberStart < 1:
-            raise InvalidFilterException("'weekNumberStart' cannot be less than 1.")
-        if weekNumberEnd > len(LeagueNavigator.getYearByYearNumber(league, yearNumberEnd).weeks):
-            raise InvalidFilterException("'weekNumberEnd' cannot be greater than the number of weeks in the year.")
-        if weekNumberStart > weekNumberEnd and yearNumberStart == yearNumberEnd:
-            raise InvalidFilterException(
-                "'weekNumberStart' cannot be greater than 'weekNumberEnd' within the same year.")
-
-        return AllTimeFilters(yearNumberStart=yearNumberStart,
-                              weekNumberStart=weekNumberStart,
-                              yearNumberEnd=yearNumberEnd,
-                              weekNumberEnd=weekNumberEnd,
-                              onlyChampionship=onlyChampionship,
-                              onlyPostSeason=onlyPostSeason,
-                              onlyRegularSeason=onlyRegularSeason)
 
     @classmethod
     def _addAndCombineResults(cls, league: League, function: callable, **kwargs) -> dict[
@@ -136,7 +80,7 @@ class AllTimeCalculator:
     @classmethod
     def __getAllResultDicts(cls, league: League, function: callable, **kwargs) -> list[dict]:
 
-        allTimeFilters = cls._getAllTimeFilters(league, **kwargs)
+        allTimeFilters = AllTimeFilters.getForLeague(league, **kwargs)
 
         # parse filters
         yearWeekNumberStartWeekNumberEnd: list[tuple] = list()
@@ -175,7 +119,8 @@ class AllTimeCalculator:
         return allResultDicts
 
     @classmethod
-    def _getAllFilteredMatchups(cls, league: League, allTimeFilters: AllTimeFilters, **kwargs) -> list[Matchup]:
+    def _getAllFilteredMatchups(cls, league: League, allTimeFilters: AllTimeFilters, simplifyMultiWeekMatchups=False) -> \
+            list[Matchup]:
         """
         Returns all Matchups in the given League that are remaining after the given filters are applied.
         """
@@ -202,6 +147,7 @@ class AllTimeCalculator:
                     yearWeekNumberStartWeekNumberEnd.append((year, 1, len(year.weeks)))
 
         allFilteredMatchups: list[Matchup] = list()
+        multiWeekMatchupIdToMatchupsMap: dict[str, list[Matchup]] = dict()
 
         for yse in yearWeekNumberStartWeekNumberEnd:
             currentYear = yse[0]
@@ -212,6 +158,18 @@ class AllTimeCalculator:
                 if week.weekNumber >= currentWeekNumberStart and week.weekNumber <= currentWeekNumberEnd:
                     for matchup in week.matchups:
                         if matchup.matchupType in allTimeFilters.includeMatchupTypes:
-                            allFilteredMatchups.append(matchup)
+                            mwmid = matchup.multiWeekMatchupId
+                            if simplifyMultiWeekMatchups and mwmid is not None:
+                                if mwmid in multiWeekMatchupIdToMatchupsMap:
+                                    multiWeekMatchupIdToMatchupsMap[matchup.multiWeekMatchupId].append(matchup)
+                                else:
+                                    multiWeekMatchupIdToMatchupsMap[matchup.multiWeekMatchupId] = [matchup]
+                            else:
+                                allFilteredMatchups.append(matchup)
+
+        if simplifyMultiWeekMatchups:
+            # simplify any multi-week matchups and add them to the returning list
+            for _, matchupList in multiWeekMatchupIdToMatchupsMap.items():
+                allFilteredMatchups.append(MatchupNavigator.simplifyMultiWeekMatchups(matchupList))
 
         return allFilteredMatchups

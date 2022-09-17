@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Optional
 
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception.InvalidMatchupFormatException import InvalidMatchupFormatException
@@ -19,6 +20,7 @@ class Matchup(UniqueId, JSONSerializable):
     matchupType: MatchupType = MatchupType.REGULAR_SEASON
     teamAHasTiebreaker: bool = False
     teamBHasTiebreaker: bool = False
+    multiWeekMatchupId: Optional[str] = None  # This is used to link matchups that span over multiple weeks
 
     def __post_init__(self):
         # Team A and Team B cannot both have the tiebreaker

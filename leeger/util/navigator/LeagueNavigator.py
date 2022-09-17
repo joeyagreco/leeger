@@ -33,7 +33,8 @@ class LeagueNavigator:
         return [owner.id for owner in league.owners]
 
     @classmethod
-    def getNumberOfGamesPlayed(cls, league: League, allTimeFilters: AllTimeFilters) -> dict[str, int]:
+    def getNumberOfGamesPlayed(cls, league: League, allTimeFilters: AllTimeFilters,
+                               countMultiWeekMatchupsAsOneGame=False) -> dict[str, int]:
         """
         Returns the number of games played for each owner in the given League all time.
 
@@ -85,7 +86,9 @@ class LeagueNavigator:
             yearFilters = YearFilters(weekNumberStart=currentWeekNumberStart, weekNumberEnd=currentWeekNumberEnd,
                                       includeMatchupTypes=includeMatchupTypes)
 
-            allResultDicts.append(YearNavigator.getNumberOfGamesPlayed(currentYear, yearFilters))
+            allResultDicts.append(YearNavigator.getNumberOfGamesPlayed(currentYear,
+                                                                       yearFilters,
+                                                                       countMultiWeekMatchupsAsOneGame=countMultiWeekMatchupsAsOneGame))
 
         # combine results
         ownerIdAndNumberOfGamesPlayed = dict()
@@ -100,12 +103,12 @@ class LeagueNavigator:
         return ownerIdAndNumberOfGamesPlayed
 
     @staticmethod
-    def getAllScoresInLeague(league: League, **kwargs) -> list[float | int]:
+    def getAllScoresInLeague(league: League, simplifyMultiWeekMatchups=False) -> list[float | int]:
         """
         Returns a list of all scores for the given League.
         Will count all scores EXCEPT for IGNORE Matchups.
         """
         allScores = list()
         for year in league.years:
-            allScores += YearNavigator.getAllScoresInYear(year)
+            allScores += YearNavigator.getAllScoresInYear(year, simplifyMultiWeekMatchups=simplifyMultiWeekMatchups)
         return allScores

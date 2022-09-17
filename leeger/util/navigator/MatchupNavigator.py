@@ -23,3 +23,19 @@ class MatchupNavigator:
                 matchup.teamAScore == matchup.teamBScore and matchup.teamBHasTiebreaker):
             winningTeamId = matchup.teamBId
         return winningTeamId
+
+    @staticmethod
+    def simplifyMultiWeekMatchups(matchups: list[Matchup]) -> Matchup:
+        """
+        Takes a list of multi-week matchups and returns a single Matchup that is a combined representation of those matchups.
+        This assumes the list of matchups given is validated.
+        """
+        if len(matchups) == 0:
+            raise ValueError(f"matchups cannot be an empty list.")
+        return Matchup(teamAId=matchups[0].teamAId,
+                       teamBId=matchups[0].teamBId,
+                       teamAScore=sum([matchup.teamAScore for matchup in matchups]),
+                       teamBScore=sum([matchup.teamBScore for matchup in matchups]),
+                       teamAHasTiebreaker=matchups[0].teamAHasTiebreaker,
+                       teamBHasTiebreaker=matchups[0].teamBHasTiebreaker,
+                       matchupType=matchups[0].matchupType)
