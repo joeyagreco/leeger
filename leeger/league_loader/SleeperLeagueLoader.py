@@ -8,7 +8,6 @@ from sleeper.model import Matchup as SleeperMatchup
 from sleeper.model import PlayoffMatchup as SleeperPlayoffMatchup
 
 from leeger.enum.MatchupType import MatchupType
-from leeger.exception import UnsupportedLeegerFeatureException
 from leeger.exception.DoesNotExistException import DoesNotExistException
 from leeger.league_loader.LeagueLoader import LeagueLoader
 from leeger.model.league.League import League
@@ -57,10 +56,6 @@ class SleeperLeagueLoader(LeagueLoader):
         self.__loadOwners(sleeperLeagues)
         owners = list(self.__sleeperUserIdToOwnerMap.values())
         for sleeperLeague in sleeperLeagues:
-            # TODO: leeger does not currently support multi-week matchups.
-            # TODO: this will be added in the future but for now just raise an exception for leagues that have it.
-            if sleeperLeague.settings.playoff_round_type_enum != PlayoffRoundType.ONE_WEEK_PER_ROUND:
-                raise UnsupportedLeegerFeatureException("leeger does not yet support multi-week matchups.")
             leagueName = sleeperLeague.name if leagueName is None else leagueName
             year = self.__buildYear(sleeperLeague)
             if len(year.weeks) > 0:
@@ -141,17 +136,24 @@ class SleeperLeagueLoader(LeagueLoader):
                     teamB = self.__sleeperRosterIdToTeamMap[teamBRosterId]
                     teamBPoints = rosterIdToSleeperMatchupMap[teamBRosterId].points
                     teamBHasTiebreaker = sleeperPlayoffMatchup.winning_roster_id == sleeperPlayoffMatchup.team_2_roster_id
+
+                    multiWeekMatchupId = None
                     # determine if this is a championship matchup or not
                     matchupType = MatchupType.PLAYOFF
                     if sleeperPlayoffMatchup.p == 1:
                         matchupType = MatchupType.CHAMPIONSHIP
+                        if sleeperLeague.settings.playoff_round_type_enum == PlayoffRoundType.TWO_WEEK_CHAMPIONSHIP_ROUND:
+                            multiWeekMatchupId = f"{teamA.id}{teamB.id}"
+                    if sleeperLeague.settings.playoff_round_type_enum == PlayoffRoundType.TWO_WEEKS_PER_ROUND:
+                        multiWeekMatchupId = f"{teamA.id}{teamB.id}"
                     matchups.append(Matchup(teamAId=teamA.id,
                                             teamBId=teamB.id,
                                             teamAScore=teamAPoints,
                                             teamBScore=teamBPoints,
                                             teamAHasTiebreaker=teamAHasTiebreaker,
                                             teamBHasTiebreaker=teamBHasTiebreaker,
-                                            matchupType=matchupType))
+                                            matchupType=matchupType,
+                                            multiWeekMatchupId=multiWeekMatchupId))
                 weeks.append(Week(weekNumber=weekNumber, matchups=matchups))
 
         return weeks
