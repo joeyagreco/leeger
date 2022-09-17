@@ -7,3 +7,4 @@ from .InvalidTeamFormatException import InvalidTeamFormatException
 from .InvalidWeekFormatException import InvalidWeekFormatException
 from .InvalidYearFormatException import InvalidYearFormatException
 from .LeagueLoaderException import LeagueLoaderException
+from .UnsupportedLeegerFeatureException import UnsupportedLeegerFeatureException
