@@ -51,7 +51,9 @@ All notable changes to this project will be documented in this file.
 
 ### Initial Release
 
-[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.3.3...HEAD
+[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.4.0...HEAD
+
+[1.4.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.4.0
 
 [1.3.3]: https://github.com/joeyagreco/leeger/releases/tag/v1.3.3
 
