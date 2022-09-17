@@ -187,8 +187,9 @@ class SmartWinsYearCalculator(YearCalculator):
         """
 
         teamIdAndOpponentSmartWins = SmartWinsYearCalculator.getOpponentSmartWins(year, **kwargs)
-        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year, YearFilters.getForYear(year,
-                                                                                                         **kwargs))
+        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year,
+                                                                            YearFilters.getForYear(year, **kwargs),
+                                                                            countMultiWeekMatchupsAsOneGame=True)
 
         teamIdAndOpponentSmartWinsPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
