@@ -6,6 +6,12 @@ All notable changes to this project will be documented in this file.
 
 - N/A
 
+## [1.3.3]
+
+- Fixed bug that caused Sleeper leagues to not count playoff weeks correctly
+- Fixed bug that caused Sleeper leagues to count in-progress matchups as completed matchups
+- Now raise an exception for multi-week matchups in Sleeper leagues until the multi-week feature is added to leeger
+
 ## [1.3.2]
 
 - Fixed bug that caused Yahoo leagues that had unfinished matchups to raise an exception
@@ -38,7 +44,9 @@ All notable changes to this project will be documented in this file.
 
 ### Initial Release
 
-[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.3.2...HEAD
+[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.3.3...HEAD
+
+[1.3.3]: https://github.com/joeyagreco/leeger/releases/tag/v1.3.3
 
 [1.3.2]: https://github.com/joeyagreco/leeger/releases/tag/v1.3.2
 
