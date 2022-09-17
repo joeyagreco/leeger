@@ -6,27 +6,27 @@
 
 #### To see a list of all stats retrieved by this library, see the following models:
 
-- [AllTimeStatSheet](https://github.com/joeyagreco/leeger/blob/main/leeger/model/stat/AllTimeStatSheet.py)
-- [YearStatSheet](https://github.com/joeyagreco/leeger/blob/main/leeger/model/stat/YearStatSheet.py)
+- [AllTimeStatSheet](https://github.com/joeyagreco/leeger/blob/doc/stats.md/blob/main/leeger/model/stat/AllTimeStatSheet.py)
+- [YearStatSheet](https://github.com/joeyagreco/leeger/blob/doc/stats.md/blob/main/leeger/model/stat/YearStatSheet.py)
 
 ___
 
 ## Table of Contents
 
-- [AWAL](https://github.com/joeyagreco/leeger/blob/doc/stats.md#awal)
-- [Margins of Victory](https://github.com/joeyagreco/leeger/blob/doc/stats.md#margins-of-victory)
-- [Max Score](https://github.com/joeyagreco/leeger/blob/doc/stats.md#max-score)
-- [Min Score](https://github.com/joeyagreco/leeger/blob/doc/stats.md#min-score)
-- [Plus/Minus](https://github.com/joeyagreco/leeger/blob/doc/stats.md#plus-minus)
-- [Points Scored](https://github.com/joeyagreco/leeger/blob/doc/stats.md#points-scored)
-- [Scoring Share](https://github.com/joeyagreco/leeger/blob/doc/stats.md#scoring-share)
-- [Scoring Standard Deviation](https://github.com/joeyagreco/leeger/blob/doc/stats.md#scoring-standard-deviation)
-- [Smart Wins](https://github.com/joeyagreco/leeger/blob/doc/stats.md#smart-wins)
-- [Team Luck](https://github.com/joeyagreco/leeger/blob/doc/stats.md#team-luck)
-- [Team Score](https://github.com/joeyagreco/leeger/blob/doc/stats.md#team-score)
-- [Team Success](https://github.com/joeyagreco/leeger/blob/doc/stats.md#team-success)
-- [WAL](https://github.com/joeyagreco/leeger/blob/doc/stats.md#wal)
-- [Win Percentage](https://github.com/joeyagreco/leeger/blob/doc/stats.md#win-percentage)
+- [AWAL](https://github.com/joeyagreco/leeger/blob/doc/stats.md/blob/doc/stats.md#awal)
+- [Margins of Victory](https://github.com/joeyagreco/leeger/blob/doc/stats.md/blob/doc/stats.md#margins-of-victory)
+- [Max Score](https://github.com/joeyagreco/leeger/blob/doc/stats.md/blob/doc/stats.md#max-score)
+- [Min Score](https://github.com/joeyagreco/leeger/blob/doc/stats.md/blob/doc/stats.md#min-score)
+- [Plus/Minus](https://github.com/joeyagreco/leeger/blob/doc/stats.md/blob/doc/stats.md#plus-minus)
+- [Points Scored](https://github.com/joeyagreco/leeger/blob/doc/stats.md/blob/doc/stats.md#points-scored)
+- [Scoring Share](https://github.com/joeyagreco/leeger/blob/doc/stats.md/blob/doc/stats.md#scoring-share)
+- [Scoring Standard Deviation](https://github.com/joeyagreco/leeger/blob/doc/stats.md/blob/doc/stats.md#scoring-standard-deviation)
+- [Smart Wins](https://github.com/joeyagreco/leeger/blob/doc/stats.md/blob/doc/stats.md#smart-wins)
+- [Team Luck](https://github.com/joeyagreco/leeger/blob/doc/stats.md/blob/doc/stats.md#team-luck)
+- [Team Score](https://github.com/joeyagreco/leeger/blob/doc/stats.md/blob/doc/stats.md#team-score)
+- [Team Success](https://github.com/joeyagreco/leeger/blob/doc/stats.md/blob/doc/stats.md#team-success)
+- [WAL](https://github.com/joeyagreco/leeger/blob/doc/stats.md/blob/doc/stats.md#wal)
+- [Win Percentage](https://github.com/joeyagreco/leeger/blob/doc/stats.md/blob/doc/stats.md#win-percentage)
 
 ___
 
@@ -35,10 +35,11 @@ ___
 > ### Purpose
 > AWAL stands for Adjusted Wins Against the League.\
 > It is exactly that, an adjustment added to the Wins Against the League (
-> or [WAL](https://github.com/joeyagreco/leeger#wal)) of a team.\
-> In simple terms, this stat more accurately represents how many [WAL](https://github.com/joeyagreco/leeger#wal) any
+> or [WAL](https://github.com/joeyagreco/leeger/blob/doc/stats.md#wal)) of a team.\
+> In simple terms, this stat more accurately represents how
+> many [WAL](https://github.com/joeyagreco/leeger/blob/doc/stats.md#wal) any
 > given team should have.\
-> Ex: A team with 6.3 AWAL "deserves" 6.3 [WAL](https://github.com/joeyagreco/leeger#wal).
+> Ex: A team with 6.3 AWAL "deserves" 6.3 [WAL](https://github.com/joeyagreco/leeger/blob/doc/stats.md#wal).
 > ### Formula
 > AWAL = W * (1/L) + T * (0.5/L)\
 > Where:\
@@ -67,7 +68,7 @@ ___
 > ___
 > ### Purpose
 > Max Score is used to retrieve the highest score for an individual team.\
-> It is the inverse of [Min Score](https://github.com/joeyagreco/leeger#min-score).
+> It is the inverse of [Min Score](https://github.com/joeyagreco/leeger/blob/doc/stats.md#min-score).
 > ### Formula
 > Max Score = max(A)\
 > WHERE:\
@@ -82,7 +83,7 @@ ___
 > ___
 > ### Purpose
 > Min Score is used to retrieve the lowest score for an individual team.\
-> It is the inverse of [Max Score](https://github.com/joeyagreco/leeger#max-score).
+> It is the inverse of [Max Score](https://github.com/joeyagreco/leeger/blob/doc/stats.md#max-score).
 > ### Formula
 > Min Score = min(A)\
 > WHERE:\
@@ -164,9 +165,11 @@ ___
 > T = Total scores in the league tied within a sample\
 > S = Number of scores in the league within a sample - 1
 > ### Formula Explained
-> Smart Wins is a good compliment to [AWAL](https://github.com/joeyagreco/leeger#awal) when comparing both to a
-> team's [WAL](https://github.com/joeyagreco/leeger#wal).\
-> Smart Wins is better than [AWAL](https://github.com/joeyagreco/leeger#awal) at giving a team credit if they lose by a
+> Smart Wins is a good compliment to [AWAL](https://github.com/joeyagreco/leeger/blob/doc/stats.md#awal) when comparing
+> both to a
+> team's [WAL](https://github.com/joeyagreco/leeger/blob/doc/stats.md#wal).\
+> Smart Wins is better than [AWAL](https://github.com/joeyagreco/leeger/blob/doc/stats.md#awal) at giving a team credit
+> if they lose by a
 > small margin in any given week.
 >
 > ## Team Luck
@@ -174,19 +177,21 @@ ___
 > ### Purpose
 > Team Luck is used to show how much more successful a team was than what they should have been.
 > ### Formula
-> Team Luck = [Team Success](https://github.com/joeyagreco/leeger#team-success) -
-> [Team Score](https://github.com/joeyagreco/leeger#team-score)
+> Team Luck = [Team Success](https://github.com/joeyagreco/leeger/blob/doc/stats.md#team-success) -
+> [Team Score](https://github.com/joeyagreco/leeger/blob/doc/stats.md#team-score)
 >
 > ### Formula Explained
-> A team with a higher [Team Success](https://github.com/joeyagreco/leeger#team-success)
-> than [Team Score](https://github.com/joeyagreco/leeger#team-score) likely has a
-> higher [WAL](https://github.com/joeyagreco/leeger#wal)
+> A team with a higher [Team Success](https://github.com/joeyagreco/leeger/blob/doc/stats.md#team-success)
+> than [Team Score](https://github.com/joeyagreco/leeger/blob/doc/stats.md#team-score) likely has a
+> higher [WAL](https://github.com/joeyagreco/leeger/blob/doc/stats.md#wal)
 > than they deserve.\
 > Team Luck helps to quantify just how much better a team ended up than they should have.\
-> A team with 0 Team Luck has a "fair" amount of [WAL](https://github.com/joeyagreco/leeger#wal).\
-> A team with positive (+) Team Luck has a higher amount of [WAL](https://github.com/joeyagreco/leeger#wal) than they
+> A team with 0 Team Luck has a "fair" amount of [WAL](https://github.com/joeyagreco/leeger/blob/doc/stats.md#wal).\
+> A team with positive (+) Team Luck has a higher amount
+> of [WAL](https://github.com/joeyagreco/leeger/blob/doc/stats.md#wal) than they
 > deserve.\
-> A team with negative (-) Team Luck has a lower amount of [WAL](https://github.com/joeyagreco/leeger#wal) than they
+> A team with negative (-) Team Luck has a lower amount
+> of [WAL](https://github.com/joeyagreco/leeger/blob/doc/stats.md#wal) than they
 > deserve.\
 > Note: This stat is more accurate with larger sample sizes (the more games played, the better).\
 > Note2: The sum of all Team Luck's within a league will be ≈ 0.
@@ -195,12 +200,12 @@ ___
 > ___
 > ### Purpose
 > Team Score is a score given to a team that is representative of how "good" that team is.\
-> It is the sister score of [Team Success](https://github.com/joeyagreco/leeger#team-success).
+> It is the sister score of [Team Success](https://github.com/joeyagreco/leeger/blob/doc/stats.md#team-success).
 > ### Formula
-> Team Score = (([AWAL](https://github.com/joeyagreco/leeger#awal) / G) * 100) +
-> ([Scoring Share](https://github.com/joeyagreco/leeger#scoring-share) * 2) +
-> (([Max Score](https://github.com/joeyagreco/leeger#max-score) +
-> [Min Score](https://github.com/joeyagreco/leeger#min-score)) * 0.05)
+> Team Score = (([AWAL](https://github.com/joeyagreco/leeger/blob/doc/stats.md#awal) / G) * 100) +
+> ([Scoring Share](https://github.com/joeyagreco/leeger/blob/doc/stats.md#scoring-share) * 2) +
+> (([Max Score](https://github.com/joeyagreco/leeger/blob/doc/stats.md#max-score) +
+> [Min Score](https://github.com/joeyagreco/leeger/blob/doc/stats.md#min-score)) * 0.05)
 >
 > WHERE:\
 > G = Total games played by a team within a sample
@@ -214,12 +219,12 @@ ___
 > ___
 > ### Purpose
 > Team Success is a score given to a team that is representative of how successful that team has been.\
-> It is the sister score of [Team Score](https://github.com/joeyagreco/leeger#team-score).
+> It is the sister score of [Team Score](https://github.com/joeyagreco/leeger/blob/doc/stats.md#team-score).
 > ### Formula
-> Team Success = (([WAL](https://github.com/joeyagreco/leeger#wal) / G) * 100) +
-> ([Scoring Share](https://github.com/joeyagreco/leeger#scoring-share) * 2) +
-> (([Max Score](https://github.com/joeyagreco/leeger#max-score) +
-> [Min Score](https://github.com/joeyagreco/leeger#min-score)) * 0.05)\
+> Team Success = (([WAL](https://github.com/joeyagreco/leeger/blob/doc/stats.md#wal) / G) * 100) +
+> ([Scoring Share](https://github.com/joeyagreco/leeger/blob/doc/stats.md#scoring-share) * 2) +
+> (([Max Score](https://github.com/joeyagreco/leeger/blob/doc/stats.md#max-score) +
+> [Min Score](https://github.com/joeyagreco/leeger/blob/doc/stats.md#min-score)) * 0.05)\
 > WHERE:\
 > G = Total games played by a team in a sample size
 > ### Formula Explained
@@ -244,9 +249,9 @@ ___
 > ## Win Percentage
 > ___
 > ### Purpose
-> Win Percentage is [WAL](https://github.com/joeyagreco/leeger#wal) represented as a percentage (%).
+> Win Percentage is [WAL](https://github.com/joeyagreco/leeger/blob/doc/stats.md#wal) represented as a percentage (%).
 > ### Formula
-> Win Percentage = [WAL](https://github.com/joeyagreco/leeger#wal) / G\
+> Win Percentage = [WAL](https://github.com/joeyagreco/leeger/blob/doc/stats.md#wal) / G\
 > WHERE:\
 > G = Total number of games played by a team within a sample
 > ### Formula Explained
