@@ -19,20 +19,6 @@ Instant stats for your fantasy football league.
     - [Sleeper](https://github.com/joeyagreco/leeger#sleeper)
     - [Yahoo](https://github.com/joeyagreco/leeger#yahoo)
 - [Stats Explained](https://github.com/joeyagreco/leeger#stats-explained)
-    - [AWAL](https://github.com/joeyagreco/leeger#awal)
-    - [Margins of Victory](https://github.com/joeyagreco/leeger#margins-of-victory)
-    - [Max Score](https://github.com/joeyagreco/leeger#max-score)
-    - [Min Score](https://github.com/joeyagreco/leeger#min-score)
-    - [Plus/Minus](https://github.com/joeyagreco/leeger#plusminus)
-    - [Points Scored](https://github.com/joeyagreco/leeger#points-scored)
-    - [Scoring Share](https://github.com/joeyagreco/leeger#scoring-share)
-    - [Scoring Standard Deviation](https://github.com/joeyagreco/leeger#scoring-standard-deviation)
-    - [Smart Wins](https://github.com/joeyagreco/leeger#smart-wins)
-    - [Team Luck](https://github.com/joeyagreco/leeger#team-luck)
-    - [Team Score](https://github.com/joeyagreco/leeger#team-score)
-    - [Team Success](https://github.com/joeyagreco/leeger#team-success)
-    - [WAL](https://github.com/joeyagreco/leeger#wal)
-    - [Win Percentage](https://github.com/joeyagreco/leeger#win-percentage)
 - [Running Tests](https://github.com/joeyagreco/leeger#running-tests)
 - [Contributing](https://github.com/joeyagreco/leeger#contributing)
 - [License](https://github.com/joeyagreco/leeger#license)
@@ -218,7 +204,8 @@ If a fantasy site you use is not listed here and you would like it to be, please
 
 ## Stats Explained
 
-Stats used in this library are documented [here]().
+Stats used in this library are
+documented [here](https://github.com/joeyagreco/leeger/blob/multi-week-matchup-stat-support/doc/stats.md).
 
 ## Running Tests
 

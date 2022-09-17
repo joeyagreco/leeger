@@ -9,6 +9,27 @@
 - [AllTimeStatSheet](https://github.com/joeyagreco/leeger/blob/main/leeger/model/stat/AllTimeStatSheet.py)
 - [YearStatSheet](https://github.com/joeyagreco/leeger/blob/main/leeger/model/stat/YearStatSheet.py)
 
+___
+
+## Table of Contents
+
+- [AWAL](https://github.com/joeyagreco/leeger/blob/multi-week-matchup-stat-support/doc/stats.md#awal)
+- [Margins of Victory](https://github.com/joeyagreco/leeger/blob/multi-week-matchup-stat-support/doc/stats.md#margins-of-victory)
+- [Max Score](https://github.com/joeyagreco/leeger/blob/multi-week-matchup-stat-support/doc/stats.md#max-score)
+- [Min Score](https://github.com/joeyagreco/leeger/blob/multi-week-matchup-stat-support/doc/stats.md#min-score)
+- [Plus/Minus](https://github.com/joeyagreco/leeger/blob/multi-week-matchup-stat-support/doc/stats.md#plus-minus)
+- [Points Scored](https://github.com/joeyagreco/leeger/blob/multi-week-matchup-stat-support/doc/stats.md#points-scored)
+- [Scoring Share](https://github.com/joeyagreco/leeger/blob/multi-week-matchup-stat-support/doc/stats.md#scoring-share)
+- [Scoring Standard Deviation](https://github.com/joeyagreco/leeger/blob/multi-week-matchup-stat-support/doc/stats.md#scoring-standard-deviation)
+- [Smart Wins](https://github.com/joeyagreco/leeger/blob/multi-week-matchup-stat-support/doc/stats.md#smart-wins)
+- [Team Luck](https://github.com/joeyagreco/leeger/blob/multi-week-matchup-stat-support/doc/stats.md#team-luck)
+- [Team Score](https://github.com/joeyagreco/leeger/blob/multi-week-matchup-stat-support/doc/stats.md#team-score)
+- [Team Success](https://github.com/joeyagreco/leeger/blob/multi-week-matchup-stat-support/doc/stats.md#team-success)
+- [WAL](https://github.com/joeyagreco/leeger/blob/multi-week-matchup-stat-support/doc/stats.md#wal)
+- [Win Percentage](https://github.com/joeyagreco/leeger/blob/multi-week-matchup-stat-support/doc/stats.md#win-percentage)
+
+___
+
 > ## AWAL
 > ___
 > ### Purpose
