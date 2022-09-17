@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 - Cleaned up examples
+- Fixed README
 
 ## [1.4.0]
 
