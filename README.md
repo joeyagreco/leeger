@@ -95,12 +95,12 @@ pip install leeger
 
 Sites that you can automatically load your league data from.
 
-| Name       | Website                                   | Supported          | Setup Documentation                                                                                |
-|------------|-------------------------------------------|--------------------|----------------------------------------------------------------------------------------------------|
-| ESPN       | https://www.espn.com/fantasy/football/    | :heavy_check_mark: | [ESPN :page_facing_up:](https://github.com/joeyagreco/leeger/blob/doc/league_loader/espn.md)       |
-| NFL        | https://fantasy.nfl.com/                  | :x:                | :x:                                                                                                |
-| Sleeper    | https://sleeper.com/fantasy-football      | :heavy_check_mark: | [Sleeper :page_facing_up:](https://github.com/joeyagreco/leeger/blob/doc/league_loader/sleeper.md) |
-| Yahoo      | https://football.fantasysports.yahoo.com/ | :heavy_check_mark: | [Yahoo :page_facing_up:](https://github.com/joeyagreco/leeger/blob/doc/league_loader/yahoo.md)     |
+| Name       | Website                                   | Supported          | Setup Documentation                                                                                     |
+|------------|-------------------------------------------|--------------------|---------------------------------------------------------------------------------------------------------|
+| ESPN       | https://www.espn.com/fantasy/football/    | :heavy_check_mark: | [ESPN :page_facing_up:](https://github.com/joeyagreco/leeger/blob/main/doc/league_loader/espn.md)       |
+| NFL        | https://fantasy.nfl.com/                  | :x:                | :x:                                                                                                     |
+| Sleeper    | https://sleeper.com/fantasy-football      | :heavy_check_mark: | [Sleeper :page_facing_up:](https://github.com/joeyagreco/leeger/blob/main/doc/league_loader/sleeper.md) |
+| Yahoo      | https://football.fantasysports.yahoo.com/ | :heavy_check_mark: | [Yahoo :page_facing_up:](https://github.com/joeyagreco/leeger/blob/main/doc/league_loader/yahoo.md)     |
 
 <!---
 // @formatter:off
@@ -113,7 +113,7 @@ If a fantasy site you use is not listed here and you would like it to be, please
 ## Stats Explained
 
 Stats used in this library are
-documented [here](https://github.com/joeyagreco/leeger/blob/multi-week-matchup-stat-support/doc/stats.md).
+documented [here](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md).
 
 ## Running Tests
 
