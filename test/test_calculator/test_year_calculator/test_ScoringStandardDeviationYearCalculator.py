@@ -34,6 +34,29 @@ class TestScoringStandardDeviationYearCalculator(unittest.TestCase):
         self.assertEqual(Deci("0.08164965809277260327324280249"), response[teams[0].id])
         self.assertEqual(Deci("1.202774570177914372863325978"), response[teams[1].id])
 
+    def test_getScoringStandardDeviation_multiWeekMatchups(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4,
+                           multiWeekMatchupId="1")
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5,
+                           multiWeekMatchupId="1")
+        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=5,
+                           matchupType=MatchupType.CHAMPIONSHIP)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+        week3 = Week(weekNumber=3, matchups=[matchup3])
+
+        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
+
+        response = ScoringStandardDeviationYearCalculator.getScoringStandardDeviation(year)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(2, len(response.keys()))
+        self.assertEqual(Deci("0.5"), response[teams[0].id])
+        self.assertEqual(Deci("0.05"), response[teams[1].id])
+
     def test_getScoringStandardDeviation_noneIfNoGamesPlayed(self):
         owners, teams = getNDefaultOwnersAndTeams(3)
 
