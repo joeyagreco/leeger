@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- N/A
+
+## [1.4.1]
+
 - Fixed bugs so users can now properly add 2 League objects
 - Cleaned up examples
 - Fixed README
@@ -53,7 +57,9 @@ All notable changes to this project will be documented in this file.
 
 ### Initial Release
 
-[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.4.0...HEAD
+[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.4.1...HEAD
+
+[1.4.1]: https://github.com/joeyagreco/leeger/releases/tag/v1.4.1
 
 [1.4.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.4.0
 
