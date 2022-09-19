@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- Fixed bugs so users can now properly add 2 League objects
 - Cleaned up examples
 - Fixed README
 
