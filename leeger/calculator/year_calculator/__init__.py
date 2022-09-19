@@ -7,3 +7,4 @@ from .ScoringShareYearCalculator import ScoringShareYearCalculator
 from .ScoringStandardDeviationYearCalculator import ScoringStandardDeviationYearCalculator
 from .SingleScoreYearCalculator import SingleScoreYearCalculator
 from .SmartWinsYearCalculator import SmartWinsYearCalculator
+from .TeamSummaryYearCalculator import TeamSummaryYearCalculator
