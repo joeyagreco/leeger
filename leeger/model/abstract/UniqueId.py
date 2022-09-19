@@ -17,8 +17,8 @@ class UniqueId(ABC):
         return self.__id
 
     @id.setter
-    def id(self, value: str):
-        raise Exception("ID cannot be set.")
+    def id(self, value: str, warnUser=True):
+        self.__id = value
 
     @id.deleter
     def id(self):

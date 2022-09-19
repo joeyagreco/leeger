@@ -21,10 +21,8 @@ class TestUniqueId(unittest.TestCase):
 
     def test_uniqueId_idSetter(self):
         uniqueId = UniqueId()
-
-        with self.assertRaises(Exception) as e:
-            uniqueId.id = "something"
-        self.assertEqual("ID cannot be set.", str(e.exception))
+        uniqueId.id = "something"
+        self.assertEqual("something", uniqueId.id)
 
     def test_uniqueId_idDeleter(self):
         uniqueId = UniqueId()

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import copy
 from dataclasses import dataclass
 
 from leeger.model.abstract.UniqueId import UniqueId
@@ -45,27 +46,46 @@ class League(UniqueId, JSONSerializable):
         leagueValidation.runAllChecks(otherLeague)
 
         newName = f"'{self.name}' + '{otherLeague.name}' League" if self.name != otherLeague.name else self.name
+
+        # merge / combine owners
         newOwners = list()
-        newYears = list()
+        # keep track of old ownerIDs so we can use them to match teams to owners
+        oldOwnerIdToNewOwnerIdMap: dict[str, Owner] = dict()
 
-        # merge/combine owners
-        thisLeagueOwnerNames = [owner.name for owner in self.owners]
-        otherLeagueOwnerNames = [owner.name for owner in otherLeague.owners]
+        otherLeagueOwners = copy.deepcopy(otherLeague.owners)
+        thisLeagueOwners = copy.deepcopy(self.owners)
 
-        for ownerName in thisLeagueOwnerNames:
-            if ownerName in otherLeagueOwnerNames:
-                otherLeagueOwnerNames.remove(ownerName)
-            newOwners.append(Owner(name=ownerName))
-        for ownerName in otherLeagueOwnerNames:
-            newOwners.append(Owner(name=ownerName))
+        for owner in self.owners:
+            # see if we can find the equivalent owner in the other league
+            for otherOwner in otherLeagueOwners:
+                if owner.name == otherOwner.name:
+                    # this owner is in both leagues
+                    otherLeagueOwners.remove(otherOwner)
+                    thisLeagueOwners.remove(owner)
+                    newOwner = Owner(name=owner.name)
+                    oldOwnerIdToNewOwnerIdMap[otherOwner.id] = newOwner.id
+                    oldOwnerIdToNewOwnerIdMap[owner.id] = newOwner.id
+                    newOwners.append(newOwner)
+
+        for owner in thisLeagueOwners + otherLeagueOwners:
+            newOwner = Owner(name=owner.name)
+            oldOwnerIdToNewOwnerIdMap[owner.id] = newOwner.id
+            newOwners.append(Owner(name=owner.name))
 
         # combine years in order
         if self.years[-1].yearNumber < otherLeague.years[0].yearNumber:
             # order of years goes *this* League -> otherLeague
-            newYears = self.years + otherLeague.years
+            newYears = copy.deepcopy(self.years) + otherLeague.years
         else:
             # order of years goes otherLeague -> *this* League
-            newYears = otherLeague.years + self.years
+            newYears = otherLeague.years + copy.deepcopy(self.years)
+
+        # set all team ownerId fields to match combined owner IDs
+        for year in newYears:
+            for team in year.teams:
+                if team.ownerId in oldOwnerIdToNewOwnerIdMap:
+                    # replace this team's ownerId with the new ownerId
+                    team.ownerId = oldOwnerIdToNewOwnerIdMap[team.ownerId]
 
         newLeague = League(name=newName, owners=newOwners, years=newYears)
 
