@@ -43,7 +43,7 @@ ___
 > ATSc = [Adjusted Team Score](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#adjusted-team-score)\
 > ATSu = [Adjusted Team Success](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#adjusted-team-success)
 > ### Formula Explained
-> This is a good stat for analyzing how lucky an owner's teams have been throughout the lifespan of a league.
+> This is a good stat for analyzing how lucky an owner's teams have been throughout the lifespan of a league.\
 > Note: This stat is more accurate with larger sample sizes (the more games played, the better).
 >
 > ## Adjusted Team Score
@@ -62,7 +62,7 @@ ___
 > N = Number of games played in a year\
 > T = Total number of games played in a league
 > ### Formula Explained
-> This is a good stat for analyzing how good an owner's teams have been throughout the lifespan of a league.
+> This is a good stat for analyzing how good an owner's teams have been throughout the lifespan of a league.\
 > Note: This stat is more accurate with larger sample sizes (the more games played, the better).
 >
 > ## Adjusted Team Success
@@ -81,7 +81,7 @@ ___
 > N = Number of games played in a year\
 > T = Total number of games played in a league
 > ### Formula Explained
-> This is a good stat for analyzing how successful an owner's teams have been throughout the lifespan of a league.
+> This is a good stat for analyzing how successful an owner's teams have been throughout the lifespan of a league.\
 > Note: This stat is more accurate with larger sample sizes (the more games played, the better).
 >
 > ## AWAL
