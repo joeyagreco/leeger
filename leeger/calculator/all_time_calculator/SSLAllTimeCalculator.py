@@ -125,3 +125,36 @@ class SSLAllTimeCalculator(AllTimeCalculator):
                 ownerIdAndTeamScorePerGame[ownerId] = None
 
         return ownerIdAndTeamScorePerGame
+
+    @classmethod
+    @validateLeague
+    def getTeamSuccessPerGame(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
+        """
+        Returns the Team Success per Game for each Owner in the given League.
+        Returns None for an Owner if all Years for that Owner are None
+
+        Example response:
+            {
+            "someOwnerId": Deci("118.7"),
+            "someOtherOwnerId": Deci("112.2"),
+            "yetAnotherOwnerId": Deci("79.1"),
+            ...
+            }
+        """
+
+        from leeger.calculator.all_time_calculator import TeamSummaryAllTimeCalculator
+        ownerIdAndTeamSuccessPerGame: dict[str, Optional[Deci]] = dict()
+
+        ownerIdsAndTeamSuccesses = SSLAllTimeCalculator.getTeamSuccess(league, **kwargs)
+        ownerIdsAndGamesPlayed = TeamSummaryAllTimeCalculator.getGamesPlayed(league, **kwargs)
+
+        for ownerId in LeagueNavigator.getAllOwnerIds(league):
+            teamSuccess = ownerIdsAndTeamSuccesses[ownerId]
+            gamesPlayed = ownerIdsAndGamesPlayed[ownerId]
+
+            if teamSuccess is not None and gamesPlayed != 0:
+                ownerIdAndTeamSuccessPerGame[ownerId] = Deci(teamSuccess / gamesPlayed)
+            else:
+                ownerIdAndTeamSuccessPerGame[ownerId] = None
+
+        return ownerIdAndTeamSuccessPerGame
