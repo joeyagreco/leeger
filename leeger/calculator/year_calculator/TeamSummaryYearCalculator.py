@@ -15,6 +15,9 @@ class TeamSummaryYearCalculator(YearCalculator):
     @classmethod
     @validateYear
     def getGamesPlayed(cls, year: Year, **kwargs) -> dict[str, Optional[int]]:
+        """
+        Returns the number of games played for each team in the given year.
+        """
         filters = YearFilters.getForYear(year, **kwargs)
         simplifiedMatchups = YearNavigator.getAllSimplifiedMatchupsInYear(year, filters)
 
