@@ -159,7 +159,7 @@ class SSLYearCalculator(YearCalculator):
             }
         """
         from leeger.calculator.year_calculator import TeamSummaryYearCalculator
-        teamIdAndTeamScorePerGame: dict[str, Deci] = dict()
+        teamIdAndTeamScorePerGame: dict[str, Optional[Deci]] = dict()
 
         teamIdsAndTeamScores = SSLYearCalculator.getTeamScore(year, **kwargs)
         teamIdsAndGamesPlayed = TeamSummaryYearCalculator.getGamesPlayed(year, **kwargs)
@@ -174,3 +174,35 @@ class SSLYearCalculator(YearCalculator):
                 teamIdAndTeamScorePerGame[teamId] = None
 
         return teamIdAndTeamScorePerGame
+
+    @classmethod
+    @validateYear
+    def getTeamSuccessPerGame(cls, year: Year, **kwargs) -> dict[str, Optional[Deci]]:
+        """
+        Returns the Team Success per game for each team in the given Year.
+        Returns None if any stat used to calculate this is not found in the given range.
+
+        Example response:
+            {
+            "someTeamId": Deci("118.7"),
+            "someOtherTeamId": Deci("112.2"),
+            "yetAnotherTeamId": Deci("79.1"),
+            ...
+            }
+        """
+        from leeger.calculator.year_calculator import TeamSummaryYearCalculator
+        teamIdAndTeamSuccessPerGame: dict[str, Optional[Deci]] = dict()
+
+        teamIdsAndTeamSuccess = SSLYearCalculator.getTeamSuccess(year, **kwargs)
+        teamIdsAndGamesPlayed = TeamSummaryYearCalculator.getGamesPlayed(year, **kwargs)
+
+        for teamId in YearNavigator.getAllTeamIds(year):
+            teamSuccess = teamIdsAndTeamSuccess[teamId]
+            gamesPlayed = teamIdsAndGamesPlayed[teamId]
+
+            if teamSuccess is not None and gamesPlayed != 0:
+                teamIdAndTeamSuccessPerGame[teamId] = Deci(teamSuccess / gamesPlayed)
+            else:
+                teamIdAndTeamSuccessPerGame[teamId] = None
+
+        return teamIdAndTeamSuccessPerGame
