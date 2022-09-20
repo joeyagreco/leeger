@@ -1,4 +1,4 @@
-from leeger.calculator.all_time_calculator import AWALAllTimeCalculator
+from leeger.calculator.all_time_calculator import AWALAllTimeCalculator, TeamSummaryAllTimeCalculator
 from leeger.calculator.all_time_calculator.GameOutcomeAllTimeCalculator import \
     GameOutcomeAllTimeCalculator
 from leeger.calculator.all_time_calculator.PlusMinusAllTimeCalculator import PlusMinusAllTimeCalculator
@@ -13,7 +13,7 @@ from leeger.calculator.all_time_calculator.SingleScoreAllTimeCalculator import \
     SingleScoreAllTimeCalculator
 from leeger.calculator.all_time_calculator.SmartWinsAllTimeCalculator import SmartWinsAllTimeCalculator
 from leeger.calculator.year_calculator import \
-    ScoringStandardDeviationYearCalculator
+    ScoringStandardDeviationYearCalculator, TeamSummaryYearCalculator
 from leeger.calculator.year_calculator import SingleScoreYearCalculator
 from leeger.calculator.year_calculator.AWALYearCalculator import AWALYearCalculator
 from leeger.calculator.year_calculator.GameOutcomeYearCalculator import GameOutcomeYearCalculator
@@ -28,6 +28,9 @@ from leeger.model.stat.YearStatSheet import YearStatSheet
 
 
 def leagueStatSheet(league: League, **kwargs) -> AllTimeStatSheet:
+    # Team Summary
+    gamesPlayed = TeamSummaryAllTimeCalculator.getGamesPlayed(league, **kwargs)
+
     # Game Outcome
     wins = GameOutcomeAllTimeCalculator.getWins(league, **kwargs)
     losses = GameOutcomeAllTimeCalculator.getLosses(league, **kwargs)
@@ -75,9 +78,9 @@ def leagueStatSheet(league: League, **kwargs) -> AllTimeStatSheet:
     teamSuccess = SSLAllTimeCalculator.getTeamSuccess(league, **kwargs)
     teamLuck = SSLAllTimeCalculator.getTeamLuck(league, **kwargs)
 
-    return AllTimeStatSheet(wins=wins, losses=losses, ties=ties, winPercentage=winPercentage, wal=wal,
-                            walPerGame=walPerGame, awal=awal, awalPerGame=awalPerGame, opponentAWAL=opponentAWAL,
-                            opponentAWALPerGame=opponentAWALPerGame, smartWins=smartWins,
+    return AllTimeStatSheet(gamesPlayed=gamesPlayed, wins=wins, losses=losses, ties=ties, winPercentage=winPercentage,
+                            wal=wal, walPerGame=walPerGame, awal=awal, awalPerGame=awalPerGame,
+                            opponentAWAL=opponentAWAL, opponentAWALPerGame=opponentAWALPerGame, smartWins=smartWins,
                             smartWinsPerGame=smartWinsPerGame, opponentSmartWins=opponentSmartWins,
                             opponentSmartWinsPerGame=opponentSmartWinsPerGame, pointsScored=pointsScored,
                             pointsScoredPerGame=pointsScoredPerGame, opponentPointsScored=opponentPointsScored,
@@ -88,6 +91,8 @@ def leagueStatSheet(league: League, **kwargs) -> AllTimeStatSheet:
 
 
 def yearStatSheet(year: Year, **kwargs) -> YearStatSheet:
+    # Team Summary
+    gamesPlayed = TeamSummaryYearCalculator.getGamesPlayed(year, **kwargs)
     # Game Outcome
     wins = GameOutcomeYearCalculator.getWins(year, **kwargs)
     losses = GameOutcomeYearCalculator.getLosses(year, **kwargs)
@@ -133,8 +138,8 @@ def yearStatSheet(year: Year, **kwargs) -> YearStatSheet:
     teamSuccess = SSLYearCalculator.getTeamSuccess(year, **kwargs)
     teamLuck = SSLYearCalculator.getTeamLuck(year, **kwargs)
 
-    return YearStatSheet(wins=wins, losses=losses, ties=ties, winPercentage=winPercentage, wal=wal,
-                         walPerGame=walPerGame, awal=awal, awalPerGame=awalPerGame, opponentAWAL=opponentAWAL,
+    return YearStatSheet(gamesPlayed=gamesPlayed, wins=wins, losses=losses, ties=ties, winPercentage=winPercentage,
+                         wal=wal, walPerGame=walPerGame, awal=awal, awalPerGame=awalPerGame, opponentAWAL=opponentAWAL,
                          opponentAWALPerGame=opponentAWALPerGame, smartWins=smartWins,
                          smartWinsPerGame=smartWinsPerGame, opponentSmartWins=opponentSmartWins,
                          opponentSmartWinsPerGame=opponentSmartWinsPerGame, pointsScored=pointsScored,

@@ -5,6 +5,8 @@ from leeger.util.Deci import Deci
 
 @dataclass(kw_only=True, frozen=True)
 class YearStatSheet:
+    # Team Summary
+    gamesPlayed: dict[str, int]
     # Game Outcome
     wins: dict[str, int]
     losses: dict[str, int]
@@ -55,6 +57,7 @@ class YearStatSheet:
         Returns all stats in the preferred order with the title for the stat.
         """
         return [
+            ("Games Played", self.gamesPlayed),
             ("Wins", self.wins),
             ("Losses", self.losses),
             ("Ties", self.ties),

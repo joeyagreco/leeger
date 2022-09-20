@@ -24,6 +24,7 @@ class TestStatSheet(unittest.TestCase):
         leagueStatSheet = leagueStatSheet(league)
 
         self.assertIsInstance(leagueStatSheet, AllTimeStatSheet)
+        self.assertIsInstance(leagueStatSheet.gamesPlayed, dict)
         self.assertIsInstance(leagueStatSheet.wins, dict)
         self.assertIsInstance(leagueStatSheet.losses, dict)
         self.assertIsInstance(leagueStatSheet.ties, dict)
@@ -71,6 +72,7 @@ class TestStatSheet(unittest.TestCase):
         yearStatSheet = yearStatSheet(year)
 
         self.assertIsInstance(yearStatSheet, YearStatSheet)
+        self.assertIsInstance(yearStatSheet.gamesPlayed, dict)
         self.assertIsInstance(yearStatSheet.wins, dict)
         self.assertIsInstance(yearStatSheet.losses, dict)
         self.assertIsInstance(yearStatSheet.ties, dict)
