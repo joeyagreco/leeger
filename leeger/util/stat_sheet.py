@@ -74,9 +74,9 @@ def leagueStatSheet(league: League, **kwargs) -> AllTimeStatSheet:
     plusMinus = PlusMinusAllTimeCalculator.getPlusMinus(league, **kwargs)
 
     # SSL
-    teamScore = SSLAllTimeCalculator.getTeamScore(league, **kwargs)
-    teamSuccess = SSLAllTimeCalculator.getTeamSuccess(league, **kwargs)
-    teamLuck = SSLAllTimeCalculator.getTeamLuck(league, **kwargs)
+    adjustedTeamScore = SSLAllTimeCalculator.getAdjustedTeamScore(league, **kwargs)
+    adjustedTeamSuccess = SSLAllTimeCalculator.getAdjustedTeamSuccess(league, **kwargs)
+    adjustedTeamLuck = SSLAllTimeCalculator.getAdjustedTeamLuck(league, **kwargs)
 
     return AllTimeStatSheet(gamesPlayed=gamesPlayed, wins=wins, losses=losses, ties=ties, winPercentage=winPercentage,
                             wal=wal, walPerGame=walPerGame, awal=awal, awalPerGame=awalPerGame,
@@ -87,7 +87,8 @@ def leagueStatSheet(league: League, **kwargs) -> AllTimeStatSheet:
                             opponentPointsScoredPerGame=opponentPointsScoredPerGame, scoringShare=scoringShare,
                             opponentScoringShare=opponentScoringShare, maxScore=maxScore, minScore=minScore,
                             scoringStandardDeviation=scoringStandardDeviation, plusMinus=plusMinus,
-                            teamScore=teamScore, teamSuccess=teamSuccess, teamLuck=teamLuck)
+                            adjustedTeamScore=adjustedTeamScore, adjustedTeamSuccess=adjustedTeamSuccess,
+                            adjustedTeamLuck=adjustedTeamLuck)
 
 
 def yearStatSheet(year: Year, **kwargs) -> YearStatSheet:

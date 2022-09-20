@@ -57,9 +57,9 @@ class TestStatSheet(unittest.TestCase):
 
         self.assertIsInstance(leagueStatSheet.plusMinus, dict)
 
-        self.assertIsInstance(leagueStatSheet.teamScore, dict)
-        self.assertIsInstance(leagueStatSheet.teamSuccess, dict)
-        self.assertIsInstance(leagueStatSheet.teamLuck, dict)
+        self.assertIsInstance(leagueStatSheet.adjustedTeamScore, dict)
+        self.assertIsInstance(leagueStatSheet.adjustedTeamSuccess, dict)
+        self.assertIsInstance(leagueStatSheet.adjustedTeamLuck, dict)
 
     def test_yearStatSheet(self):
         from leeger.util.stat_sheet import yearStatSheet
