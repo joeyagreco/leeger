@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- N/A
+
+## [1.5.0]
+
 - Added "Games Played" stat to Year and All-Time stats
 - Added "Adjusted Team Score" stat to All-Time stats
 - Added "Adjusted Team Success" stat to All-Time stats
@@ -63,7 +67,9 @@ All notable changes to this project will be documented in this file.
 
 ### Initial Release
 
-[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.4.1...HEAD
+[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.5.0...HEAD
+
+[1.5.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.5.0
 
 [1.4.1]: https://github.com/joeyagreco/leeger/releases/tag/v1.4.1
 
