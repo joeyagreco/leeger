@@ -3,6 +3,7 @@ from typing import Optional
 from leeger.calculator.parent.AllTimeCalculator import AllTimeCalculator
 from leeger.calculator.year_calculator.SSLYearCalculator import SSLYearCalculator
 from leeger.decorator.validators import validateLeague
+from leeger.model.filter import AllTimeFilters
 from leeger.model.league.League import League
 from leeger.util.Deci import Deci
 from leeger.util.navigator import LeagueNavigator
@@ -95,9 +96,9 @@ class SSLAllTimeCalculator(AllTimeCalculator):
 
     @classmethod
     @validateLeague
-    def getTeamScorePerGame(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
+    def getAdjustedTeamScore(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
         """
-        Returns the Team Score per Game for each Owner in the given League.
+        Returns the Adjusted Team Score per Game for each Owner in the given League.
         Returns None for an Owner if all Years for that Owner are None
 
         Example response:
@@ -108,86 +109,48 @@ class SSLAllTimeCalculator(AllTimeCalculator):
             ...
             }
         """
+        from leeger.calculator.year_calculator import TeamSummaryYearCalculator
+        teamScoreResultsOrderedByYear = cls._getAllResultDictsByYear(league, SSLYearCalculator.getTeamScore, **kwargs)
+        gamesPlayedByYear: dict[str, dict[str, int]] = dict()
 
-        from leeger.calculator.all_time_calculator import TeamSummaryAllTimeCalculator
-        ownerIdAndTeamScorePerGame: dict[str, Optional[Deci]] = dict()
+        allTimeFilters = AllTimeFilters.getForLeague(league, **kwargs)
+        yearFiltersByYear = cls._allTimeFiltersToYearFilters(league, allTimeFilters)
 
-        ownerIdsAndTeamScores = SSLAllTimeCalculator.getTeamScore(league, **kwargs)
-        ownerIdsAndGamesPlayed = TeamSummaryAllTimeCalculator.getGamesPlayed(league, **kwargs)
+        for yearNumber in teamScoreResultsOrderedByYear.keys():
+            year = LeagueNavigator.getYearByYearNumber(league, int(yearNumber))
+            test = yearFiltersByYear[str(yearNumber)].asKwargs()
+            gamesPlayedByYear[yearNumber] = TeamSummaryYearCalculator.getGamesPlayed(year,
+                                                                                     **yearFiltersByYear[
+                                                                                         str(yearNumber)].asKwargs())
 
+        ownerIdToTeamScoreAndGamesPlayedListMap: dict[str, list[tuple[Deci, int]]] = dict()
+        # {"someOwnerId": [(Deci("101.5"), 4), (Deci("109.4), 5)]}
+        for yearNumber, teamScoreResultDict in teamScoreResultsOrderedByYear.items():
+            for teamId, teamScore in teamScoreResultDict.items():
+                team = LeagueNavigator.getTeamById(league, teamId)
+                gamesPlayed = gamesPlayedByYear[yearNumber][teamId]
+                if team.ownerId in ownerIdToTeamScoreAndGamesPlayedListMap:
+                    ownerIdToTeamScoreAndGamesPlayedListMap[team.ownerId].append((teamScore, gamesPlayed))
+                else:
+                    ownerIdToTeamScoreAndGamesPlayedListMap[team.ownerId] = [(teamScore, gamesPlayed)]
+
+        # adjust team scores by games played
+        ownerIdAndAdjustedTeamScore: dict[str, Optional[Deci]] = dict()
+        for ownerId, teamScoreAndGamesPlayedList in ownerIdToTeamScoreAndGamesPlayedListMap.items():
+            totalGamesPlayed = sum([tsagp[1] for tsagp in teamScoreAndGamesPlayedList])
+            if totalGamesPlayed > 0:
+                for teamScore, gamesPlayed in teamScoreAndGamesPlayedList:
+                    if teamScore is not None:
+                        percentageOfGamesPlayed = Deci(gamesPlayed / totalGamesPlayed)
+                        adjustedTeamScore = Deci(teamScore * percentageOfGamesPlayed)
+                        if ownerId in ownerIdAndAdjustedTeamScore:
+                            ownerIdAndAdjustedTeamScore[ownerId] += adjustedTeamScore
+                        else:
+                            ownerIdAndAdjustedTeamScore[ownerId] = adjustedTeamScore
+
+        # set to None if ownerId not in response dict
         for ownerId in LeagueNavigator.getAllOwnerIds(league):
-            teamScore = ownerIdsAndTeamScores[ownerId]
-            gamesPlayed = ownerIdsAndGamesPlayed[ownerId]
+            if ownerId not in ownerIdAndAdjustedTeamScore:
+                ownerIdAndAdjustedTeamScore[ownerId] = None
 
-            if teamScore is not None and gamesPlayed != 0:
-                ownerIdAndTeamScorePerGame[ownerId] = Deci(teamScore / gamesPlayed)
-            else:
-                ownerIdAndTeamScorePerGame[ownerId] = None
-
-        return ownerIdAndTeamScorePerGame
-
-    @classmethod
-    @validateLeague
-    def getTeamSuccessPerGame(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
-        """
-        Returns the Team Success per Game for each Owner in the given League.
-        Returns None for an Owner if all Years for that Owner are None
-
-        Example response:
-            {
-            "someOwnerId": Deci("118.7"),
-            "someOtherOwnerId": Deci("112.2"),
-            "yetAnotherOwnerId": Deci("79.1"),
-            ...
-            }
-        """
-
-        from leeger.calculator.all_time_calculator import TeamSummaryAllTimeCalculator
-        ownerIdAndTeamSuccessPerGame: dict[str, Optional[Deci]] = dict()
-
-        ownerIdsAndTeamSuccesses = SSLAllTimeCalculator.getTeamSuccess(league, **kwargs)
-        ownerIdsAndGamesPlayed = TeamSummaryAllTimeCalculator.getGamesPlayed(league, **kwargs)
-
-        for ownerId in LeagueNavigator.getAllOwnerIds(league):
-            teamSuccess = ownerIdsAndTeamSuccesses[ownerId]
-            gamesPlayed = ownerIdsAndGamesPlayed[ownerId]
-
-            if teamSuccess is not None and gamesPlayed != 0:
-                ownerIdAndTeamSuccessPerGame[ownerId] = Deci(teamSuccess / gamesPlayed)
-            else:
-                ownerIdAndTeamSuccessPerGame[ownerId] = None
-
-        return ownerIdAndTeamSuccessPerGame
-
-    @classmethod
-    @validateLeague
-    def getTeamLuckPerGame(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
-        """
-        Returns the Team Luck per Game for each Owner in the given League.
-        Returns None for an Owner if all Years for that Owner are None
-
-        Example response:
-            {
-            "someOwnerId": Deci("18.7"),
-            "someOtherOwnerId": Deci("-12.2"),
-            "yetAnotherOwnerId": Deci("29.1"),
-            ...
-            }
-        """
-
-        from leeger.calculator.all_time_calculator import TeamSummaryAllTimeCalculator
-        ownerIdAndTeamLuckPerGame: dict[str, Optional[Deci]] = dict()
-
-        ownerIdsAndTeamLucks = SSLAllTimeCalculator.getTeamLuck(league, **kwargs)
-        ownerIdsAndGamesPlayed = TeamSummaryAllTimeCalculator.getGamesPlayed(league, **kwargs)
-
-        for ownerId in LeagueNavigator.getAllOwnerIds(league):
-            teamLuck = ownerIdsAndTeamLucks[ownerId]
-            gamesPlayed = ownerIdsAndGamesPlayed[ownerId]
-
-            if teamLuck is not None and gamesPlayed != 0:
-                ownerIdAndTeamLuckPerGame[ownerId] = Deci(teamLuck / gamesPlayed)
-            else:
-                ownerIdAndTeamLuckPerGame[ownerId] = None
-
-        return ownerIdAndTeamLuckPerGame
+        return ownerIdAndAdjustedTeamScore

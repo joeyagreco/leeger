@@ -77,9 +77,6 @@ def leagueStatSheet(league: League, **kwargs) -> AllTimeStatSheet:
     teamScore = SSLAllTimeCalculator.getTeamScore(league, **kwargs)
     teamSuccess = SSLAllTimeCalculator.getTeamSuccess(league, **kwargs)
     teamLuck = SSLAllTimeCalculator.getTeamLuck(league, **kwargs)
-    teamScorePerGame = SSLAllTimeCalculator.getTeamScorePerGame(league, **kwargs)
-    teamSuccessPerGame = SSLAllTimeCalculator.getTeamSuccessPerGame(league, **kwargs)
-    teamLuckPerGame = SSLAllTimeCalculator.getTeamLuckPerGame(league, **kwargs)
 
     return AllTimeStatSheet(gamesPlayed=gamesPlayed, wins=wins, losses=losses, ties=ties, winPercentage=winPercentage,
                             wal=wal, walPerGame=walPerGame, awal=awal, awalPerGame=awalPerGame,
@@ -90,9 +87,7 @@ def leagueStatSheet(league: League, **kwargs) -> AllTimeStatSheet:
                             opponentPointsScoredPerGame=opponentPointsScoredPerGame, scoringShare=scoringShare,
                             opponentScoringShare=opponentScoringShare, maxScore=maxScore, minScore=minScore,
                             scoringStandardDeviation=scoringStandardDeviation, plusMinus=plusMinus,
-                            teamScore=teamScore, teamSuccess=teamSuccess, teamLuck=teamLuck,
-                            teamScorePerGame=teamScorePerGame, teamSuccessPerGame=teamSuccessPerGame,
-                            teamLuckPerGame=teamLuckPerGame)
+                            teamScore=teamScore, teamSuccess=teamSuccess, teamLuck=teamLuck)
 
 
 def yearStatSheet(year: Year, **kwargs) -> YearStatSheet:
@@ -142,9 +137,6 @@ def yearStatSheet(year: Year, **kwargs) -> YearStatSheet:
     teamScore = SSLYearCalculator.getTeamScore(year, **kwargs)
     teamSuccess = SSLYearCalculator.getTeamSuccess(year, **kwargs)
     teamLuck = SSLYearCalculator.getTeamLuck(year, **kwargs)
-    teamScorePerGame = SSLYearCalculator.getTeamScorePerGame(year, **kwargs)
-    teamSuccessPerGame = SSLYearCalculator.getTeamSuccessPerGame(year, **kwargs)
-    teamLuckPerGame = SSLYearCalculator.getTeamLuckPerGame(year, **kwargs)
 
     return YearStatSheet(gamesPlayed=gamesPlayed, wins=wins, losses=losses, ties=ties, winPercentage=winPercentage,
                          wal=wal, walPerGame=walPerGame, awal=awal, awalPerGame=awalPerGame, opponentAWAL=opponentAWAL,
@@ -155,6 +147,4 @@ def yearStatSheet(year: Year, **kwargs) -> YearStatSheet:
                          opponentPointsScoredPerGame=opponentPointsScoredPerGame, scoringShare=scoringShare,
                          opponentScoringShare=opponentScoringShare, maxScore=maxScore, minScore=minScore,
                          scoringStandardDeviation=scoringStandardDeviation, plusMinus=plusMinus,
-                         teamScore=teamScore, teamSuccess=teamSuccess, teamLuck=teamLuck,
-                         teamScorePerGame=teamScorePerGame, teamSuccessPerGame=teamSuccessPerGame,
-                         teamLuckPerGame=teamLuckPerGame)
+                         teamScore=teamScore, teamSuccess=teamSuccess, teamLuck=teamLuck)

@@ -14,14 +14,14 @@ class LeagueNavigator:
     """
 
     @staticmethod
-    def getYearByYearNumber(league: League, yearNumber: int, **kwargs) -> Year:
+    def getYearByYearNumber(league: League, yearNumber: int) -> Year:
         for year in league.years:
             if year.yearNumber == yearNumber:
                 return year
         raise DoesNotExistException(f"Year {yearNumber} does not exist in the given League.")
 
     @staticmethod
-    def getTeamById(league: League, teamId: str, **kwargs) -> Team:
+    def getTeamById(league: League, teamId: str) -> Team:
         for year in league.years:
             for team in year.teams:
                 if team.id == teamId:
@@ -29,7 +29,7 @@ class LeagueNavigator:
         raise DoesNotExistException(f"Team with ID {teamId} does not exist in the given League.")
 
     @staticmethod
-    def getAllOwnerIds(league: League, **kwargs) -> list[str]:
+    def getAllOwnerIds(league: League) -> list[str]:
         return [owner.id for owner in league.owners]
 
     @classmethod

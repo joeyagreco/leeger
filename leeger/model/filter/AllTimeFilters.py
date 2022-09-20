@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import copy
 from dataclasses import dataclass
 
 from leeger.enum.MatchupType import MatchupType
@@ -24,17 +25,19 @@ class AllTimeFilters:
         from leeger.exception import InvalidFilterException
         from leeger.util.GeneralUtil import GeneralUtil
         from leeger.util.navigator import LeagueNavigator
-        onlyChampionship = kwargs.pop("onlyChampionship", False)
-        onlyPostSeason = kwargs.pop("onlyPostSeason", False)
-        onlyRegularSeason = kwargs.pop("onlyRegularSeason", False)
-        yearNumberStart = kwargs.pop("yearNumberStart", league.years[0].yearNumber)
-        weekNumberStart = kwargs.pop("weekNumberStart",
-                                     LeagueNavigator.getYearByYearNumber(league, yearNumberStart).weeks[0].weekNumber)
-        yearNumberEnd = kwargs.pop("yearNumberEnd", league.years[-1].yearNumber)
-        weekNumberEnd = kwargs.pop("weekNumberEnd",
-                                   LeagueNavigator.getYearByYearNumber(league, yearNumberEnd).weeks[-1].weekNumber)
+        kwargsCopy = copy.deepcopy(kwargs)
+        onlyChampionship = kwargsCopy.pop("onlyChampionship", False)
+        onlyPostSeason = kwargsCopy.pop("onlyPostSeason", False)
+        onlyRegularSeason = kwargsCopy.pop("onlyRegularSeason", False)
+        yearNumberStart = kwargsCopy.pop("yearNumberStart", league.years[0].yearNumber)
+        weekNumberStart = kwargsCopy.pop("weekNumberStart",
+                                         LeagueNavigator.getYearByYearNumber(league, yearNumberStart).weeks[
+                                             0].weekNumber)
+        yearNumberEnd = kwargsCopy.pop("yearNumberEnd", league.years[-1].yearNumber)
+        weekNumberEnd = kwargsCopy.pop("weekNumberEnd",
+                                       LeagueNavigator.getYearByYearNumber(league, yearNumberEnd).weeks[-1].weekNumber)
 
-        GeneralUtil.warnForUnusedKwargs(kwargs)
+        GeneralUtil.warnForUnusedKwargs(kwargsCopy)
 
         ####################
         # validate filters #
