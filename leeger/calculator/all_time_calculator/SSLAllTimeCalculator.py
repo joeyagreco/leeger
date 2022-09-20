@@ -5,6 +5,7 @@ from leeger.calculator.year_calculator.SSLYearCalculator import SSLYearCalculato
 from leeger.decorator.validators import validateLeague
 from leeger.model.league.League import League
 from leeger.util.Deci import Deci
+from leeger.util.navigator import LeagueNavigator
 
 
 class SSLAllTimeCalculator(AllTimeCalculator):
@@ -91,3 +92,36 @@ class SSLAllTimeCalculator(AllTimeCalculator):
             }
         """
         return cls._addAndCombineResults(league, SSLYearCalculator.getTeamLuck, **kwargs)
+
+    @classmethod
+    @validateLeague
+    def getTeamScorePerGame(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
+        """
+        Returns the Team Score per Game for each Owner in the given League.
+        Returns None for an Owner if all Years for that Owner are None
+
+        Example response:
+            {
+            "someOwnerId": Deci("118.7"),
+            "someOtherOwnerId": Deci("112.2"),
+            "yetAnotherOwnerId": Deci("79.1"),
+            ...
+            }
+        """
+
+        from leeger.calculator.all_time_calculator import TeamSummaryAllTimeCalculator
+        ownerIdAndTeamScorePerGame: dict[str, Optional[Deci]] = dict()
+
+        ownerIdsAndTeamScores = SSLAllTimeCalculator.getTeamScore(league, **kwargs)
+        ownerIdsAndGamesPlayed = TeamSummaryAllTimeCalculator.getGamesPlayed(league, **kwargs)
+
+        for ownerId in LeagueNavigator.getAllOwnerIds(league):
+            teamScore = ownerIdsAndTeamScores[ownerId]
+            gamesPlayed = ownerIdsAndGamesPlayed[ownerId]
+
+            if teamScore is not None and gamesPlayed != 0:
+                ownerIdAndTeamScorePerGame[ownerId] = Deci(teamScore / gamesPlayed)
+            else:
+                ownerIdAndTeamScorePerGame[ownerId] = None
+
+        return ownerIdAndTeamScorePerGame
