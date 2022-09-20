@@ -52,6 +52,9 @@ class AllTimeStatSheet:
     teamScore: dict[str, Deci]
     teamSuccess: dict[str, Deci]
     teamLuck: dict[str, Deci]
+    teamScorePerGame: dict[str, Deci]
+    teamSuccessPerGame: dict[str, Deci]
+    teamLuckPerGame: dict[str, Deci]
 
     def preferredOrderWithTitle(self) -> list[tuple[str, dict]]:
         """
@@ -85,5 +88,8 @@ class AllTimeStatSheet:
             ("Plus/Minus", self.plusMinus),
             ("Team Score", self.teamScore),
             ("Team Success", self.teamSuccess),
-            ("Team Luck", self.teamLuck)
+            ("Team Luck", self.teamLuck),
+            ("Team Score Per Game", self.teamScorePerGame),
+            ("Team Success Per Game", self.teamSuccessPerGame),
+            ("Team Luck Per Game", self.teamLuckPerGame)
         ]
