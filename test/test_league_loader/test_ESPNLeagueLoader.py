@@ -20,11 +20,9 @@ class TestESPNLeagueLoader(unittest.TestCase):
     def test_loadLeague_nonIntPassingStringForLeagueId(self):
         with self.assertRaises(ValueError) as context:
             leagueLoader = ESPNLeagueLoader("a", [2000])
-            leagueLoader.loadLeague()
         self.assertEqual("League ID 'a' could not be turned into an int.", str(context.exception))
 
     def test_noYearsGiven(self):
         with self.assertRaises(ValueError) as context:
             leagueLoader = ESPNLeagueLoader("0", [])
-            leagueLoader.loadLeague()
         self.assertEqual("No years given to load league with ID '0'.", str(context.exception))
