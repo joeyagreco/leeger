@@ -1,5 +1,6 @@
 from typing import Optional
 
+from leeger.model.filter import YearFilters
 from leeger.model.filter.AllTimeFilters import AllTimeFilters
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup
@@ -78,7 +79,11 @@ class AllTimeCalculator:
         return result
 
     @classmethod
-    def __getAllResultDicts(cls, league: League, function: callable, **kwargs) -> list[dict]:
+    def __getAllResultDicts(cls, league: League, function: callable, **kwargs) -> list[dict[str, int | float | Deci]]:
+        """
+        Returns the results for each given callable function in order from least -> most recent year.
+        TODO: Replace this with the getAllResultDictsByYear() function.
+        """
 
         allTimeFilters = AllTimeFilters.getForLeague(league, **kwargs)
 
@@ -116,6 +121,50 @@ class AllTimeCalculator:
                                            weekNumberStart=currentWeekNumberStart,
                                            weekNumberEnd=currentWeekNumberEnd,
                                            validate=kwargs.get("validate", True)))
+        return allResultDicts
+
+    @classmethod
+    def _getAllResultDictsByYear(cls, league: League, function: callable, **kwargs) -> dict[str, dict]:
+        """
+        Returns the results for each given callable function by year.
+        """
+
+        allTimeFilters = AllTimeFilters.getForLeague(league, **kwargs)
+
+        # parse filters
+        yearWeekNumberStartWeekNumberEnd: list[tuple] = list()
+        if allTimeFilters.yearNumberStart == allTimeFilters.yearNumberEnd:
+            yearWeekNumberStartWeekNumberEnd.append(
+                (LeagueNavigator.getYearByYearNumber(league, allTimeFilters.yearNumberStart),
+                 allTimeFilters.weekNumberStart,
+                 allTimeFilters.weekNumberEnd))
+        else:
+            for year in league.years:
+                if year.yearNumber == allTimeFilters.yearNumberStart:
+                    # first year we want, make sure week number start matches what was requested
+                    # givenWeekStart and every week greater
+                    yearWeekNumberStartWeekNumberEnd.append((year, allTimeFilters.weekNumberStart, len(year.weeks)))
+                elif year.yearNumber == allTimeFilters.yearNumberEnd:
+                    # last year we want, make sure week number end matches what was requested
+                    # first week and every week til givenWeekEnd
+                    yearWeekNumberStartWeekNumberEnd.append((year, 1, allTimeFilters.weekNumberEnd))
+                elif allTimeFilters.yearNumberStart < year.yearNumber < allTimeFilters.yearNumberEnd:
+                    # this year is in our year range, include every week in this year
+                    yearWeekNumberStartWeekNumberEnd.append((year, 1, len(year.weeks)))
+
+        allResultDicts: dict[str, dict] = dict()
+
+        for yse in yearWeekNumberStartWeekNumberEnd:
+            currentYear = yse[0]
+            currentWeekNumberStart = yse[1]
+            currentWeekNumberEnd = yse[2]
+            allResultDicts[currentYear.yearNumber] = function(currentYear,
+                                                              onlyChampionship=allTimeFilters.onlyChampionship,
+                                                              onlyPostSeason=allTimeFilters.onlyPostSeason,
+                                                              onlyRegularSeason=allTimeFilters.onlyRegularSeason,
+                                                              weekNumberStart=currentWeekNumberStart,
+                                                              weekNumberEnd=currentWeekNumberEnd,
+                                                              validate=kwargs.get("validate", True))
         return allResultDicts
 
     @classmethod
@@ -173,3 +222,64 @@ class AllTimeCalculator:
                 allFilteredMatchups.append(MatchupNavigator.simplifyMultiWeekMatchups(matchupList))
 
         return allFilteredMatchups
+
+    @classmethod
+    def _allTimeFiltersToYearFilters(cls, league: League, allTimeFilters: AllTimeFilters) -> dict[str, YearFilters]:
+        """
+        Returns the given AllTimeFilters as a dict of YearFilters by year.
+
+        {
+            "2020": YearFilters(...),
+            "2021": YearFilters(...),
+            etc...
+        }
+        """
+        # TODO: look into how we are handling multiWeekMatchups in this filter transfer
+        yearFiltersByYear: dict[str, YearFilters] = dict()
+        # parse filters
+        yearWeekNumberStartWeekNumberEnd: list[tuple] = list()
+        if allTimeFilters.yearNumberStart == allTimeFilters.yearNumberEnd:
+            yearNumber = str(LeagueNavigator.getYearByYearNumber(league, allTimeFilters.yearNumberStart).yearNumber)
+            yearFiltersByYear[yearNumber] = YearFilters(weekNumberStart=allTimeFilters.weekNumberStart,
+                                                        weekNumberEnd=allTimeFilters.weekNumberEnd,
+                                                        includeMatchupTypes=allTimeFilters.includeMatchupTypes,
+                                                        includeMultiWeekMatchups=True,
+                                                        onlyPostSeason=allTimeFilters.onlyPostSeason,
+                                                        onlyChampionship=allTimeFilters.onlyChampionship,
+                                                        onlyRegularSeason=allTimeFilters.onlyRegularSeason)
+        else:
+            for year in league.years:
+                if year.yearNumber == allTimeFilters.yearNumberStart:
+                    # first year we want, make sure week number start matches what was requested
+                    # givenWeekStart and every week greater
+                    yearFiltersByYear[str(year.yearNumber)] = YearFilters(
+                        weekNumberStart=allTimeFilters.weekNumberStart,
+                        weekNumberEnd=len(year.weeks),
+                        includeMatchupTypes=allTimeFilters.includeMatchupTypes,
+                        includeMultiWeekMatchups=True,
+                        onlyPostSeason=allTimeFilters.onlyPostSeason,
+                        onlyChampionship=allTimeFilters.onlyChampionship,
+                        onlyRegularSeason=allTimeFilters.onlyRegularSeason)
+                elif year.yearNumber == allTimeFilters.yearNumberEnd:
+                    # last year we want, make sure week number end matches what was requested
+                    # first week and every week til givenWeekEnd
+                    yearFiltersByYear[str(year.yearNumber)] = YearFilters(
+                        weekNumberStart=1,
+                        weekNumberEnd=allTimeFilters.weekNumberEnd,
+                        includeMatchupTypes=allTimeFilters.includeMatchupTypes,
+                        includeMultiWeekMatchups=True,
+                        onlyPostSeason=allTimeFilters.onlyPostSeason,
+                        onlyChampionship=allTimeFilters.onlyChampionship,
+                        onlyRegularSeason=allTimeFilters.onlyRegularSeason)
+                elif allTimeFilters.yearNumberStart < year.yearNumber < allTimeFilters.yearNumberEnd:
+                    # this year is in our year range, include every week in this year
+                    yearFiltersByYear[str(year.yearNumber)] = YearFilters(
+                        weekNumberStart=1,
+                        weekNumberEnd=len(year.weeks),
+                        includeMatchupTypes=allTimeFilters.includeMatchupTypes,
+                        includeMultiWeekMatchups=True,
+                        onlyPostSeason=allTimeFilters.onlyPostSeason,
+                        onlyChampionship=allTimeFilters.onlyChampionship,
+                        onlyRegularSeason=allTimeFilters.onlyRegularSeason)
+
+        return yearFiltersByYear

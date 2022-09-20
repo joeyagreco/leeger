@@ -4,7 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- N/A
+- Added "Games Played" stat to Year and All-Time stats
+- Added "Adjusted Team Score" stat to All-Time stats
+- Added "Adjusted Team Success" stat to All-Time stats
+- Added "Adjusted Team Luck" stat to All-Time stats
+- Removed "Team Score" from All-Time stats
+- Removed "Team Success" from All-Time stats
+- Removed "Team Luck" from All-Time stats
 
 ## [1.4.1]
 

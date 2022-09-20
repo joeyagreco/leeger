@@ -23,11 +23,9 @@ class TestESPNLeagueLoader(unittest.TestCase):
             badLeagueId = "a"
             yahooLeagueLoader = YahooLeagueLoader(badLeagueId, [2000], clientId=badClientId,
                                                   clientSecret=badClientSecret, loginTimeoutSeconds=1)
-            yahooLeagueLoader.loadLeague()
         self.assertEqual("League ID 'a' could not be turned into an int.", str(context.exception))
 
     def test_noYearsGiven(self):
         with self.assertRaises(ValueError) as context:
             leagueLoader = YahooLeagueLoader("0", [], clientId="", clientSecret="")
-            leagueLoader.loadLeague()
         self.assertEqual("No years given to load league with ID '0'.", str(context.exception))

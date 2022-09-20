@@ -7,3 +7,4 @@ from .ScoringShareAllTimeCalculator import ScoringShareAllTimeCalculator
 from .ScoringStandardDeviationAllTimeCalculator import ScoringStandardDeviationAllTimeCalculator
 from .SingleScoreAllTimeCalculator import SingleScoreAllTimeCalculator
 from .SmartWinsAllTimeCalculator import SmartWinsAllTimeCalculator
+from .TeamSummaryAllTimeCalculator import TeamSummaryAllTimeCalculator

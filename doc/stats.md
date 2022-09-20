@@ -13,6 +13,9 @@ ___
 
 ## Table of Contents
 
+- [Adjusted Team Luck](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#adjusted-team-luck)
+- [Adjusted Team Score](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#adjusted-team-score)
+- [Adjusted Team Success](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#adjusted-team-success)
 - [AWAL](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#awal)
 - [Margins of Victory](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#margins-of-victory)
 - [Max Score](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#max-score)
@@ -29,7 +32,58 @@ ___
 - [Win Percentage](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#win-percentage)
 
 ___
-
+> ## Adjusted Team Luck
+> ___
+> ### Purpose
+> Team Luck is used to show how much more successful an owner's teams have been than what they should have been.
+> ### Formula
+> Adjusted Team Luck = ATSu - ATSc
+>
+> WHERE:\
+> ATSc = [Adjusted Team Score](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#adjusted-team-score)\
+> ATSu = [Adjusted Team Success](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#adjusted-team-success)
+> ### Formula Explained
+> This is a good stat for analyzing how lucky an owner's teams have been throughout the lifespan of a league.\
+> Note: This stat is more accurate with larger sample sizes (the more games played, the better).
+>
+> ## Adjusted Team Score
+> ___
+> ### Purpose
+> Adjusted Team Score is a score given to an owner of a team that is representative of how "good" their teams have
+> been.\
+> It is the sister score
+> of [Adjusted Team Success](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#adjusted-team-success).
+> ### Formula
+> Adjusted Team Score = Σ Y [TSc * (N / T)]
+>
+> WHERE:\
+> Y = Each year in a league\
+> TSc = [Team Score](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#team-score)\
+> N = Number of games played in a year\
+> T = Total number of games played in a league
+> ### Formula Explained
+> This is a good stat for analyzing how good an owner's teams have been throughout the lifespan of a league.\
+> Note: This stat is more accurate with larger sample sizes (the more games played, the better).
+>
+> ## Adjusted Team Success
+> ___
+> ### Purpose
+> Adjusted Team Success is a score given to an owner of a team that is representative of how successful their teams have
+> been.\
+> It is the sister score
+> of [Adjusted Team Score](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#adjusted-team-score).
+> ### Formula
+> Adjusted Team Success = Σ Y [TSu * (N / T)]
+>
+> WHERE:\
+> Y = Each year in a league\
+> TSu = [Team Success](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#team-success)\
+> N = Number of games played in a year\
+> T = Total number of games played in a league
+> ### Formula Explained
+> This is a good stat for analyzing how successful an owner's teams have been throughout the lifespan of a league.\
+> Note: This stat is more accurate with larger sample sizes (the more games played, the better).
+>
 > ## AWAL
 > ___
 > ### Purpose

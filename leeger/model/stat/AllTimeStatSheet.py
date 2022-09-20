@@ -5,6 +5,9 @@ from leeger.util.Deci import Deci
 
 @dataclass(kw_only=True, frozen=True)
 class AllTimeStatSheet:
+    # Team Summary
+    gamesPlayed: dict[str, int]
+
     # Game Outcome
     wins: dict[str, int]
     losses: dict[str, int]
@@ -46,15 +49,16 @@ class AllTimeStatSheet:
     plusMinus: dict[str, Deci]
 
     # SSL
-    teamScore: dict[str, Deci]
-    teamSuccess: dict[str, Deci]
-    teamLuck: dict[str, Deci]
+    adjustedTeamScore: dict[str, Deci]
+    adjustedTeamSuccess: dict[str, Deci]
+    adjustedTeamLuck: dict[str, Deci]
 
     def preferredOrderWithTitle(self) -> list[tuple[str, dict]]:
         """
         Returns all stats in the preferred order with the title for the stat.
         """
         return [
+            ("Games Played", self.gamesPlayed),
             ("Wins", self.wins),
             ("Losses", self.losses),
             ("Ties", self.ties),
@@ -79,7 +83,7 @@ class AllTimeStatSheet:
             ("Min Score", self.minScore),
             ("Scoring Standard Deviation", self.scoringStandardDeviation),
             ("Plus/Minus", self.plusMinus),
-            ("Team Score", self.teamScore),
-            ("Team Success", self.teamSuccess),
-            ("Team Luck", self.teamLuck)
+            ("Adjusted Team Score", self.adjustedTeamScore),
+            ("Adjusted Team Success", self.adjustedTeamSuccess),
+            ("Adjusted Team Luck", self.adjustedTeamLuck)
         ]

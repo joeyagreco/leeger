@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import copy
 from dataclasses import dataclass
+from typing import Any
 
 from leeger.enum.MatchupType import MatchupType
 from leeger.model.league import Year
@@ -15,19 +17,24 @@ class YearFilters:
     weekNumberEnd: int  # week to end at (inclusive)
     includeMatchupTypes: list[MatchupType]  # include matchups of these types
     includeMultiWeekMatchups: bool = True
+    onlyChampionship: bool = False
+    onlyPostSeason: bool = False
+    onlyRegularSeason: bool = False
 
     @classmethod
     def getForYear(cls, year: Year, **kwargs) -> YearFilters:
+        kwargsCopy = copy.deepcopy(kwargs)
         from leeger.exception import InvalidFilterException
         from leeger.util.GeneralUtil import GeneralUtil
-        onlyChampionship = kwargs.pop("onlyChampionship", False)
-        onlyPostSeason = kwargs.pop("onlyPostSeason", False)
-        onlyRegularSeason = kwargs.pop("onlyRegularSeason", False)
-        weekNumberStart = kwargs.pop("weekNumberStart", year.weeks[0].weekNumber)
-        weekNumberEnd = kwargs.pop("weekNumberEnd", year.weeks[-1].weekNumber)
-        includeMultiWeekMatchups = kwargs.pop("includeMultiWeekMatchups", True)
+        onlyChampionship = kwargsCopy.pop("onlyChampionship", False)
+        onlyPostSeason = kwargsCopy.pop("onlyPostSeason", False)
+        onlyRegularSeason = kwargsCopy.pop("onlyRegularSeason", False)
+        weekNumberStart = kwargsCopy.pop("weekNumberStart", year.weeks[0].weekNumber)
+        weekNumberEnd = kwargsCopy.pop("weekNumberEnd", year.weeks[-1].weekNumber)
+        includeMultiWeekMatchups = kwargsCopy.pop("includeMultiWeekMatchups", True)
+        kwargsCopy.pop("includeMatchupTypes", None)  # so we don't get an unused kwarg warning
 
-        GeneralUtil.warnForUnusedKwargs(kwargs)
+        GeneralUtil.warnForUnusedKwargs(kwargsCopy)
 
         if onlyChampionship:
             includeMatchupTypes = [
@@ -78,4 +85,17 @@ class YearFilters:
             raise InvalidFilterException("'weekNumberStart' cannot be greater than 'weekNumberEnd'.")
 
         return YearFilters(weekNumberStart=weekNumberStart, weekNumberEnd=weekNumberEnd,
-                           includeMatchupTypes=includeMatchupTypes, includeMultiWeekMatchups=includeMultiWeekMatchups)
+                           includeMatchupTypes=includeMatchupTypes, includeMultiWeekMatchups=includeMultiWeekMatchups,
+                           onlyPostSeason=onlyPostSeason, onlyChampionship=onlyChampionship,
+                           onlyRegularSeason=onlyRegularSeason)
+
+    def asKwargs(self) -> dict[str, Any]:
+        return {
+            "weekNumberStart": self.weekNumberStart,
+            "weekNumberEnd": self.weekNumberEnd,
+            "includeMatchupTypes": self.includeMatchupTypes,
+            "includeMultiWeekMatchups": self.includeMultiWeekMatchups,
+            "onlyPostSeason": self.onlyPostSeason,
+            "onlyChampionship": self.onlyChampionship,
+            "onlyRegularSeason": self.onlyRegularSeason
+        }

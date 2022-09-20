@@ -33,7 +33,7 @@ class TestSSLYearCalculator(unittest.TestCase):
         self.assertEqual(Deci("57.72"), response[teams[0].id])
         self.assertEqual(Deci("242.695"), response[teams[1].id])
 
-    def test_getTeamScore_happyPath(self):
+    def test_getTeamScore_noneIfNoGamesPlayed(self):
         owners, teams = getNDefaultOwnersAndTeams(3)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=3)
@@ -207,7 +207,7 @@ class TestSSLYearCalculator(unittest.TestCase):
         self.assertEqual(Deci("57.72"), response[teams[0].id])
         self.assertEqual(Deci("242.695"), response[teams[1].id])
 
-    def test_getTeamSuccess_happyPath(self):
+    def test_getTeamSuccess_noneIfNoGamesPlayed(self):
         owners, teams = getNDefaultOwnersAndTeams(3)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=3)
@@ -381,7 +381,7 @@ class TestSSLYearCalculator(unittest.TestCase):
         self.assertEqual(Deci("0"), response[teams[0].id])
         self.assertEqual(Deci("0"), response[teams[1].id])
 
-    def test_getTeamLuck_happyPath(self):
+    def test_getTeamLuck_noneIfNoGamesPlayed(self):
         owners, teams = getNDefaultOwnersAndTeams(3)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=3)
