@@ -7,6 +7,9 @@ with open("leeger/_version.py") as f:
 package_version = pkg_vars["__version__"]
 minimum_python_version_required = pkg_vars["__version_minimum_python__"]
 
+with open("requirements.txt", "r", encoding="utf8") as reqs:
+    required_packages = reqs.read().splitlines()
+
 with open("README.md") as f:
     readme = f.read()
 
@@ -21,13 +24,7 @@ setuptools.setup(
     license="MIT",
     url="https://github.com/joeyagreco/leeger",
     packages=setuptools.find_packages(exclude=("test", "docs")),
-    install_requires=["numpy",
-                      "setuptools",
-                      "openpyxl",
-                      "espn-api",
-                      "yahoofantasy",
-                      "sleeper",
-                      "pymfl"],
+    install_requires=required_packages,
     python_requires=f">={minimum_python_version_required}",
     keywords="nfl statistics stats football espn yahoo sleeper myfantasyleague"
 )
