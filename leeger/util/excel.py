@@ -179,15 +179,25 @@ def __populateWorksheet(worksheet: Worksheet,
             worksheet[cell].fill = rowFill
 
     # set column widths
+    TITLE_MULTIPLIER = 1.2
+    NAME_MULTIPLIER = 0.8
+    DATA_MULTIPLIER = 0.5
     dim_holder = DimensionHolder(worksheet=worksheet)
 
     for col in range(worksheet.min_column, worksheet.max_column + 1):
         # figure out the width we want this column to be
+        # first column has entity names, so use a different multiplier for them
+        isNameColumn = col == 1
         maxWidth = 0
         for i, cell in enumerate(worksheet[get_column_letter(col)]):
             if cell.value:
-                # count title cell characters as more than a data cell
-                multiplier = 1.2 if i == 0 else 0.5
+                # count title/name cell characters as more than a data cell
+                if i == 0:
+                    multiplier = TITLE_MULTIPLIER
+                elif isNameColumn:
+                    multiplier = NAME_MULTIPLIER
+                else:
+                    multiplier = DATA_MULTIPLIER
                 maxWidth = max((maxWidth, len(str(cell.value)) * multiplier))
         dim_holder[get_column_letter(col)] = ColumnDimension(worksheet, min=col, max=col, width=maxWidth + 7)
 
