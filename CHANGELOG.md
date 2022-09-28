@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 - Buffed setup.py file
+- Now freeze team/owner name columns for easier navigating of Excel data
 
 ## [1.5.0]
 
