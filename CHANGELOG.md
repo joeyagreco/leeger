@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 - Now freeze team/owner name columns for easier navigating of Excel data
 - Now allow users to overwrite an existing Excel file using a keyword argument
 - Excel sheets now have consistent row colors
+- Excel sheets now dynamically adjust column width
 
 ## [1.5.0]
 

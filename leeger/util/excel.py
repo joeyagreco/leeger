@@ -4,8 +4,9 @@ import os
 import random
 
 from openpyxl import Workbook, load_workbook
-from openpyxl.styles import Font, Color, PatternFill
+from openpyxl.styles import Font, Color, PatternFill, Alignment
 from openpyxl.utils import get_column_letter
+from openpyxl.worksheet.dimensions import DimensionHolder, ColumnDimension
 from openpyxl.worksheet.table import Table
 from openpyxl.worksheet.worksheet import Worksheet
 
@@ -141,8 +142,6 @@ def __populateWorksheet(worksheet: Worksheet,
     # colors
     GRAY = Color(rgb="B8B8B8")
 
-    # ENTITY_ROW_COLORS = [__getRandomColor(0.5) for _ in range(len(entityNames))]
-
     # fills
     HEADER_FILL = PatternFill(patternType="solid", fgColor=GRAY)
 
@@ -154,12 +153,13 @@ def __populateWorksheet(worksheet: Worksheet,
     worksheet["A1"] = title
     worksheet["A1"].font = HEADER_COLUMN_FONT
     worksheet["A1"].fill = HEADER_FILL
+    worksheet["A1"].alignment = Alignment(horizontal='center')
     # add all entity names
     for i, entityName in enumerate(entityNames):
-        col = "A"
-        worksheet[f"{col}{i + 2}"] = entityName
-        worksheet[f"{col}{i + 2}"].font = ENTITY_NAME_FONT
-        worksheet[f"{col}{i + 2}"].fill = PatternFill(patternType="solid", fgColor=entityRowColors[i])
+        cell = f"A{i + 2}"
+        worksheet[cell] = entityName
+        worksheet[cell].font = ENTITY_NAME_FONT
+        worksheet[cell].fill = PatternFill(patternType="solid", fgColor=entityRowColors[i])
 
     # add all stats
     for row, entityId in enumerate(entityIds):
@@ -168,9 +168,27 @@ def __populateWorksheet(worksheet: Worksheet,
             char = get_column_letter(col + 2)
             if row == 1:
                 # add stat header
-                worksheet[f"{char}{row}"] = statWithTitle[0]
-                worksheet[f"{char}{row}"].font = HEADER_COLUMN_FONT
-                worksheet[f"{char}{row}"].fill = HEADER_FILL
+                cell = f"{char}{row}"
+                worksheet[cell] = statWithTitle[0]
+                worksheet[cell].font = HEADER_COLUMN_FONT
+                worksheet[cell].fill = HEADER_FILL
+                worksheet[cell].alignment = Alignment(horizontal='center')
             # add stat value
-            worksheet[f"{char}{row + 2}"] = statWithTitle[1][entityId]
-            worksheet[f"{char}{row + 2}"].fill = rowFill
+            cell = f"{char}{row + 2}"
+            worksheet[cell] = statWithTitle[1][entityId]
+            worksheet[cell].fill = rowFill
+
+    # set column widths
+    dim_holder = DimensionHolder(worksheet=worksheet)
+
+    for col in range(worksheet.min_column, worksheet.max_column + 1):
+        # figure out the width we want this column to be
+        maxWidth = 0
+        for i, cell in enumerate(worksheet[get_column_letter(col)]):
+            if cell.value:
+                # count title cell characters as more than a data cell
+                multiplier = 1.2 if i == 0 else 0.5
+                maxWidth = max((maxWidth, len(str(cell.value)) * multiplier))
+        dim_holder[get_column_letter(col)] = ColumnDimension(worksheet, min=col, max=col, width=maxWidth + 7)
+
+    worksheet.column_dimensions = dim_holder
