@@ -30,8 +30,11 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
             # we don't care if this doesn't exist
             pass
 
+    ownerNames = [owner.name for owner in league.owners]
+    entityRowColors = [__getRandomColor(0.5) for _ in range(len(ownerNames))]
+
     for year in league.years:
-        yearToExcel(year, filePath, overwrite=False, **kwargs)
+        yearToExcel(year, filePath, overwrite=False, __entityRowColors=entityRowColors, **kwargs)
 
     # add All-Time stats sheet
     workbook = load_workbook(filename=filePath)
@@ -45,7 +48,8 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
                         leagueStatSheet(league, **kwargs).preferredOrderWithTitle(),
                         "Owner Names",
                         [owner.id for owner in league.owners],
-                        [owner.name for owner in league.owners])
+                        ownerNames,
+                        entityRowColors)
 
     # put stats into table
     table = Table(displayName=f"AllTimeStats",
@@ -89,11 +93,16 @@ def yearToExcel(year: Year, filePath: str, **kwargs) -> None:
         del workbook["Sheet"]
     worksheet = workbook[str(year.yearNumber)]
 
+    teamNames = [team.name for team in year.teams]
+    entityRowColors: list[Color] = kwargs.pop("__entityRowColors",
+                                              [__getRandomColor(0.5) for _ in range(len(teamNames))])
+
     __populateWorksheet(worksheet,
                         yearStatSheet(year, **kwargs).preferredOrderWithTitle(),
                         "Team Names",
                         [team.id for team in year.teams],
-                        [team.name for team in year.teams])
+                        teamNames,
+                        entityRowColors)
 
     # put stats into table
     table = Table(displayName=f"YearStats{year.yearNumber}",
@@ -119,7 +128,8 @@ def __populateWorksheet(worksheet: Worksheet,
                         statsWithTitles: list[tuple[str, dict]],
                         title: str,
                         entityIds: list[str],
-                        entityNames: list[str]) -> None:
+                        entityNames: list[str],
+                        entityRowColors: list[Color]) -> None:
     ####################
     # Styles for table #
     ####################
@@ -131,7 +141,7 @@ def __populateWorksheet(worksheet: Worksheet,
     # colors
     GRAY = Color(rgb="B8B8B8")
 
-    ENTITY_ROW_COLORS = [__getRandomColor(0.5) for _ in range(len(entityNames))]
+    # ENTITY_ROW_COLORS = [__getRandomColor(0.5) for _ in range(len(entityNames))]
 
     # fills
     HEADER_FILL = PatternFill(patternType="solid", fgColor=GRAY)
@@ -149,11 +159,11 @@ def __populateWorksheet(worksheet: Worksheet,
         col = "A"
         worksheet[f"{col}{i + 2}"] = entityName
         worksheet[f"{col}{i + 2}"].font = ENTITY_NAME_FONT
-        worksheet[f"{col}{i + 2}"].fill = PatternFill(patternType="solid", fgColor=ENTITY_ROW_COLORS[i])
+        worksheet[f"{col}{i + 2}"].fill = PatternFill(patternType="solid", fgColor=entityRowColors[i])
 
     # add all stats
     for row, entityId in enumerate(entityIds):
-        rowFill = PatternFill(patternType="solid", fgColor=ENTITY_ROW_COLORS[row])
+        rowFill = PatternFill(patternType="solid", fgColor=entityRowColors[row])
         for col, statWithTitle in enumerate(statsWithTitles):
             char = get_column_letter(col + 2)
             if row == 1:
