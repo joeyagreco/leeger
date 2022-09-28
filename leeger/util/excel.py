@@ -16,9 +16,11 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
     """
     If the given Excel file exists already, will raise an exception.
     """
+    overwrite = kwargs.pop("overwrite", False)
+
     if league is None:
         raise ValueError("'league' has not been set.")
-    if os.path.exists(filePath) and not kwargs.pop("overwrite", False):
+    if os.path.exists(filePath) and not overwrite:
         raise FileExistsError(f"Cannot create file at path: '{filePath}' because there is already a file there.")
     else:
         try:
@@ -28,7 +30,7 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
             pass
 
     for year in league.years:
-        yearToExcel(year, filePath, **kwargs)
+        yearToExcel(year, filePath, overwrite=overwrite, **kwargs)
 
     # add All-Time stats sheet
     workbook = load_workbook(filename=filePath)
@@ -106,8 +108,9 @@ def yearToExcel(year: Year, filePath: str, **kwargs) -> None:
     If the given Excel file exists already, add a worksheet to it with this year.
     If the given Excel file does not exist, create a new workbook and add a worksheet to it with this year.
     """
+    overwrite = kwargs.pop("overwrite", False)
 
-    if os.path.exists(filePath):
+    if os.path.exists(filePath) and not overwrite:
         workbook = load_workbook(filename=filePath)
         # figure out index to put this sheet into
         # we want the years as sheets in order from oldest -> newest year
@@ -117,6 +120,12 @@ def yearToExcel(year: Year, filePath: str, **kwargs) -> None:
                 index += 1
         workbook.create_sheet(str(year.yearNumber), index=index)
     else:
+        # overwrite Excel file OR create new Excel file
+        try:
+            os.remove(filePath)
+        except FileNotFoundError:
+            # we don't care if this doesn't exist
+            pass
         # create workbook and sheet
         workbook = Workbook()
         workbook.create_sheet(str(year.yearNumber), index=0)
