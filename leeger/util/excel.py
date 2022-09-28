@@ -18,8 +18,15 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
     """
     if league is None:
         raise ValueError("'league' has not been set.")
-    if os.path.exists(filePath):
+    if os.path.exists(filePath) and not kwargs.pop("overwrite", False):
         raise FileExistsError(f"Cannot create file at path: '{filePath}' because there is already a file there.")
+    else:
+        try:
+            os.remove(filePath)
+        except FileNotFoundError:
+            # we don't care if this doesn't exist
+            pass
+
     for year in league.years:
         yearToExcel(year, filePath, **kwargs)
 
