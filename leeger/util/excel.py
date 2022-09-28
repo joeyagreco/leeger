@@ -30,7 +30,7 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
             pass
 
     for year in league.years:
-        yearToExcel(year, filePath, overwrite=overwrite, **kwargs)
+        yearToExcel(year, filePath, overwrite=False, **kwargs)
 
     # add All-Time stats sheet
     workbook = load_workbook(filename=filePath)
@@ -51,12 +51,7 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
     # colors
     GRAY = Color(rgb="B8B8B8")
 
-    def getRandomColor(tint: float = 0) -> Color:
-        r = lambda: random.randint(0, 255)
-        hexCode = "%02X%02X%02X" % (r(), r(), r())
-        return Color(rgb=hexCode, tint=tint)
-
-    OWNER_ROW_COLORS = [getRandomColor(0.5) for _ in range(len(league.owners))]
+    OWNER_ROW_COLORS = [__getRandomColor(0.5) for _ in range(len(league.owners))]
 
     # fills
     headerFill = PatternFill(patternType="solid", fgColor=GRAY)
@@ -144,12 +139,7 @@ def yearToExcel(year: Year, filePath: str, **kwargs) -> None:
     # colors
     GRAY = Color(rgb="B8B8B8")
 
-    def getRandomColor(tint: float = 0) -> Color:
-        r = lambda: random.randint(0, 255)
-        hexCode = "%02X%02X%02X" % (r(), r(), r())
-        return Color(rgb=hexCode, tint=tint)
-
-    TEAM_ROW_COLORS = [getRandomColor(0.5) for _ in range(len(year.teams))]
+    TEAM_ROW_COLORS = [__getRandomColor(0.5) for _ in range(len(year.teams))]
 
     # fills
     headerFill = PatternFill(patternType="solid", fgColor=GRAY)
@@ -193,3 +183,12 @@ def yearToExcel(year: Year, filePath: str, **kwargs) -> None:
 
     # save
     workbook.save(filePath)
+
+
+def __getRandomColor(tint: float = 0) -> Color:
+    """
+    Used to get a random row color.
+    """
+    r = lambda: random.randint(0, 255)
+    hexCode = "%02X%02X%02X" % (r(), r(), r())
+    return Color(rgb=hexCode, tint=tint)
