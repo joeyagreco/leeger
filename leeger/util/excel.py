@@ -7,9 +7,10 @@ from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font, Color, PatternFill
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.table import Table
+from openpyxl.worksheet.worksheet import Worksheet
 
 from leeger.model.league import Year, League
-from leeger.util.stat_sheet import leagueStatSheet, yearStatSheet
+from leeger.util.stat_sheet import yearStatSheet, leagueStatSheet
 
 
 def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
@@ -40,51 +41,11 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
     workbook.create_sheet("All Time", index=index)
     worksheet = workbook["All Time"]
 
-    ####################
-    # Styles for table #
-    ####################
-
-    # fonts
-    headerColumnFont = Font(size=12, bold=True)
-    teamNameFont = Font(size=11, bold=True)
-
-    # colors
-    GRAY = Color(rgb="B8B8B8")
-
-    OWNER_ROW_COLORS = [__getRandomColor(0.5) for _ in range(len(league.owners))]
-
-    # fills
-    headerFill = PatternFill(patternType="solid", fgColor=GRAY)
-
-    #################
-    # Fill in table #
-    #################
-
-    # add title
-    worksheet["A1"] = "Owner Names"
-    worksheet["A1"].font = headerColumnFont
-    worksheet["A1"].fill = headerFill
-    # add all team names
-    for i, owner in enumerate(league.owners):
-        col = "A"
-        worksheet[f"{col}{i + 2}"] = owner.name
-        worksheet[f"{col}{i + 2}"].font = teamNameFont
-        worksheet[f"{col}{i + 2}"].fill = PatternFill(patternType="solid", fgColor=OWNER_ROW_COLORS[i])
-
-    # add all stats
-    statsWithTitles = leagueStatSheet(league, **kwargs).preferredOrderWithTitle()
-    for row, ownerId in enumerate([owner.id for owner in league.owners]):
-        rowFill = PatternFill(patternType="solid", fgColor=OWNER_ROW_COLORS[row])
-        for col, statWithTitle in enumerate(statsWithTitles):
-            char = get_column_letter(col + 2)
-            if row == 1:
-                # add stat header
-                worksheet[f"{char}{row}"] = statWithTitle[0]
-                worksheet[f"{char}{row}"].font = headerColumnFont
-                worksheet[f"{char}{row}"].fill = headerFill
-            # add stat value
-            worksheet[f"{char}{row + 2}"] = statWithTitle[1][ownerId]
-            worksheet[f"{char}{row + 2}"].fill = rowFill
+    __populateWorksheet(worksheet,
+                        leagueStatSheet(league, **kwargs).preferredOrderWithTitle(),
+                        "Owner Names",
+                        [owner.id for owner in league.owners],
+                        [owner.name for owner in league.owners])
 
     # put stats into table
     table = Table(displayName=f"AllTimeStats",
@@ -128,51 +89,11 @@ def yearToExcel(year: Year, filePath: str, **kwargs) -> None:
         del workbook["Sheet"]
     worksheet = workbook[str(year.yearNumber)]
 
-    ####################
-    # Styles for table #
-    ####################
-
-    # fonts
-    headerColumnFont = Font(size=12, bold=True)
-    teamNameFont = Font(size=11, bold=True)
-
-    # colors
-    GRAY = Color(rgb="B8B8B8")
-
-    TEAM_ROW_COLORS = [__getRandomColor(0.5) for _ in range(len(year.teams))]
-
-    # fills
-    headerFill = PatternFill(patternType="solid", fgColor=GRAY)
-
-    #################
-    # Fill in table #
-    #################
-
-    # add title
-    worksheet["A1"] = "Team Names"
-    worksheet["A1"].font = headerColumnFont
-    worksheet["A1"].fill = headerFill
-    # add all team names
-    for i, team in enumerate(year.teams):
-        col = "A"
-        worksheet[f"{col}{i + 2}"] = team.name
-        worksheet[f"{col}{i + 2}"].font = teamNameFont
-        worksheet[f"{col}{i + 2}"].fill = PatternFill(patternType="solid", fgColor=TEAM_ROW_COLORS[i])
-
-    # add all stats
-    statsWithTitles = yearStatSheet(year, **kwargs).preferredOrderWithTitle()
-    for row, teamId in enumerate([team.id for team in year.teams]):
-        rowFill = PatternFill(patternType="solid", fgColor=TEAM_ROW_COLORS[row])
-        for col, statWithTitle in enumerate(statsWithTitles):
-            char = get_column_letter(col + 2)
-            if row == 1:
-                # add stat header
-                worksheet[f"{char}{row}"] = statWithTitle[0]
-                worksheet[f"{char}{row}"].font = headerColumnFont
-                worksheet[f"{char}{row}"].fill = headerFill
-            # add stat value
-            worksheet[f"{char}{row + 2}"] = statWithTitle[1][teamId]
-            worksheet[f"{char}{row + 2}"].fill = rowFill
+    __populateWorksheet(worksheet,
+                        yearStatSheet(year, **kwargs).preferredOrderWithTitle(),
+                        "Team Names",
+                        [team.id for team in year.teams],
+                        [team.name for team in year.teams])
 
     # put stats into table
     table = Table(displayName=f"YearStats{year.yearNumber}",
@@ -192,3 +113,54 @@ def __getRandomColor(tint: float = 0) -> Color:
     r = lambda: random.randint(0, 255)
     hexCode = "%02X%02X%02X" % (r(), r(), r())
     return Color(rgb=hexCode, tint=tint)
+
+
+def __populateWorksheet(worksheet: Worksheet,
+                        statsWithTitles: list[tuple[str, dict]],
+                        title: str,
+                        entityIds: list[str],
+                        entityNames: list[str]) -> None:
+    ####################
+    # Styles for table #
+    ####################
+
+    # fonts
+    HEADER_COLUMN_FONT = Font(size=12, bold=True)
+    ENTITY_NAME_FONT = Font(size=11, bold=True)
+
+    # colors
+    GRAY = Color(rgb="B8B8B8")
+
+    ENTITY_ROW_COLORS = [__getRandomColor(0.5) for _ in range(len(entityNames))]
+
+    # fills
+    HEADER_FILL = PatternFill(patternType="solid", fgColor=GRAY)
+
+    #################
+    # Fill in table #
+    #################
+
+    # add title
+    worksheet["A1"] = title
+    worksheet["A1"].font = HEADER_COLUMN_FONT
+    worksheet["A1"].fill = HEADER_FILL
+    # add all entity names
+    for i, entityName in enumerate(entityNames):
+        col = "A"
+        worksheet[f"{col}{i + 2}"] = entityName
+        worksheet[f"{col}{i + 2}"].font = ENTITY_NAME_FONT
+        worksheet[f"{col}{i + 2}"].fill = PatternFill(patternType="solid", fgColor=ENTITY_ROW_COLORS[i])
+
+    # add all stats
+    for row, entityId in enumerate(entityIds):
+        rowFill = PatternFill(patternType="solid", fgColor=ENTITY_ROW_COLORS[row])
+        for col, statWithTitle in enumerate(statsWithTitles):
+            char = get_column_letter(col + 2)
+            if row == 1:
+                # add stat header
+                worksheet[f"{char}{row}"] = statWithTitle[0]
+                worksheet[f"{char}{row}"].font = HEADER_COLUMN_FONT
+                worksheet[f"{char}{row}"].fill = HEADER_FILL
+            # add stat value
+            worksheet[f"{char}{row + 2}"] = statWithTitle[1][entityId]
+            worksheet[f"{char}{row + 2}"].fill = rowFill
