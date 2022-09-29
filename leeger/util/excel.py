@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import os
 import random
+from datetime import datetime
 
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font, Color, PatternFill, Alignment
@@ -31,7 +32,20 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
             # we don't care if this doesn't exist
             pass
 
-    ownerNames = [owner.name for owner in league.owners]
+    # get owner names
+    # and
+    # make sure we have the same color for owners and their teams across sheets
+    ownerIdToSeedMap = dict()
+    ownerIds = list()
+    ownerNames = list()
+    for owner in league.owners:
+        ownerNames.append(owner.name)
+        ownerIds.append(owner.id)
+        ownerIdToSeedMap[owner.id] = f"{owner.id}{datetime.now().date()}"
+    ownerIdToColorMap = dict()
+    for ownerId, seed in ownerIdToSeedMap.items():
+        ownerIdToColorMap[ownerId] = __getRandomColor(0.5, seed)
+
     entityRowColors = [__getRandomColor(0.5) for _ in range(len(ownerNames))]
 
     for year in league.years:
@@ -48,9 +62,10 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
     __populateWorksheet(worksheet,
                         leagueStatSheet(league, **kwargs).preferredOrderWithTitle(),
                         "Owner Names",
-                        [owner.id for owner in league.owners],
+                        ownerIds,
                         ownerNames,
-                        entityRowColors)
+                        ownerIdToColorMap,
+                        ownerIds)
 
     # put stats into table
     table = Table(displayName=f"AllTimeStats",
@@ -94,7 +109,20 @@ def yearToExcel(year: Year, filePath: str, **kwargs) -> None:
         del workbook["Sheet"]
     worksheet = workbook[str(year.yearNumber)]
 
-    teamNames = [team.name for team in year.teams]
+    # get team names
+    # and
+    # make sure we have the same color for owners and their teams across sheets
+    ownerIdToSeedMap = dict()
+    ownerIds = list()
+    teamNames = list()
+    for team in year.teams:
+        teamNames.append(team.name)
+        ownerIds.append(team.ownerId)
+        ownerIdToSeedMap[team.ownerId] = f"{team.ownerId}{datetime.now().date()}"
+    ownerIdToColorMap = dict()
+    for ownerId, seed in ownerIdToSeedMap.items():
+        ownerIdToColorMap[ownerId] = __getRandomColor(0.5, seed)
+
     entityRowColors: list[Color] = kwargs.pop("__entityRowColors",
                                               [__getRandomColor(0.5) for _ in range(len(teamNames))])
 
@@ -103,7 +131,8 @@ def yearToExcel(year: Year, filePath: str, **kwargs) -> None:
                         "Team Names",
                         [team.id for team in year.teams],
                         teamNames,
-                        entityRowColors)
+                        ownerIdToColorMap,
+                        ownerIds)
 
     # put stats into table
     table = Table(displayName=f"YearStats{year.yearNumber}",
@@ -116,10 +145,12 @@ def yearToExcel(year: Year, filePath: str, **kwargs) -> None:
     workbook.save(filePath)
 
 
-def __getRandomColor(tint: float = 0) -> Color:
+def __getRandomColor(tint: float = 0, seed: str = None) -> Color:
     """
     Used to get a random row color.
     """
+    if seed:
+        random.seed(seed)
     r = lambda: random.randint(0, 255)
     hexCode = "%02X%02X%02X" % (r(), r(), r())
     return Color(rgb=hexCode, tint=tint)
@@ -130,7 +161,8 @@ def __populateWorksheet(worksheet: Worksheet,
                         title: str,
                         entityIds: list[str],
                         entityNames: list[str],
-                        entityRowColors: list[Color]) -> None:
+                        ownerIdToColorMap: dict[str, Color],
+                        ownerIds: list[str]) -> None:
     ####################
     # Styles for table #
     ####################
@@ -159,22 +191,22 @@ def __populateWorksheet(worksheet: Worksheet,
         cell = f"A{i + 2}"
         worksheet[cell] = entityName
         worksheet[cell].font = ENTITY_NAME_FONT
-        worksheet[cell].fill = PatternFill(patternType="solid", fgColor=entityRowColors[i])
+        worksheet[cell].fill = PatternFill(patternType="solid", fgColor=ownerIdToColorMap[ownerIds[i]])
 
     # add all stats
-    for row, entityId in enumerate(entityIds):
-        rowFill = PatternFill(patternType="solid", fgColor=entityRowColors[row])
+    for i, entityId in enumerate(entityIds):
+        rowFill = PatternFill(patternType="solid", fgColor=ownerIdToColorMap[ownerIds[i]])
         for col, statWithTitle in enumerate(statsWithTitles):
             char = get_column_letter(col + 2)
-            if row == 1:
+            if i == 1:
                 # add stat header
-                cell = f"{char}{row}"
+                cell = f"{char}{i}"
                 worksheet[cell] = statWithTitle[0]
                 worksheet[cell].font = HEADER_COLUMN_FONT
                 worksheet[cell].fill = HEADER_FILL
                 worksheet[cell].alignment = Alignment(horizontal='center')
             # add stat value
-            cell = f"{char}{row + 2}"
+            cell = f"{char}{i + 2}"
             worksheet[cell] = statWithTitle[1][entityId]
             worksheet[cell].fill = rowFill
 
