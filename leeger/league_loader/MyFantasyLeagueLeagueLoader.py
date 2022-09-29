@@ -2,6 +2,7 @@ from pymfl.api import CommonLeagueInfoAPIClient
 from pymfl.api.config import APIConfig
 from sleeper.model import Matchup as SleeperMatchup
 
+from leeger.enum.FantasySite import FantasySite
 from leeger.enum.MatchupType import MatchupType
 from leeger.league_loader.LeagueLoader import LeagueLoader
 from leeger.model.league.League import League
@@ -25,7 +26,7 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
                  mflPassword: str,
                  mflUserAgentName: str,
                  **kwargs):
-        super().__init__(leagueId, years, **kwargs)
+        super().__init__(FantasySite.MY_FANTASY_LEAGUE, leagueId, years, **kwargs)
 
         self.__mflUsername = mflUsername
         self.__mflPassword = mflPassword

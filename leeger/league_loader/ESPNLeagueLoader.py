@@ -2,6 +2,8 @@ import espn_api.football as espn
 from espn_api.football import League as ESPNLeague
 from espn_api.football import Team as ESPNTeam
 
+from leeger.decorator.league_loader_cache import cachedLeague
+from leeger.enum.FantasySite import FantasySite
 from leeger.enum.MatchupType import MatchupType
 from leeger.league_loader.LeagueLoader import LeagueLoader
 from leeger.model.league.League import League
@@ -36,13 +38,14 @@ class ESPNLeagueLoader(LeagueLoader):
             int(leagueId)
         except ValueError:
             raise ValueError(f"League ID '{leagueId}' could not be turned into an int.")
-        super().__init__(leagueId, years, **kwargs)
+        super().__init__(FantasySite.ESPN, leagueId, years, **kwargs)
 
         self.__espnS2 = espnS2
         self.__swid = swid
         self.__espnTeamIdToTeamMap: dict[str, Team] = dict()
         self.__ownerNamesAndAliases: dict[str, list[str]] = dict()
 
+    @cachedLeague
     def loadLeague(self) -> League:
         espnLeagueYears = list()
         for year in self._years:

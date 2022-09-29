@@ -7,6 +7,7 @@ from yahoofantasy import Matchup as YahooMatchup
 from yahoofantasy import Team as YahooTeam
 from yahoofantasy import Week as YahooWeek
 
+from leeger.enum import FantasySite
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception.DoesNotExistException import DoesNotExistException
 from leeger.league_loader.LeagueLoader import LeagueLoader
@@ -32,7 +33,7 @@ class YahooLeagueLoader(LeagueLoader):
             int(leagueId)
         except ValueError:
             raise ValueError(f"League ID '{leagueId}' could not be turned into an int.")
-        super().__init__(leagueId, years, **kwargs)
+        super().__init__(FantasySite.YAHOO, leagueId, years, **kwargs)
         self.__clientId = clientId
         self.__clientSecret = clientSecret
         self.__timeoutSeconds = kwargs.pop("loginTimeoutSeconds", self.__LOGIN_TIMEOUT_SECONDS)

@@ -7,6 +7,7 @@ from sleeper.model import League as SleeperLeague
 from sleeper.model import Matchup as SleeperMatchup
 from sleeper.model import PlayoffMatchup as SleeperPlayoffMatchup
 
+from leeger.enum import FantasySite
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception.DoesNotExistException import DoesNotExistException
 from leeger.league_loader.LeagueLoader import LeagueLoader
@@ -26,7 +27,7 @@ class SleeperLeagueLoader(LeagueLoader):
     __INVALID_SLEEPER_LEAGUE_IDS = [None, "0"]
 
     def __init__(self, mostRecentLeagueId: str, years: list[int], **kwargs):
-        super().__init__(mostRecentLeagueId, years, **kwargs)
+        super().__init__(FantasySite.SLEEPER, mostRecentLeagueId, years, **kwargs)
 
         self.__sleeperUserIdToOwnerMap: dict[str, Owner] = dict()
         self.__sleeperRosterIdToTeamMap: dict[int, Team] = dict()
