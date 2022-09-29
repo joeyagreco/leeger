@@ -57,8 +57,8 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
                   ref="A1:" + get_column_letter(worksheet.max_column) + str(worksheet.max_row))
     worksheet.add_table(table)
 
-    # freeze owner name column
-    worksheet.freeze_panes = "B1"
+    # freeze owner name column and header row
+    worksheet.freeze_panes = "B2"
 
     # save
     workbook.save(filePath)
@@ -109,8 +109,8 @@ def yearToExcel(year: Year, filePath: str, **kwargs) -> None:
     table = Table(displayName=f"YearStats{year.yearNumber}",
                   ref="A1:" + get_column_letter(worksheet.max_column) + str(worksheet.max_row))
     worksheet.add_table(table)
-    # freeze team name column
-    worksheet.freeze_panes = "B1"
+    # freeze owner name column and header row
+    worksheet.freeze_panes = "B2"
 
     # save
     workbook.save(filePath)
