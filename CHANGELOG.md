@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- N/A
+
+## [1.6.0]
+
 - Buffed setup.py file
 - Now freeze team/owner name columns for easier navigating of Excel data
 - Now freeze header row for easier navigating of team/owner data
@@ -72,7 +76,9 @@ All notable changes to this project will be documented in this file.
 
 ### Initial Release
 
-[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.5.0...HEAD
+[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.6.0...HEAD
+
+[1.6.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.6.0
 
 [1.5.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.5.0
 
