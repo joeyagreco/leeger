@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- N/A
+
+## [1.6.1]
+
 - Now check if a week is completed before adding week for ESPN leagues
 - Now check if a week is completed before adding week for MyFantasyLeague leagues
 
@@ -77,7 +81,9 @@ All notable changes to this project will be documented in this file.
 
 ### Initial Release
 
-[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.6.0...HEAD
+[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.6.1...HEAD
+
+[1.6.1]: https://github.com/joeyagreco/leeger/releases/tag/v1.6.1
 
 [1.6.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.6.0
 
