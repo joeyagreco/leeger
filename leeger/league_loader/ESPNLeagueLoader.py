@@ -108,7 +108,8 @@ class ESPNLeagueLoader(LeagueLoader):
                                         matchupType=matchupType))
                 espnTeamIDsWithMatchups.append(espnTeam.team_id)
                 espnTeamIDsWithMatchups.append(espnTeam.schedule[i].team_id)
-            weeks.append(Week(weekNumber=i + 1, matchups=matchups))
+            if len(matchups) > 0:
+                weeks.append(Week(weekNumber=i + 1, matchups=matchups))
         return weeks
 
     def __getMatchupType(self, espnLeague: ESPNLeague, weekNumber: int, espnTeamId: int) -> MatchupType:

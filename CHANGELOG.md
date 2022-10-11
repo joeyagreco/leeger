@@ -4,7 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- N/A
+- Now check if a week is completed before adding week for ESPN leagues
+- Now check if a week is completed before adding week for MyFantasyLeague leagues
 
 ## [1.6.0]
 
