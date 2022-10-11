@@ -179,8 +179,8 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
                                         teamAHasTiebreaker=teamAHasTiebreaker,
                                         teamBHasTiebreaker=teamBHasTiebreaker,
                                         matchupType=matchupType))
-
-            weeks.append(Week(weekNumber=weekNumber, matchups=matchups))
+            if len(matchups) > 0:
+                weeks.append(Week(weekNumber=weekNumber, matchups=matchups))
 
         return weeks
 
