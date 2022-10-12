@@ -93,14 +93,14 @@ class SleeperLeagueLoader(LeagueLoader):
                     teamBSleeperMatchup = sleeperMatchupPair[1]
                     teamB = self.__sleeperRosterIdToTeamMap[teamBSleeperMatchup.roster_id]
 
-                    # sleeper does not currently have tiebreakers for regular season games
+                    # sleeper does not have tiebreakers for regular season games
                     # Source: https://support.sleeper.app/en/articles/4238872-can-i-set-tiebreakers#:~:text=We%20do%20not%20offer%20any,and%20adjust%20the%20point%20total.
                     matchups.append(Matchup(teamAId=teamA.id,
                                             teamBId=teamB.id,
                                             teamAScore=teamASleeperMatchup.points,
                                             teamBScore=teamBSleeperMatchup.points,
-                                            teamAHasTiebreaker=False,  # TODO: Find way to get tiebreaker
-                                            teamBHasTiebreaker=False,  # TODO: Find way to get tiebreaker
+                                            teamAHasTiebreaker=False,
+                                            teamBHasTiebreaker=False,
                                             matchupType=MatchupType.REGULAR_SEASON))
                 weeks.append(Week(weekNumber=i + 1, matchups=matchups))
         # get playoff weeks
