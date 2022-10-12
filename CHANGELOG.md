@@ -4,7 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- N/A
+- Updated dependency versions to latest
+- Added code documentation
 
 ## [1.6.1]
 
