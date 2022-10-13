@@ -341,3 +341,10 @@ class TestYearValidation(unittest.TestCase):
         with self.assertRaises(InvalidYearFormatException) as context:
             yearValidation.checkAllTypes(Year(yearNumber=2000, teams=list(), weeks=None))
         self.assertEqual("weeks must be type 'list'.", str(context.exception))
+
+    def test_checkAllTypes_leagueMedianGamesIsntTypeBool_raisesException(self):
+        with self.assertRaises(InvalidYearFormatException) as context:
+            year = Year(yearNumber=2000, teams=list(), weeks=list())
+            year.yearSettings = None
+            yearValidation.checkAllTypes(year)
+        self.assertEqual("yearSettings must be type 'YearSettings'.", str(context.exception))

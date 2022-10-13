@@ -6,14 +6,14 @@ from leeger.util.JSONSerializable import JSONSerializable
 
 
 @dataclass(kw_only=True, eq=False)
-class LeagueSettings(JSONSerializable):
+class YearSettings(JSONSerializable):
     leagueMedianGames: bool = False
 
-    def __eq__(self, otherLeagueSettings: LeagueSettings) -> bool:
+    def __eq__(self, otherYearSettings: YearSettings) -> bool:
         """
-        Checks if *this* LeagueSettings is the same as the given LeagueSettings.
+        Checks if *this* YearSettings is the same as the given YearSettings.
         """
-        return self.leagueMedianGames == otherLeagueSettings.leagueMedianGames
+        return self.leagueMedianGames == otherYearSettings.leagueMedianGames
 
     def toJson(self) -> dict:
         return {

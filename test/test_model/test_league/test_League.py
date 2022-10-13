@@ -4,7 +4,6 @@ import unittest
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception.InvalidLeagueFormatException import InvalidLeagueFormatException
 from leeger.model.league.League import League
-from leeger.model.league.LeagueSettings import LeagueSettings
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Owner import Owner
 from leeger.model.league.Week import Week
@@ -16,15 +15,13 @@ class TestLeague(unittest.TestCase):
     def test_league_init(self):
         year = Year(yearNumber=0, teams=[], weeks=[])
         owner = Owner(name="")
-        leagueSettings = LeagueSettings(leagueMedianGames=True)
-        league = League(name="leagueName", owners=[owner], years=[year], leagueSettings=leagueSettings)
+        league = League(name="leagueName", owners=[owner], years=[year])
 
         self.assertEqual("leagueName", league.name)
         self.assertEqual(1, len(league.owners))
         self.assertEqual(1, len(league.years))
         self.assertEqual(owner.id, league.owners[0].id)
         self.assertEqual(year.id, league.years[0].id)
-        self.assertTrue(league.leagueSettings.leagueMedianGames)
 
     def test_league_eq_equal(self):
         # create League 1
@@ -34,8 +31,7 @@ class TestLeague(unittest.TestCase):
                             matchupType=MatchupType.REGULAR_SEASON)
         week_1 = Week(weekNumber=1, matchups=[matchup_1])
         year_1 = Year(yearNumber=2000, teams=teams_1, weeks=[week_1])
-        leagueSettings_1 = LeagueSettings(leagueMedianGames=True)
-        league_1 = League(name="LEAGUE", owners=owners_1, years=[year_1], leagueSettings=leagueSettings_1)
+        league_1 = League(name="LEAGUE", owners=owners_1, years=[year_1])
 
         # create League 2
         owners_2, teams_2 = getNDefaultOwnersAndTeams(2)
@@ -44,8 +40,7 @@ class TestLeague(unittest.TestCase):
                             matchupType=MatchupType.REGULAR_SEASON)
         week_2 = Week(weekNumber=1, matchups=[matchup_2])
         year_2 = Year(yearNumber=2000, teams=teams_2, weeks=[week_2])
-        leagueSettings_2 = LeagueSettings(leagueMedianGames=True)
-        league_2 = League(name="LEAGUE", owners=owners_2, years=[year_2], leagueSettings=leagueSettings_2)
+        league_2 = League(name="LEAGUE", owners=owners_2, years=[year_2])
 
         self.assertEqual(league_1, league_2)
 
@@ -78,8 +73,7 @@ class TestLeague(unittest.TestCase):
                             matchupType=MatchupType.REGULAR_SEASON)
         week_1 = Week(weekNumber=1, matchups=[matchup_1])
         year_1 = Year(yearNumber=2000, teams=teams_1, weeks=[week_1])
-        leagueSettings_1 = LeagueSettings(leagueMedianGames=True)
-        league_1 = League(name="LEAGUE 1", owners=owners_1, years=[year_1], leagueSettings=leagueSettings_1)
+        league_1 = League(name="LEAGUE 1", owners=owners_1, years=[year_1])
 
         # create League 2
         owners_2, teams_2 = getNDefaultOwnersAndTeams(2)
@@ -88,8 +82,7 @@ class TestLeague(unittest.TestCase):
                             matchupType=MatchupType.REGULAR_SEASON)
         week_2 = Week(weekNumber=1, matchups=[matchup_2])
         year_2 = Year(yearNumber=2001, teams=teams_2, weeks=[week_2])
-        leagueSettings_2 = LeagueSettings(leagueMedianGames=True)
-        league_2 = League(name="LEAGUE 2", owners=owners_2, years=[year_2], leagueSettings=leagueSettings_2)
+        league_2 = League(name="LEAGUE 2", owners=owners_2, years=[year_2])
 
         combinedLeague = league_1 + league_2
         self.assertIsInstance(combinedLeague, League)
@@ -99,7 +92,6 @@ class TestLeague(unittest.TestCase):
         self.assertEqual(2, len(combinedLeague.years))
         self.assertEqual(2000, combinedLeague.years[0].yearNumber)
         self.assertEqual(2001, combinedLeague.years[1].yearNumber)
-        self.assertTrue(combinedLeague.leagueSettings.leagueMedianGames)
 
     def test_league_add_originalLeaguesAreTheSameAfterAdding(self):
         # create League 1
@@ -304,31 +296,6 @@ class TestLeague(unittest.TestCase):
             league_1 + league_2
         self.assertEqual("Can only have 1 of each year number within a league.", str(context.exception))
 
-    def test_league_add_leagueSettingsNotEqual_raisesException(self):
-        # create League 1
-        owners_1, teams_1 = getNDefaultOwnersAndTeams(2)
-
-        matchup_1 = Matchup(teamAId=teams_1[0].id, teamBId=teams_1[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
-        week_1 = Week(weekNumber=1, matchups=[matchup_1])
-        year_1 = Year(yearNumber=2000, teams=teams_1, weeks=[week_1])
-        leagueSettings_1 = LeagueSettings(leagueMedianGames=True)
-        league_1 = League(name="LEAGUE 1", owners=owners_1, years=[year_1], leagueSettings=leagueSettings_1)
-
-        # create League 2
-        owners_2, teams_2 = getNDefaultOwnersAndTeams(2)
-
-        matchup_2 = Matchup(teamAId=teams_2[0].id, teamBId=teams_2[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
-        week_2 = Week(weekNumber=1, matchups=[matchup_2])
-        year_2 = Year(yearNumber=2001, teams=teams_2, weeks=[week_2])
-        leagueSettings_2 = LeagueSettings(leagueMedianGames=False)
-        league_2 = League(name="LEAGUE 2", owners=owners_2, years=[year_2], leagueSettings=leagueSettings_2)
-
-        with self.assertRaises(ValueError) as context:
-            league_1 + league_2
-        self.assertEqual("LeagueSettings are conflicting.", str(context.exception))
-
     def test_league_toJson(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
@@ -336,8 +303,7 @@ class TestLeague(unittest.TestCase):
                             matchupType=MatchupType.REGULAR_SEASON)
         week_1 = Week(weekNumber=1, matchups=[matchup_1])
         year_1 = Year(yearNumber=2000, teams=teams, weeks=[week_1])
-        leagueSettings = LeagueSettings(leagueMedianGames=True)
-        league = League(name="LEAGUE", owners=owners, years=[year_1], leagueSettings=leagueSettings)
+        league = League(name="LEAGUE", owners=owners, years=[year_1])
         leagueJson = league.toJson()
 
         self.assertIsInstance(leagueJson, dict)
@@ -360,4 +326,3 @@ class TestLeague(unittest.TestCase):
         self.assertEqual("REGULAR_SEASON", leagueJson["years"][0]["weeks"][0]["matchups"][0]["matchupType"])
         self.assertFalse(leagueJson["years"][0]["weeks"][0]["matchups"][0]["teamAHasTieBreaker"])
         self.assertFalse(leagueJson["years"][0]["weeks"][0]["matchups"][0]["teamBHasTieBreaker"])
-        self.assertTrue(leagueJson["leagueSettings"]["leagueMedianGames"])

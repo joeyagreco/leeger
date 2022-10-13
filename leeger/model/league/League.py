@@ -4,7 +4,6 @@ import copy
 from dataclasses import dataclass
 
 from leeger.model.abstract.UniqueId import UniqueId
-from leeger.model.league.LeagueSettings import LeagueSettings
 from leeger.model.league.Owner import Owner
 from leeger.model.league.Year import Year
 from leeger.util.JSONSerializable import JSONSerializable
@@ -15,11 +14,6 @@ class League(UniqueId, JSONSerializable):
     name: str
     owners: list[Owner]
     years: list[Year]
-    leagueSettings: LeagueSettings = None
-
-    def __post_init__(self):
-        if self.leagueSettings is None:
-            self.leagueSettings = LeagueSettings()
 
     def __eq__(self, otherLeague: League) -> bool:
         """
@@ -29,7 +23,6 @@ class League(UniqueId, JSONSerializable):
         equal = self.name == otherLeague.name
         equal = equal and self.owners == otherLeague.owners
         equal = equal and self.years == otherLeague.years
-        equal = equal and self.leagueSettings == otherLeague.leagueSettings
         return equal
 
     def __add__(self, otherLeague: League) -> League:
@@ -46,19 +39,11 @@ class League(UniqueId, JSONSerializable):
             - years
                 - "years" will be combined in order oldestYearNumber -> newestYearNumber.
                 - Duplicate Year.yearNumber across leagues will raise an exception.
-            - leagueSettings
-                - league settings must be an exact match or an exception will be raised
         """
         from leeger.validate import leagueValidation
         # first, validate the leagues we want to combine.
         leagueValidation.runAllChecks(self)
         leagueValidation.runAllChecks(otherLeague)
-
-        # combine league settings
-        if self.leagueSettings != otherLeague.leagueSettings:
-            # leagues have conflicting non-None LeagueSettings
-            raise ValueError("LeagueSettings are conflicting.")
-        leagueSettings = self.leagueSettings
 
         newName = f"'{self.name}' + '{otherLeague.name}' League" if self.name != otherLeague.name else self.name
 
@@ -102,7 +87,7 @@ class League(UniqueId, JSONSerializable):
                     # replace this team's ownerId with the new ownerId
                     team.ownerId = oldOwnerIdToNewOwnerIdMap[team.ownerId]
 
-        newLeague = League(name=newName, owners=newOwners, years=newYears, leagueSettings=leagueSettings)
+        newLeague = League(name=newName, owners=newOwners, years=newYears)
 
         # validate new league
         leagueValidation.runAllChecks(newLeague)
@@ -113,6 +98,5 @@ class League(UniqueId, JSONSerializable):
             "id": self.id,
             "name": self.name,
             "owners": [owner.toJson() for owner in self.owners],
-            "years": [year.toJson() for year in self.years],
-            "leagueSettings": self.leagueSettings.toJson()
+            "years": [year.toJson() for year in self.years]
         }

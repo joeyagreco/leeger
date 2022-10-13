@@ -1,16 +1,8 @@
 from leeger.exception.InvalidYearFormatException import InvalidYearFormatException
-from leeger.model.league import Matchup
+from leeger.model.league import Matchup, YearSettings
 from leeger.model.league.Year import Year
 from leeger.util.navigator import YearNavigator
 from leeger.validate import teamValidation, weekValidation
-
-"""
-Checker Functions
-
-    - Will raise the appropriate exception if an incorrectly-formatted Year is passed.
-    - Will do nothing if a properly-formatted Year is passed.
-
-"""
 
 
 def runAllChecks(year: Year) -> None:
@@ -65,6 +57,8 @@ def checkAllTypes(year: Year) -> None:
         raise InvalidYearFormatException("teams must be type 'list'.")
     if not isinstance(year.weeks, list):
         raise InvalidYearFormatException("weeks must be type 'list'.")
+    if not isinstance(year.yearSettings, YearSettings):
+        raise InvalidYearFormatException("yearSettings must be type 'YearSettings'.")
 
 
 def checkForDuplicateTeams(year: Year) -> None:
