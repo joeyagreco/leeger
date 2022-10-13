@@ -23,6 +23,18 @@ class TestYear(unittest.TestCase):
         self.assertEqual(team.id, year.teams[0].id)
         self.assertTrue(year.yearSettings.leagueMedianGames)
 
+    def test_year_init_default(self):
+        week = Week(weekNumber=1, matchups=[])
+        team = Team(ownerId="", name="")
+        year = Year(yearNumber=2000, teams=[team], weeks=[week])
+
+        self.assertEqual(2000, year.yearNumber)
+        self.assertEqual(1, len(year.teams))
+        self.assertEqual(1, len(year.weeks))
+        self.assertEqual(week.id, year.weeks[0].id)
+        self.assertEqual(team.id, year.teams[0].id)
+        self.assertEqual(YearSettings(), year.yearSettings)
+
     def test_year_eq_equal(self):
         # create Year 1
         owners_1, teams_1 = getNDefaultOwnersAndTeams(2)
