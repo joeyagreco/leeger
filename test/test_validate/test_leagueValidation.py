@@ -149,3 +149,10 @@ class TestLeagueValidation(unittest.TestCase):
         with self.assertRaises(InvalidLeagueFormatException) as context:
             leagueValidation.checkAllTypes(League(name="TEST", owners=list(), years=None))
         self.assertEqual("years must be type 'list'.", str(context.exception))
+
+    def test_checkAllTypes_leagueSettingsIsntTypeLeagueSettings_raisesException(self):
+        with self.assertRaises(InvalidLeagueFormatException) as context:
+            league = League(name="TEST", owners=list(), years=list())
+            league.leagueSettings = None
+            leagueValidation.checkAllTypes(league)
+        self.assertEqual("leagueSettings must be type 'LeagueSettings'.", str(context.exception))

@@ -9,6 +9,11 @@ class TestLeagueSettings(unittest.TestCase):
 
         self.assertTrue(leagueSettings.leagueMedianGames)
 
+    def test_leagueSettings_init_default(self):
+        leagueSettings = LeagueSettings()
+
+        self.assertFalse(leagueSettings.leagueMedianGames)
+
     def test_leagueSettings_eq_equal(self):
         # create LeagueSettings 1
         leagueSettings_1 = LeagueSettings(leagueMedianGames=True)

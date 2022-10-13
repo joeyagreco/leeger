@@ -1,6 +1,7 @@
 from leeger.exception.InvalidLeagueFormatException import InvalidLeagueFormatException
+from leeger.model.league import LeagueSettings
 from leeger.model.league.League import League
-from leeger.validate import ownerValidation, yearValidation
+from leeger.validate import ownerValidation, yearValidation, leagueSettingsValidation
 
 """
 Checker Functions
@@ -41,6 +42,13 @@ def checkAllYears(league: League) -> None:
     """
     for year in league.years:
         yearValidation.runAllChecks(year)
+        
+
+def checkLeagueSettings(league: League) -> None:
+    """
+    Runs all checks on LeagueSettings
+    """
+    leagueSettingsValidation.runAllChecks(league.leagueSettings)
 
 
 def checkAllTypes(league: League) -> None:
@@ -53,6 +61,8 @@ def checkAllTypes(league: League) -> None:
         raise InvalidLeagueFormatException("owners must be type 'list'.")
     if not isinstance(league.years, list):
         raise InvalidLeagueFormatException("years must be type 'list'.")
+    if not isinstance(league.leagueSettings, LeagueSettings):
+        raise InvalidLeagueFormatException("leagueSettings must be type 'LeagueSettings'.")
 
 
 def checkForDuplicateOwners(league: League) -> None:
