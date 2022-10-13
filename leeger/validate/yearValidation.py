@@ -2,7 +2,7 @@ from leeger.exception.InvalidYearFormatException import InvalidYearFormatExcepti
 from leeger.model.league import Matchup, YearSettings
 from leeger.model.league.Year import Year
 from leeger.util.navigator import YearNavigator
-from leeger.validate import teamValidation, weekValidation
+from leeger.validate import teamValidation, weekValidation, yearSettingsValidation
 
 
 def runAllChecks(year: Year) -> None:
@@ -11,6 +11,7 @@ def runAllChecks(year: Year) -> None:
     The order in which these are called matters.
     """
     checkAllTypes(year)
+    checkYearSettings(year)
     checkAllWeeks(year)
     checkAllTeams(year)
     checkForDuplicateTeams(year)
@@ -28,6 +29,13 @@ def runAllChecks(year: Year) -> None:
     checkMultiWeekMatchupsWithSameIdHaveSameMatchupType(year)
     checkMultiWeekMatchupsWithSameIdHaveSameTeamIds(year)
     checkMultiWeekMatchupsWithSameIdHaveSameTiebreakers(year)
+
+
+def checkYearSettings(year: Year) -> None:
+    """
+    Runs all checks on the given Year's YearSettings.
+    """
+    yearSettingsValidation.runAllChecks(year.yearSettings)
 
 
 def checkAllWeeks(year: Year) -> None:

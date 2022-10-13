@@ -6,5 +6,6 @@ from .InvalidOwnerFormatException import InvalidOwnerFormatException
 from .InvalidTeamFormatException import InvalidTeamFormatException
 from .InvalidWeekFormatException import InvalidWeekFormatException
 from .InvalidYearFormatException import InvalidYearFormatException
+from .InvalidYearSettingsFormatException import InvalidYearSettingsFormatException
 from .LeagueLoaderException import LeagueLoaderException
 from .UnsupportedLeegerFeatureException import UnsupportedLeegerFeatureException
