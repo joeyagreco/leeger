@@ -164,3 +164,22 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
                 ownerIdAndWALPerGame[ownerId] = ownerIdAndWAL[ownerId] / ownerIdAndNumberOfGamesPlayed[ownerId]
 
         return ownerIdAndWALPerGame
+
+    @classmethod
+    @validateLeague
+    def getLeagueMedianWins(cls, league: League, **kwargs) -> dict[str, Optional[int]]:
+        """
+        Returns the number of league median wins for each Owner in the given League.
+        Returns None for an Owner if they have no games played in the range.
+        If there is a league median tie, then 0.5 wins is given to each team in the tie.
+        This calculation is only run for regular season weeks.
+
+        Example response:
+            {
+            "someTeamId": 18.0,
+            "someOtherTeamId": 21.0,
+            "yetAnotherTeamId": 17.5,
+            ...
+            }
+        """
+        return cls._addAndCombineResults(league, GameOutcomeYearCalculator.getLeagueMedianWins, **kwargs)
