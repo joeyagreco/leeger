@@ -1145,3 +1145,187 @@ class TestGameOutcomeYearCalculator(unittest.TestCase):
         self.assertEqual(2, len(response.keys()))
         self.assertEqual(Deci("0.5"), response[teams[0].id])
         self.assertEqual(Deci("0.5"), response[teams[1].id])
+
+    def test_getLeagueMedianWins_happyPath(self):
+        owners, teams = getNDefaultOwnersAndTeams(4)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1, matchup2])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1])
+
+        response = GameOutcomeYearCalculator.getLeagueMedianWins(year)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(4, len(response.keys()))
+        self.assertEqual(0, response[teams[0].id])
+        self.assertEqual(0, response[teams[1].id])
+        self.assertEqual(1, response[teams[2].id])
+        self.assertEqual(1, response[teams[3].id])
+
+    def test_getLeagueMedianWinsTieForLeagueMedian_happyPath(self):
+        owners, teams = getNDefaultOwnersAndTeams(4)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=2, teamBScore=4)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1, matchup2])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1])
+
+        response = GameOutcomeYearCalculator.getLeagueMedianWins(year)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(4, len(response.keys()))
+        self.assertEqual(0, response[teams[0].id])
+        self.assertEqual(0.5, response[teams[1].id])
+        self.assertEqual(0.5, response[teams[2].id])
+        self.assertEqual(1, response[teams[3].id])
+
+    def test_getLeagueMedianWins_noneIfNoGamesPlayed(self):
+        owners, teams = getNDefaultOwnersAndTeams(3)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=1, teamBScore=2)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2])
+
+        response = GameOutcomeYearCalculator.getLeagueMedianWins(year, weekNumberEnd=1)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(3, len(response.keys()))
+        self.assertEqual(0, response[teams[0].id])
+        self.assertEqual(1, response[teams[1].id])
+        self.assertIsNone(response[teams[2].id])
+
+    def test_getLeagueMedianWins_onlyPostSeasonIsTrue(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.CHAMPIONSHIP)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+        week3 = Week(weekNumber=3, matchups=[matchup3])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
+
+        response = GameOutcomeYearCalculator.getLeagueMedianWins(year, onlyPostSeason=True)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(2, len(response.keys()))
+        self.assertEqual(0, response[teams[0].id])
+        self.assertEqual(0, response[teams[1].id])
+
+    def test_getLeagueMedianWins_onlyRegularSeasonIsTrue(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+        week3 = Week(weekNumber=3, matchups=[matchup3])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
+
+        response = GameOutcomeYearCalculator.getLeagueMedianWins(year, onlyRegularSeason=True)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(2, len(response.keys()))
+        self.assertEqual(0, response[teams[0].id])
+        self.assertEqual(2, response[teams[1].id])
+
+    def test_getLeagueMedianWins_onlyChampionshipIsTrue(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.CHAMPIONSHIP)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+        week3 = Week(weekNumber=3, matchups=[matchup3])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
+
+        response = GameOutcomeYearCalculator.getLeagueMedianWins(year, onlyChampionship=True)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(2, len(response.keys()))
+        self.assertEqual(0, response[teams[0].id])
+        self.assertEqual(0, response[teams[1].id])
+
+    def test_getLeagueMedianWins_weekNumberStartGiven(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=2, teamBScore=1)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+        week3 = Week(weekNumber=3, matchups=[matchup3])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
+
+        response = GameOutcomeYearCalculator.getLeagueMedianWins(year, weekNumberStart=2)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(2, len(response.keys()))
+        self.assertEqual(1, response[teams[0].id])
+        self.assertEqual(1, response[teams[1].id])
+
+    def test_getLeagueMedianWins_weekNumberEndGiven(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=2, teamBScore=1)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+        week3 = Week(weekNumber=3, matchups=[matchup3])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
+
+        response = GameOutcomeYearCalculator.getLeagueMedianWins(year, weekNumberEnd=2)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(2, len(response.keys()))
+        self.assertEqual(0, response[teams[0].id])
+        self.assertEqual(2, response[teams[1].id])
+
+    def test_getLeagueMedianWins_weekNumberStartGivenAndWeekNumberEndGiven(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=2, teamBScore=1)
+        matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=2, teamBScore=1)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+        week3 = Week(weekNumber=3, matchups=[matchup3])
+        week4 = Week(weekNumber=4, matchups=[matchup4])
+
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3, week4])
+
+        response = GameOutcomeYearCalculator.getLeagueMedianWins(year, weekNumberStart=2, weekNumberEnd=3)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(2, len(response.keys()))
+        self.assertEqual(1, response[teams[0].id])
+        self.assertEqual(1, response[teams[1].id])

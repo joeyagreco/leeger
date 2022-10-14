@@ -271,3 +271,53 @@ class GameOutcomeYearCalculator(YearCalculator):
 
         cls._setToNoneIfNoGamesPlayed(teamIdAndWALPerGame, year, **kwargs)
         return teamIdAndWALPerGame
+
+    @classmethod
+    @validateYear
+    def getLeagueMedianWins(cls, year: Year, **kwargs) -> dict[str, Optional[float]]:
+        """
+        Returns the number of league median wins for each team in the given Year.
+        Returns None for a Team if they have no games played in the range.
+        If there is a league median tie, then 0.5 wins is given to each team in the tie.
+        This calculation is only run for regular season weeks.
+
+        Example response:
+            {
+            "someTeamId": 8.0,
+            "someOtherTeamId": 11.0,
+            "yetAnotherTeamId": 7.5,
+            ...
+            }
+        """
+        filters = YearFilters.getForYear(year, **kwargs)
+
+        teamIdAndLeagueMedianWins = dict()
+        for teamId in YearNavigator.getAllTeamIds(year):
+            teamIdAndLeagueMedianWins[teamId] = 0
+
+        for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
+            week = year.weeks[i]
+            if week.isRegularSeasonWeek:
+                week_matchups = list()
+                teamIdAndScoreList: list[tuple[str, float | int]] = list()
+                for matchup in week.matchups:
+                    if matchup.matchupType in filters.includeMatchupTypes:
+                        week_matchups.append(matchup)
+                        teamIdAndScoreList.append((matchup.teamAId, matchup.teamAScore))
+                        teamIdAndScoreList.append((matchup.teamBId, matchup.teamBScore))
+
+                if len(week_matchups) > 0:
+                    leagueMedianScore = MatchupNavigator.getMedianScore(week_matchups)
+    
+                    # sort by score highest -> lowest
+                    teamIdAndScoreList.sort(key=lambda x: x[1], reverse=True)
+                    # teams with a score greater than the league median get a win
+                    # team with a score equal to the league median get a tie
+                    for teamId, score in teamIdAndScoreList:
+                        if score > leagueMedianScore:
+                            teamIdAndLeagueMedianWins[teamId] += 1
+                        elif score == leagueMedianScore:
+                            teamIdAndLeagueMedianWins[teamId] += 0.5
+
+        cls._setToNoneIfNoGamesPlayed(teamIdAndLeagueMedianWins, year, filters, **kwargs)
+        return teamIdAndLeagueMedianWins

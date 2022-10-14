@@ -40,6 +40,15 @@ class Week(UniqueId, JSONSerializable):
                 break
         return isChampionshipWeek
 
+    @property
+    def isRegularSeasonWeek(self) -> bool:
+        isRegularSeasonWeek = True
+        for matchup in self.matchups:
+            if matchup.matchupType != MatchupType.REGULAR_SEASON and matchup.matchupType != MatchupType.IGNORE:
+                isRegularSeasonWeek = False
+                break
+        return isRegularSeasonWeek
+
     def toJson(self) -> dict:
         return {
             "id": self.id,

@@ -63,3 +63,14 @@ class TestMatchupNavigator(unittest.TestCase):
         with self.assertRaises(ValueError) as context:
             MatchupNavigator.simplifyMultiWeekMatchups(list())
         self.assertEqual("matchups cannot be an empty list.", str(context.exception))
+
+    def test_getMedianScore_happyPath(self):
+        _, teams = getNDefaultOwnersAndTeams(4)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
+
+        response = MatchupNavigator.getMedianScore([matchup1, matchup2])
+
+        self.assertIsInstance(response, float)
+        self.assertEqual(2.5, response)
