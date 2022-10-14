@@ -274,7 +274,7 @@ class GameOutcomeYearCalculator(YearCalculator):
 
     @classmethod
     @validateYear
-    def getLeagueMedianWins(cls, year: Year, **kwargs) -> dict[str, Optional[float]]:
+    def getLeagueMedianWins(cls, year: Year, **kwargs) -> dict[str, Optional[Deci]]:
         """
         Returns the number of league median wins for each team in the given Year.
         Returns None for a Team if they have no games played in the range.
@@ -283,9 +283,9 @@ class GameOutcomeYearCalculator(YearCalculator):
 
         Example response:
             {
-            "someTeamId": 8.0,
-            "someOtherTeamId": 11.0,
-            "yetAnotherTeamId": 7.5,
+            "someTeamId": Deci("8.0"),
+            "someOtherTeamId": Deci("11.0"),
+            "yetAnotherTeamId": Deci("7.5"),
             ...
             }
         """
@@ -293,7 +293,7 @@ class GameOutcomeYearCalculator(YearCalculator):
 
         teamIdAndLeagueMedianWins = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
-            teamIdAndLeagueMedianWins[teamId] = 0
+            teamIdAndLeagueMedianWins[teamId] = Deci("0")
 
         for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
             week = year.weeks[i]
@@ -308,16 +308,16 @@ class GameOutcomeYearCalculator(YearCalculator):
 
                 if len(week_matchups) > 0:
                     leagueMedianScore = MatchupNavigator.getMedianScore(week_matchups)
-    
+
                     # sort by score highest -> lowest
                     teamIdAndScoreList.sort(key=lambda x: x[1], reverse=True)
                     # teams with a score greater than the league median get a win
                     # team with a score equal to the league median get a tie
                     for teamId, score in teamIdAndScoreList:
                         if score > leagueMedianScore:
-                            teamIdAndLeagueMedianWins[teamId] += 1
+                            teamIdAndLeagueMedianWins[teamId] += Deci("1")
                         elif score == leagueMedianScore:
-                            teamIdAndLeagueMedianWins[teamId] += 0.5
+                            teamIdAndLeagueMedianWins[teamId] += Deci("0.5")
 
         cls._setToNoneIfNoGamesPlayed(teamIdAndLeagueMedianWins, year, filters, **kwargs)
         return teamIdAndLeagueMedianWins

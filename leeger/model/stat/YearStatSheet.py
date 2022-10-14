@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Optional
 
 from leeger.util.Deci import Deci
 
@@ -52,11 +53,14 @@ class YearStatSheet:
     teamSuccess: dict[str, Deci]
     teamLuck: dict[str, Deci]
 
+    # Optional Stats
+    leagueMedianWins: Optional[dict[str, float]] = None
+
     def preferredOrderWithTitle(self) -> list[tuple[str, dict]]:
         """
         Returns all stats in the preferred order with the title for the stat.
         """
-        return [
+        response = [
             ("Games Played", self.gamesPlayed),
             ("Wins", self.wins),
             ("Losses", self.losses),
@@ -86,3 +90,9 @@ class YearStatSheet:
             ("Team Success", self.teamSuccess),
             ("Team Luck", self.teamLuck)
         ]
+
+        # add optional stats if needed
+        if self.leagueMedianWins is not None:
+            response.insert(4, ("League Median Wins", self.leagueMedianWins))
+
+        return response

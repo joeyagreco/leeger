@@ -2395,8 +2395,8 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
-        self.assertEqual(1.5, response[owners[0].id])
-        self.assertEqual(7.5, response[owners[1].id])
+        self.assertEqual(Deci("1.5"), response[owners[0].id])
+        self.assertEqual(Deci("7.5"), response[owners[1].id])
 
     def test_getLeagueMedianWins_noneIfNoGamesPlayed(self):
         owners, teamsA = getNDefaultOwnersAndTeams(3)

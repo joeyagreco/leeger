@@ -167,7 +167,7 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
 
     @classmethod
     @validateLeague
-    def getLeagueMedianWins(cls, league: League, **kwargs) -> dict[str, Optional[int]]:
+    def getLeagueMedianWins(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
         """
         Returns the number of league median wins for each Owner in the given League.
         Returns None for an Owner if they have no games played in the range.
@@ -176,9 +176,9 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
 
         Example response:
             {
-            "someTeamId": 18.0,
-            "someOtherTeamId": 21.0,
-            "yetAnotherTeamId": 17.5,
+            "someTeamId": Deci("18.0"),
+            "someOtherTeamId": Deci("21.0"),
+            "yetAnotherTeamId": Deci("17.5"),
             ...
             }
         """

@@ -1180,8 +1180,8 @@ class TestGameOutcomeYearCalculator(unittest.TestCase):
         self.assertIsInstance(response, dict)
         self.assertEqual(4, len(response.keys()))
         self.assertEqual(0, response[teams[0].id])
-        self.assertEqual(0.5, response[teams[1].id])
-        self.assertEqual(0.5, response[teams[2].id])
+        self.assertEqual(Deci("0.5"), response[teams[1].id])
+        self.assertEqual(Deci("0.5"), response[teams[2].id])
         self.assertEqual(1, response[teams[3].id])
 
     def test_getLeagueMedianWins_noneIfNoGamesPlayed(self):

@@ -78,6 +78,13 @@ def leagueStatSheet(league: League, **kwargs) -> AllTimeStatSheet:
     adjustedTeamSuccess = SSLAllTimeCalculator.getAdjustedTeamSuccess(league, **kwargs)
     adjustedTeamLuck = SSLAllTimeCalculator.getAdjustedTeamLuck(league, **kwargs)
 
+    # check for optional stats
+    leagueMedianWins = None
+    for year in league.years:
+        if year.yearSettings.leagueMedianGames is True:
+            leagueMedianWins = GameOutcomeAllTimeCalculator.getLeagueMedianWins(league, **kwargs)
+            break
+
     return AllTimeStatSheet(gamesPlayed=gamesPlayed, wins=wins, losses=losses, ties=ties, winPercentage=winPercentage,
                             wal=wal, walPerGame=walPerGame, awal=awal, awalPerGame=awalPerGame,
                             opponentAWAL=opponentAWAL, opponentAWALPerGame=opponentAWALPerGame, smartWins=smartWins,
@@ -88,7 +95,7 @@ def leagueStatSheet(league: League, **kwargs) -> AllTimeStatSheet:
                             opponentScoringShare=opponentScoringShare, maxScore=maxScore, minScore=minScore,
                             scoringStandardDeviation=scoringStandardDeviation, plusMinus=plusMinus,
                             adjustedTeamScore=adjustedTeamScore, adjustedTeamSuccess=adjustedTeamSuccess,
-                            adjustedTeamLuck=adjustedTeamLuck)
+                            adjustedTeamLuck=adjustedTeamLuck, leagueMedianWins=leagueMedianWins)
 
 
 def yearStatSheet(year: Year, **kwargs) -> YearStatSheet:
@@ -139,6 +146,11 @@ def yearStatSheet(year: Year, **kwargs) -> YearStatSheet:
     teamSuccess = SSLYearCalculator.getTeamSuccess(year, **kwargs)
     teamLuck = SSLYearCalculator.getTeamLuck(year, **kwargs)
 
+    # check for optional stats
+    leagueMedianWins = None
+    if year.yearSettings.leagueMedianGames is True:
+        leagueMedianWins = GameOutcomeYearCalculator.getLeagueMedianWins(year, **kwargs)
+
     return YearStatSheet(gamesPlayed=gamesPlayed, wins=wins, losses=losses, ties=ties, winPercentage=winPercentage,
                          wal=wal, walPerGame=walPerGame, awal=awal, awalPerGame=awalPerGame, opponentAWAL=opponentAWAL,
                          opponentAWALPerGame=opponentAWALPerGame, smartWins=smartWins,
@@ -148,4 +160,5 @@ def yearStatSheet(year: Year, **kwargs) -> YearStatSheet:
                          opponentPointsScoredPerGame=opponentPointsScoredPerGame, scoringShare=scoringShare,
                          opponentScoringShare=opponentScoringShare, maxScore=maxScore, minScore=minScore,
                          scoringStandardDeviation=scoringStandardDeviation, plusMinus=plusMinus,
-                         teamScore=teamScore, teamSuccess=teamSuccess, teamLuck=teamLuck)
+                         teamScore=teamScore, teamSuccess=teamSuccess, teamLuck=teamLuck,
+                         leagueMedianWins=leagueMedianWins)

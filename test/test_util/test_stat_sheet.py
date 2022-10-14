@@ -1,5 +1,6 @@
 import unittest
 
+from leeger.model.league import YearSettings
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Week import Week
@@ -61,6 +62,25 @@ class TestStatSheet(unittest.TestCase):
         self.assertIsInstance(leagueStatSheet.adjustedTeamSuccess, dict)
         self.assertIsInstance(leagueStatSheet.adjustedTeamLuck, dict)
 
+        # check optional stats are None
+        self.assertIsNone(leagueStatSheet.leagueMedianWins)
+
+    def test_leagueStatSheet_leagueMedianGamesIsTrueInAnyYearSettings(self):
+        from leeger.util.stat_sheet import leagueStatSheet
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        week = Week(weekNumber=1, matchups=[matchup])
+        yearSettings = YearSettings(leagueMedianGames=True)
+        year = Year(yearNumber=2000, teams=teams, weeks=[week], yearSettings=yearSettings)
+
+        league = League(name="TEST", owners=owners, years=[year])
+
+        leagueStatSheet = leagueStatSheet(league)
+
+        self.assertIsInstance(leagueStatSheet, AllTimeStatSheet)
+        self.assertIsInstance(leagueStatSheet.leagueMedianWins, dict)
+
     def test_yearStatSheet(self):
         from leeger.util.stat_sheet import yearStatSheet
         owners, teams = getNDefaultOwnersAndTeams(2)
@@ -108,3 +128,20 @@ class TestStatSheet(unittest.TestCase):
         self.assertIsInstance(yearStatSheet.teamScore, dict)
         self.assertIsInstance(yearStatSheet.teamSuccess, dict)
         self.assertIsInstance(yearStatSheet.teamLuck, dict)
+
+        # check optional stats are None
+        self.assertIsNone(yearStatSheet.leagueMedianWins)
+
+    def test_yearStatSheet_leagueMedianGamesIsTrue(self):
+        from leeger.util.stat_sheet import yearStatSheet
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        week = Week(weekNumber=1, matchups=[matchup])
+        yearSettings = YearSettings(leagueMedianGames=True)
+        year = Year(yearNumber=2000, teams=teams, weeks=[week], yearSettings=yearSettings)
+
+        yearStatSheet = yearStatSheet(year)
+
+        self.assertIsInstance(yearStatSheet, YearStatSheet)
+        self.assertIsInstance(yearStatSheet.leagueMedianWins, dict)
