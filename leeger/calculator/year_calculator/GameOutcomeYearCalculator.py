@@ -289,6 +289,7 @@ class GameOutcomeYearCalculator(YearCalculator):
         Returns None for a Team if they have no games played in the range.
         If there is a league median tie, then 0.5 wins is given to each team in the tie.
         This calculation is only run for regular season weeks.
+        If the given year does not have the league median game setting turned on, 0 will be returned for each team.
 
         Example response:
             {
@@ -303,6 +304,9 @@ class GameOutcomeYearCalculator(YearCalculator):
         teamIdAndLeagueMedianWins = dict()
         for teamId in YearNavigator.getAllTeamIds(year):
             teamIdAndLeagueMedianWins[teamId] = Deci("0")
+
+        if not year.yearSettings.leagueMedianGames:
+            return teamIdAndLeagueMedianWins
 
         for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
             week = year.weeks[i]

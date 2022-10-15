@@ -1176,7 +1176,8 @@ class TestGameOutcomeYearCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2])
 
-        year = Year(yearNumber=2000, teams=teams, weeks=[week1])
+        yearSettings = YearSettings(leagueMedianGames=True)
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1], yearSettings=yearSettings)
 
         response = GameOutcomeYearCalculator.getLeagueMedianWins(year)
 
@@ -1187,6 +1188,26 @@ class TestGameOutcomeYearCalculator(unittest.TestCase):
         self.assertEqual(1, response[teams[2].id])
         self.assertEqual(1, response[teams[3].id])
 
+    def test_getLeagueMedianWins_yearHasLeagueMedianGamesOff_returnsZeroForEachTeam(self):
+        owners, teams = getNDefaultOwnersAndTeams(4)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1, matchup2])
+
+        yearSettings = YearSettings(leagueMedianGames=False)
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1], yearSettings=yearSettings)
+
+        response = GameOutcomeYearCalculator.getLeagueMedianWins(year)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(4, len(response.keys()))
+        self.assertEqual(0, response[teams[0].id])
+        self.assertEqual(0, response[teams[1].id])
+        self.assertEqual(0, response[teams[2].id])
+        self.assertEqual(0, response[teams[3].id])
+
     def test_getLeagueMedianWinsTieForLeagueMedian_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(4)
 
@@ -1195,7 +1216,8 @@ class TestGameOutcomeYearCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2])
 
-        year = Year(yearNumber=2000, teams=teams, weeks=[week1])
+        yearSettings = YearSettings(leagueMedianGames=True)
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1], yearSettings=yearSettings)
 
         response = GameOutcomeYearCalculator.getLeagueMedianWins(year)
 
@@ -1215,7 +1237,8 @@ class TestGameOutcomeYearCalculator(unittest.TestCase):
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
 
-        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2])
+        yearSettings = YearSettings(leagueMedianGames=True)
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2], yearSettings=yearSettings)
 
         response = GameOutcomeYearCalculator.getLeagueMedianWins(year, weekNumberEnd=1)
 
@@ -1259,7 +1282,8 @@ class TestGameOutcomeYearCalculator(unittest.TestCase):
         week2 = Week(weekNumber=2, matchups=[matchup2])
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
-        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
+        yearSettings = YearSettings(leagueMedianGames=True)
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3], yearSettings=yearSettings)
 
         response = GameOutcomeYearCalculator.getLeagueMedianWins(year, onlyRegularSeason=True)
 
@@ -1301,7 +1325,8 @@ class TestGameOutcomeYearCalculator(unittest.TestCase):
         week2 = Week(weekNumber=2, matchups=[matchup2])
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
-        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
+        yearSettings = YearSettings(leagueMedianGames=True)
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3], yearSettings=yearSettings)
 
         response = GameOutcomeYearCalculator.getLeagueMedianWins(year, weekNumberStart=2)
 
@@ -1321,7 +1346,8 @@ class TestGameOutcomeYearCalculator(unittest.TestCase):
         week2 = Week(weekNumber=2, matchups=[matchup2])
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
-        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
+        yearSettings = YearSettings(leagueMedianGames=True)
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3], yearSettings=yearSettings)
 
         response = GameOutcomeYearCalculator.getLeagueMedianWins(year, weekNumberEnd=2)
 
@@ -1343,7 +1369,8 @@ class TestGameOutcomeYearCalculator(unittest.TestCase):
         week3 = Week(weekNumber=3, matchups=[matchup3])
         week4 = Week(weekNumber=4, matchups=[matchup4])
 
-        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3, week4])
+        yearSettings = YearSettings(leagueMedianGames=True)
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3, week4], yearSettings=yearSettings)
 
         response = GameOutcomeYearCalculator.getLeagueMedianWins(year, weekNumberStart=2, weekNumberEnd=3)
 
