@@ -216,6 +216,7 @@ class GameOutcomeYearCalculator(YearCalculator):
         Formula: (Number of Wins * 1) + (Number of Ties * 0.5)
         Returns the number of Wins Against the League for each team in the given Year.
         Returns None for a Team if they have no games played in the range.
+        If applicable, League Median Wins are counted towards this stat.
 
         Example response:
             {
@@ -229,14 +230,22 @@ class GameOutcomeYearCalculator(YearCalculator):
         teamIdAndWAL = dict()
         teamIdAndWins = GameOutcomeYearCalculator.getWins(year, **kwargs)
         teamIdAndTies = GameOutcomeYearCalculator.getTies(year, **kwargs)
+        teamIdAndLeagueMedianWins = GameOutcomeYearCalculator.getLeagueMedianWins(year, **kwargs)
 
         for teamId in YearNavigator.getAllTeamIds(year):
             wins = teamIdAndWins[teamId]
             ties = teamIdAndTies[teamId]
+            leagueMedianWins = teamIdAndLeagueMedianWins[teamId]
             if None in (wins, ties):
                 teamIdAndWAL[teamId] = None
             else:
                 teamIdAndWAL[teamId] = Deci(wins) + (Deci("0.5") * Deci(ties))
+
+            if year.yearSettings.leagueMedianGames is True and teamIdAndLeagueMedianWins[teamId] is not None:
+                if teamIdAndWAL[teamId] is None:
+                    teamIdAndWAL[teamId] = Deci(leagueMedianWins)
+                else:
+                    teamIdAndWAL[teamId] += Deci(leagueMedianWins)
 
         return teamIdAndWAL
 
