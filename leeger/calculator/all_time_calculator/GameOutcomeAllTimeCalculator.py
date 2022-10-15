@@ -166,7 +166,8 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
         ownerIdAndNumberOfGamesPlayed = LeagueNavigator.getNumberOfGamesPlayed(league,
                                                                                AllTimeFilters.getForLeague(league,
                                                                                                            **kwargs),
-                                                                               countMultiWeekMatchupsAsOneGame=True)
+                                                                               countMultiWeekMatchupsAsOneGame=True,
+                                                                               countLeagueMedianGamesAsTwoGames=True)
 
         ownerIdAndWALPerGame = dict()
         allOwnerIds = LeagueNavigator.getAllOwnerIds(league)

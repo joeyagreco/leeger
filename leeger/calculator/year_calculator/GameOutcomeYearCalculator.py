@@ -280,7 +280,8 @@ class GameOutcomeYearCalculator(YearCalculator):
         teamIdAndWAL = cls.getWAL(year, **kwargs)
         teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year, YearFilters.getForYear(year,
                                                                                                          **kwargs),
-                                                                            countMultiWeekMatchupsAsOneGame=True)
+                                                                            countMultiWeekMatchupsAsOneGame=True,
+                                                                            countLeagueMedianGamesAsTwoGames=True)
 
         teamIdAndWALPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)

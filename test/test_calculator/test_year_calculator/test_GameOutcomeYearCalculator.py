@@ -1020,6 +1020,27 @@ class TestGameOutcomeYearCalculator(unittest.TestCase):
         self.assertEqual(Deci("0.1666666666666666666666666667"), response[teams[0].id])
         self.assertEqual(Deci("0.8333333333333333333333333333"), response[teams[1].id])
 
+    def test_getWALPerGame_leagueMedianGamesIsOn_happyPath(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1)
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+        week3 = Week(weekNumber=3, matchups=[matchup3])
+
+        yearSettings = YearSettings(leagueMedianGames=True)
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3], yearSettings=yearSettings)
+
+        response = GameOutcomeYearCalculator.getWALPerGame(year)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(2, len(response.keys()))
+        self.assertEqual(Deci("0.1666666666666666666666666667"), response[teams[0].id])
+        self.assertEqual(Deci("0.8333333333333333333333333333"), response[teams[1].id])
+
     def test_getWALPerGame_multiWeekMatchups(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
