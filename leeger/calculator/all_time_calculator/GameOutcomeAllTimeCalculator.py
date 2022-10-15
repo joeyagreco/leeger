@@ -110,6 +110,7 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
 
         Returns the number of Wins Against the League for each team in the given League.
         Returns None for an Owner if they have no games played in the range.
+        If applicable, League Median Wins are counted towards this stat.
 
         Example response:
             {

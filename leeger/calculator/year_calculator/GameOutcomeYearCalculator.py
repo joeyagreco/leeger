@@ -2,6 +2,7 @@ from typing import Optional
 
 from leeger.calculator.parent.YearCalculator import YearCalculator
 from leeger.decorator.validators import validateYear
+from leeger.enum import MatchupType
 from leeger.model.filter import YearFilters
 from leeger.model.league import Matchup
 from leeger.model.league.Year import Year
@@ -176,6 +177,7 @@ class GameOutcomeYearCalculator(YearCalculator):
         """
         Returns the win percentage for each team in the given Year.
         Returns None for a Team if they have no games played in the range.
+        If applicable, League Median Wins are counted towards this stat.
         Win percentage will be represented as a non-rounded decimal.
         Example:
             33% win percentage -> Deci("0.3333333333333333333333333333")
@@ -194,16 +196,25 @@ class GameOutcomeYearCalculator(YearCalculator):
         teamIdAndWins = GameOutcomeYearCalculator.getWins(year, **kwargs)
         teamIdAndLosses = GameOutcomeYearCalculator.getLosses(year, **kwargs)
         teamIdAndTies = GameOutcomeYearCalculator.getTies(year, **kwargs)
+        teamIdAndLeagueMedianWins = GameOutcomeYearCalculator.getLeagueMedianWins(year, **kwargs)
 
         for teamId in YearNavigator.getAllTeamIds(year):
             numberOfWins = teamIdAndWins[teamId]
             numberOfLosses = teamIdAndLosses[teamId]
             numberOfTies = teamIdAndTies[teamId]
-            if None in (numberOfWins, numberOfLosses, numberOfTies):
+            numberOfLeagueMedianWins = teamIdAndLeagueMedianWins[teamId]
+            if None in (numberOfWins, numberOfLosses, numberOfTies, numberOfLeagueMedianWins):
                 teamIdAndWinPercentage[teamId] = None
             else:
                 numberOfGamesPlayed = numberOfWins + numberOfLosses + numberOfTies
-                teamIdAndWinPercentage[teamId] = (Deci(numberOfWins) + (Deci("0.5") * Deci(numberOfTies))) / Deci(
+                totalWins = numberOfWins
+                if year.yearSettings.leagueMedianGames:
+                    # add another game played for each regular season game if league median games is on in year settings
+                    filters = YearFilters.getForYear(year, **kwargs)
+                    filters.includeMatchupTypes = [MatchupType.REGULAR_SEASON]
+                    numberOfGamesPlayed += YearNavigator.getNumberOfGamesPlayed(year, filters)[teamId]
+                    totalWins += numberOfLeagueMedianWins
+                teamIdAndWinPercentage[teamId] = (Deci(totalWins) + (Deci("0.5") * Deci(numberOfTies))) / Deci(
                     numberOfGamesPlayed)
 
         return teamIdAndWinPercentage

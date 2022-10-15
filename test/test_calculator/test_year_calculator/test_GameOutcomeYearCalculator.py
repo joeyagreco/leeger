@@ -590,6 +590,29 @@ class TestGameOutcomeYearCalculator(unittest.TestCase):
         self.assertEqual(Deci("0.375"), response[teams[0].id])
         self.assertEqual(Deci("0.625"), response[teams[1].id])
 
+    def test_getWinPercentage_leagueMedianGamesIsOn_happyPath(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=2, teamBScore=1)
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+        week3 = Week(weekNumber=3, matchups=[matchup3])
+        week4 = Week(weekNumber=4, matchups=[matchup4])
+
+        yearSettings = YearSettings(leagueMedianGames=True)
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3, week4], yearSettings=yearSettings)
+
+        response = GameOutcomeYearCalculator.getWinPercentage(year)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(2, len(response.keys()))
+        self.assertEqual(Deci("0.375"), response[teams[0].id])
+        self.assertEqual(Deci("0.625"), response[teams[1].id])
+
     def test_getWinPercentage_multiWeekMatchups(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
