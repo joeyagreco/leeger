@@ -2,7 +2,6 @@ from typing import Optional
 
 from leeger.calculator.parent.YearCalculator import YearCalculator
 from leeger.decorator.validators import validateYear
-from leeger.enum import MatchupType
 from leeger.model.filter import YearFilters
 from leeger.model.league import Matchup
 from leeger.model.league.Year import Year
@@ -211,8 +210,11 @@ class GameOutcomeYearCalculator(YearCalculator):
                 if year.yearSettings.leagueMedianGames:
                     # add another game played for each regular season game if league median games is on in year settings
                     filters = YearFilters.getForYear(year, **kwargs)
-                    filters.includeMatchupTypes = [MatchupType.REGULAR_SEASON]
-                    numberOfGamesPlayed += YearNavigator.getNumberOfGamesPlayed(year, filters)[teamId]
+                    numberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year,
+                                                                               filters,
+                                                                               countMultiWeekMatchupsAsOneGame=True,
+                                                                               countLeagueMedianGamesAsTwoGames=True)[
+                        teamId]
                     totalWins += numberOfLeagueMedianWins
                 teamIdAndWinPercentage[teamId] = (Deci(totalWins) + (Deci("0.5") * Deci(numberOfTies))) / Deci(
                     numberOfGamesPlayed)

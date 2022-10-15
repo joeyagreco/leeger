@@ -86,17 +86,25 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
         ownerIdAndWins = GameOutcomeAllTimeCalculator.getWins(league, **kwargs)
         ownerIdAndLosses = GameOutcomeAllTimeCalculator.getLosses(league, **kwargs)
         ownerIdAndTies = GameOutcomeAllTimeCalculator.getTies(league, **kwargs)
+        ownerIdAndLeagueMedianWins = GameOutcomeAllTimeCalculator.getLeagueMedianWins(league, **kwargs)
 
         for ownerId in [owner.id for owner in league.owners]:
             numberOfWins = ownerIdAndWins[ownerId]
             numberOfLosses = ownerIdAndLosses[ownerId]
             numberOfTies = ownerIdAndTies[ownerId]
+            numberOfLeagueMedianWins = ownerIdAndLeagueMedianWins[ownerId]
 
-            if None in (numberOfWins, numberOfLosses, numberOfTies):
+            if None in (numberOfWins, numberOfLosses, numberOfTies, numberOfLeagueMedianWins):
                 ownerIdAndWinPercentage[ownerId] = None
             else:
-                numberOfGamesPlayed = numberOfWins + numberOfLosses + numberOfTies
-                ownerIdAndWinPercentage[ownerId] = (Deci(numberOfWins) + (Deci("0.5") * Deci(numberOfTies))) / Deci(
+                filters = AllTimeFilters.getForLeague(league, **kwargs)
+                numberOfGamesPlayed = LeagueNavigator.getNumberOfGamesPlayed(league,
+                                                                             filters,
+                                                                             countMultiWeekMatchupsAsOneGame=True,
+                                                                             countLeagueMedianGamesAsTwoGames=True)[
+                    ownerId]
+                totalWins = numberOfWins + numberOfLeagueMedianWins
+                ownerIdAndWinPercentage[ownerId] = (Deci(totalWins) + (Deci("0.5") * Deci(numberOfTies))) / Deci(
                     numberOfGamesPlayed)
 
         return ownerIdAndWinPercentage

@@ -33,8 +33,11 @@ class LeagueNavigator:
         return [owner.id for owner in league.owners]
 
     @classmethod
-    def getNumberOfGamesPlayed(cls, league: League, allTimeFilters: AllTimeFilters,
-                               countMultiWeekMatchupsAsOneGame=False) -> dict[str, int]:
+    def getNumberOfGamesPlayed(cls,
+                               league: League,
+                               allTimeFilters: AllTimeFilters,
+                               countMultiWeekMatchupsAsOneGame=False,
+                               countLeagueMedianGamesAsTwoGames=False) -> dict[str, int]:
         """
         Returns the number of games played for each owner in the given League all time.
 
@@ -88,7 +91,8 @@ class LeagueNavigator:
 
             allResultDicts.append(YearNavigator.getNumberOfGamesPlayed(currentYear,
                                                                        yearFilters,
-                                                                       countMultiWeekMatchupsAsOneGame=countMultiWeekMatchupsAsOneGame))
+                                                                       countMultiWeekMatchupsAsOneGame=countMultiWeekMatchupsAsOneGame,
+                                                                       countLeagueMedianGamesAsTwoGames=countLeagueMedianGamesAsTwoGames))
 
         # combine results
         ownerIdAndNumberOfGamesPlayed = dict()
