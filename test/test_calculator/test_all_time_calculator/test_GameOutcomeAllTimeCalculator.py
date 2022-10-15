@@ -1595,6 +1595,45 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         self.assertEqual(Deci("4.5"), response[owners[0].id])
         self.assertEqual(Deci("4.5"), response[owners[1].id])
 
+    def test_getWAL_leagueMedianGamesIsTrue_happyPath(self):
+        owners, teamsA = getNDefaultOwnersAndTeams(2)
+        teamsB = getTeamsFromOwners(owners)
+        teamsC = getTeamsFromOwners(owners)
+        yearSettings = YearSettings(leagueMedianGames=True)
+
+        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        week1_a = Week(weekNumber=1, matchups=[matchup1_a])
+        week2_a = Week(weekNumber=2, matchups=[matchup2_a])
+        week3_a = Week(weekNumber=3, matchups=[matchup3_a])
+        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a], yearSettings=yearSettings)
+
+        matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1)
+        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1)
+        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1)
+        week1_b = Week(weekNumber=1, matchups=[matchup1_b])
+        week2_b = Week(weekNumber=2, matchups=[matchup2_b])
+        week3_b = Week(weekNumber=3, matchups=[matchup3_b])
+        yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b], yearSettings=yearSettings)
+
+        matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=1)
+        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=2, teamBScore=1)
+        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
+        week1_c = Week(weekNumber=1, matchups=[matchup1_c])
+        week2_c = Week(weekNumber=2, matchups=[matchup2_c])
+        week3_c = Week(weekNumber=3, matchups=[matchup3_c])
+        yearC = Year(yearNumber=2002, teams=teamsC, weeks=[week1_c, week2_c, week3_c], yearSettings=yearSettings)
+
+        league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
+
+        response = GameOutcomeAllTimeCalculator.getWAL(league)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(2, len(response.keys()))
+        self.assertEqual(Deci("9"), response[owners[0].id])
+        self.assertEqual(Deci("9"), response[owners[1].id])
+
     def test_getWAL_multiWeekMatchups(self):
         owners, teamsA = getNDefaultOwnersAndTeams(2)
         teamsB = getTeamsFromOwners(owners)

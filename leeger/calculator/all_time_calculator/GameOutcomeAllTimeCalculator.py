@@ -123,14 +123,18 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
         ownerIdAndWAL = dict()
         ownerIdAndWins = GameOutcomeAllTimeCalculator.getWins(league, **kwargs)
         ownerIdAndTies = GameOutcomeAllTimeCalculator.getTies(league, **kwargs)
+        ownerIdAndLeagueMedianWins = GameOutcomeAllTimeCalculator.getLeagueMedianWins(league, **kwargs)
 
         for ownerId in [owner.id for owner in league.owners]:
             wins = ownerIdAndWins[ownerId]
             ties = ownerIdAndTies[ownerId]
+            leagueMedianWins = ownerIdAndLeagueMedianWins[ownerId]
             if None in (wins, ties):
                 ownerIdAndWAL[ownerId] = None
             else:
                 ownerIdAndWAL[ownerId] = Deci(wins) + (Deci("0.5") * Deci(ties))
+                if ownerIdAndLeagueMedianWins[ownerId] is not None:
+                    ownerIdAndWAL[ownerId] += Deci(leagueMedianWins)
 
         return ownerIdAndWAL
 
