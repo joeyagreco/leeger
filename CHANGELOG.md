@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 - N/A
 
-# [1.7.0]
+## [1.7.0]
 
 - Added YearSettings object that will be used in Year objects to turn on features and stat calculations based on league
   settings
