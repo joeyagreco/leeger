@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 - Added YearSettings object that will be used in Year objects to turn on features and stat calculations based on league
   settings
 - Added support for League Median Games in stat sheets and Excel sheets
+- Added support for League Median Games in Sleeper leagues
 - Updated dependency versions to latest
 - Updated code documentation
 
