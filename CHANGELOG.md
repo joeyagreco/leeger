@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- N/A
+
+# [1.7.0]
+
 - Added YearSettings object that will be used in Year objects to turn on features and stat calculations based on league
   settings
 - Added support for League Median Games in stat sheets and Excel sheets
@@ -86,7 +90,9 @@ All notable changes to this project will be documented in this file.
 
 ### Initial Release
 
-[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.6.1...HEAD
+[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.7.0...HEAD
+
+[1.7.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.7.0
 
 [1.6.1]: https://github.com/joeyagreco/leeger/releases/tag/v1.6.1
 
