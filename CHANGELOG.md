@@ -4,8 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- Added YearSettings object that will be used in Year objects to turn on features and stat calculations based on league
+  settings
+- Added support for League Median Games
 - Updated dependency versions to latest
-- Added code documentation
+- Updated code documentation
 
 ## [1.6.1]
 
