@@ -38,9 +38,13 @@ jobs:
       run: |
         pytest --junitxml=./output.xml
 
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
+    - name: Setup Python
+      uses: actions/setup-python@master
       with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        fail_ci_if_error: true
-        files: ./output.xml
+        python-version: 3.10
+    - name: Generate Report
+      run: |
+        pip install coverage
+        coverage run -m unittest
+    - name: Upload Coverage to Codecov
+      uses: codecov/codecov-action@v2
