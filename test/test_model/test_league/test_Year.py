@@ -1,6 +1,7 @@
 import unittest
 
 from leeger.enum.MatchupType import MatchupType
+from leeger.model.league import YearSettings
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Team import Team
 from leeger.model.league.Week import Week
@@ -12,6 +13,19 @@ class TestYear(unittest.TestCase):
     def test_year_init(self):
         week = Week(weekNumber=1, matchups=[])
         team = Team(ownerId="", name="")
+        yearSettings = YearSettings(leagueMedianGames=True)
+        year = Year(yearNumber=2000, teams=[team], weeks=[week], yearSettings=yearSettings)
+
+        self.assertEqual(2000, year.yearNumber)
+        self.assertEqual(1, len(year.teams))
+        self.assertEqual(1, len(year.weeks))
+        self.assertEqual(week.id, year.weeks[0].id)
+        self.assertEqual(team.id, year.teams[0].id)
+        self.assertTrue(year.yearSettings.leagueMedianGames)
+
+    def test_year_init_default(self):
+        week = Week(weekNumber=1, matchups=[])
+        team = Team(ownerId="", name="")
         year = Year(yearNumber=2000, teams=[team], weeks=[week])
 
         self.assertEqual(2000, year.yearNumber)
@@ -19,6 +33,7 @@ class TestYear(unittest.TestCase):
         self.assertEqual(1, len(year.weeks))
         self.assertEqual(week.id, year.weeks[0].id)
         self.assertEqual(team.id, year.teams[0].id)
+        self.assertEqual(YearSettings(), year.yearSettings)
 
     def test_year_eq_equal(self):
         # create Year 1
@@ -27,7 +42,8 @@ class TestYear(unittest.TestCase):
         matchup_1 = Matchup(teamAId=teams_1[0].id, teamBId=teams_1[1].id, teamAScore=1.1, teamBScore=2.2,
                             matchupType=MatchupType.REGULAR_SEASON)
         week_1 = Week(weekNumber=1, matchups=[matchup_1])
-        year_1 = Year(yearNumber=2000, teams=teams_1, weeks=[week_1])
+        yearSettings_1 = YearSettings(leagueMedianGames=True)
+        year_1 = Year(yearNumber=2000, teams=teams_1, weeks=[week_1], yearSettings=yearSettings_1)
 
         # create Year 2
         owners_2, teams_2 = getNDefaultOwnersAndTeams(2)
@@ -35,7 +51,8 @@ class TestYear(unittest.TestCase):
         matchup_2 = Matchup(teamAId=teams_2[0].id, teamBId=teams_2[1].id, teamAScore=1.1, teamBScore=2.2,
                             matchupType=MatchupType.REGULAR_SEASON)
         week_2 = Week(weekNumber=1, matchups=[matchup_2])
-        year_2 = Year(yearNumber=2000, teams=teams_2, weeks=[week_2])
+        yearSettings_2 = YearSettings(leagueMedianGames=True)
+        year_2 = Year(yearNumber=2000, teams=teams_2, weeks=[week_2], yearSettings=yearSettings_2)
 
         self.assertEqual(year_1, year_2)
 
@@ -64,7 +81,8 @@ class TestYear(unittest.TestCase):
         matchup_1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
                             matchupType=MatchupType.REGULAR_SEASON)
         week_1 = Week(weekNumber=1, matchups=[matchup_1])
-        year = Year(yearNumber=2000, teams=teams, weeks=[week_1])
+        yearSettings = YearSettings(leagueMedianGames=True)
+        year = Year(yearNumber=2000, teams=teams, weeks=[week_1], yearSettings=yearSettings)
         yearJson = year.toJson()
 
         self.assertIsInstance(yearJson, dict)
@@ -82,3 +100,4 @@ class TestYear(unittest.TestCase):
         self.assertEqual("REGULAR_SEASON", yearJson["weeks"][0]["matchups"][0]["matchupType"])
         self.assertFalse(yearJson["weeks"][0]["matchups"][0]["teamAHasTieBreaker"])
         self.assertFalse(yearJson["weeks"][0]["matchups"][0]["teamBHasTieBreaker"])
+        self.assertTrue(yearJson["yearSettings"]["leagueMedianGames"])

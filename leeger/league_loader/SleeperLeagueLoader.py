@@ -10,6 +10,7 @@ from sleeper.model import PlayoffMatchup as SleeperPlayoffMatchup
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception.DoesNotExistException import DoesNotExistException
 from leeger.league_loader.LeagueLoader import LeagueLoader
+from leeger.model.league import YearSettings
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Owner import Owner
@@ -67,7 +68,11 @@ class SleeperLeagueLoader(LeagueLoader):
     def __buildYear(self, sleeperLeague: SleeperLeague) -> Year:
         teams = self.__buildTeams(sleeperLeague)
         weeks = self.__buildWeeks(sleeperLeague)
-        return Year(yearNumber=int(sleeperLeague.season), teams=teams, weeks=weeks)
+        # add YearSettings
+        yearSettings = YearSettings()
+        if sleeperLeague.settings.league_average_match == 1:
+            yearSettings.leagueMedianGames = True
+        return Year(yearNumber=int(sleeperLeague.season), teams=teams, weeks=weeks, yearSettings=yearSettings)
 
     def __buildWeeks(self, sleeperLeague: SleeperLeague) -> list[Week]:
         weeks = list()

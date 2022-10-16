@@ -1,5 +1,6 @@
 import copy
 
+from leeger.enum import MatchupType
 from leeger.model.filter.YearFilters import YearFilters
 from leeger.model.league import Matchup
 from leeger.model.league.Year import Year
@@ -15,8 +16,11 @@ class YearNavigator:
         return [team.id for team in year.teams]
 
     @classmethod
-    def getNumberOfGamesPlayed(cls, year: Year, yearFilters: YearFilters, countMultiWeekMatchupsAsOneGame=False) -> \
-            dict[str, int]:
+    def getNumberOfGamesPlayed(cls,
+                               year: Year,
+                               yearFilters: YearFilters,
+                               countMultiWeekMatchupsAsOneGame=False,
+                               countLeagueMedianGamesAsTwoGames=False) -> dict[str, int]:
         """
         Returns the number of games played for each team in the given Year.
 
@@ -48,8 +52,12 @@ class YearNavigator:
                             # don't count this matchup as another game
                             continue
                         multiWeekMatchupIdsCounted.append(mwmid)
-                    teamIdAndNumberOfGamesPlayed[matchup.teamAId] += 1
-                    teamIdAndNumberOfGamesPlayed[matchup.teamBId] += 1
+                    numberOfGamesToAdd = 1
+                    # count regular season games in league median years as 2 games
+                    if year.yearSettings.leagueMedianGames and matchup.matchupType == MatchupType.REGULAR_SEASON and countLeagueMedianGamesAsTwoGames:
+                        numberOfGamesToAdd = 2
+                    teamIdAndNumberOfGamesPlayed[matchup.teamAId] += numberOfGamesToAdd
+                    teamIdAndNumberOfGamesPlayed[matchup.teamBId] += numberOfGamesToAdd
         return teamIdAndNumberOfGamesPlayed
 
     @staticmethod

@@ -17,6 +17,7 @@ ___
 - [Adjusted Team Score](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#adjusted-team-score)
 - [Adjusted Team Success](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#adjusted-team-success)
 - [AWAL](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#awal)
+- [League Median Wins](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#league=median-wins)
 - [Margins of Victory](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#margins-of-victory)
 - [Max Score](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#max-score)
 - [Min Score](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#min-score)
@@ -104,6 +105,22 @@ ___
 > To properly calculate AWAL, the AWAL must be calculated once for each team every week.
 > Each week's AWAL can then be added together to create an aggregate AWAL for each team.
 > A team's AWAL for any given week will always be between 0 and 1 (inclusive).
+>
+> ## League Median Wins
+> ___
+> ### Purpose
+> League Median Wins represents the number of wins a team has against the median score of the league.
+> This stat is calculated each week of the regular season and a team is given a League Median Win if their score is
+> above the league median.
+> ### Formula
+> League Median Wins = μS\
+> Where:\
+> μ = Denotes the median\
+> S = All scores in a given week
+>
+> ### Formula Explained
+> Note: This stat is only calculated for regular season games in leagues where there is a setting for a League Median
+> Game.
 >
 > ## Margins of Victory
 > ___

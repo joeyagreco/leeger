@@ -1,3 +1,4 @@
+import statistics
 from typing import Optional
 
 from leeger.model.league.Matchup import Matchup
@@ -39,3 +40,11 @@ class MatchupNavigator:
                        teamAHasTiebreaker=matchups[0].teamAHasTiebreaker,
                        teamBHasTiebreaker=matchups[0].teamBHasTiebreaker,
                        matchupType=matchups[0].matchupType)
+
+    @classmethod
+    def getMedianScore(cls, matchups: list[Matchup]) -> float:
+        """
+        Returns the median score from the given matchups
+        """
+        scores = [m.teamAScore for m in matchups] + [m.teamBScore for m in matchups]
+        return statistics.median(scores)

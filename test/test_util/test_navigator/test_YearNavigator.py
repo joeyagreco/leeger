@@ -2,6 +2,7 @@ import unittest
 
 from leeger.enum.MatchupType import MatchupType
 from leeger.model.filter.YearFilters import YearFilters
+from leeger.model.league import YearSettings
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Owner import Owner
 from leeger.model.league.Team import Team
@@ -61,6 +62,28 @@ class TestYearNavigator(unittest.TestCase):
         self.assertEqual(2, len(response.keys()))
         self.assertEqual(2, response[teams[0].id])
         self.assertEqual(2, response[teams[1].id])
+
+    def test_getNumberOfGamesPlayed_countLeagueMedianGamesAsTwoGames_countsLeagueMedianGamesAsTwoGames(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1])
+        week2 = Week(weekNumber=2, matchups=[matchup2])
+
+        yearSettings = YearSettings(leagueMedianGames=True)
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2], yearSettings=yearSettings)
+
+        yearFilters = YearFilters(weekNumberStart=1, weekNumberEnd=2,
+                                  includeMatchupTypes=[MatchupType.REGULAR_SEASON, MatchupType.PLAYOFF,
+                                                       MatchupType.CHAMPIONSHIP])
+        response = YearNavigator.getNumberOfGamesPlayed(year, yearFilters, countLeagueMedianGamesAsTwoGames=True)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(2, len(response.keys()))
+        self.assertEqual(4, response[teams[0].id])
+        self.assertEqual(4, response[teams[1].id])
 
     def test_getNumberOfGamesPlayed_countMultiWeekMatchupsAsOneGameIsTrue_countsMultiWeekMatchupsAsOneGame(self):
         owners, teams = getNDefaultOwnersAndTeams(2)

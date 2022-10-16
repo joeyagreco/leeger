@@ -69,7 +69,7 @@ class TestWeek(unittest.TestCase):
         self.assertIsInstance(response2, bool)
         self.assertTrue(response2)
 
-    def test_isChampionshipWeek_weekDoesNotHaveAnyChampionshipMatchups_returnsTrue(self):
+    def test_isChampionshipWeek_weekDoesNotHaveAnyChampionshipMatchups_returnsFalse(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
@@ -78,6 +78,36 @@ class TestWeek(unittest.TestCase):
         week1 = Week(weekNumber=1, matchups=[matchup1])
 
         response = week1.isChampionshipWeek
+
+        self.assertIsInstance(response, bool)
+        self.assertFalse(response)
+
+    def test_isRegularSeasonWeek_weekHasAllRegularSeasonMatchups_returnsTrue(self):
+        owners, teams = getNDefaultOwnersAndTeams(4)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.REGULAR_SEASON)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.IGNORE)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1, matchup2])
+
+        response = week1.isRegularSeasonWeek
+
+        self.assertIsInstance(response, bool)
+        self.assertTrue(response)
+
+    def test_isChampionshipWeek_weekHasANonRegularSeasonMatchup_returnsFalse(self):
+        owners, teams = getNDefaultOwnersAndTeams(4)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.REGULAR_SEASON)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=1, teamBScore=2,
+                           matchupType=MatchupType.PLAYOFF)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1, matchup2])
+
+        response = week1.isRegularSeasonWeek
 
         self.assertIsInstance(response, bool)
         self.assertFalse(response)

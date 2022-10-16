@@ -176,6 +176,7 @@ class GameOutcomeYearCalculator(YearCalculator):
         """
         Returns the win percentage for each team in the given Year.
         Returns None for a Team if they have no games played in the range.
+        If applicable, League Median Wins are counted towards this stat.
         Win percentage will be represented as a non-rounded decimal.
         Example:
             33% win percentage -> Deci("0.3333333333333333333333333333")
@@ -194,16 +195,28 @@ class GameOutcomeYearCalculator(YearCalculator):
         teamIdAndWins = GameOutcomeYearCalculator.getWins(year, **kwargs)
         teamIdAndLosses = GameOutcomeYearCalculator.getLosses(year, **kwargs)
         teamIdAndTies = GameOutcomeYearCalculator.getTies(year, **kwargs)
+        teamIdAndLeagueMedianWins = GameOutcomeYearCalculator.getLeagueMedianWins(year, **kwargs)
 
         for teamId in YearNavigator.getAllTeamIds(year):
             numberOfWins = teamIdAndWins[teamId]
             numberOfLosses = teamIdAndLosses[teamId]
             numberOfTies = teamIdAndTies[teamId]
-            if None in (numberOfWins, numberOfLosses, numberOfTies):
+            numberOfLeagueMedianWins = teamIdAndLeagueMedianWins[teamId]
+            if None in (numberOfWins, numberOfLosses, numberOfTies, numberOfLeagueMedianWins):
                 teamIdAndWinPercentage[teamId] = None
             else:
                 numberOfGamesPlayed = numberOfWins + numberOfLosses + numberOfTies
-                teamIdAndWinPercentage[teamId] = (Deci(numberOfWins) + (Deci("0.5") * Deci(numberOfTies))) / Deci(
+                totalWins = numberOfWins
+                if year.yearSettings.leagueMedianGames:
+                    # add another game played for each regular season game if league median games is on in year settings
+                    filters = YearFilters.getForYear(year, **kwargs)
+                    numberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year,
+                                                                               filters,
+                                                                               countMultiWeekMatchupsAsOneGame=True,
+                                                                               countLeagueMedianGamesAsTwoGames=True)[
+                        teamId]
+                    totalWins += numberOfLeagueMedianWins
+                teamIdAndWinPercentage[teamId] = (Deci(totalWins) + (Deci("0.5") * Deci(numberOfTies))) / Deci(
                     numberOfGamesPlayed)
 
         return teamIdAndWinPercentage
@@ -216,6 +229,7 @@ class GameOutcomeYearCalculator(YearCalculator):
         Formula: (Number of Wins * 1) + (Number of Ties * 0.5)
         Returns the number of Wins Against the League for each team in the given Year.
         Returns None for a Team if they have no games played in the range.
+        If applicable, League Median Wins are counted towards this stat.
 
         Example response:
             {
@@ -229,14 +243,22 @@ class GameOutcomeYearCalculator(YearCalculator):
         teamIdAndWAL = dict()
         teamIdAndWins = GameOutcomeYearCalculator.getWins(year, **kwargs)
         teamIdAndTies = GameOutcomeYearCalculator.getTies(year, **kwargs)
+        teamIdAndLeagueMedianWins = GameOutcomeYearCalculator.getLeagueMedianWins(year, **kwargs)
 
         for teamId in YearNavigator.getAllTeamIds(year):
             wins = teamIdAndWins[teamId]
             ties = teamIdAndTies[teamId]
+            leagueMedianWins = teamIdAndLeagueMedianWins[teamId]
             if None in (wins, ties):
                 teamIdAndWAL[teamId] = None
             else:
                 teamIdAndWAL[teamId] = Deci(wins) + (Deci("0.5") * Deci(ties))
+
+            if year.yearSettings.leagueMedianGames is True and teamIdAndLeagueMedianWins[teamId] is not None:
+                if teamIdAndWAL[teamId] is None:
+                    teamIdAndWAL[teamId] = Deci(leagueMedianWins)
+                else:
+                    teamIdAndWAL[teamId] += Deci(leagueMedianWins)
 
         return teamIdAndWAL
 
@@ -258,7 +280,8 @@ class GameOutcomeYearCalculator(YearCalculator):
         teamIdAndWAL = cls.getWAL(year, **kwargs)
         teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year, YearFilters.getForYear(year,
                                                                                                          **kwargs),
-                                                                            countMultiWeekMatchupsAsOneGame=True)
+                                                                            countMultiWeekMatchupsAsOneGame=True,
+                                                                            countLeagueMedianGamesAsTwoGames=True)
 
         teamIdAndWALPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
@@ -271,3 +294,57 @@ class GameOutcomeYearCalculator(YearCalculator):
 
         cls._setToNoneIfNoGamesPlayed(teamIdAndWALPerGame, year, **kwargs)
         return teamIdAndWALPerGame
+
+    @classmethod
+    @validateYear
+    def getLeagueMedianWins(cls, year: Year, **kwargs) -> dict[str, Optional[Deci]]:
+        """
+        Returns the number of league median wins for each team in the given Year.
+        Returns None for a Team if they have no games played in the range.
+        If there is a league median tie, then 0.5 wins is given to each team in the tie.
+        This calculation is only run for regular season weeks.
+        If the given year does not have the league median game setting turned on, 0 will be returned for each team.
+
+        Example response:
+            {
+            "someTeamId": Deci("8.0"),
+            "someOtherTeamId": Deci("11.0"),
+            "yetAnotherTeamId": Deci("7.5"),
+            ...
+            }
+        """
+        filters = YearFilters.getForYear(year, **kwargs)
+
+        teamIdAndLeagueMedianWins = dict()
+        for teamId in YearNavigator.getAllTeamIds(year):
+            teamIdAndLeagueMedianWins[teamId] = Deci("0")
+
+        if not year.yearSettings.leagueMedianGames:
+            return teamIdAndLeagueMedianWins
+
+        for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
+            week = year.weeks[i]
+            if week.isRegularSeasonWeek:
+                week_matchups = list()
+                teamIdAndScoreList: list[tuple[str, float | int]] = list()
+                for matchup in week.matchups:
+                    if matchup.matchupType in filters.includeMatchupTypes:
+                        week_matchups.append(matchup)
+                        teamIdAndScoreList.append((matchup.teamAId, matchup.teamAScore))
+                        teamIdAndScoreList.append((matchup.teamBId, matchup.teamBScore))
+
+                if len(week_matchups) > 0:
+                    leagueMedianScore = MatchupNavigator.getMedianScore(week_matchups)
+
+                    # sort by score highest -> lowest
+                    teamIdAndScoreList.sort(key=lambda x: x[1], reverse=True)
+                    # teams with a score greater than the league median get a win
+                    # team with a score equal to the league median get a tie
+                    for teamId, score in teamIdAndScoreList:
+                        if score > leagueMedianScore:
+                            teamIdAndLeagueMedianWins[teamId] += Deci("1")
+                        elif score == leagueMedianScore:
+                            teamIdAndLeagueMedianWins[teamId] += Deci("0.5")
+
+        cls._setToNoneIfNoGamesPlayed(teamIdAndLeagueMedianWins, year, filters, **kwargs)
+        return teamIdAndLeagueMedianWins

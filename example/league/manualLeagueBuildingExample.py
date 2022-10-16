@@ -1,6 +1,6 @@
 from leeger.enum import MatchupType
 
-from leeger.model.league import Owner, Team, Matchup, Week, Year, League
+from leeger.model.league import Owner, Team, Matchup, Week, Year, League, YearSettings
 
 if __name__ == '__main__':
     # Build a league manually.
@@ -52,7 +52,10 @@ if __name__ == '__main__':
     week2 = Week(weekNumber=2, matchups=[matchup4, matchup5, matchup6])
     week3 = Week(weekNumber=3, matchups=[matchup7, matchup8, matchup9])
 
-    # Create the 2019 year (season).
+    # Set up year settings for a year
+    yearSettings = YearSettings(leagueMedianGames=True)
+
+    # Create the 2019 year (season) with custom year settings.
     year2019 = Year(yearNumber=2019,
                     teams=[teamFrankie2019,
                            teamMonika2019,
@@ -60,7 +63,8 @@ if __name__ == '__main__':
                            teamVincent2019,
                            teamGiovanna2019,
                            teamDominic2019],
-                    weeks=[week1, week2, week3])
+                    weeks=[week1, week2, week3],
+                    yearSettings=yearSettings)
 
     # Create the league.
     league = League(name="G League",

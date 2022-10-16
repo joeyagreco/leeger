@@ -86,17 +86,25 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
         ownerIdAndWins = GameOutcomeAllTimeCalculator.getWins(league, **kwargs)
         ownerIdAndLosses = GameOutcomeAllTimeCalculator.getLosses(league, **kwargs)
         ownerIdAndTies = GameOutcomeAllTimeCalculator.getTies(league, **kwargs)
+        ownerIdAndLeagueMedianWins = GameOutcomeAllTimeCalculator.getLeagueMedianWins(league, **kwargs)
 
         for ownerId in [owner.id for owner in league.owners]:
             numberOfWins = ownerIdAndWins[ownerId]
             numberOfLosses = ownerIdAndLosses[ownerId]
             numberOfTies = ownerIdAndTies[ownerId]
+            numberOfLeagueMedianWins = ownerIdAndLeagueMedianWins[ownerId]
 
-            if None in (numberOfWins, numberOfLosses, numberOfTies):
+            if None in (numberOfWins, numberOfLosses, numberOfTies, numberOfLeagueMedianWins):
                 ownerIdAndWinPercentage[ownerId] = None
             else:
-                numberOfGamesPlayed = numberOfWins + numberOfLosses + numberOfTies
-                ownerIdAndWinPercentage[ownerId] = (Deci(numberOfWins) + (Deci("0.5") * Deci(numberOfTies))) / Deci(
+                filters = AllTimeFilters.getForLeague(league, **kwargs)
+                numberOfGamesPlayed = LeagueNavigator.getNumberOfGamesPlayed(league,
+                                                                             filters,
+                                                                             countMultiWeekMatchupsAsOneGame=True,
+                                                                             countLeagueMedianGamesAsTwoGames=True)[
+                    ownerId]
+                totalWins = numberOfWins + numberOfLeagueMedianWins
+                ownerIdAndWinPercentage[ownerId] = (Deci(totalWins) + (Deci("0.5") * Deci(numberOfTies))) / Deci(
                     numberOfGamesPlayed)
 
         return ownerIdAndWinPercentage
@@ -110,6 +118,7 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
 
         Returns the number of Wins Against the League for each team in the given League.
         Returns None for an Owner if they have no games played in the range.
+        If applicable, League Median Wins are counted towards this stat.
 
         Example response:
             {
@@ -123,14 +132,18 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
         ownerIdAndWAL = dict()
         ownerIdAndWins = GameOutcomeAllTimeCalculator.getWins(league, **kwargs)
         ownerIdAndTies = GameOutcomeAllTimeCalculator.getTies(league, **kwargs)
+        ownerIdAndLeagueMedianWins = GameOutcomeAllTimeCalculator.getLeagueMedianWins(league, **kwargs)
 
         for ownerId in [owner.id for owner in league.owners]:
             wins = ownerIdAndWins[ownerId]
             ties = ownerIdAndTies[ownerId]
+            leagueMedianWins = ownerIdAndLeagueMedianWins[ownerId]
             if None in (wins, ties):
                 ownerIdAndWAL[ownerId] = None
             else:
                 ownerIdAndWAL[ownerId] = Deci(wins) + (Deci("0.5") * Deci(ties))
+                if ownerIdAndLeagueMedianWins[ownerId] is not None:
+                    ownerIdAndWAL[ownerId] += Deci(leagueMedianWins)
 
         return ownerIdAndWAL
 
@@ -153,7 +166,8 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
         ownerIdAndNumberOfGamesPlayed = LeagueNavigator.getNumberOfGamesPlayed(league,
                                                                                AllTimeFilters.getForLeague(league,
                                                                                                            **kwargs),
-                                                                               countMultiWeekMatchupsAsOneGame=True)
+                                                                               countMultiWeekMatchupsAsOneGame=True,
+                                                                               countLeagueMedianGamesAsTwoGames=True)
 
         ownerIdAndWALPerGame = dict()
         allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
@@ -164,3 +178,22 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
                 ownerIdAndWALPerGame[ownerId] = ownerIdAndWAL[ownerId] / ownerIdAndNumberOfGamesPlayed[ownerId]
 
         return ownerIdAndWALPerGame
+
+    @classmethod
+    @validateLeague
+    def getLeagueMedianWins(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
+        """
+        Returns the number of league median wins for each Owner in the given League.
+        Returns None for an Owner if they have no games played in the range.
+        If there is a league median tie, then 0.5 wins is given to each team in the tie.
+        This calculation is only run for regular season weeks.
+
+        Example response:
+            {
+            "someTeamId": Deci("18.0"),
+            "someOtherTeamId": Deci("21.0"),
+            "yetAnotherTeamId": Deci("17.5"),
+            ...
+            }
+        """
+        return cls._addAndCombineResults(league, GameOutcomeYearCalculator.getLeagueMedianWins, **kwargs)
