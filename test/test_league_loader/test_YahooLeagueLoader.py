@@ -1,5 +1,7 @@
 import unittest
 
+from leeger.league_loader import YahooLeagueLoader
+
 
 class TestESPNLeagueLoader(unittest.TestCase):
     """
