@@ -41,6 +41,7 @@ jobs:
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
       with:
+        version: "v0.1.15"
         token: ${{ secrets.CODECOV_TOKEN }}
         directory: ./coverage/reports/
         env_vars: OS,PYTHON
