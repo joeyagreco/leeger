@@ -176,6 +176,13 @@ class AWALYearCalculator(YearCalculator):
                         + (Deci(teamsTied[teamId])
                            * (Deci(0.5) / Deci(opponentsInWeek))))
 
+        # add league median wins if applicable
+        if year.yearSettings.leagueMedianGames:
+            teamIdAndLeagueMedianWins = GameOutcomeYearCalculator.getLeagueMedianWins(year, **kwargs)
+            for teamId in allTeamIds:
+                leagueMedianWins = teamIdAndLeagueMedianWins[teamId]
+                teamIdAndOpponentAWAL[teamId] = GeneralUtil.safeSum(teamIdAndOpponentAWAL[teamId], leagueMedianWins)
+
         cls._setToNoneIfNoGamesPlayed(teamIdAndOpponentAWAL, year, filters, **kwargs)
         return teamIdAndOpponentAWAL
 
