@@ -110,7 +110,8 @@ class AWALAllTimeCalculator(AllTimeCalculator):
         ownerIdAndOpponentAWAL = cls.getOpponentAWAL(league, **kwargs)
         ownerIdAndNumberOfGamesPlayed = LeagueNavigator.getNumberOfGamesPlayed(league,
                                                                                AllTimeFilters.getForLeague(league,
-                                                                                                           **kwargs))
+                                                                                                           **kwargs),
+                                                                               countLeagueMedianGamesAsTwoGames=True)
 
         ownerIdAndOpponentAWALPerGame = dict()
         allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
