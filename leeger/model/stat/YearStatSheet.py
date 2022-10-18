@@ -55,6 +55,7 @@ class YearStatSheet:
 
     # Optional Stats
     leagueMedianWins: Optional[dict[str, float]] = None
+    totalGames: Optional[dict[str, int]] = None
 
     def preferredOrderWithTitle(self) -> list[tuple[str, dict]]:
         """
@@ -93,6 +94,7 @@ class YearStatSheet:
 
         # add optional stats if needed
         if self.leagueMedianWins is not None:
+            response.insert(1, ("Total Games", self.totalGames))
             response.insert(4, ("League Median Wins", self.leagueMedianWins))
 
         return response

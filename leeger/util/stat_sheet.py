@@ -79,9 +79,11 @@ def leagueStatSheet(league: League, **kwargs) -> AllTimeStatSheet:
     adjustedTeamLuck = SSLAllTimeCalculator.getAdjustedTeamLuck(league, **kwargs)
 
     # check for optional stats
+    totalGames = None
     leagueMedianWins = None
     for year in league.years:
         if year.yearSettings.leagueMedianGames is True:
+            totalGames = TeamSummaryAllTimeCalculator.getTotalGames(league, **kwargs)
             leagueMedianWins = GameOutcomeAllTimeCalculator.getLeagueMedianWins(league, **kwargs)
             break
 
@@ -95,7 +97,7 @@ def leagueStatSheet(league: League, **kwargs) -> AllTimeStatSheet:
                             opponentScoringShare=opponentScoringShare, maxScore=maxScore, minScore=minScore,
                             scoringStandardDeviation=scoringStandardDeviation, plusMinus=plusMinus,
                             adjustedTeamScore=adjustedTeamScore, adjustedTeamSuccess=adjustedTeamSuccess,
-                            adjustedTeamLuck=adjustedTeamLuck, leagueMedianWins=leagueMedianWins)
+                            adjustedTeamLuck=adjustedTeamLuck, leagueMedianWins=leagueMedianWins, totalGames=totalGames)
 
 
 def yearStatSheet(year: Year, **kwargs) -> YearStatSheet:
@@ -147,8 +149,10 @@ def yearStatSheet(year: Year, **kwargs) -> YearStatSheet:
     teamLuck = SSLYearCalculator.getTeamLuck(year, **kwargs)
 
     # check for optional stats
+    totalGames = None
     leagueMedianWins = None
     if year.yearSettings.leagueMedianGames is True:
+        totalGames = TeamSummaryYearCalculator.getTotalGames(year, **kwargs)
         leagueMedianWins = GameOutcomeYearCalculator.getLeagueMedianWins(year, **kwargs)
 
     return YearStatSheet(gamesPlayed=gamesPlayed, wins=wins, losses=losses, ties=ties, winPercentage=winPercentage,
@@ -161,4 +165,4 @@ def yearStatSheet(year: Year, **kwargs) -> YearStatSheet:
                          opponentScoringShare=opponentScoringShare, maxScore=maxScore, minScore=minScore,
                          scoringStandardDeviation=scoringStandardDeviation, plusMinus=plusMinus,
                          teamScore=teamScore, teamSuccess=teamSuccess, teamLuck=teamLuck,
-                         leagueMedianWins=leagueMedianWins)
+                         leagueMedianWins=leagueMedianWins, totalGames=totalGames)
