@@ -516,6 +516,41 @@ class TestAWALYearCalculator(unittest.TestCase):
         self.assertEqual(Deci("0.7"), response[teams[4].id])
         self.assertEqual(Deci("1"), response[teams[5].id])
 
+    def test_getAWALPerGame_leagueMedianGamesIsOn(self):
+        owners, teams = getNDefaultOwnersAndTeams(6)
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+
+        week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+
+        week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
+
+        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
+        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+
+        week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
+
+        yearSettings = YearSettings(leagueMedianGames=True)
+        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3], yearSettings=yearSettings)
+
+        response = AWALYearCalculator.getAWALPerGame(year)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(6, len(response.keys()))
+        self.assertEqual(Deci("0"), response[teams[0].id])
+        self.assertEqual(Deci("0.1"), response[teams[1].id])
+        self.assertEqual(Deci("0.2"), response[teams[2].id])
+        self.assertEqual(Deci("0.85"), response[teams[3].id])
+        self.assertEqual(Deci("0.85"), response[teams[4].id])
+        self.assertEqual(Deci("1"), response[teams[5].id])
+
     def test_getAWALPerGame_noneIfNoGamesPlayed(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
