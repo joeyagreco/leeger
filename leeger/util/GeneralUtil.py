@@ -1,6 +1,7 @@
-from typing import Any
+from typing import Any, Optional
 
 from leeger.util.CustomLogger import CustomLogger
+from leeger.util.Deci import Deci
 
 
 class GeneralUtil:
@@ -23,3 +24,22 @@ class GeneralUtil:
         unused_kwargs = [kwarg for kwarg in kwargs.keys() if kwarg not in IGNORE_KWARGS]
         for kwarg in unused_kwargs:
             LOGGER.warning(f"Keyword argument '{kwarg}' unused.")
+
+    @staticmethod
+    def safeSum(*numbers) -> Optional[Deci | int | float]:
+        """
+        Safely adds numbers where None is ignored.
+        Examples:
+            * 1 + None = 1
+            * None + 1 = 1
+            * None + None = None
+            * 1 + 1 = 2
+        """
+        safeSum = None
+        for number in numbers:
+            if None in (safeSum, number):
+                safeSum = number if safeSum is None else safeSum
+            else:
+                safeSum += number
+
+        return safeSum
