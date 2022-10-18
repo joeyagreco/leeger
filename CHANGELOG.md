@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- Added "Total Games" stat for leagues with multiple game sources
+- Fixed stat calculations for leagues with League Median Games
 - Removed unused code
 
 ## [1.7.0]
