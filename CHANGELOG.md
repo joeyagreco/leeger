@@ -4,11 +4,15 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- N/A
+
+## [1.8.0]
+
 - Added "Total Games" stat for leagues with multiple game sources
 - Added "Opponent League Median Wins" in stat sheets and Excel sheets for leagues with League Median Games
 - Fixed stat calculations for leagues with League Median Games
-- Removed unused code
 - Updated dependency versions to latest
+- Removed unused code
 
 ## [1.7.0]
 
@@ -94,7 +98,9 @@ All notable changes to this project will be documented in this file.
 
 ### Initial Release
 
-[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.7.0...HEAD
+[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.8.0...HEAD
+
+[1.8.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.8.0
 
 [1.7.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.7.0
 
