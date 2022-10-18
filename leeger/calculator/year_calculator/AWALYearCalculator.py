@@ -178,7 +178,7 @@ class AWALYearCalculator(YearCalculator):
 
         # add league median wins if applicable
         if year.yearSettings.leagueMedianGames:
-            teamIdAndLeagueMedianWins = GameOutcomeYearCalculator.getLeagueMedianWins(year, **kwargs)
+            teamIdAndLeagueMedianWins = GameOutcomeYearCalculator.getOpponentLeagueMedianWins(year, **kwargs)
             for teamId in allTeamIds:
                 leagueMedianWins = teamIdAndLeagueMedianWins[teamId]
                 teamIdAndOpponentAWAL[teamId] = GeneralUtil.safeSum(teamIdAndOpponentAWAL[teamId], leagueMedianWins)
