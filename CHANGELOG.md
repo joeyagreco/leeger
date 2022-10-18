@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 - Added "Total Games" stat for leagues with multiple game sources
+- Added "Opponent League Median Wins" in stat sheets and Excel sheets for leagues with League Median Games
 - Fixed stat calculations for leagues with League Median Games
 - Removed unused code
 

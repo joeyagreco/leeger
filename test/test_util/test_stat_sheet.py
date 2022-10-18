@@ -132,6 +132,7 @@ class TestStatSheet(unittest.TestCase):
         # check optional stats are None
         self.assertIsNone(yearStatSheet.leagueMedianWins)
         self.assertIsNone(yearStatSheet.totalGames)
+        self.assertIsNone(yearStatSheet.opponentLeagueMedianWins)
 
     def test_yearStatSheet_leagueMedianGamesIsTrue(self):
         from leeger.util.stat_sheet import yearStatSheet
@@ -147,3 +148,4 @@ class TestStatSheet(unittest.TestCase):
         self.assertIsInstance(yearStatSheet, YearStatSheet)
         self.assertIsInstance(yearStatSheet.leagueMedianWins, dict)
         self.assertIsInstance(yearStatSheet.totalGames, dict)
+        self.assertIsInstance(yearStatSheet.opponentLeagueMedianWins, dict)

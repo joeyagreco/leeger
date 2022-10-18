@@ -197,3 +197,22 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
             }
         """
         return cls._addAndCombineResults(league, GameOutcomeYearCalculator.getLeagueMedianWins, **kwargs)
+
+    @classmethod
+    @validateLeague
+    def getOpponentLeagueMedianWins(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
+        """
+        Returns the number of league median wins for each Owner's opponents in the given League.
+        Returns None for an Owner if they have no games played in the range.
+        If there is a league median tie, then 0.5 wins is given to each team in the tie.
+        This calculation is only run for regular season weeks.
+
+        Example response:
+            {
+            "someTeamId": Deci("18.0"),
+            "someOtherTeamId": Deci("21.0"),
+            "yetAnotherTeamId": Deci("17.5"),
+            ...
+            }
+        """
+        return cls._addAndCombineResults(league, GameOutcomeYearCalculator.getOpponentLeagueMedianWins, **kwargs)
