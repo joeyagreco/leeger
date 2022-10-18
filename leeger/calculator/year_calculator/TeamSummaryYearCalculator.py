@@ -31,3 +31,16 @@ class TeamSummaryYearCalculator(YearCalculator):
             teamIdAndGamesPlayed[matchup.teamBId] += 1
 
         return teamIdAndGamesPlayed
+
+    @classmethod
+    @validateYear
+    def getTotalGames(cls, year: Year, **kwargs) -> dict[str, Optional[int]]:
+        """
+        Returns the total number of games for each team in the given year.
+        Notes:
+            - Multi-week matchups will count 1 game per matchup
+            - League Median Games will count 1 extra game per applicable matchup
+        """
+        filters = YearFilters.getForYear(year, **kwargs)
+
+        return YearNavigator.getNumberOfGamesPlayed(year, filters, countLeagueMedianGamesAsTwoGames=True)
