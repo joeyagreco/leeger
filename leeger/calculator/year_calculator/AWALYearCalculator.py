@@ -204,7 +204,8 @@ class AWALYearCalculator(YearCalculator):
 
         teamIdAndOpponentAWAL = AWALYearCalculator.getOpponentAWAL(year, **kwargs)
         teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year, YearFilters.getForYear(year,
-                                                                                                         **kwargs))
+                                                                                                         **kwargs),
+                                                                            countLeagueMedianGamesAsTwoGames=True)
 
         teamIdAndOpponentAWALPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
