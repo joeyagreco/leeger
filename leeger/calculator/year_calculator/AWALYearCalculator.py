@@ -1,11 +1,13 @@
 from typing import Optional
 
 from leeger.calculator.parent.YearCalculator import YearCalculator
+from leeger.calculator.year_calculator.GameOutcomeYearCalculator import GameOutcomeYearCalculator
 from leeger.decorator.validators import validateYear
 from leeger.model.filter import YearFilters
 from leeger.model.filter.WeekFilters import WeekFilters
 from leeger.model.league.Year import Year
 from leeger.util.Deci import Deci
+from leeger.util.GeneralUtil import GeneralUtil
 from leeger.util.navigator.WeekNavigator import WeekNavigator
 from leeger.util.navigator.YearNavigator import YearNavigator
 
@@ -79,6 +81,13 @@ class AWALYearCalculator(YearCalculator):
                         + (Deci(teamsTied[teamId])
                            * (Deci(0.5) / Deci(opponentsInWeek))))
 
+        # add league median wins if applicable
+        if year.yearSettings.leagueMedianGames:
+            teamIdAndLeagueMedianWins = GameOutcomeYearCalculator.getLeagueMedianWins(year, **kwargs)
+            for teamId in allTeamIds:
+                leagueMedianWins = teamIdAndLeagueMedianWins[teamId]
+                teamIdAndAWAL[teamId] = GeneralUtil.safeSum(teamIdAndAWAL[teamId], leagueMedianWins)
+
         cls._setToNoneIfNoGamesPlayed(teamIdAndAWAL, year, filters, **kwargs)
         return teamIdAndAWAL
 
@@ -101,7 +110,8 @@ class AWALYearCalculator(YearCalculator):
         teamIdAndAWAL = AWALYearCalculator.getAWAL(year, **kwargs)
         teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year,
                                                                             YearFilters.getForYear(year,
-                                                                                                   **kwargs))
+                                                                                                   **kwargs),
+                                                                            countLeagueMedianGamesAsTwoGames=True)
 
         teamIdAndAWALPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
@@ -166,6 +176,13 @@ class AWALYearCalculator(YearCalculator):
                         + (Deci(teamsTied[teamId])
                            * (Deci(0.5) / Deci(opponentsInWeek))))
 
+        # add league median wins if applicable
+        if year.yearSettings.leagueMedianGames:
+            teamIdAndLeagueMedianWins = GameOutcomeYearCalculator.getOpponentLeagueMedianWins(year, **kwargs)
+            for teamId in allTeamIds:
+                leagueMedianWins = teamIdAndLeagueMedianWins[teamId]
+                teamIdAndOpponentAWAL[teamId] = GeneralUtil.safeSum(teamIdAndOpponentAWAL[teamId], leagueMedianWins)
+
         cls._setToNoneIfNoGamesPlayed(teamIdAndOpponentAWAL, year, filters, **kwargs)
         return teamIdAndOpponentAWAL
 
@@ -187,7 +204,8 @@ class AWALYearCalculator(YearCalculator):
 
         teamIdAndOpponentAWAL = AWALYearCalculator.getOpponentAWAL(year, **kwargs)
         teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year, YearFilters.getForYear(year,
-                                                                                                         **kwargs))
+                                                                                                         **kwargs),
+                                                                            countLeagueMedianGamesAsTwoGames=True)
 
         teamIdAndOpponentAWALPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)

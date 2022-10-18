@@ -348,3 +348,57 @@ class GameOutcomeYearCalculator(YearCalculator):
 
         cls._setToNoneIfNoGamesPlayed(teamIdAndLeagueMedianWins, year, filters, **kwargs)
         return teamIdAndLeagueMedianWins
+
+    @classmethod
+    @validateYear
+    def getOpponentLeagueMedianWins(cls, year: Year, **kwargs) -> dict[str, Optional[Deci]]:
+        """
+        Returns the number of league median wins for each team's opponent in the given Year.
+        Returns None for a Team if they have no games played in the range.
+        If there is a league median tie, then 0.5 wins is given to each team in the tie.
+        This calculation is only run for regular season weeks.
+        If the given year does not have the league median game setting turned on, 0 will be returned for each team.
+
+        Example response:
+            {
+            "someTeamId": Deci("8.0"),
+            "someOtherTeamId": Deci("11.0"),
+            "yetAnotherTeamId": Deci("7.5"),
+            ...
+            }
+        """
+        filters = YearFilters.getForYear(year, **kwargs)
+
+        teamIdAndOpponentLeagueMedianWins = dict()
+        for teamId in YearNavigator.getAllTeamIds(year):
+            teamIdAndOpponentLeagueMedianWins[teamId] = Deci("0")
+
+        if not year.yearSettings.leagueMedianGames:
+            return teamIdAndOpponentLeagueMedianWins
+
+        for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
+            week = year.weeks[i]
+            if week.isRegularSeasonWeek:
+                week_matchups = list()
+                teamIdAndOpponentScoreList: list[tuple[str, float | int]] = list()
+                for matchup in week.matchups:
+                    if matchup.matchupType in filters.includeMatchupTypes:
+                        week_matchups.append(matchup)
+                        teamIdAndOpponentScoreList.append((matchup.teamAId, matchup.teamBScore))
+                        teamIdAndOpponentScoreList.append((matchup.teamBId, matchup.teamAScore))
+
+                if len(week_matchups) > 0:
+                    leagueMedianScore = MatchupNavigator.getMedianScore(week_matchups)
+
+                    # sort by score highest -> lowest
+                    teamIdAndOpponentScoreList.sort(key=lambda x: x[1], reverse=True)
+                    # teams with a score greater than the league median get a win
+                    # team with a score equal to the league median get a tie
+                    for teamId, score in teamIdAndOpponentScoreList:
+                        if score > leagueMedianScore:
+                            teamIdAndOpponentLeagueMedianWins[teamId] += Deci("1")
+                        elif score == leagueMedianScore:
+                            teamIdAndOpponentLeagueMedianWins[teamId] += Deci("0.5")
+
+        cls._setToNoneIfNoGamesPlayed(teamIdAndOpponentLeagueMedianWins, year, filters, **kwargs)
+        return teamIdAndOpponentLeagueMedianWins
