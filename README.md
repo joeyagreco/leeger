@@ -22,7 +22,7 @@ Instant stats for your fantasy football league.
 
 ## Overview
 
-![](https://raw.githubusercontent.com/joeyagreco/leeger/main/img/library-overview-3.png)
+![](https://raw.githubusercontent.com/joeyagreco/leeger/main/img/library-overview-transparent.png)
 This library allows you to take data from an existing fantasy football league and get instant stats from that league
 into either a Python script or an Excel spreadsheet.\
 \
