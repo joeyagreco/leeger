@@ -1,3 +1,5 @@
+from functools import lru_cache
+
 from leeger.exception.InvalidLeagueFormatException import InvalidLeagueFormatException
 from leeger.model.league.League import League
 from leeger.validate import ownerValidation, yearValidation
@@ -11,6 +13,7 @@ Checker Functions
 """
 
 
+@lru_cache(maxsize=None)
 def runAllChecks(league: League) -> None:
     """
     Runs all checks on the given League.

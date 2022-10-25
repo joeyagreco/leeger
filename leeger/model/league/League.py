@@ -15,6 +15,9 @@ class League(UniqueId, JSONSerializable):
     owners: list[Owner]
     years: list[Year]
 
+    def __hash__(self):
+        return hash(str(self.toJson()))
+
     def __eq__(self, otherLeague: League) -> bool:
         """
         Checks if *this* League is the same as the given League.
