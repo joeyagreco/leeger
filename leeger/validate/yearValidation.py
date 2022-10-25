@@ -1,3 +1,5 @@
+from functools import lru_cache
+
 from leeger.exception.InvalidYearFormatException import InvalidYearFormatException
 from leeger.model.league import Matchup, YearSettings
 from leeger.model.league.Year import Year
@@ -5,6 +7,7 @@ from leeger.util.navigator import YearNavigator
 from leeger.validate import teamValidation, weekValidation, yearSettingsValidation
 
 
+@lru_cache(maxsize=None)
 def runAllChecks(year: Year) -> None:
     """
     Runs all checks on the given Year.

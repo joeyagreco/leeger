@@ -20,6 +20,9 @@ class Year(UniqueId, JSONSerializable):
         if self.yearSettings is None:
             self.yearSettings = YearSettings()
 
+    def __hash__(self):
+        return hash(str(self.toJson()))
+
     def __eq__(self, otherYear: Year) -> bool:
         """
         Checks if *this* Year is the same as the given Year.
