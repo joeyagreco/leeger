@@ -68,8 +68,8 @@ class FleaflickerLeagueLoader(LeagueLoader):
         fleaflicker_league_scoreboard = ScoringAPIClient.get_league_scoreboard(sport=Sport.NFL,
                                                                                league_id=fleaflickerLeague["league"][
                                                                                    "id"])
-        number_of_scoring_periods = len(fleaflicker_league_scoreboard["eligibleSchedulePeriods"])
-        for scoring_period in range(number_of_scoring_periods):
+        number_of_scoring_periods = len(fleaflicker_league_scoreboard["eligibleSchedulePeriods"]) + 1
+        for scoring_period in range(1, number_of_scoring_periods):
             matchups = list()
             # get all games for this week
             current_scoreboard = ScoringAPIClient.get_league_scoreboard(sport=Sport.NFL,
@@ -83,7 +83,7 @@ class FleaflickerLeagueLoader(LeagueLoader):
 
                 # team B
                 teamBFleaflicker: dict = game["home"]
-                teamB = self.__fleaflickerTeamIdToTeamMap[teamAFleaflicker["id"]]
+                teamB = self.__fleaflickerTeamIdToTeamMap[teamBFleaflicker["id"]]
                 teamBScore = game["homeScore"]["score"].get("value", 0)  # if "value" isn't found, score is 0
 
                 # figure out tiebreakers
@@ -93,10 +93,8 @@ class FleaflickerLeagueLoader(LeagueLoader):
                 # figure out matchup type
                 matchupType = MatchupType.REGULAR_SEASON
                 if game.get("isPlayoffs") or game.get("isConsolation") or game.get("isThirdPlaceGame"):
-                    print(f"playoff: {scoring_period}")
                     matchupType = MatchupType.PLAYOFF
                 if game.get("isChampionshipGame"):
-                    print(f"champ: {scoring_period}")
                     matchupType = MatchupType.CHAMPIONSHIP
 
                 # only add matchup if it is completed
@@ -109,7 +107,7 @@ class FleaflickerLeagueLoader(LeagueLoader):
                                             teamBHasTiebreaker=teamBHasTieBreaker,
                                             matchupType=matchupType))
             if len(matchups) > 0:
-                weeks.append(Week(weekNumber=scoring_period + 1, matchups=matchups))
+                weeks.append(Week(weekNumber=scoring_period, matchups=matchups))
         return weeks
 
     def __buildTeams(self, fleaflickerLeague: dict) -> list[Team]:
