@@ -138,6 +138,7 @@ Please make sure to update tests as appropriate.
 
 - [ESPN API](https://github.com/cwendt94/espn-api)
 - [ESPN Private Leagues](https://cran.r-project.org/web/packages/ffscrapr/vignettes/espn_authentication.html)
+- [fleaflicker](https://github.com/joeyagreco/fleaflicker)
 - [pymfl](https://github.com/joeyagreco/pymfl)
 - [sleeper](https://github.com/joeyagreco/sleeper)
 - [YahooFantasy](https://github.com/mattdodge/yahoofantasy)
