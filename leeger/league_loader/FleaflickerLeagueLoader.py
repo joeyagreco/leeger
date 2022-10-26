@@ -19,7 +19,6 @@ class FleaflickerLeagueLoader(LeagueLoader):
     Responsible for loading a League from Fleaflicker.
     https://www.fleaflicker.com/
     """
-    __INVALID_SLEEPER_LEAGUE_IDS = [None, "0"]
 
     def __init__(self, leagueId: str, years: list[int], **kwargs):
         # validation
