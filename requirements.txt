@@ -5,3 +5,4 @@ espn-api~=0.25.0
 yahoofantasy~=1.2.3
 sleeper~=1.3.3
 pymfl~=1.0.2
+fleaflicker~=1.0.0

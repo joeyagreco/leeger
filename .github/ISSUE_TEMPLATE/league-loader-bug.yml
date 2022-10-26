@@ -12,6 +12,8 @@ body:
     label: League Loader
     options:
      - ESPN
+     - Fleaflicker
+     - MyFantasyLeague
      - Sleeper
      - Yahoo
   validations:

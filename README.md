@@ -95,13 +95,14 @@ pip install leeger
 
 Sites that you can automatically load your league data from.
 
-| Name            | Website                                   | Supported          | Setup Documentation                                                                                                         |
-|-----------------|-------------------------------------------|--------------------|-----------------------------------------------------------------------------------------------------------------------------|
-| ESPN            | https://www.espn.com/fantasy/football/    | :heavy_check_mark: | [ESPN :page_facing_up:](https://github.com/joeyagreco/leeger/blob/main/doc/league_loader/espn.md)                           |
-| MyFantasyLeague | http://home.myfantasyleague.com/          | :heavy_check_mark: | [MyFantasyLeague :page_facing_up:](https://github.com/joeyagreco/leeger/blob/main/doc/league_loader/my_fantasy_league.md)   |
-| NFL             | https://fantasy.nfl.com/                  | :x:                | :x:                                                                                                                         |
-| Sleeper         | https://sleeper.com/fantasy-football/     | :heavy_check_mark: | [Sleeper :page_facing_up:](https://github.com/joeyagreco/leeger/blob/main/doc/league_loader/sleeper.md)                     |
-| Yahoo           | https://football.fantasysports.yahoo.com/ | :heavy_check_mark: | [Yahoo :page_facing_up:](https://github.com/joeyagreco/leeger/blob/main/doc/league_loader/yahoo.md)                         |
+| Name            | Website                                   | Supported          | Setup Documentation                                                                                                       |
+|-----------------|-------------------------------------------|--------------------|---------------------------------------------------------------------------------------------------------------------------|
+| ESPN            | https://www.espn.com/fantasy/football/    | :heavy_check_mark: | [ESPN :page_facing_up:](https://github.com/joeyagreco/leeger/blob/main/doc/league_loader/espn.md)                         |
+| Fleaflicker     | https://www.fleaflicker.com/              | :heavy_check_mark: | [Fleaflicker :page_facing_up:](https://github.com/joeyagreco/leeger/blob/main/doc/league_loader/fleaflicker.md)           |  
+| MyFantasyLeague | http://home.myfantasyleague.com/          | :heavy_check_mark: | [MyFantasyLeague :page_facing_up:](https://github.com/joeyagreco/leeger/blob/main/doc/league_loader/my_fantasy_league.md) |
+| NFL             | https://fantasy.nfl.com/                  | :x:                | :x:                                                                                                                       |
+| Sleeper         | https://sleeper.com/fantasy-football/     | :heavy_check_mark: | [Sleeper :page_facing_up:](https://github.com/joeyagreco/leeger/blob/main/doc/league_loader/sleeper.md)                   |
+| Yahoo           | https://football.fantasysports.yahoo.com/ | :heavy_check_mark: | [Yahoo :page_facing_up:](https://github.com/joeyagreco/leeger/blob/main/doc/league_loader/yahoo.md)                       |
 <!---
 // @formatter:off
 -->

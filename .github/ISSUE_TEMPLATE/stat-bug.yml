@@ -16,11 +16,12 @@ body:
      - Game Outcome
      - Plus/Minus
      - Points Scored
-     - SSL
      - Scoring Share
      - Scoring Standard Deviation
      - Single Score
      - Smart Wins
+     - SSL
+     - Team Summary
      - Not Listed
   validations:
     required: true
