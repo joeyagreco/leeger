@@ -192,7 +192,7 @@ def checkEveryTeamInYearIsInAMatchup(year: Year) -> None:
     Checks that every Team in the year appears in at least 1 matchup.
     """
     from leeger.util.navigator.YearNavigator import YearNavigator
-    teamIds = YearNavigator.getAllTeamIds(year, validate=False)
+    teamIds = YearNavigator.getAllTeamIds(year)
     for week in year.weeks:
         for matchup in week.matchups:
             try:
