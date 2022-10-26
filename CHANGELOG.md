@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- N/A
+
+## [1.9.0]
+
 - Added support for Fleaflicker leagues
 - Added caching to validation flow, resulting in a ~33% speed increase for stat calculations
 - Updated GitHub issue templates
@@ -100,7 +104,9 @@ All notable changes to this project will be documented in this file.
 
 ### Initial Release
 
-[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.8.0...HEAD
+[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.9.0...HEAD
+
+[1.9.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.9.0
 
 [1.8.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.8.0
 
