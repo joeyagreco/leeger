@@ -4,8 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- Added support for Fleaflicker leagues
 - Added caching to validation flow, resulting in a ~33% speed increase for stat calculations
-- Updated README
+- Updated GitHub issue templates
 
 ## [1.8.0]
 
