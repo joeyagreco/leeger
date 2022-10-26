@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- N/A
+- Added Fleaflicker tag to setup file.
 
 ## [1.9.0]
 
