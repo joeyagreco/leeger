@@ -4,6 +4,7 @@ from fleaflicker.enum.Sport import Sport
 from sleeper.enum import Sport
 
 from leeger.enum.MatchupType import MatchupType
+from leeger.exception import LeagueLoaderException
 from leeger.league_loader.LeagueLoader import LeagueLoader
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup
@@ -26,6 +27,8 @@ class FleaflickerLeagueLoader(LeagueLoader):
             int(leagueId)
         except ValueError:
             raise ValueError(f"League ID '{leagueId}' could not be turned into an int.")
+        if len(years) > 1:
+            raise LeagueLoaderException("Fleaflicker League Loader does not yet support multi-year leagues.")
         super().__init__(leagueId, years, **kwargs)
 
         self.__fleaflickerTeamIdToOwnerMap: dict[int, Owner] = dict()
