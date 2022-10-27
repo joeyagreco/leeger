@@ -137,3 +137,52 @@ class ScoringShareYearCalculator(YearCalculator):
 
         cls._setToNoneIfNoGamesPlayed(teamIdAndMaxScoringShare, year, filters, **kwargs)
         return teamIdAndMaxScoringShare
+
+    @classmethod
+    @validateYear
+    def getMinScoringShare(cls, year: Year, **kwargs) -> dict[str, Optional[Deci]]:
+        """
+        Returns the Min Scoring Share for each team in the given Year.
+        Returns None for a Team if they have no games played in the range.
+
+        Example response:
+            {
+            "someTeamId": Deci("10.7"),
+            "someOtherTeamId": Deci("14.2"),
+            "yetAnotherTeamId": Deci("12.1"),
+            ...
+            }
+        """
+
+        filters = YearFilters.getForYear(year, **kwargs)
+
+        teamIdAndMinScoringShare = dict()
+        for teamId in YearNavigator.getAllTeamIds(year):
+            teamIdAndMinScoringShare[teamId] = None
+
+        for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
+            week = year.weeks[i]
+            totalPointsScoredInWeek = sum(WeekNavigator.getTeamIdsAndScores(week, WeekFilters(
+                includeMatchupTypes=filters.includeMatchupTypes)).values())
+            for matchup in week.matchups:
+                if matchup.matchupType in filters.includeMatchupTypes:
+                    # avoid division by 0
+                    if totalPointsScoredInWeek == 0:
+                        for teamId in YearNavigator.getAllTeamIds(year):
+                            teamIdAndMinScoringShare[teamId] = Deci("0")
+                        continue
+                    teamAScoringShare = (Deci(matchup.teamAScore) / Deci(totalPointsScoredInWeek)) * Deci("100")
+                    teamBScoringShare = (Deci(matchup.teamBScore) / Deci(totalPointsScoredInWeek)) * Deci("100")
+                    if teamIdAndMinScoringShare[matchup.teamAId] is None:
+                        teamIdAndMinScoringShare[matchup.teamAId] = teamAScoringShare
+                    else:
+                        teamIdAndMinScoringShare[matchup.teamAId] = min(teamAScoringShare,
+                                                                        teamIdAndMinScoringShare[matchup.teamAId])
+                    if teamIdAndMinScoringShare[matchup.teamBId] is None:
+                        teamIdAndMinScoringShare[matchup.teamBId] = teamBScoringShare
+                    else:
+                        teamIdAndMinScoringShare[matchup.teamBId] = min(teamBScoringShare,
+                                                                        teamIdAndMinScoringShare[matchup.teamBId])
+
+        cls._setToNoneIfNoGamesPlayed(teamIdAndMinScoringShare, year, filters, **kwargs)
+        return teamIdAndMinScoringShare
