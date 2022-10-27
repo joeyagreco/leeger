@@ -3,9 +3,11 @@ from typing import Optional
 from leeger.calculator.parent.YearCalculator import YearCalculator
 from leeger.calculator.year_calculator.PointsScoredYearCalculator import PointsScoredYearCalculator
 from leeger.decorator.validators import validateYear
+from leeger.model.filter import YearFilters, WeekFilters
 from leeger.model.league.Year import Year
 from leeger.util.Deci import Deci
 from leeger.util.GeneralUtil import GeneralUtil
+from leeger.util.navigator import WeekNavigator
 from leeger.util.navigator.YearNavigator import YearNavigator
 
 
@@ -93,3 +95,45 @@ class ScoringShareYearCalculator(YearCalculator):
                                                                  teamId] / totalPointsScoredInYear) * Deci(100)
 
         return teamIdAndOpponentScoringShare
+
+    @classmethod
+    @validateYear
+    def getMaxScoringShare(cls, year: Year, **kwargs) -> dict[str, Optional[Deci]]:
+        """
+        Returns the Max Scoring Share for each team in the given Year.
+        Returns None for a Team if they have no games played in the range.
+
+        Example response:
+            {
+            "someTeamId": Deci("10.7"),
+            "someOtherTeamId": Deci("14.2"),
+            "yetAnotherTeamId": Deci("12.1"),
+            ...
+            }
+        """
+
+        filters = YearFilters.getForYear(year, **kwargs)
+
+        teamIdAndMaxScoringShare = dict()
+        for teamId in YearNavigator.getAllTeamIds(year):
+            teamIdAndMaxScoringShare[teamId] = Deci(0)
+
+        for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
+            week = year.weeks[i]
+            totalPointsScoredInWeek = sum(WeekNavigator.getTeamIdsAndScores(week, WeekFilters(
+                includeMatchupTypes=filters.includeMatchupTypes)).values())
+            # avoid division by 0
+            if totalPointsScoredInWeek == 0:
+                continue
+            else:
+                for matchup in week.matchups:
+                    if matchup.matchupType in filters.includeMatchupTypes:
+                        teamAScoringShare = (Deci(matchup.teamAScore) / Deci(totalPointsScoredInWeek)) * Deci("100")
+                        teamBScoringShare = (Deci(matchup.teamBScore) / Deci(totalPointsScoredInWeek)) * Deci("100")
+                        teamIdAndMaxScoringShare[matchup.teamAId] = max(teamAScoringShare,
+                                                                        teamIdAndMaxScoringShare[matchup.teamAId])
+                        teamIdAndMaxScoringShare[matchup.teamBId] = max(teamBScoringShare,
+                                                                        teamIdAndMaxScoringShare[matchup.teamBId])
+
+        cls._setToNoneIfNoGamesPlayed(teamIdAndMaxScoringShare, year, filters, **kwargs)
+        return teamIdAndMaxScoringShare
