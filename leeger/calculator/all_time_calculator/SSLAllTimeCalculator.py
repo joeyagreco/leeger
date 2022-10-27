@@ -51,7 +51,6 @@ class SSLAllTimeCalculator(AllTimeCalculator):
 
         for yearNumber in teamScoreResultsOrderedByYear.keys():
             year = LeagueNavigator.getYearByYearNumber(league, int(yearNumber))
-            test = yearFiltersByYear[str(yearNumber)].asKwargs()
             gamesPlayedByYear[yearNumber] = TeamSummaryYearCalculator.getGamesPlayed(year,
                                                                                      **yearFiltersByYear[
                                                                                          str(yearNumber)].asKwargs())
@@ -113,7 +112,6 @@ class SSLAllTimeCalculator(AllTimeCalculator):
 
         for yearNumber in teamSuccessResultsOrderedByYear.keys():
             year = LeagueNavigator.getYearByYearNumber(league, int(yearNumber))
-            test = yearFiltersByYear[str(yearNumber)].asKwargs()
             gamesPlayedByYear[yearNumber] = TeamSummaryYearCalculator.getGamesPlayed(year,
                                                                                      **yearFiltersByYear[
                                                                                          str(yearNumber)].asKwargs())

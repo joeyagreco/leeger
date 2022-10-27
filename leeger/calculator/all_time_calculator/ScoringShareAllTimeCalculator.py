@@ -2,6 +2,7 @@ from typing import Optional
 
 from leeger.calculator.all_time_calculator.PointsScoredAllTimeCalculator import PointsScoredAllTimeCalculator
 from leeger.calculator.parent.AllTimeCalculator import AllTimeCalculator
+from leeger.calculator.year_calculator import ScoringShareYearCalculator
 from leeger.decorator.validators import validateLeague
 from leeger.model.league.League import League
 from leeger.util.Deci import Deci
@@ -86,3 +87,45 @@ class ScoringShareAllTimeCalculator(AllTimeCalculator):
                                                                    ownerId] / totalPointsScoredInLeague) * Deci("100")
 
         return ownerIdAndOpponentScoringShare
+
+    @classmethod
+    @validateLeague
+    def getMaxScoringShare(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
+        """
+        Returns the Max Scoring Share for each Owner in the given League.
+        Returns None for an Owner if they have no games played in the range.
+
+        Example response:
+            {
+            "someOwnerId": Deci("10.7"),
+            "someOtherOwnerId": Deci("14.2"),
+            "yetAnotherOwnerId": Deci("12.1"),
+            ...
+            }
+        """
+
+        ownerIdAndMaxScoringShare = dict()
+
+        allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
+
+        for ownerId in allOwnerIds:
+            ownerIdAndMaxScoringShare[ownerId] = None
+
+        maxScoringSharesByYear = cls._getAllResultDictsByYear(league, ScoringShareYearCalculator.getMaxScoringShare,
+                                                              **kwargs)
+
+        ownerIdAndMaxScoringShares: dict[str, list] = dict()
+        for yearNumber in maxScoringSharesByYear.keys():
+            for ownerId in allOwnerIds:
+                if ownerId in ownerIdAndMaxScoringShares.keys():
+                    ownerIdAndMaxScoringShares[ownerId].append(maxScoringSharesByYear[yearNumber][ownerId])
+                else:
+                    ownerIdAndMaxScoringShares[ownerId] = [maxScoringSharesByYear[yearNumber][ownerId]]
+
+        for ownerId in allOwnerIds:
+            if len(ownerIdAndMaxScoringShares[ownerId]) > 0:
+                ownerIdAndMaxScoringShare[ownerId] = max(ownerIdAndMaxScoringShares[ownerId])
+            else:
+                ownerIdAndMaxScoringShare[ownerId] = None
+
+        return ownerIdAndMaxScoringShare
