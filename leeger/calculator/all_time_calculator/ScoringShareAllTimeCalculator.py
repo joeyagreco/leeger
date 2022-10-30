@@ -111,18 +111,28 @@ class ScoringShareAllTimeCalculator(AllTimeCalculator):
         for ownerId in allOwnerIds:
             ownerIdAndMaxScoringShare[ownerId] = None
 
-        maxScoringSharesByYear = cls._getAllResultDictsByYear(league, ScoringShareYearCalculator.getMaxScoringShare,
-                                                              **kwargs)
+        maxScoringSharesByYearTeamIds = cls._getAllResultDictsByYear(league,
+                                                                     ScoringShareYearCalculator.getMaxScoringShare,
+                                                                     **kwargs)
+        # swap out team IDs for owner IDs
+        maxScoringSharesByYear = dict()
+        for yearNumber, maxScoringSharesByTeamId in maxScoringSharesByYearTeamIds.items():
+            maxScoringSharesByYear[yearNumber] = dict()
+            for teamId, maxScoringShare in maxScoringSharesByTeamId.items():
+                ownerId = LeagueNavigator.getTeamById(league, teamId).ownerId
+                maxScoringSharesByYear[yearNumber][ownerId] = maxScoringShare
 
         ownerIdAndMaxScoringShares: dict[str, list] = dict()
         for yearNumber in maxScoringSharesByYear.keys():
             for ownerId in allOwnerIds:
-                if ownerId in ownerIdAndMaxScoringShares.keys():
+                if ownerId in ownerIdAndMaxScoringShares.keys() and ownerIdAndMaxScoringShares[ownerId] is not None:
                     ownerIdAndMaxScoringShares[ownerId].append(maxScoringSharesByYear[yearNumber][ownerId])
                 else:
                     ownerIdAndMaxScoringShares[ownerId] = [maxScoringSharesByYear[yearNumber][ownerId]]
 
         for ownerId in allOwnerIds:
+            # remove all None values from list
+            ownerIdAndMaxScoringShares[ownerId] = [i for i in ownerIdAndMaxScoringShares[ownerId] if i is not None]
             if len(ownerIdAndMaxScoringShares[ownerId]) > 0:
                 ownerIdAndMaxScoringShare[ownerId] = max(ownerIdAndMaxScoringShares[ownerId])
             else:
