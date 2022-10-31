@@ -38,6 +38,8 @@ class AllTimeStatSheet:
     # Scoring Share
     scoringShare: dict[str, Deci]
     opponentScoringShare: dict[str, Deci]
+    maxScoringShare: dict[str, Deci]
+    minScoringShare: dict[str, Deci]
 
     # Single Score
     maxScore: dict[str, float | int]
@@ -85,6 +87,8 @@ class AllTimeStatSheet:
             ("Opponent Points Scored Per Game", self.opponentPointsScoredPerGame),
             ("Scoring Share", self.scoringShare),
             ("Opponent Scoring Share", self.opponentScoringShare),
+            ("Max Scoring Share", self.maxScoringShare),
+            ("Min Scoring Share", self.minScoringShare),
             ("Max Score", self.maxScore),
             ("Min Score", self.minScore),
             ("Scoring Standard Deviation", self.scoringStandardDeviation),
