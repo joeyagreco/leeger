@@ -161,7 +161,7 @@ ___
 > ### Formula
 > Max Scoring Share = max(S(A))\
 > WHERE:\
-> S = [Scoring Share](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#scoring-share)
+> S = [Scoring Share](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#scoring-share)\
 > A = Every score by a single team within a sample
 > ### Formula Explained
 > This can be used with [Max Score](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#max-score) to identify
@@ -193,7 +193,7 @@ ___
 > ### Formula
 > Min Scoring Share = min(S(A))\
 > WHERE:\
-> S = [Scoring Share](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#scoring-share)
+> S = [Scoring Share](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#scoring-share)\
 > A = Every score by a single team within a sample
 > ### Formula Explained
 > This can be used with [Min Score](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#min-score) to identify
