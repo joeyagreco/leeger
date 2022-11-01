@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- N/A
+
+## [1.10.0]
+
 - Added Max Scoring Share stat
 - Added Min Scoring Share stat
 - Added Fleaflicker tag to setup file.
@@ -106,7 +110,9 @@ All notable changes to this project will be documented in this file.
 
 ### Initial Release
 
-[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.9.0...HEAD
+[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.10.0...HEAD
+
+[1.10.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.10.0
 
 [1.9.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.9.0
 
