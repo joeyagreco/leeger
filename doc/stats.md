@@ -175,9 +175,8 @@ ___
 > Min Score is used to retrieve the lowest score for an individual team.\
 > It is the inverse of [Max Score](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#max-score).
 > ### Formula
-> Min Score = min(S(A))\
+> Min Score = min(A)\
 > WHERE:\
-> S = [Scoring Share](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#scoring-share)
 > A = Every score by a single team within a sample
 > ### Formula Explained
 > Note: If a team has multiple "min" scores, this does not change the outcome.\
@@ -192,9 +191,10 @@ ___
 > It is the inverse
 > of [Max Scoring Share](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#max-scoring-share).
 > ### Formula
-> Min Scoring Share = min(S)\
+> Min Scoring Share = min(S(A))\
 > WHERE:\
 > S = [Scoring Share](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#scoring-share)
+> A = Every score by a single team within a sample
 > ### Formula Explained
 > This can be used with [Min Score](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#min-score) to identify
 > outliers of single-game performances.\
