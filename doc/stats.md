@@ -20,7 +20,9 @@ ___
 - [League Median Wins](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#league=median-wins)
 - [Margins of Victory](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#margins-of-victory)
 - [Max Score](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#max-score)
+- [Max Scoring Share](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#max-scoring-share)
 - [Min Score](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#min-score)
+- [Min Scoring Share](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#min-scoring-share)
 - [Plus/Minus](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#plus-minus)
 - [Points Scored](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#points-scored)
 - [Scoring Share](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#scoring-share)
@@ -143,12 +145,29 @@ ___
 > ### Formula
 > Max Score = max(A)\
 > WHERE:\
-> A = List of every score by a single team within a sample
+> A = Every score by a single team within a sample
 > ### Formula Explained
 > Note: If a team has multiple "max" scores, this does not change the outcome.\
 > Ex: A team with scores: [100, 105, 104, 102] has a Max Score of 105.\
 > AND\
 > A team with scores: [99, 105, 105, 101] has a Max Score of 105.
+>
+> ## Max Scoring Share
+> ___
+> ### Purpose
+> Max Scoring Share is used to retrieve the highest scoring share for an individual team.\
+> It is the inverse
+> of [Min Scoring Share](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#min-scoring-share).
+> ### Formula
+> Max Scoring Share = max(S(A))\
+> WHERE:\
+> S = [Scoring Share](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#scoring-share)
+> A = Every score by a single team within a sample
+> ### Formula Explained
+> This can be used with [Max Score](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#max-score) to identify
+> outliers of single-game performances.\
+> Since this is calculated relative to the rest of what the league scored, it is resilient to scoring changes across
+> seasons.
 >
 > ## Min Score
 > ___
@@ -158,12 +177,29 @@ ___
 > ### Formula
 > Min Score = min(A)\
 > WHERE:\
-> A = List of every score by a single team in a sample size
+> A = Every score by a single team within a sample
 > ### Formula Explained
 > Note: If a team has multiple "min" scores, this does not change the outcome.\
 > Ex: A team with scores: [100, 105, 104, 102] has a Min Score of 100.\
 > AND\
 > A team with scores: [99, 100, 100, 101] has a Min Score of 100.
+>
+>  ## Min Scoring Share
+> ___
+> ### Purpose
+> Min Scoring Share is used to retrieve the lowest scoring share for an individual team.\
+> It is the inverse
+> of [Max Scoring Share](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#max-scoring-share).
+> ### Formula
+> Min Scoring Share = min(S(A))\
+> WHERE:\
+> S = [Scoring Share](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#scoring-share)
+> A = Every score by a single team within a sample
+> ### Formula Explained
+> This can be used with [Min Score](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#min-score) to identify
+> outliers of single-game performances.\
+> Since this is calculated relative to the rest of what the league scored, it is resilient to scoring changes across
+> seasons.
 >
 > ## Plus/Minus
 > ___

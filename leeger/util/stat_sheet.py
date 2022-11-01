@@ -61,6 +61,8 @@ def leagueStatSheet(league: League, **kwargs) -> AllTimeStatSheet:
     # Scoring Share
     scoringShare = ScoringShareAllTimeCalculator.getScoringShare(league, **kwargs)
     opponentScoringShare = ScoringShareAllTimeCalculator.getOpponentScoringShare(league, **kwargs)
+    maxScoringShare = ScoringShareAllTimeCalculator.getMaxScoringShare(league, **kwargs)
+    minScoringShare = ScoringShareAllTimeCalculator.getMinScoringShare(league, **kwargs)
 
     # Single Score
     maxScore = SingleScoreAllTimeCalculator.getMaxScore(league, **kwargs)
@@ -100,7 +102,8 @@ def leagueStatSheet(league: League, **kwargs) -> AllTimeStatSheet:
                             scoringStandardDeviation=scoringStandardDeviation, plusMinus=plusMinus,
                             adjustedTeamScore=adjustedTeamScore, adjustedTeamSuccess=adjustedTeamSuccess,
                             adjustedTeamLuck=adjustedTeamLuck, leagueMedianWins=leagueMedianWins, totalGames=totalGames,
-                            opponentLeagueMedianWins=opponentLeagueMedianWins)
+                            opponentLeagueMedianWins=opponentLeagueMedianWins, maxScoringShare=maxScoringShare,
+                            minScoringShare=minScoringShare)
 
 
 def yearStatSheet(year: Year, **kwargs) -> YearStatSheet:
@@ -135,6 +138,8 @@ def yearStatSheet(year: Year, **kwargs) -> YearStatSheet:
     # Scoring Share
     scoringShare = ScoringShareYearCalculator.getScoringShare(year, **kwargs)
     opponentScoringShare = ScoringShareYearCalculator.getOpponentScoringShare(year, **kwargs)
+    maxScoringShare = ScoringShareYearCalculator.getMaxScoringShare(year, **kwargs)
+    minScoringShare = ScoringShareYearCalculator.getMinScoringShare(year, **kwargs)
 
     # Single Score
     maxScore = SingleScoreYearCalculator.getMaxScore(year, **kwargs)
@@ -171,4 +176,5 @@ def yearStatSheet(year: Year, **kwargs) -> YearStatSheet:
                          scoringStandardDeviation=scoringStandardDeviation, plusMinus=plusMinus,
                          teamScore=teamScore, teamSuccess=teamSuccess, teamLuck=teamLuck,
                          leagueMedianWins=leagueMedianWins, totalGames=totalGames,
-                         opponentLeagueMedianWins=opponentLeagueMedianWins)
+                         opponentLeagueMedianWins=opponentLeagueMedianWins, maxScoringShare=maxScoringShare,
+                         minScoringShare=minScoringShare)

@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- Added Max Scoring Share stat
+- Added Min Scoring Share stat
 - Added Fleaflicker tag to setup file.
 
 ## [1.9.0]

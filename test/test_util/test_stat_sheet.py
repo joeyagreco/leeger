@@ -50,6 +50,8 @@ class TestStatSheet(unittest.TestCase):
 
         self.assertIsInstance(leagueStatSheet.scoringShare, dict)
         self.assertIsInstance(leagueStatSheet.opponentScoringShare, dict)
+        self.assertIsInstance(leagueStatSheet.maxScoringShare, dict)
+        self.assertIsInstance(leagueStatSheet.minScoringShare, dict)
 
         self.assertIsInstance(leagueStatSheet.maxScore, dict)
         self.assertIsInstance(leagueStatSheet.minScore, dict)
@@ -117,6 +119,8 @@ class TestStatSheet(unittest.TestCase):
 
         self.assertIsInstance(yearStatSheet.scoringShare, dict)
         self.assertIsInstance(yearStatSheet.opponentScoringShare, dict)
+        self.assertIsInstance(yearStatSheet.maxScoringShare, dict)
+        self.assertIsInstance(yearStatSheet.minScoringShare, dict)
 
         self.assertIsInstance(yearStatSheet.maxScore, dict)
         self.assertIsInstance(yearStatSheet.minScore, dict)
