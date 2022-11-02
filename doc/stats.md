@@ -23,7 +23,7 @@ ___
 - [Max Scoring Share](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#max-scoring-share)
 - [Min Score](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#min-score)
 - [Min Scoring Share](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#min-scoring-share)
-- [Plus/Minus](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#plus-minus)
+- [Plus/Minus](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#plus%2Fminus)
 - [Scoring Share](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#scoring-share)
 - [Scoring Standard Deviation](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#scoring-standard-deviation)
 - [Smart Wins](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#smart-wins)
