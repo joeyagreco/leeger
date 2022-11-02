@@ -23,7 +23,7 @@ ___
 - [Max Scoring Share](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#max-scoring-share)
 - [Min Score](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#min-score)
 - [Min Scoring Share](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#min-scoring-share)
-- [Plus/Minus](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#plus%2Fminus)
+- [Plus Minus](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#plus-minus)
 - [Scoring Share](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#scoring-share)
 - [Scoring Standard Deviation](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#scoring-standard-deviation)
 - [Smart Wins](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#smart-wins)
@@ -200,12 +200,12 @@ ___
 > Since this is calculated relative to the rest of what the league scored, it is resilient to scoring changes across
 > seasons.
 >
-> ## Plus/Minus
+> ## Plus Minus
 > ___
 > ### Purpose
-> Plus/Minus (+/-) is used to show the net score differential for a team within a sample.
+> Plus Minus (+/-) is used to show the net score differential for a team within a sample.
 > ### Formula
-> Plus/Minus = ΣA - ΣB\
+> Plus Minus = ΣA - ΣB\
 > WHERE:\
 > A = All scores by a team within a sample\
 > B = All scores against a team within a sample
