@@ -24,7 +24,6 @@ ___
 - [Min Score](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#min-score)
 - [Min Scoring Share](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#min-scoring-share)
 - [Plus/Minus](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#plus-minus)
-- [Points Scored](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#points-scored)
 - [Scoring Share](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#scoring-share)
 - [Scoring Standard Deviation](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#scoring-standard-deviation)
 - [Smart Wins](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md#smart-wins)
@@ -216,16 +215,6 @@ ___
 > However, it is typically a good indication of how successful a team was, as a positive net score differential
 > typically translates to more wins.
 >
-> ## Points Scored
-> ___
-> ### Purpose
-> Points Scored Per Game is the total number of points a team scored.
-> ### Formula
-> Points Scored Per Game = Σ A\
-> WHERE:\
-> A = All scores by a team within a sample
-> ### Formula Explained
-> N/A
 >
 > ## Scoring Share
 > ___
