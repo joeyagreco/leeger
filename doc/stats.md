@@ -102,7 +102,7 @@ ___
 > Where:\
 > W = Teams outscored in a week\
 > T = Teams tied in a week\
-> L = Opponents in a week (usually league size - 1)\
+> L = Opponents in a week (usually league size - 1)
 > ### Formula Explained
 > To properly calculate AWAL, the AWAL must be calculated once for each team every week.
 > Each week's AWAL can then be added together to create an aggregate AWAL for each team.
@@ -223,7 +223,7 @@ ___
 > ### Formula
 > Points Scored Per Game = Σ A\
 > WHERE:\
-> A = All scores by a team within a sample\
+> A = All scores by a team within a sample
 > ### Formula Explained
 > N/A
 >
