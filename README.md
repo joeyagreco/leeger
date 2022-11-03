@@ -74,7 +74,8 @@ Can I combine years from different fantasy sites that are loaded as separate Lea
 
 **A:**
 Yes, the League object supports addition (+) to combine multiple league objects.\
-An example of this can be found [here](https://github.com/joeyagreco/leeger/blob/main/example/league/leagueFeatures.py).
+An example of this can be
+found [here](https://github.com/joeyagreco/leeger/blob/main/example/league/combiningLeagues.py).
 ___
 **Q:**
 Can I disable validation on my League object?
