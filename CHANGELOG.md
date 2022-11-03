@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 - Fixed formatting in stats documentation
+- Updated setup file to ignore unneeded packages
 
 ## [1.10.0]
 

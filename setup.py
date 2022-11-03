@@ -23,7 +23,7 @@ setuptools.setup(
     long_description=readme,
     license="MIT",
     url="https://github.com/joeyagreco/leeger",
-    packages=setuptools.find_packages(exclude=("test", "docs")),
+    packages=setuptools.find_packages(exclude=("test", "doc", "example", "img", ".github")),
     install_requires=required_packages,
     python_requires=f">={minimum_python_version_required}",
     keywords="nfl statistics stats football espn yahoo sleeper myfantasyleague, fleaflicker"
