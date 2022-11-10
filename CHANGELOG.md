@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 - Fixed broken link in README
 - Updated flow diagram
 - Updated setup file to ignore unneeded packages
+- Updated dependency versions
 
 ## [1.10.0]
 
