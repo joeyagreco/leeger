@@ -20,9 +20,11 @@ class YearFilters:
     onlyChampionship: bool = False
     onlyPostSeason: bool = False
     onlyRegularSeason: bool = False
+    calculateAgainstTeamIds: list[str] = None
 
     @classmethod
     def getForYear(cls, year: Year, **kwargs) -> YearFilters:
+        from leeger.util.navigator import YearNavigator
         kwargsCopy = copy.deepcopy(kwargs)
         from leeger.exception import InvalidFilterException
         from leeger.util.GeneralUtil import GeneralUtil
@@ -32,6 +34,7 @@ class YearFilters:
         weekNumberStart = kwargsCopy.pop("weekNumberStart", year.weeks[0].weekNumber)
         weekNumberEnd = kwargsCopy.pop("weekNumberEnd", year.weeks[-1].weekNumber)
         includeMultiWeekMatchups = kwargsCopy.pop("includeMultiWeekMatchups", True)
+        calculateAgainstTeamIds = kwargsCopy.pop("calculateAgainstTeamIds", YearNavigator.getAllTeamIds(year))
         kwargsCopy.pop("includeMatchupTypes", None)  # so we don't get an unused kwarg warning
 
         GeneralUtil.warnForUnusedKwargs(kwargsCopy)
@@ -72,6 +75,9 @@ class YearFilters:
             raise InvalidFilterException("'weekNumberEnd' must be type 'int'")
         if not isinstance(includeMultiWeekMatchups, bool):
             raise InvalidFilterException("'includeMultiWeekMatchups' must be type 'bool'")
+        if not isinstance(calculateAgainstTeamIds, list) or not all(
+                isinstance(x, str) for x in calculateAgainstTeamIds):
+            raise InvalidFilterException("'calculateAgainstTeamIds' must be type 'list[str]'")
 
         # logic checks
         if [onlyChampionship, onlyPostSeason, onlyRegularSeason].count(True) > 1:
@@ -87,7 +93,7 @@ class YearFilters:
         return YearFilters(weekNumberStart=weekNumberStart, weekNumberEnd=weekNumberEnd,
                            includeMatchupTypes=includeMatchupTypes, includeMultiWeekMatchups=includeMultiWeekMatchups,
                            onlyPostSeason=onlyPostSeason, onlyChampionship=onlyChampionship,
-                           onlyRegularSeason=onlyRegularSeason)
+                           onlyRegularSeason=onlyRegularSeason, calculateAgainstTeamIds=calculateAgainstTeamIds)
 
     def asKwargs(self) -> dict[str, Any]:
         return {
@@ -97,5 +103,6 @@ class YearFilters:
             "includeMultiWeekMatchups": self.includeMultiWeekMatchups,
             "onlyPostSeason": self.onlyPostSeason,
             "onlyChampionship": self.onlyChampionship,
-            "onlyRegularSeason": self.onlyRegularSeason
+            "onlyRegularSeason": self.onlyRegularSeason,
+            "calculateAgainstTeamIds": self.calculateAgainstTeamIds
         }

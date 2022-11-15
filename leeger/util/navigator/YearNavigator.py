@@ -12,7 +12,7 @@ class YearNavigator:
     """
 
     @staticmethod
-    def getAllTeamIds(year: Year, **kwargs) -> list[str]:
+    def getAllTeamIds(year: Year) -> list[str]:
         return [team.id for team in year.teams]
 
     @classmethod

@@ -218,7 +218,6 @@ class AllTimeCalculator:
         # TODO: look into how we are handling multiWeekMatchups in this filter transfer
         yearFiltersByYear: dict[str, YearFilters] = dict()
         # parse filters
-        yearWeekNumberStartWeekNumberEnd: list[tuple] = list()
         if allTimeFilters.yearNumberStart == allTimeFilters.yearNumberEnd:
             yearNumber = str(LeagueNavigator.getYearByYearNumber(league, allTimeFilters.yearNumberStart).yearNumber)
             yearFiltersByYear[yearNumber] = YearFilters(weekNumberStart=allTimeFilters.weekNumberStart,
