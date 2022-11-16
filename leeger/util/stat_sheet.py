@@ -19,6 +19,7 @@ from leeger.calculator.year_calculator.AWALYearCalculator import AWALYearCalcula
 from leeger.calculator.year_calculator.GameOutcomeYearCalculator import GameOutcomeYearCalculator
 from leeger.calculator.year_calculator.PlusMinusYearCalculator import PlusMinusYearCalculator
 from leeger.calculator.year_calculator.PointsScoredYearCalculator import PointsScoredYearCalculator
+from leeger.calculator.year_calculator.PowerRankingYearCalculator import PowerRankingYearCalculator
 from leeger.calculator.year_calculator.SSLYearCalculator import SSLYearCalculator
 from leeger.calculator.year_calculator.ScoringShareYearCalculator import ScoringShareYearCalculator
 from leeger.calculator.year_calculator.SmartWinsYearCalculator import SmartWinsYearCalculator
@@ -135,6 +136,9 @@ def yearStatSheet(year: Year, **kwargs) -> YearStatSheet:
     opponentPointsScored = PointsScoredYearCalculator.getOpponentPointsScored(year, **kwargs)
     opponentPointsScoredPerGame = PointsScoredYearCalculator.getOpponentPointsScoredPerGame(year, **kwargs)
 
+    # Power Ranking
+    realPowerRanking = PowerRankingYearCalculator.getRealPowerRanking(year, **kwargs)
+
     # Scoring Share
     scoringShare = ScoringShareYearCalculator.getScoringShare(year, **kwargs)
     opponentScoringShare = ScoringShareYearCalculator.getOpponentScoringShare(year, **kwargs)
@@ -170,7 +174,8 @@ def yearStatSheet(year: Year, **kwargs) -> YearStatSheet:
                          opponentAWALPerGame=opponentAWALPerGame, smartWins=smartWins,
                          smartWinsPerGame=smartWinsPerGame, opponentSmartWins=opponentSmartWins,
                          opponentSmartWinsPerGame=opponentSmartWinsPerGame, pointsScored=pointsScored,
-                         pointsScoredPerGame=pointsScoredPerGame, opponentPointsScored=opponentPointsScored,
+                         pointsScoredPerGame=pointsScoredPerGame, realPowerRanking=realPowerRanking,
+                         opponentPointsScored=opponentPointsScored,
                          opponentPointsScoredPerGame=opponentPointsScoredPerGame, scoringShare=scoringShare,
                          opponentScoringShare=opponentScoringShare, maxScore=maxScore, minScore=minScore,
                          scoringStandardDeviation=scoringStandardDeviation, plusMinus=plusMinus,

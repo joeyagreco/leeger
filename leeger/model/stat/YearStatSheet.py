@@ -34,6 +34,9 @@ class YearStatSheet:
     opponentPointsScored: dict[str, Deci]
     opponentPointsScoredPerGame: dict[str, Deci]
 
+    # Power Ranking
+    realPowerRanking: dict[str, Deci]
+
     # Scoring Share
     scoringShare: dict[str, Deci]
     opponentScoringShare: dict[str, Deci]
@@ -94,7 +97,8 @@ class YearStatSheet:
             ("Plus/Minus", self.plusMinus),
             ("Team Score", self.teamScore),
             ("Team Success", self.teamSuccess),
-            ("Team Luck", self.teamLuck)
+            ("Team Luck", self.teamLuck),
+            ("Real Power Ranking", self.realPowerRanking),
         ]
 
         # add optional stats if needed

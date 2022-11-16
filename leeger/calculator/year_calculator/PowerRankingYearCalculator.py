@@ -45,8 +45,8 @@ class PowerRankingYearCalculator(YearCalculator):
             kwargsCopy["weekNumberEnd"] = weekNumber
 
             # get team score / success for this week only
-            teamScoresForWeek = SSLYearCalculator.getTeamScore(year, kwargsCopy)
-            teamSuccessesForWeek = SSLYearCalculator.getTeamSuccess(year, kwargsCopy)
+            teamScoresForWeek = SSLYearCalculator.getTeamScore(year, **kwargsCopy)
+            teamSuccessesForWeek = SSLYearCalculator.getTeamSuccess(year, **kwargsCopy)
 
             # add team scores to tracking dict
             for teamId, teamScore in teamScoresForWeek.items():
@@ -67,10 +67,11 @@ class PowerRankingYearCalculator(YearCalculator):
         for teamId in teamIdAndRealPowerRanking.keys():
             teamScores = teamIdAndTeamScores[teamId]
             teamSuccesses = teamIdAndTeamSuccesses[teamId]
-            for i, teamScore, teamSuccess in enumerate(zip(teamScores, teamSuccesses)):
+            for i, (teamScore, teamSuccess) in enumerate(zip(teamScores, teamSuccesses)):
                 weekMultiplier = i + 1
-                powerRankingForWeek = weekMultiplier * ((teamScore * 0.5) + (teamSuccess * 0.5))
+                powerRankingForWeek = weekMultiplier * ((teamScore * Deci(0.5)) + (teamSuccess * Deci(0.5)))
                 teamIdAndRealPowerRanking[teamId] += powerRankingForWeek
+            teamIdAndRealPowerRanking[teamId] = teamIdAndRealPowerRanking[teamId] / Deci(100)
 
         cls._setToNoneIfNoGamesPlayed(teamIdAndRealPowerRanking, year, filters, **kwargs)
         return teamIdAndRealPowerRanking
