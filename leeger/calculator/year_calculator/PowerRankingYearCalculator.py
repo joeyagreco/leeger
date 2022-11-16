@@ -71,7 +71,8 @@ class PowerRankingYearCalculator(YearCalculator):
                 weekMultiplier = i + 1
                 powerRankingForWeek = weekMultiplier * ((teamScore * Deci(0.5)) + (teamSuccess * Deci(0.5)))
                 teamIdAndRealPowerRanking[teamId] += powerRankingForWeek
-            teamIdAndRealPowerRanking[teamId] = teamIdAndRealPowerRanking[teamId] / Deci(100)
+
+            teamIdAndRealPowerRanking[teamId] = teamIdAndRealPowerRanking[teamId] / len(teamScores)
 
         cls._setToNoneIfNoGamesPlayed(teamIdAndRealPowerRanking, year, filters, **kwargs)
         return teamIdAndRealPowerRanking
