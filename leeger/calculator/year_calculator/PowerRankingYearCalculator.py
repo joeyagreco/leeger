@@ -82,7 +82,7 @@ class PowerRankingYearCalculator(YearCalculator):
 
             equation = equation[:-3]
             equation += ") - 1"
-            teamIdAndRealPowerRanking[teamId] = Deci(solve(equation, x)[0])
+            teamIdAndRealPowerRanking[teamId] = abs(Deci(solve(equation, x)[0]) * Deci(100) - Deci(1)) * Deci(100)
 
         cls._setToNoneIfNoGamesPlayed(teamIdAndRealPowerRanking, year, filters, **kwargs)
         return teamIdAndRealPowerRanking
