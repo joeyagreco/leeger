@@ -43,7 +43,7 @@ class PowerRankingYearCalculator(YearCalculator):
         for weekNumber in range(filters.weekNumberStart, filters.weekNumberEnd + 1):
             # get the Team Score and Team Success for each team each week
             kwargsCopy = copy.deepcopy(kwargs)
-            kwargsCopy["weekNumberStart"] = weekNumber
+            kwargsCopy["weekNumberStart"] = filters.weekNumberStart
             kwargsCopy["weekNumberEnd"] = weekNumber
 
             # get team score / success for this week only
