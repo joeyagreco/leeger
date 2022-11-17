@@ -1,6 +1,8 @@
 import copy
 from typing import Optional
 
+from sympy import Symbol, solve
+
 from leeger.calculator.parent.YearCalculator import YearCalculator
 from leeger.calculator.year_calculator import SSLYearCalculator
 from leeger.decorator.validators import validateYear
@@ -65,14 +67,22 @@ class PowerRankingYearCalculator(YearCalculator):
                         teamIdAndTeamSuccesses[teamId] = [teamSuccess]
 
         for teamId in teamIdAndRealPowerRanking.keys():
-            teamScores = teamIdAndTeamScores[teamId]
-            teamSuccesses = teamIdAndTeamSuccesses[teamId]
-            for i, (teamScore, teamSuccess) in enumerate(zip(teamScores, teamSuccesses)):
-                weekMultiplier = i + 1
-                powerRankingForWeek = weekMultiplier * ((teamScore * Deci(0.5)) + (teamSuccess * Deci(0.5)))
-                teamIdAndRealPowerRanking[teamId] += powerRankingForWeek
+            # get lists of values and reverse them so it's ordered most -> least recent week
+            teamScores = teamIdAndTeamScores[teamId][::-1]
+            teamSuccesses = teamIdAndTeamSuccesses[teamId][::-1]
+            # each week will count as double as much as the previous week
+            x = Symbol("x")
+            equation = "("
+            multiplier = 1
+            for (teamScore, teamSuccess) in zip(teamScores, teamSuccesses):
+                powerRankingForWeek = (teamScore * Deci(0.5)) + (teamSuccess * Deci(0.5))
 
-            teamIdAndRealPowerRanking[teamId] = teamIdAndRealPowerRanking[teamId] / len(teamScores)
+                equation += f"((x * {multiplier}) * {powerRankingForWeek}) + "
+                multiplier = multiplier / 2
+
+            equation = equation[:-3]
+            equation += ") - 1"
+            teamIdAndRealPowerRanking[teamId] = Deci(solve(equation, x)[0])
 
         cls._setToNoneIfNoGamesPlayed(teamIdAndRealPowerRanking, year, filters, **kwargs)
         return teamIdAndRealPowerRanking
