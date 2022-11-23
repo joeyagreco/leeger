@@ -19,7 +19,7 @@ class PowerRankingYearCalculator(YearCalculator):
 
     @classmethod
     @validateYear
-    def getRealPowerRanking(cls, year: Year, **kwargs) -> dict[str, Optional[Deci]]:
+    def getRealPowerRanking(cls, year: Year, **kwargs) -> dict[str, Optional[int]]:
         """
         Returns the Real Power Ranking for each team in the given Year.
         Returns None for a Team if they have no games played in the range.
@@ -83,6 +83,8 @@ class PowerRankingYearCalculator(YearCalculator):
             equation = equation[:-3]
             equation += ") - 1"
             teamIdAndRealPowerRanking[teamId] = abs(Deci(solve(equation, x)[0]) * Deci(100) - Deci(1)) * Deci(100)
+
+        teamIdAndRealPowerRanking = cls._rank(teamIdAndRealPowerRanking)
 
         cls._setToNoneIfNoGamesPlayed(teamIdAndRealPowerRanking, year, filters, **kwargs)
         return teamIdAndRealPowerRanking

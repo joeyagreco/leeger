@@ -37,3 +37,35 @@ class YearCalculator:
         for teamId in responseDict:
             if teamIdAndNumberOfGamesPlayed[teamId] == 0:
                 responseDict[teamId] = None
+
+    @classmethod
+    def _rank(cls, responseDict: dict[str, Any]) -> dict[str, int]:
+        """
+        Ranks the values of the given dict 1 -> n
+        WHERE:
+            - 1 is the largest value
+            - n is the smallest value
+
+        This will rank None values last.
+        """
+
+        # remove all None values before ranking
+        teamIdsWithNoneValues = [teamId for teamId, value in responseDict.items() if value is None]
+
+        # rank non-None values
+        teamIdsAndValues = [(teamId, value) for teamId, value in responseDict.items() if value is not None]
+        teamIdsAndValues.sort(key=lambda x: x[1], reverse=True)
+
+        rankedDict = dict()
+        currentRank = 1
+        lastValue = None
+        for teamId, value in teamIdsAndValues:
+            rankedDict[teamId] = currentRank
+            if lastValue is None or lastValue != value:
+                currentRank += 1
+            lastValue = value
+
+        # add None values back
+        for teamId in teamIdsWithNoneValues:
+            rankedDict[teamId] = None
+        return rankedDict
