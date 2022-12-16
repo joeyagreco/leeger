@@ -19,8 +19,10 @@ To set up your MyFantasyLeague account, follow these steps:
   the [API Client Registration Page](http://www.myfantasyleague.com/current_year/csetup?C=APICLI) (replace "
   current_year" with the current year)
 - Set up your API Client, making sure that:
-    - Client Purpose = "Data Collection"
-    - Client User Agent is set (remember what this is as you will need it for the League Loader)
-    - Authorized Users has *at least* your MFL username
+  - Client Purpose = "Data Collection"
+  - Client User Agent is set (remember what this is as you will need it for the League Loader)
+  - Authorized Users has *at least* your MFL username
 - Validate your client by selecting "Validate" for your newly-created client under "Configured Clients".
-    - This will allow you to validate your API Client via text message.
+  - This will allow you to validate your API Client via text message.
+
+### [Code Template for MyFantasyLeague](https://github.com/joeyagreco/leeger/blob/main/example/league_loader/myFantasyLeagueLeagueLoaderExample.py)

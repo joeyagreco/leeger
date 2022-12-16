@@ -24,3 +24,5 @@ To retrieve ESPN_S2 and SWID, follow these steps:
 3. Open Developer Tools (on Chrome/Firefox, right-click anywhere on the page and select Inspect Element)
 4. Go to Storage (for Firefox) or Application (for Chrome) and browse the Cookies available for fantasy.espn.com
 5. The values you need are called "SWID" and "ESPN_S2". You can right-click and copy the values from here.
+
+### [Code Template for ESPN](https://github.com/joeyagreco/leeger/blob/main/example/league_loader/espnLeagueLoaderExample.py)

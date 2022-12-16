@@ -22,3 +22,6 @@ To set up your Yahoo account, follow these steps:
 ##### Notes
 
 - When the Yahoo League Loader is run, Yahoo OAuth will open up a new tab in a browser. You can close this tab.
+
+### [Code Template for Yahoo](https://github.com/joeyagreco/leeger/blob/main/example/league_loader/yahooLeagueLoaderExample.py)
+
