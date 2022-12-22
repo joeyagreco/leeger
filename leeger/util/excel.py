@@ -75,7 +75,7 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
     # add All-Time teams stats sheet
     workbook = load_workbook(filename=filePath)
     # figure out index to put this sheet into
-    # we want the sheets to be ordered: oldest year -> newest year -> all-time teams -> all time owners
+    # we want the sheets to be ordered: oldest year -> newest year -> all time teams -> all time owners
     index = len(workbook.sheetnames)
     workbook.create_sheet("All Time Teams", index=index)
     worksheet = workbook["All Time Teams"]
@@ -114,7 +114,7 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
     # add All-Time owner stats sheet
     workbook = load_workbook(filename=filePath)
     # figure out index to put this sheet into
-    # we want the sheets to be ordered: oldest year -> newest year -> all-time teams -> all time owners
+    # we want the sheets to be ordered: oldest year -> newest year -> all time teams -> all time owners
     index = len(workbook.sheetnames)
     workbook.create_sheet("All Time Owners", index=index)
     worksheet = workbook["All Time Owners"]
