@@ -12,6 +12,7 @@ from openpyxl.worksheet.table import Table
 from openpyxl.worksheet.worksheet import Worksheet
 
 from leeger.model.league import Year, League
+from leeger.util.navigator import LeagueNavigator
 from leeger.util.stat_sheet import yearStatSheet, leagueStatSheet
 
 
@@ -51,12 +52,24 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
     allTimeTeamIds: list[str] = list()
     allTimeTeamNames: list[str] = list()
     for year in league.years:
-        allTimeTeamsStatsWithTitles += yearStatSheet(year, **kwargs).preferredOrderWithTitle()
+        statsWithTitles = yearStatSheet(year, **kwargs).preferredOrderWithTitle()
+        # insert owner name for all time teams stats
+        ownerNameStatDict = dict()
+        for team in year.teams:
+            owner = LeagueNavigator.getOwnerById(league, team.ownerId)
+            ownerNameStatDict[team.id] = owner.name
+        statsWithTitles.insert(0, ("Owner Names", ownerNameStatDict))
+        # insert year for all time teams stats
+        yearStatDict = dict.fromkeys((team.id for team in year.teams), year.yearNumber)
+        statsWithTitles.insert(1, ("Year", yearStatDict))
+        allTimeTeamsStatsWithTitles += statsWithTitles
         # sort teams by owner ID
         allTeams = [team for team in year.teams]
         allTeams.sort(key=lambda x: x.ownerId)
         allTimeTeamIds += [team.id for team in allTeams]
         allTimeTeamNames += [team.name for team in allTeams]
+
+        # add a sheet to the Excel document for this year
         yearToExcel(year, filePath, overwrite=False, **kwargs)
 
     # add All-Time teams stats sheet
@@ -93,8 +106,8 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
     table = Table(displayName=f"AllTimeTeamStats",
                   ref="A1:" + get_column_letter(worksheet.max_column) + str(worksheet.max_row))
     worksheet.add_table(table)
-    # freeze owner name column and header row
-    worksheet.freeze_panes = "B2"
+    # freeze team name, owner name year columns and header row
+    worksheet.freeze_panes = "D2"
     # save
     workbook.save(filePath)
 
