@@ -47,13 +47,16 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
         ownerIdToColorMap[ownerId] = __getRandomColor(0.5, seed)
 
     # gather info for all time teams to be used later
-    all_time_teams_stats_with_titles: list[tuple[str, dict]] = list()
-    all_time_team_ids: list[str] = list()
-    all_time_team_names: list[str] = list()
+    allTimeTeamsStatsWithTitles: list[tuple[str, dict]] = list()
+    allTimeTeamIds: list[str] = list()
+    allTimeTeamNames: list[str] = list()
     for year in league.years:
-        all_time_teams_stats_with_titles += yearStatSheet(year, **kwargs).preferredOrderWithTitle()
-        all_time_team_ids += [team.id for team in year.teams]
-        all_time_team_names += [team.name for team in year.teams]
+        allTimeTeamsStatsWithTitles += yearStatSheet(year, **kwargs).preferredOrderWithTitle()
+        # sort teams by owner ID
+        allTeams = [team for team in year.teams]
+        allTeams.sort(key=lambda x: x.ownerId)
+        allTimeTeamIds += [team.id for team in allTeams]
+        allTimeTeamNames += [team.name for team in allTeams]
         yearToExcel(year, filePath, overwrite=False, **kwargs)
 
     # add All-Time teams stats sheet
@@ -65,24 +68,24 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
     worksheet = workbook["All Time Teams"]
 
     # condense stats with titles so there's only 1 list value for each title
-    condensed_all_time_teams_stats_with_titles: list[tuple[str, dict]] = list()
-    for title_str, stats_dict in all_time_teams_stats_with_titles:
-        all_titles_in_condensed_list = list()
-        if len(condensed_all_time_teams_stats_with_titles) > 0:
-            all_titles_in_condensed_list = [values[0] for values in condensed_all_time_teams_stats_with_titles]
-        if title_str in all_titles_in_condensed_list:
+    condensedAllTimeTeamsStatsWithTitles: list[tuple[str, dict]] = list()
+    for titleStr, statsDict in allTimeTeamsStatsWithTitles:
+        allTitlesInCondensedList = list()
+        if len(condensedAllTimeTeamsStatsWithTitles) > 0:
+            allTitlesInCondensedList = [values[0] for values in condensedAllTimeTeamsStatsWithTitles]
+        if titleStr in allTitlesInCondensedList:
             # add to stats dict for the existing title
-            for i, (title_s, stats_d) in enumerate(condensed_all_time_teams_stats_with_titles):
-                if title_s == title_str:
-                    condensed_all_time_teams_stats_with_titles[i] = (title_s, stats_d | stats_dict)
+            for i, (title_s, stats_d) in enumerate(condensedAllTimeTeamsStatsWithTitles):
+                if title_s == titleStr:
+                    condensedAllTimeTeamsStatsWithTitles[i] = (title_s, stats_d | statsDict)
         else:
-            condensed_all_time_teams_stats_with_titles.append((title_str, stats_dict))
+            condensedAllTimeTeamsStatsWithTitles.append((titleStr, statsDict))
 
     __populateWorksheet(worksheet,
-                        condensed_all_time_teams_stats_with_titles,
+                        condensedAllTimeTeamsStatsWithTitles,
                         "Team Names",
-                        all_time_team_ids,
-                        all_time_team_names,
+                        allTimeTeamIds,
+                        allTimeTeamNames,
                         ownerIdToColorMap,
                         ownerIds * len(league.years))
 
