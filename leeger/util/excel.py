@@ -46,10 +46,8 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
     for ownerId, seed in ownerIdToSeedMap.items():
         ownerIdToColorMap[ownerId] = __getRandomColor(0.5, seed)
 
-    entityRowColors = [__getRandomColor(0.5) for _ in range(len(ownerNames))]
-
     for year in league.years:
-        yearToExcel(year, filePath, overwrite=False, __entityRowColors=entityRowColors, **kwargs)
+        yearToExcel(year, filePath, overwrite=False, **kwargs)
 
     # add All-Time stats sheet
     workbook = load_workbook(filename=filePath)
@@ -122,9 +120,6 @@ def yearToExcel(year: Year, filePath: str, **kwargs) -> None:
     ownerIdToColorMap = dict()
     for ownerId, seed in ownerIdToSeedMap.items():
         ownerIdToColorMap[ownerId] = __getRandomColor(0.5, seed)
-
-    entityRowColors: list[Color] = kwargs.pop("__entityRowColors",
-                                              [__getRandomColor(0.5) for _ in range(len(teamNames))])
 
     __populateWorksheet(worksheet,
                         yearStatSheet(year, **kwargs).preferredOrderWithTitle(),
