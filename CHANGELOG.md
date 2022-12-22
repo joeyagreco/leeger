@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- N/A
+
+## [1.11.0]
+
 - Added All-Time Teams stat sheet to Excel
 - Fixed formatting in stats documentation
 - Fixed broken link in README
@@ -116,7 +120,9 @@ All notable changes to this project will be documented in this file.
 
 ### Initial Release
 
-[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.10.0...HEAD
+[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.11.0...HEAD
+
+[1.11.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.11.0
 
 [1.10.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.10.0
 
