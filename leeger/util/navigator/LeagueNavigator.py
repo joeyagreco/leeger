@@ -2,6 +2,7 @@ from leeger.enum.MatchupType import MatchupType
 from leeger.exception.DoesNotExistException import DoesNotExistException
 from leeger.model.filter.AllTimeFilters import AllTimeFilters
 from leeger.model.filter.YearFilters import YearFilters
+from leeger.model.league import Owner
 from leeger.model.league.League import League
 from leeger.model.league.Team import Team
 from leeger.model.league.Year import Year
@@ -27,6 +28,13 @@ class LeagueNavigator:
                 if team.id == teamId:
                     return team
         raise DoesNotExistException(f"Team with ID {teamId} does not exist in the given League.")
+
+    @staticmethod
+    def getOwnerById(league: League, ownerId: str) -> Owner:
+        for owner in league.owners:
+            if owner.id == ownerId:
+                return owner
+        raise DoesNotExistException(f"Owner with ID {ownerId} does not exist in the given League.")
 
     @staticmethod
     def getAllOwnerIds(league: League) -> list[str]:

@@ -12,6 +12,7 @@ from openpyxl.worksheet.table import Table
 from openpyxl.worksheet.worksheet import Worksheet
 
 from leeger.model.league import Year, League
+from leeger.util.navigator import LeagueNavigator
 from leeger.util.stat_sheet import yearStatSheet, leagueStatSheet
 
 
@@ -46,18 +47,77 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
     for ownerId, seed in ownerIdToSeedMap.items():
         ownerIdToColorMap[ownerId] = __getRandomColor(0.5, seed)
 
-    entityRowColors = [__getRandomColor(0.5) for _ in range(len(ownerNames))]
-
+    # gather info for all time teams to be used later
+    allTimeTeamsStatsWithTitles: list[tuple[str, dict]] = list()
+    allTimeTeamIds: list[str] = list()
+    allTimeTeamNames: list[str] = list()
     for year in league.years:
-        yearToExcel(year, filePath, overwrite=False, __entityRowColors=entityRowColors, **kwargs)
+        statsWithTitles = yearStatSheet(year, **kwargs).preferredOrderWithTitle()
+        # insert owner name for all time teams stats
+        ownerNameStatDict = dict()
+        for team in year.teams:
+            owner = LeagueNavigator.getOwnerById(league, team.ownerId)
+            ownerNameStatDict[team.id] = owner.name
+        statsWithTitles.insert(0, ("Owner Names", ownerNameStatDict))
+        # insert year for all time teams stats
+        yearStatDict = dict.fromkeys((team.id for team in year.teams), year.yearNumber)
+        statsWithTitles.insert(1, ("Year", yearStatDict))
+        allTimeTeamsStatsWithTitles += statsWithTitles
+        # sort teams by owner ID
+        allTeams = [team for team in year.teams]
+        allTeams.sort(key=lambda x: x.ownerId)
+        allTimeTeamIds += [team.id for team in allTeams]
+        allTimeTeamNames += [team.name for team in allTeams]
 
-    # add All-Time stats sheet
+        # add a sheet to the Excel document for this year
+        yearToExcel(year, filePath, overwrite=False, **kwargs)
+
+    # add All-Time teams stats sheet
     workbook = load_workbook(filename=filePath)
     # figure out index to put this sheet into
-    # we want the sheets to be ordered: oldest year -> newest year -> all time
+    # we want the sheets to be ordered: oldest year -> newest year -> all time teams -> all time owners
     index = len(workbook.sheetnames)
-    workbook.create_sheet("All Time", index=index)
-    worksheet = workbook["All Time"]
+    workbook.create_sheet("All Time Teams", index=index)
+    worksheet = workbook["All Time Teams"]
+
+    # condense stats with titles so there's only 1 list value for each title
+    condensedAllTimeTeamsStatsWithTitles: list[tuple[str, dict]] = list()
+    for titleStr, statsDict in allTimeTeamsStatsWithTitles:
+        allTitlesInCondensedList = list()
+        if len(condensedAllTimeTeamsStatsWithTitles) > 0:
+            allTitlesInCondensedList = [values[0] for values in condensedAllTimeTeamsStatsWithTitles]
+        if titleStr in allTitlesInCondensedList:
+            # add to stats dict for the existing title
+            for i, (title_s, stats_d) in enumerate(condensedAllTimeTeamsStatsWithTitles):
+                if title_s == titleStr:
+                    condensedAllTimeTeamsStatsWithTitles[i] = (title_s, stats_d | statsDict)
+        else:
+            condensedAllTimeTeamsStatsWithTitles.append((titleStr, statsDict))
+
+    __populateWorksheet(worksheet,
+                        condensedAllTimeTeamsStatsWithTitles,
+                        "Team Names",
+                        allTimeTeamIds,
+                        allTimeTeamNames,
+                        ownerIdToColorMap,
+                        ownerIds * len(league.years))
+
+    # put stats into table
+    table = Table(displayName=f"AllTimeTeamStats",
+                  ref="A1:" + get_column_letter(worksheet.max_column) + str(worksheet.max_row))
+    worksheet.add_table(table)
+    # freeze team name, owner name year columns and header row
+    worksheet.freeze_panes = "D2"
+    # save
+    workbook.save(filePath)
+
+    # add All-Time owner stats sheet
+    workbook = load_workbook(filename=filePath)
+    # figure out index to put this sheet into
+    # we want the sheets to be ordered: oldest year -> newest year -> all time teams -> all time owners
+    index = len(workbook.sheetnames)
+    workbook.create_sheet("All Time Owners", index=index)
+    worksheet = workbook["All Time Owners"]
 
     __populateWorksheet(worksheet,
                         leagueStatSheet(league, **kwargs).preferredOrderWithTitle(),
@@ -68,7 +128,7 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
                         ownerIds)
 
     # put stats into table
-    table = Table(displayName=f"AllTimeStats",
+    table = Table(displayName=f"AllTimeOwnerStats",
                   ref="A1:" + get_column_letter(worksheet.max_column) + str(worksheet.max_row))
     worksheet.add_table(table)
 
@@ -122,9 +182,6 @@ def yearToExcel(year: Year, filePath: str, **kwargs) -> None:
     ownerIdToColorMap = dict()
     for ownerId, seed in ownerIdToSeedMap.items():
         ownerIdToColorMap[ownerId] = __getRandomColor(0.5, seed)
-
-    entityRowColors: list[Color] = kwargs.pop("__entityRowColors",
-                                              [__getRandomColor(0.5) for _ in range(len(teamNames))])
 
     __populateWorksheet(worksheet,
                         yearStatSheet(year, **kwargs).preferredOrderWithTitle(),

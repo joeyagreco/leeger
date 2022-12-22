@@ -4,10 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- Added All-Time Teams stat sheet to Excel
 - Fixed formatting in stats documentation
 - Fixed broken link in README
 - Updated flow diagram
 - Updated setup file to ignore unneeded packages
+- Upgraded Sleeper package version
 - Better documentation flow for setting up league loaders
 
 ## [1.10.0]

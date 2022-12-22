@@ -154,6 +154,48 @@ class TestLeagueNavigator(unittest.TestCase):
             LeagueNavigator.getTeamById(league, "imABadID")
         self.assertEqual("Team with ID imABadID does not exist in the given League.", str(context.exception))
 
+    def test_getOwnerById_happyPath(self):
+        owner1 = Owner(name="1")
+        owner2 = Owner(name="2")
+
+        a_team1 = Team(ownerId=owner1.id, name="1")
+        a_team2 = Team(ownerId=owner2.id, name="2")
+
+        a_matchup1 = Matchup(teamAId=a_team1.id, teamBId=a_team2.id, teamAScore=1, teamBScore=2)
+
+        a_week1 = Week(weekNumber=1, matchups=[a_matchup1])
+
+        a_year = Year(yearNumber=2000, teams=[a_team1, a_team2], weeks=[a_week1])
+
+        league = League(name="TEST", owners=[owner1, owner2], years=[a_year])
+
+        response1 = LeagueNavigator.getOwnerById(league, owner1.id)
+        response2 = LeagueNavigator.getOwnerById(league, owner2.id)
+
+        self.assertIsInstance(response1, Owner)
+        self.assertIsInstance(response2, Owner)
+        self.assertEqual(owner1, response1)
+        self.assertEqual(owner2, response2)
+
+    def test_getOwnerById_ownerIdNotFound_raisesException(self):
+        owner1 = Owner(name="1")
+        owner2 = Owner(name="2")
+
+        a_team1 = Team(ownerId=owner1.id, name="1")
+        a_team2 = Team(ownerId=owner2.id, name="2")
+
+        a_matchup1 = Matchup(teamAId=a_team1.id, teamBId=a_team2.id, teamAScore=1, teamBScore=2)
+
+        a_week1 = Week(weekNumber=1, matchups=[a_matchup1])
+
+        a_year = Year(yearNumber=2000, teams=[a_team1, a_team2], weeks=[a_week1])
+
+        league = League(name="TEST", owners=[owner1, owner2], years=[a_year])
+
+        with self.assertRaises(DoesNotExistException) as context:
+            LeagueNavigator.getOwnerById(league, "imABadID")
+        self.assertEqual("Owner with ID imABadID does not exist in the given League.", str(context.exception))
+
     def test_getNumberOfGamesPlayed_happyPath(self):
         owners, teamsA = getNDefaultOwnersAndTeams(2)
         teamsB = getTeamsFromOwners(owners)

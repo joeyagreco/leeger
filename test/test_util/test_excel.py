@@ -44,11 +44,12 @@ class TestExcel(unittest.TestCase):
             # open created Excel file to check that it was saved correctly
             workbook = load_workbook(filename=fullPath)
 
-            self.assertEqual(4, len(workbook.sheetnames))
+            self.assertEqual(5, len(workbook.sheetnames))
             self.assertEqual("2000", workbook.sheetnames[0])
             self.assertEqual("2001", workbook.sheetnames[1])
             self.assertEqual("2002", workbook.sheetnames[2])
-            self.assertEqual("All Time", workbook.sheetnames[3])
+            self.assertEqual("All Time Teams", workbook.sheetnames[3])
+            self.assertEqual("All Time Owners", workbook.sheetnames[4])
 
     def test_leagueToExcel_fileAlreadyExists_raisesException(self):
         owners, teams1 = getNDefaultOwnersAndTeams(2)
