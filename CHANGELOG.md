@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- N/A
+- Fixed bug where keyword arguments may not work for All Time Teams stat sheet in Excel
 
 ## [1.11.0]
 

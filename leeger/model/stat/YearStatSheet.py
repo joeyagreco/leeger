@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
 from typing import Optional
 
@@ -60,6 +62,9 @@ class YearStatSheet:
     opponentLeagueMedianWins: Optional[dict[str, float]] = None
     totalGames: Optional[dict[str, int]] = None
 
+    ownerNames: Optional[dict[str, str]] = None
+    years: Optional[dict[str, int]] = None
+
     def preferredOrderWithTitle(self) -> list[tuple[str, dict]]:
         """
         Returns all stats in the preferred order with the title for the stat.
@@ -102,5 +107,10 @@ class YearStatSheet:
             response.insert(1, ("Total Games", self.totalGames))
             response.insert(4, ("League Median Wins", self.leagueMedianWins))
             response.insert(5, ("Opponent League Median Wins", self.opponentLeagueMedianWins))
+
+        if self.ownerNames is not None:
+            response.insert(0, ("Owner Names", self.ownerNames))
+        if self.years is not None:
+            response.insert(1, ("Year", self.years))
 
         return response

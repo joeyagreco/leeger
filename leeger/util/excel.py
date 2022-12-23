@@ -12,8 +12,7 @@ from openpyxl.worksheet.table import Table
 from openpyxl.worksheet.worksheet import Worksheet
 
 from leeger.model.league import Year, League
-from leeger.util.navigator import LeagueNavigator
-from leeger.util.stat_sheet import yearStatSheet, leagueStatSheet
+from leeger.util.stat_sheet import yearStatSheet, leagueStatSheet, allTimeTeamsStatSheet
 
 
 def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
@@ -48,21 +47,9 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
         ownerIdToColorMap[ownerId] = __getRandomColor(0.5, seed)
 
     # gather info for all time teams to be used later
-    allTimeTeamsStatsWithTitles: list[tuple[str, dict]] = list()
     allTimeTeamIds: list[str] = list()
     allTimeTeamNames: list[str] = list()
     for year in league.years:
-        statsWithTitles = yearStatSheet(year, **kwargs).preferredOrderWithTitle()
-        # insert owner name for all time teams stats
-        ownerNameStatDict = dict()
-        for team in year.teams:
-            owner = LeagueNavigator.getOwnerById(league, team.ownerId)
-            ownerNameStatDict[team.id] = owner.name
-        statsWithTitles.insert(0, ("Owner Names", ownerNameStatDict))
-        # insert year for all time teams stats
-        yearStatDict = dict.fromkeys((team.id for team in year.teams), year.yearNumber)
-        statsWithTitles.insert(1, ("Year", yearStatDict))
-        allTimeTeamsStatsWithTitles += statsWithTitles
         # sort teams by owner ID
         allTeams = [team for team in year.teams]
         allTeams.sort(key=lambda x: x.ownerId)
@@ -80,22 +67,10 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
     workbook.create_sheet("All Time Teams", index=index)
     worksheet = workbook["All Time Teams"]
 
-    # condense stats with titles so there's only 1 list value for each title
-    condensedAllTimeTeamsStatsWithTitles: list[tuple[str, dict]] = list()
-    for titleStr, statsDict in allTimeTeamsStatsWithTitles:
-        allTitlesInCondensedList = list()
-        if len(condensedAllTimeTeamsStatsWithTitles) > 0:
-            allTitlesInCondensedList = [values[0] for values in condensedAllTimeTeamsStatsWithTitles]
-        if titleStr in allTitlesInCondensedList:
-            # add to stats dict for the existing title
-            for i, (title_s, stats_d) in enumerate(condensedAllTimeTeamsStatsWithTitles):
-                if title_s == titleStr:
-                    condensedAllTimeTeamsStatsWithTitles[i] = (title_s, stats_d | statsDict)
-        else:
-            condensedAllTimeTeamsStatsWithTitles.append((titleStr, statsDict))
+    allTimeTeamsStatSheet_ = allTimeTeamsStatSheet(league, **kwargs)
 
     __populateWorksheet(worksheet,
-                        condensedAllTimeTeamsStatsWithTitles,
+                        allTimeTeamsStatSheet_,
                         "Team Names",
                         allTimeTeamIds,
                         allTimeTeamNames,
