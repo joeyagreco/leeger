@@ -239,7 +239,10 @@ def __populateWorksheet(worksheet: Worksheet,
                 worksheet[cell].alignment = Alignment(horizontal='center')
             # add stat value
             cell = f"{char}{i + 2}"
-            worksheet[cell] = statWithTitle[1][entityId]
+            if entityId in statWithTitle[1]:
+                worksheet[cell] = statWithTitle[1][entityId]
+            else:
+                worksheet[cell] = "N/A"
             worksheet[cell].fill = rowFill
 
     # set column widths
