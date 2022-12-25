@@ -44,12 +44,77 @@ class TestExcel(unittest.TestCase):
             # open created Excel file to check that it was saved correctly
             workbook = load_workbook(filename=fullPath)
 
+            # check sheets
             self.assertEqual(5, len(workbook.sheetnames))
             self.assertEqual("2000", workbook.sheetnames[0])
             self.assertEqual("2001", workbook.sheetnames[1])
             self.assertEqual("2002", workbook.sheetnames[2])
             self.assertEqual("All Time Teams", workbook.sheetnames[3])
             self.assertEqual("All Time Owners", workbook.sheetnames[4])
+
+            # check sheet values
+            worksheet2000Values = [
+                ["a", 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 2, 2,
+                 33.33333333333334, 66.66666666666667, 33.33333333333334, 33.33333333333334,
+                 1, 1, 0, -1, 66.76666666666667, 66.76666666666667, 0],
+                ["b", 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 2, 2, 1, 1,
+                 66.66666666666667, 33.33333333333334, 66.66666666666667, 66.66666666666667,
+                 2, 2, 0, 1, 233.5333333333333, 233.5333333333333, 0]]
+            worksheet2001Values = [
+                ["a2", 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 2, 2,
+                 33.33333333333334, 66.66666666666667, 33.33333333333334, 33.33333333333334,
+                 1, 1, 0, -1, 66.76666666666667, 66.76666666666667, 0],
+                ["b2", 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 2, 2, 1, 1,
+                 66.66666666666667, 33.33333333333334, 66.66666666666667, 66.66666666666667,
+                 2, 2, 0, 1, 233.5333333333333, 233.5333333333333, 0]]
+            worksheet2002Values = [
+                ["a3", 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 2, 2,
+                 33.33333333333334, 66.66666666666667, 33.33333333333334, 33.33333333333334,
+                 1, 1, 0, -1, 66.76666666666667, 66.76666666666667, 0],
+                ["b3", 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 2, 2, 1, 1,
+                 66.66666666666667, 33.33333333333334, 66.66666666666667, 66.66666666666667,
+                 2, 2, 0, 1, 233.5333333333333, 233.5333333333333, 0]]
+            yearWorksheetsAndValues = [(workbook["2000"], worksheet2000Values),
+                                       (workbook["2001"], worksheet2001Values),
+                                       (workbook["2002"], worksheet2002Values)]
+
+            for i, (currentWorksheet, allWorksheetValues) in enumerate(yearWorksheetsAndValues):
+                for j, worksheetValues in enumerate(allWorksheetValues):
+                    for k, worksheetValue in enumerate(worksheetValues):
+                        row = j + 2
+                        column = get_column_letter(k + 1)
+                        self.assertEqual(worksheetValue, currentWorksheet[f"{column}{row}"].value)
+                self.assertEqual("Team Names", currentWorksheet["A1"].value)
+                self.assertEqual("Games Played", currentWorksheet["B1"].value)
+                self.assertEqual("Wins", currentWorksheet["C1"].value)
+                self.assertEqual("Losses", currentWorksheet["D1"].value)
+                self.assertEqual("Ties", currentWorksheet["E1"].value)
+                self.assertEqual("Win Percentage", currentWorksheet["F1"].value)
+                self.assertEqual("WAL", currentWorksheet["G1"].value)
+                self.assertEqual("WAL Per Game", currentWorksheet["H1"].value)
+                self.assertEqual("AWAL", currentWorksheet["I1"].value)
+                self.assertEqual("AWAL Per Game", currentWorksheet["J1"].value)
+                self.assertEqual("Opponent AWAL", currentWorksheet["K1"].value)
+                self.assertEqual("Opponent AWAL Per Game", currentWorksheet["L1"].value)
+                self.assertEqual("Smart Wins", currentWorksheet["M1"].value)
+                self.assertEqual("Smart Wins Per Game", currentWorksheet["N1"].value)
+                self.assertEqual("Opponent Smart Wins", currentWorksheet["O1"].value)
+                self.assertEqual("Opponent Smart Wins Per Game", currentWorksheet["P1"].value)
+                self.assertEqual("Points Scored", currentWorksheet["Q1"].value)
+                self.assertEqual("Points Scored Per Game", currentWorksheet["R1"].value)
+                self.assertEqual("Opponent Points Scored", currentWorksheet["S1"].value)
+                self.assertEqual("Opponent Points Scored Per Game", currentWorksheet["T1"].value)
+                self.assertEqual("Scoring Share", currentWorksheet["U1"].value)
+                self.assertEqual("Opponent Scoring Share", currentWorksheet["V1"].value)
+                self.assertEqual("Max Scoring Share", currentWorksheet["W1"].value)
+                self.assertEqual("Min Scoring Share", currentWorksheet["X1"].value)
+                self.assertEqual("Max Score", currentWorksheet["Y1"].value)
+                self.assertEqual("Min Score", currentWorksheet["Z1"].value)
+                self.assertEqual("Scoring Standard Deviation", currentWorksheet["AA1"].value)
+                self.assertEqual("Plus/Minus", currentWorksheet["AB1"].value)
+                self.assertEqual("Team Score", currentWorksheet["AC1"].value)
+                self.assertEqual("Team Success", currentWorksheet["AD1"].value)
+                self.assertEqual("Team Luck", currentWorksheet["AE1"].value)
 
     def test_leagueToExcel_fileAlreadyExists_raisesException(self):
         owners, teams1 = getNDefaultOwnersAndTeams(2)
