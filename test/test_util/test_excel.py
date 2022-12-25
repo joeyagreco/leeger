@@ -215,14 +215,36 @@ class TestExcel(unittest.TestCase):
 
             # open created Excel file to check that it was saved correctly
             workbook = load_workbook(filename=fullPath)
-            worksheet = workbook.active
-
             self.assertEqual(1, len(workbook.sheetnames))
             self.assertEqual("2000", workbook.sheetnames[0])
-            self.assertEqual("Team Names", worksheet["A1"].value)
-            self.assertEqual("a", worksheet["A2"].value)
-            self.assertEqual("b", worksheet["A3"].value)
+            worksheet = workbook.active
 
+            # test worksheet values
+            worksheet = workbook["2000"]
+
+            worksheetValues = [
+                ["Team Names", "Games Played", "Wins", "Losses", "Ties", "Win Percentage", "WAL",
+                 "WAL Per Game", "AWAL", "AWAL Per Game", "Opponent AWAL", "Opponent AWAL Per Game", "Smart Wins",
+                 "Smart Wins Per Game", "Opponent Smart Wins", "Opponent Smart Wins Per Game", "Points Scored",
+                 "Points Scored Per Game", "Opponent Points Scored", "Opponent Points Scored Per Game", "Scoring Share",
+                 "Opponent Scoring Share", "Max Scoring Share", "Min Scoring Share", "Max Score", "Min Score",
+                 "Scoring Standard Deviation", "Plus/Minus", "Team Score", "Team Success", "Team Luck"],
+                ["a", 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 2, 2,
+                 33.33333333333334, 66.66666666666667, 33.33333333333334, 33.33333333333334,
+                 1, 1, 0, -1, 66.76666666666667, 66.76666666666667, 0],
+                ["b", 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 2, 2, 1, 1,
+                 66.66666666666667, 33.33333333333334, 66.66666666666667, 66.66666666666667,
+                 2, 2, 0, 1, 233.5333333333333, 233.5333333333333, 0]]
+
+            for rowNumber in range(1, 4):
+                values = worksheetValues[rowNumber - 1]
+                for columnNumber, value in enumerate(values):
+                    cell = f"{get_column_letter(columnNumber + 1)}{rowNumber}"
+                    self.assertEqual(values[columnNumber], worksheet[cell].value)
+            # check that "next" cell is empty
+            self.assertIsNone(worksheet["A4"].value)
+
+            # make sure stats were transferred properly
             statsWithTitles = yearStatSheet(year).preferredOrderWithTitle()
             for row, teamId in enumerate([team.id for team in year.teams]):
                 for col, statWithTitle in enumerate(statsWithTitles):
