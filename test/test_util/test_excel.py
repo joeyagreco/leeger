@@ -44,12 +44,132 @@ class TestExcel(unittest.TestCase):
             # open created Excel file to check that it was saved correctly
             workbook = load_workbook(filename=fullPath)
 
+            # check sheets
             self.assertEqual(5, len(workbook.sheetnames))
             self.assertEqual("2000", workbook.sheetnames[0])
             self.assertEqual("2001", workbook.sheetnames[1])
             self.assertEqual("2002", workbook.sheetnames[2])
             self.assertEqual("All Time Teams", workbook.sheetnames[3])
             self.assertEqual("All Time Owners", workbook.sheetnames[4])
+
+            # check sheet values
+            # test year worksheet values
+            worksheet2000Values = [
+                ["Team Names", "Games Played", "Wins", "Losses", "Ties", "Win Percentage", "WAL",
+                 "WAL Per Game", "AWAL", "AWAL Per Game", "Opponent AWAL", "Opponent AWAL Per Game", "Smart Wins",
+                 "Smart Wins Per Game", "Opponent Smart Wins", "Opponent Smart Wins Per Game", "Points Scored",
+                 "Points Scored Per Game", "Opponent Points Scored", "Opponent Points Scored Per Game", "Scoring Share",
+                 "Opponent Scoring Share", "Max Scoring Share", "Min Scoring Share", "Max Score", "Min Score",
+                 "Scoring Standard Deviation", "Plus/Minus", "Team Score", "Team Success", "Team Luck"],
+                ["a", 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 2, 2,
+                 33.33333333333334, 66.66666666666667, 33.33333333333334, 33.33333333333334,
+                 1, 1, 0, -1, 66.76666666666667, 66.76666666666667, 0],
+                ["b", 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 2, 2, 1, 1,
+                 66.66666666666667, 33.33333333333334, 66.66666666666667, 66.66666666666667,
+                 2, 2, 0, 1, 233.5333333333333, 233.5333333333333, 0]]
+            worksheet2001Values = [
+                ["Team Names", "Games Played", "Wins", "Losses", "Ties", "Win Percentage", "WAL",
+                 "WAL Per Game", "AWAL", "AWAL Per Game", "Opponent AWAL", "Opponent AWAL Per Game", "Smart Wins",
+                 "Smart Wins Per Game", "Opponent Smart Wins", "Opponent Smart Wins Per Game", "Points Scored",
+                 "Points Scored Per Game", "Opponent Points Scored", "Opponent Points Scored Per Game", "Scoring Share",
+                 "Opponent Scoring Share", "Max Scoring Share", "Min Scoring Share", "Max Score", "Min Score",
+                 "Scoring Standard Deviation", "Plus/Minus", "Team Score", "Team Success", "Team Luck"],
+                ["a2", 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 2, 2,
+                 33.33333333333334, 66.66666666666667, 33.33333333333334, 33.33333333333334,
+                 1, 1, 0, -1, 66.76666666666667, 66.76666666666667, 0],
+                ["b2", 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 2, 2, 1, 1,
+                 66.66666666666667, 33.33333333333334, 66.66666666666667, 66.66666666666667,
+                 2, 2, 0, 1, 233.5333333333333, 233.5333333333333, 0]]
+            worksheet2002Values = [
+                ["Team Names", "Games Played", "Wins", "Losses", "Ties", "Win Percentage", "WAL",
+                 "WAL Per Game", "AWAL", "AWAL Per Game", "Opponent AWAL", "Opponent AWAL Per Game", "Smart Wins",
+                 "Smart Wins Per Game", "Opponent Smart Wins", "Opponent Smart Wins Per Game", "Points Scored",
+                 "Points Scored Per Game", "Opponent Points Scored", "Opponent Points Scored Per Game", "Scoring Share",
+                 "Opponent Scoring Share", "Max Scoring Share", "Min Scoring Share", "Max Score", "Min Score",
+                 "Scoring Standard Deviation", "Plus/Minus", "Team Score", "Team Success", "Team Luck"],
+                ["a3", 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 2, 2,
+                 33.33333333333334, 66.66666666666667, 33.33333333333334, 33.33333333333334,
+                 1, 1, 0, -1, 66.76666666666667, 66.76666666666667, 0],
+                ["b3", 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 2, 2, 1, 1,
+                 66.66666666666667, 33.33333333333334, 66.66666666666667, 66.66666666666667,
+                 2, 2, 0, 1, 233.5333333333333, 233.5333333333333, 0]]
+            yearWorksheetsAndValues = [(workbook["2000"], worksheet2000Values),
+                                       (workbook["2001"], worksheet2001Values),
+                                       (workbook["2002"], worksheet2002Values)]
+
+            for i, (currentWorksheet, allWorksheetValues) in enumerate(yearWorksheetsAndValues):
+                for j, worksheetValues in enumerate(allWorksheetValues):
+                    for k, worksheetValue in enumerate(worksheetValues):
+                        row = j + 1
+                        column = get_column_letter(k + 1)
+                        self.assertEqual(worksheetValue, currentWorksheet[f"{column}{row}"].value)
+                # check that "next" cell is empty
+                self.assertIsNone(currentWorksheet["A4"].value)
+
+            # test all time teams worksheet values
+            allTimeTeamsWorksheet = workbook["All Time Teams"]
+
+            allTimeTeamsValues = [
+                ["Team Names", "Owner Names", "Year", "Games Played", "Wins", "Losses", "Ties", "Win Percentage", "WAL",
+                 "WAL Per Game", "AWAL", "AWAL Per Game", "Opponent AWAL", "Opponent AWAL Per Game", "Smart Wins",
+                 "Smart Wins Per Game", "Opponent Smart Wins", "Opponent Smart Wins Per Game", "Points Scored",
+                 "Points Scored Per Game", "Opponent Points Scored", "Opponent Points Scored Per Game", "Scoring Share",
+                 "Opponent Scoring Share", "Max Scoring Share", "Min Scoring Share", "Max Score", "Min Score",
+                 "Scoring Standard Deviation", "Plus/Minus", "Team Score", "Team Success", "Team Luck"],
+                ["a", "1", 2000, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 2, 2,
+                 33.33333333333334, 66.66666666666667, 33.33333333333334, 33.33333333333334,
+                 1, 1, 0, -1, 66.76666666666667, 66.76666666666667, 0],
+                ["b", "2", 2000, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 2, 2, 1, 1,
+                 66.66666666666667, 33.33333333333334, 66.66666666666667, 66.66666666666667,
+                 2, 2, 0, 1, 233.5333333333333, 233.5333333333333, 0],
+                ["a2", "1", 2001, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 2, 2,
+                 33.33333333333334, 66.66666666666667, 33.33333333333334, 33.33333333333334,
+                 1, 1, 0, -1, 66.76666666666667, 66.76666666666667, 0],
+                ["b2", "2", 2001, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 2, 2, 1, 1,
+                 66.66666666666667, 33.33333333333334, 66.66666666666667, 66.66666666666667,
+                 2, 2, 0, 1, 233.5333333333333, 233.5333333333333, 0],
+                ["a3", "1", 2002, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 2, 2,
+                 33.33333333333334, 66.66666666666667, 33.33333333333334, 33.33333333333334,
+                 1, 1, 0, -1, 66.76666666666667, 66.76666666666667, 0],
+                ["b3", "2", 2002, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 2, 2, 1, 1,
+                 66.66666666666667, 33.33333333333334, 66.66666666666667, 66.66666666666667,
+                 2, 2, 0, 1, 233.5333333333333, 233.5333333333333, 0]
+            ]
+
+            for rowNumber in range(1, 8):
+                values = allTimeTeamsValues[rowNumber - 1]
+                for columnNumber, value in enumerate(values):
+                    cell = f"{get_column_letter(columnNumber + 1)}{rowNumber}"
+                    self.assertEqual(values[columnNumber], allTimeTeamsWorksheet[cell].value)
+            # check that "next" cell is empty
+            self.assertIsNone(allTimeTeamsWorksheet["A8"].value)
+
+            # test all time owners worksheet values
+            allTimeOwnersWorksheet = workbook["All Time Owners"]
+
+            allTimeOwnersValues = [
+                ["Owner Names", "Games Played", "Wins", "Losses", "Ties", "Win Percentage", "WAL", "WAL Per Game",
+                 "AWAL", "AWAL Per Game", "Opponent AWAL", "Opponent AWAL Per Game", "Smart Wins",
+                 "Smart Wins Per Game", "Opponent Smart Wins", "Opponent Smart Wins Per Game", "Points Scored",
+                 "Points Scored Per Game", "Opponent Points Scored", "Opponent Points Scored Per Game", "Scoring Share",
+                 "Opponent Scoring Share", "Max Scoring Share", "Min Scoring Share", "Max Score", "Min Score",
+                 "Scoring Standard Deviation", "Plus/Minus", "Adjusted Team Score", "Adjusted Team Success",
+                 "Adjusted Team Luck"],
+                ["1", 3, 0, 3, 0, 0, 0, 0, 0, 0, 3, 1, 0.6, 0.2, 2.4, 0.8, 3, 1, 6, 2,
+                 33.33333333333334, 66.66666666666667, 33.33333333333334, 33.33333333333334,
+                 1, 1, 0, -3, 66.76666666666667, 66.76666666666667, 0],
+                ["2", 3, 3, 0, 0, 1, 3, 1, 3, 1, 0, 0, 2.4, 0.8, 0.6, 0.2, 6, 2, 3, 1,
+                 66.66666666666667, 33.33333333333334, 66.66666666666667, 66.66666666666667,
+                 2, 2, 0, 3, 233.5333333333333, 233.5333333333333, 0]
+            ]
+
+            for rowNumber in range(1, 4):
+                values = allTimeOwnersValues[rowNumber - 1]
+                for columnNumber, value in enumerate(values):
+                    cell = f"{get_column_letter(columnNumber + 1)}{rowNumber}"
+                    self.assertEqual(values[columnNumber], allTimeOwnersWorksheet[cell].value)
+            # check that "next" cell is empty
+            self.assertIsNone(allTimeOwnersWorksheet["A4"].value)
 
     def test_leagueToExcel_fileAlreadyExists_raisesException(self):
         owners, teams1 = getNDefaultOwnersAndTeams(2)
@@ -95,14 +215,36 @@ class TestExcel(unittest.TestCase):
 
             # open created Excel file to check that it was saved correctly
             workbook = load_workbook(filename=fullPath)
-            worksheet = workbook.active
-
             self.assertEqual(1, len(workbook.sheetnames))
             self.assertEqual("2000", workbook.sheetnames[0])
-            self.assertEqual("Team Names", worksheet["A1"].value)
-            self.assertEqual("a", worksheet["A2"].value)
-            self.assertEqual("b", worksheet["A3"].value)
+            worksheet = workbook.active
 
+            # test worksheet values
+            worksheet = workbook["2000"]
+
+            worksheetValues = [
+                ["Team Names", "Games Played", "Wins", "Losses", "Ties", "Win Percentage", "WAL",
+                 "WAL Per Game", "AWAL", "AWAL Per Game", "Opponent AWAL", "Opponent AWAL Per Game", "Smart Wins",
+                 "Smart Wins Per Game", "Opponent Smart Wins", "Opponent Smart Wins Per Game", "Points Scored",
+                 "Points Scored Per Game", "Opponent Points Scored", "Opponent Points Scored Per Game", "Scoring Share",
+                 "Opponent Scoring Share", "Max Scoring Share", "Min Scoring Share", "Max Score", "Min Score",
+                 "Scoring Standard Deviation", "Plus/Minus", "Team Score", "Team Success", "Team Luck"],
+                ["a", 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 2, 2,
+                 33.33333333333334, 66.66666666666667, 33.33333333333334, 33.33333333333334,
+                 1, 1, 0, -1, 66.76666666666667, 66.76666666666667, 0],
+                ["b", 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 2, 2, 1, 1,
+                 66.66666666666667, 33.33333333333334, 66.66666666666667, 66.66666666666667,
+                 2, 2, 0, 1, 233.5333333333333, 233.5333333333333, 0]]
+
+            for rowNumber in range(1, 4):
+                values = worksheetValues[rowNumber - 1]
+                for columnNumber, value in enumerate(values):
+                    cell = f"{get_column_letter(columnNumber + 1)}{rowNumber}"
+                    self.assertEqual(values[columnNumber], worksheet[cell].value)
+            # check that "next" cell is empty
+            self.assertIsNone(worksheet["A4"].value)
+
+            # make sure stats were transferred properly
             statsWithTitles = yearStatSheet(year).preferredOrderWithTitle()
             for row, teamId in enumerate([team.id for team in year.teams]):
                 for col, statWithTitle in enumerate(statsWithTitles):
@@ -131,19 +273,63 @@ class TestExcel(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tempDir:
             fullPath = os.path.join(tempDir, "tmp.xlsx")
             yearToExcel(year1, fullPath)
-
+            # "new" year
             yearToExcel(year2, fullPath)
 
             # open created Excel file to check that it was saved correctly
             workbook = load_workbook(filename=fullPath)
-            worksheet = workbook.worksheets[workbook.sheetnames.index("2001")]
-
             self.assertEqual(2, len(workbook.sheetnames))
             self.assertEqual("2000", workbook.sheetnames[0])
             self.assertEqual("2001", workbook.sheetnames[1])
-            self.assertEqual("Team Names", worksheet["A1"].value)
-            self.assertEqual("a2", worksheet["A2"].value)
-            self.assertEqual("b2", worksheet["A3"].value)
+
+            # test worksheet values
+            worksheet2000 = workbook["2000"]
+            worksheet2000Values = [
+                ["Team Names", "Games Played", "Wins", "Losses", "Ties", "Win Percentage", "WAL",
+                 "WAL Per Game", "AWAL", "AWAL Per Game", "Opponent AWAL", "Opponent AWAL Per Game", "Smart Wins",
+                 "Smart Wins Per Game", "Opponent Smart Wins", "Opponent Smart Wins Per Game", "Points Scored",
+                 "Points Scored Per Game", "Opponent Points Scored", "Opponent Points Scored Per Game", "Scoring Share",
+                 "Opponent Scoring Share", "Max Scoring Share", "Min Scoring Share", "Max Score", "Min Score",
+                 "Scoring Standard Deviation", "Plus/Minus", "Team Score", "Team Success", "Team Luck"],
+                ["a1", 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 2, 2,
+                 33.33333333333334, 66.66666666666667, 33.33333333333334, 33.33333333333334,
+                 1, 1, 0, -1, 66.76666666666667, 66.76666666666667, 0],
+                ["b1", 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 2, 2, 1, 1,
+                 66.66666666666667, 33.33333333333334, 66.66666666666667, 66.66666666666667,
+                 2, 2, 0, 1, 233.5333333333333, 233.5333333333333, 0]]
+
+            for rowNumber in range(1, 4):
+                values = worksheet2000Values[rowNumber - 1]
+                for columnNumber, value in enumerate(values):
+                    cell = f"{get_column_letter(columnNumber + 1)}{rowNumber}"
+                    self.assertEqual(values[columnNumber], worksheet2000[cell].value)
+            # check that "next" cell is empty
+            self.assertIsNone(worksheet2000["A4"].value)
+
+            worksheet2001 = workbook["2001"]
+            worksheet2001Values = [
+                ["Team Names", "Games Played", "Wins", "Losses", "Ties", "Win Percentage", "WAL",
+                 "WAL Per Game", "AWAL", "AWAL Per Game", "Opponent AWAL", "Opponent AWAL Per Game", "Smart Wins",
+                 "Smart Wins Per Game", "Opponent Smart Wins", "Opponent Smart Wins Per Game", "Points Scored",
+                 "Points Scored Per Game", "Opponent Points Scored", "Opponent Points Scored Per Game", "Scoring Share",
+                 "Opponent Scoring Share", "Max Scoring Share", "Min Scoring Share", "Max Score", "Min Score",
+                 "Scoring Standard Deviation", "Plus/Minus", "Team Score", "Team Success", "Team Luck"],
+                ["a2", 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 2, 2,
+                 33.33333333333334, 66.66666666666667, 33.33333333333334, 33.33333333333334,
+                 1, 1, 0, -1, 66.76666666666667, 66.76666666666667, 0],
+                ["b2", 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 2, 2, 1, 1,
+                 66.66666666666667, 33.33333333333334, 66.66666666666667, 66.66666666666667,
+                 2, 2, 0, 1, 233.5333333333333, 233.5333333333333, 0]]
+
+            for rowNumber in range(1, 4):
+                values = worksheet2001Values[rowNumber - 1]
+                for columnNumber, value in enumerate(values):
+                    cell = f"{get_column_letter(columnNumber + 1)}{rowNumber}"
+                    self.assertEqual(values[columnNumber], worksheet2001[cell].value)
+            # check that "next" cell is empty
+            self.assertIsNone(worksheet2001["A4"].value)
+
+            worksheet = workbook.worksheets[workbook.sheetnames.index("2001")]
 
             statsWithTitles = yearStatSheet(year2).preferredOrderWithTitle()
             for row, teamId in enumerate([team.id for team in year2.teams]):
