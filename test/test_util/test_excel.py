@@ -55,6 +55,12 @@ class TestExcel(unittest.TestCase):
             # check sheet values
             # test year worksheet values
             worksheet2000Values = [
+                ["Team Names", "Games Played", "Wins", "Losses", "Ties", "Win Percentage", "WAL",
+                 "WAL Per Game", "AWAL", "AWAL Per Game", "Opponent AWAL", "Opponent AWAL Per Game", "Smart Wins",
+                 "Smart Wins Per Game", "Opponent Smart Wins", "Opponent Smart Wins Per Game", "Points Scored",
+                 "Points Scored Per Game", "Opponent Points Scored", "Opponent Points Scored Per Game", "Scoring Share",
+                 "Opponent Scoring Share", "Max Scoring Share", "Min Scoring Share", "Max Score", "Min Score",
+                 "Scoring Standard Deviation", "Plus/Minus", "Team Score", "Team Success", "Team Luck"],
                 ["a", 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 2, 2,
                  33.33333333333334, 66.66666666666667, 33.33333333333334, 33.33333333333334,
                  1, 1, 0, -1, 66.76666666666667, 66.76666666666667, 0],
@@ -62,6 +68,12 @@ class TestExcel(unittest.TestCase):
                  66.66666666666667, 33.33333333333334, 66.66666666666667, 66.66666666666667,
                  2, 2, 0, 1, 233.5333333333333, 233.5333333333333, 0]]
             worksheet2001Values = [
+                ["Team Names", "Games Played", "Wins", "Losses", "Ties", "Win Percentage", "WAL",
+                 "WAL Per Game", "AWAL", "AWAL Per Game", "Opponent AWAL", "Opponent AWAL Per Game", "Smart Wins",
+                 "Smart Wins Per Game", "Opponent Smart Wins", "Opponent Smart Wins Per Game", "Points Scored",
+                 "Points Scored Per Game", "Opponent Points Scored", "Opponent Points Scored Per Game", "Scoring Share",
+                 "Opponent Scoring Share", "Max Scoring Share", "Min Scoring Share", "Max Score", "Min Score",
+                 "Scoring Standard Deviation", "Plus/Minus", "Team Score", "Team Success", "Team Luck"],
                 ["a2", 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 2, 2,
                  33.33333333333334, 66.66666666666667, 33.33333333333334, 33.33333333333334,
                  1, 1, 0, -1, 66.76666666666667, 66.76666666666667, 0],
@@ -69,6 +81,12 @@ class TestExcel(unittest.TestCase):
                  66.66666666666667, 33.33333333333334, 66.66666666666667, 66.66666666666667,
                  2, 2, 0, 1, 233.5333333333333, 233.5333333333333, 0]]
             worksheet2002Values = [
+                ["Team Names", "Games Played", "Wins", "Losses", "Ties", "Win Percentage", "WAL",
+                 "WAL Per Game", "AWAL", "AWAL Per Game", "Opponent AWAL", "Opponent AWAL Per Game", "Smart Wins",
+                 "Smart Wins Per Game", "Opponent Smart Wins", "Opponent Smart Wins Per Game", "Points Scored",
+                 "Points Scored Per Game", "Opponent Points Scored", "Opponent Points Scored Per Game", "Scoring Share",
+                 "Opponent Scoring Share", "Max Scoring Share", "Min Scoring Share", "Max Score", "Min Score",
+                 "Scoring Standard Deviation", "Plus/Minus", "Team Score", "Team Success", "Team Luck"],
                 ["a3", 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 2, 2,
                  33.33333333333334, 66.66666666666667, 33.33333333333334, 33.33333333333334,
                  1, 1, 0, -1, 66.76666666666667, 66.76666666666667, 0],
@@ -82,79 +100,20 @@ class TestExcel(unittest.TestCase):
             for i, (currentWorksheet, allWorksheetValues) in enumerate(yearWorksheetsAndValues):
                 for j, worksheetValues in enumerate(allWorksheetValues):
                     for k, worksheetValue in enumerate(worksheetValues):
-                        row = j + 2
+                        row = j + 1
                         column = get_column_letter(k + 1)
                         self.assertEqual(worksheetValue, currentWorksheet[f"{column}{row}"].value)
-                self.assertEqual("Team Names", currentWorksheet["A1"].value)
-                self.assertEqual("Games Played", currentWorksheet["B1"].value)
-                self.assertEqual("Wins", currentWorksheet["C1"].value)
-                self.assertEqual("Losses", currentWorksheet["D1"].value)
-                self.assertEqual("Ties", currentWorksheet["E1"].value)
-                self.assertEqual("Win Percentage", currentWorksheet["F1"].value)
-                self.assertEqual("WAL", currentWorksheet["G1"].value)
-                self.assertEqual("WAL Per Game", currentWorksheet["H1"].value)
-                self.assertEqual("AWAL", currentWorksheet["I1"].value)
-                self.assertEqual("AWAL Per Game", currentWorksheet["J1"].value)
-                self.assertEqual("Opponent AWAL", currentWorksheet["K1"].value)
-                self.assertEqual("Opponent AWAL Per Game", currentWorksheet["L1"].value)
-                self.assertEqual("Smart Wins", currentWorksheet["M1"].value)
-                self.assertEqual("Smart Wins Per Game", currentWorksheet["N1"].value)
-                self.assertEqual("Opponent Smart Wins", currentWorksheet["O1"].value)
-                self.assertEqual("Opponent Smart Wins Per Game", currentWorksheet["P1"].value)
-                self.assertEqual("Points Scored", currentWorksheet["Q1"].value)
-                self.assertEqual("Points Scored Per Game", currentWorksheet["R1"].value)
-                self.assertEqual("Opponent Points Scored", currentWorksheet["S1"].value)
-                self.assertEqual("Opponent Points Scored Per Game", currentWorksheet["T1"].value)
-                self.assertEqual("Scoring Share", currentWorksheet["U1"].value)
-                self.assertEqual("Opponent Scoring Share", currentWorksheet["V1"].value)
-                self.assertEqual("Max Scoring Share", currentWorksheet["W1"].value)
-                self.assertEqual("Min Scoring Share", currentWorksheet["X1"].value)
-                self.assertEqual("Max Score", currentWorksheet["Y1"].value)
-                self.assertEqual("Min Score", currentWorksheet["Z1"].value)
-                self.assertEqual("Scoring Standard Deviation", currentWorksheet["AA1"].value)
-                self.assertEqual("Plus/Minus", currentWorksheet["AB1"].value)
-                self.assertEqual("Team Score", currentWorksheet["AC1"].value)
-                self.assertEqual("Team Success", currentWorksheet["AD1"].value)
-                self.assertEqual("Team Luck", currentWorksheet["AE1"].value)
 
             # test all time teams worksheet values
-
             allTimeTeamsWorksheet = workbook["All Time Teams"]
-            self.assertEqual("Team Names", allTimeTeamsWorksheet["A1"].value)
-            self.assertEqual("Owner Names", allTimeTeamsWorksheet["B1"].value)
-            self.assertEqual("Year", allTimeTeamsWorksheet["C1"].value)
-            self.assertEqual("Games Played", allTimeTeamsWorksheet["D1"].value)
-            self.assertEqual("Wins", allTimeTeamsWorksheet["E1"].value)
-            self.assertEqual("Losses", allTimeTeamsWorksheet["F1"].value)
-            self.assertEqual("Ties", allTimeTeamsWorksheet["G1"].value)
-            self.assertEqual("Win Percentage", allTimeTeamsWorksheet["H1"].value)
-            self.assertEqual("WAL", allTimeTeamsWorksheet["I1"].value)
-            self.assertEqual("WAL Per Game", allTimeTeamsWorksheet["J1"].value)
-            self.assertEqual("AWAL", allTimeTeamsWorksheet["K1"].value)
-            self.assertEqual("AWAL Per Game", allTimeTeamsWorksheet["L1"].value)
-            self.assertEqual("Opponent AWAL", allTimeTeamsWorksheet["M1"].value)
-            self.assertEqual("Opponent AWAL Per Game", allTimeTeamsWorksheet["N1"].value)
-            self.assertEqual("Smart Wins", allTimeTeamsWorksheet["O1"].value)
-            self.assertEqual("Smart Wins Per Game", allTimeTeamsWorksheet["P1"].value)
-            self.assertEqual("Opponent Smart Wins", allTimeTeamsWorksheet["Q1"].value)
-            self.assertEqual("Opponent Smart Wins Per Game", allTimeTeamsWorksheet["R1"].value)
-            self.assertEqual("Points Scored", allTimeTeamsWorksheet["S1"].value)
-            self.assertEqual("Points Scored Per Game", allTimeTeamsWorksheet["T1"].value)
-            self.assertEqual("Opponent Points Scored", allTimeTeamsWorksheet["U1"].value)
-            self.assertEqual("Opponent Points Scored Per Game", allTimeTeamsWorksheet["V1"].value)
-            self.assertEqual("Scoring Share", allTimeTeamsWorksheet["W1"].value)
-            self.assertEqual("Opponent Scoring Share", allTimeTeamsWorksheet["X1"].value)
-            self.assertEqual("Max Scoring Share", allTimeTeamsWorksheet["Y1"].value)
-            self.assertEqual("Min Scoring Share", allTimeTeamsWorksheet["Z1"].value)
-            self.assertEqual("Max Score", allTimeTeamsWorksheet["AA1"].value)
-            self.assertEqual("Min Score", allTimeTeamsWorksheet["AB1"].value)
-            self.assertEqual("Scoring Standard Deviation", allTimeTeamsWorksheet["AC1"].value)
-            self.assertEqual("Plus/Minus", allTimeTeamsWorksheet["AD1"].value)
-            self.assertEqual("Team Score", allTimeTeamsWorksheet["AE1"].value)
-            self.assertEqual("Team Success", allTimeTeamsWorksheet["AF1"].value)
-            self.assertEqual("Team Luck", allTimeTeamsWorksheet["AG1"].value)
 
             allTimeTeamsValues = [
+                ["Team Names", "Owner Names", "Year", "Games Played", "Wins", "Losses", "Ties", "Win Percentage", "WAL",
+                 "WAL Per Game", "AWAL", "AWAL Per Game", "Opponent AWAL", "Opponent AWAL Per Game", "Smart Wins",
+                 "Smart Wins Per Game", "Opponent Smart Wins", "Opponent Smart Wins Per Game", "Points Scored",
+                 "Points Scored Per Game", "Opponent Points Scored", "Opponent Points Scored Per Game", "Scoring Share",
+                 "Opponent Scoring Share", "Max Scoring Share", "Min Scoring Share", "Max Score", "Min Score",
+                 "Scoring Standard Deviation", "Plus/Minus", "Team Score", "Team Success", "Team Luck"],
                 ["a", "1", 2000, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 2, 2,
                  33.33333333333334, 66.66666666666667, 33.33333333333334, 33.33333333333334,
                  1, 1, 0, -1, 66.76666666666667, 66.76666666666667, 0],
@@ -175,11 +134,36 @@ class TestExcel(unittest.TestCase):
                  2, 2, 0, 1, 233.5333333333333, 233.5333333333333, 0]
             ]
 
-            for rowNumber in range(2, 8):
-                values = allTimeTeamsValues[rowNumber - 2]
+            for rowNumber in range(1, 8):
+                values = allTimeTeamsValues[rowNumber - 1]
                 for columnNumber, value in enumerate(values):
                     cell = f"{get_column_letter(columnNumber + 1)}{rowNumber}"
                     self.assertEqual(values[columnNumber], allTimeTeamsWorksheet[cell].value)
+
+            # test all time owners worksheet values
+            allTimeOwnersWorksheet = workbook["All Time Owners"]
+
+            allTimeOwnersValues = [
+                ["Owner Names", "Games Played", "Wins", "Losses", "Ties", "Win Percentage", "WAL", "WAL Per Game",
+                 "AWAL", "AWAL Per Game", "Opponent AWAL", "Opponent AWAL Per Game", "Smart Wins",
+                 "Smart Wins Per Game", "Opponent Smart Wins", "Opponent Smart Wins Per Game", "Points Scored",
+                 "Points Scored Per Game", "Opponent Points Scored", "Opponent Points Scored Per Game", "Scoring Share",
+                 "Opponent Scoring Share", "Max Scoring Share", "Min Scoring Share", "Max Score", "Min Score",
+                 "Scoring Standard Deviation", "Plus/Minus", "Adjusted Team Score", "Adjusted Team Success",
+                 "Adjusted Team Luck"],
+                ["1", 3, 0, 3, 0, 0, 0, 0, 0, 0, 3, 1, 0.6, 0.2, 2.4, 0.8, 3, 1, 6, 2,
+                 33.33333333333334, 66.66666666666667, 33.33333333333334, 33.33333333333334,
+                 1, 1, 0, -3, 66.76666666666667, 66.76666666666667, 0],
+                ["2", 3, 3, 0, 0, 1, 3, 1, 3, 1, 0, 0, 2.4, 0.8, 0.6, 0.2, 6, 2, 3, 1,
+                 66.66666666666667, 33.33333333333334, 66.66666666666667, 66.66666666666667,
+                 2, 2, 0, 3, 233.5333333333333, 233.5333333333333, 0]
+            ]
+
+            for rowNumber in range(1, 4):
+                values = allTimeOwnersValues[rowNumber - 1]
+                for columnNumber, value in enumerate(values):
+                    cell = f"{get_column_letter(columnNumber + 1)}{rowNumber}"
+                    self.assertEqual(values[columnNumber], allTimeOwnersWorksheet[cell].value)
 
     def test_leagueToExcel_fileAlreadyExists_raisesException(self):
         owners, teams1 = getNDefaultOwnersAndTeams(2)
