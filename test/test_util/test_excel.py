@@ -53,6 +53,7 @@ class TestExcel(unittest.TestCase):
             self.assertEqual("All Time Owners", workbook.sheetnames[4])
 
             # check sheet values
+            # test year worksheet values
             worksheet2000Values = [
                 ["a", 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 2, 2,
                  33.33333333333334, 66.66666666666667, 33.33333333333334, 33.33333333333334,
@@ -77,7 +78,7 @@ class TestExcel(unittest.TestCase):
             yearWorksheetsAndValues = [(workbook["2000"], worksheet2000Values),
                                        (workbook["2001"], worksheet2001Values),
                                        (workbook["2002"], worksheet2002Values)]
-            # test year worksheet values
+
             for i, (currentWorksheet, allWorksheetValues) in enumerate(yearWorksheetsAndValues):
                 for j, worksheetValues in enumerate(allWorksheetValues):
                     for k, worksheetValue in enumerate(worksheetValues):
@@ -116,6 +117,8 @@ class TestExcel(unittest.TestCase):
                 self.assertEqual("Team Success", currentWorksheet["AD1"].value)
                 self.assertEqual("Team Luck", currentWorksheet["AE1"].value)
 
+            # test all time teams worksheet values
+
             allTimeTeamsWorksheet = workbook["All Time Teams"]
             self.assertEqual("Team Names", allTimeTeamsWorksheet["A1"].value)
             self.assertEqual("Owner Names", allTimeTeamsWorksheet["B1"].value)
@@ -150,6 +153,33 @@ class TestExcel(unittest.TestCase):
             self.assertEqual("Team Score", allTimeTeamsWorksheet["AE1"].value)
             self.assertEqual("Team Success", allTimeTeamsWorksheet["AF1"].value)
             self.assertEqual("Team Luck", allTimeTeamsWorksheet["AG1"].value)
+
+            allTimeTeamsValues = [
+                ["a", "1", 2000, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 2, 2,
+                 33.33333333333334, 66.66666666666667, 33.33333333333334, 33.33333333333334,
+                 1, 1, 0, -1, 66.76666666666667, 66.76666666666667, 0],
+                ["b", "2", 2000, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 2, 2, 1, 1,
+                 66.66666666666667, 33.33333333333334, 66.66666666666667, 66.66666666666667,
+                 2, 2, 0, 1, 233.5333333333333, 233.5333333333333, 0],
+                ["a2", "1", 2001, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 2, 2,
+                 33.33333333333334, 66.66666666666667, 33.33333333333334, 33.33333333333334,
+                 1, 1, 0, -1, 66.76666666666667, 66.76666666666667, 0],
+                ["b2", "2", 2001, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 2, 2, 1, 1,
+                 66.66666666666667, 33.33333333333334, 66.66666666666667, 66.66666666666667,
+                 2, 2, 0, 1, 233.5333333333333, 233.5333333333333, 0],
+                ["a3", "1", 2002, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 2, 2,
+                 33.33333333333334, 66.66666666666667, 33.33333333333334, 33.33333333333334,
+                 1, 1, 0, -1, 66.76666666666667, 66.76666666666667, 0],
+                ["b3", "2", 2002, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 2, 2, 1, 1,
+                 66.66666666666667, 33.33333333333334, 66.66666666666667, 66.66666666666667,
+                 2, 2, 0, 1, 233.5333333333333, 233.5333333333333, 0]
+            ]
+
+            for rowNumber in range(2, 8):
+                values = allTimeTeamsValues[rowNumber - 2]
+                for columnNumber, value in enumerate(values):
+                    cell = f"{get_column_letter(columnNumber + 1)}{rowNumber}"
+                    self.assertEqual(values[columnNumber], allTimeTeamsWorksheet[cell].value)
 
     def test_leagueToExcel_fileAlreadyExists_raisesException(self):
         owners, teams1 = getNDefaultOwnersAndTeams(2)
