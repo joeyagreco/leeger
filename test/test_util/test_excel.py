@@ -103,6 +103,8 @@ class TestExcel(unittest.TestCase):
                         row = j + 1
                         column = get_column_letter(k + 1)
                         self.assertEqual(worksheetValue, currentWorksheet[f"{column}{row}"].value)
+                # check that "next" cell is empty
+                self.assertIsNone(currentWorksheet["A4"].value)
 
             # test all time teams worksheet values
             allTimeTeamsWorksheet = workbook["All Time Teams"]
@@ -139,6 +141,8 @@ class TestExcel(unittest.TestCase):
                 for columnNumber, value in enumerate(values):
                     cell = f"{get_column_letter(columnNumber + 1)}{rowNumber}"
                     self.assertEqual(values[columnNumber], allTimeTeamsWorksheet[cell].value)
+            # check that "next" cell is empty
+            self.assertIsNone(allTimeTeamsWorksheet["A8"].value)
 
             # test all time owners worksheet values
             allTimeOwnersWorksheet = workbook["All Time Owners"]
@@ -164,6 +168,8 @@ class TestExcel(unittest.TestCase):
                 for columnNumber, value in enumerate(values):
                     cell = f"{get_column_letter(columnNumber + 1)}{rowNumber}"
                     self.assertEqual(values[columnNumber], allTimeOwnersWorksheet[cell].value)
+            # check that "next" cell is empty
+            self.assertIsNone(allTimeOwnersWorksheet["A4"].value)
 
     def test_leagueToExcel_fileAlreadyExists_raisesException(self):
         owners, teams1 = getNDefaultOwnersAndTeams(2)
