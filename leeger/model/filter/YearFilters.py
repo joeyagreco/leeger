@@ -15,10 +15,10 @@ class YearFilters:
     """
     weekNumberStart: int  # week to start at (inclusive)
     weekNumberEnd: int  # week to end at (inclusive)
-    includeMultiWeekMatchups: bool = True
-    onlyChampionship: bool = False
-    onlyPostSeason: bool = False
-    onlyRegularSeason: bool = False
+    includeMultiWeekMatchups: bool = True  # whether to include multi-week matchups or not
+    onlyChampionship: bool = False  # only include championship weeks
+    onlyPostSeason: bool = False  # only include playoff weeks
+    onlyRegularSeason: bool = False  # only include regular season weeks
 
     @property
     def includeMatchupTypes(self) -> list[MatchupType]:
