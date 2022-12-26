@@ -53,9 +53,7 @@ class TestYearNavigator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2])
 
-        yearFilters = YearFilters(weekNumberStart=1, weekNumberEnd=2,
-                                  includeMatchupTypes=[MatchupType.REGULAR_SEASON, MatchupType.PLAYOFF,
-                                                       MatchupType.CHAMPIONSHIP])
+        yearFilters = YearFilters(weekNumberStart=1, weekNumberEnd=2)
         response = YearNavigator.getNumberOfGamesPlayed(year, yearFilters)
 
         self.assertIsInstance(response, dict)
@@ -75,9 +73,7 @@ class TestYearNavigator(unittest.TestCase):
         yearSettings = YearSettings(leagueMedianGames=True)
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2], yearSettings=yearSettings)
 
-        yearFilters = YearFilters(weekNumberStart=1, weekNumberEnd=2,
-                                  includeMatchupTypes=[MatchupType.REGULAR_SEASON, MatchupType.PLAYOFF,
-                                                       MatchupType.CHAMPIONSHIP])
+        yearFilters = YearFilters(weekNumberStart=1, weekNumberEnd=2)
         response = YearNavigator.getNumberOfGamesPlayed(year, yearFilters, countLeagueMedianGamesAsTwoGames=True)
 
         self.assertIsInstance(response, dict)
@@ -96,9 +92,7 @@ class TestYearNavigator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2])
 
-        yearFilters = YearFilters(weekNumberStart=1, weekNumberEnd=2,
-                                  includeMatchupTypes=[MatchupType.REGULAR_SEASON, MatchupType.PLAYOFF,
-                                                       MatchupType.CHAMPIONSHIP])
+        yearFilters = YearFilters(weekNumberStart=1, weekNumberEnd=2)
         response = YearNavigator.getNumberOfGamesPlayed(year, yearFilters, countMultiWeekMatchupsAsOneGame=True)
 
         self.assertIsInstance(response, dict)
@@ -117,9 +111,7 @@ class TestYearNavigator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2])
 
-        yearFilters = YearFilters(weekNumberStart=1, weekNumberEnd=2,
-                                  includeMatchupTypes=[MatchupType.REGULAR_SEASON, MatchupType.PLAYOFF,
-                                                       MatchupType.CHAMPIONSHIP])
+        yearFilters = YearFilters(weekNumberStart=1, weekNumberEnd=2)
         response = YearNavigator.getNumberOfGamesPlayed(year, yearFilters, countMultiWeekMatchupsAsOneGame=False)
 
         self.assertIsInstance(response, dict)
@@ -143,7 +135,7 @@ class TestYearNavigator(unittest.TestCase):
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
 
         yearFilters = YearFilters(weekNumberStart=1, weekNumberEnd=3,
-                                  includeMatchupTypes=[MatchupType.PLAYOFF, MatchupType.CHAMPIONSHIP])
+                                  onlyPostSeason=True)
         response = YearNavigator.getNumberOfGamesPlayed(year, yearFilters)
 
         self.assertIsInstance(response, dict)
@@ -166,7 +158,7 @@ class TestYearNavigator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
 
-        yearFilters = YearFilters(weekNumberStart=1, weekNumberEnd=3, includeMatchupTypes=[MatchupType.REGULAR_SEASON])
+        yearFilters = YearFilters(weekNumberStart=1, weekNumberEnd=3, onlyRegularSeason=True)
         response = YearNavigator.getNumberOfGamesPlayed(year, yearFilters)
 
         self.assertIsInstance(response, dict)
@@ -189,9 +181,7 @@ class TestYearNavigator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
 
-        yearFilters = YearFilters(weekNumberStart=2, weekNumberEnd=3,
-                                  includeMatchupTypes=[MatchupType.REGULAR_SEASON, MatchupType.PLAYOFF,
-                                                       MatchupType.CHAMPIONSHIP])
+        yearFilters = YearFilters(weekNumberStart=2, weekNumberEnd=3)
         response = YearNavigator.getNumberOfGamesPlayed(year, yearFilters)
 
         self.assertIsInstance(response, dict)
@@ -214,9 +204,7 @@ class TestYearNavigator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
 
-        yearFilters = YearFilters(weekNumberStart=1, weekNumberEnd=2,
-                                  includeMatchupTypes=[MatchupType.REGULAR_SEASON, MatchupType.PLAYOFF,
-                                                       MatchupType.CHAMPIONSHIP])
+        yearFilters = YearFilters(weekNumberStart=1, weekNumberEnd=2)
         response = YearNavigator.getNumberOfGamesPlayed(year, yearFilters)
 
         self.assertIsInstance(response, dict)
@@ -242,9 +230,7 @@ class TestYearNavigator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3, week4])
 
-        yearFilters = YearFilters(weekNumberStart=2, weekNumberEnd=3,
-                                  includeMatchupTypes=[MatchupType.REGULAR_SEASON, MatchupType.PLAYOFF,
-                                                       MatchupType.CHAMPIONSHIP])
+        yearFilters = YearFilters(weekNumberStart=2, weekNumberEnd=3)
         response = YearNavigator.getNumberOfGamesPlayed(year, yearFilters)
 
         self.assertIsInstance(response, dict)
@@ -336,8 +322,7 @@ class TestYearNavigator(unittest.TestCase):
         with self.assertRaises(ValueError) as context:
             YearNavigator.getAllMultiWeekMatchups(None, YearFilters(weekNumberStart=1,
                                                                     weekNumberEnd=3,
-                                                                    includeMatchupTypes=[
-                                                                        MatchupType.REGULAR_SEASON],
+                                                                    onlyRegularSeason=True,
                                                                     includeMultiWeekMatchups=False))
         self.assertEqual("Multi-Week matchups must be included in this calculation.", str(context.exception))
 
@@ -386,7 +371,7 @@ class TestYearNavigator(unittest.TestCase):
         a_year = Year(yearNumber=2000, teams=teams, weeks=[a_week1, a_week2, a_week3, a_week4])
 
         response = YearNavigator.getAllMatchupsInYear(a_year, YearFilters(weekNumberStart=2, weekNumberEnd=3,
-                                                                          includeMatchupTypes=[MatchupType.PLAYOFF]))
+                                                                          onlyPostSeason=True))
 
         self.assertIsInstance(response, list)
         self.assertEqual(1, len(response))
@@ -409,8 +394,7 @@ class TestYearNavigator(unittest.TestCase):
 
         response = YearNavigator.getAllMatchupsInYear(a_year, YearFilters(weekNumberStart=1,
                                                                           weekNumberEnd=3,
-                                                                          includeMatchupTypes=[
-                                                                              MatchupType.REGULAR_SEASON],
+                                                                          onlyRegularSeason=True,
                                                                           includeMultiWeekMatchups=True))
 
         self.assertIsInstance(response, list)
@@ -436,8 +420,7 @@ class TestYearNavigator(unittest.TestCase):
 
         response = YearNavigator.getAllMatchupsInYear(a_year, YearFilters(weekNumberStart=1,
                                                                           weekNumberEnd=3,
-                                                                          includeMatchupTypes=[
-                                                                              MatchupType.REGULAR_SEASON],
+                                                                          onlyRegularSeason=True,
                                                                           includeMultiWeekMatchups=False))
 
         self.assertIsInstance(response, list)
@@ -488,8 +471,7 @@ class TestYearNavigator(unittest.TestCase):
 
         response = YearNavigator.getAllSimplifiedMatchupsInYear(a_year, YearFilters(weekNumberStart=2,
                                                                                     weekNumberEnd=3,
-                                                                                    includeMatchupTypes=[
-                                                                                        MatchupType.REGULAR_SEASON],
+                                                                                    onlyRegularSeason=True,
                                                                                     includeMultiWeekMatchups=True))
 
         self.assertIsInstance(response, list)
@@ -503,7 +485,6 @@ class TestYearNavigator(unittest.TestCase):
         with self.assertRaises(ValueError) as context:
             YearNavigator.getAllSimplifiedMatchupsInYear(None, YearFilters(weekNumberStart=1,
                                                                            weekNumberEnd=3,
-                                                                           includeMatchupTypes=[
-                                                                               MatchupType.REGULAR_SEASON],
+                                                                           onlyRegularSeason=True,
                                                                            includeMultiWeekMatchups=False))
         self.assertEqual("Multi-Week matchups must be included in this calculation.", str(context.exception))

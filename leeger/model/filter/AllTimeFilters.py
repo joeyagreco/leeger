@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import copy
 from dataclasses import dataclass
+from typing import Any
 
 from leeger.enum.MatchupType import MatchupType
 from leeger.model.league import League
@@ -19,6 +20,30 @@ class AllTimeFilters:
     onlyChampionship: bool  # only include championship weeks
     onlyPostSeason: bool  # only include playoff weeks
     onlyRegularSeason: bool  # only include regular season weeks
+
+    @property
+    def includeMatchupTypes(self) -> list[MatchupType]:
+        if self.onlyChampionship:
+            return [MatchupType.CHAMPIONSHIP]
+        elif self.onlyPostSeason:
+            return [MatchupType.PLAYOFF, MatchupType.CHAMPIONSHIP]
+        elif self.onlyRegularSeason:
+            return [MatchupType.REGULAR_SEASON]
+        else:
+            return [MatchupType.REGULAR_SEASON, MatchupType.PLAYOFF, MatchupType.CHAMPIONSHIP]
+
+    @classmethod
+    def preferredOrderWithTitle(cls, league: League, **kwargs) -> list[tuple[str, Any]]:
+        allTimeFilters = AllTimeFilters.getForLeague(league, **kwargs)
+        return [
+            ("Week Number Start", allTimeFilters.weekNumberStart),
+            ("Year Number Start", allTimeFilters.yearNumberStart),
+            ("Week Number End", allTimeFilters.weekNumberEnd),
+            ("Year Number End", allTimeFilters.yearNumberEnd),
+            ("Only Regular Season", allTimeFilters.onlyRegularSeason),
+            ("Only Post Season", allTimeFilters.onlyPostSeason),
+            ("Only Championship", allTimeFilters.onlyChampionship)
+        ]
 
     @classmethod
     def getForLeague(cls, league: League, **kwargs) -> AllTimeFilters:
@@ -79,14 +104,3 @@ class AllTimeFilters:
                               onlyChampionship=onlyChampionship,
                               onlyPostSeason=onlyPostSeason,
                               onlyRegularSeason=onlyRegularSeason)
-
-    @property
-    def includeMatchupTypes(self) -> list[MatchupType]:
-        if self.onlyChampionship:
-            return [MatchupType.CHAMPIONSHIP]
-        elif self.onlyPostSeason:
-            return [MatchupType.PLAYOFF, MatchupType.CHAMPIONSHIP]
-        elif self.onlyRegularSeason:
-            return [MatchupType.REGULAR_SEASON]
-        else:
-            return [MatchupType.REGULAR_SEASON, MatchupType.PLAYOFF, MatchupType.CHAMPIONSHIP]
