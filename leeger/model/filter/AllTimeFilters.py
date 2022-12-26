@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import copy
 from dataclasses import dataclass
+from typing import Any
 
 from leeger.enum.MatchupType import MatchupType
 from leeger.model.league import League
@@ -32,12 +33,20 @@ class AllTimeFilters:
             return [MatchupType.REGULAR_SEASON, MatchupType.PLAYOFF, MatchupType.CHAMPIONSHIP]
 
     @classmethod
-    def asDict(cls, league: League, **kwargs) -> dict:
+    def preferredOrderWithTitle(cls, league: League, **kwargs) -> list[tuple[str, Any]]:
         allTimeFilters = AllTimeFilters.getForLeague(league, **kwargs)
         includeMatchupTypes = allTimeFilters.includeMatchupTypes
-        allTimeFiltersDict = allTimeFilters.__dict__
-        allTimeFiltersDict["includeMatchupTypes"] = [matchupType.name for matchupType in includeMatchupTypes]
-        return allTimeFiltersDict
+        includeMatchupTypesStr = ", ".join([matchupType.name for matchupType in includeMatchupTypes])
+        return [
+            ("Week Number Start", allTimeFilters.weekNumberStart),
+            ("Year Number Start", allTimeFilters.yearNumberStart),
+            ("Week Number End", allTimeFilters.weekNumberEnd),
+            ("Year Number End", allTimeFilters.yearNumberEnd),
+            ("Only Regular Season", allTimeFilters.onlyRegularSeason),
+            ("Only Post Season", allTimeFilters.onlyPostSeason),
+            ("Only Championship", allTimeFilters.onlyChampionship),
+            ("Include Matchup Types", includeMatchupTypesStr)
+        ]
 
     @classmethod
     def getForLeague(cls, league: League, **kwargs) -> AllTimeFilters:

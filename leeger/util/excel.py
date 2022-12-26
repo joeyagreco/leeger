@@ -3,6 +3,7 @@ from __future__ import annotations
 import os
 import random
 from datetime import datetime
+from typing import Any
 
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font, Color, PatternFill, Alignment, Side, Border
@@ -13,7 +14,6 @@ from openpyxl.worksheet.worksheet import Worksheet
 
 from leeger.model.filter import AllTimeFilters, YearFilters
 from leeger.model.league import Year, League
-from leeger.util.GeneralUtil import GeneralUtil
 from leeger.util.stat_sheet import yearStatSheet, leagueStatSheet, allTimeTeamsStatSheet
 
 
@@ -71,7 +71,7 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
 
     allTimeTeamsStatSheet_ = allTimeTeamsStatSheet(league, **kwargs)
 
-    allTimeFilters = AllTimeFilters.asDict(league, **kwargs.copy())
+    allTimeFilters = AllTimeFilters.preferredOrderWithTitle(league, **kwargs.copy())
     __populateWorksheet(worksheet,
                         allTimeTeamsStatSheet_,
                         "Team Names",
@@ -164,7 +164,7 @@ def yearToExcel(year: Year, filePath: str, **kwargs) -> None:
         ownerIdToColorMap[ownerId] = __getRandomColor(0.5, seed)
 
     teamIds = [team.id for team in year.teams]
-    yearFilters = YearFilters.asDict(year, **kwargs.copy())
+    yearFilters = YearFilters.preferredOrderWithTitle(year, **kwargs.copy())
     __populateWorksheet(worksheet,
                         yearStatSheet(year, **kwargs).preferredOrderWithTitle(),
                         "Team Names",
@@ -203,7 +203,7 @@ def __populateWorksheet(worksheet: Worksheet,
                         entityNames: list[str],
                         ownerIdToColorMap: dict[str, Color],
                         ownerIds: list[str],
-                        legendKwargs: dict) -> None:
+                        legendKeyValues: list[tuple[str, Any]]) -> None:
     ####################
     # Styles for table #
     ####################
@@ -277,10 +277,10 @@ def __populateWorksheet(worksheet: Worksheet,
     worksheet[titleCell].border = border
     worksheet[titleCell].alignment = legendCellAlignment
 
-    for kwarg_title, kwarg_value in legendKwargs.items():
+    for kwarg_title, kwarg_value in legendKeyValues:
         legendRowNumber += 1
         cell = f"{legendColLetter}{legendRowNumber}"
-        worksheet[cell] = f"{GeneralUtil.camelCaseToUpperSentenceCase(kwarg_title)}: {kwarg_value}"
+        worksheet[cell] = f"{kwarg_title}: {kwarg_value}"
         worksheet[cell].fill = PatternFill(patternType="solid", fgColor=MEDIUM_GRAY)
         worksheet[cell].alignment = legendCellAlignment
         border = Border(left=leftSideSolid, right=rightSideSolid)
@@ -292,7 +292,7 @@ def __populateWorksheet(worksheet: Worksheet,
 
     # set column widths
     TITLE_MULTIPLIER = 1.2
-    NAME_MULTIPLIER = 0.8
+    NAME_MULTIPLIER = 1.0
     DATA_MULTIPLIER = 0.5
     dim_holder = DimensionHolder(worksheet=worksheet)
 

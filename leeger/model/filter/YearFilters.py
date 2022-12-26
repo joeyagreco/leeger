@@ -22,12 +22,18 @@ class YearFilters:
     onlyRegularSeason: bool = False
 
     @classmethod
-    def asDict(cls, year: Year, **kwargs) -> dict:
+    def preferredOrderWithTitle(cls, year: Year, **kwargs) -> list[tuple[str, Any]]:
         yearFilters = YearFilters.getForYear(year, **kwargs)
-        yearFiltersDict = yearFilters.__dict__
-        yearFiltersDict["includeMatchupTypes"] = [matchupType.name for matchupType in
-                                                  yearFiltersDict["includeMatchupTypes"]]
-        return yearFiltersDict
+        includeMatchupTypesStr = ", ".join([matchupType.name for matchupType in yearFilters.includeMatchupTypes])
+        return [
+            ("Week Number Start", yearFilters.weekNumberStart),
+            ("Week Number End", yearFilters.weekNumberEnd),
+            ("Only Regular Season", yearFilters.onlyRegularSeason),
+            ("Only Post Season", yearFilters.onlyPostSeason),
+            ("Only Championship", yearFilters.onlyChampionship),
+            ("Include Multi-Week Matchups", yearFilters.includeMultiWeekMatchups),
+            ("Include Matchup Types", includeMatchupTypesStr)
+        ]
 
     @classmethod
     def getForYear(cls, year: Year, **kwargs) -> YearFilters:

@@ -109,12 +109,12 @@ class TestExcel(unittest.TestCase):
                 self.assertEqual("Filters Applied", currentWorksheet["A6"].value)
                 self.assertEqual("Week Number Start: 1", currentWorksheet["A7"].value)
                 self.assertEqual("Week Number End: 1", currentWorksheet["A8"].value)
-                self.assertEqual("Include Matchup Types: ['REGULAR_SEASON', 'PLAYOFF', 'CHAMPIONSHIP']",
-                                 currentWorksheet["A9"].value)
-                self.assertEqual("Include Multi Week Matchups: True", currentWorksheet["A10"].value)
+                self.assertEqual("Only Regular Season: False", currentWorksheet["A9"].value)
+                self.assertEqual("Only Post Season: False", currentWorksheet["A10"].value)
                 self.assertEqual("Only Championship: False", currentWorksheet["A11"].value)
-                self.assertEqual("Only Post Season: False", currentWorksheet["A12"].value)
-                self.assertEqual("Only Regular Season: False", currentWorksheet["A13"].value)
+                self.assertEqual("Include Multi-Week Matchups: True", currentWorksheet["A12"].value)
+                self.assertEqual("Include Matchup Types: REGULAR_SEASON, PLAYOFF, CHAMPIONSHIP",
+                                 currentWorksheet["A13"].value)
 
             # test all time teams worksheet values
             allTimeTeamsWorksheet = workbook["All Time Teams"]
@@ -155,14 +155,14 @@ class TestExcel(unittest.TestCase):
             self.assertIsNone(allTimeTeamsWorksheet["A8"].value)
             # check legend
             self.assertEqual("Filters Applied", allTimeTeamsWorksheet["A10"].value)
-            self.assertEqual("Year Number Start: 2000", allTimeTeamsWorksheet["A11"].value)
-            self.assertEqual("Week Number Start: 1", allTimeTeamsWorksheet["A12"].value)
-            self.assertEqual("Year Number End: 2002", allTimeTeamsWorksheet["A13"].value)
-            self.assertEqual("Week Number End: 1", allTimeTeamsWorksheet["A14"].value)
-            self.assertEqual("Only Championship: False", allTimeTeamsWorksheet["A15"].value)
+            self.assertEqual("Week Number Start: 1", allTimeTeamsWorksheet["A11"].value)
+            self.assertEqual("Year Number Start: 2000", allTimeTeamsWorksheet["A12"].value)
+            self.assertEqual("Week Number End: 1", allTimeTeamsWorksheet["A13"].value)
+            self.assertEqual("Year Number End: 2002", allTimeTeamsWorksheet["A14"].value)
+            self.assertEqual("Only Regular Season: False", allTimeTeamsWorksheet["A15"].value)
             self.assertEqual("Only Post Season: False", allTimeTeamsWorksheet["A16"].value)
-            self.assertEqual("Only Regular Season: False", allTimeTeamsWorksheet["A17"].value)
-            self.assertEqual("Include Matchup Types: ['REGULAR_SEASON', 'PLAYOFF', 'CHAMPIONSHIP']",
+            self.assertEqual("Only Championship: False", allTimeTeamsWorksheet["A17"].value)
+            self.assertEqual("Include Matchup Types: REGULAR_SEASON, PLAYOFF, CHAMPIONSHIP",
                              allTimeTeamsWorksheet["A18"].value)
 
             # test all time owners worksheet values
@@ -193,14 +193,14 @@ class TestExcel(unittest.TestCase):
             self.assertIsNone(allTimeOwnersWorksheet["A4"].value)
             # check legend
             self.assertEqual("Filters Applied", allTimeOwnersWorksheet["A6"].value)
-            self.assertEqual("Year Number Start: 2000", allTimeOwnersWorksheet["A7"].value)
-            self.assertEqual("Week Number Start: 1", allTimeOwnersWorksheet["A8"].value)
-            self.assertEqual("Year Number End: 2002", allTimeOwnersWorksheet["A9"].value)
-            self.assertEqual("Week Number End: 1", allTimeOwnersWorksheet["A10"].value)
-            self.assertEqual("Only Championship: False", allTimeOwnersWorksheet["A11"].value)
+            self.assertEqual("Week Number Start: 1", allTimeOwnersWorksheet["A7"].value)
+            self.assertEqual("Year Number Start: 2000", allTimeOwnersWorksheet["A8"].value)
+            self.assertEqual("Week Number End: 1", allTimeOwnersWorksheet["A9"].value)
+            self.assertEqual("Year Number End: 2002", allTimeOwnersWorksheet["A10"].value)
+            self.assertEqual("Only Regular Season: False", allTimeOwnersWorksheet["A11"].value)
             self.assertEqual("Only Post Season: False", allTimeOwnersWorksheet["A12"].value)
-            self.assertEqual("Only Regular Season: False", allTimeOwnersWorksheet["A13"].value)
-            self.assertEqual("Include Matchup Types: ['REGULAR_SEASON', 'PLAYOFF', 'CHAMPIONSHIP']",
+            self.assertEqual("Only Championship: False", allTimeOwnersWorksheet["A13"].value)
+            self.assertEqual("Include Matchup Types: REGULAR_SEASON, PLAYOFF, CHAMPIONSHIP",
                              allTimeOwnersWorksheet["A14"].value)
 
     def test_leagueToExcel_fileAlreadyExists_raisesException(self):
@@ -279,12 +279,12 @@ class TestExcel(unittest.TestCase):
             self.assertEqual("Filters Applied", worksheet["A6"].value)
             self.assertEqual("Week Number Start: 1", worksheet["A7"].value)
             self.assertEqual("Week Number End: 1", worksheet["A8"].value)
-            self.assertEqual("Include Matchup Types: ['REGULAR_SEASON', 'PLAYOFF', 'CHAMPIONSHIP']",
-                             worksheet["A9"].value)
-            self.assertEqual("Include Multi Week Matchups: True", worksheet["A10"].value)
+            self.assertEqual("Only Regular Season: False", worksheet["A9"].value)
+            self.assertEqual("Only Post Season: False", worksheet["A10"].value)
             self.assertEqual("Only Championship: False", worksheet["A11"].value)
-            self.assertEqual("Only Post Season: False", worksheet["A12"].value)
-            self.assertEqual("Only Regular Season: False", worksheet["A13"].value)
+            self.assertEqual("Include Multi-Week Matchups: True", worksheet["A12"].value)
+            self.assertEqual("Include Matchup Types: REGULAR_SEASON, PLAYOFF, CHAMPIONSHIP",
+                             worksheet["A13"].value)
 
             # make sure stats were transferred properly
             statsWithTitles = yearStatSheet(year).preferredOrderWithTitle()
@@ -351,12 +351,12 @@ class TestExcel(unittest.TestCase):
             self.assertEqual("Filters Applied", worksheet2000["A6"].value)
             self.assertEqual("Week Number Start: 1", worksheet2000["A7"].value)
             self.assertEqual("Week Number End: 1", worksheet2000["A8"].value)
-            self.assertEqual("Include Matchup Types: ['REGULAR_SEASON', 'PLAYOFF', 'CHAMPIONSHIP']",
-                             worksheet2000["A9"].value)
-            self.assertEqual("Include Multi Week Matchups: True", worksheet2000["A10"].value)
+            self.assertEqual("Only Regular Season: False", worksheet2000["A9"].value)
+            self.assertEqual("Only Post Season: False", worksheet2000["A10"].value)
             self.assertEqual("Only Championship: False", worksheet2000["A11"].value)
-            self.assertEqual("Only Post Season: False", worksheet2000["A12"].value)
-            self.assertEqual("Only Regular Season: False", worksheet2000["A13"].value)
+            self.assertEqual("Include Multi-Week Matchups: True", worksheet2000["A12"].value)
+            self.assertEqual("Include Matchup Types: REGULAR_SEASON, PLAYOFF, CHAMPIONSHIP",
+                             worksheet2000["A13"].value)
 
             worksheet2001 = workbook["2001"]
             worksheet2001Values = [
