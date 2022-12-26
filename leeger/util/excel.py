@@ -5,13 +5,14 @@ import random
 from datetime import datetime
 
 from openpyxl import Workbook, load_workbook
-from openpyxl.styles import Font, Color, PatternFill, Alignment
+from openpyxl.styles import Font, Color, PatternFill, Alignment, Side, Border
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.dimensions import DimensionHolder, ColumnDimension
 from openpyxl.worksheet.table import Table
 from openpyxl.worksheet.worksheet import Worksheet
 
 from leeger.model.league import Year, League
+from leeger.util.GeneralUtil import GeneralUtil
 from leeger.util.stat_sheet import yearStatSheet, leagueStatSheet, allTimeTeamsStatSheet
 
 
@@ -75,11 +76,12 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
                         allTimeTeamIds,
                         allTimeTeamNames,
                         ownerIdToColorMap,
-                        ownerIds * len(league.years))
+                        ownerIds * len(league.years),
+                        kwargs.copy())
 
     # put stats into table
     table = Table(displayName=f"AllTimeTeamStats",
-                  ref="A1:" + get_column_letter(worksheet.max_column) + str(worksheet.max_row))
+                  ref="A1:" + get_column_letter(worksheet.max_column) + str(len(allTimeTeamIds)))
     worksheet.add_table(table)
     # freeze team name, owner name year columns and header row
     worksheet.freeze_panes = "D2"
@@ -100,11 +102,12 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
                         ownerIds,
                         ownerNames,
                         ownerIdToColorMap,
-                        ownerIds)
+                        ownerIds,
+                        kwargs.copy())
 
     # put stats into table
     table = Table(displayName=f"AllTimeOwnerStats",
-                  ref="A1:" + get_column_letter(worksheet.max_column) + str(worksheet.max_row))
+                  ref="A1:" + get_column_letter(worksheet.max_column) + str(len(ownerIds)))
     worksheet.add_table(table)
 
     # freeze owner name column and header row
@@ -158,17 +161,19 @@ def yearToExcel(year: Year, filePath: str, **kwargs) -> None:
     for ownerId, seed in ownerIdToSeedMap.items():
         ownerIdToColorMap[ownerId] = __getRandomColor(0.5, seed)
 
+    teamIds = [team.id for team in year.teams]
     __populateWorksheet(worksheet,
                         yearStatSheet(year, **kwargs).preferredOrderWithTitle(),
                         "Team Names",
-                        [team.id for team in year.teams],
+                        teamIds,
                         teamNames,
                         ownerIdToColorMap,
-                        ownerIds)
+                        ownerIds,
+                        kwargs.copy())
 
     # put stats into table
     table = Table(displayName=f"YearStats{year.yearNumber}",
-                  ref="A1:" + get_column_letter(worksheet.max_column) + str(worksheet.max_row))
+                  ref="A1:" + get_column_letter(worksheet.max_column) + str(len(teamIds)))
     worksheet.add_table(table)
     # freeze owner name column and header row
     worksheet.freeze_panes = "B2"
@@ -194,7 +199,8 @@ def __populateWorksheet(worksheet: Worksheet,
                         entityIds: list[str],
                         entityNames: list[str],
                         ownerIdToColorMap: dict[str, Color],
-                        ownerIds: list[str]) -> None:
+                        ownerIds: list[str],
+                        legendKwargs: dict) -> None:
     ####################
     # Styles for table #
     ####################
@@ -204,10 +210,12 @@ def __populateWorksheet(worksheet: Worksheet,
     ENTITY_NAME_FONT = Font(size=11, bold=True)
 
     # colors
-    GRAY = Color(rgb="B8B8B8")
+    BLACK = Color(rgb="000000")
+    LIGHT_GRAY = Color(rgb="B8B8B8")
+    MEDIUM_GRAY = Color(rgb="828282")
 
     # fills
-    HEADER_FILL = PatternFill(patternType="solid", fgColor=GRAY)
+    HEADER_FILL = PatternFill(patternType="solid", fgColor=LIGHT_GRAY)
 
     #################
     # Fill in table #
@@ -244,6 +252,40 @@ def __populateWorksheet(worksheet: Worksheet,
             else:
                 worksheet[cell] = "N/A"
             worksheet[cell].fill = rowFill
+
+    # add legend for filters
+
+    # define border to go around legend
+    topSideSolid = Side(border_style="thick", color=BLACK)
+    bottomSideSolid = Side(border_style="thick", color=BLACK)
+    bottomSideThin = Side(border_style="thin", color=BLACK)
+    leftSideSolid = Side(border_style="thick", color=BLACK)
+    rightSideSolid = Side(border_style="thick", color=BLACK)
+    # legend formatting
+    legendCellAlignment = Alignment(horizontal='center')
+
+    legendRowNumber = len(entityIds) + 4
+    legendColLetter = "A"
+    titleCell = f"A{legendRowNumber}"
+    worksheet[titleCell] = "Filters Applied"
+    worksheet[titleCell].fill = PatternFill(patternType="solid", fgColor=MEDIUM_GRAY)
+    worksheet[titleCell].font = Font(bold=True)
+    border = Border(left=leftSideSolid, right=rightSideSolid, top=topSideSolid, bottom=bottomSideThin)
+    worksheet[titleCell].border = border
+    worksheet[titleCell].alignment = legendCellAlignment
+
+    for kwarg_title, kwarg_value in legendKwargs.items():
+        legendRowNumber += 1
+        cell = f"{legendColLetter}{legendRowNumber}"
+        worksheet[cell] = f"{GeneralUtil.camelCaseToUpperSentenceCase(kwarg_title)}: {kwarg_value}"
+        worksheet[cell].fill = PatternFill(patternType="solid", fgColor=MEDIUM_GRAY)
+        worksheet[cell].alignment = legendCellAlignment
+        border = Border(left=leftSideSolid, right=rightSideSolid)
+        worksheet[cell].border = border
+
+    # add border to last cell
+    border = Border(left=leftSideSolid, right=rightSideSolid, bottom=bottomSideSolid)
+    worksheet[f"{legendColLetter}{legendRowNumber}"].border = border
 
     # set column widths
     TITLE_MULTIPLIER = 1.2
