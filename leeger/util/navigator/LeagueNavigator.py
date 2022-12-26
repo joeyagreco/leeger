@@ -1,4 +1,3 @@
-from leeger.enum.MatchupType import MatchupType
 from leeger.exception.DoesNotExistException import DoesNotExistException
 from leeger.model.filter.AllTimeFilters import AllTimeFilters
 from leeger.model.filter.YearFilters import YearFilters
@@ -85,15 +84,6 @@ class LeagueNavigator:
             currentYear = yse[0]
             currentWeekNumberStart = yse[1]
             currentWeekNumberEnd = yse[2]
-            # build year filters
-            if allTimeFilters.onlyChampionship:
-                includeMatchupTypes = [MatchupType.CHAMPIONSHIP]
-            elif allTimeFilters.onlyPostSeason:
-                includeMatchupTypes = [MatchupType.PLAYOFF, MatchupType.CHAMPIONSHIP]
-            elif allTimeFilters.onlyRegularSeason:
-                includeMatchupTypes = [MatchupType.REGULAR_SEASON]
-            else:
-                includeMatchupTypes = [MatchupType.REGULAR_SEASON, MatchupType.PLAYOFF, MatchupType.CHAMPIONSHIP]
             yearFilters = YearFilters(weekNumberStart=currentWeekNumberStart,
                                       weekNumberEnd=currentWeekNumberEnd,
                                       onlyChampionship=allTimeFilters.onlyChampionship,
