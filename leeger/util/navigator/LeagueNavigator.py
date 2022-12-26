@@ -94,8 +94,11 @@ class LeagueNavigator:
                 includeMatchupTypes = [MatchupType.REGULAR_SEASON]
             else:
                 includeMatchupTypes = [MatchupType.REGULAR_SEASON, MatchupType.PLAYOFF, MatchupType.CHAMPIONSHIP]
-            yearFilters = YearFilters(weekNumberStart=currentWeekNumberStart, weekNumberEnd=currentWeekNumberEnd,
-                                      includeMatchupTypes=includeMatchupTypes)
+            yearFilters = YearFilters(weekNumberStart=currentWeekNumberStart,
+                                      weekNumberEnd=currentWeekNumberEnd,
+                                      onlyChampionship=allTimeFilters.onlyChampionship,
+                                      onlyPostSeason=allTimeFilters.onlyPostSeason,
+                                      onlyRegularSeason=allTimeFilters.onlyRegularSeason)
 
             allResultDicts.append(YearNavigator.getNumberOfGamesPlayed(currentYear,
                                                                        yearFilters,

@@ -113,8 +113,7 @@ class TestExcel(unittest.TestCase):
                 self.assertEqual("Only Post Season: False", currentWorksheet["A10"].value)
                 self.assertEqual("Only Championship: False", currentWorksheet["A11"].value)
                 self.assertEqual("Include Multi-Week Matchups: True", currentWorksheet["A12"].value)
-                self.assertEqual("Include Matchup Types: REGULAR_SEASON, PLAYOFF, CHAMPIONSHIP",
-                                 currentWorksheet["A13"].value)
+                self.assertIsNone(currentWorksheet["A13"].value)
 
             # test all time teams worksheet values
             allTimeTeamsWorksheet = workbook["All Time Teams"]
@@ -162,8 +161,7 @@ class TestExcel(unittest.TestCase):
             self.assertEqual("Only Regular Season: False", allTimeTeamsWorksheet["A15"].value)
             self.assertEqual("Only Post Season: False", allTimeTeamsWorksheet["A16"].value)
             self.assertEqual("Only Championship: False", allTimeTeamsWorksheet["A17"].value)
-            self.assertEqual("Include Matchup Types: REGULAR_SEASON, PLAYOFF, CHAMPIONSHIP",
-                             allTimeTeamsWorksheet["A18"].value)
+            self.assertIsNone(allTimeTeamsWorksheet["A18"].value)
 
             # test all time owners worksheet values
             allTimeOwnersWorksheet = workbook["All Time Owners"]
@@ -200,8 +198,7 @@ class TestExcel(unittest.TestCase):
             self.assertEqual("Only Regular Season: False", allTimeOwnersWorksheet["A11"].value)
             self.assertEqual("Only Post Season: False", allTimeOwnersWorksheet["A12"].value)
             self.assertEqual("Only Championship: False", allTimeOwnersWorksheet["A13"].value)
-            self.assertEqual("Include Matchup Types: REGULAR_SEASON, PLAYOFF, CHAMPIONSHIP",
-                             allTimeOwnersWorksheet["A14"].value)
+            self.assertIsNone(allTimeOwnersWorksheet["A14"].value)
 
     def test_leagueToExcel_fileAlreadyExists_raisesException(self):
         owners, teams1 = getNDefaultOwnersAndTeams(2)
@@ -283,8 +280,7 @@ class TestExcel(unittest.TestCase):
             self.assertEqual("Only Post Season: False", worksheet["A10"].value)
             self.assertEqual("Only Championship: False", worksheet["A11"].value)
             self.assertEqual("Include Multi-Week Matchups: True", worksheet["A12"].value)
-            self.assertEqual("Include Matchup Types: REGULAR_SEASON, PLAYOFF, CHAMPIONSHIP",
-                             worksheet["A13"].value)
+            self.assertIsNone(worksheet["A13"].value)
 
             # make sure stats were transferred properly
             statsWithTitles = yearStatSheet(year).preferredOrderWithTitle()
@@ -355,8 +351,7 @@ class TestExcel(unittest.TestCase):
             self.assertEqual("Only Post Season: False", worksheet2000["A10"].value)
             self.assertEqual("Only Championship: False", worksheet2000["A11"].value)
             self.assertEqual("Include Multi-Week Matchups: True", worksheet2000["A12"].value)
-            self.assertEqual("Include Matchup Types: REGULAR_SEASON, PLAYOFF, CHAMPIONSHIP",
-                             worksheet2000["A13"].value)
+            self.assertIsNone(worksheet2000["A13"].value)
 
             worksheet2001 = workbook["2001"]
             worksheet2001Values = [

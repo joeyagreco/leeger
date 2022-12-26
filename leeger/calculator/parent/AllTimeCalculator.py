@@ -223,7 +223,6 @@ class AllTimeCalculator:
             yearNumber = str(LeagueNavigator.getYearByYearNumber(league, allTimeFilters.yearNumberStart).yearNumber)
             yearFiltersByYear[yearNumber] = YearFilters(weekNumberStart=allTimeFilters.weekNumberStart,
                                                         weekNumberEnd=allTimeFilters.weekNumberEnd,
-                                                        includeMatchupTypes=allTimeFilters.includeMatchupTypes,
                                                         includeMultiWeekMatchups=True,
                                                         onlyPostSeason=allTimeFilters.onlyPostSeason,
                                                         onlyChampionship=allTimeFilters.onlyChampionship,
@@ -236,7 +235,6 @@ class AllTimeCalculator:
                     yearFiltersByYear[str(year.yearNumber)] = YearFilters(
                         weekNumberStart=allTimeFilters.weekNumberStart,
                         weekNumberEnd=len(year.weeks),
-                        includeMatchupTypes=allTimeFilters.includeMatchupTypes,
                         includeMultiWeekMatchups=True,
                         onlyPostSeason=allTimeFilters.onlyPostSeason,
                         onlyChampionship=allTimeFilters.onlyChampionship,
@@ -247,7 +245,6 @@ class AllTimeCalculator:
                     yearFiltersByYear[str(year.yearNumber)] = YearFilters(
                         weekNumberStart=1,
                         weekNumberEnd=allTimeFilters.weekNumberEnd,
-                        includeMatchupTypes=allTimeFilters.includeMatchupTypes,
                         includeMultiWeekMatchups=True,
                         onlyPostSeason=allTimeFilters.onlyPostSeason,
                         onlyChampionship=allTimeFilters.onlyChampionship,
@@ -257,7 +254,6 @@ class AllTimeCalculator:
                     yearFiltersByYear[str(year.yearNumber)] = YearFilters(
                         weekNumberStart=1,
                         weekNumberEnd=len(year.weeks),
-                        includeMatchupTypes=allTimeFilters.includeMatchupTypes,
                         includeMultiWeekMatchups=True,
                         onlyPostSeason=allTimeFilters.onlyPostSeason,
                         onlyChampionship=allTimeFilters.onlyChampionship,

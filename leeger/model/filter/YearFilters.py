@@ -15,24 +15,32 @@ class YearFilters:
     """
     weekNumberStart: int  # week to start at (inclusive)
     weekNumberEnd: int  # week to end at (inclusive)
-    includeMatchupTypes: list[MatchupType]  # include matchups of these types
     includeMultiWeekMatchups: bool = True
     onlyChampionship: bool = False
     onlyPostSeason: bool = False
     onlyRegularSeason: bool = False
 
+    @property
+    def includeMatchupTypes(self) -> list[MatchupType]:
+        if self.onlyChampionship:
+            return [MatchupType.CHAMPIONSHIP]
+        elif self.onlyPostSeason:
+            return [MatchupType.PLAYOFF, MatchupType.CHAMPIONSHIP]
+        elif self.onlyRegularSeason:
+            return [MatchupType.REGULAR_SEASON]
+        else:
+            return [MatchupType.REGULAR_SEASON, MatchupType.PLAYOFF, MatchupType.CHAMPIONSHIP]
+
     @classmethod
     def preferredOrderWithTitle(cls, year: Year, **kwargs) -> list[tuple[str, Any]]:
         yearFilters = YearFilters.getForYear(year, **kwargs)
-        includeMatchupTypesStr = ", ".join([matchupType.name for matchupType in yearFilters.includeMatchupTypes])
         return [
             ("Week Number Start", yearFilters.weekNumberStart),
             ("Week Number End", yearFilters.weekNumberEnd),
             ("Only Regular Season", yearFilters.onlyRegularSeason),
             ("Only Post Season", yearFilters.onlyPostSeason),
             ("Only Championship", yearFilters.onlyChampionship),
-            ("Include Multi-Week Matchups", yearFilters.includeMultiWeekMatchups),
-            ("Include Matchup Types", includeMatchupTypesStr)
+            ("Include Multi-Week Matchups", yearFilters.includeMultiWeekMatchups)
         ]
 
     @classmethod
@@ -49,26 +57,6 @@ class YearFilters:
         kwargsCopy.pop("includeMatchupTypes", None)  # so we don't get an unused kwarg warning
 
         GeneralUtil.warnForUnusedKwargs(kwargsCopy)
-
-        if onlyChampionship:
-            includeMatchupTypes = [
-                MatchupType.CHAMPIONSHIP
-            ]
-        elif onlyPostSeason:
-            includeMatchupTypes = [
-                MatchupType.PLAYOFF,
-                MatchupType.CHAMPIONSHIP
-            ]
-        elif onlyRegularSeason:
-            includeMatchupTypes = [
-                MatchupType.REGULAR_SEASON
-            ]
-        else:
-            includeMatchupTypes = [
-                MatchupType.REGULAR_SEASON,
-                MatchupType.PLAYOFF,
-                MatchupType.CHAMPIONSHIP
-            ]
 
         ####################
         # validate filters #
@@ -99,7 +87,7 @@ class YearFilters:
             raise InvalidFilterException("'weekNumberStart' cannot be greater than 'weekNumberEnd'.")
 
         return YearFilters(weekNumberStart=weekNumberStart, weekNumberEnd=weekNumberEnd,
-                           includeMatchupTypes=includeMatchupTypes, includeMultiWeekMatchups=includeMultiWeekMatchups,
+                           includeMultiWeekMatchups=includeMultiWeekMatchups,
                            onlyPostSeason=onlyPostSeason, onlyChampionship=onlyChampionship,
                            onlyRegularSeason=onlyRegularSeason)
 

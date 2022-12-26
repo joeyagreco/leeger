@@ -35,8 +35,6 @@ class AllTimeFilters:
     @classmethod
     def preferredOrderWithTitle(cls, league: League, **kwargs) -> list[tuple[str, Any]]:
         allTimeFilters = AllTimeFilters.getForLeague(league, **kwargs)
-        includeMatchupTypes = allTimeFilters.includeMatchupTypes
-        includeMatchupTypesStr = ", ".join([matchupType.name for matchupType in includeMatchupTypes])
         return [
             ("Week Number Start", allTimeFilters.weekNumberStart),
             ("Year Number Start", allTimeFilters.yearNumberStart),
@@ -44,8 +42,7 @@ class AllTimeFilters:
             ("Year Number End", allTimeFilters.yearNumberEnd),
             ("Only Regular Season", allTimeFilters.onlyRegularSeason),
             ("Only Post Season", allTimeFilters.onlyPostSeason),
-            ("Only Championship", allTimeFilters.onlyChampionship),
-            ("Include Matchup Types", includeMatchupTypesStr)
+            ("Only Championship", allTimeFilters.onlyChampionship)
         ]
 
     @classmethod
