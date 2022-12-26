@@ -20,6 +20,25 @@ class AllTimeFilters:
     onlyPostSeason: bool  # only include playoff weeks
     onlyRegularSeason: bool  # only include regular season weeks
 
+    @property
+    def includeMatchupTypes(self) -> list[MatchupType]:
+        if self.onlyChampionship:
+            return [MatchupType.CHAMPIONSHIP]
+        elif self.onlyPostSeason:
+            return [MatchupType.PLAYOFF, MatchupType.CHAMPIONSHIP]
+        elif self.onlyRegularSeason:
+            return [MatchupType.REGULAR_SEASON]
+        else:
+            return [MatchupType.REGULAR_SEASON, MatchupType.PLAYOFF, MatchupType.CHAMPIONSHIP]
+
+    @classmethod
+    def asDict(cls, league: League, **kwargs) -> dict:
+        allTimeFilters = AllTimeFilters.getForLeague(league, **kwargs)
+        includeMatchupTypes = allTimeFilters.includeMatchupTypes
+        allTimeFiltersDict = allTimeFilters.__dict__
+        allTimeFiltersDict["includeMatchupTypes"] = [matchupType.name for matchupType in includeMatchupTypes]
+        return allTimeFiltersDict
+
     @classmethod
     def getForLeague(cls, league: League, **kwargs) -> AllTimeFilters:
         from leeger.exception import InvalidFilterException
@@ -79,14 +98,3 @@ class AllTimeFilters:
                               onlyChampionship=onlyChampionship,
                               onlyPostSeason=onlyPostSeason,
                               onlyRegularSeason=onlyRegularSeason)
-
-    @property
-    def includeMatchupTypes(self) -> list[MatchupType]:
-        if self.onlyChampionship:
-            return [MatchupType.CHAMPIONSHIP]
-        elif self.onlyPostSeason:
-            return [MatchupType.PLAYOFF, MatchupType.CHAMPIONSHIP]
-        elif self.onlyRegularSeason:
-            return [MatchupType.REGULAR_SEASON]
-        else:
-            return [MatchupType.REGULAR_SEASON, MatchupType.PLAYOFF, MatchupType.CHAMPIONSHIP]

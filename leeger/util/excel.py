@@ -11,6 +11,7 @@ from openpyxl.worksheet.dimensions import DimensionHolder, ColumnDimension
 from openpyxl.worksheet.table import Table
 from openpyxl.worksheet.worksheet import Worksheet
 
+from leeger.model.filter import AllTimeFilters, YearFilters
 from leeger.model.league import Year, League
 from leeger.util.GeneralUtil import GeneralUtil
 from leeger.util.stat_sheet import yearStatSheet, leagueStatSheet, allTimeTeamsStatSheet
@@ -70,6 +71,7 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
 
     allTimeTeamsStatSheet_ = allTimeTeamsStatSheet(league, **kwargs)
 
+    allTimeFilters = AllTimeFilters.asDict(league, **kwargs.copy())
     __populateWorksheet(worksheet,
                         allTimeTeamsStatSheet_,
                         "Team Names",
@@ -77,7 +79,7 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
                         allTimeTeamNames,
                         ownerIdToColorMap,
                         ownerIds * len(league.years),
-                        kwargs.copy())
+                        allTimeFilters)
 
     # put stats into table
     table = Table(displayName=f"AllTimeTeamStats",
@@ -103,7 +105,7 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
                         ownerNames,
                         ownerIdToColorMap,
                         ownerIds,
-                        kwargs.copy())
+                        allTimeFilters)
 
     # put stats into table
     table = Table(displayName=f"AllTimeOwnerStats",
@@ -162,6 +164,7 @@ def yearToExcel(year: Year, filePath: str, **kwargs) -> None:
         ownerIdToColorMap[ownerId] = __getRandomColor(0.5, seed)
 
     teamIds = [team.id for team in year.teams]
+    yearFilters = YearFilters.asDict(year, **kwargs.copy())
     __populateWorksheet(worksheet,
                         yearStatSheet(year, **kwargs).preferredOrderWithTitle(),
                         "Team Names",
@@ -169,7 +172,7 @@ def yearToExcel(year: Year, filePath: str, **kwargs) -> None:
                         teamNames,
                         ownerIdToColorMap,
                         ownerIds,
-                        kwargs.copy())
+                        yearFilters)
 
     # put stats into table
     table = Table(displayName=f"YearStats{year.yearNumber}",

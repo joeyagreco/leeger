@@ -22,6 +22,14 @@ class YearFilters:
     onlyRegularSeason: bool = False
 
     @classmethod
+    def asDict(cls, year: Year, **kwargs) -> dict:
+        yearFilters = YearFilters.getForYear(year, **kwargs)
+        yearFiltersDict = yearFilters.__dict__
+        yearFiltersDict["includeMatchupTypes"] = [matchupType.name for matchupType in
+                                                  yearFiltersDict["includeMatchupTypes"]]
+        return yearFiltersDict
+
+    @classmethod
     def getForYear(cls, year: Year, **kwargs) -> YearFilters:
         kwargsCopy = copy.deepcopy(kwargs)
         from leeger.exception import InvalidFilterException
