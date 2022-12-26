@@ -1,4 +1,3 @@
-import re
 from typing import Any, Optional
 
 from leeger.util.CustomLogger import CustomLogger
@@ -44,18 +43,3 @@ class GeneralUtil:
                 safeSum += number
 
         return safeSum
-
-    @staticmethod
-    def camelCaseToUpperSentenceCase(s: str) -> str:
-        """
-        Example:
-            - "myStringHere" -> "My String Here"
-        """
-        result = ""
-        if s != '':
-            postRe = re.sub("([A-Z])", r" \1", s)
-            words = list()
-            for word in postRe.split():
-                words.append(word.title())
-            result = " ".join(words)
-        return result

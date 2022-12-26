@@ -37,13 +37,3 @@ class TestGeneralUtil(unittest.TestCase):
 
         response = GeneralUtil.safeSum(1, 1, 1)
         self.assertEqual(3, response)
-
-    def test_camelCaseToUpperSentenceCase_happyPath(self):
-        testStr = "myWordHere"
-        responseStr = GeneralUtil.camelCaseToUpperSentenceCase(testStr)
-        self.assertEqual("My Word Here", responseStr)
-
-    def test_camelCaseToUpperSentenceCase_emptyString(self):
-        testStr = ""
-        responseStr = GeneralUtil.camelCaseToUpperSentenceCase(testStr)
-        self.assertEqual("", responseStr)
