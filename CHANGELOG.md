@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- Added legend to Excel sheets to show all filters applied to sheet
 - Fixed bug where keyword arguments may not work for All Time Teams stat sheet in Excel
 - Fixed bug where leagues with some League Median years and some non League Median years would not save to excel
 - Improved Excel tests
