@@ -19,7 +19,7 @@ from leeger.util.stat_sheet import yearStatSheet, leagueStatSheet, allTimeTeamsS
 
 def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
     """
-    If the given Excel file exists already, will raise an exception.
+    Saves the given League object to an Excel file.
     """
     overwrite = kwargs.pop("overwrite", False)
 
@@ -110,6 +110,7 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
 
 def yearToExcel(year: Year, filePath: str, **kwargs) -> None:
     """
+    Saves the given Year object to an Excel File.
     If the given Excel file exists already, add a worksheet to it with this year.
     If the given Excel file does not exist, create a new workbook and add a worksheet to it with this year.
     """
