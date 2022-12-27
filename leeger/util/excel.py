@@ -14,7 +14,7 @@ from openpyxl.worksheet.worksheet import Worksheet
 
 from leeger.model.filter import AllTimeFilters, YearFilters
 from leeger.model.league import Year, League
-from leeger.util.stat_sheet import yearStatSheet, leagueStatSheet, allTimeTeamsStatSheet
+from leeger.util.stat_sheet import yearStatSheet, leagueStatSheet, allTimeTeamsStatSheet, yearMatchupsStatSheet
 
 
 def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
@@ -157,12 +157,29 @@ def yearToExcel(year: Year, filePath: str, **kwargs) -> None:
 
     yearStatsWithTitles = yearStatSheet(year, **kwargs.copy()).preferredOrderWithTitle()
     yearStatsWithTitles.insert(0, ("Team", teamIdToNameMap))
+    # save Year teams to Excel sheet
     __populateWorksheet(worksheet=worksheet,
                         workbook=workbook,
                         displayName=f"Teams{year.yearNumber}",
                         titlesAndStatDicts=yearStatsWithTitles,
                         entityIds=teamIds,
                         entityIdToColorMap=teamIdToColorMap,
+                        legendKeyValues=yearFilters,
+                        freezePanes="B2",
+                        saveToFilepath=filePath)
+
+    yearMatchupsWithTitles, modifiedMatchupIdToOwnerIdMap = yearMatchupsStatSheet(year, **kwargs.copy())
+    modifiedMatchupIdToColorMap: dict = dict()
+    for modifiedMatchupId, ownerId in modifiedMatchupIdToOwnerIdMap.items():
+        modifiedMatchupIdToColorMap[modifiedMatchupId] = ownerIdToColorMap[ownerId]
+    worksheet = workbook[f"{year.yearNumber} Matchups"]
+    # save Year matchups to Excel sheet
+    __populateWorksheet(worksheet=worksheet,
+                        workbook=workbook,
+                        displayName=f"Matchups{year.yearNumber}",
+                        titlesAndStatDicts=yearMatchupsWithTitles,
+                        entityIds=list(modifiedMatchupIdToOwnerIdMap.keys()),
+                        entityIdToColorMap=modifiedMatchupIdToColorMap,
                         legendKeyValues=yearFilters,
                         freezePanes="B2",
                         saveToFilepath=filePath)
@@ -274,7 +291,7 @@ def __populateWorksheet(*,
     # set column widths
     TITLE_MULTIPLIER = 1.2
     NAME_MULTIPLIER = 1.0
-    DATA_MULTIPLIER = 0.6
+    DATA_MULTIPLIER = 0.8
     dim_holder = DimensionHolder(worksheet=worksheet)
 
     for columnNumber in range(worksheet.min_column, worksheet.max_column + 1):

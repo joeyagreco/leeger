@@ -198,7 +198,7 @@ def allTimeTeamsStatSheet(league: League, **kwargs) -> list[tuple[str, dict]]:
                                             ownerNames=ownerNames,
                                             years=years,
                                             **kwargs).preferredOrderWithTitle()
-        
+
         yearStatsWithTitles.insert(0, ("Team", teamIdToNameMap))
         allTimeTeamsStatsWithTitles += yearStatsWithTitles
 
@@ -218,8 +218,9 @@ def allTimeTeamsStatSheet(league: League, **kwargs) -> list[tuple[str, dict]]:
     return condensedAllTimeTeamsStatsWithTitles
 
 
-def yearMatchupsStatSheet(year: Year, **kwargs) -> list[tuple[str, dict]]:
+def yearMatchupsStatSheet(year: Year, **kwargs) -> tuple[list[tuple[str, dict]], dict[str, str]]:
     yearFilters = YearFilters.getForYear(year, **kwargs)
+    modifiedMatchupIdToOwnerIdMap: dict = dict()
     teamANames: dict[str, str] = dict()
     teamBNames: dict[str, str] = dict()
     teamAScores: dict[str, float | int] = dict()
@@ -235,19 +236,30 @@ def yearMatchupsStatSheet(year: Year, **kwargs) -> list[tuple[str, dict]]:
                     teamA = YearNavigator.getTeamById(year, matchup.teamAId)
                     teamB = YearNavigator.getTeamById(year, matchup.teamBId)
                     # add matchup for both teams
-                    for teamChar in ("A", "B"):
-                        teamANames[f"{matchup.id}{teamChar}"] = teamA.name
-                        teamBNames[f"{matchup.id}{teamChar}"] = teamB.name
-                        teamAScores[f"{matchup.id}{teamChar}"] = matchup.teamAScore
-                        teamBScores[f"{matchup.id}{teamChar}"] = matchup.teamBScore
-                        matchupTypes[f"{matchup.id}{teamChar}"] = matchup.matchupType.name
-                        weekNumbers[f"{matchup.id}{teamChar}"] = week.weekNumber
+                    # add for "A" team
+                    modifiedMatchupId = f"{matchup.id}A"
+                    modifiedMatchupIdToOwnerIdMap[modifiedMatchupId] = teamA.ownerId
+                    teamANames[modifiedMatchupId] = teamA.name
+                    teamBNames[modifiedMatchupId] = teamB.name
+                    teamAScores[modifiedMatchupId] = matchup.teamAScore
+                    teamBScores[modifiedMatchupId] = matchup.teamBScore
+                    matchupTypes[modifiedMatchupId] = matchup.matchupType.name
+                    weekNumbers[modifiedMatchupId] = week.weekNumber
+                    # add for "B" team
+                    modifiedMatchupId = f"{matchup.id}B"
+                    modifiedMatchupIdToOwnerIdMap[modifiedMatchupId] = teamB.ownerId
+                    teamANames[modifiedMatchupId] = teamB.name
+                    teamBNames[modifiedMatchupId] = teamA.name
+                    teamAScores[modifiedMatchupId] = matchup.teamBScore
+                    teamBScores[modifiedMatchupId] = matchup.teamAScore
+                    matchupTypes[modifiedMatchupId] = matchup.matchupType.name
+                    weekNumbers[modifiedMatchupId] = week.weekNumber
 
     return [
-        ("Week Number", weekNumbers),
         ("Team For", teamANames),
-        ("Points For", teamAScores),
         ("Team Against", teamBNames),
-        ("Points Against", teamBScores),
-        ("Matchup Type", matchupTypes)
-    ]
+        ("Week Number", weekNumbers),
+        ("Matchup Type", matchupTypes),
+        ("Points For", teamAScores),
+        ("Points Against", teamBScores)
+    ], modifiedMatchupIdToOwnerIdMap
