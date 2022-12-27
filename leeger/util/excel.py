@@ -39,26 +39,21 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
     # make sure we have the same color for owners and their teams across sheets
     ownerIdToSeedMap = dict()
     ownerIds = list()
-    ownerNames = list()
+    ownerIdToNameMap = dict()
     for owner in league.owners:
-        ownerNames.append(owner.name)
-        ownerIds.append(owner.id)
         ownerIdToSeedMap[owner.id] = f"{owner.id}{datetime.now().date()}"
+        ownerIds.append(owner.id)
+        ownerIdToNameMap[owner.id] = owner.name
     ownerIdToColorMap = dict()
     for ownerId, seed in ownerIdToSeedMap.items():
         ownerIdToColorMap[ownerId] = __getRandomColor(0.5, seed)
 
     # gather info for all time teams to be used later
     allTimeTeamIds: list[str] = list()
-    allTimeTeamNames: list[str] = list()
     teamIdToColorMap = dict()
     for year in league.years:
-        # sort teams by owner ID
-        allTeams = [team for team in year.teams]
-        allTeams.sort(key=lambda x: x.ownerId)
         for team in year.teams:
             allTimeTeamIds.append(team.id)
-            allTimeTeamNames.append(team.name)
             teamIdToColorMap[team.id] = ownerIdToColorMap[team.ownerId]
 
         # add a sheet to the Excel document for this year
@@ -80,7 +75,6 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
                         titlesAndStatDicts=allTimeTeamsStatSheet_,
                         entityIds=allTimeTeamIds,
                         entityIdToColorMap=teamIdToColorMap,
-                        ownerIds=ownerIds * len(league.years),
                         legendKeyValues=allTimeFilters,
                         freezePanes="D2")
     # save
@@ -94,10 +88,6 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
     workbook.create_sheet("All Time Owners", index=index)
     worksheet = workbook["All Time Owners"]
 
-    ownerIdToNameMap = dict()
-    for owner in league.owners:
-        ownerIdToNameMap[owner.id] = owner.name
-
     allTimeOwnerStatsWithTitles = leagueStatSheet(league, **kwargs.copy()).preferredOrderWithTitle()
     allTimeOwnerStatsWithTitles.insert(0, ("Owner", ownerIdToNameMap))
 
@@ -106,7 +96,6 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
                         titlesAndStatDicts=allTimeOwnerStatsWithTitles,
                         entityIds=ownerIds,
                         entityIdToColorMap=ownerIdToColorMap,
-                        ownerIds=ownerIds,
                         legendKeyValues=allTimeFilters,
                         freezePanes="B2")
 
@@ -151,10 +140,8 @@ def yearToExcel(year: Year, filePath: str, **kwargs) -> None:
     # and
     # make sure we have the same color for owners and their teams across sheets
     ownerIdToSeedMap = dict()
-    ownerIds = list()
     teamIdToNameMap = dict()
     for team in year.teams:
-        ownerIds.append(team.ownerId)
         ownerIdToSeedMap[team.ownerId] = f"{team.ownerId}{datetime.now().date()}"
         teamIdToNameMap[team.id] = team.name
     ownerIdToColorMap = dict()
@@ -176,7 +163,6 @@ def yearToExcel(year: Year, filePath: str, **kwargs) -> None:
                         titlesAndStatDicts=yearStatsWithTitles,
                         entityIds=teamIds,
                         entityIdToColorMap=teamIdToColorMap,
-                        ownerIds=ownerIds,
                         legendKeyValues=yearFilters,
                         freezePanes="B2")
     # save
@@ -200,7 +186,6 @@ def __populateWorksheet(*,
                         titlesAndStatDicts: list[tuple[str, dict]],
                         entityIds: list[str],
                         entityIdToColorMap: dict[str, Color],
-                        ownerIds: list[str],
                         legendKeyValues: list[tuple[str, Any]],
                         freezePanes: str) -> None:
     ####################
