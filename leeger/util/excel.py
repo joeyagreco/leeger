@@ -72,14 +72,14 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
     allTimeTeamsStatSheet_ = allTimeTeamsStatSheet(league, **kwargs)
 
     allTimeFilters = AllTimeFilters.preferredOrderWithTitle(league, **kwargs.copy())
-    __populateWorksheet(worksheet,
-                        allTimeTeamsStatSheet_,
-                        "Team Names",
-                        allTimeTeamIds,
-                        allTimeTeamNames,
-                        ownerIdToColorMap,
-                        ownerIds * len(league.years),
-                        allTimeFilters)
+    __populateWorksheet(worksheet=worksheet,
+                        statsWithTitles=allTimeTeamsStatSheet_,
+                        title="Team Names",
+                        entityIds=allTimeTeamIds,
+                        entityNames=allTimeTeamNames,
+                        ownerIdToColorMap=ownerIdToColorMap,
+                        ownerIds=ownerIds * len(league.years),
+                        legendKeyValues=allTimeFilters)
 
     # put stats into table
     table = Table(displayName=f"AllTimeTeamStats",
@@ -98,14 +98,14 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
     workbook.create_sheet("All Time Owners", index=index)
     worksheet = workbook["All Time Owners"]
 
-    __populateWorksheet(worksheet,
-                        leagueStatSheet(league, **kwargs).preferredOrderWithTitle(),
-                        "Owner Names",
-                        ownerIds,
-                        ownerNames,
-                        ownerIdToColorMap,
-                        ownerIds,
-                        allTimeFilters)
+    __populateWorksheet(worksheet=worksheet,
+                        statsWithTitles=leagueStatSheet(league, **kwargs).preferredOrderWithTitle(),
+                        title="Owner Names",
+                        entityIds=ownerIds,
+                        entityNames=ownerNames,
+                        ownerIdToColorMap=ownerIdToColorMap,
+                        ownerIds=ownerIds,
+                        legendKeyValues=allTimeFilters)
 
     # put stats into table
     table = Table(displayName=f"AllTimeOwnerStats",
@@ -165,14 +165,14 @@ def yearToExcel(year: Year, filePath: str, **kwargs) -> None:
 
     teamIds = [team.id for team in year.teams]
     yearFilters = YearFilters.preferredOrderWithTitle(year, **kwargs.copy())
-    __populateWorksheet(worksheet,
-                        yearStatSheet(year, **kwargs).preferredOrderWithTitle(),
-                        "Team Names",
-                        teamIds,
-                        teamNames,
-                        ownerIdToColorMap,
-                        ownerIds,
-                        yearFilters)
+    __populateWorksheet(worksheet=worksheet,
+                        statsWithTitles=yearStatSheet(year, **kwargs).preferredOrderWithTitle(),
+                        title="Team Names",
+                        entityIds=teamIds,
+                        entityNames=teamNames,
+                        ownerIdToColorMap=ownerIdToColorMap,
+                        ownerIds=ownerIds,
+                        legendKeyValues=yearFilters)
 
     # put stats into table
     table = Table(displayName=f"YearStats{year.yearNumber}",
@@ -196,7 +196,8 @@ def __getRandomColor(tint: float = 0, seed: str = None) -> Color:
     return Color(rgb=hexCode, tint=tint)
 
 
-def __populateWorksheet(worksheet: Worksheet,
+def __populateWorksheet(*,
+                        worksheet: Worksheet,
                         statsWithTitles: list[tuple[str, dict]],
                         title: str,
                         entityIds: list[str],
