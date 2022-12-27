@@ -273,7 +273,7 @@ def __populateWorksheet(*,
     # set column widths
     TITLE_MULTIPLIER = 1.2
     NAME_MULTIPLIER = 1.0
-    DATA_MULTIPLIER = 0.5
+    DATA_MULTIPLIER = 0.6
     dim_holder = DimensionHolder(worksheet=worksheet)
 
     for columnNumber in range(worksheet.min_column, worksheet.max_column + 1):
