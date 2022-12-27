@@ -235,7 +235,7 @@ def __populateWorksheet(*,
                 worksheet[cell] = "N/A"
             worksheet[cell].fill = rowFill
             if columnNumber == 0:
-                worksheet[cell].font = HEADER_COLUMN_FONT
+                worksheet[cell].font = ENTITY_NAME_FONT
 
     # put stats into table
     table = Table(displayName=displayName,
