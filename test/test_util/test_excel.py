@@ -45,17 +45,20 @@ class TestExcel(unittest.TestCase):
             workbook = load_workbook(filename=fullPath)
 
             # check sheets
-            self.assertEqual(5, len(workbook.sheetnames))
-            self.assertEqual("2000", workbook.sheetnames[0])
-            self.assertEqual("2001", workbook.sheetnames[1])
-            self.assertEqual("2002", workbook.sheetnames[2])
-            self.assertEqual("All Time Teams", workbook.sheetnames[3])
-            self.assertEqual("All Time Owners", workbook.sheetnames[4])
+            self.assertEqual(8, len(workbook.sheetnames))
+            self.assertEqual("2000 Teams", workbook.sheetnames[0])
+            self.assertEqual("2000 Matchups", workbook.sheetnames[1])
+            self.assertEqual("2001 Teams", workbook.sheetnames[2])
+            self.assertEqual("2001 Matchups", workbook.sheetnames[3])
+            self.assertEqual("2002 Teams", workbook.sheetnames[4])
+            self.assertEqual("2002 Matchups", workbook.sheetnames[5])
+            self.assertEqual("All Time Teams", workbook.sheetnames[6])
+            self.assertEqual("All Time Owners", workbook.sheetnames[7])
 
             # check sheet values
             # test year worksheet values
             worksheet2000Values = [
-                ["Team Names", "Games Played", "Wins", "Losses", "Ties", "Win Percentage", "WAL",
+                ["Team", "Games Played", "Wins", "Losses", "Ties", "Win Percentage", "WAL",
                  "WAL Per Game", "AWAL", "AWAL Per Game", "Opponent AWAL", "Opponent AWAL Per Game", "Smart Wins",
                  "Smart Wins Per Game", "Opponent Smart Wins", "Opponent Smart Wins Per Game", "Points Scored",
                  "Points Scored Per Game", "Opponent Points Scored", "Opponent Points Scored Per Game", "Scoring Share",
@@ -68,7 +71,7 @@ class TestExcel(unittest.TestCase):
                  66.66666666666667, 33.33333333333334, 66.66666666666667, 66.66666666666667,
                  2, 2, 0, 1, 233.5333333333333, 233.5333333333333, 0]]
             worksheet2001Values = [
-                ["Team Names", "Games Played", "Wins", "Losses", "Ties", "Win Percentage", "WAL",
+                ["Team", "Games Played", "Wins", "Losses", "Ties", "Win Percentage", "WAL",
                  "WAL Per Game", "AWAL", "AWAL Per Game", "Opponent AWAL", "Opponent AWAL Per Game", "Smart Wins",
                  "Smart Wins Per Game", "Opponent Smart Wins", "Opponent Smart Wins Per Game", "Points Scored",
                  "Points Scored Per Game", "Opponent Points Scored", "Opponent Points Scored Per Game", "Scoring Share",
@@ -81,7 +84,7 @@ class TestExcel(unittest.TestCase):
                  66.66666666666667, 33.33333333333334, 66.66666666666667, 66.66666666666667,
                  2, 2, 0, 1, 233.5333333333333, 233.5333333333333, 0]]
             worksheet2002Values = [
-                ["Team Names", "Games Played", "Wins", "Losses", "Ties", "Win Percentage", "WAL",
+                ["Team", "Games Played", "Wins", "Losses", "Ties", "Win Percentage", "WAL",
                  "WAL Per Game", "AWAL", "AWAL Per Game", "Opponent AWAL", "Opponent AWAL Per Game", "Smart Wins",
                  "Smart Wins Per Game", "Opponent Smart Wins", "Opponent Smart Wins Per Game", "Points Scored",
                  "Points Scored Per Game", "Opponent Points Scored", "Opponent Points Scored Per Game", "Scoring Share",
@@ -93,9 +96,9 @@ class TestExcel(unittest.TestCase):
                 ["b3", 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 2, 2, 1, 1,
                  66.66666666666667, 33.33333333333334, 66.66666666666667, 66.66666666666667,
                  2, 2, 0, 1, 233.5333333333333, 233.5333333333333, 0]]
-            yearWorksheetsAndValues = [(workbook["2000"], worksheet2000Values),
-                                       (workbook["2001"], worksheet2001Values),
-                                       (workbook["2002"], worksheet2002Values)]
+            yearWorksheetsAndValues = [(workbook["2000 Teams"], worksheet2000Values),
+                                       (workbook["2001 Teams"], worksheet2001Values),
+                                       (workbook["2002 Teams"], worksheet2002Values)]
 
             for i, (currentWorksheet, allWorksheetValues) in enumerate(yearWorksheetsAndValues):
                 for j, worksheetValues in enumerate(allWorksheetValues):
@@ -119,7 +122,7 @@ class TestExcel(unittest.TestCase):
             allTimeTeamsWorksheet = workbook["All Time Teams"]
 
             allTimeTeamsValues = [
-                ["Team Names", "Owner Names", "Year", "Games Played", "Wins", "Losses", "Ties", "Win Percentage", "WAL",
+                ["Team", "Owner", "Year", "Games Played", "Wins", "Losses", "Ties", "Win Percentage", "WAL",
                  "WAL Per Game", "AWAL", "AWAL Per Game", "Opponent AWAL", "Opponent AWAL Per Game", "Smart Wins",
                  "Smart Wins Per Game", "Opponent Smart Wins", "Opponent Smart Wins Per Game", "Points Scored",
                  "Points Scored Per Game", "Opponent Points Scored", "Opponent Points Scored Per Game", "Scoring Share",
@@ -167,7 +170,7 @@ class TestExcel(unittest.TestCase):
             allTimeOwnersWorksheet = workbook["All Time Owners"]
 
             allTimeOwnersValues = [
-                ["Owner Names", "Games Played", "Wins", "Losses", "Ties", "Win Percentage", "WAL", "WAL Per Game",
+                ["Owner", "Games Played", "Wins", "Losses", "Ties", "Win Percentage", "WAL", "WAL Per Game",
                  "AWAL", "AWAL Per Game", "Opponent AWAL", "Opponent AWAL Per Game", "Smart Wins",
                  "Smart Wins Per Game", "Opponent Smart Wins", "Opponent Smart Wins Per Game", "Points Scored",
                  "Points Scored Per Game", "Opponent Points Scored", "Opponent Points Scored Per Game", "Scoring Share",
@@ -244,15 +247,16 @@ class TestExcel(unittest.TestCase):
 
             # open created Excel file to check that it was saved correctly
             workbook = load_workbook(filename=fullPath)
-            self.assertEqual(1, len(workbook.sheetnames))
-            self.assertEqual("2000", workbook.sheetnames[0])
+            self.assertEqual(2, len(workbook.sheetnames))
+            self.assertEqual("2000 Teams", workbook.sheetnames[0])
+            self.assertEqual("2000 Matchups", workbook.sheetnames[1])
             worksheet = workbook.active
 
             # test worksheet values
-            worksheet = workbook["2000"]
+            worksheet = workbook["2000 Teams"]
 
             worksheetValues = [
-                ["Team Names", "Games Played", "Wins", "Losses", "Ties", "Win Percentage", "WAL",
+                ["Team", "Games Played", "Wins", "Losses", "Ties", "Win Percentage", "WAL",
                  "WAL Per Game", "AWAL", "AWAL Per Game", "Opponent AWAL", "Opponent AWAL Per Game", "Smart Wins",
                  "Smart Wins Per Game", "Opponent Smart Wins", "Opponent Smart Wins Per Game", "Points Scored",
                  "Points Scored Per Game", "Opponent Points Scored", "Opponent Points Scored Per Game", "Scoring Share",
@@ -316,14 +320,16 @@ class TestExcel(unittest.TestCase):
 
             # open created Excel file to check that it was saved correctly
             workbook = load_workbook(filename=fullPath)
-            self.assertEqual(2, len(workbook.sheetnames))
-            self.assertEqual("2000", workbook.sheetnames[0])
-            self.assertEqual("2001", workbook.sheetnames[1])
+            self.assertEqual(4, len(workbook.sheetnames))
+            self.assertEqual("2000 Teams", workbook.sheetnames[0])
+            self.assertEqual("2000 Matchups", workbook.sheetnames[1])
+            self.assertEqual("2001 Teams", workbook.sheetnames[2])
+            self.assertEqual("2001 Matchups", workbook.sheetnames[3])
 
             # test worksheet values
-            worksheet2000 = workbook["2000"]
+            worksheet2000 = workbook["2000 Teams"]
             worksheet2000Values = [
-                ["Team Names", "Games Played", "Wins", "Losses", "Ties", "Win Percentage", "WAL",
+                ["Team", "Games Played", "Wins", "Losses", "Ties", "Win Percentage", "WAL",
                  "WAL Per Game", "AWAL", "AWAL Per Game", "Opponent AWAL", "Opponent AWAL Per Game", "Smart Wins",
                  "Smart Wins Per Game", "Opponent Smart Wins", "Opponent Smart Wins Per Game", "Points Scored",
                  "Points Scored Per Game", "Opponent Points Scored", "Opponent Points Scored Per Game", "Scoring Share",
@@ -353,9 +359,9 @@ class TestExcel(unittest.TestCase):
             self.assertEqual("Include Multi-Week Matchups: True", worksheet2000["A12"].value)
             self.assertIsNone(worksheet2000["A13"].value)
 
-            worksheet2001 = workbook["2001"]
+            worksheet2001 = workbook["2001 Teams"]
             worksheet2001Values = [
-                ["Team Names", "Games Played", "Wins", "Losses", "Ties", "Win Percentage", "WAL",
+                ["Team", "Games Played", "Wins", "Losses", "Ties", "Win Percentage", "WAL",
                  "WAL Per Game", "AWAL", "AWAL Per Game", "Opponent AWAL", "Opponent AWAL Per Game", "Smart Wins",
                  "Smart Wins Per Game", "Opponent Smart Wins", "Opponent Smart Wins Per Game", "Points Scored",
                  "Points Scored Per Game", "Opponent Points Scored", "Opponent Points Scored Per Game", "Scoring Share",
@@ -376,7 +382,7 @@ class TestExcel(unittest.TestCase):
             # check that "next" cell is empty
             self.assertIsNone(worksheet2001["A4"].value)
 
-            worksheet = workbook.worksheets[workbook.sheetnames.index("2001")]
+            worksheet = workbook.worksheets[workbook.sheetnames.index("2001 Teams")]
 
             statsWithTitles = yearStatSheet(year2).preferredOrderWithTitle()
             for row, teamId in enumerate([team.id for team in year2.teams]):

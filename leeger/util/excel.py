@@ -59,7 +59,7 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
         allTimeTeamNames += [team.name for team in allTeams]
 
         # add a sheet to the Excel document for this year
-        yearToExcel(year, filePath, overwrite=False, **kwargs)
+        yearToExcel(year, filePath, overwrite=False, **kwargs.copy())
 
     # add All-Time teams stats sheet
     workbook = load_workbook(filename=filePath)
@@ -69,13 +69,13 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
     workbook.create_sheet("All Time Teams", index=index)
     worksheet = workbook["All Time Teams"]
 
-    allTimeTeamsStatSheet_ = allTimeTeamsStatSheet(league, **kwargs)
+    allTimeTeamsStatSheet_ = allTimeTeamsStatSheet(league, **kwargs.copy())
 
     allTimeFilters = AllTimeFilters.preferredOrderWithTitle(league, **kwargs.copy())
     __populateWorksheet(worksheet=worksheet,
                         displayName="AllTimeTeamStats",
-                        statsWithTitles=allTimeTeamsStatSheet_,
-                        title="Team Names",
+                        titlesAndStatDicts=allTimeTeamsStatSheet_,
+                        title="Team",
                         entityIds=allTimeTeamIds,
                         entityNames=allTimeTeamNames,
                         ownerIdToColorMap=ownerIdToColorMap,
@@ -95,8 +95,8 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
 
     __populateWorksheet(worksheet=worksheet,
                         displayName="AllTimeOwnerStats",
-                        statsWithTitles=leagueStatSheet(league, **kwargs).preferredOrderWithTitle(),
-                        title="Owner Names",
+                        titlesAndStatDicts=leagueStatSheet(league, **kwargs.copy()).preferredOrderWithTitle(),
+                        title="Owner",
                         entityIds=ownerIds,
                         entityNames=ownerNames,
                         ownerIdToColorMap=ownerIdToColorMap,
@@ -122,9 +122,10 @@ def yearToExcel(year: Year, filePath: str, **kwargs) -> None:
         # we want the years as sheets in order from oldest -> newest year
         index = 0
         for i, sheetname in enumerate(workbook.sheetnames):
-            if year.yearNumber > int(sheetname):
+            if year.yearNumber > int(sheetname[:5]):
                 index += 1
-        workbook.create_sheet(str(year.yearNumber), index=index)
+        workbook.create_sheet(f"{year.yearNumber} Teams", index=index)
+        workbook.create_sheet(f"{year.yearNumber} Matchups", index=index + 1)
     else:
         # overwrite Excel file OR create new Excel file
         try:
@@ -134,10 +135,11 @@ def yearToExcel(year: Year, filePath: str, **kwargs) -> None:
             pass
         # create workbook and sheet
         workbook = Workbook()
-        workbook.create_sheet(str(year.yearNumber), index=0)
+        workbook.create_sheet(f"{year.yearNumber} Teams", index=0)
+        workbook.create_sheet(f"{year.yearNumber} Matchups", index=1)
         # remove default sheet
         del workbook["Sheet"]
-    worksheet = workbook[str(year.yearNumber)]
+    worksheet = workbook[f"{year.yearNumber} Teams"]
 
     # get team names
     # and
@@ -156,16 +158,15 @@ def yearToExcel(year: Year, filePath: str, **kwargs) -> None:
     teamIds = [team.id for team in year.teams]
     yearFilters = YearFilters.preferredOrderWithTitle(year, **kwargs.copy())
     __populateWorksheet(worksheet=worksheet,
-                        displayName=f"YearStats{year.yearNumber}",
-                        statsWithTitles=yearStatSheet(year, **kwargs).preferredOrderWithTitle(),
-                        title="Team Names",
+                        displayName=f"Teams{year.yearNumber}",
+                        titlesAndStatDicts=yearStatSheet(year, **kwargs.copy()).preferredOrderWithTitle(),
+                        title="Team",
                         entityIds=teamIds,
                         entityNames=teamNames,
                         ownerIdToColorMap=ownerIdToColorMap,
                         ownerIds=ownerIds,
                         legendKeyValues=yearFilters,
                         freezePanes="B2")
-
     # save
     workbook.save(filePath)
 
@@ -184,7 +185,7 @@ def __getRandomColor(tint: float = 0, seed: str = None) -> Color:
 def __populateWorksheet(*,
                         worksheet: Worksheet,
                         displayName: str,
-                        statsWithTitles: list[tuple[str, dict]],
+                        titlesAndStatDicts: list[tuple[str, dict]],
                         title: str,
                         entityIds: list[str],
                         entityNames: list[str],
@@ -227,26 +228,26 @@ def __populateWorksheet(*,
     # add all stats
     for i, entityId in enumerate(entityIds):
         rowFill = PatternFill(patternType="solid", fgColor=ownerIdToColorMap[ownerIds[i]])
-        for col, statWithTitle in enumerate(statsWithTitles):
+        for col, (title, statDict) in enumerate(titlesAndStatDicts):
             char = get_column_letter(col + 2)
             if i == 1:
                 # add stat header
                 cell = f"{char}{i}"
-                worksheet[cell] = statWithTitle[0]
+                worksheet[cell] = title
                 worksheet[cell].font = HEADER_COLUMN_FONT
                 worksheet[cell].fill = HEADER_FILL
                 worksheet[cell].alignment = Alignment(horizontal='center')
             # add stat value
             cell = f"{char}{i + 2}"
-            if entityId in statWithTitle[1]:
-                worksheet[cell] = statWithTitle[1][entityId]
+            if entityId in statDict:
+                worksheet[cell] = statDict[entityId]
             else:
                 worksheet[cell] = "N/A"
             worksheet[cell].fill = rowFill
 
     # put stats into table
     table = Table(displayName=displayName,
-                  ref="A1:" + get_column_letter(worksheet.max_column) + str(len(entityIds)))
+                  ref="A1:" + get_column_letter(worksheet.max_column) + str(len(entityIds) + 1))
     worksheet.add_table(table)
     # freeze owner name column and header row
     worksheet.freeze_panes = freezePanes

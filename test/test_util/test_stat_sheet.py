@@ -240,7 +240,7 @@ class TestStatSheet(unittest.TestCase):
         self.assertEquals(32, len(allTimeTeamsStatSheet_))
         for tup in allTimeTeamsStatSheet_:
             self.assertIsInstance(tup, tuple)
-        self.assertEquals("Owner Names", allTimeTeamsStatSheet_[0][0])
+        self.assertEquals("Owner", allTimeTeamsStatSheet_[0][0])
         self.assertEquals("Year", allTimeTeamsStatSheet_[1][0])
         self.assertEquals("Games Played", allTimeTeamsStatSheet_[2][0])
         self.assertEquals("Wins", allTimeTeamsStatSheet_[3][0])
@@ -297,7 +297,7 @@ class TestStatSheet(unittest.TestCase):
         self.assertEquals(35, len(allTimeTeamsStatSheet_))
         for tup in allTimeTeamsStatSheet_:
             self.assertIsInstance(tup, tuple)
-        self.assertEquals("Owner Names", allTimeTeamsStatSheet_[0][0])
+        self.assertEquals("Owner", allTimeTeamsStatSheet_[0][0])
         self.assertEquals("Year", allTimeTeamsStatSheet_[1][0])
         self.assertEquals("Games Played", allTimeTeamsStatSheet_[2][0])
         self.assertEquals("Total Games", allTimeTeamsStatSheet_[3][0])

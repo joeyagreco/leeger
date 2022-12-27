@@ -22,10 +22,11 @@ from leeger.calculator.year_calculator.PointsScoredYearCalculator import PointsS
 from leeger.calculator.year_calculator.SSLYearCalculator import SSLYearCalculator
 from leeger.calculator.year_calculator.ScoringShareYearCalculator import ScoringShareYearCalculator
 from leeger.calculator.year_calculator.SmartWinsYearCalculator import SmartWinsYearCalculator
+from leeger.model.filter import YearFilters
 from leeger.model.league import League, Year
 from leeger.model.stat.AllTimeStatSheet import AllTimeStatSheet
 from leeger.model.stat.YearStatSheet import YearStatSheet
-from leeger.util.navigator import LeagueNavigator
+from leeger.util.navigator import LeagueNavigator, YearNavigator
 
 
 def leagueStatSheet(league: League, **kwargs) -> AllTimeStatSheet:
@@ -210,3 +211,38 @@ def allTimeTeamsStatSheet(league: League, **kwargs) -> list[tuple[str, dict]]:
         else:
             condensedAllTimeTeamsStatsWithTitles.append((titleStr, statsDict))
     return condensedAllTimeTeamsStatsWithTitles
+
+
+def yearMatchupsStatSheet(year: Year, **kwargs) -> list[tuple[str, dict]]:
+    yearFilters = YearFilters.getForYear(year, **kwargs)
+    teamANames: dict[str, str] = dict()
+    teamBNames: dict[str, str] = dict()
+    teamAScores: dict[str, float | int] = dict()
+    teamBScores: dict[str, float | int] = dict()
+    matchupTypes: dict[str, str] = dict()
+    weekNumbers: dict[str, int] = dict()
+
+    for week in year.weeks:
+        if yearFilters.weekNumberStart <= week.weekNumber <= yearFilters.weekNumberEnd:
+            for matchup in week.matchups:
+                if matchup.matchupType in yearFilters.includeMatchupTypes \
+                        and (matchup.multiWeekMatchupId is None or yearFilters.includeMultiWeekMatchups is True):
+                    teamA = YearNavigator.getTeamById(year, matchup.teamAId)
+                    teamB = YearNavigator.getTeamById(year, matchup.teamBId)
+                    # add matchup for both teams
+                    for teamChar in ("A", "B"):
+                        teamANames[f"{matchup.id}{teamChar}"] = teamA.name
+                        teamBNames[f"{matchup.id}{teamChar}"] = teamB.name
+                        teamAScores[f"{matchup.id}{teamChar}"] = matchup.teamAScore
+                        teamBScores[f"{matchup.id}{teamChar}"] = matchup.teamBScore
+                        matchupTypes[f"{matchup.id}{teamChar}"] = matchup.matchupType.name
+                        weekNumbers[f"{matchup.id}{teamChar}"] = week.weekNumber
+
+    return [
+        ("Week Number", weekNumbers),
+        ("Team For", teamANames),
+        ("Points For", teamAScores),
+        ("Team Against", teamBNames),
+        ("Points Against", teamBScores),
+        ("Matchup Type", matchupTypes)
+    ]
