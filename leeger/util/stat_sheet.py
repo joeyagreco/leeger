@@ -189,13 +189,18 @@ def allTimeTeamsStatSheet(league: League, **kwargs) -> list[tuple[str, dict]]:
     for year in league.years:
         ownerNames: dict[str, str] = dict()
         years: dict[str, int] = dict()
+        teamIdToNameMap = dict()
         for team in year.teams:
             ownerNames[team.id] = LeagueNavigator.getOwnerById(league, team.ownerId).name
             years[team.id] = year.yearNumber
-        allTimeTeamsStatsWithTitles += yearStatSheet(year,
-                                                     ownerNames=ownerNames,
-                                                     years=years,
-                                                     **kwargs).preferredOrderWithTitle()
+            teamIdToNameMap[team.id] = team.name
+        yearStatsWithTitles = yearStatSheet(year,
+                                            ownerNames=ownerNames,
+                                            years=years,
+                                            **kwargs).preferredOrderWithTitle()
+        
+        yearStatsWithTitles.insert(0, ("Team", teamIdToNameMap))
+        allTimeTeamsStatsWithTitles += yearStatsWithTitles
 
     # condense stats with titles so there's only 1 list value for each title
     condensedAllTimeTeamsStatsWithTitles: list[tuple[str, dict]] = list()

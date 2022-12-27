@@ -93,9 +93,16 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
     workbook.create_sheet("All Time Owners", index=index)
     worksheet = workbook["All Time Owners"]
 
+    ownerIdToNameMap = dict()
+    for owner in league.owners:
+        ownerIdToNameMap[owner.id] = owner.name
+
+    allTimeOwnerStatsWithTitles = leagueStatSheet(league, **kwargs.copy()).preferredOrderWithTitle()
+    allTimeOwnerStatsWithTitles.insert(0, ("Owner", ownerIdToNameMap))
+
     __populateWorksheet(worksheet=worksheet,
                         displayName="AllTimeOwnerStats",
-                        titlesAndStatDicts=leagueStatSheet(league, **kwargs.copy()).preferredOrderWithTitle(),
+                        titlesAndStatDicts=allTimeOwnerStatsWithTitles,
                         title="Owner",
                         entityIds=ownerIds,
                         entityNames=ownerNames,
@@ -147,19 +154,24 @@ def yearToExcel(year: Year, filePath: str, **kwargs) -> None:
     ownerIdToSeedMap = dict()
     ownerIds = list()
     teamNames = list()
+    teamIdToNameMap = dict()
     for team in year.teams:
         teamNames.append(team.name)
         ownerIds.append(team.ownerId)
         ownerIdToSeedMap[team.ownerId] = f"{team.ownerId}{datetime.now().date()}"
+        teamIdToNameMap[team.id] = team.name
     ownerIdToColorMap = dict()
     for ownerId, seed in ownerIdToSeedMap.items():
         ownerIdToColorMap[ownerId] = __getRandomColor(0.5, seed)
 
     teamIds = [team.id for team in year.teams]
     yearFilters = YearFilters.preferredOrderWithTitle(year, **kwargs.copy())
+
+    yearStatsWithTitles = yearStatSheet(year, **kwargs.copy()).preferredOrderWithTitle()
+    yearStatsWithTitles.insert(0, ("Team", teamIdToNameMap))
     __populateWorksheet(worksheet=worksheet,
                         displayName=f"Teams{year.yearNumber}",
-                        titlesAndStatDicts=yearStatSheet(year, **kwargs.copy()).preferredOrderWithTitle(),
+                        titlesAndStatDicts=yearStatsWithTitles,
                         title="Team",
                         entityIds=teamIds,
                         entityNames=teamNames,
@@ -213,23 +225,23 @@ def __populateWorksheet(*,
     # Fill in table #
     #################
 
-    # add title
-    worksheet["A1"] = title
-    worksheet["A1"].font = HEADER_COLUMN_FONT
-    worksheet["A1"].fill = HEADER_FILL
-    worksheet["A1"].alignment = Alignment(horizontal='center')
-    # add all entity names
-    for i, entityName in enumerate(entityNames):
-        cell = f"A{i + 2}"
-        worksheet[cell] = entityName
-        worksheet[cell].font = ENTITY_NAME_FONT
-        worksheet[cell].fill = PatternFill(patternType="solid", fgColor=ownerIdToColorMap[ownerIds[i]])
+    # # add title
+    # worksheet["A1"] = title
+    # worksheet["A1"].font = HEADER_COLUMN_FONT
+    # worksheet["A1"].fill = HEADER_FILL
+    # worksheet["A1"].alignment = Alignment(horizontal='center')
+    # # add all entity names
+    # for i, entityName in enumerate(entityNames):
+    #     cell = f"A{i + 2}"
+    #     worksheet[cell] = entityName
+    #     worksheet[cell].font = ENTITY_NAME_FONT
+    #     worksheet[cell].fill = PatternFill(patternType="solid", fgColor=ownerIdToColorMap[ownerIds[i]])
 
     # add all stats
     for i, entityId in enumerate(entityIds):
         rowFill = PatternFill(patternType="solid", fgColor=ownerIdToColorMap[ownerIds[i]])
         for col, (title, statDict) in enumerate(titlesAndStatDicts):
-            char = get_column_letter(col + 2)
+            char = get_column_letter(col + 1)
             if i == 1:
                 # add stat header
                 cell = f"{char}{i}"
