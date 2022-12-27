@@ -71,14 +71,14 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
 
     allTimeFilters = AllTimeFilters.preferredOrderWithTitle(league, **kwargs.copy())
     __populateWorksheet(worksheet=worksheet,
+                        workbook=workbook,
                         displayName="AllTimeTeamStats",
                         titlesAndStatDicts=allTimeTeamsStatSheet_,
                         entityIds=allTimeTeamIds,
                         entityIdToColorMap=teamIdToColorMap,
                         legendKeyValues=allTimeFilters,
-                        freezePanes="D2")
-    # save
-    workbook.save(filePath)
+                        freezePanes="D2",
+                        saveToFilepath=filePath)
 
     # add All-Time owner stats sheet
     workbook = load_workbook(filename=filePath)
@@ -92,15 +92,14 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
     allTimeOwnerStatsWithTitles.insert(0, ("Owner", ownerIdToNameMap))
 
     __populateWorksheet(worksheet=worksheet,
+                        workbook=workbook,
                         displayName="AllTimeOwnerStats",
                         titlesAndStatDicts=allTimeOwnerStatsWithTitles,
                         entityIds=ownerIds,
                         entityIdToColorMap=ownerIdToColorMap,
                         legendKeyValues=allTimeFilters,
-                        freezePanes="B2")
-
-    # save
-    workbook.save(filePath)
+                        freezePanes="B2",
+                        saveToFilepath=filePath)
 
 
 def yearToExcel(year: Year, filePath: str, **kwargs) -> None:
@@ -159,14 +158,14 @@ def yearToExcel(year: Year, filePath: str, **kwargs) -> None:
     yearStatsWithTitles = yearStatSheet(year, **kwargs.copy()).preferredOrderWithTitle()
     yearStatsWithTitles.insert(0, ("Team", teamIdToNameMap))
     __populateWorksheet(worksheet=worksheet,
+                        workbook=workbook,
                         displayName=f"Teams{year.yearNumber}",
                         titlesAndStatDicts=yearStatsWithTitles,
                         entityIds=teamIds,
                         entityIdToColorMap=teamIdToColorMap,
                         legendKeyValues=yearFilters,
-                        freezePanes="B2")
-    # save
-    workbook.save(filePath)
+                        freezePanes="B2",
+                        saveToFilepath=filePath)
 
 
 def __getRandomColor(tint: float = 0, seed: str = None) -> Color:
@@ -182,6 +181,8 @@ def __getRandomColor(tint: float = 0, seed: str = None) -> Color:
 
 def __populateWorksheet(*,
                         worksheet: Worksheet,
+                        workbook: Workbook,
+                        saveToFilepath: str,
                         displayName: str,
                         titlesAndStatDicts: list[tuple[str, dict]],
                         entityIds: list[str],
@@ -295,3 +296,6 @@ def __populateWorksheet(*,
                                                                       width=maxWidth + 7)
 
     worksheet.column_dimensions = dim_holder
+
+    # save
+    workbook.save(saveToFilepath)
