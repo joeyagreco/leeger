@@ -216,24 +216,26 @@ def __populateWorksheet(*,
     #################
 
     # add all stats
-    for i, entityId in enumerate(entityIds):
-        rowFill = PatternFill(patternType="solid", fgColor=ownerIdToColorMap[ownerIds[i]])
-        for col, (title, statDict) in enumerate(titlesAndStatDicts):
-            char = get_column_letter(col + 1)
-            if i == 1:
+    for rowNumber, entityId in enumerate(entityIds):
+        rowFill = PatternFill(patternType="solid", fgColor=ownerIdToColorMap[ownerIds[rowNumber]])
+        for columnNumber, (title, statDict) in enumerate(titlesAndStatDicts):
+            char = get_column_letter(columnNumber + 1)
+            if rowNumber == 1:
                 # add stat header
-                cell = f"{char}{i}"
+                cell = f"{char}{rowNumber}"
                 worksheet[cell] = title
                 worksheet[cell].font = HEADER_COLUMN_FONT
                 worksheet[cell].fill = HEADER_FILL
                 worksheet[cell].alignment = Alignment(horizontal='center')
             # add stat value
-            cell = f"{char}{i + 2}"
+            cell = f"{char}{rowNumber + 2}"
             if entityId in statDict:
                 worksheet[cell] = statDict[entityId]
             else:
                 worksheet[cell] = "N/A"
             worksheet[cell].fill = rowFill
+            if columnNumber == 0:
+                worksheet[cell].font = HEADER_COLUMN_FONT
 
     # put stats into table
     table = Table(displayName=displayName,
@@ -281,21 +283,22 @@ def __populateWorksheet(*,
     DATA_MULTIPLIER = 0.5
     dim_holder = DimensionHolder(worksheet=worksheet)
 
-    for col in range(worksheet.min_column, worksheet.max_column + 1):
+    for columnNumber in range(worksheet.min_column, worksheet.max_column + 1):
         # figure out the width we want this column to be
         # first column has entity names, so use a different multiplier for them
-        isNameColumn = col == 1
+        isNameColumn = columnNumber == 1
         maxWidth = 0
-        for i, cell in enumerate(worksheet[get_column_letter(col)]):
+        for rowNumber, cell in enumerate(worksheet[get_column_letter(columnNumber)]):
             if cell.value:
                 # count title/name cell characters as more than a data cell
-                if i == 0:
+                if rowNumber == 0:
                     multiplier = TITLE_MULTIPLIER
                 elif isNameColumn:
                     multiplier = NAME_MULTIPLIER
                 else:
                     multiplier = DATA_MULTIPLIER
                 maxWidth = max((maxWidth, len(str(cell.value)) * multiplier))
-        dim_holder[get_column_letter(col)] = ColumnDimension(worksheet, min=col, max=col, width=maxWidth + 7)
+        dim_holder[get_column_letter(columnNumber)] = ColumnDimension(worksheet, min=columnNumber, max=columnNumber,
+                                                                      width=maxWidth + 7)
 
     worksheet.column_dimensions = dim_holder
