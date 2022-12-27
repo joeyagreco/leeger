@@ -51,12 +51,15 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
     # gather info for all time teams to be used later
     allTimeTeamIds: list[str] = list()
     allTimeTeamNames: list[str] = list()
+    teamIdToColorMap = dict()
     for year in league.years:
         # sort teams by owner ID
         allTeams = [team for team in year.teams]
         allTeams.sort(key=lambda x: x.ownerId)
-        allTimeTeamIds += [team.id for team in allTeams]
-        allTimeTeamNames += [team.name for team in allTeams]
+        for team in year.teams:
+            allTimeTeamIds.append(team.id)
+            allTimeTeamNames.append(team.name)
+            teamIdToColorMap[team.id] = ownerIdToColorMap[team.ownerId]
 
         # add a sheet to the Excel document for this year
         yearToExcel(year, filePath, overwrite=False, **kwargs.copy())
@@ -76,7 +79,7 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
                         displayName="AllTimeTeamStats",
                         titlesAndStatDicts=allTimeTeamsStatSheet_,
                         entityIds=allTimeTeamIds,
-                        ownerIdToColorMap=ownerIdToColorMap,
+                        entityIdToColorMap=teamIdToColorMap,
                         ownerIds=ownerIds * len(league.years),
                         legendKeyValues=allTimeFilters,
                         freezePanes="D2")
@@ -102,7 +105,7 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
                         displayName="AllTimeOwnerStats",
                         titlesAndStatDicts=allTimeOwnerStatsWithTitles,
                         entityIds=ownerIds,
-                        ownerIdToColorMap=ownerIdToColorMap,
+                        entityIdToColorMap=ownerIdToColorMap,
                         ownerIds=ownerIds,
                         legendKeyValues=allTimeFilters,
                         freezePanes="B2")
@@ -158,7 +161,12 @@ def yearToExcel(year: Year, filePath: str, **kwargs) -> None:
     for ownerId, seed in ownerIdToSeedMap.items():
         ownerIdToColorMap[ownerId] = __getRandomColor(0.5, seed)
 
-    teamIds = [team.id for team in year.teams]
+    teamIdToColorMap = dict()
+    teamIds = list()
+    for team in year.teams:
+        teamIdToColorMap[team.id] = ownerIdToColorMap[team.ownerId]
+        teamIds.append(team.id)
+
     yearFilters = YearFilters.preferredOrderWithTitle(year, **kwargs.copy())
 
     yearStatsWithTitles = yearStatSheet(year, **kwargs.copy()).preferredOrderWithTitle()
@@ -167,7 +175,7 @@ def yearToExcel(year: Year, filePath: str, **kwargs) -> None:
                         displayName=f"Teams{year.yearNumber}",
                         titlesAndStatDicts=yearStatsWithTitles,
                         entityIds=teamIds,
-                        ownerIdToColorMap=ownerIdToColorMap,
+                        entityIdToColorMap=teamIdToColorMap,
                         ownerIds=ownerIds,
                         legendKeyValues=yearFilters,
                         freezePanes="B2")
@@ -191,7 +199,7 @@ def __populateWorksheet(*,
                         displayName: str,
                         titlesAndStatDicts: list[tuple[str, dict]],
                         entityIds: list[str],
-                        ownerIdToColorMap: dict[str, Color],
+                        entityIdToColorMap: dict[str, Color],
                         ownerIds: list[str],
                         legendKeyValues: list[tuple[str, Any]],
                         freezePanes: str) -> None:
@@ -217,7 +225,7 @@ def __populateWorksheet(*,
 
     # add all stats
     for rowNumber, entityId in enumerate(entityIds):
-        rowFill = PatternFill(patternType="solid", fgColor=ownerIdToColorMap[ownerIds[rowNumber]])
+        rowFill = PatternFill(patternType="solid", fgColor=entityIdToColorMap[entityId])
         for columnNumber, (title, statDict) in enumerate(titlesAndStatDicts):
             char = get_column_letter(columnNumber + 1)
             if rowNumber == 1:
