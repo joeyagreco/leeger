@@ -75,9 +75,7 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
     __populateWorksheet(worksheet=worksheet,
                         displayName="AllTimeTeamStats",
                         titlesAndStatDicts=allTimeTeamsStatSheet_,
-                        title="Team",
                         entityIds=allTimeTeamIds,
-                        entityNames=allTimeTeamNames,
                         ownerIdToColorMap=ownerIdToColorMap,
                         ownerIds=ownerIds * len(league.years),
                         legendKeyValues=allTimeFilters,
@@ -103,9 +101,7 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
     __populateWorksheet(worksheet=worksheet,
                         displayName="AllTimeOwnerStats",
                         titlesAndStatDicts=allTimeOwnerStatsWithTitles,
-                        title="Owner",
                         entityIds=ownerIds,
-                        entityNames=ownerNames,
                         ownerIdToColorMap=ownerIdToColorMap,
                         ownerIds=ownerIds,
                         legendKeyValues=allTimeFilters,
@@ -153,10 +149,8 @@ def yearToExcel(year: Year, filePath: str, **kwargs) -> None:
     # make sure we have the same color for owners and their teams across sheets
     ownerIdToSeedMap = dict()
     ownerIds = list()
-    teamNames = list()
     teamIdToNameMap = dict()
     for team in year.teams:
-        teamNames.append(team.name)
         ownerIds.append(team.ownerId)
         ownerIdToSeedMap[team.ownerId] = f"{team.ownerId}{datetime.now().date()}"
         teamIdToNameMap[team.id] = team.name
@@ -172,9 +166,7 @@ def yearToExcel(year: Year, filePath: str, **kwargs) -> None:
     __populateWorksheet(worksheet=worksheet,
                         displayName=f"Teams{year.yearNumber}",
                         titlesAndStatDicts=yearStatsWithTitles,
-                        title="Team",
                         entityIds=teamIds,
-                        entityNames=teamNames,
                         ownerIdToColorMap=ownerIdToColorMap,
                         ownerIds=ownerIds,
                         legendKeyValues=yearFilters,
@@ -198,9 +190,7 @@ def __populateWorksheet(*,
                         worksheet: Worksheet,
                         displayName: str,
                         titlesAndStatDicts: list[tuple[str, dict]],
-                        title: str,
                         entityIds: list[str],
-                        entityNames: list[str],
                         ownerIdToColorMap: dict[str, Color],
                         ownerIds: list[str],
                         legendKeyValues: list[tuple[str, Any]],
@@ -224,18 +214,6 @@ def __populateWorksheet(*,
     #################
     # Fill in table #
     #################
-
-    # # add title
-    # worksheet["A1"] = title
-    # worksheet["A1"].font = HEADER_COLUMN_FONT
-    # worksheet["A1"].fill = HEADER_FILL
-    # worksheet["A1"].alignment = Alignment(horizontal='center')
-    # # add all entity names
-    # for i, entityName in enumerate(entityNames):
-    #     cell = f"A{i + 2}"
-    #     worksheet[cell] = entityName
-    #     worksheet[cell].font = ENTITY_NAME_FONT
-    #     worksheet[cell].fill = PatternFill(patternType="solid", fgColor=ownerIdToColorMap[ownerIds[i]])
 
     # add all stats
     for i, entityId in enumerate(entityIds):
