@@ -73,20 +73,15 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
 
     allTimeFilters = AllTimeFilters.preferredOrderWithTitle(league, **kwargs.copy())
     __populateWorksheet(worksheet=worksheet,
+                        displayName="AllTimeTeamStats",
                         statsWithTitles=allTimeTeamsStatSheet_,
                         title="Team Names",
                         entityIds=allTimeTeamIds,
                         entityNames=allTimeTeamNames,
                         ownerIdToColorMap=ownerIdToColorMap,
                         ownerIds=ownerIds * len(league.years),
-                        legendKeyValues=allTimeFilters)
-
-    # put stats into table
-    table = Table(displayName=f"AllTimeTeamStats",
-                  ref="A1:" + get_column_letter(worksheet.max_column) + str(len(allTimeTeamIds)))
-    worksheet.add_table(table)
-    # freeze team name, owner name year columns and header row
-    worksheet.freeze_panes = "D2"
+                        legendKeyValues=allTimeFilters,
+                        freezePanes="D2")
     # save
     workbook.save(filePath)
 
@@ -99,21 +94,15 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
     worksheet = workbook["All Time Owners"]
 
     __populateWorksheet(worksheet=worksheet,
+                        displayName="AllTimeOwnerStats",
                         statsWithTitles=leagueStatSheet(league, **kwargs).preferredOrderWithTitle(),
                         title="Owner Names",
                         entityIds=ownerIds,
                         entityNames=ownerNames,
                         ownerIdToColorMap=ownerIdToColorMap,
                         ownerIds=ownerIds,
-                        legendKeyValues=allTimeFilters)
-
-    # put stats into table
-    table = Table(displayName=f"AllTimeOwnerStats",
-                  ref="A1:" + get_column_letter(worksheet.max_column) + str(len(ownerIds)))
-    worksheet.add_table(table)
-
-    # freeze owner name column and header row
-    worksheet.freeze_panes = "B2"
+                        legendKeyValues=allTimeFilters,
+                        freezePanes="B2")
 
     # save
     workbook.save(filePath)
@@ -166,20 +155,15 @@ def yearToExcel(year: Year, filePath: str, **kwargs) -> None:
     teamIds = [team.id for team in year.teams]
     yearFilters = YearFilters.preferredOrderWithTitle(year, **kwargs.copy())
     __populateWorksheet(worksheet=worksheet,
+                        displayName=f"YearStats{year.yearNumber}",
                         statsWithTitles=yearStatSheet(year, **kwargs).preferredOrderWithTitle(),
                         title="Team Names",
                         entityIds=teamIds,
                         entityNames=teamNames,
                         ownerIdToColorMap=ownerIdToColorMap,
                         ownerIds=ownerIds,
-                        legendKeyValues=yearFilters)
-
-    # put stats into table
-    table = Table(displayName=f"YearStats{year.yearNumber}",
-                  ref="A1:" + get_column_letter(worksheet.max_column) + str(len(teamIds)))
-    worksheet.add_table(table)
-    # freeze owner name column and header row
-    worksheet.freeze_panes = "B2"
+                        legendKeyValues=yearFilters,
+                        freezePanes="B2")
 
     # save
     workbook.save(filePath)
@@ -198,13 +182,15 @@ def __getRandomColor(tint: float = 0, seed: str = None) -> Color:
 
 def __populateWorksheet(*,
                         worksheet: Worksheet,
+                        displayName: str,
                         statsWithTitles: list[tuple[str, dict]],
                         title: str,
                         entityIds: list[str],
                         entityNames: list[str],
                         ownerIdToColorMap: dict[str, Color],
                         ownerIds: list[str],
-                        legendKeyValues: list[tuple[str, Any]]) -> None:
+                        legendKeyValues: list[tuple[str, Any]],
+                        freezePanes: str) -> None:
     ####################
     # Styles for table #
     ####################
@@ -257,8 +243,14 @@ def __populateWorksheet(*,
                 worksheet[cell] = "N/A"
             worksheet[cell].fill = rowFill
 
-    # add legend for filters
+    # put stats into table
+    table = Table(displayName=displayName,
+                  ref="A1:" + get_column_letter(worksheet.max_column) + str(len(entityIds)))
+    worksheet.add_table(table)
+    # freeze owner name column and header row
+    worksheet.freeze_panes = freezePanes
 
+    # add legend for filters
     # define border to go around legend
     topSideSolid = Side(border_style="thick", color=BLACK)
     bottomSideSolid = Side(border_style="thick", color=BLACK)
