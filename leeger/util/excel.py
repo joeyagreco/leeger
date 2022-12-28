@@ -3,7 +3,7 @@ from __future__ import annotations
 import os
 import random
 from datetime import datetime
-from typing import Any
+from typing import Any, Optional
 
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font, Color, PatternFill, Alignment, Side, Border
@@ -205,7 +205,14 @@ def __populateWorksheet(*,
                         entityIds: list[str],
                         entityIdToColorMap: dict[str, Color],
                         legendKeyValues: list[tuple[str, Any]],
-                        freezePanes: str) -> None:
+                        freezePanes: str,
+                        boldColumnNumbers: Optional[list] = None) -> None:
+    """
+    boldColumnNumbers is a list of column numbers whose values will be bolded.
+        - Column numbers will be 1-indexed.
+        - Default is [1]
+    """
+    boldColumnNumbers = [1] if boldColumnNumbers is None else boldColumnNumbers
     ####################
     # Styles for table #
     ####################
@@ -245,7 +252,7 @@ def __populateWorksheet(*,
             else:
                 worksheet[cell] = "N/A"
             worksheet[cell].fill = rowFill
-            if columnNumber == 0:
+            if columnNumber + 1 in boldColumnNumbers:
                 worksheet[cell].font = ENTITY_NAME_FONT
 
     # put stats into table
