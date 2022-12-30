@@ -36,6 +36,7 @@ class TestExcel(unittest.TestCase):
         year3 = Year(yearNumber=2002, teams=teams3, weeks=[week3])
 
         league = League(name="", owners=owners, years=[year1, year2, year3])
+        leagueToExcel(league, "H:\\Desktop-HDD\\test_excel_317.xlsx", overwrite=True)
 
         with tempfile.TemporaryDirectory() as tempDir:
             fullPath = os.path.join(tempDir, "tmp.xlsx")
