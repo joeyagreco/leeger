@@ -14,7 +14,7 @@ from openpyxl.worksheet.worksheet import Worksheet
 
 from leeger.model.filter import AllTimeFilters, YearFilters
 from leeger.model.league import Year, League
-from leeger.util.excel_helper import allTimeTeamsStatSheet, yearMatchupsStatSheet
+from leeger.util.excel_helper import allTimeTeamsStatSheet, yearMatchupsStatSheet, allTimeMatchupsStatSheet
 from leeger.util.stat_sheet import yearStatSheet, leagueStatSheet
 
 
@@ -63,7 +63,7 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
     # add All-Time teams stats sheet
     workbook = load_workbook(filename=filePath)
     # figure out index to put this sheet into
-    # we want the sheets to be ordered: oldest year -> newest year -> all time teams -> all time owners
+    # we want the sheets to be ordered: oldest year -> newest year -> all time teams -> all time matchups -> all time owners
     index = len(workbook.sheetnames)
     workbook.create_sheet("All Time Teams", index=index)
     worksheet = workbook["All Time Teams"]
@@ -81,10 +81,35 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
                         freezePanes="D2",
                         saveToFilepath=filePath)
 
+    # add All-Time matchups stats sheet
+    workbook = load_workbook(filename=filePath)
+    # figure out index to put this sheet into
+    # we want the sheets to be ordered: oldest year -> newest year -> all time teams -> all time matchups -> all time owners
+    index = len(workbook.sheetnames)
+    workbook.create_sheet("All Time Matchups", index=index)
+    worksheet = workbook["All Time Matchups"]
+
+    allTimeMatchupsStatSheet_, modifiedMatchupIdToOwnerIdMap = allTimeMatchupsStatSheet(league, **kwargs.copy())
+
+    modifiedMatchupIdToColorMap: dict = dict()
+    for modifiedMatchupId, ownerId in modifiedMatchupIdToOwnerIdMap.items():
+        modifiedMatchupIdToColorMap[modifiedMatchupId] = ownerIdToColorMap[ownerId]
+
+    allTimeFilters = AllTimeFilters.preferredOrderWithTitle(league, **kwargs.copy())
+    __populateWorksheet(worksheet=worksheet,
+                        workbook=workbook,
+                        displayName="AllTimeMatchups",
+                        titlesAndStatDicts=allTimeMatchupsStatSheet_,
+                        entityIds=list(modifiedMatchupIdToOwnerIdMap.keys()),
+                        entityIdToColorMap=modifiedMatchupIdToColorMap,
+                        legendKeyValues=allTimeFilters,
+                        freezePanes="B2",
+                        saveToFilepath=filePath)
+
     # add All-Time owner stats sheet
     workbook = load_workbook(filename=filePath)
     # figure out index to put this sheet into
-    # we want the sheets to be ordered: oldest year -> newest year -> all time teams -> all time owners
+    # we want the sheets to be ordered: oldest year -> newest year -> all time teams -> all time matchups -> all time owners
     index = len(workbook.sheetnames)
     workbook.create_sheet("All Time Owners", index=index)
     worksheet = workbook["All Time Owners"]

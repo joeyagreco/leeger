@@ -1,4 +1,4 @@
-from leeger.model.filter import YearFilters
+from leeger.model.filter import YearFilters, AllTimeFilters
 from leeger.model.league import League, Year
 from leeger.util.navigator import LeagueNavigator, YearNavigator
 from leeger.util.stat_sheet import yearStatSheet
@@ -83,3 +83,52 @@ def yearMatchupsStatSheet(year: Year, **kwargs) -> tuple[list[tuple[str, dict]],
         ("Points For", teamAScores),
         ("Points Against", teamBScores)
     ], modifiedMatchupIdToOwnerIdMap
+
+
+def allTimeMatchupsStatSheet(league: League, **kwargs) -> tuple[list[tuple[str, dict]], dict[str, str]]:
+    allTimeFilters = AllTimeFilters.getForLeague(league, **kwargs.copy())
+
+    allYearMatchupStatSheets: list = list()
+    allModifiedMatchupIdToOwnerIdMaps: list = list()
+    teamANames: dict[str, str] = dict()
+    teamBNames: dict[str, str] = dict()
+    teamAScores: dict[str, float | int] = dict()
+    teamBScores: dict[str, float | int] = dict()
+    matchupTypes: dict[str, str] = dict()
+    weekNumbers: dict[str, int] = dict()
+
+    for year in league.years:
+        if allTimeFilters.yearNumberStart <= year.yearNumber <= allTimeFilters.yearNumberEnd:
+            currentYearMatchupStatSheet, currentModifiedMatchupIdToOwnerIdMap = yearMatchupsStatSheet(year,
+                                                                                                      **kwargs.copy())
+            allYearMatchupStatSheets.append(currentYearMatchupStatSheet)
+            allModifiedMatchupIdToOwnerIdMaps.append(currentModifiedMatchupIdToOwnerIdMap)
+
+    # combine responses into 1 response
+    for yearMatchupStatSheet in allYearMatchupStatSheets:
+        for title, statDict in yearMatchupStatSheet:
+            if title == "Team For":
+                teamANames.update(statDict)
+            elif title == "Team Against":
+                teamBNames.update(statDict)
+            elif title == "Week Number":
+                weekNumbers.update(statDict)
+            elif title == "Matchup Type":
+                matchupTypes.update(statDict)
+            elif title == "Points For":
+                teamAScores.update(statDict)
+            elif title == "Points Against":
+                teamBScores.update(statDict)
+            else:
+                raise ValueError(f"Title '{title}' is not valid.")
+
+    combinedModifiedMatchupIdToOwnerIdMap: dict = dict()
+    for modifiedMatchupIdToOwnerIdMap in allModifiedMatchupIdToOwnerIdMaps:
+        combinedModifiedMatchupIdToOwnerIdMap.update(modifiedMatchupIdToOwnerIdMap)
+
+    return [("Team For", teamANames),
+            ("Team Against", teamBNames),
+            ("Week Number", weekNumbers),
+            ("Matchup Type", matchupTypes),
+            ("Points For", teamAScores),
+            ("Points Against", teamBScores)], combinedModifiedMatchupIdToOwnerIdMap
