@@ -45,7 +45,7 @@ class TestExcel(unittest.TestCase):
             workbook = load_workbook(filename=fullPath)
 
             # check sheets
-            self.assertEqual(8, len(workbook.sheetnames))
+            self.assertEqual(9, len(workbook.sheetnames))
             self.assertEqual("2000 Teams", workbook.sheetnames[0])
             self.assertEqual("2000 Matchups", workbook.sheetnames[1])
             self.assertEqual("2001 Teams", workbook.sheetnames[2])
@@ -53,7 +53,8 @@ class TestExcel(unittest.TestCase):
             self.assertEqual("2002 Teams", workbook.sheetnames[4])
             self.assertEqual("2002 Matchups", workbook.sheetnames[5])
             self.assertEqual("All Time Teams", workbook.sheetnames[6])
-            self.assertEqual("All Time Owners", workbook.sheetnames[7])
+            self.assertEqual("All Time Matchups", workbook.sheetnames[7])
+            self.assertEqual("All Time Owners", workbook.sheetnames[8])
 
             # check sheet values
             # test year worksheet values
