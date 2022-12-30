@@ -96,11 +96,23 @@ def allTimeMatchupsStatSheet(league: League, **kwargs) -> tuple[list[tuple[str, 
     teamBScores: dict[str, float | int] = dict()
     matchupTypes: dict[str, str] = dict()
     weekNumbers: dict[str, int] = dict()
+    yearNumbers: dict[str, int] = dict()
+    ownerForNames: dict[str, str] = dict()
 
     for year in league.years:
         if allTimeFilters.yearNumberStart <= year.yearNumber <= allTimeFilters.yearNumberEnd:
             currentYearMatchupStatSheet, currentModifiedMatchupIdToOwnerIdMap = yearMatchupsStatSheet(year,
                                                                                                       **kwargs.copy())
+            # add title, stat dicts for all time
+            yearStatDict: dict[str, int] = dict()
+            ownerNameStatDict: dict[str, str] = dict()
+            for team in year.teams:
+                yearStatDict[team.id] = year.yearNumber
+                owner = LeagueNavigator.getOwnerById(league, team.ownerId)
+                ownerNameStatDict[team.id] = owner.name
+            currentYearMatchupStatSheet.append(("Owner For", ownerNameStatDict))
+            currentYearMatchupStatSheet.append(("Year", yearStatDict))
+
             allYearMatchupStatSheets.append(currentYearMatchupStatSheet)
             allModifiedMatchupIdToOwnerIdMaps.append(currentModifiedMatchupIdToOwnerIdMap)
 
@@ -119,15 +131,19 @@ def allTimeMatchupsStatSheet(league: League, **kwargs) -> tuple[list[tuple[str, 
                 teamAScores.update(statDict)
             elif title == "Points Against":
                 teamBScores.update(statDict)
-            else:
-                raise ValueError(f"Title '{title}' is not valid.")
+            elif title == "Year":
+                yearNumbers.update(statDict)
+            elif title == "Owner For":
+                ownerForNames.update(statDict)
 
     combinedModifiedMatchupIdToOwnerIdMap: dict = dict()
     for modifiedMatchupIdToOwnerIdMap in allModifiedMatchupIdToOwnerIdMaps:
         combinedModifiedMatchupIdToOwnerIdMap.update(modifiedMatchupIdToOwnerIdMap)
 
     return [("Team For", teamANames),
+            ("Owner For", ownerForNames),
             ("Team Against", teamBNames),
+            ("Year", yearNumbers),
             ("Week Number", weekNumbers),
             ("Matchup Type", matchupTypes),
             ("Points For", teamAScores),

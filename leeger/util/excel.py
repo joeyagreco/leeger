@@ -103,7 +103,7 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
                         entityIds=list(modifiedMatchupIdToOwnerIdMap.keys()),
                         entityIdToColorMap=modifiedMatchupIdToColorMap,
                         legendKeyValues=allTimeFilters,
-                        freezePanes="B2",
+                        freezePanes="C2",
                         saveToFilepath=filePath)
 
     # add All-Time owner stats sheet
