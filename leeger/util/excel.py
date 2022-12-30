@@ -14,7 +14,8 @@ from openpyxl.worksheet.worksheet import Worksheet
 
 from leeger.model.filter import AllTimeFilters, YearFilters
 from leeger.model.league import Year, League
-from leeger.util.stat_sheet import yearStatSheet, leagueStatSheet, allTimeTeamsStatSheet, yearMatchupsStatSheet
+from leeger.util.excel_helper import allTimeTeamsStatSheet, yearMatchupsStatSheet
+from leeger.util.stat_sheet import yearStatSheet, leagueStatSheet
 
 
 def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
