@@ -4,7 +4,7 @@ from leeger.enum.MatchupType import MatchupType
 from leeger.model.filter.WeekFilters import WeekFilters
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Week import Week
-from leeger.util.navigator.WeekNavigator import WeekNavigator
+from leeger.util.navigator import getNumberOfValidTeamsInWeek, getTeamIdsAndScores, getTeamIdsAndOpponentScores
 from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
@@ -23,7 +23,7 @@ class TestWeekNavigator(unittest.TestCase):
 
         weekFilters = WeekFilters(
             includeMatchupTypes=[MatchupType.REGULAR_SEASON, MatchupType.PLAYOFF, MatchupType.CHAMPIONSHIP])
-        response = WeekNavigator.getTeamIdsAndScores(week1, weekFilters)
+        response = getTeamIdsAndScores(week1, weekFilters)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(4, len(response.keys()))
@@ -46,7 +46,7 @@ class TestWeekNavigator(unittest.TestCase):
 
         weekFilters = WeekFilters(
             includeMatchupTypes=[MatchupType.REGULAR_SEASON, MatchupType.PLAYOFF, MatchupType.CHAMPIONSHIP])
-        response = WeekNavigator.getTeamIdsAndOpponentScores(week1, weekFilters)
+        response = getTeamIdsAndOpponentScores(week1, weekFilters)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(4, len(response.keys()))
@@ -67,8 +67,8 @@ class TestWeekNavigator(unittest.TestCase):
 
         weekFilters = WeekFilters(
             includeMatchupTypes=[MatchupType.REGULAR_SEASON, MatchupType.PLAYOFF, MatchupType.CHAMPIONSHIP])
-        response1 = WeekNavigator.getNumberOfValidTeamsInWeek(week1, weekFilters)
-        response2 = WeekNavigator.getNumberOfValidTeamsInWeek(week2, weekFilters)
+        response1 = getNumberOfValidTeamsInWeek(week1, weekFilters)
+        response2 = getNumberOfValidTeamsInWeek(week2, weekFilters)
 
         self.assertIsInstance(response1, int)
         self.assertEqual(2, response1)
@@ -87,7 +87,7 @@ class TestWeekNavigator(unittest.TestCase):
 
         weekFilters = WeekFilters(
             includeMatchupTypes=[MatchupType.PLAYOFF, MatchupType.CHAMPIONSHIP])
-        response = WeekNavigator.getNumberOfValidTeamsInWeek(week1, weekFilters)
+        response = getNumberOfValidTeamsInWeek(week1, weekFilters)
 
         self.assertIsInstance(response, int)
         self.assertEqual(4, response)
@@ -104,7 +104,7 @@ class TestWeekNavigator(unittest.TestCase):
 
         weekFilters = WeekFilters(
             includeMatchupTypes=[MatchupType.REGULAR_SEASON])
-        response = WeekNavigator.getNumberOfValidTeamsInWeek(week1, weekFilters)
+        response = getNumberOfValidTeamsInWeek(week1, weekFilters)
 
         self.assertIsInstance(response, int)
         self.assertEqual(4, response)

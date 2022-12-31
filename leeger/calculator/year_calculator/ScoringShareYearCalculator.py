@@ -7,7 +7,7 @@ from leeger.model.filter import YearFilters, WeekFilters
 from leeger.model.league.Year import Year
 from leeger.util.Deci import Deci
 from leeger.util.GeneralUtil import GeneralUtil
-from leeger.util.navigator import WeekNavigator
+from leeger.util.navigator import getTeamIdsAndScores
 from leeger.util.navigator.YearNavigator import YearNavigator
 
 
@@ -120,7 +120,7 @@ class ScoringShareYearCalculator(YearCalculator):
 
         for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
             week = year.weeks[i]
-            totalPointsScoredInWeek = sum(WeekNavigator.getTeamIdsAndScores(week, WeekFilters(
+            totalPointsScoredInWeek = sum(getTeamIdsAndScores(week, WeekFilters(
                 includeMatchupTypes=filters.includeMatchupTypes)).values())
             # avoid division by 0
             if totalPointsScoredInWeek == 0:
@@ -162,7 +162,7 @@ class ScoringShareYearCalculator(YearCalculator):
 
         for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
             week = year.weeks[i]
-            totalPointsScoredInWeek = sum(WeekNavigator.getTeamIdsAndScores(week, WeekFilters(
+            totalPointsScoredInWeek = sum(getTeamIdsAndScores(week, WeekFilters(
                 includeMatchupTypes=filters.includeMatchupTypes)).values())
             for matchup in week.matchups:
                 if matchup.matchupType in filters.includeMatchupTypes:
