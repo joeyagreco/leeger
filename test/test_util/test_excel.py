@@ -36,7 +36,6 @@ class TestExcel(unittest.TestCase):
         year3 = Year(yearNumber=2002, teams=teams3, weeks=[week3])
 
         league = League(name="", owners=owners, years=[year1, year2, year3])
-        leagueToExcel(league, "H:\\Desktop-HDD\\test_excel_317.xlsx", overwrite=True)
 
         with tempfile.TemporaryDirectory() as tempDir:
             fullPath = os.path.join(tempDir, "tmp.xlsx")
@@ -59,7 +58,7 @@ class TestExcel(unittest.TestCase):
 
             # check sheet values
             # test year worksheet values
-            worksheet2000Values = [
+            worksheet2000TeamValues = [
                 ["Team", "Games Played", "Wins", "Losses", "Ties", "Win Percentage", "WAL",
                  "WAL Per Game", "AWAL", "AWAL Per Game", "Opponent AWAL", "Opponent AWAL Per Game", "Smart Wins",
                  "Smart Wins Per Game", "Opponent Smart Wins", "Opponent Smart Wins Per Game", "Points Scored",
@@ -72,7 +71,14 @@ class TestExcel(unittest.TestCase):
                 ["b", 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 2, 2, 1, 1,
                  66.66666666666667, 33.33333333333334, 66.66666666666667, 66.66666666666667,
                  2, 2, 0, 1, 233.5333333333333, 233.5333333333333, 0]]
-            worksheet2001Values = [
+
+            worksheet2000MatchupValues = [
+                ["Team For", "Team Against", "Week Number", "Matchup Type", "Points For", "Points Against"],
+                ["a", "b", 1, "REGULAR_SEASON", 1, 2],
+                ["b", "a", 1, "REGULAR_SEASON", 2, 1]
+            ]
+
+            worksheet2001TeamValues = [
                 ["Team", "Games Played", "Wins", "Losses", "Ties", "Win Percentage", "WAL",
                  "WAL Per Game", "AWAL", "AWAL Per Game", "Opponent AWAL", "Opponent AWAL Per Game", "Smart Wins",
                  "Smart Wins Per Game", "Opponent Smart Wins", "Opponent Smart Wins Per Game", "Points Scored",
@@ -85,7 +91,14 @@ class TestExcel(unittest.TestCase):
                 ["b2", 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 2, 2, 1, 1,
                  66.66666666666667, 33.33333333333334, 66.66666666666667, 66.66666666666667,
                  2, 2, 0, 1, 233.5333333333333, 233.5333333333333, 0]]
-            worksheet2002Values = [
+
+            worksheet2001MatchupValues = [
+                ["Team For", "Team Against", "Week Number", "Matchup Type", "Points For", "Points Against"],
+                ["a2", "b2", 1, "REGULAR_SEASON", 1, 2],
+                ["b2", "a2", 1, "REGULAR_SEASON", 2, 1]
+            ]
+
+            worksheet2002TeamValues = [
                 ["Team", "Games Played", "Wins", "Losses", "Ties", "Win Percentage", "WAL",
                  "WAL Per Game", "AWAL", "AWAL Per Game", "Opponent AWAL", "Opponent AWAL Per Game", "Smart Wins",
                  "Smart Wins Per Game", "Opponent Smart Wins", "Opponent Smart Wins Per Game", "Points Scored",
@@ -98,9 +111,19 @@ class TestExcel(unittest.TestCase):
                 ["b3", 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 2, 2, 1, 1,
                  66.66666666666667, 33.33333333333334, 66.66666666666667, 66.66666666666667,
                  2, 2, 0, 1, 233.5333333333333, 233.5333333333333, 0]]
-            yearWorksheetsAndValues = [(workbook["2000 Teams"], worksheet2000Values),
-                                       (workbook["2001 Teams"], worksheet2001Values),
-                                       (workbook["2002 Teams"], worksheet2002Values)]
+
+            worksheet2002MatchupValues = [
+                ["Team For", "Team Against", "Week Number", "Matchup Type", "Points For", "Points Against"],
+                ["a3", "b3", 1, "REGULAR_SEASON", 1, 2],
+                ["b3", "a3", 1, "REGULAR_SEASON", 2, 1]
+            ]
+
+            yearWorksheetsAndValues = [(workbook["2000 Teams"], worksheet2000TeamValues),
+                                       (workbook["2000 Matchups"], worksheet2000MatchupValues),
+                                       (workbook["2001 Teams"], worksheet2001TeamValues),
+                                       (workbook["2001 Matchups"], worksheet2001MatchupValues),
+                                       (workbook["2002 Teams"], worksheet2002TeamValues),
+                                       (workbook["2002 Matchups"], worksheet2002MatchupValues)]
 
             for i, (currentWorksheet, allWorksheetValues) in enumerate(yearWorksheetsAndValues):
                 for j, worksheetValues in enumerate(allWorksheetValues):
