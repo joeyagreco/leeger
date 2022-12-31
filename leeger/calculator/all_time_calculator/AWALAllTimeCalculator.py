@@ -6,7 +6,7 @@ from leeger.decorator.validators import validateLeague
 from leeger.model.filter import AllTimeFilters
 from leeger.model.league.League import League
 from leeger.util.Deci import Deci
-from leeger.util.navigator.LeagueNavigator import LeagueNavigator
+from leeger.util.navigator.league_navigator import getNumberOfGamesPlayed, getAllOwnerIds
 
 
 class AWALAllTimeCalculator(AllTimeCalculator):
@@ -59,13 +59,13 @@ class AWALAllTimeCalculator(AllTimeCalculator):
         """
 
         ownerIdAndAWAL = cls.getAWAL(league, **kwargs)
-        ownerIdAndNumberOfGamesPlayed = LeagueNavigator.getNumberOfGamesPlayed(league,
-                                                                               AllTimeFilters.getForLeague(league,
-                                                                                                           **kwargs),
-                                                                               countLeagueMedianGamesAsTwoGames=True)
+        ownerIdAndNumberOfGamesPlayed = getNumberOfGamesPlayed(league,
+                                                               AllTimeFilters.getForLeague(league,
+                                                                                           **kwargs),
+                                                               countLeagueMedianGamesAsTwoGames=True)
 
         ownerIdAndAWALPerGame = dict()
-        allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
+        allOwnerIds = getAllOwnerIds(league)
         for ownerId in allOwnerIds:
             if ownerIdAndNumberOfGamesPlayed[ownerId] == 0:
                 ownerIdAndAWALPerGame[ownerId] = None
@@ -108,13 +108,13 @@ class AWALAllTimeCalculator(AllTimeCalculator):
         """
 
         ownerIdAndOpponentAWAL = cls.getOpponentAWAL(league, **kwargs)
-        ownerIdAndNumberOfGamesPlayed = LeagueNavigator.getNumberOfGamesPlayed(league,
-                                                                               AllTimeFilters.getForLeague(league,
-                                                                                                           **kwargs),
-                                                                               countLeagueMedianGamesAsTwoGames=True)
+        ownerIdAndNumberOfGamesPlayed = getNumberOfGamesPlayed(league,
+                                                               AllTimeFilters.getForLeague(league,
+                                                                                           **kwargs),
+                                                               countLeagueMedianGamesAsTwoGames=True)
 
         ownerIdAndOpponentAWALPerGame = dict()
-        allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
+        allOwnerIds = getAllOwnerIds(league)
         for ownerId in allOwnerIds:
             if ownerIdAndNumberOfGamesPlayed[ownerId] == 0:
                 ownerIdAndOpponentAWALPerGame[ownerId] = None

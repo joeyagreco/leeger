@@ -1,6 +1,6 @@
 from leeger.model.filter import YearFilters, AllTimeFilters
 from leeger.model.league import League, Year
-from leeger.util.navigator import LeagueNavigator, YearNavigator
+from leeger.util.navigator import YearNavigator, getOwnerById
 from leeger.util.stat_sheet import yearStatSheet
 
 
@@ -11,7 +11,7 @@ def allTimeTeamsStatSheet(league: League, **kwargs) -> list[tuple[str, dict]]:
         years: dict[str, int] = dict()
         teamIdToNameMap = dict()
         for team in year.teams:
-            ownerNames[team.id] = LeagueNavigator.getOwnerById(league, team.ownerId).name
+            ownerNames[team.id] = getOwnerById(league, team.ownerId).name
             years[team.id] = year.yearNumber
             teamIdToNameMap[team.id] = team.name
         yearStatsWithTitles = yearStatSheet(year,
@@ -147,14 +147,14 @@ def allTimeMatchupsStatSheet(league: League, **kwargs) -> tuple[list[tuple[str, 
                 # turn owner IDs into owner names
                 currentOwnerForNames: dict[str, str] = dict()
                 for key, ownerId in statDict.items():
-                    owner = LeagueNavigator.getOwnerById(league, ownerId)
+                    owner = getOwnerById(league, ownerId)
                     currentOwnerForNames[key] = owner.name
                 ownerForNames.update(currentOwnerForNames)
             elif title == "Owner ID Against":
                 # turn owner IDs into owner names
                 currentOwnerAgainstNames: dict[str, str] = dict()
                 for key, ownerId in statDict.items():
-                    owner = LeagueNavigator.getOwnerById(league, ownerId)
+                    owner = getOwnerById(league, ownerId)
                     currentOwnerAgainstNames[key] = owner.name
                 ownerAgainstNames.update(currentOwnerAgainstNames)
 

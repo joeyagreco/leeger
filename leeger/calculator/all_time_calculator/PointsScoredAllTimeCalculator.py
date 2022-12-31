@@ -6,7 +6,7 @@ from leeger.decorator.validators import validateLeague
 from leeger.model.filter import AllTimeFilters
 from leeger.model.league.League import League
 from leeger.util.Deci import Deci
-from leeger.util.navigator.LeagueNavigator import LeagueNavigator
+from leeger.util.navigator.league_navigator import getNumberOfGamesPlayed, getAllOwnerIds
 
 
 class PointsScoredAllTimeCalculator(AllTimeCalculator):
@@ -47,12 +47,12 @@ class PointsScoredAllTimeCalculator(AllTimeCalculator):
         """
 
         ownerIdAndPointsScored = cls.getPointsScored(league, **kwargs)
-        ownerIdAndNumberOfGamesPlayed = LeagueNavigator.getNumberOfGamesPlayed(league,
-                                                                               AllTimeFilters.getForLeague(league,
-                                                                                                           **kwargs))
+        ownerIdAndNumberOfGamesPlayed = getNumberOfGamesPlayed(league,
+                                                               AllTimeFilters.getForLeague(league,
+                                                                                           **kwargs))
 
         ownerIdAndPointsScoredPerGame = dict()
-        allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
+        allOwnerIds = getAllOwnerIds(league)
         for ownerId in allOwnerIds:
             if ownerIdAndNumberOfGamesPlayed[ownerId] == 0:
                 ownerIdAndPointsScoredPerGame[ownerId] = None
@@ -96,12 +96,12 @@ class PointsScoredAllTimeCalculator(AllTimeCalculator):
         """
 
         ownerIdAndOpponentPointsScored = cls.getOpponentPointsScored(league, **kwargs)
-        ownerIdAndNumberOfGamesPlayed = LeagueNavigator.getNumberOfGamesPlayed(league,
-                                                                               AllTimeFilters.getForLeague(league,
-                                                                                                           **kwargs))
+        ownerIdAndNumberOfGamesPlayed = getNumberOfGamesPlayed(league,
+                                                               AllTimeFilters.getForLeague(league,
+                                                                                           **kwargs))
 
         ownerIdAndOpponentPointsScoredPerGame = dict()
-        allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
+        allOwnerIds = getAllOwnerIds(league)
         for ownerId in allOwnerIds:
             if ownerIdAndNumberOfGamesPlayed[ownerId] == 0:
                 ownerIdAndOpponentPointsScoredPerGame[ownerId] = None

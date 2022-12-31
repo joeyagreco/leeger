@@ -6,7 +6,7 @@ from leeger.decorator.validators import validateLeague
 from leeger.model.filter import AllTimeFilters
 from leeger.model.league.League import League
 from leeger.util.Deci import Deci
-from leeger.util.navigator import LeagueNavigator
+from leeger.util.navigator.league_navigator import getYearByYearNumber, getTeamById, getAllOwnerIds
 
 
 class SSLAllTimeCalculator(AllTimeCalculator):
@@ -50,7 +50,7 @@ class SSLAllTimeCalculator(AllTimeCalculator):
         yearFiltersByYear = cls._allTimeFiltersToYearFilters(league, allTimeFilters)
 
         for yearNumber in teamScoreResultsOrderedByYear.keys():
-            year = LeagueNavigator.getYearByYearNumber(league, int(yearNumber))
+            year = getYearByYearNumber(league, int(yearNumber))
             gamesPlayedByYear[yearNumber] = TeamSummaryYearCalculator.getGamesPlayed(year,
                                                                                      **yearFiltersByYear[
                                                                                          str(yearNumber)].asKwargs())
@@ -59,7 +59,7 @@ class SSLAllTimeCalculator(AllTimeCalculator):
         # {"someOwnerId": [(Deci("101.5"), 4), (Deci("109.4), 5)]}
         for yearNumber, teamScoreResultDict in teamScoreResultsOrderedByYear.items():
             for teamId, teamScore in teamScoreResultDict.items():
-                team = LeagueNavigator.getTeamById(league, teamId)
+                team = getTeamById(league, teamId)
                 gamesPlayed = gamesPlayedByYear[yearNumber][teamId]
                 if team.ownerId in ownerIdToTeamScoreAndGamesPlayedListMap:
                     ownerIdToTeamScoreAndGamesPlayedListMap[team.ownerId].append((teamScore, gamesPlayed))
@@ -81,7 +81,7 @@ class SSLAllTimeCalculator(AllTimeCalculator):
                             ownerIdAndAdjustedTeamScore[ownerId] = adjustedTeamScore
 
         # set to None if ownerId not in response dict
-        for ownerId in LeagueNavigator.getAllOwnerIds(league):
+        for ownerId in getAllOwnerIds(league):
             if ownerId not in ownerIdAndAdjustedTeamScore:
                 ownerIdAndAdjustedTeamScore[ownerId] = None
 
@@ -111,7 +111,7 @@ class SSLAllTimeCalculator(AllTimeCalculator):
         yearFiltersByYear = cls._allTimeFiltersToYearFilters(league, allTimeFilters)
 
         for yearNumber in teamSuccessResultsOrderedByYear.keys():
-            year = LeagueNavigator.getYearByYearNumber(league, int(yearNumber))
+            year = getYearByYearNumber(league, int(yearNumber))
             gamesPlayedByYear[yearNumber] = TeamSummaryYearCalculator.getGamesPlayed(year,
                                                                                      **yearFiltersByYear[
                                                                                          str(yearNumber)].asKwargs())
@@ -120,7 +120,7 @@ class SSLAllTimeCalculator(AllTimeCalculator):
         # {"someOwnerId": [(Deci("101.5"), 4), (Deci("109.4), 5)]}
         for yearNumber, teamSuccessResultDict in teamSuccessResultsOrderedByYear.items():
             for teamId, teamSuccess in teamSuccessResultDict.items():
-                team = LeagueNavigator.getTeamById(league, teamId)
+                team = getTeamById(league, teamId)
                 gamesPlayed = gamesPlayedByYear[yearNumber][teamId]
                 if team.ownerId in ownerIdToTeamSuccessAndGamesPlayedListMap:
                     ownerIdToTeamSuccessAndGamesPlayedListMap[team.ownerId].append((teamSuccess, gamesPlayed))
@@ -142,7 +142,7 @@ class SSLAllTimeCalculator(AllTimeCalculator):
                             ownerIdAndAdjustedTeamSuccess[ownerId] = adjustedTeamSuccess
 
         # set to None if ownerId not in response dict
-        for ownerId in LeagueNavigator.getAllOwnerIds(league):
+        for ownerId in getAllOwnerIds(league):
             if ownerId not in ownerIdAndAdjustedTeamSuccess:
                 ownerIdAndAdjustedTeamSuccess[ownerId] = None
 
@@ -167,7 +167,7 @@ class SSLAllTimeCalculator(AllTimeCalculator):
         ownerIdAndAdjustedTeamScore = SSLAllTimeCalculator.getAdjustedTeamScore(league, **kwargs)
         ownerIdAndAdjustedTeamSuccess = SSLAllTimeCalculator.getAdjustedTeamSuccess(league, **kwargs)
 
-        for ownerId in LeagueNavigator.getAllOwnerIds(league):
+        for ownerId in getAllOwnerIds(league):
             adjustedTeamScore = ownerIdAndAdjustedTeamScore[ownerId]
             adjustedTeamSuccess = ownerIdAndAdjustedTeamSuccess[ownerId]
             if adjustedTeamScore is not None and adjustedTeamSuccess is not None:

@@ -7,7 +7,7 @@ from leeger.decorator.validators import validateLeague
 from leeger.model.league.League import League
 from leeger.util.Deci import Deci
 from leeger.util.GeneralUtil import GeneralUtil
-from leeger.util.navigator.LeagueNavigator import LeagueNavigator
+from leeger.util.navigator.league_navigator import getAllOwnerIds, getTeamById
 
 
 class ScoringShareAllTimeCalculator(AllTimeCalculator):
@@ -42,7 +42,7 @@ class ScoringShareAllTimeCalculator(AllTimeCalculator):
         allScores = GeneralUtil.filter(value=None, list_=ownerIdAndPointsScored.values())
         totalPointsScoredInLeague = sum(allScores)
         ownerIdAndScoringShare = dict()
-        for ownerId in LeagueNavigator.getAllOwnerIds(league):
+        for ownerId in getAllOwnerIds(league):
             if len(allScores) == 0 or ownerIdAndPointsScored[ownerId] is None:
                 ownerIdAndScoringShare[ownerId] = None
             else:
@@ -75,7 +75,7 @@ class ScoringShareAllTimeCalculator(AllTimeCalculator):
         allScores = GeneralUtil.filter(value=None, list_=ownerIdAndOpponentPointsScored.values())
         totalPointsScoredInLeague = sum(allScores)
         ownerIdAndOpponentScoringShare = dict()
-        for ownerId in LeagueNavigator.getAllOwnerIds(league):
+        for ownerId in getAllOwnerIds(league):
             if len(allScores) == 0 or ownerIdAndOpponentPointsScored[ownerId] is None:
                 ownerIdAndOpponentScoringShare[ownerId] = None
             else:
@@ -106,7 +106,7 @@ class ScoringShareAllTimeCalculator(AllTimeCalculator):
 
         ownerIdAndMaxScoringShare = dict()
 
-        allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
+        allOwnerIds = getAllOwnerIds(league)
 
         for ownerId in allOwnerIds:
             ownerIdAndMaxScoringShare[ownerId] = None
@@ -119,7 +119,7 @@ class ScoringShareAllTimeCalculator(AllTimeCalculator):
         for yearNumber, maxScoringSharesByTeamId in maxScoringSharesByYearTeamIds.items():
             maxScoringSharesByYear[yearNumber] = dict()
             for teamId, maxScoringShare in maxScoringSharesByTeamId.items():
-                ownerId = LeagueNavigator.getTeamById(league, teamId).ownerId
+                ownerId = getTeamById(league, teamId).ownerId
                 maxScoringSharesByYear[yearNumber][ownerId] = maxScoringShare
 
         ownerIdAndMaxScoringShares: dict[str, list] = dict()
@@ -158,7 +158,7 @@ class ScoringShareAllTimeCalculator(AllTimeCalculator):
 
         ownerIdAndMinScoringShare = dict()
 
-        allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
+        allOwnerIds = getAllOwnerIds(league)
 
         for ownerId in allOwnerIds:
             ownerIdAndMinScoringShare[ownerId] = None
@@ -171,7 +171,7 @@ class ScoringShareAllTimeCalculator(AllTimeCalculator):
         for yearNumber, minScoringSharesByTeamId in minScoringSharesByYearTeamIds.items():
             minScoringSharesByYear[yearNumber] = dict()
             for teamId, maxScoringShare in minScoringSharesByTeamId.items():
-                ownerId = LeagueNavigator.getTeamById(league, teamId).ownerId
+                ownerId = getTeamById(league, teamId).ownerId
                 minScoringSharesByYear[yearNumber][ownerId] = maxScoringShare
 
         ownerIdAndMinScoringShares: dict[str, list] = dict()

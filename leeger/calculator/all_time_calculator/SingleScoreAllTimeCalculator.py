@@ -4,7 +4,7 @@ from leeger.calculator.parent.AllTimeCalculator import AllTimeCalculator
 from leeger.decorator.validators import validateLeague
 from leeger.model.filter import AllTimeFilters
 from leeger.model.league.League import League
-from leeger.util.navigator.LeagueNavigator import LeagueNavigator
+from leeger.util.navigator.league_navigator import getAllOwnerIds, getTeamById
 
 
 class SingleScoreAllTimeCalculator(AllTimeCalculator):
@@ -33,16 +33,16 @@ class SingleScoreAllTimeCalculator(AllTimeCalculator):
 
         allMatchups = cls._getAllFilteredMatchups(league, filters)
 
-        for ownerId in LeagueNavigator.getAllOwnerIds(league):
+        for ownerId in getAllOwnerIds(league):
             ownerIdAndMaxScore[ownerId] = None
 
         for matchup in allMatchups:
-            aOwnerId = LeagueNavigator.getTeamById(league, matchup.teamAId).ownerId
+            aOwnerId = getTeamById(league, matchup.teamAId).ownerId
             aPreviousMaxScore = ownerIdAndMaxScore[aOwnerId]
             if aPreviousMaxScore is None or matchup.teamAScore > aPreviousMaxScore:
                 ownerIdAndMaxScore[aOwnerId] = matchup.teamAScore
 
-            bOwnerId = LeagueNavigator.getTeamById(league, matchup.teamBId).ownerId
+            bOwnerId = getTeamById(league, matchup.teamBId).ownerId
             bPreviousMaxScore = ownerIdAndMaxScore[bOwnerId]
             if bPreviousMaxScore is None or matchup.teamBScore > bPreviousMaxScore:
                 ownerIdAndMaxScore[bOwnerId] = matchup.teamBScore
@@ -70,16 +70,16 @@ class SingleScoreAllTimeCalculator(AllTimeCalculator):
 
         allMatchups = cls._getAllFilteredMatchups(league, filters)
 
-        for ownerId in LeagueNavigator.getAllOwnerIds(league):
+        for ownerId in getAllOwnerIds(league):
             ownerIdAndMinScore[ownerId] = None
 
         for matchup in allMatchups:
-            aOwnerId = LeagueNavigator.getTeamById(league, matchup.teamAId).ownerId
+            aOwnerId = getTeamById(league, matchup.teamAId).ownerId
             aPreviousMinScore = ownerIdAndMinScore[aOwnerId]
             if aPreviousMinScore is None or matchup.teamAScore < aPreviousMinScore:
                 ownerIdAndMinScore[aOwnerId] = matchup.teamAScore
 
-            bOwnerId = LeagueNavigator.getTeamById(league, matchup.teamBId).ownerId
+            bOwnerId = getTeamById(league, matchup.teamBId).ownerId
             bPreviousMinScore = ownerIdAndMinScore[bOwnerId]
             if bPreviousMinScore is None or matchup.teamBScore < bPreviousMinScore:
                 ownerIdAndMinScore[bOwnerId] = matchup.teamBScore

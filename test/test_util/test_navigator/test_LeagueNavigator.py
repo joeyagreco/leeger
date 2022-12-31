@@ -10,7 +10,8 @@ from leeger.model.league.Owner import Owner
 from leeger.model.league.Team import Team
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
-from leeger.util.navigator.LeagueNavigator import LeagueNavigator
+from leeger.util.navigator import getYearByYearNumber, getOwnerById, getNumberOfGamesPlayed, getAllOwnerIds, \
+    getTeamById, getAllScoresInLeague
 from test.helper.prototypes import getNDefaultOwnersAndTeams, getTeamsFromOwners
 
 
@@ -57,7 +58,7 @@ class TestLeagueNavigator(unittest.TestCase):
 
         league = League(name="TEST", owners=[owner1, owner2], years=[a_year, b_year])
 
-        response = LeagueNavigator.getYearByYearNumber(league, 2001)
+        response = getYearByYearNumber(league, 2001)
 
         self.assertIsInstance(response, Year)
         self.assertEqual(2001, response.yearNumber)
@@ -87,7 +88,7 @@ class TestLeagueNavigator(unittest.TestCase):
         league = League(name="TEST", owners=[owner1, owner2], years=[a_year])
 
         with self.assertRaises(DoesNotExistException) as context:
-            LeagueNavigator.getYearByYearNumber(league, 2001)
+            getYearByYearNumber(league, 2001)
         self.assertEqual("Year 2001 does not exist in the given League.", str(context.exception))
 
     def test_getAllOwnerIds_happyPath(self):
@@ -105,7 +106,7 @@ class TestLeagueNavigator(unittest.TestCase):
 
         league = League(name="TEST", owners=[owner1, owner2], years=[a_year])
 
-        response = LeagueNavigator.getAllOwnerIds(league)
+        response = getAllOwnerIds(league)
 
         self.assertIsInstance(response, list)
         self.assertEqual(2, len(response))
@@ -127,8 +128,8 @@ class TestLeagueNavigator(unittest.TestCase):
 
         league = League(name="TEST", owners=[owner1, owner2], years=[a_year])
 
-        response1 = LeagueNavigator.getTeamById(league, a_team1.id)
-        response2 = LeagueNavigator.getTeamById(league, a_team2.id)
+        response1 = getTeamById(league, a_team1.id)
+        response2 = getTeamById(league, a_team2.id)
 
         self.assertIsInstance(response1, Team)
         self.assertIsInstance(response2, Team)
@@ -151,7 +152,7 @@ class TestLeagueNavigator(unittest.TestCase):
         league = League(name="TEST", owners=[owner1, owner2], years=[a_year])
 
         with self.assertRaises(DoesNotExistException) as context:
-            LeagueNavigator.getTeamById(league, "imABadID")
+            getTeamById(league, "imABadID")
         self.assertEqual("Team with ID imABadID does not exist in the given League.", str(context.exception))
 
     def test_getOwnerById_happyPath(self):
@@ -169,8 +170,8 @@ class TestLeagueNavigator(unittest.TestCase):
 
         league = League(name="TEST", owners=[owner1, owner2], years=[a_year])
 
-        response1 = LeagueNavigator.getOwnerById(league, owner1.id)
-        response2 = LeagueNavigator.getOwnerById(league, owner2.id)
+        response1 = getOwnerById(league, owner1.id)
+        response2 = getOwnerById(league, owner2.id)
 
         self.assertIsInstance(response1, Owner)
         self.assertIsInstance(response2, Owner)
@@ -193,7 +194,7 @@ class TestLeagueNavigator(unittest.TestCase):
         league = League(name="TEST", owners=[owner1, owner2], years=[a_year])
 
         with self.assertRaises(DoesNotExistException) as context:
-            LeagueNavigator.getOwnerById(league, "imABadID")
+            getOwnerById(league, "imABadID")
         self.assertEqual("Owner with ID imABadID does not exist in the given League.", str(context.exception))
 
     def test_getNumberOfGamesPlayed_happyPath(self):
@@ -246,7 +247,7 @@ class TestLeagueNavigator(unittest.TestCase):
 
         allTimeFilters = AllTimeFilters(yearNumberStart=2000, weekNumberStart=1, yearNumberEnd=2003, weekNumberEnd=3,
                                         onlyChampionship=False, onlyPostSeason=False, onlyRegularSeason=False)
-        response = LeagueNavigator.getNumberOfGamesPlayed(league, allTimeFilters)
+        response = getNumberOfGamesPlayed(league, allTimeFilters)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -296,7 +297,7 @@ class TestLeagueNavigator(unittest.TestCase):
 
         allTimeFilters = AllTimeFilters(yearNumberStart=2000, weekNumberStart=1, yearNumberEnd=2003, weekNumberEnd=3,
                                         onlyChampionship=False, onlyPostSeason=False, onlyRegularSeason=False)
-        response = LeagueNavigator.getNumberOfGamesPlayed(league, allTimeFilters, countLeagueMedianGamesAsTwoGames=True)
+        response = getNumberOfGamesPlayed(league, allTimeFilters, countLeagueMedianGamesAsTwoGames=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -353,7 +354,7 @@ class TestLeagueNavigator(unittest.TestCase):
 
         allTimeFilters = AllTimeFilters(yearNumberStart=2000, weekNumberStart=1, yearNumberEnd=2003, weekNumberEnd=3,
                                         onlyChampionship=False, onlyPostSeason=False, onlyRegularSeason=False)
-        response = LeagueNavigator.getNumberOfGamesPlayed(league, allTimeFilters, countMultiWeekMatchupsAsOneGame=True)
+        response = getNumberOfGamesPlayed(league, allTimeFilters, countMultiWeekMatchupsAsOneGame=True)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -410,7 +411,7 @@ class TestLeagueNavigator(unittest.TestCase):
 
         allTimeFilters = AllTimeFilters(yearNumberStart=2000, weekNumberStart=1, yearNumberEnd=2003, weekNumberEnd=3,
                                         onlyChampionship=False, onlyPostSeason=False, onlyRegularSeason=True)
-        response = LeagueNavigator.getNumberOfGamesPlayed(league, allTimeFilters)
+        response = getNumberOfGamesPlayed(league, allTimeFilters)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -467,7 +468,7 @@ class TestLeagueNavigator(unittest.TestCase):
 
         allTimeFilters = AllTimeFilters(yearNumberStart=2000, weekNumberStart=1, yearNumberEnd=2003, weekNumberEnd=3,
                                         onlyChampionship=False, onlyPostSeason=True, onlyRegularSeason=False)
-        response = LeagueNavigator.getNumberOfGamesPlayed(league, allTimeFilters)
+        response = getNumberOfGamesPlayed(league, allTimeFilters)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -524,7 +525,7 @@ class TestLeagueNavigator(unittest.TestCase):
 
         allTimeFilters = AllTimeFilters(yearNumberStart=2000, weekNumberStart=1, yearNumberEnd=2003, weekNumberEnd=3,
                                         onlyChampionship=True, onlyPostSeason=False, onlyRegularSeason=False)
-        response = LeagueNavigator.getNumberOfGamesPlayed(league, allTimeFilters)
+        response = getNumberOfGamesPlayed(league, allTimeFilters)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -581,7 +582,7 @@ class TestLeagueNavigator(unittest.TestCase):
 
         allTimeFilters = AllTimeFilters(yearNumberStart=2001, weekNumberStart=2, yearNumberEnd=2003, weekNumberEnd=3,
                                         onlyChampionship=False, onlyPostSeason=False, onlyRegularSeason=False)
-        response = LeagueNavigator.getNumberOfGamesPlayed(league, allTimeFilters)
+        response = getNumberOfGamesPlayed(league, allTimeFilters)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -638,7 +639,7 @@ class TestLeagueNavigator(unittest.TestCase):
 
         allTimeFilters = AllTimeFilters(yearNumberStart=2000, weekNumberStart=1, yearNumberEnd=2002, weekNumberEnd=2,
                                         onlyChampionship=False, onlyPostSeason=False, onlyRegularSeason=False)
-        response = LeagueNavigator.getNumberOfGamesPlayed(league, allTimeFilters)
+        response = getNumberOfGamesPlayed(league, allTimeFilters)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -695,7 +696,7 @@ class TestLeagueNavigator(unittest.TestCase):
 
         allTimeFilters = AllTimeFilters(yearNumberStart=2001, weekNumberStart=2, yearNumberEnd=2002, weekNumberEnd=2,
                                         onlyChampionship=False, onlyPostSeason=False, onlyRegularSeason=False)
-        response = LeagueNavigator.getNumberOfGamesPlayed(league, allTimeFilters)
+        response = getNumberOfGamesPlayed(league, allTimeFilters)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -754,7 +755,7 @@ class TestLeagueNavigator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC, yearD])
 
-        response = LeagueNavigator.getAllScoresInLeague(league)
+        response = getAllScoresInLeague(league)
 
         self.assertIsInstance(response, list)
         self.assertEqual(16, len(response))
@@ -779,7 +780,7 @@ class TestLeagueNavigator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA])
 
-        response = LeagueNavigator.getAllScoresInLeague(league, simplifyMultiWeekMatchups=True)
+        response = getAllScoresInLeague(league, simplifyMultiWeekMatchups=True)
 
         self.assertIsInstance(response, list)
         self.assertEqual(4, len(response))

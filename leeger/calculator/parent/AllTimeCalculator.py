@@ -5,8 +5,7 @@ from leeger.model.filter.AllTimeFilters import AllTimeFilters
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup
 from leeger.util.Deci import Deci
-from leeger.util.navigator import MatchupNavigator
-from leeger.util.navigator.LeagueNavigator import LeagueNavigator
+from leeger.util.navigator import MatchupNavigator, getAllOwnerIds, getTeamById, getYearByYearNumber
 
 
 class AllTimeCalculator:
@@ -39,7 +38,7 @@ class AllTimeCalculator:
 
         # sum all results
         result: dict[str, int | float | Deci] = dict()
-        for ownerId in LeagueNavigator.getAllOwnerIds(league):
+        for ownerId in getAllOwnerIds(league):
             result[ownerId] = 0  # TODO: this may have a Deci/int/float so test for bugs there
             ownerIdAndWhetherOwnerHasHadAValidResult[ownerId] = False
 
@@ -49,7 +48,7 @@ class AllTimeCalculator:
                 # check if this is a valid result
                 if resultDict[teamId] is None:
                     continue
-                team = LeagueNavigator.getTeamById(league, teamId)
+                team = getTeamById(league, teamId)
                 result[team.ownerId] += resultDict[teamId]
                 ownerIdAndWhetherOwnerHasHadAValidResult[team.ownerId] = True
 
@@ -72,7 +71,7 @@ class AllTimeCalculator:
         yearWeekNumberStartWeekNumberEnd: list[tuple] = list()
         if allTimeFilters.yearNumberStart == allTimeFilters.yearNumberEnd:
             yearWeekNumberStartWeekNumberEnd.append(
-                (LeagueNavigator.getYearByYearNumber(league, allTimeFilters.yearNumberStart),
+                (getYearByYearNumber(league, allTimeFilters.yearNumberStart),
                  allTimeFilters.weekNumberStart,
                  allTimeFilters.weekNumberEnd))
         else:
@@ -116,7 +115,7 @@ class AllTimeCalculator:
         yearWeekNumberStartWeekNumberEnd: list[tuple] = list()
         if allTimeFilters.yearNumberStart == allTimeFilters.yearNumberEnd:
             yearWeekNumberStartWeekNumberEnd.append(
-                (LeagueNavigator.getYearByYearNumber(league, allTimeFilters.yearNumberStart),
+                (getYearByYearNumber(league, allTimeFilters.yearNumberStart),
                  allTimeFilters.weekNumberStart,
                  allTimeFilters.weekNumberEnd))
         else:
@@ -159,7 +158,7 @@ class AllTimeCalculator:
         yearWeekNumberStartWeekNumberEnd: list[tuple] = list()
         if allTimeFilters.yearNumberStart == allTimeFilters.yearNumberEnd:
             yearWeekNumberStartWeekNumberEnd.append(
-                (LeagueNavigator.getYearByYearNumber(league, allTimeFilters.yearNumberStart),
+                (getYearByYearNumber(league, allTimeFilters.yearNumberStart),
                  allTimeFilters.weekNumberStart,
                  allTimeFilters.weekNumberEnd))
         else:
@@ -220,7 +219,7 @@ class AllTimeCalculator:
         # parse filters
         yearWeekNumberStartWeekNumberEnd: list[tuple] = list()
         if allTimeFilters.yearNumberStart == allTimeFilters.yearNumberEnd:
-            yearNumber = str(LeagueNavigator.getYearByYearNumber(league, allTimeFilters.yearNumberStart).yearNumber)
+            yearNumber = str(getYearByYearNumber(league, allTimeFilters.yearNumberStart).yearNumber)
             yearFiltersByYear[yearNumber] = YearFilters(weekNumberStart=allTimeFilters.weekNumberStart,
                                                         weekNumberEnd=allTimeFilters.weekNumberEnd,
                                                         includeMultiWeekMatchups=True,

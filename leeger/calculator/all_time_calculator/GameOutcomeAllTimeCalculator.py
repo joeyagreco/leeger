@@ -6,7 +6,7 @@ from leeger.decorator.validators import validateLeague
 from leeger.model.filter import AllTimeFilters
 from leeger.model.league.League import League
 from leeger.util.Deci import Deci
-from leeger.util.navigator.LeagueNavigator import LeagueNavigator
+from leeger.util.navigator.league_navigator import getNumberOfGamesPlayed, getAllOwnerIds
 
 
 class GameOutcomeAllTimeCalculator(AllTimeCalculator):
@@ -98,10 +98,10 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
                 ownerIdAndWinPercentage[ownerId] = None
             else:
                 filters = AllTimeFilters.getForLeague(league, **kwargs)
-                numberOfGamesPlayed = LeagueNavigator.getNumberOfGamesPlayed(league,
-                                                                             filters,
-                                                                             countMultiWeekMatchupsAsOneGame=True,
-                                                                             countLeagueMedianGamesAsTwoGames=True)[
+                numberOfGamesPlayed = getNumberOfGamesPlayed(league,
+                                                             filters,
+                                                             countMultiWeekMatchupsAsOneGame=True,
+                                                             countLeagueMedianGamesAsTwoGames=True)[
                     ownerId]
                 totalWins = numberOfWins + numberOfLeagueMedianWins
                 ownerIdAndWinPercentage[ownerId] = (Deci(totalWins) + (Deci("0.5") * Deci(numberOfTies))) / Deci(
@@ -163,14 +163,14 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
             }
         """
         ownerIdAndWAL = cls.getWAL(league, **kwargs)
-        ownerIdAndNumberOfGamesPlayed = LeagueNavigator.getNumberOfGamesPlayed(league,
-                                                                               AllTimeFilters.getForLeague(league,
-                                                                                                           **kwargs),
-                                                                               countMultiWeekMatchupsAsOneGame=True,
-                                                                               countLeagueMedianGamesAsTwoGames=True)
+        ownerIdAndNumberOfGamesPlayed = getNumberOfGamesPlayed(league,
+                                                               AllTimeFilters.getForLeague(league,
+                                                                                           **kwargs),
+                                                               countMultiWeekMatchupsAsOneGame=True,
+                                                               countLeagueMedianGamesAsTwoGames=True)
 
         ownerIdAndWALPerGame = dict()
-        allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
+        allOwnerIds = getAllOwnerIds(league)
         for ownerId in allOwnerIds:
             if ownerIdAndNumberOfGamesPlayed[ownerId] == 0:
                 ownerIdAndWALPerGame[ownerId] = None

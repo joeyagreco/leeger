@@ -49,18 +49,18 @@ class AllTimeFilters:
     def getForLeague(cls, league: League, **kwargs) -> AllTimeFilters:
         from leeger.exception import InvalidFilterException
         from leeger.util.GeneralUtil import GeneralUtil
-        from leeger.util.navigator import LeagueNavigator
+        from leeger.util.navigator import getYearByYearNumber
         kwargsCopy = copy.deepcopy(kwargs)
         onlyChampionship = kwargsCopy.pop("onlyChampionship", False)
         onlyPostSeason = kwargsCopy.pop("onlyPostSeason", False)
         onlyRegularSeason = kwargsCopy.pop("onlyRegularSeason", False)
         yearNumberStart = kwargsCopy.pop("yearNumberStart", league.years[0].yearNumber)
         weekNumberStart = kwargsCopy.pop("weekNumberStart",
-                                         LeagueNavigator.getYearByYearNumber(league, yearNumberStart).weeks[
+                                         getYearByYearNumber(league, yearNumberStart).weeks[
                                              0].weekNumber)
         yearNumberEnd = kwargsCopy.pop("yearNumberEnd", league.years[-1].yearNumber)
         weekNumberEnd = kwargsCopy.pop("weekNumberEnd",
-                                       LeagueNavigator.getYearByYearNumber(league, yearNumberEnd).weeks[-1].weekNumber)
+                                       getYearByYearNumber(league, yearNumberEnd).weeks[-1].weekNumber)
 
         GeneralUtil.warnForUnusedKwargs(kwargsCopy)
 
@@ -91,7 +91,7 @@ class AllTimeFilters:
             raise InvalidFilterException("'yearNumberStart' cannot be greater than 'yearNumberEnd'.")
         if weekNumberStart < 1:
             raise InvalidFilterException("'weekNumberStart' cannot be less than 1.")
-        if weekNumberEnd > len(LeagueNavigator.getYearByYearNumber(league, yearNumberEnd).weeks):
+        if weekNumberEnd > len(getYearByYearNumber(league, yearNumberEnd).weeks):
             raise InvalidFilterException("'weekNumberEnd' cannot be greater than the number of weeks in the year.")
         if weekNumberStart > weekNumberEnd and yearNumberStart == yearNumberEnd:
             raise InvalidFilterException(

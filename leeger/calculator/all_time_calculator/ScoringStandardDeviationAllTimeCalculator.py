@@ -7,7 +7,7 @@ from leeger.decorator.validators import validateLeague
 from leeger.model.filter import AllTimeFilters
 from leeger.model.league.League import League
 from leeger.util.Deci import Deci
-from leeger.util.navigator.LeagueNavigator import LeagueNavigator
+from leeger.util.navigator.league_navigator import getAllOwnerIds, getTeamById
 
 
 class ScoringStandardDeviationAllTimeCalculator(AllTimeCalculator):
@@ -42,13 +42,13 @@ class ScoringStandardDeviationAllTimeCalculator(AllTimeCalculator):
         filters = AllTimeFilters.getForLeague(league, **kwargs)
 
         ownerIdAndScores = dict()
-        allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
+        allOwnerIds = getAllOwnerIds(league)
         for ownerId in allOwnerIds:
             ownerIdAndScores[ownerId] = list()
 
         for matchup in cls._getAllFilteredMatchups(league, filters, simplifyMultiWeekMatchups=True):
-            ownerAId = LeagueNavigator.getTeamById(league, matchup.teamAId).ownerId
-            ownerBId = LeagueNavigator.getTeamById(league, matchup.teamBId).ownerId
+            ownerAId = getTeamById(league, matchup.teamAId).ownerId
+            ownerBId = getTeamById(league, matchup.teamBId).ownerId
             ownerIdAndScores[ownerAId].append(Deci(matchup.teamAScore))
             ownerIdAndScores[ownerBId].append(Deci(matchup.teamBScore))
 
