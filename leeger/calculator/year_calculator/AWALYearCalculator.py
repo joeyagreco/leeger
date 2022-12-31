@@ -8,7 +8,7 @@ from leeger.model.filter.WeekFilters import WeekFilters
 from leeger.model.league.Year import Year
 from leeger.util.Deci import Deci
 from leeger.util.GeneralUtil import GeneralUtil
-from leeger.util.navigator.WeekNavigator import WeekNavigator
+from leeger.util.navigator import getNumberOfValidTeamsInWeek, getTeamIdsAndOpponentScores, getTeamIdsAndScores
 from leeger.util.navigator.YearNavigator import YearNavigator
 
 
@@ -52,14 +52,14 @@ class AWALYearCalculator(YearCalculator):
 
         for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
             week = year.weeks[i]
-            opponentsInWeek = WeekNavigator.getNumberOfValidTeamsInWeek(week, WeekFilters(
+            opponentsInWeek = getNumberOfValidTeamsInWeek(week, WeekFilters(
                 includeMatchupTypes=filters.includeMatchupTypes)) - 1
             teamsOutscored = dict()
             teamsTied = dict()
             for teamId in allTeamIds:
                 teamsOutscored[teamId] = 0
                 teamsTied[teamId] = 0
-            allTeamIdsAndScoresForWeek = WeekNavigator.getTeamIdsAndScores(week, WeekFilters(
+            allTeamIdsAndScoresForWeek = getTeamIdsAndScores(week, WeekFilters(
                 includeMatchupTypes=filters.includeMatchupTypes))
             allScores = allTeamIdsAndScoresForWeek.values()
 
@@ -147,14 +147,14 @@ class AWALYearCalculator(YearCalculator):
 
         for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
             week = year.weeks[i]
-            opponentsInWeek = WeekNavigator.getNumberOfValidTeamsInWeek(week, WeekFilters(
+            opponentsInWeek = getNumberOfValidTeamsInWeek(week, WeekFilters(
                 includeMatchupTypes=filters.includeMatchupTypes)) - 1
             teamsOutscored = dict()
             teamsTied = dict()
             for teamId in allTeamIds:
                 teamsOutscored[teamId] = 0
                 teamsTied[teamId] = 0
-            allTeamIdsAndOpponentScoresForWeek = WeekNavigator.getTeamIdsAndOpponentScores(week, WeekFilters(
+            allTeamIdsAndOpponentScoresForWeek = getTeamIdsAndOpponentScores(week, WeekFilters(
                 includeMatchupTypes=filters.includeMatchupTypes))
             allScores = allTeamIdsAndOpponentScoresForWeek.values()
 
