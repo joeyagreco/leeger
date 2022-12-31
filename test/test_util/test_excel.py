@@ -275,12 +275,11 @@ class TestExcel(unittest.TestCase):
             self.assertEqual(2, len(workbook.sheetnames))
             self.assertEqual("2000 Teams", workbook.sheetnames[0])
             self.assertEqual("2000 Matchups", workbook.sheetnames[1])
-            worksheet = workbook.active
 
-            # test worksheet values
+            # test team worksheet values
             worksheet = workbook["2000 Teams"]
 
-            worksheetValues = [
+            worksheetTeamValues = [
                 ["Team", "Games Played", "Wins", "Losses", "Ties", "Win Percentage", "WAL",
                  "WAL Per Game", "AWAL", "AWAL Per Game", "Opponent AWAL", "Opponent AWAL Per Game", "Smart Wins",
                  "Smart Wins Per Game", "Opponent Smart Wins", "Opponent Smart Wins Per Game", "Points Scored",
@@ -295,12 +294,13 @@ class TestExcel(unittest.TestCase):
                  2, 2, 0, 1, 233.5333333333333, 233.5333333333333, 0]]
 
             for rowNumber in range(1, 4):
-                values = worksheetValues[rowNumber - 1]
+                values = worksheetTeamValues[rowNumber - 1]
                 for columnNumber, value in enumerate(values):
                     cell = f"{get_column_letter(columnNumber + 1)}{rowNumber}"
                     self.assertEqual(values[columnNumber], worksheet[cell].value)
             # check that "next" cell is empty
             self.assertIsNone(worksheet["A4"].value)
+
             # check legend
             self.assertEqual("Filters Applied", worksheet["A6"].value)
             self.assertEqual("Week Number Start: 1", worksheet["A7"].value)
@@ -323,6 +323,32 @@ class TestExcel(unittest.TestCase):
                     # due to Excel rounding values, we assert that the values are very, very close
                     assert math.isclose(float(statWithTitle[1][teamId]), worksheet[f"{char}{row + 2}"].value,
                                         rel_tol=0.000000000000001)
+
+            # test matchup worksheet values
+            worksheet = workbook["2000 Matchups"]
+
+            worksheetMatchupValues = [
+                ["Team For", "Team Against", "Week Number", "Matchup Type", "Points For", "Points Against"],
+                ["a", "b", 1, "REGULAR_SEASON", 1, 2],
+                ["b", "a", 1, "REGULAR_SEASON", 2, 1]
+            ]
+            for rowNumber in range(1, 4):
+                values = worksheetMatchupValues[rowNumber - 1]
+                for columnNumber, value in enumerate(values):
+                    cell = f"{get_column_letter(columnNumber + 1)}{rowNumber}"
+                    self.assertEqual(values[columnNumber], worksheet[cell].value)
+            # check that "next" cell is empty
+            self.assertIsNone(worksheet["A4"].value)
+
+            # check legend
+            self.assertEqual("Filters Applied", worksheet["A6"].value)
+            self.assertEqual("Week Number Start: 1", worksheet["A7"].value)
+            self.assertEqual("Week Number End: 1", worksheet["A8"].value)
+            self.assertEqual("Only Regular Season: False", worksheet["A9"].value)
+            self.assertEqual("Only Post Season: False", worksheet["A10"].value)
+            self.assertEqual("Only Championship: False", worksheet["A11"].value)
+            self.assertEqual("Include Multi-Week Matchups: True", worksheet["A12"].value)
+            self.assertIsNone(worksheet["A13"].value)
 
     def test_yearToExcel_excelSheetAlreadyExists(self):
         owners, teams1 = getNDefaultOwnersAndTeams(2)
