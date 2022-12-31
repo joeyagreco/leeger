@@ -124,7 +124,7 @@ class YearNavigator:
         """
         Returns a list of matchups for the given year with multi-week matchups simplified.
         """
-        from leeger.util.navigator import MatchupNavigator
+        from leeger.util.navigator import simplifyMultiWeekMatchups_
         filters = filters if filters is not None else YearFilters.getForYear(year)
         if not filters.includeMultiWeekMatchups:
             raise ValueError("Multi-Week matchups must be included in this calculation.")
@@ -138,5 +138,5 @@ class YearNavigator:
 
         # simplify multi-week matchups
         for _, matchupList in allMultiWeekMatchups.items():
-            allMatchups.append(MatchupNavigator.simplifyMultiWeekMatchups(matchupList))
+            allMatchups.append(simplifyMultiWeekMatchups_(matchupList))
         return allMatchups

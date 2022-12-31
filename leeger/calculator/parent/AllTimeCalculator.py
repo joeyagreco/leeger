@@ -5,7 +5,7 @@ from leeger.model.filter.AllTimeFilters import AllTimeFilters
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup
 from leeger.util.Deci import Deci
-from leeger.util.navigator import MatchupNavigator, getAllOwnerIds, getTeamById, getYearByYearNumber
+from leeger.util.navigator import getAllOwnerIds, getTeamById, getYearByYearNumber, simplifyMultiWeekMatchups_
 
 
 class AllTimeCalculator:
@@ -199,7 +199,7 @@ class AllTimeCalculator:
         if simplifyMultiWeekMatchups:
             # simplify any multi-week matchups and add them to the returning list
             for _, matchupList in multiWeekMatchupIdToMatchupsMap.items():
-                allFilteredMatchups.append(MatchupNavigator.simplifyMultiWeekMatchups(matchupList))
+                allFilteredMatchups.append(simplifyMultiWeekMatchups_(matchupList))
 
         return allFilteredMatchups
 

@@ -6,7 +6,7 @@ from leeger.model.filter import YearFilters
 from leeger.model.league import Matchup
 from leeger.model.league.Year import Year
 from leeger.util.Deci import Deci
-from leeger.util.navigator.MatchupNavigator import MatchupNavigator
+from leeger.util.navigator import getMedianScore, simplifyMultiWeekMatchups_, getTeamIdOfMatchupWinner
 from leeger.util.navigator.YearNavigator import YearNavigator
 
 
@@ -58,10 +58,10 @@ class GameOutcomeYearCalculator(YearCalculator):
 
         # simplify multi-week matchups into single Matchups
         for matchupList in multiWeekMatchupIdToMatchupListMap.values():
-            allMatchups.append(MatchupNavigator.simplifyMultiWeekMatchups(matchupList))
+            allMatchups.append(simplifyMultiWeekMatchups_(matchupList))
         for matchup in allMatchups:
             # get winner team ID (if this wasn't a tie)
-            winnerTeamId = MatchupNavigator.getTeamIdOfMatchupWinner(matchup)
+            winnerTeamId = getTeamIdOfMatchupWinner(matchup)
             if winnerTeamId is not None:
                 teamIdAndWins[winnerTeamId] += 1
         cls._setToNoneIfNoGamesPlayed(teamIdAndWins, year, filters, **kwargs)
@@ -110,10 +110,10 @@ class GameOutcomeYearCalculator(YearCalculator):
 
         # simplify multi-week matchups into single Matchups
         for matchupList in multiWeekMatchupIdToMatchupListMap.values():
-            allMatchups.append(MatchupNavigator.simplifyMultiWeekMatchups(matchupList))
+            allMatchups.append(simplifyMultiWeekMatchups_(matchupList))
         for matchup in allMatchups:
             # get loser team ID (if this wasn't a tie)
-            winnerTeamId = MatchupNavigator.getTeamIdOfMatchupWinner(matchup)
+            winnerTeamId = getTeamIdOfMatchupWinner(matchup)
             if winnerTeamId is not None:
                 loserTeamId = matchup.teamAId if winnerTeamId == matchup.teamBId else matchup.teamBId
                 teamIdAndLosses[loserTeamId] += 1
@@ -162,9 +162,9 @@ class GameOutcomeYearCalculator(YearCalculator):
                         allMatchups.append(matchup)
         # simplify multi-week matchups into single Matchups
         for matchupList in multiWeekMatchupIdToMatchupListMap.values():
-            allMatchups.append(MatchupNavigator.simplifyMultiWeekMatchups(matchupList))
+            allMatchups.append(simplifyMultiWeekMatchups_(matchupList))
         for matchup in allMatchups:
-            if MatchupNavigator.getTeamIdOfMatchupWinner(matchup) is None:
+            if getTeamIdOfMatchupWinner(matchup) is None:
                 teamIdAndTies[matchup.teamAId] += 1
                 teamIdAndTies[matchup.teamBId] += 1
         cls._setToNoneIfNoGamesPlayed(teamIdAndTies, year, filters, **kwargs)
@@ -334,7 +334,7 @@ class GameOutcomeYearCalculator(YearCalculator):
                         teamIdAndScoreList.append((matchup.teamBId, matchup.teamBScore))
 
                 if len(week_matchups) > 0:
-                    leagueMedianScore = MatchupNavigator.getMedianScore(week_matchups)
+                    leagueMedianScore = getMedianScore(week_matchups)
 
                     # sort by score highest -> lowest
                     teamIdAndScoreList.sort(key=lambda x: x[1], reverse=True)
@@ -388,7 +388,7 @@ class GameOutcomeYearCalculator(YearCalculator):
                         teamIdAndOpponentScoreList.append((matchup.teamBId, matchup.teamAScore))
 
                 if len(week_matchups) > 0:
-                    leagueMedianScore = MatchupNavigator.getMedianScore(week_matchups)
+                    leagueMedianScore = getMedianScore(week_matchups)
 
                     # sort by score highest -> lowest
                     teamIdAndOpponentScoreList.sort(key=lambda x: x[1], reverse=True)

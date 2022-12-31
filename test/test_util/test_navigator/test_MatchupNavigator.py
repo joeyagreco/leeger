@@ -2,7 +2,7 @@ import unittest
 
 from leeger.enum import MatchupType
 from leeger.model.league.Matchup import Matchup
-from leeger.util.navigator.MatchupNavigator import MatchupNavigator
+from leeger.util.navigator import getMedianScore, simplifyMultiWeekMatchups_, getTeamIdOfMatchupWinner
 from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
@@ -14,9 +14,9 @@ class TestMatchupNavigator(unittest.TestCase):
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=2, teamBScore=1)
         matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1)
 
-        response1 = MatchupNavigator.getTeamIdOfMatchupWinner(matchup1)
-        response2 = MatchupNavigator.getTeamIdOfMatchupWinner(matchup2)
-        response3 = MatchupNavigator.getTeamIdOfMatchupWinner(matchup3)
+        response1 = getTeamIdOfMatchupWinner(matchup1)
+        response2 = getTeamIdOfMatchupWinner(matchup2)
+        response3 = getTeamIdOfMatchupWinner(matchup3)
 
         self.assertIsInstance(response1, str)
         self.assertIsInstance(response2, str)
@@ -32,8 +32,8 @@ class TestMatchupNavigator(unittest.TestCase):
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1,
                            teamBHasTiebreaker=True)
 
-        response1 = MatchupNavigator.getTeamIdOfMatchupWinner(matchup1)
-        response2 = MatchupNavigator.getTeamIdOfMatchupWinner(matchup2)
+        response1 = getTeamIdOfMatchupWinner(matchup1)
+        response2 = getTeamIdOfMatchupWinner(matchup2)
 
         self.assertIsInstance(response1, str)
         self.assertIsInstance(response2, str)
@@ -48,7 +48,7 @@ class TestMatchupNavigator(unittest.TestCase):
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=3, teamBScore=4,
                            matchupType=MatchupType.PLAYOFF, teamBHasTiebreaker=True, multiWeekMatchupId="1")
 
-        response = MatchupNavigator.simplifyMultiWeekMatchups([matchup1, matchup2])
+        response = simplifyMultiWeekMatchups_([matchup1, matchup2])
 
         self.assertIsInstance(response, Matchup)
         self.assertEqual(teams[0].id, response.teamAId)
@@ -61,7 +61,7 @@ class TestMatchupNavigator(unittest.TestCase):
 
     def test_simplifyMultiWeekMatchups_emptyListGiven_raisesException(self):
         with self.assertRaises(ValueError) as context:
-            MatchupNavigator.simplifyMultiWeekMatchups(list())
+            simplifyMultiWeekMatchups_(list())
         self.assertEqual("matchups cannot be an empty list.", str(context.exception))
 
     def test_getMedianScore_happyPath(self):
@@ -70,7 +70,7 @@ class TestMatchupNavigator(unittest.TestCase):
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
 
-        response = MatchupNavigator.getMedianScore([matchup1, matchup2])
+        response = getMedianScore([matchup1, matchup2])
 
         self.assertIsInstance(response, float)
         self.assertEqual(2.5, response)
