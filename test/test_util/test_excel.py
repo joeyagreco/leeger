@@ -377,7 +377,7 @@ class TestExcel(unittest.TestCase):
             self.assertEqual("2001 Teams", workbook.sheetnames[2])
             self.assertEqual("2001 Matchups", workbook.sheetnames[3])
 
-            # test worksheet values
+            # test team worksheet values
             worksheet2000 = workbook["2000 Teams"]
             worksheet2000Values = [
                 ["Team", "Games Played", "Wins", "Losses", "Ties", "Win Percentage", "WAL",
@@ -410,6 +410,22 @@ class TestExcel(unittest.TestCase):
             self.assertEqual("Include Multi-Week Matchups: True", worksheet2000["A12"].value)
             self.assertIsNone(worksheet2000["A13"].value)
 
+            # test matchup worksheet values
+            worksheet = workbook["2000 Matchups"]
+
+            worksheet2000MatchupValues = [
+                ["Team For", "Team Against", "Week Number", "Matchup Type", "Points For", "Points Against"],
+                ["a1", "b1", 1, "REGULAR_SEASON", 1, 2],
+                ["b1", "a1", 1, "REGULAR_SEASON", 2, 1]
+            ]
+            for rowNumber in range(1, 4):
+                values = worksheet2000MatchupValues[rowNumber - 1]
+                for columnNumber, value in enumerate(values):
+                    cell = f"{get_column_letter(columnNumber + 1)}{rowNumber}"
+                    self.assertEqual(values[columnNumber], worksheet[cell].value)
+            # check that "next" cell is empty
+            self.assertIsNone(worksheet["A4"].value)
+
             worksheet2001 = workbook["2001 Teams"]
             worksheet2001Values = [
                 ["Team", "Games Played", "Wins", "Losses", "Ties", "Win Percentage", "WAL",
@@ -432,6 +448,37 @@ class TestExcel(unittest.TestCase):
                     self.assertEqual(values[columnNumber], worksheet2001[cell].value)
             # check that "next" cell is empty
             self.assertIsNone(worksheet2001["A4"].value)
+
+            # test matchup worksheet values
+            worksheet = workbook["2001 Matchups"]
+
+            worksheet2001MatchupValues = [
+                ["Team For", "Team Against", "Week Number", "Matchup Type", "Points For", "Points Against"],
+                ["a2", "b2", 1, "REGULAR_SEASON", 1, 2],
+                ["b2", "a2", 1, "REGULAR_SEASON", 2, 1]
+            ]
+            for rowNumber in range(1, 4):
+                values = worksheet2001MatchupValues[rowNumber - 1]
+                for columnNumber, value in enumerate(values):
+                    cell = f"{get_column_letter(columnNumber + 1)}{rowNumber}"
+                    self.assertEqual(values[columnNumber], worksheet[cell].value)
+            # check that "next" cell is empty
+            self.assertIsNone(worksheet["A4"].value)
+
+            # check values
+            worksheet = workbook.worksheets[workbook.sheetnames.index("2000 Teams")]
+
+            statsWithTitles = yearStatSheet(year1).preferredOrderWithTitle()
+            for row, teamId in enumerate([team.id for team in year1.teams]):
+                for col, statWithTitle in enumerate(statsWithTitles):
+                    char = get_column_letter(col + 2)
+                    if row == 1:
+                        # check stat header
+                        self.assertEqual(statWithTitle[0], worksheet[f"{char}{row}"].value)
+                    # check stat value
+                    # due to Excel rounding values, we assert that the values are very, very close
+                    assert math.isclose(float(statWithTitle[1][teamId]), worksheet[f"{char}{row + 2}"].value,
+                                        rel_tol=0.000000000000001)
 
             worksheet = workbook.worksheets[workbook.sheetnames.index("2001 Teams")]
 
