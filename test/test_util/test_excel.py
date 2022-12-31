@@ -191,6 +191,38 @@ class TestExcel(unittest.TestCase):
             self.assertEqual("Only Championship: False", allTimeTeamsWorksheet["A17"].value)
             self.assertIsNone(allTimeTeamsWorksheet["A18"].value)
 
+            # test all time matchups worksheet values
+            allTimeMatchupsWorksheet = workbook["All Time Matchups"]
+
+            allTimeMatchupsValues = [
+                ["Team For", "Owner For", "Team Against", "Owner Against", "Year", "Week Number", "Matchup Type",
+                 "Points For", "Points Against"],
+                ["a", "1", "b", "2", 2000, 1, "REGULAR_SEASON", 1, 2],
+                ["b", "2", "a", "1", 2000, 1, "REGULAR_SEASON", 2, 1],
+                ["a2", "1", "b2", "2", 2001, 1, "REGULAR_SEASON", 1, 2],
+                ["b2", "2", "a2", "1", 2001, 1, "REGULAR_SEASON", 2, 1],
+                ["a3", "1", "b3", "2", 2002, 1, "REGULAR_SEASON", 1, 2],
+                ["b3", "2", "a3", "1", 2002, 1, "REGULAR_SEASON", 2, 1]
+            ]
+
+            for rowNumber in range(1, 8):
+                values = allTimeMatchupsValues[rowNumber - 1]
+                for columnNumber, value in enumerate(values):
+                    cell = f"{get_column_letter(columnNumber + 1)}{rowNumber}"
+                    self.assertEqual(values[columnNumber], allTimeMatchupsWorksheet[cell].value)
+            # check that "next" cell is empty
+            self.assertIsNone(allTimeMatchupsWorksheet["A8"].value)
+            # check legend
+            self.assertEqual("Filters Applied", allTimeMatchupsWorksheet["A10"].value)
+            self.assertEqual("Week Number Start: 1", allTimeMatchupsWorksheet["A11"].value)
+            self.assertEqual("Year Number Start: 2000", allTimeMatchupsWorksheet["A12"].value)
+            self.assertEqual("Week Number End: 1", allTimeMatchupsWorksheet["A13"].value)
+            self.assertEqual("Year Number End: 2002", allTimeMatchupsWorksheet["A14"].value)
+            self.assertEqual("Only Regular Season: False", allTimeMatchupsWorksheet["A15"].value)
+            self.assertEqual("Only Post Season: False", allTimeMatchupsWorksheet["A16"].value)
+            self.assertEqual("Only Championship: False", allTimeMatchupsWorksheet["A17"].value)
+            self.assertIsNone(allTimeMatchupsWorksheet["A18"].value)
+
             # test all time owners worksheet values
             allTimeOwnersWorksheet = workbook["All Time Owners"]
 
