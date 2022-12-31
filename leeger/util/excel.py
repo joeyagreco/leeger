@@ -104,7 +104,8 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
                         entityIdToColorMap=modifiedMatchupIdToColorMap,
                         legendKeyValues=allTimeFilters,
                         freezePanes="C2",
-                        saveToFilepath=filePath)
+                        saveToFilepath=filePath,
+                        boldColumnNumbers=[1, 2])
 
     # add All-Time owner stats sheet
     workbook = load_workbook(filename=filePath)
