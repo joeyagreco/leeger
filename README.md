@@ -11,6 +11,7 @@ Instant stats for your fantasy football league.
 ### Table of Contents
 
 - [Overview](https://github.com/joeyagreco/leeger#overview)
+- [Quickstart Guide](https://github.com/joeyagreco/leeger#quickstart-guide)
 - [FAQ](https://github.com/joeyagreco/leeger#faq)
 - [Installation](https://github.com/joeyagreco/leeger#installation)
 - [Supported League Loaders](https://github.com/joeyagreco/leeger#supported-league-loaders)
@@ -49,6 +50,50 @@ The main idea behind this library is:
 For guides on how to use this library, see the information
 under [Supported League Loaders](https://github.com/joeyagreco/leeger#supported-league-loaders) and
 in the [`example`](https://github.com/joeyagreco/leeger/tree/main/example) folder.
+
+## Quickstart Guide
+
+#### 1. Download Python
+
+- Download the latest _supported_ version of Python [here](https://www.python.org/downloads/release/python-3109/).
+- Currently, Python version 3.10+ is supported
+
+#### 2. Create a basic Python file to use this library
+
+- Create a file that ends in the extension ".py"
+   - Example: _my_script.py_
+
+#### 3. Download this library
+
+- Navigate in your terminal to the directory where you created your Python script in Step 2
+- Run the command `pip install leeger`
+   - If you do not have [pip](https://pip.pypa.io/en/stable/) installed, you will need to install it
+
+#### 4. Download your league data using a league loader
+
+- Find the site/s you use for fantasy football [here](https://github.com/joeyagreco/leeger#supported-league-loaders)
+- Follow the **Setup Documentation**
+- Once you have everything you need for your selected site/s, use the code examples
+  found [here](https://github.com/joeyagreco/leeger/tree/main/example/league_loader) for your specific site/s to
+  download your league data
+   - You can put the code inside the Python script you created in Step 2
+- If you have leagues that are continued in multiple sites, you can pull from multiple sites and add the League objects
+  together to combine the different sites
+   - An example of this can be
+     found [here](https://github.com/joeyagreco/leeger/blob/main/example/league/combiningLeagues.py)
+
+#### 5. Run your script
+
+- Navigate in your terminal to the directory where you created your Python script in Step 2
+- Run the command `py my_script.py`
+   - Replace _my_script.py_ with whatever you named your script in Step 2
+
+#### 6. Load your league stats into Excel
+
+- Slightly alter your script from Step 2 to include a function call to load your league stats into Excel
+- Follow [this example](https://github.com/joeyagreco/leeger/blob/main/example/stat/statsToExcelExample.py)
+- Make sure that you are passing the League object that you pulled from the league loader/s into the function call to
+  put your stats into Excel
 
 ## FAQ
 
