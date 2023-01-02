@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- N/A
+
+## [1.12.0]
+
 - Added Excel sheet for each matchup in a year
 - Added Excel sheet for each matchup in a league
 - Added legend to Excel sheets to show all filters applied to sheet
@@ -126,7 +130,9 @@ All notable changes to this project will be documented in this file.
 
 ### Initial Release
 
-[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.11.0...HEAD
+[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.12.0...HEAD
+
+[1.12.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.12.0
 
 [1.11.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.11.0
 
