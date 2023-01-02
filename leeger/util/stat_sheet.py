@@ -25,7 +25,6 @@ from leeger.calculator.year_calculator.SmartWinsYearCalculator import SmartWinsY
 from leeger.model.league import League, Year
 from leeger.model.stat.AllTimeStatSheet import AllTimeStatSheet
 from leeger.model.stat.YearStatSheet import YearStatSheet
-from leeger.util.navigator import LeagueNavigator
 
 
 def leagueStatSheet(league: League, **kwargs) -> AllTimeStatSheet:
@@ -181,32 +180,3 @@ def yearStatSheet(year: Year, **kwargs) -> YearStatSheet:
                          leagueMedianWins=leagueMedianWins, totalGames=totalGames,
                          opponentLeagueMedianWins=opponentLeagueMedianWins, maxScoringShare=maxScoringShare,
                          minScoringShare=minScoringShare, ownerNames=ownerNames, years=years)
-
-
-def allTimeTeamsStatSheet(league: League, **kwargs) -> list[tuple[str, dict]]:
-    allTimeTeamsStatsWithTitles: list[tuple[str, dict]] = list()
-    for year in league.years:
-        ownerNames: dict[str, str] = dict()
-        years: dict[str, int] = dict()
-        for team in year.teams:
-            ownerNames[team.id] = LeagueNavigator.getOwnerById(league, team.ownerId).name
-            years[team.id] = year.yearNumber
-        allTimeTeamsStatsWithTitles += yearStatSheet(year,
-                                                     ownerNames=ownerNames,
-                                                     years=years,
-                                                     **kwargs).preferredOrderWithTitle()
-
-    # condense stats with titles so there's only 1 list value for each title
-    condensedAllTimeTeamsStatsWithTitles: list[tuple[str, dict]] = list()
-    for titleStr, statsDict in allTimeTeamsStatsWithTitles:
-        allTitlesInCondensedList = list()
-        if len(condensedAllTimeTeamsStatsWithTitles) > 0:
-            allTitlesInCondensedList = [values[0] for values in condensedAllTimeTeamsStatsWithTitles]
-        if titleStr in allTitlesInCondensedList:
-            # add to stats dict for the existing title
-            for i, (title_s, stats_d) in enumerate(condensedAllTimeTeamsStatsWithTitles):
-                if title_s == titleStr:
-                    condensedAllTimeTeamsStatsWithTitles[i] = (title_s, stats_d | statsDict)
-        else:
-            condensedAllTimeTeamsStatsWithTitles.append((titleStr, statsDict))
-    return condensedAllTimeTeamsStatsWithTitles

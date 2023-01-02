@@ -1,8 +1,9 @@
 import copy
 
 from leeger.enum import MatchupType
+from leeger.exception import DoesNotExistException
 from leeger.model.filter.YearFilters import YearFilters
-from leeger.model.league import Matchup
+from leeger.model.league import Matchup, Team
 from leeger.model.league.Year import Year
 
 
@@ -12,8 +13,15 @@ class YearNavigator:
     """
 
     @staticmethod
-    def getAllTeamIds(year: Year, **kwargs) -> list[str]:
+    def getAllTeamIds(year: Year) -> list[str]:
         return [team.id for team in year.teams]
+
+    @staticmethod
+    def getTeamById(year: Year, teamId: str) -> Team:
+        for team in year.teams:
+            if team.id == teamId:
+                return team
+        raise DoesNotExistException(f"Team with ID {teamId} does not exist in the given Year.")
 
     @classmethod
     def getNumberOfGamesPlayed(cls,
