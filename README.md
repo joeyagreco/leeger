@@ -11,6 +11,7 @@ Instant stats for your fantasy football league.
 ### Table of Contents
 
 - [Overview](https://github.com/joeyagreco/leeger#overview)
+- [Quickstart Guide](https://github.com/joeyagreco/leeger#quickstart-guide)
 - [FAQ](https://github.com/joeyagreco/leeger#faq)
 - [Installation](https://github.com/joeyagreco/leeger#installation)
 - [Supported League Loaders](https://github.com/joeyagreco/leeger#supported-league-loaders)
