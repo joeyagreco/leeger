@@ -6,7 +6,6 @@ from typing import Optional
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception import InvalidMatchupFormatException
 from leeger.model.abstract.UniqueId import UniqueId
-from leeger.model.league import Matchup
 from leeger.util.CustomLogger import CustomLogger
 from leeger.util.JSONSerializable import JSONSerializable
 
@@ -37,10 +36,11 @@ class Performance(UniqueId, JSONSerializable):
                 self.__LOGGER.warning(f"Returning True for equality check when {notEqualStrings} are not equal.")
         return equal
 
-    def __add__(self, otherPerformance: Performance) -> Matchup:
+    def __add__(self, otherPerformance: Performance):
         """
         Adding 2 Performances together will give you a Matchup.
         """
+        from leeger.model.league import Matchup
         if self.matchupType != otherPerformance.matchupType:
             raise InvalidMatchupFormatException(
                 f"Cannot make a matchup from conflicting matchup types '{self.matchupType}' and '{otherPerformance.matchupType}'")
