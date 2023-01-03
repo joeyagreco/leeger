@@ -6,6 +6,7 @@ from typing import Optional
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception.InvalidMatchupFormatException import InvalidMatchupFormatException
 from leeger.model.abstract.UniqueId import UniqueId
+from leeger.model.league_helper.Performance import Performance
 from leeger.util.CustomLogger import CustomLogger
 from leeger.util.JSONSerializable import JSONSerializable
 
@@ -48,6 +49,20 @@ class Matchup(UniqueId, JSONSerializable):
                 self.__LOGGER.warning(f"Returning True for equality check when {notEqualStrings} are not equal.")
         return equal
 
+    def splitToPerformances(self) -> tuple[Performance, Performance]:
+        """
+        Splits this Matchup into 2 Performances.
+        """
+        performanceA = Performance(teamId=self.teamAId,
+                                   teamScore=self.teamAScore,
+                                   matchupType=self.matchupType,
+                                   multiWeekMatchupId=self.multiWeekMatchupId)
+        performanceB = Performance(teamId=self.teamBId,
+                                   teamScore=self.teamBScore,
+                                   matchupType=self.matchupType,
+                                   multiWeekMatchupId=self.multiWeekMatchupId)
+        return performanceA, performanceB
+
     def toJson(self) -> dict:
         return {
             "id": self.id,
@@ -57,5 +72,6 @@ class Matchup(UniqueId, JSONSerializable):
             "teamBScore": self.teamBScore,
             "matchupType": self.matchupType.name,
             "teamAHasTieBreaker": self.teamAHasTiebreaker,
-            "teamBHasTieBreaker": self.teamBHasTiebreaker
+            "teamBHasTieBreaker": self.teamBHasTiebreaker,
+            "multiWeekMatchupId": self.multiWeekMatchupId
         }
