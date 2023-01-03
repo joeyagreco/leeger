@@ -1,6 +1,7 @@
 import unittest
 
 from leeger.enum.MatchupType import MatchupType
+from leeger.exception import DoesNotExistException
 from leeger.exception.InvalidMatchupFormatException import InvalidMatchupFormatException
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league_helper.Performance import Performance
@@ -143,3 +144,31 @@ class TestMatchup(unittest.TestCase):
         self.assertEqual(MatchupType.REGULAR_SEASON, responseB.matchupType)
         self.assertEqual("1", responseA.multiWeekMatchupId)
         self.assertEqual("1", responseB.multiWeekMatchupId)
+
+    def test_getPerformanceForTeamId_happyPath(self):
+        matchup = Matchup(teamAId="1",
+                          teamBId="2",
+                          teamAScore=1.1,
+                          teamBScore=2.2,
+                          multiWeekMatchupId="1",
+                          matchupType=MatchupType.REGULAR_SEASON)
+
+        response = matchup.getPerformanceForTeamId("1")
+
+        self.assertIsInstance(response, Performance)
+        self.assertEqual("1", response.teamId)
+        self.assertEqual(1.1, response.teamScore)
+        self.assertEqual("1", response.multiWeekMatchupId)
+        self.assertEqual(MatchupType.REGULAR_SEASON, response.matchupType)
+
+    def test_getPerformanceForTeamId_teamIdNotInMatchup_raisesException(self):
+        matchup = Matchup(teamAId="1",
+                          teamBId="2",
+                          teamAScore=1.1,
+                          teamBScore=2.2,
+                          multiWeekMatchupId="1",
+                          matchupType=MatchupType.REGULAR_SEASON)
+
+        with self.assertRaises(DoesNotExistException) as context:
+            matchup.getPerformanceForTeamId("3")
+        self.assertEqual("Matchup does not have a team with ID '3'.", str(context.exception))

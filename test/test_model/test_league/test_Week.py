@@ -181,4 +181,4 @@ class TestWeek(unittest.TestCase):
 
         with self.assertRaises(DoesNotExistException) as context:
             week.getMatchupWithTeamId("bad ID")
-        self.assertEqual("Week does not have a matchup with team ID 'bad ID'", str(context.exception))
+        self.assertEqual("Week does not have a matchup with team ID 'bad ID'.", str(context.exception))

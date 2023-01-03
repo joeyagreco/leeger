@@ -42,7 +42,7 @@ class Year(UniqueId, JSONSerializable):
         for team in self.teams:
             if team.name == teamName:
                 return team
-        raise DoesNotExistException(f"Year does not have a team with name '{teamName}'")
+        raise DoesNotExistException(f"Year does not have a team with name '{teamName}'.")
 
     def getWeekByWeekNumber(self, weekNumber: int) -> Week:
         """
@@ -51,7 +51,7 @@ class Year(UniqueId, JSONSerializable):
         for week in self.weeks:
             if week.weekNumber == weekNumber:
                 return week
-        raise DoesNotExistException(f"Year does not have a week with week number {weekNumber}")
+        raise DoesNotExistException(f"Year does not have a week with week number {weekNumber}.")
 
     def toJson(self) -> dict:
         return {

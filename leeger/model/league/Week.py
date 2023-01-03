@@ -57,7 +57,7 @@ class Week(UniqueId, JSONSerializable):
         for matchup in self.matchups:
             if matchup.teamAId == teamId or matchup.teamBId == teamId:
                 return matchup
-        raise DoesNotExistException(f"Week does not have a matchup with team ID '{teamId}'")
+        raise DoesNotExistException(f"Week does not have a matchup with team ID '{teamId}'.")
 
     def toJson(self) -> dict:
         return {

@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from typing import Optional
 
 from leeger.enum.MatchupType import MatchupType
+from leeger.exception import DoesNotExistException
 from leeger.exception.InvalidMatchupFormatException import InvalidMatchupFormatException
 from leeger.model.abstract.UniqueId import UniqueId
 from leeger.model.league_helper.Performance import Performance
@@ -62,6 +63,13 @@ class Matchup(UniqueId, JSONSerializable):
                                    matchupType=self.matchupType,
                                    multiWeekMatchupId=self.multiWeekMatchupId)
         return performanceA, performanceB
+
+    def getPerformanceForTeamId(self, teamId: str) -> Performance:
+        performances = self.splitToPerformances()
+        for performance in performances:
+            if performance.teamId == teamId:
+                return performance
+        raise DoesNotExistException(f"Matchup does not have a team with ID '{teamId}'.")
 
     def toJson(self) -> dict:
         return {
