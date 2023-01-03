@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from leeger.enum.MatchupType import MatchupType
+from leeger.exception import DoesNotExistException
 from leeger.model.abstract.UniqueId import UniqueId
 from leeger.model.league.Matchup import Matchup
 from leeger.util.JSONSerializable import JSONSerializable
@@ -48,6 +49,15 @@ class Week(UniqueId, JSONSerializable):
                 isRegularSeasonWeek = False
                 break
         return isRegularSeasonWeek
+
+    def getMatchupWithTeamId(self, teamId: str) -> Matchup:
+        """
+        Returns the Matchup that the team with the given ID is playing in.
+        """
+        for matchup in self.matchups:
+            if matchup.teamAId == teamId or matchup.teamBId == teamId:
+                return matchup
+        raise DoesNotExistException(f"Week does not have a matchup with team ID '{teamId}'")
 
     def toJson(self) -> dict:
         return {
