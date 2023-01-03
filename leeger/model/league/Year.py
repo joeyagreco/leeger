@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from leeger.exception import DoesNotExistException
 from leeger.model.abstract.UniqueId import UniqueId
 from leeger.model.league.Team import Team
 from leeger.model.league.Week import Week
@@ -33,6 +34,15 @@ class Year(UniqueId, JSONSerializable):
         equal = equal and self.weeks == otherYear.weeks
         equal = equal and self.yearSettings == otherYear.yearSettings
         return equal
+
+    def getTeam(self, teamName: str) -> Team:
+        """
+        Returns the Team with the given team name.
+        """
+        for team in self.teams:
+            if team.name == teamName:
+                return team
+        raise DoesNotExistException(f"Year does not have a team with name '{teamName}'")
 
     def toJson(self) -> dict:
         return {
