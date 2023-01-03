@@ -125,8 +125,8 @@ class ESPNLeagueLoader(LeagueLoader):
                 # TODO: Raise specific exception here if not found in map
                 if weekNumber == espnLeague.settings.reg_season_count + numberOfPlayoffWeeks:
                     # this is the championship week
-                    # figure out if this team has lost in the playoffs yet
-                    playoffOutcomes = espnTeam.outcomes[-numberOfPlayoffWeeks:]
+                    # figure out if this team has lost in the playoffs before this week
+                    playoffOutcomes = espnTeam.outcomes[-numberOfPlayoffWeeks:-1]
                     hasLostInPlayoffs = playoffOutcomes.count(self.__ESPN_WIN_OUTCOME) != len(playoffOutcomes)
                     if hasLostInPlayoffs:
                         return MatchupType.PLAYOFF

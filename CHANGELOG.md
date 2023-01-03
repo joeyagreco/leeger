@@ -6,6 +6,10 @@ All notable changes to this project will be documented in this file.
 
 - N/A
 
+## [1.12.1]
+
+- Fixed bug in the ESPN League Loader where championship weeks could not be added
+
 ## [1.12.0]
 
 - Added Excel sheet for each matchup in a year
