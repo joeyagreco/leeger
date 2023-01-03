@@ -106,6 +106,15 @@ class League(UniqueId, JSONSerializable):
                 return year
         raise DoesNotExistException(f"League does not have a year with year number {yearNumber}")
 
+    def getOwner(self, ownerName: str) -> Owner:
+        """
+        Returns the Owner with the given name.
+        """
+        for owner in self.owners:
+            if owner.name == ownerName:
+                return owner
+        raise DoesNotExistException(f"League does not have an owner with name '{ownerName}'")
+
     def toJson(self) -> dict:
         return {
             "id": self.id,

@@ -352,3 +352,29 @@ class TestLeague(unittest.TestCase):
         with self.assertRaises(DoesNotExistException) as context:
             league.getYear(2001)
         self.assertEqual("League does not have a year with year number 2001", str(context.exception))
+
+    def test_getOwner_happyPath(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        owners[0].name = "owner0"
+        matchup_1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
+                            matchupType=MatchupType.REGULAR_SEASON)
+        week_1 = Week(weekNumber=1, matchups=[matchup_1])
+        year_1 = Year(yearNumber=2000, teams=teams, weeks=[week_1])
+        league = League(name="LEAGUE", owners=owners, years=[year_1])
+
+        response = league.getOwner("owner0")
+        self.assertEqual(owners[0], response)
+
+    def test_getOwner_ownerNotInLeague_raisesException(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup_1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
+                            matchupType=MatchupType.REGULAR_SEASON)
+        week_1 = Week(weekNumber=1, matchups=[matchup_1])
+        year_1 = Year(yearNumber=2000, teams=teams, weeks=[week_1])
+        league = League(name="LEAGUE", owners=owners, years=[year_1])
+
+        with self.assertRaises(DoesNotExistException) as context:
+            league.getOwner("owner0")
+        self.assertEqual("League does not have an owner with name 'owner0'", str(context.exception))
