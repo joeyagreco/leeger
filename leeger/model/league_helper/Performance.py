@@ -38,7 +38,10 @@ class Performance(UniqueId, JSONSerializable):
 
     def __add__(self, otherPerformance: Performance):
         """
-        Adding 2 Performances together will give you a Matchup.
+        Adds 2 Performances together.
+        
+        Returns:
+            leeger.model.league.Matchup
         """
         from leeger.model.league import Matchup
         from leeger.validate import matchupValidation
