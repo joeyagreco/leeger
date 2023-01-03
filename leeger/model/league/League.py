@@ -97,7 +97,7 @@ class League(UniqueId, JSONSerializable):
         leagueValidation.runAllChecks(newLeague)
         return newLeague
 
-    def getYear(self, yearNumber: int) -> Year:
+    def getYearByYearNumber(self, yearNumber: int) -> Year:
         """
         Returns the Year with the given year number.
         """
@@ -106,7 +106,7 @@ class League(UniqueId, JSONSerializable):
                 return year
         raise DoesNotExistException(f"League does not have a year with year number {yearNumber}")
 
-    def getOwner(self, ownerName: str) -> Owner:
+    def getOwnerByName(self, ownerName: str) -> Owner:
         """
         Returns the Owner with the given name.
         """

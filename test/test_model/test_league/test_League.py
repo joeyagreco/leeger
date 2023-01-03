@@ -328,7 +328,7 @@ class TestLeague(unittest.TestCase):
         self.assertFalse(leagueJson["years"][0]["weeks"][0]["matchups"][0]["teamAHasTieBreaker"])
         self.assertFalse(leagueJson["years"][0]["weeks"][0]["matchups"][0]["teamBHasTieBreaker"])
 
-    def test_getYear_happyPath(self):
+    def test_getYearByYearNumber_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup_1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
@@ -337,10 +337,10 @@ class TestLeague(unittest.TestCase):
         year_1 = Year(yearNumber=2000, teams=teams, weeks=[week_1])
         league = League(name="LEAGUE", owners=owners, years=[year_1])
 
-        response = league.getYear(2000)
+        response = league.getYearByYearNumber(2000)
         self.assertEqual(year_1, response)
 
-    def test_getYear_yearNotInLeague_raisesException(self):
+    def test_getYearByYearNumber_yearNotInLeague_raisesException(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup_1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
@@ -350,10 +350,10 @@ class TestLeague(unittest.TestCase):
         league = League(name="LEAGUE", owners=owners, years=[year_1])
 
         with self.assertRaises(DoesNotExistException) as context:
-            league.getYear(2001)
+            league.getYearByYearNumber(2001)
         self.assertEqual("League does not have a year with year number 2001", str(context.exception))
 
-    def test_getOwner_happyPath(self):
+    def test_getOwnerByName_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         owners[0].name = "owner0"
@@ -363,10 +363,10 @@ class TestLeague(unittest.TestCase):
         year_1 = Year(yearNumber=2000, teams=teams, weeks=[week_1])
         league = League(name="LEAGUE", owners=owners, years=[year_1])
 
-        response = league.getOwner("owner0")
+        response = league.getOwnerByName("owner0")
         self.assertEqual(owners[0], response)
 
-    def test_getOwner_ownerNotInLeague_raisesException(self):
+    def test_getOwnerByName_ownerNotInLeague_raisesException(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup_1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
@@ -376,5 +376,5 @@ class TestLeague(unittest.TestCase):
         league = League(name="LEAGUE", owners=owners, years=[year_1])
 
         with self.assertRaises(DoesNotExistException) as context:
-            league.getOwner("owner0")
+            league.getOwnerByName("owner0")
         self.assertEqual("League does not have an owner with name 'owner0'", str(context.exception))

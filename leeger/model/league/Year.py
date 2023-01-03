@@ -35,7 +35,7 @@ class Year(UniqueId, JSONSerializable):
         equal = equal and self.yearSettings == otherYear.yearSettings
         return equal
 
-    def getTeam(self, teamName: str) -> Team:
+    def getTeamByName(self, teamName: str) -> Team:
         """
         Returns the Team with the given team name.
         """

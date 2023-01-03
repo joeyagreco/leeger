@@ -103,7 +103,7 @@ class TestYear(unittest.TestCase):
         self.assertFalse(yearJson["weeks"][0]["matchups"][0]["teamBHasTieBreaker"])
         self.assertTrue(yearJson["yearSettings"]["leagueMedianGames"])
 
-    def test_getTeam_happyPath(self):
+    def test_getTeamByName_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         teams[0].name = "team0"
@@ -112,10 +112,10 @@ class TestYear(unittest.TestCase):
         week_1 = Week(weekNumber=1, matchups=[matchup_1])
         year = Year(yearNumber=2000, teams=teams, weeks=[week_1])
 
-        response = year.getTeam("team0")
+        response = year.getTeamByName("team0")
         self.assertEqual(teams[0], response)
 
-    def test_getTeam_teamNotInYear_raisesException(self):
+    def test_getTeamByName_teamNotInYear_raisesException(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup_1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
@@ -124,5 +124,5 @@ class TestYear(unittest.TestCase):
         year = Year(yearNumber=2000, teams=teams, weeks=[week_1])
 
         with self.assertRaises(DoesNotExistException) as context:
-            year.getTeam("team0")
+            year.getTeamByName("team0")
         self.assertEqual("Year does not have a team with name 'team0'", str(context.exception))
