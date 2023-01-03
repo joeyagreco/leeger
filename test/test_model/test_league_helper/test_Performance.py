@@ -1,6 +1,8 @@
 import unittest
 
 from leeger.enum.MatchupType import MatchupType
+from leeger.exception import InvalidMatchupFormatException
+from leeger.model.league import Matchup
 from leeger.model.league_helper.Performance import Performance
 from test.helper.prototypes import getNDefaultOwnersAndTeams
 
@@ -87,26 +89,77 @@ class TestPerformance(unittest.TestCase):
         self.assertEqual("PLAYOFF", performanceJson["matchupType"])
         self.assertTrue(performanceJson["hasTiebreaker"])
         self.assertEqual("id", performanceJson["multiWeekMatchupId"])
-    #
-    # def test_splitToPerformances_happyPath(self):
-    #     owners, teams = getNDefaultOwnersAndTeams(2)
-    #
-    #     matchup = Matchup(teamAId=teams[0].id,
-    #                       teamBId=teams[1].id,
-    #                       teamAScore=1.1,
-    #                       teamBScore=2.2,
-    #                       multiWeekMatchupId="1",
-    #                       matchupType=MatchupType.REGULAR_SEASON)
-    #
-    #     responseA, responseB = matchup.splitToPerformances()
-    #
-    #     self.assertIsInstance(responseA, Performance)
-    #     self.assertIsInstance(responseB, Performance)
-    #     self.assertEqual(teams[0].id, responseA.teamId)
-    #     self.assertEqual(teams[1].id, responseB.teamId)
-    #     self.assertEqual(1.1, responseA.teamScore)
-    #     self.assertEqual(2.2, responseB.teamScore)
-    #     self.assertEqual(MatchupType.REGULAR_SEASON, responseA.matchupType)
-    #     self.assertEqual(MatchupType.REGULAR_SEASON, responseB.matchupType)
-    #     self.assertEqual("1", responseA.multiWeekMatchupId)
-    #     self.assertEqual("1", responseB.multiWeekMatchupId)
+
+    def test_performance_add_happyPath(self):
+        performance_1 = Performance(
+            teamId="team1Id",
+            teamScore=1.1,
+            matchupType=MatchupType.REGULAR_SEASON,
+            hasTiebreaker=True,
+            multiWeekMatchupId="id"
+        )
+
+        performance_2 = Performance(
+            teamId="team2Id",
+            teamScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+            hasTiebreaker=True,
+            multiWeekMatchupId="id"
+        )
+
+        response = performance_1 + performance_2
+        self.assertIsInstance(response, Matchup)
+        self.assertEqual("team1Id", response.teamAId)
+        self.assertEqual("team2Id", response.teamBId)
+        self.assertEqual(1.1, response.teamAScore)
+        self.assertEqual(2.2, response.teamBScore)
+        self.assertEqual(MatchupType.REGULAR_SEASON, response.matchupType)
+        self.assertFalse(response.teamAHasTiebreaker)
+        self.assertFalse(response.teamBHasTiebreaker)
+        self.assertEqual("id", response.multiWeekMatchupId)
+
+    def test_performance_add_performancesHaveDifferentMatchupTypes_raisesException(self):
+        performance_1 = Performance(
+            teamId="team1Id",
+            teamScore=1.1,
+            matchupType=MatchupType.PLAYOFF,
+            hasTiebreaker=True,
+            multiWeekMatchupId="id"
+        )
+
+        performance_2 = Performance(
+            teamId="team2Id",
+            teamScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+            hasTiebreaker=True,
+            multiWeekMatchupId="id"
+        )
+
+        with self.assertRaises(InvalidMatchupFormatException) as context:
+            performance_1 + performance_2
+        self.assertEqual(
+            "Cannot make a matchup from conflicting matchup types 'MatchupType.PLAYOFF' and 'MatchupType.REGULAR_SEASON'.",
+            str(context.exception))
+
+    def test_performance_add_performancesHaveDifferentMultiWeekMatchupIds_raisesException(self):
+        performance_1 = Performance(
+            teamId="team1Id",
+            teamScore=1.1,
+            matchupType=MatchupType.REGULAR_SEASON,
+            hasTiebreaker=True,
+            multiWeekMatchupId=None
+        )
+
+        performance_2 = Performance(
+            teamId="team2Id",
+            teamScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+            hasTiebreaker=True,
+            multiWeekMatchupId="id"
+        )
+
+        with self.assertRaises(InvalidMatchupFormatException) as context:
+            performance_1 + performance_2
+        self.assertEqual(
+            "Cannot make a matchup from conflicting multi-week matchup IDs 'None' and 'id'.",
+            str(context.exception))
