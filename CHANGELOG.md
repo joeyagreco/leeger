@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- N/A
+
+## [1.13.0]
+
 - Added Performance model to represent a Team's performance in a given week
 - Added method to get a Year by year number to League model
 - Added method to get a Team by name to Year model
@@ -142,7 +146,9 @@ All notable changes to this project will be documented in this file.
 
 ### Initial Release
 
-[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.12.0...HEAD
+[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.13.0...HEAD
+
+[1.13.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.13.0
 
 [1.12.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.12.0
 
