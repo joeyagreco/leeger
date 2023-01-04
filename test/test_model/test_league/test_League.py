@@ -2,6 +2,7 @@ import copy
 import unittest
 
 from leeger.enum.MatchupType import MatchupType
+from leeger.exception import DoesNotExistException
 from leeger.exception.InvalidLeagueFormatException import InvalidLeagueFormatException
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup
@@ -326,3 +327,54 @@ class TestLeague(unittest.TestCase):
         self.assertEqual("REGULAR_SEASON", leagueJson["years"][0]["weeks"][0]["matchups"][0]["matchupType"])
         self.assertFalse(leagueJson["years"][0]["weeks"][0]["matchups"][0]["teamAHasTieBreaker"])
         self.assertFalse(leagueJson["years"][0]["weeks"][0]["matchups"][0]["teamBHasTieBreaker"])
+
+    def test_getYearByYearNumber_happyPath(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup_1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
+                            matchupType=MatchupType.REGULAR_SEASON)
+        week_1 = Week(weekNumber=1, matchups=[matchup_1])
+        year_1 = Year(yearNumber=2000, teams=teams, weeks=[week_1])
+        league = League(name="LEAGUE", owners=owners, years=[year_1])
+
+        response = league.getYearByYearNumber(2000)
+        self.assertEqual(year_1, response)
+
+    def test_getYearByYearNumber_yearNotInLeague_raisesException(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup_1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
+                            matchupType=MatchupType.REGULAR_SEASON)
+        week_1 = Week(weekNumber=1, matchups=[matchup_1])
+        year_1 = Year(yearNumber=2000, teams=teams, weeks=[week_1])
+        league = League(name="LEAGUE", owners=owners, years=[year_1])
+
+        with self.assertRaises(DoesNotExistException) as context:
+            league.getYearByYearNumber(2001)
+        self.assertEqual("League does not have a year with year number 2001", str(context.exception))
+
+    def test_getOwnerByName_happyPath(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        owners[0].name = "owner0"
+        matchup_1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
+                            matchupType=MatchupType.REGULAR_SEASON)
+        week_1 = Week(weekNumber=1, matchups=[matchup_1])
+        year_1 = Year(yearNumber=2000, teams=teams, weeks=[week_1])
+        league = League(name="LEAGUE", owners=owners, years=[year_1])
+
+        response = league.getOwnerByName("owner0")
+        self.assertEqual(owners[0], response)
+
+    def test_getOwnerByName_ownerNotInLeague_raisesException(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup_1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
+                            matchupType=MatchupType.REGULAR_SEASON)
+        week_1 = Week(weekNumber=1, matchups=[matchup_1])
+        year_1 = Year(yearNumber=2000, teams=teams, weeks=[week_1])
+        league = League(name="LEAGUE", owners=owners, years=[year_1])
+
+        with self.assertRaises(DoesNotExistException) as context:
+            league.getOwnerByName("owner0")
+        self.assertEqual("League does not have an owner with name 'owner0'", str(context.exception))

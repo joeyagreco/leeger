@@ -1,6 +1,7 @@
 import unittest
 
 from leeger.enum.MatchupType import MatchupType
+from leeger.exception import DoesNotExistException
 from leeger.model.league import YearSettings
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Team import Team
@@ -101,3 +102,50 @@ class TestYear(unittest.TestCase):
         self.assertFalse(yearJson["weeks"][0]["matchups"][0]["teamAHasTieBreaker"])
         self.assertFalse(yearJson["weeks"][0]["matchups"][0]["teamBHasTieBreaker"])
         self.assertTrue(yearJson["yearSettings"]["leagueMedianGames"])
+
+    def test_getTeamByName_happyPath(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        teams[0].name = "team0"
+        matchup_1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
+                            matchupType=MatchupType.REGULAR_SEASON)
+        week_1 = Week(weekNumber=1, matchups=[matchup_1])
+        year = Year(yearNumber=2000, teams=teams, weeks=[week_1])
+
+        response = year.getTeamByName("team0")
+        self.assertEqual(teams[0], response)
+
+    def test_getTeamByName_teamNotInYear_raisesException(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup_1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
+                            matchupType=MatchupType.REGULAR_SEASON)
+        week_1 = Week(weekNumber=1, matchups=[matchup_1])
+        year = Year(yearNumber=2000, teams=teams, weeks=[week_1])
+
+        with self.assertRaises(DoesNotExistException) as context:
+            year.getTeamByName("team0")
+        self.assertEqual("Year does not have a team with name 'team0'.", str(context.exception))
+
+    def test_getWeekByWeekNumber_happyPath(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup_1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
+                            matchupType=MatchupType.REGULAR_SEASON)
+        week_1 = Week(weekNumber=1, matchups=[matchup_1])
+        year = Year(yearNumber=2000, teams=teams, weeks=[week_1])
+
+        response = year.getWeekByWeekNumber(1)
+        self.assertEqual(week_1, response)
+
+    def test_getWeekByWeekNumber_teamNotInYear_raisesException(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup_1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
+                            matchupType=MatchupType.REGULAR_SEASON)
+        week_1 = Week(weekNumber=1, matchups=[matchup_1])
+        year = Year(yearNumber=2000, teams=teams, weeks=[week_1])
+
+        with self.assertRaises(DoesNotExistException) as context:
+            year.getWeekByWeekNumber(2)
+        self.assertEqual("Year does not have a week with week number 2.", str(context.exception))

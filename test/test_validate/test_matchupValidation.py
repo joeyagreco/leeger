@@ -11,14 +11,20 @@ class TestMatchupValidation(unittest.TestCase):
     def test_checkForIllegalMatchupOutcomes_playoffMatchupIsTie_raisesException(self):
         with self.assertRaises(InvalidMatchupFormatException) as context:
             matchupValidation.checkForIllegalMatchupOutcomes(
-                Matchup(teamAId="", teamBId="", teamAScore=1, teamBScore=1, matchupType=MatchupType.PLAYOFF))
+                Matchup(teamAId="a", teamBId="b", teamAScore=1, teamBScore=1, matchupType=MatchupType.PLAYOFF))
         self.assertEqual("Playoff and Championship matchups cannot end in a tie.", str(context.exception))
 
     def test_checkForIllegalMatchupOutcomes_championshipMatchupIsTie_raisesException(self):
         with self.assertRaises(InvalidMatchupFormatException) as context:
             matchupValidation.checkForIllegalMatchupOutcomes(
-                Matchup(teamAId="", teamBId="", teamAScore=1, teamBScore=1, matchupType=MatchupType.CHAMPIONSHIP))
+                Matchup(teamAId="a", teamBId="b", teamAScore=1, teamBScore=1, matchupType=MatchupType.CHAMPIONSHIP))
         self.assertEqual("Playoff and Championship matchups cannot end in a tie.", str(context.exception))
+
+    def test_checkThatTeamIdsAreNotTheSame_teamAIdAndTeamBIdAreTheSame_raisesException(self):
+        with self.assertRaises(InvalidMatchupFormatException) as context:
+            matchupValidation.checkThatTeamIdsAreNotTheSame(
+                Matchup(teamAId="a", teamBId="a", teamAScore=1, teamBScore=1, matchupType=MatchupType.CHAMPIONSHIP))
+        self.assertEqual("Team A and Team B cannot have the same ID.", str(context.exception))
 
     ####################
     # TYPE CHECK TESTS #

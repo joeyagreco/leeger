@@ -3,6 +3,7 @@ from __future__ import annotations
 import copy
 from dataclasses import dataclass
 
+from leeger.exception import DoesNotExistException
 from leeger.model.abstract.UniqueId import UniqueId
 from leeger.model.league.Owner import Owner
 from leeger.model.league.Year import Year
@@ -95,6 +96,24 @@ class League(UniqueId, JSONSerializable):
         # validate new league
         leagueValidation.runAllChecks(newLeague)
         return newLeague
+
+    def getYearByYearNumber(self, yearNumber: int) -> Year:
+        """
+        Returns the Year with the given year number.
+        """
+        for year in self.years:
+            if year.yearNumber == yearNumber:
+                return year
+        raise DoesNotExistException(f"League does not have a year with year number {yearNumber}")
+
+    def getOwnerByName(self, ownerName: str) -> Owner:
+        """
+        Returns the Owner with the given name.
+        """
+        for owner in self.owners:
+            if owner.name == ownerName:
+                return owner
+        raise DoesNotExistException(f"League does not have an owner with name '{ownerName}'")
 
     def toJson(self) -> dict:
         return {

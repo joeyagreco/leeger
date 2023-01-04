@@ -1,6 +1,7 @@
 import unittest
 
 from leeger.enum.MatchupType import MatchupType
+from leeger.exception import DoesNotExistException
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Week import Week
 from test.helper.prototypes import getNDefaultOwnersAndTeams
@@ -160,3 +161,24 @@ class TestWeek(unittest.TestCase):
         self.assertEqual("REGULAR_SEASON", weekJson["matchups"][0]["matchupType"])
         self.assertFalse(weekJson["matchups"][0]["teamAHasTieBreaker"])
         self.assertFalse(weekJson["matchups"][0]["teamBHasTieBreaker"])
+
+    def test_getMatchupWithTeamId_happyPath(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup_1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
+                            matchupType=MatchupType.REGULAR_SEASON)
+        week = Week(weekNumber=1, matchups=[matchup_1])
+
+        response = week.getMatchupWithTeamId(teams[0].id)
+        self.assertEqual(matchup_1, response)
+
+    def test_getMatchupWithTeamId_teamIdNotInMatchups_raisesException(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup_1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
+                            matchupType=MatchupType.REGULAR_SEASON)
+        week = Week(weekNumber=1, matchups=[matchup_1])
+
+        with self.assertRaises(DoesNotExistException) as context:
+            week.getMatchupWithTeamId("bad ID")
+        self.assertEqual("Week does not have a matchup with team ID 'bad ID'.", str(context.exception))

@@ -1,8 +1,10 @@
 import unittest
 
 from leeger.enum.MatchupType import MatchupType
+from leeger.exception import DoesNotExistException
 from leeger.exception.InvalidMatchupFormatException import InvalidMatchupFormatException
 from leeger.model.league.Matchup import Matchup
+from leeger.model.league_helper.Performance import Performance
 from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
@@ -60,12 +62,20 @@ class TestMatchup(unittest.TestCase):
     def test_matchup_eq_equal(self):
         # create Matchup 1
         _, teams_1 = getNDefaultOwnersAndTeams(2)
-        matchup_1 = Matchup(teamAId=teams_1[0].id, teamBId=teams_1[1].id, teamAScore=1.1, teamBScore=2.2,
+        matchup_1 = Matchup(teamAId=teams_1[0].id,
+                            teamBId=teams_1[1].id,
+                            teamAScore=1.1,
+                            teamBScore=2.2,
+                            multiWeekMatchupId="1",
                             matchupType=MatchupType.REGULAR_SEASON)
 
         # create Matchup 2
         _, teams_2 = getNDefaultOwnersAndTeams(2)
-        matchup_2 = Matchup(teamAId=teams_2[0].id, teamBId=teams_2[1].id, teamAScore=1.1, teamBScore=2.2,
+        matchup_2 = Matchup(teamAId=teams_2[0].id,
+                            teamBId=teams_2[1].id,
+                            teamAScore=1.1,
+                            teamBScore=2.2,
+                            multiWeekMatchupId="1",
                             matchupType=MatchupType.REGULAR_SEASON)
 
         self.assertEqual(matchup_1, matchup_2)
@@ -73,12 +83,20 @@ class TestMatchup(unittest.TestCase):
     def test_matchup_eq_notEqual(self):
         # create Matchup 1
         _, teams_1 = getNDefaultOwnersAndTeams(2)
-        matchup_1 = Matchup(teamAId=teams_1[0].id, teamBId=teams_1[1].id, teamAScore=1.1, teamBScore=2.2,
+        matchup_1 = Matchup(teamAId=teams_1[0].id,
+                            teamBId=teams_1[1].id,
+                            teamAScore=1.1,
+                            teamBScore=2.2,
+                            multiWeekMatchupId="1",
                             matchupType=MatchupType.REGULAR_SEASON)
 
         # create Matchup 2
         _, teams_2 = getNDefaultOwnersAndTeams(2)
-        matchup_2 = Matchup(teamAId=teams_2[0].id, teamBId=teams_2[1].id, teamAScore=1.1, teamBScore=2.2,
+        matchup_2 = Matchup(teamAId=teams_2[0].id,
+                            teamBId=teams_2[1].id,
+                            teamAScore=1.1,
+                            teamBScore=2.2,
+                            multiWeekMatchupId="1",
                             matchupType=MatchupType.PLAYOFF)
 
         self.assertNotEqual(matchup_1, matchup_2)
@@ -86,7 +104,11 @@ class TestMatchup(unittest.TestCase):
     def test_matchup_toJson(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
+        matchup = Matchup(teamAId=teams[0].id,
+                          teamBId=teams[1].id,
+                          teamAScore=1.1,
+                          teamBScore=2.2,
+                          multiWeekMatchupId="1",
                           matchupType=MatchupType.REGULAR_SEASON)
         matchupJson = matchup.toJson()
 
@@ -98,3 +120,55 @@ class TestMatchup(unittest.TestCase):
         self.assertEqual("REGULAR_SEASON", matchupJson["matchupType"])
         self.assertFalse(matchupJson["teamAHasTieBreaker"])
         self.assertFalse(matchupJson["teamBHasTieBreaker"])
+        self.assertEqual("1", matchupJson["multiWeekMatchupId"])
+
+    def test_splitToPerformances_happyPath(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup = Matchup(teamAId=teams[0].id,
+                          teamBId=teams[1].id,
+                          teamAScore=1.1,
+                          teamBScore=2.2,
+                          multiWeekMatchupId="1",
+                          matchupType=MatchupType.REGULAR_SEASON)
+
+        responseA, responseB = matchup.splitToPerformances()
+
+        self.assertIsInstance(responseA, Performance)
+        self.assertIsInstance(responseB, Performance)
+        self.assertEqual(teams[0].id, responseA.teamId)
+        self.assertEqual(teams[1].id, responseB.teamId)
+        self.assertEqual(1.1, responseA.teamScore)
+        self.assertEqual(2.2, responseB.teamScore)
+        self.assertEqual(MatchupType.REGULAR_SEASON, responseA.matchupType)
+        self.assertEqual(MatchupType.REGULAR_SEASON, responseB.matchupType)
+        self.assertEqual("1", responseA.multiWeekMatchupId)
+        self.assertEqual("1", responseB.multiWeekMatchupId)
+
+    def test_getPerformanceForTeamId_happyPath(self):
+        matchup = Matchup(teamAId="1",
+                          teamBId="2",
+                          teamAScore=1.1,
+                          teamBScore=2.2,
+                          multiWeekMatchupId="1",
+                          matchupType=MatchupType.REGULAR_SEASON)
+
+        response = matchup.getPerformanceForTeamId("1")
+
+        self.assertIsInstance(response, Performance)
+        self.assertEqual("1", response.teamId)
+        self.assertEqual(1.1, response.teamScore)
+        self.assertEqual("1", response.multiWeekMatchupId)
+        self.assertEqual(MatchupType.REGULAR_SEASON, response.matchupType)
+
+    def test_getPerformanceForTeamId_teamIdNotInMatchup_raisesException(self):
+        matchup = Matchup(teamAId="1",
+                          teamBId="2",
+                          teamAScore=1.1,
+                          teamBScore=2.2,
+                          multiWeekMatchupId="1",
+                          matchupType=MatchupType.REGULAR_SEASON)
+
+        with self.assertRaises(DoesNotExistException) as context:
+            matchup.getPerformanceForTeamId("3")
+        self.assertEqual("Matchup does not have a team with ID '3'.", str(context.exception))

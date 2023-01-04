@@ -9,6 +9,7 @@ def runAllChecks(matchup: Matchup) -> None:
     """
     checkAllTypes(matchup)
     checkForIllegalMatchupOutcomes(matchup)
+    checkThatTeamIdsAreNotTheSame(matchup)
 
 
 def checkAllTypes(matchup: Matchup) -> None:
@@ -41,3 +42,11 @@ def checkForIllegalMatchupOutcomes(matchup: Matchup) -> None:
     if matchup.matchupType in [MatchupType.PLAYOFF,
                                MatchupType.CHAMPIONSHIP] and MatchupNavigator.getTeamIdOfMatchupWinner(matchup) is None:
         raise InvalidMatchupFormatException("Playoff and Championship matchups cannot end in a tie.")
+
+
+def checkThatTeamIdsAreNotTheSame(matchup: Matchup) -> None:
+    """
+    Checks that team A and team B have different IDs
+    """
+    if matchup.teamAId == matchup.teamBId:
+        raise InvalidMatchupFormatException("Team A and Team B cannot have the same ID.")

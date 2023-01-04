@@ -260,6 +260,12 @@ class TestExcel(unittest.TestCase):
             self.assertEqual("Only Championship: False", allTimeOwnersWorksheet["A13"].value)
             self.assertIsNone(allTimeOwnersWorksheet["A14"].value)
 
+    def test_leagueToExcel_leagueIsNone_raisesException(self):
+
+        with self.assertRaises(ValueError) as context:
+            leagueToExcel(None, "")
+        self.assertEqual("'league' has not been set.", str(context.exception))
+
     def test_leagueToExcel_fileAlreadyExists_raisesException(self):
         owners, teams1 = getNDefaultOwnersAndTeams(2)
         teams1[0].name = "a"
