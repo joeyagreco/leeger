@@ -4,7 +4,15 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- N/A
+- Added Performance model to represent a Team's performance in a given week
+- Added method to get a Year by year number to League model
+- Added method to get a Team by name to Year model
+- Added method to get a Week by week number to Year model
+- Added method to get a Matchup with a Team ID to Matchup model
+- Added method to split a Matchup model into 2 Performance models to Matchup model
+- Added method to get a Performance for a Team ID to Matchup model
+- Added validation to ensure no Matchup has 2 of the same Team IDs
+- Added a test for Excel
 
 ## [1.12.1]
 
