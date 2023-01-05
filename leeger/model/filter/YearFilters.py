@@ -6,11 +6,10 @@ from typing import Any
 
 from leeger.enum.MatchupType import MatchupType
 from leeger.model.league import Year
-from leeger.util.JSONSerializable import JSONSerializable
 
 
 @dataclass(kw_only=True)
-class YearFilters(JSONSerializable):
+class YearFilters:
     """
     Used to house filters that will be applied to a Year when navigating through it.
     """
@@ -31,18 +30,6 @@ class YearFilters(JSONSerializable):
             return [MatchupType.REGULAR_SEASON]
         else:
             return [MatchupType.REGULAR_SEASON, MatchupType.PLAYOFF, MatchupType.CHAMPIONSHIP]
-
-    def __hash__(self):
-        return hash(str(self.toJson()))
-
-    def toJson(self) -> dict:
-        return {
-            "weekNumberStart": self.weekNumberStart,
-            "weekNumberEnd": self.weekNumberEnd,
-            "onlyChampionship": self.onlyChampionship,
-            "onlyPostSeason": self.onlyPostSeason,
-            "onlyRegularSeason": self.onlyRegularSeason
-        }
 
     @classmethod
     def preferredOrderWithTitle(cls, year: Year, **kwargs) -> list[tuple[str, Any]]:
