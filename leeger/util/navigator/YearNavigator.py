@@ -1,4 +1,5 @@
 import copy
+from functools import lru_cache
 
 from leeger.enum import MatchupType
 from leeger.exception import DoesNotExistException
@@ -17,6 +18,7 @@ class YearNavigator:
         return [team.id for team in year.teams]
 
     @staticmethod
+    @lru_cache(maxsize=None)
     def getTeamById(year: Year, teamId: str) -> Team:
         for team in year.teams:
             if team.id == teamId:
@@ -24,6 +26,7 @@ class YearNavigator:
         raise DoesNotExistException(f"Team with ID {teamId} does not exist in the given Year.")
 
     @classmethod
+    @lru_cache(maxsize=None)
     def getNumberOfGamesPlayed(cls,
                                year: Year,
                                yearFilters: YearFilters,
@@ -69,6 +72,7 @@ class YearNavigator:
         return teamIdAndNumberOfGamesPlayed
 
     @staticmethod
+    @lru_cache(maxsize=None)
     def getAllScoresInYear(year: Year, simplifyMultiWeekMatchups=False) -> list[float | int]:
         """
         Returns a list of all scores for the given Year.
@@ -86,6 +90,7 @@ class YearNavigator:
         return allScores
 
     @staticmethod
+    @lru_cache(maxsize=None)
     def getAllMultiWeekMatchups(year: Year, filters: YearFilters = None) -> dict[str, list[Matchup]]:
         """
         Returns a dictionary that has the multi-week matchup ID as the key and a list of matchups as the value.
@@ -120,6 +125,7 @@ class YearNavigator:
         return allMatchups
 
     @staticmethod
+    @lru_cache(maxsize=None)
     def getAllSimplifiedMatchupsInYear(year: Year, filters: YearFilters = None) -> list[Matchup]:
         """
         Returns a list of matchups for the given year with multi-week matchups simplified.
