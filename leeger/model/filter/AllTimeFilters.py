@@ -6,10 +6,11 @@ from typing import Any
 
 from leeger.enum.MatchupType import MatchupType
 from leeger.model.league import League
+from leeger.util.JSONSerializable import JSONSerializable
 
 
 @dataclass(kw_only=True)
-class AllTimeFilters:
+class AllTimeFilters(JSONSerializable):
     """
     Used to house filters that will be used to calculate All-Time stats.
     """
@@ -31,6 +32,20 @@ class AllTimeFilters:
             return [MatchupType.REGULAR_SEASON]
         else:
             return [MatchupType.REGULAR_SEASON, MatchupType.PLAYOFF, MatchupType.CHAMPIONSHIP]
+
+    def __hash__(self):
+        return hash(str(self.toJson()))
+
+    def toJson(self) -> dict:
+        return {
+            "yearNumberStart": self.yearNumberStart,
+            "weekNumberStart": self.weekNumberStart,
+            "yearNumberEnd": self.yearNumberEnd,
+            "weekNumberEnd": self.weekNumberEnd,
+            "onlyChampionship": self.onlyChampionship,
+            "onlyPostSeason": self.onlyPostSeason,
+            "onlyRegularSeason": self.onlyRegularSeason
+        }
 
     @classmethod
     def preferredOrderWithTitle(cls, league: League, **kwargs) -> list[tuple[str, Any]]:

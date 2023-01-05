@@ -1,3 +1,5 @@
+from functools import lru_cache
+
 from leeger.exception.DoesNotExistException import DoesNotExistException
 from leeger.model.filter.AllTimeFilters import AllTimeFilters
 from leeger.model.filter.YearFilters import YearFilters
@@ -14,6 +16,7 @@ class LeagueNavigator:
     """
 
     @staticmethod
+    @lru_cache(maxsize=None)
     def getYearByYearNumber(league: League, yearNumber: int) -> Year:
         for year in league.years:
             if year.yearNumber == yearNumber:
@@ -21,6 +24,7 @@ class LeagueNavigator:
         raise DoesNotExistException(f"Year {yearNumber} does not exist in the given League.")
 
     @staticmethod
+    @lru_cache(maxsize=None)
     def getTeamById(league: League, teamId: str) -> Team:
         for year in league.years:
             for team in year.teams:
@@ -29,6 +33,7 @@ class LeagueNavigator:
         raise DoesNotExistException(f"Team with ID {teamId} does not exist in the given League.")
 
     @staticmethod
+    @lru_cache(maxsize=None)
     def getOwnerById(league: League, ownerId: str) -> Owner:
         for owner in league.owners:
             if owner.id == ownerId:
@@ -36,10 +41,12 @@ class LeagueNavigator:
         raise DoesNotExistException(f"Owner with ID {ownerId} does not exist in the given League.")
 
     @staticmethod
+    @lru_cache(maxsize=None)
     def getAllOwnerIds(league: League) -> list[str]:
         return [owner.id for owner in league.owners]
 
     @classmethod
+    @lru_cache(maxsize=None)
     def getNumberOfGamesPlayed(cls,
                                league: League,
                                allTimeFilters: AllTimeFilters,
@@ -108,6 +115,7 @@ class LeagueNavigator:
         return ownerIdAndNumberOfGamesPlayed
 
     @staticmethod
+    @lru_cache(maxsize=None)
     def getAllScoresInLeague(league: League, simplifyMultiWeekMatchups=False) -> list[float | int]:
         """
         Returns a list of all scores for the given League.
