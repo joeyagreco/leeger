@@ -145,6 +145,14 @@ class TestYearValidation(unittest.TestCase):
             yearValidation.checkTeamNamesInYear(Year(yearNumber=2000, teams=[team1, team2], weeks=[week1]))
         self.assertEqual("Year 2000 has teams with very similar names.", str(context.exception))
 
+        # CASE DIFFERENCE
+        team1 = Team(ownerId=owner1.id, name="A")
+        team2 = Team(ownerId=owner2.id, name="a")
+
+        with self.assertRaises(InvalidYearFormatException) as context:
+            yearValidation.checkTeamNamesInYear(Year(yearNumber=2000, teams=[team1, team2], weeks=[week1]))
+        self.assertEqual("Year 2000 has teams with very similar names.", str(context.exception))
+
     def test_checkForDuplicateTeams_duplicateTeams_raisesException(self):
         owners, teams = getNDefaultOwnersAndTeams(1)
         with self.assertRaises(InvalidYearFormatException) as context:
