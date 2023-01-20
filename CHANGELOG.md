@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 - Team names are now counted as too similar within a Year if they have the same text minus whitespace and letter case
+- Added a Code of Conduct
 
 ## [1.13.0]
 
