@@ -99,16 +99,15 @@ in the [`example`](https://github.com/joeyagreco/leeger/tree/main/example) folde
 
 **Question:**
 I'm getting this error when I run my script:
-
+<!---
+// @formatter:off
+-->
 ```python3
-TypeError: dataclass()
-got
-an
-unexpected
-keyword
-argument
-'kw_only'
+TypeError: dataclass() got an unexpected keyword argument 'kw_only'
 ```
+<!---
+// @formatter:on
+-->
 
 **Answer:**
 This error occurs when the Python version you are using is not 3.10 or greater.\
