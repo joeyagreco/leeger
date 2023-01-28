@@ -98,9 +98,26 @@ in the [`example`](https://github.com/joeyagreco/leeger/tree/main/example) folde
 ## FAQ
 
 **Question:**
-How do I use this library to pull stats from my online fantasy league?
+I'm getting this error when I run my script:
+
+```python3
+TypeError: dataclass()
+got
+an
+unexpected
+keyword
+argument
+'kw_only'
+```
 
 **Answer:**
+This error occurs when the Python version you are using is not 3.10 or greater.\
+Make sure you are using Python version 3.10 or a newer version.
+
+**Q:**
+How do I use this library to pull stats from my online fantasy league?
+
+**A:**
 
 1. Find your fantasy site [here](https://github.com/joeyagreco/leeger#supported-league-loaders) and ensure you have
    everything you need for the site you are using
