@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- Fixed ESPN League Loader issue where teams with byes would cause championship matchups to count as playoff matchups
 - Team names are now counted as too similar within a Year if they have the same text minus whitespace and letter case
 - Package version updates
 - Added a Code of Conduct

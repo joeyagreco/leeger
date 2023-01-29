@@ -127,7 +127,7 @@ class ESPNLeagueLoader(LeagueLoader):
                     # this is the championship week
                     # figure out if this team has lost in the playoffs before this week
                     playoffOutcomes = espnTeam.outcomes[-numberOfPlayoffWeeks:-1]
-                    hasLostInPlayoffs = playoffOutcomes.count(self.__ESPN_WIN_OUTCOME) != len(playoffOutcomes)
+                    hasLostInPlayoffs = self.__ESPN_LOSS_OUTCOME in playoffOutcomes
                     if hasLostInPlayoffs:
                         return MatchupType.PLAYOFF
                     else:
