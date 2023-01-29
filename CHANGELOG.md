@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- N/A
+
+## [1.13.1]
+
 - Fixed ESPN League Loader issue where teams with byes would cause championship matchups to count as playoff matchups
 - Team names are now counted as too similar within a Year if they have the same text minus whitespace and letter case
 - Package version updates
@@ -150,7 +154,9 @@ All notable changes to this project will be documented in this file.
 
 ### Initial Release
 
-[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.13.0...HEAD
+[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.13.1...HEAD
+
+[1.13.1]: https://github.com/joeyagreco/leeger/releases/tag/v1.13.1
 
 [1.13.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.13.0
 
