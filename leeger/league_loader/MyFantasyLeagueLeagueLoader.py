@@ -10,6 +10,7 @@ from leeger.model.league.Owner import Owner
 from leeger.model.league.Team import Team
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
+from leeger.validate import leagueValidation
 
 
 class MyFantasyLeagueLeagueLoader(LeagueLoader):
@@ -50,7 +51,10 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
             self.__mflLeagueIdToYearMap[mflLeague["id"]] = year
             mflLeagues.append(mflLeague)
 
-        return self.__buildLeague(mflLeagues)
+        league = self.__buildLeague(mflLeagues)
+        # validate new league
+        leagueValidation.runAllChecks(league)
+        return league
 
     def __buildLeague(self, mflLeagues: list[dict]) -> League:
         years = list()

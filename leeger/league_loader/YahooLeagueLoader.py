@@ -16,6 +16,7 @@ from leeger.model.league.Owner import Owner
 from leeger.model.league.Team import Team
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
+from leeger.validate import leagueValidation
 
 
 class YahooLeagueLoader(LeagueLoader):
@@ -80,7 +81,10 @@ class YahooLeagueLoader(LeagueLoader):
         if len(yahooLeagues) != len(self._years):
             # TODO: Give a more descriptive // accurate error message
             raise DoesNotExistException(f"Found years {foundYears}, expected to find {self._years}.")
-        return self.__buildLeague(yahooLeagues)
+        league = self.__buildLeague(yahooLeagues)
+        # validate new league
+        leagueValidation.runAllChecks(league)
+        return league
 
     def __buildLeague(self, yahooLeagues: list[YahooLeague]) -> League:
         years = list()

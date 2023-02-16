@@ -17,6 +17,7 @@ from leeger.model.league.Owner import Owner
 from leeger.model.league.Team import Team
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
+from leeger.validate import leagueValidation
 
 
 class SleeperLeagueLoader(LeagueLoader):
@@ -49,7 +50,10 @@ class SleeperLeagueLoader(LeagueLoader):
 
         # reverse list so most recent is last in list
         sleeperLeagues = sleeperLeagues[::-1]
-        return self.__buildLeague(sleeperLeagues)
+        league = self.__buildLeague(sleeperLeagues)
+        # validate new league
+        leagueValidation.runAllChecks(league)
+        return league
 
     def __buildLeague(self, sleeperLeagues: list[SleeperLeague]) -> League:
         years = list()

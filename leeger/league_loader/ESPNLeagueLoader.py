@@ -10,6 +10,7 @@ from leeger.model.league.Owner import Owner
 from leeger.model.league.Team import Team
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
+from leeger.validate import leagueValidation
 
 
 class ESPNLeagueLoader(LeagueLoader):
@@ -48,7 +49,11 @@ class ESPNLeagueLoader(LeagueLoader):
         for year in self._years:
             espnLeagueYears.append(
                 espn.League(league_id=int(self._leagueId), year=year, espn_s2=self.__espnS2, swid=self.__swid))
-        return self.__buildLeague(espnLeagueYears)
+
+        league = self.__buildLeague(espnLeagueYears)
+        # validate new league
+        leagueValidation.runAllChecks(league)
+        return league
 
     def __buildLeague(self, espnLeagues: list[ESPNLeague]) -> League:
         years = list()

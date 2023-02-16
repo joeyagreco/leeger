@@ -12,6 +12,7 @@ from leeger.model.league.Owner import Owner
 from leeger.model.league.Team import Team
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
+from leeger.validate import leagueValidation
 
 
 class FleaflickerLeagueLoader(LeagueLoader):
@@ -40,7 +41,10 @@ class FleaflickerLeagueLoader(LeagueLoader):
                                                                      league_id=int(self._leagueId),
                                                                      season=self._years[0])
         fleaflickerLeagues = [fleaflickerLeague]
-        return self.__buildLeague(fleaflickerLeagues)
+        league = self.__buildLeague(fleaflickerLeagues)
+        # validate new league
+        leagueValidation.runAllChecks(league)
+        return league
 
     def __buildLeague(self, fleaflickerLeagues: list[dict]) -> League:
         years = list()
