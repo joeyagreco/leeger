@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 - Now validate leagues before returning them in all league loaders
+- Updated README
 
 ## [1.13.1]
 

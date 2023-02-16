@@ -36,9 +36,11 @@ Python stats will be stored in these objects:
 
 Excel sheets will include:
 
-- A tab with stats for each year the league has existed
-- A tab with all-time stats for the league
-- Sortable rows for each team and owner
+- A tab for each year with team stats
+- A tab for each year with matchup info
+- A tab for all-time team stats
+- A tab for all-time matchup info
+- A tab for all-time owner stats
 
 \
 The main idea behind this library is:
