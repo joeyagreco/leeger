@@ -38,9 +38,9 @@ Excel sheets will include:
 
 - A tab for each year with team stats
 - A tab for each year with matchup info
-- A tab for all-time team stats
-- A tab for all-time matchup info
-- A tab for all-time owner stats
+- A tab for all-time with team stats
+- A tab for all-time with matchup info
+- A tab for all-time with owner stats
 
 \
 The main idea behind this library is:
