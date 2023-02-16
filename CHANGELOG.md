@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- N/A
+
+## [1.14.0]
+
 - Now validate leagues before returning them in all league loaders
 - Updated README
 
@@ -155,7 +159,9 @@ All notable changes to this project will be documented in this file.
 
 ### Initial Release
 
-[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.13.1...HEAD
+[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.14.0...HEAD
+
+[1.14.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.13.1
 
 [1.13.1]: https://github.com/joeyagreco/leeger/releases/tag/v1.13.1
 
