@@ -4,6 +4,7 @@ import unittest
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception import DoesNotExistException
 from leeger.exception.InvalidLeagueFormatException import InvalidLeagueFormatException
+from leeger.model.league import YearSettings
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Owner import Owner
@@ -325,8 +326,8 @@ class TestLeague(unittest.TestCase):
         self.assertEqual(1.1, leagueJson["years"][0]["weeks"][0]["matchups"][0]["teamAScore"])
         self.assertEqual(2.2, leagueJson["years"][0]["weeks"][0]["matchups"][0]["teamBScore"])
         self.assertEqual("REGULAR_SEASON", leagueJson["years"][0]["weeks"][0]["matchups"][0]["matchupType"])
-        self.assertFalse(leagueJson["years"][0]["weeks"][0]["matchups"][0]["teamAHasTieBreaker"])
-        self.assertFalse(leagueJson["years"][0]["weeks"][0]["matchups"][0]["teamBHasTieBreaker"])
+        self.assertFalse(leagueJson["years"][0]["weeks"][0]["matchups"][0]["teamAHasTiebreaker"])
+        self.assertFalse(leagueJson["years"][0]["weeks"][0]["matchups"][0]["teamBHasTiebreaker"])
 
     def test_getYearByYearNumber_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
@@ -378,3 +379,23 @@ class TestLeague(unittest.TestCase):
         with self.assertRaises(DoesNotExistException) as context:
             league.getOwnerByName("owner0")
         self.assertEqual("League does not have an owner with name 'owner0'", str(context.exception))
+
+    def test_league_fromJson(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup_1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
+                            matchupType=MatchupType.REGULAR_SEASON, teamAHasTiebreaker=True)
+        week_1 = Week(weekNumber=1, matchups=[matchup_1])
+        year_1 = Year(yearNumber=2000, teams=teams, weeks=[week_1])
+        league = League(name="LEAGUE", owners=owners, years=[year_1])
+        leagueJson = league.toJson()
+        leagueDerived = League.fromJson(leagueJson)
+        self.assertEqual(league, leagueDerived)
+        self.assertEqual(league.id, leagueDerived.id)
+
+        # with year settings
+        year_1.yearSettings = YearSettings(leagueMedianGames=True)
+        leagueJson = league.toJson()
+        leagueDerived = League.fromJson(leagueJson)
+        self.assertEqual(league, leagueDerived)
+        self.assertEqual(league.id, leagueDerived.id)

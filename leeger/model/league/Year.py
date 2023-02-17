@@ -7,11 +7,12 @@ from leeger.model.abstract.UniqueId import UniqueId
 from leeger.model.league.Team import Team
 from leeger.model.league.Week import Week
 from leeger.model.league.YearSettings import YearSettings
+from leeger.util.JSONDeserializable import JSONDeserializable
 from leeger.util.JSONSerializable import JSONSerializable
 
 
 @dataclass(kw_only=True, eq=False)
-class Year(UniqueId, JSONSerializable):
+class Year(UniqueId, JSONSerializable, JSONDeserializable):
     yearNumber: int
     teams: list[Team]
     weeks: list[Week]
@@ -61,3 +62,18 @@ class Year(UniqueId, JSONSerializable):
             "weeks": [week.toJson() for week in self.weeks],
             "yearSettings": self.yearSettings.toJson()
         }
+
+    @staticmethod
+    def fromJson(d: dict) -> Year:
+        teams = list()
+        for teamDict in d["teams"]:
+            teams.append(Team.fromJson(teamDict))
+        weeks = list()
+        for weekDict in d["weeks"]:
+            weeks.append(Week.fromJson(weekDict))
+        year = Year(yearNumber=d["yearNumber"],
+                    teams=teams,
+                    weeks=weeks,
+                    yearSettings=YearSettings.fromJson(d.get("yearSettings")))
+        year.id = d["id"]
+        return year

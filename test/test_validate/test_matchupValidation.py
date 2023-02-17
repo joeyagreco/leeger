@@ -50,18 +50,6 @@ class TestMatchupValidation(unittest.TestCase):
             matchupValidation.checkAllTypes(Matchup(teamAId="aId", teamBId="bId", teamAScore=1, teamBScore=None))
         self.assertEqual("teamBScore must be type 'float' or 'int'.", str(context.exception))
 
-    def test_checkAllTypes_teamAHasTiebreakerIsntTypeBool_raisesException(self):
-        with self.assertRaises(InvalidMatchupFormatException) as context:
-            matchupValidation.checkAllTypes(
-                Matchup(teamAId="aId", teamBId="bId", teamAScore=1, teamBScore=2, teamAHasTiebreaker=None))
-        self.assertEqual("teamAHasTiebreaker must be type 'bool'.", str(context.exception))
-
-    def test_checkAllTypes_teamBHasTiebreakerIsntTypeBool_raisesException(self):
-        with self.assertRaises(InvalidMatchupFormatException) as context:
-            matchupValidation.checkAllTypes(
-                Matchup(teamAId="aId", teamBId="bId", teamAScore=1, teamBScore=2, teamBHasTiebreaker=None))
-        self.assertEqual("teamBHasTiebreaker must be type 'bool'.", str(context.exception))
-
     def test_checkAllTypes_matchupTypeIsntTypeMatchup_raisesException(self):
         with self.assertRaises(InvalidMatchupFormatException) as context:
             matchupValidation.checkAllTypes(

@@ -9,8 +9,13 @@ class TestYearSettings(unittest.TestCase):
 
         self.assertTrue(yearSettings.leagueMedianGames)
 
-    def test_yearSettings_init_default(self):
+    def test_yearSettings_init_default_1(self):
         yearSettings = YearSettings()
+
+        self.assertFalse(yearSettings.leagueMedianGames)
+
+    def test_yearSettings_init_default_2(self):
+        yearSettings = YearSettings(leagueMedianGames=None)
 
         self.assertFalse(yearSettings.leagueMedianGames)
 

@@ -99,8 +99,8 @@ class TestYear(unittest.TestCase):
         self.assertEqual(1.1, yearJson["weeks"][0]["matchups"][0]["teamAScore"])
         self.assertEqual(2.2, yearJson["weeks"][0]["matchups"][0]["teamBScore"])
         self.assertEqual("REGULAR_SEASON", yearJson["weeks"][0]["matchups"][0]["matchupType"])
-        self.assertFalse(yearJson["weeks"][0]["matchups"][0]["teamAHasTieBreaker"])
-        self.assertFalse(yearJson["weeks"][0]["matchups"][0]["teamBHasTieBreaker"])
+        self.assertFalse(yearJson["weeks"][0]["matchups"][0]["teamAHasTiebreaker"])
+        self.assertFalse(yearJson["weeks"][0]["matchups"][0]["teamBHasTiebreaker"])
         self.assertTrue(yearJson["yearSettings"]["leagueMedianGames"])
 
     def test_getTeamByName_happyPath(self):
@@ -149,3 +149,23 @@ class TestYear(unittest.TestCase):
         with self.assertRaises(DoesNotExistException) as context:
             year.getWeekByWeekNumber(2)
         self.assertEqual("Year does not have a week with week number 2.", str(context.exception))
+
+    def test_year_fromJson(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup_1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
+                            matchupType=MatchupType.REGULAR_SEASON)
+        week_1 = Week(weekNumber=1, matchups=[matchup_1])
+        yearSettings = YearSettings(leagueMedianGames=True)
+        year = Year(yearNumber=2000, teams=teams, weeks=[week_1], yearSettings=yearSettings)
+        yearJson = year.toJson()
+        yearDerived = Year.fromJson(yearJson)
+        self.assertEqual(year, yearDerived)
+        self.assertEqual(year.id, yearDerived.id)
+
+        # without year settings
+        year = Year(yearNumber=2000, teams=teams, weeks=[week_1])
+        yearJson = year.toJson()
+        yearDerived = Year.fromJson(yearJson)
+        self.assertEqual(year, yearDerived)
+        self.assertEqual(year.id, yearDerived.id)

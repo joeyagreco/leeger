@@ -9,25 +9,31 @@ from leeger.exception.InvalidMatchupFormatException import InvalidMatchupFormatE
 from leeger.model.abstract.UniqueId import UniqueId
 from leeger.model.league_helper.Performance import Performance
 from leeger.util.CustomLogger import CustomLogger
+from leeger.util.JSONDeserializable import JSONDeserializable
 from leeger.util.JSONSerializable import JSONSerializable
 
 
 @dataclass(kw_only=True, eq=False)
-class Matchup(UniqueId, JSONSerializable):
+class Matchup(UniqueId, JSONSerializable, JSONDeserializable):
     __LOGGER = CustomLogger.getLogger()
     teamAId: str
     teamBId: str
     teamAScore: float | int
     teamBScore: float | int
     matchupType: MatchupType = MatchupType.REGULAR_SEASON
-    teamAHasTiebreaker: bool = False
-    teamBHasTiebreaker: bool = False
+    teamAHasTiebreaker: Optional[bool] = False
+    teamBHasTiebreaker: Optional[bool] = False
     multiWeekMatchupId: Optional[str] = None  # This is used to link matchups that span over multiple weeks
 
     def __post_init__(self):
         # Team A and Team B cannot both have the tiebreaker
         if self.teamAHasTiebreaker is True and self.teamBHasTiebreaker is True:
             raise InvalidMatchupFormatException("Team A and Team B cannot both have the tiebreaker.")
+
+        if self.teamAHasTiebreaker is None:
+            self.teamAHasTiebreaker = False
+        if self.teamBHasTiebreaker is None:
+            self.teamBHasTiebreaker = False
 
     def __eq__(self, otherMatchup: Matchup) -> bool:
         """
@@ -79,7 +85,20 @@ class Matchup(UniqueId, JSONSerializable):
             "teamAScore": self.teamAScore,
             "teamBScore": self.teamBScore,
             "matchupType": self.matchupType.name,
-            "teamAHasTieBreaker": self.teamAHasTiebreaker,
-            "teamBHasTieBreaker": self.teamBHasTiebreaker,
+            "teamAHasTiebreaker": self.teamAHasTiebreaker,
+            "teamBHasTiebreaker": self.teamBHasTiebreaker,
             "multiWeekMatchupId": self.multiWeekMatchupId
         }
+
+    @staticmethod
+    def fromJson(d: dict) -> Matchup:
+        matchup = Matchup(teamAId=d["teamAId"],
+                          teamBId=d["teamBId"],
+                          teamAScore=d["teamAScore"],
+                          teamBScore=d["teamBScore"],
+                          matchupType=MatchupType.fromStr(d["matchupType"]),
+                          teamAHasTiebreaker=d.get("teamAHasTiebreaker"),
+                          teamBHasTiebreaker=d.get("teamBHasTiebreaker"),
+                          multiWeekMatchupId=d.get("multiWeekMatchupId"))
+        matchup.id = d["id"]
+        return matchup

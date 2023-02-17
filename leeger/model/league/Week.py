@@ -6,11 +6,12 @@ from leeger.enum.MatchupType import MatchupType
 from leeger.exception import DoesNotExistException
 from leeger.model.abstract.UniqueId import UniqueId
 from leeger.model.league.Matchup import Matchup
+from leeger.util.JSONDeserializable import JSONDeserializable
 from leeger.util.JSONSerializable import JSONSerializable
 
 
 @dataclass(kw_only=True, eq=False)
-class Week(UniqueId, JSONSerializable):
+class Week(UniqueId, JSONSerializable, JSONDeserializable):
     weekNumber: int
     matchups: list[Matchup]
 
@@ -65,3 +66,13 @@ class Week(UniqueId, JSONSerializable):
             "weekNumber": self.weekNumber,
             "matchups": [matchup.toJson() for matchup in self.matchups]
         }
+
+    @staticmethod
+    def fromJson(d: dict) -> Week:
+        matchups = list()
+        for matchupDict in d["matchups"]:
+            matchups.append(Matchup.fromJson(matchupDict))
+        week = Week(weekNumber=d["weekNumber"],
+                    matchups=matchups)
+        week.id = d["id"]
+        return week

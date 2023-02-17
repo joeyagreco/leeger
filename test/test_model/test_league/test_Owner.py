@@ -33,3 +33,10 @@ class TestOwner(unittest.TestCase):
 
         self.assertIsInstance(ownerJson, dict)
         self.assertEqual("owner", ownerJson["name"])
+
+    def test_owner_fromJson(self):
+        owner = Owner(name="owner")
+        ownerJson = owner.toJson()
+        ownerDerived = Owner.fromJson(ownerJson)
+        self.assertEqual(owner, ownerDerived)
+        self.assertEqual(owner.id, ownerDerived.id)

@@ -4,11 +4,12 @@ from dataclasses import dataclass
 
 from leeger.model.abstract.UniqueId import UniqueId
 from leeger.util.CustomLogger import CustomLogger
+from leeger.util.JSONDeserializable import JSONDeserializable
 from leeger.util.JSONSerializable import JSONSerializable
 
 
 @dataclass(kw_only=True, eq=False)
-class Team(UniqueId, JSONSerializable):
+class Team(UniqueId, JSONSerializable, JSONDeserializable):
     __LOGGER = CustomLogger.getLogger()
     ownerId: str
     name: str
@@ -34,3 +35,10 @@ class Team(UniqueId, JSONSerializable):
             "ownerId": self.ownerId,
             "name": self.name
         }
+
+    @staticmethod
+    def fromJson(d: dict) -> Team:
+        team = Team(ownerId=d["ownerId"],
+                    name=d["name"])
+        team.id = d["id"]
+        return team

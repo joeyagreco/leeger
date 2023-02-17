@@ -7,11 +7,12 @@ from leeger.exception import DoesNotExistException
 from leeger.model.abstract.UniqueId import UniqueId
 from leeger.model.league.Owner import Owner
 from leeger.model.league.Year import Year
+from leeger.util.JSONDeserializable import JSONDeserializable
 from leeger.util.JSONSerializable import JSONSerializable
 
 
 @dataclass(kw_only=True, eq=False)
-class League(UniqueId, JSONSerializable):
+class League(UniqueId, JSONSerializable, JSONDeserializable):
     name: str
     owners: list[Owner]
     years: list[Year]
@@ -122,3 +123,17 @@ class League(UniqueId, JSONSerializable):
             "owners": [owner.toJson() for owner in self.owners],
             "years": [year.toJson() for year in self.years]
         }
+
+    @staticmethod
+    def fromJson(d: dict) -> League:
+        owners = list()
+        for ownerDict in d["owners"]:
+            owners.append(Owner.fromJson(ownerDict))
+        years = list()
+        for yearDict in d["years"]:
+            years.append(Year.fromJson(yearDict))
+        league = League(name=d["name"],
+                        owners=owners,
+                        years=years)
+        league.id = d["id"]
+        return league

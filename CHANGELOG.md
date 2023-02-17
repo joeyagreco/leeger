@@ -4,7 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- N/A
+- League objects can now be built from a Python dictionary
+- None values for Matchup tiebreakers will default to False instead of raising an exception
+- None values for YearSettings leagueMedianGames will default to False instead of raising an exception
 
 ## [1.14.0]
 

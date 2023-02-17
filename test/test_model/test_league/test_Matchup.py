@@ -30,12 +30,31 @@ class TestMatchup(unittest.TestCase):
         self.assertFalse(matchup.teamBHasTiebreaker)
         self.assertEqual("id", matchup.multiWeekMatchupId)
 
-    def test_matchup_init_defaultValues(self):
+    def test_matchup_init_defaultValues_1(self):
         matchup = Matchup(
             teamAId="teamAId",
             teamBId="teamBId",
             teamAScore=1.1,
             teamBScore=2.2
+        )
+
+        self.assertEqual("teamAId", matchup.teamAId)
+        self.assertEqual("teamBId", matchup.teamBId)
+        self.assertEqual(1.1, matchup.teamAScore)
+        self.assertEqual(2.2, matchup.teamBScore)
+        self.assertEqual(MatchupType.REGULAR_SEASON, matchup.matchupType)
+        self.assertFalse(matchup.teamAHasTiebreaker)
+        self.assertFalse(matchup.teamBHasTiebreaker)
+        self.assertIsNone(matchup.multiWeekMatchupId)
+
+    def test_matchup_init_defaultValues_2(self):
+        matchup = Matchup(
+            teamAId="teamAId",
+            teamBId="teamBId",
+            teamAScore=1.1,
+            teamBScore=2.2,
+            teamAHasTiebreaker=None,
+            teamBHasTiebreaker=None
         )
 
         self.assertEqual("teamAId", matchup.teamAId)
@@ -118,8 +137,8 @@ class TestMatchup(unittest.TestCase):
         self.assertEqual(1.1, matchupJson["teamAScore"])
         self.assertEqual(2.2, matchupJson["teamBScore"])
         self.assertEqual("REGULAR_SEASON", matchupJson["matchupType"])
-        self.assertFalse(matchupJson["teamAHasTieBreaker"])
-        self.assertFalse(matchupJson["teamBHasTieBreaker"])
+        self.assertFalse(matchupJson["teamAHasTiebreaker"])
+        self.assertFalse(matchupJson["teamBHasTiebreaker"])
         self.assertEqual("1", matchupJson["multiWeekMatchupId"])
 
     def test_splitToPerformances_happyPath(self):
@@ -172,3 +191,17 @@ class TestMatchup(unittest.TestCase):
         with self.assertRaises(DoesNotExistException) as context:
             matchup.getPerformanceForTeamId("3")
         self.assertEqual("Matchup does not have a team with ID '3'.", str(context.exception))
+
+    def test_matchup_fromJson(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup = Matchup(teamAId=teams[0].id,
+                          teamBId=teams[1].id,
+                          teamAScore=1.1,
+                          teamBScore=2.2,
+                          multiWeekMatchupId="1",
+                          matchupType=MatchupType.REGULAR_SEASON)
+        matchupJson = matchup.toJson()
+        matchupDerived = Matchup.fromJson(matchupJson)
+        self.assertEqual(matchup, matchupDerived)
+        self.assertEqual(matchup.id, matchupDerived.id)

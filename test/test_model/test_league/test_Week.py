@@ -159,8 +159,8 @@ class TestWeek(unittest.TestCase):
         self.assertEqual(1.1, weekJson["matchups"][0]["teamAScore"])
         self.assertEqual(2.2, weekJson["matchups"][0]["teamBScore"])
         self.assertEqual("REGULAR_SEASON", weekJson["matchups"][0]["matchupType"])
-        self.assertFalse(weekJson["matchups"][0]["teamAHasTieBreaker"])
-        self.assertFalse(weekJson["matchups"][0]["teamBHasTieBreaker"])
+        self.assertFalse(weekJson["matchups"][0]["teamAHasTiebreaker"])
+        self.assertFalse(weekJson["matchups"][0]["teamBHasTiebreaker"])
 
     def test_getMatchupWithTeamId_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
@@ -182,3 +182,14 @@ class TestWeek(unittest.TestCase):
         with self.assertRaises(DoesNotExistException) as context:
             week.getMatchupWithTeamId("bad ID")
         self.assertEqual("Week does not have a matchup with team ID 'bad ID'.", str(context.exception))
+
+    def test_week_fromJson(self):
+        owners, teams = getNDefaultOwnersAndTeams(2)
+
+        matchup_1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
+                            matchupType=MatchupType.REGULAR_SEASON)
+        week = Week(weekNumber=1, matchups=[matchup_1])
+        weekJson = week.toJson()
+        weekDerived = Week.fromJson(weekJson)
+        self.assertEqual(week, weekDerived)
+        self.assertEqual(week.id, weekDerived.id)

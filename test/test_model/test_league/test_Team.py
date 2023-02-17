@@ -34,3 +34,10 @@ class TestTeam(unittest.TestCase):
 
         self.assertIsInstance(teamJson, dict)
         self.assertEqual("team", teamJson["name"])
+
+    def test_team_fromJson(self):
+        team = Team(ownerId="", name="team")
+        teamJson = team.toJson()
+        teamDerived = Team.fromJson(teamJson)
+        self.assertEqual(team, teamDerived)
+        self.assertEqual(team.id, teamDerived.id)
