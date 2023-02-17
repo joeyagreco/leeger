@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- N/A
+
+## [1.15.0]
+
 - League objects can now be built from a Python dictionary
 - None values for Matchup tiebreakers will default to False instead of raising an exception
 - None values for YearSettings leagueMedianGames will default to False instead of raising an exception
@@ -161,9 +165,11 @@ All notable changes to this project will be documented in this file.
 
 ### Initial Release
 
-[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.14.0...HEAD
+[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.15.0...HEAD
 
-[1.14.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.13.1
+[1.14.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.15.0
+
+[1.14.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.14.0
 
 [1.13.1]: https://github.com/joeyagreco/leeger/releases/tag/v1.13.1
 
