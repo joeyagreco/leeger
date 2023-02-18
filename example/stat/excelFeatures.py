@@ -1,6 +1,6 @@
 from leeger.league_loader import ESPNLeagueLoader
 from leeger.model.league import League, Year
-from leeger.util.excel import leagueToExcel, yearToExcel
+from leeger.util.excel import leagueToExcel
 
 if __name__ == '__main__':
     # Get a dummy League object
@@ -12,4 +12,3 @@ if __name__ == '__main__':
 
     # Overwrite an existing file by using the 'overwrite' keyword argument
     leagueToExcel(league, "C:\\myLeagueStats.xlsx", overwrite=True)
-    yearToExcel(year2019, "C:\\my2019YearStats.xlsx", overwrite=True)

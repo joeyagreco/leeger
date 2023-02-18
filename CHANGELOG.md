@@ -4,7 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- N/A
+- Removed yearToExcel function
+- leagueToExcel now optionally takes a file path
+- leagueToExcel now returns the OpenPyXL Worksheet created
+- Upgraded OpenPyXL version requirement
+- Updated examples
 
 ## [1.15.0]
 

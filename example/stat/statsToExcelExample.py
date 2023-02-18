@@ -1,6 +1,6 @@
 from leeger.league_loader import ESPNLeagueLoader
-from leeger.model.league import League, Year
-from leeger.util.excel import leagueToExcel, yearToExcel
+from leeger.model.league import League
+from leeger.util.excel import leagueToExcel
 
 if __name__ == '__main__':
     # Get a League object.
@@ -10,10 +10,3 @@ if __name__ == '__main__':
 
     # Save league stats to an Excel sheet.
     leagueToExcel(league, "C:\\myLeagueStats.xlsx")
-
-    # Get a Year object.
-    # Let's get the 2019 year.
-    year2019: Year = league.years[0]
-
-    # Save year stats to an Excel sheet.
-    yearToExcel(year2019, "C:\\my2019YearStats.xlsx")
