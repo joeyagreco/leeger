@@ -5,7 +5,7 @@ import random
 from datetime import datetime
 from typing import Any, Optional
 
-from openpyxl import Workbook, load_workbook
+from openpyxl import Workbook
 from openpyxl.styles import Font, Color, PatternFill, Alignment, Side, Border
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.dimensions import DimensionHolder, ColumnDimension
@@ -18,7 +18,7 @@ from leeger.util.excel_helper import allTimeTeamsStatSheet, yearMatchupsStatShee
 from leeger.util.stat_sheet import yearStatSheet, leagueStatSheet
 
 
-def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
+def leagueToExcel(league: League, filePath: Optional[str] = None, **kwargs) -> Workbook:
     """
     Saves the given League object to an Excel file.
     """
@@ -26,14 +26,15 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
 
     if league is None:
         raise ValueError("'league' has not been set.")
-    if os.path.exists(filePath) and not overwrite:
-        raise FileExistsError(f"Cannot create file at path: '{filePath}' because there is already a file there.")
-    else:
-        try:
-            os.remove(filePath)
-        except FileNotFoundError:
-            # we don't care if this doesn't exist
-            pass
+    if filePath is not None:
+        if os.path.exists(filePath) and not overwrite:
+            raise FileExistsError(f"Cannot create file at path: '{filePath}' because there is already a file there.")
+        else:
+            try:
+                os.remove(filePath)
+            except FileNotFoundError:
+                # we don't care if this doesn't exist
+                pass
 
     # get owner names
     # and
@@ -52,16 +53,16 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
     # gather info for all time teams to be used later
     allTimeTeamIds: list[str] = list()
     teamIdToColorMap = dict()
+    workbook = None
     for year in league.years:
         for team in year.teams:
             allTimeTeamIds.append(team.id)
             teamIdToColorMap[team.id] = ownerIdToColorMap[team.ownerId]
 
         # add a sheet to the Excel document for this year
-        yearToExcel(year, filePath, overwrite=False, **kwargs.copy())
+        workbook = _yearToExcel(year, workbook, **kwargs.copy())
 
     # add All-Time teams stats sheet
-    workbook = load_workbook(filename=filePath)
     # figure out index to put this sheet into
     # we want the sheets to be ordered: oldest year -> newest year -> all time teams -> all time matchups -> all time owners
     index = len(workbook.sheetnames)
@@ -82,7 +83,6 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
                         saveToFilepath=filePath)
 
     # add All-Time matchups stats sheet
-    workbook = load_workbook(filename=filePath)
     # figure out index to put this sheet into
     # we want the sheets to be ordered: oldest year -> newest year -> all time teams -> all time matchups -> all time owners
     index = len(workbook.sheetnames)
@@ -108,7 +108,6 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
                         boldColumnNumbers=[1, 2])
 
     # add All-Time owner stats sheet
-    workbook = load_workbook(filename=filePath)
     # figure out index to put this sheet into
     # we want the sheets to be ordered: oldest year -> newest year -> all time teams -> all time matchups -> all time owners
     index = len(workbook.sheetnames)
@@ -118,27 +117,32 @@ def leagueToExcel(league: League, filePath: str, **kwargs) -> None:
     allTimeOwnerStatsWithTitles = leagueStatSheet(league, **kwargs.copy()).preferredOrderWithTitle()
     allTimeOwnerStatsWithTitles.insert(0, ("Owner", ownerIdToNameMap))
 
-    __populateWorksheet(worksheet=worksheet,
-                        workbook=workbook,
-                        displayName="AllTimeOwnerStats",
-                        titlesAndStatDicts=allTimeOwnerStatsWithTitles,
-                        entityIds=ownerIds,
-                        entityIdToColorMap=ownerIdToColorMap,
-                        legendKeyValues=allTimeFilters,
-                        freezePanes="B2",
-                        saveToFilepath=filePath)
+    return __populateWorksheet(worksheet=worksheet,
+                               workbook=workbook,
+                               displayName="AllTimeOwnerStats",
+                               titlesAndStatDicts=allTimeOwnerStatsWithTitles,
+                               entityIds=ownerIds,
+                               entityIdToColorMap=ownerIdToColorMap,
+                               legendKeyValues=allTimeFilters,
+                               freezePanes="B2",
+                               saveToFilepath=filePath)
 
 
-def yearToExcel(year: Year, filePath: str, **kwargs) -> None:
+def _yearToExcel(year: Year, workbook: Optional[Workbook] = None, **kwargs) -> Workbook:
     """
     Saves the given Year object to an Excel File.
     If the given Excel file exists already, add a worksheet to it with this year.
     If the given Excel file does not exist, create a new workbook and add a worksheet to it with this year.
     """
-    overwrite = kwargs.pop("overwrite", False)
 
-    if os.path.exists(filePath) and not overwrite:
-        workbook = load_workbook(filename=filePath)
+    if workbook is None:
+        # create workbook and sheet
+        workbook = Workbook()
+        workbook.create_sheet(f"{year.yearNumber} Teams", index=0)
+        workbook.create_sheet(f"{year.yearNumber} Matchups", index=1)
+        # remove default sheet
+        del workbook["Sheet"]
+    else:
         # figure out index to put this sheet into
         # we want the years as sheets in order from oldest -> newest year
         index = 0
@@ -147,19 +151,6 @@ def yearToExcel(year: Year, filePath: str, **kwargs) -> None:
                 index += 1
         workbook.create_sheet(f"{year.yearNumber} Teams", index=index)
         workbook.create_sheet(f"{year.yearNumber} Matchups", index=index + 1)
-    else:
-        # overwrite Excel file OR create new Excel file
-        try:
-            os.remove(filePath)
-        except FileNotFoundError:
-            # we don't care if this doesn't exist
-            pass
-        # create workbook and sheet
-        workbook = Workbook()
-        workbook.create_sheet(f"{year.yearNumber} Teams", index=0)
-        workbook.create_sheet(f"{year.yearNumber} Matchups", index=1)
-        # remove default sheet
-        del workbook["Sheet"]
     worksheet = workbook[f"{year.yearNumber} Teams"]
 
     # get team names
@@ -192,8 +183,7 @@ def yearToExcel(year: Year, filePath: str, **kwargs) -> None:
                         entityIds=teamIds,
                         entityIdToColorMap=teamIdToColorMap,
                         legendKeyValues=yearFilters,
-                        freezePanes="B2",
-                        saveToFilepath=filePath)
+                        freezePanes="B2")
 
     yearMatchupsWithTitles, modifiedMatchupIdToOwnerIdMap = yearMatchupsStatSheet(year, **kwargs.copy())
     modifiedMatchupIdToColorMap: dict = dict()
@@ -208,8 +198,8 @@ def yearToExcel(year: Year, filePath: str, **kwargs) -> None:
                         entityIds=list(modifiedMatchupIdToOwnerIdMap.keys()),
                         entityIdToColorMap=modifiedMatchupIdToColorMap,
                         legendKeyValues=yearFilters,
-                        freezePanes="B2",
-                        saveToFilepath=filePath)
+                        freezePanes="B2")
+    return workbook
 
 
 def __getRandomColor(tint: float = 0, seed: str = None) -> Color:
@@ -226,14 +216,14 @@ def __getRandomColor(tint: float = 0, seed: str = None) -> Color:
 def __populateWorksheet(*,
                         worksheet: Worksheet,
                         workbook: Workbook,
-                        saveToFilepath: str,
+                        saveToFilepath: Optional[str] = None,
                         displayName: str,
                         titlesAndStatDicts: list[tuple[str, dict]],
                         entityIds: list[str],
                         entityIdToColorMap: dict[str, Color],
                         legendKeyValues: list[tuple[str, Any]],
                         freezePanes: str,
-                        boldColumnNumbers: Optional[list] = None) -> None:
+                        boldColumnNumbers: Optional[list] = None) -> Workbook:
     """
     boldColumnNumbers is a list of column numbers whose values will be bolded.
         - Column numbers will be 1-indexed.
@@ -349,4 +339,6 @@ def __populateWorksheet(*,
     worksheet.column_dimensions = dim_holder
 
     # save
-    workbook.save(saveToFilepath)
+    if saveToFilepath is not None:
+        workbook.save(saveToFilepath)
+    return workbook
