@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- N/A
+
+## [2.0.0]
+
 - Removed yearToExcel function
 - leagueToExcel now optionally takes a file path
 - leagueToExcel now returns the OpenPyXL Worksheet created
@@ -169,9 +173,11 @@ All notable changes to this project will be documented in this file.
 
 ### Initial Release
 
-[Unreleased]: https://github.com/joeyagreco/leeger/compare/v1.15.0...HEAD
+[Unreleased]: https://github.com/joeyagreco/leeger/compare/v2.0.0...HEAD
 
-[1.14.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.15.0
+[2.0.0]: https://github.com/joeyagreco/leeger/releases/tag/v2.0.0
+
+[1.15.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.15.0
 
 [1.14.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.14.0
 
