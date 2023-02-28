@@ -44,12 +44,24 @@ class ESPNLeagueLoader(LeagueLoader):
         self.__espnTeamIdToTeamMap: dict[str, Team] = dict()
         self.__ownerNamesAndAliases: dict[str, list[str]] = dict()
 
-    def loadLeague(self) -> League:
+    def __getAllLeagues(self) -> list[ESPNLeague]:
         espnLeagueYears = list()
         for year in self._years:
             espnLeagueYears.append(
                 espn.League(league_id=int(self._leagueId), year=year, espn_s2=self.__espnS2, swid=self.__swid))
+        return espnLeagueYears
 
+    def getOwnerNames(self) -> dict[int, list[str]]:
+        yearToOwnerNamesMap: dict[int, list[str]] = dict()
+        espnLeagueYears = self.__getAllLeagues()
+        for espnLeagueYear in espnLeagueYears:
+            yearToOwnerNamesMap[espnLeagueYear.year] = list()
+            for espnTeam in espnLeagueYear.teams:
+                yearToOwnerNamesMap[espnLeagueYear.year].append(espnTeam.owner)
+        return yearToOwnerNamesMap
+
+    def loadLeague(self) -> League:
+        espnLeagueYears = self.__getAllLeagues()
         league = self.__buildLeague(espnLeagueYears)
         # validate new league
         leagueValidation.runAllChecks(league)

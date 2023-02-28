@@ -36,8 +36,7 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
         self.__mflFranchiseIdToOwnerMap: dict[str, Owner] = dict()
         self.__mflFranchiseIdToTeamMap: dict[int, Team] = dict()
 
-    def loadLeague(self) -> League:
-        # get all leagues with a year that we want
+    def __getAllLeagues(self) -> list[dict]:
         mflLeagues: list[dict] = list()
 
         for year in self._years:
@@ -50,7 +49,21 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
             mflLeague = CommonLeagueInfoAPIClient.get_league(year=year, league_id=self._leagueId)["league"]
             self.__mflLeagueIdToYearMap[mflLeague["id"]] = year
             mflLeagues.append(mflLeague)
+        return mflLeagues
 
+    def getOwnerNames(self) -> dict[int, list[str]]:
+        yearToOwnerNamesMap: dict[int, list[str]] = dict()
+        mflLeagues = self.__getAllLeagues()
+        for mflLeague in mflLeagues:
+            yearNumber = self.__mflLeagueIdToYearMap[mflLeague["id"]]
+            yearToOwnerNamesMap[yearNumber] = list()
+            for franchise in mflLeague["franchises"]["franchise"]:
+                ownerName = franchise["owner_name"]
+                yearToOwnerNamesMap[yearNumber].append(ownerName)
+        return yearToOwnerNamesMap
+
+    def loadLeague(self) -> League:
+        mflLeagues = self.__getAllLeagues()
         league = self.__buildLeague(mflLeagues)
         # validate new league
         leagueValidation.runAllChecks(league)

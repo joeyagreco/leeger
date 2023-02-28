@@ -51,7 +51,7 @@ class YahooLeagueLoader(LeagueLoader):
         CLIENT_SECRET_OPTION = "--client-secret"
         subprocess.call(["yahoofantasy", "login", CLIENT_ID_OPTION, clientId, CLIENT_SECRET_OPTION, clientSecret])
 
-    def loadLeague(self) -> League:
+    def __getAllLeagues(self) -> list[YahooLeague]:
         loginProcess = multiprocessing.Process(target=self.login, args=(self.__clientId, self.__clientSecret))
         loginProcess.start()
         loginProcess.join(self.__timeoutSeconds)
@@ -81,6 +81,21 @@ class YahooLeagueLoader(LeagueLoader):
         if len(yahooLeagues) != len(self._years):
             # TODO: Give a more descriptive // accurate error message
             raise DoesNotExistException(f"Found years {foundYears}, expected to find {self._years}.")
+        return yahooLeagues
+
+    def getOwnerNames(self) -> dict[int, list[str]]:
+        yearToOwnerNamesMap: dict[int, list[str]] = dict()
+        yahooLeagues = self.__getAllLeagues()
+        for yahooLeague in yahooLeagues:
+            yearToOwnerNamesMap[yahooLeague.season] = list()
+            yahooTeams = yahooLeague.teams()
+            for yahooTeam in yahooTeams:
+                ownerName = yahooTeam.manager.nickname
+                yearToOwnerNamesMap[yahooLeague.season].append(ownerName)
+        return yearToOwnerNamesMap
+
+    def loadLeague(self) -> League:
+        yahooLeagues = self.__getAllLeagues()
         league = self.__buildLeague(yahooLeagues)
         # validate new league
         leagueValidation.runAllChecks(league)
