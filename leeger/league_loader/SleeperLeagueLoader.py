@@ -33,8 +33,7 @@ class SleeperLeagueLoader(LeagueLoader):
         self.__sleeperUserIdToOwnerMap: dict[str, Owner] = dict()
         self.__sleeperRosterIdToTeamMap: dict[int, Team] = dict()
 
-    def loadLeague(self) -> League:
-        # get all leagues with a year that we want
+    def __getAllLeagues(self) -> list[SleeperLeague]:
         sleeperLeagues = list()
         years = self._years.copy()
         currentLeagueId = self._leagueId
@@ -50,6 +49,21 @@ class SleeperLeagueLoader(LeagueLoader):
 
         # reverse list so most recent is last in list
         sleeperLeagues = sleeperLeagues[::-1]
+        return sleeperLeagues
+
+    def getOwnerNames(self) -> dict[int, list[str]]:
+        yearToOwnerNamesMap: dict[int, list[str]] = dict()
+        sleeperLeagues = self.__getAllLeagues()
+        for sleeperLeague in sleeperLeagues:
+            yearToOwnerNamesMap[int(sleeperLeague.season)] = list()
+            sleeperUsers = LeagueAPIClient.get_users_in_league(league_id=sleeperLeague.league_id)
+            for sleeperUser in sleeperUsers:
+                ownerName = sleeperUser.display_name
+                yearToOwnerNamesMap[int(sleeperLeague.season)].append(ownerName)
+        return yearToOwnerNamesMap
+
+    def loadLeague(self) -> League:
+        sleeperLeagues = self.__getAllLeagues()
         league = self.__buildLeague(sleeperLeagues)
         # validate new league
         leagueValidation.runAllChecks(league)

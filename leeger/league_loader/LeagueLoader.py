@@ -49,3 +49,7 @@ class LeagueLoader:
     @abstractmethod
     def loadLeague(self, *args, **kwargs) -> League:
         ...
+
+    @abstractmethod
+    def getOwnerNames(self, *args, **kwargs) -> dict[int, list[str]]:
+        ...

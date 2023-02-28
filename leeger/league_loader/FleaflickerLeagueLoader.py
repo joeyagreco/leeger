@@ -28,19 +28,33 @@ class FleaflickerLeagueLoader(LeagueLoader):
         except ValueError:
             raise ValueError(f"League ID '{leagueId}' could not be turned into an int.")
         if len(years) > 1:
-            raise LeagueLoaderException("Fleaflicker League Loader does not yet support multi-year leagues.")
+            raise LeagueLoaderException("Fleaflicker League Loader does not yet support multi-year leagues currently.")
         super().__init__(leagueId, years, **kwargs)
 
         self.__fleaflickerTeamIdToOwnerMap: dict[int, Owner] = dict()
         self.__fleaflickerTeamIdToTeamMap: dict[int, Team] = dict()
 
-    def loadLeague(self) -> League:
-        # get all leagues with a year that we want
+    def __getAllLeagues(self) -> list[dict]:
+        # return a list of all leagues
         # TODO: find a way to pull consecutive leagues with 1 league ID
         fleaflickerLeague = LeagueInfoAPIClient.get_league_standings(sport=Sport.NFL,
                                                                      league_id=int(self._leagueId),
                                                                      season=self._years[0])
-        fleaflickerLeagues = [fleaflickerLeague]
+        return [fleaflickerLeague]
+
+    def getOwnerNames(self) -> dict[int, list[str]]:
+        yearToOwnerNamesMap: dict[int, list[str]] = dict()
+        fleaflickerLeagues = self.__getAllLeagues()
+        for fleaflickerLeague in fleaflickerLeagues:
+            yearToOwnerNamesMap[int(fleaflickerLeague["season"])] = list()
+            for division in fleaflickerLeague["divisions"]:
+                for team in division["teams"]:
+                    ownerName = team["owners"][0]["displayName"]
+                    yearToOwnerNamesMap[self._years[0]].append(ownerName)
+        return yearToOwnerNamesMap
+
+    def loadLeague(self) -> League:
+        fleaflickerLeagues = self.__getAllLeagues()
         league = self.__buildLeague(fleaflickerLeagues)
         # validate new league
         leagueValidation.runAllChecks(league)
