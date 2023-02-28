@@ -6,6 +6,10 @@ All notable changes to this project will be documented in this file.
 
 - N/A
 
+## [2.1.0]
+
+- Added method to league loaders to get all owner names
+
 ## [2.0.0]
 
 - Removed yearToExcel function
@@ -173,7 +177,9 @@ All notable changes to this project will be documented in this file.
 
 ### Initial Release
 
-[Unreleased]: https://github.com/joeyagreco/leeger/compare/v2.0.0...HEAD
+[Unreleased]: https://github.com/joeyagreco/leeger/compare/v2.1.0...HEAD
+
+[2.1.0]: https://github.com/joeyagreco/leeger/releases/tag/v2.1.0
 
 [2.0.0]: https://github.com/joeyagreco/leeger/releases/tag/v2.0.0
 
