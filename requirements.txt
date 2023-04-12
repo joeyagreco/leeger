@@ -5,3 +5,4 @@ yahoofantasy~=1.4.0
 sleeper~=1.5.0
 pymfl~=1.0.2
 fleaflicker~=1.0.0
+typing-extensions~=4.5.0
