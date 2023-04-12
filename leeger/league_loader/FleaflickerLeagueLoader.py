@@ -83,14 +83,15 @@ class FleaflickerLeagueLoader(LeagueLoader):
         weeks = list()
         # get all weeks
         fleaflicker_league_scoreboard = ScoringAPIClient.get_league_scoreboard(sport=Sport.NFL,
-                                                                               league_id=fleaflickerLeague["league"][
-                                                                                   "id"])
+                                                                               league_id=fleaflickerLeague["league"]["id"],
+                                                                               season=fleaflickerLeague["season"])
         number_of_scoring_periods = len(fleaflicker_league_scoreboard["eligibleSchedulePeriods"]) + 1
         for scoring_period in range(1, number_of_scoring_periods):
             matchups = list()
             # get all games for this week
             current_scoreboard = ScoringAPIClient.get_league_scoreboard(sport=Sport.NFL,
                                                                         league_id=fleaflickerLeague["league"]["id"],
+                                                                        season=fleaflickerLeague["season"],
                                                                         scoring_period=scoring_period)
             for game in current_scoreboard.get("games", list()):
                 # team A
