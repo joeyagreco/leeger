@@ -4,7 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- N/A
+- Updated workflow to be able to run manually
+- Updated some package versions
 
 ## [2.1.0]
 
