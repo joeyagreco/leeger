@@ -4,7 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- N/A
+- Updated workflow to be able to run manually
+- Updated package versions, including adding typing-extensions which is needed as a temporary dependency due to a bug in
+  another dependency
 
 ## [2.1.0]
 
