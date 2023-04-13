@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- N/A
+
+## [2.1.1]
+
 - Updated workflow to be able to run manually
 - Updated package versions, including adding typing-extensions which is needed as a temporary dependency due to a bug in
   another dependency
@@ -179,7 +183,9 @@ All notable changes to this project will be documented in this file.
 
 ### Initial Release
 
-[Unreleased]: https://github.com/joeyagreco/leeger/compare/v2.1.0...HEAD
+[Unreleased]: https://github.com/joeyagreco/leeger/compare/v2.1.1...HEAD
+
+[2.1.1]: https://github.com/joeyagreco/leeger/releases/tag/v2.1.1
 
 [2.1.0]: https://github.com/joeyagreco/leeger/releases/tag/v2.1.0
 
