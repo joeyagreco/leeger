@@ -4,7 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- N/A
+- Fixed bug that caused Fleaflicker leagues to not load correctly
+- Now support multiple years for Fleaflicker Leagues
 
 ## [2.1.1]
 
