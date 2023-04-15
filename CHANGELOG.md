@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- N/A
+
+## [2.2.0]
+
 - Fixed bug that caused Fleaflicker leagues to not load correctly
 - Now support multiple years for Fleaflicker Leagues
 
@@ -184,7 +188,9 @@ All notable changes to this project will be documented in this file.
 
 ### Initial Release
 
-[Unreleased]: https://github.com/joeyagreco/leeger/compare/v2.1.1...HEAD
+[Unreleased]: https://github.com/joeyagreco/leeger/compare/v2.2.0...HEAD
+
+[2.2.0]: https://github.com/joeyagreco/leeger/releases/tag/v2.2.0
 
 [2.1.1]: https://github.com/joeyagreco/leeger/releases/tag/v2.1.1
 
