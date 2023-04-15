@@ -4,7 +4,6 @@ from fleaflicker.enum.Sport import Sport
 from sleeper.enum import Sport
 
 from leeger.enum.MatchupType import MatchupType
-from leeger.exception import LeagueLoaderException
 from leeger.league_loader.LeagueLoader import LeagueLoader
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup
@@ -27,8 +26,6 @@ class FleaflickerLeagueLoader(LeagueLoader):
             int(leagueId)
         except ValueError:
             raise ValueError(f"League ID '{leagueId}' could not be turned into an int.")
-        if len(years) > 1:
-            raise LeagueLoaderException("Fleaflicker League Loader does not yet support multi-year leagues currently.")
         super().__init__(leagueId, years, **kwargs)
 
         self.__fleaflickerTeamIdToOwnerMap: dict[int, Owner] = dict()
@@ -36,11 +33,12 @@ class FleaflickerLeagueLoader(LeagueLoader):
 
     def __getAllLeagues(self) -> list[dict]:
         # return a list of all leagues
-        # TODO: find a way to pull consecutive leagues with 1 league ID
-        fleaflickerLeague = LeagueInfoAPIClient.get_league_standings(sport=Sport.NFL,
-                                                                     league_id=int(self._leagueId),
-                                                                     season=self._years[0])
-        return [fleaflickerLeague]
+        fleaflickerLeagues = list()
+        for year in self._years:
+            fleaflickerLeagues.append(LeagueInfoAPIClient.get_league_standings(sport=Sport.NFL,
+                                                                               league_id=int(self._leagueId),
+                                                                               season=year))
+        return fleaflickerLeagues
 
     def getOwnerNames(self) -> dict[int, list[str]]:
         yearToOwnerNamesMap: dict[int, list[str]] = dict()
@@ -84,13 +82,15 @@ class FleaflickerLeagueLoader(LeagueLoader):
         # get all weeks
         fleaflicker_league_scoreboard = ScoringAPIClient.get_league_scoreboard(sport=Sport.NFL,
                                                                                league_id=fleaflickerLeague["league"][
-                                                                                   "id"])
+                                                                                   "id"],
+                                                                               season=fleaflickerLeague["season"])
         number_of_scoring_periods = len(fleaflicker_league_scoreboard["eligibleSchedulePeriods"]) + 1
         for scoring_period in range(1, number_of_scoring_periods):
             matchups = list()
             # get all games for this week
             current_scoreboard = ScoringAPIClient.get_league_scoreboard(sport=Sport.NFL,
                                                                         league_id=fleaflickerLeague["league"]["id"],
+                                                                        season=fleaflickerLeague["season"],
                                                                         scoring_period=scoring_period)
             for game in current_scoreboard.get("games", list()):
                 # team A
