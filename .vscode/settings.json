@@ -1,11 +1,20 @@
 {
-    "[python]": {
-        "editor.defaultFormatter": "ms-python.autopep8"
-    },
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "ms-python.python",
+    "editor.rulers": [
+        79
+    ],
     "python.formatting.provider": "black",
+    "python.formatting.blackArgs": [
+        "--line-length=79",
+        "--no-comma"
+    ],
     "python.testing.pytestArgs": [
         "test"
     ],
     "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true
+    "python.testing.pytestEnabled": true,
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.python"
+    }
 }
