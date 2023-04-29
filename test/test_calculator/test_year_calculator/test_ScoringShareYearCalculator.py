@@ -10,15 +10,24 @@ from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestScoringShareYearCalculator(unittest.TestCase):
-
     def test_getScoringShare_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.6,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.2,
+            teamBScore=2.5,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.3,
+            teamBScore=2.6,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -77,10 +86,20 @@ class TestScoringShareYearCalculator(unittest.TestCase):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.6,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.2,
+            teamBScore=2.5,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.3,
+            teamBScore=2.6,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -101,8 +120,13 @@ class TestScoringShareYearCalculator(unittest.TestCase):
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.6,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.3,
+            teamBScore=2.6,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -122,10 +146,20 @@ class TestScoringShareYearCalculator(unittest.TestCase):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.6,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.2,
+            teamBScore=2.5,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.3,
+            teamBScore=2.6,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -146,8 +180,13 @@ class TestScoringShareYearCalculator(unittest.TestCase):
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.6,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.3,
+            teamBScore=2.6,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -168,8 +207,13 @@ class TestScoringShareYearCalculator(unittest.TestCase):
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.6,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.3,
+            teamBScore=2.6,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -190,10 +234,20 @@ class TestScoringShareYearCalculator(unittest.TestCase):
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.6,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.4, teamBScore=2.7,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.3,
+            teamBScore=2.6,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup4 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.4,
+            teamBScore=2.7,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -202,7 +256,9 @@ class TestScoringShareYearCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3, week4])
 
-        response = ScoringShareYearCalculator.getScoringShare(year, weekNumberStart=2, weekNumberEnd=3)
+        response = ScoringShareYearCalculator.getScoringShare(
+            year, weekNumberStart=2, weekNumberEnd=3
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -214,10 +270,20 @@ class TestScoringShareYearCalculator(unittest.TestCase):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.6,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.2,
+            teamBScore=2.5,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.3,
+            teamBScore=2.6,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -276,10 +342,20 @@ class TestScoringShareYearCalculator(unittest.TestCase):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.6,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.2,
+            teamBScore=2.5,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.3,
+            teamBScore=2.6,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -300,8 +376,13 @@ class TestScoringShareYearCalculator(unittest.TestCase):
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.6,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.3,
+            teamBScore=2.6,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -321,10 +402,20 @@ class TestScoringShareYearCalculator(unittest.TestCase):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.6,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.2,
+            teamBScore=2.5,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.3,
+            teamBScore=2.6,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -345,8 +436,13 @@ class TestScoringShareYearCalculator(unittest.TestCase):
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.6,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.3,
+            teamBScore=2.6,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -367,8 +463,13 @@ class TestScoringShareYearCalculator(unittest.TestCase):
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.6,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.3,
+            teamBScore=2.6,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -389,10 +490,20 @@ class TestScoringShareYearCalculator(unittest.TestCase):
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.6,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.4, teamBScore=2.7,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.3,
+            teamBScore=2.6,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup4 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.4,
+            teamBScore=2.7,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -401,7 +512,9 @@ class TestScoringShareYearCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3, week4])
 
-        response = ScoringShareYearCalculator.getOpponentScoringShare(year, weekNumberStart=2, weekNumberEnd=3)
+        response = ScoringShareYearCalculator.getOpponentScoringShare(
+            year, weekNumberStart=2, weekNumberEnd=3
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -413,10 +526,20 @@ class TestScoringShareYearCalculator(unittest.TestCase):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.6,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.2,
+            teamBScore=2.5,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.3,
+            teamBScore=2.6,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -473,10 +596,20 @@ class TestScoringShareYearCalculator(unittest.TestCase):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.6,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.2,
+            teamBScore=2.5,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.3,
+            teamBScore=2.6,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -496,8 +629,13 @@ class TestScoringShareYearCalculator(unittest.TestCase):
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.6,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.3,
+            teamBScore=2.6,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -516,10 +654,20 @@ class TestScoringShareYearCalculator(unittest.TestCase):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.6,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.2,
+            teamBScore=2.5,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.3,
+            teamBScore=2.6,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -539,8 +687,13 @@ class TestScoringShareYearCalculator(unittest.TestCase):
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.6,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.3,
+            teamBScore=2.6,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -560,8 +713,13 @@ class TestScoringShareYearCalculator(unittest.TestCase):
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.6,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.3,
+            teamBScore=2.6,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -581,10 +739,20 @@ class TestScoringShareYearCalculator(unittest.TestCase):
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.6,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.4, teamBScore=2.7,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.3,
+            teamBScore=2.6,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup4 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.4,
+            teamBScore=2.7,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -593,7 +761,9 @@ class TestScoringShareYearCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3, week4])
 
-        response = ScoringShareYearCalculator.getMaxScoringShare(year, weekNumberStart=2, weekNumberEnd=3)
+        response = ScoringShareYearCalculator.getMaxScoringShare(
+            year, weekNumberStart=2, weekNumberEnd=3
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -604,10 +774,20 @@ class TestScoringShareYearCalculator(unittest.TestCase):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.6,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.2,
+            teamBScore=2.5,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.3,
+            teamBScore=2.6,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -664,10 +844,20 @@ class TestScoringShareYearCalculator(unittest.TestCase):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.6,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.2,
+            teamBScore=2.5,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.3,
+            teamBScore=2.6,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -687,8 +877,13 @@ class TestScoringShareYearCalculator(unittest.TestCase):
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.6,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.3,
+            teamBScore=2.6,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -707,10 +902,20 @@ class TestScoringShareYearCalculator(unittest.TestCase):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.6,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.2,
+            teamBScore=2.5,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.3,
+            teamBScore=2.6,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -730,8 +935,13 @@ class TestScoringShareYearCalculator(unittest.TestCase):
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.6,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.3,
+            teamBScore=2.6,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -751,8 +961,13 @@ class TestScoringShareYearCalculator(unittest.TestCase):
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.6,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.3,
+            teamBScore=2.6,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -772,10 +987,20 @@ class TestScoringShareYearCalculator(unittest.TestCase):
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.6,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.4, teamBScore=2.7,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.3,
+            teamBScore=2.6,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup4 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.4,
+            teamBScore=2.7,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -784,7 +1009,9 @@ class TestScoringShareYearCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3, week4])
 
-        response = ScoringShareYearCalculator.getMinScoringShare(year, weekNumberStart=2, weekNumberEnd=3)
+        response = ScoringShareYearCalculator.getMinScoringShare(
+            year, weekNumberStart=2, weekNumberEnd=3
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))

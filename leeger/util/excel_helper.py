@@ -14,10 +14,9 @@ def allTimeTeamsStatSheet(league: League, **kwargs) -> list[tuple[str, dict]]:
             ownerNames[team.id] = LeagueNavigator.getOwnerById(league, team.ownerId).name
             years[team.id] = year.yearNumber
             teamIdToNameMap[team.id] = team.name
-        yearStatsWithTitles = yearStatSheet(year,
-                                            ownerNames=ownerNames,
-                                            years=years,
-                                            **kwargs).preferredOrderWithTitle()
+        yearStatsWithTitles = yearStatSheet(
+            year, ownerNames=ownerNames, years=years, **kwargs
+        ).preferredOrderWithTitle()
 
         yearStatsWithTitles.insert(0, ("Team", teamIdToNameMap))
         allTimeTeamsStatsWithTitles += yearStatsWithTitles
@@ -27,7 +26,9 @@ def allTimeTeamsStatSheet(league: League, **kwargs) -> list[tuple[str, dict]]:
     for titleStr, statsDict in allTimeTeamsStatsWithTitles:
         allTitlesInCondensedList = list()
         if len(condensedAllTimeTeamsStatsWithTitles) > 0:
-            allTitlesInCondensedList = [values[0] for values in condensedAllTimeTeamsStatsWithTitles]
+            allTitlesInCondensedList = [
+                values[0] for values in condensedAllTimeTeamsStatsWithTitles
+            ]
         if titleStr in allTitlesInCondensedList:
             # add to stats dict for the existing title
             for i, (title_s, stats_d) in enumerate(condensedAllTimeTeamsStatsWithTitles):
@@ -38,8 +39,9 @@ def allTimeTeamsStatSheet(league: League, **kwargs) -> list[tuple[str, dict]]:
     return condensedAllTimeTeamsStatsWithTitles
 
 
-def yearMatchupsStatSheet(year: Year, includeOwnerIds: bool = False, includeYears: bool = False, **kwargs) -> tuple[
-    list[tuple[str, dict]], dict[str, str]]:
+def yearMatchupsStatSheet(
+    year: Year, includeOwnerIds: bool = False, includeYears: bool = False, **kwargs
+) -> tuple[list[tuple[str, dict]], dict[str, str]]:
     yearFilters = YearFilters.getForYear(year, **kwargs)
     modifiedMatchupIdToOwnerIdMap: dict = dict()
     teamForNames: dict[str, str] = dict()
@@ -55,8 +57,10 @@ def yearMatchupsStatSheet(year: Year, includeOwnerIds: bool = False, includeYear
     for week in year.weeks:
         if yearFilters.weekNumberStart <= week.weekNumber <= yearFilters.weekNumberEnd:
             for matchup in week.matchups:
-                if matchup.matchupType in yearFilters.includeMatchupTypes \
-                        and (matchup.multiWeekMatchupId is None or yearFilters.includeMultiWeekMatchups is True):
+                if matchup.matchupType in yearFilters.includeMatchupTypes and (
+                    matchup.multiWeekMatchupId is None
+                    or yearFilters.includeMultiWeekMatchups is True
+                ):
                     teamA = YearNavigator.getTeamById(year, matchup.teamAId)
                     teamB = YearNavigator.getTeamById(year, matchup.teamBId)
                     # add matchup for both teams
@@ -91,7 +95,7 @@ def yearMatchupsStatSheet(year: Year, includeOwnerIds: bool = False, includeYear
         ("Week Number", weekNumbers),
         ("Matchup Type", matchupTypes),
         ("Points For", teamForScores),
-        ("Points Against", teamAgainstScores)
+        ("Points Against", teamAgainstScores),
     ]
     if includeYears:
         titlesAndStatDicts.insert(2, ("Year", yearNumbers))
@@ -102,7 +106,9 @@ def yearMatchupsStatSheet(year: Year, includeOwnerIds: bool = False, includeYear
     return titlesAndStatDicts, modifiedMatchupIdToOwnerIdMap
 
 
-def allTimeMatchupsStatSheet(league: League, **kwargs) -> tuple[list[tuple[str, dict]], dict[str, str]]:
+def allTimeMatchupsStatSheet(
+    league: League, **kwargs
+) -> tuple[list[tuple[str, dict]], dict[str, str]]:
     allTimeFilters = AllTimeFilters.getForLeague(league, **kwargs.copy())
 
     allYearMatchupStatSheets: list = list()
@@ -119,10 +125,12 @@ def allTimeMatchupsStatSheet(league: League, **kwargs) -> tuple[list[tuple[str, 
 
     for year in league.years:
         if allTimeFilters.yearNumberStart <= year.yearNumber <= allTimeFilters.yearNumberEnd:
-            currentYearMatchupStatSheet, currentModifiedMatchupIdToOwnerIdMap = yearMatchupsStatSheet(year,
-                                                                                                      includeYears=True,
-                                                                                                      includeOwnerIds=True,
-                                                                                                      **kwargs.copy())
+            (
+                currentYearMatchupStatSheet,
+                currentModifiedMatchupIdToOwnerIdMap,
+            ) = yearMatchupsStatSheet(
+                year, includeYears=True, includeOwnerIds=True, **kwargs.copy()
+            )
             allYearMatchupStatSheets.append(currentYearMatchupStatSheet)
             allModifiedMatchupIdToOwnerIdMaps.append(currentModifiedMatchupIdToOwnerIdMap)
 
@@ -162,12 +170,14 @@ def allTimeMatchupsStatSheet(league: League, **kwargs) -> tuple[list[tuple[str, 
     for modifiedMatchupIdToOwnerIdMap in allModifiedMatchupIdToOwnerIdMaps:
         combinedModifiedMatchupIdToOwnerIdMap.update(modifiedMatchupIdToOwnerIdMap)
 
-    return [("Team For", teamForNames),
-            ("Owner For", ownerForNames),
-            ("Team Against", teamAgainstNames),
-            ("Owner Against", ownerAgainstNames),
-            ("Year", yearNumbers),
-            ("Week Number", weekNumbers),
-            ("Matchup Type", matchupTypes),
-            ("Points For", teamForScores),
-            ("Points Against", teamAgainstScores)], combinedModifiedMatchupIdToOwnerIdMap
+    return [
+        ("Team For", teamForNames),
+        ("Owner For", ownerForNames),
+        ("Team Against", teamAgainstNames),
+        ("Owner Against", ownerAgainstNames),
+        ("Year", yearNumbers),
+        ("Week Number", weekNumbers),
+        ("Matchup Type", matchupTypes),
+        ("Points For", teamForScores),
+        ("Points Against", teamAgainstScores),
+    ], combinedModifiedMatchupIdToOwnerIdMap

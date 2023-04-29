@@ -1,7 +1,7 @@
 from leeger.league_loader import ESPNLeagueLoader, SleeperLeagueLoader
 from leeger.model.league import League
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Sometimes, you may want to combine League objects.
     # This may be because you switched fantasy sites and now the league data is split across different sites.
     # You can combine League objects to solve this issue.

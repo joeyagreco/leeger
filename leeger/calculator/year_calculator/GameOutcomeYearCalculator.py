@@ -115,7 +115,9 @@ class GameOutcomeYearCalculator(YearCalculator):
             # get loser team ID (if this wasn't a tie)
             winnerTeamId = MatchupNavigator.getTeamIdOfMatchupWinner(matchup)
             if winnerTeamId is not None:
-                loserTeamId = matchup.teamAId if winnerTeamId == matchup.teamBId else matchup.teamBId
+                loserTeamId = (
+                    matchup.teamAId if winnerTeamId == matchup.teamBId else matchup.teamBId
+                )
                 teamIdAndLosses[loserTeamId] += 1
         cls._setToNoneIfNoGamesPlayed(teamIdAndLosses, year, filters, **kwargs)
         return teamIdAndLosses
@@ -210,14 +212,16 @@ class GameOutcomeYearCalculator(YearCalculator):
                 if year.yearSettings.leagueMedianGames:
                     # add another game played for each regular season game if league median games is on in year settings
                     filters = YearFilters.getForYear(year, **kwargs)
-                    numberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year,
-                                                                               filters,
-                                                                               countMultiWeekMatchupsAsOneGame=True,
-                                                                               countLeagueMedianGamesAsTwoGames=True)[
-                        teamId]
+                    numberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(
+                        year,
+                        filters,
+                        countMultiWeekMatchupsAsOneGame=True,
+                        countLeagueMedianGamesAsTwoGames=True,
+                    )[teamId]
                     totalWins += numberOfLeagueMedianWins
-                teamIdAndWinPercentage[teamId] = (Deci(totalWins) + (Deci("0.5") * Deci(numberOfTies))) / Deci(
-                    numberOfGamesPlayed)
+                teamIdAndWinPercentage[teamId] = (
+                    Deci(totalWins) + (Deci("0.5") * Deci(numberOfTies))
+                ) / Deci(numberOfGamesPlayed)
 
         return teamIdAndWinPercentage
 
@@ -254,7 +258,10 @@ class GameOutcomeYearCalculator(YearCalculator):
             else:
                 teamIdAndWAL[teamId] = Deci(wins) + (Deci("0.5") * Deci(ties))
 
-            if year.yearSettings.leagueMedianGames is True and teamIdAndLeagueMedianWins[teamId] is not None:
+            if (
+                year.yearSettings.leagueMedianGames is True
+                and teamIdAndLeagueMedianWins[teamId] is not None
+            ):
                 if teamIdAndWAL[teamId] is None:
                     teamIdAndWAL[teamId] = Deci(leagueMedianWins)
                 else:
@@ -278,10 +285,12 @@ class GameOutcomeYearCalculator(YearCalculator):
             }
         """
         teamIdAndWAL = cls.getWAL(year, **kwargs)
-        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year, YearFilters.getForYear(year,
-                                                                                                         **kwargs),
-                                                                            countMultiWeekMatchupsAsOneGame=True,
-                                                                            countLeagueMedianGamesAsTwoGames=True)
+        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(
+            year,
+            YearFilters.getForYear(year, **kwargs),
+            countMultiWeekMatchupsAsOneGame=True,
+            countLeagueMedianGamesAsTwoGames=True,
+        )
 
         teamIdAndWALPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
@@ -290,7 +299,9 @@ class GameOutcomeYearCalculator(YearCalculator):
             if teamIdAndNumberOfGamesPlayed[teamId] == 0:
                 teamIdAndWALPerGame[teamId] = Deci("0")
             else:
-                teamIdAndWALPerGame[teamId] = teamIdAndWAL[teamId] / teamIdAndNumberOfGamesPlayed[teamId]
+                teamIdAndWALPerGame[teamId] = (
+                    teamIdAndWAL[teamId] / teamIdAndNumberOfGamesPlayed[teamId]
+                )
 
         cls._setToNoneIfNoGamesPlayed(teamIdAndWALPerGame, year, **kwargs)
         return teamIdAndWALPerGame

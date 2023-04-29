@@ -99,7 +99,7 @@ class YearStatSheet:
             ("Plus/Minus", self.plusMinus),
             ("Team Score", self.teamScore),
             ("Team Success", self.teamSuccess),
-            ("Team Luck", self.teamLuck)
+            ("Team Luck", self.teamLuck),
         ]
 
         # add optional stats if needed

@@ -1,7 +1,7 @@
 from leeger.league_loader import ESPNLeagueLoader
 from leeger.model.league import League
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # PUBLIC LEAGUE
     # Get a League object with years 2019 and 2020 for ESPN league with ID: "12345678".
     espnLeagueLoader = ESPNLeagueLoader("12345678", [2019, 2020])

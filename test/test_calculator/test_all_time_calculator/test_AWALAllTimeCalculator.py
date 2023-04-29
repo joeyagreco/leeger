@@ -12,7 +12,6 @@ from test.helper.prototypes import getNDefaultOwnersAndTeams, getTeamsFromOwners
 
 
 class TestAWALAllTimeCalculator(unittest.TestCase):
-
     def test_getAWAL_happyPath(self):
         owners, teamsA = getNDefaultOwnersAndTeams(6)
         teamsB = getTeamsFromOwners(owners)
@@ -116,12 +115,27 @@ class TestAWALAllTimeCalculator(unittest.TestCase):
         week1_a = Week(weekNumber=1, matchups=[matchup1_a, matchup2_a, matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a])
 
-        matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup2_b = Matchup(teamAId=teamsB[2].id, teamBId=teamsB[3].id, teamAScore=3, teamBScore=4,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[4].id, teamBId=teamsB[5].id, teamAScore=4, teamBScore=5,
-                             matchupType=MatchupType.PLAYOFF)
+        matchup1_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2_b = Matchup(
+            teamAId=teamsB[2].id,
+            teamBId=teamsB[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[4].id,
+            teamBId=teamsB[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.PLAYOFF,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b, matchup2_b, matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b])
 
@@ -155,12 +169,27 @@ class TestAWALAllTimeCalculator(unittest.TestCase):
         week1_a = Week(weekNumber=1, matchups=[matchup1_a, matchup2_a, matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a])
 
-        matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup2_b = Matchup(teamAId=teamsB[2].id, teamBId=teamsB[3].id, teamAScore=3, teamBScore=4,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[4].id, teamBId=teamsB[5].id, teamAScore=4, teamBScore=5,
-                             matchupType=MatchupType.PLAYOFF)
+        matchup1_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2_b = Matchup(
+            teamAId=teamsB[2].id,
+            teamBId=teamsB[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[4].id,
+            teamBId=teamsB[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.PLAYOFF,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b, matchup2_b, matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b])
 
@@ -194,12 +223,27 @@ class TestAWALAllTimeCalculator(unittest.TestCase):
         week1_a = Week(weekNumber=1, matchups=[matchup1_a, matchup2_a, matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a])
 
-        matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup2_b = Matchup(teamAId=teamsB[2].id, teamBId=teamsB[3].id, teamAScore=3, teamBScore=4,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[4].id, teamBId=teamsB[5].id, teamAScore=4, teamBScore=5,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2_b = Matchup(
+            teamAId=teamsB[2].id,
+            teamBId=teamsB[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[4].id,
+            teamBId=teamsB[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b, matchup2_b, matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b])
 
@@ -302,7 +346,9 @@ class TestAWALAllTimeCalculator(unittest.TestCase):
         self.assertEqual(Deci("2.1"), response[owners[4].id])
         self.assertEqual(Deci("3"), response[owners[5].id])
 
-    def test_getAWAL_yearNumberStartGivenWeekNumberStartGivenAndYearNumberEndGivenWeekNumberEndGiven(self):
+    def test_getAWAL_yearNumberStartGivenWeekNumberStartGivenAndYearNumberEndGivenWeekNumberEndGiven(
+        self,
+    ):
         owners, teamsA = getNDefaultOwnersAndTeams(6)
         teamsB = getTeamsFromOwners(owners)
         teamsC = getTeamsFromOwners(owners)
@@ -331,8 +377,9 @@ class TestAWALAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = AWALAllTimeCalculator.getAWAL(league, yearNumberStart=2001, weekNumberStart=1, yearNumberEnd=2001,
-                                                 weekNumberEnd=2)
+        response = AWALAllTimeCalculator.getAWAL(
+            league, yearNumberStart=2001, weekNumberStart=1, yearNumberEnd=2001, weekNumberEnd=2
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -446,12 +493,27 @@ class TestAWALAllTimeCalculator(unittest.TestCase):
         week1_a = Week(weekNumber=1, matchups=[matchup1_a, matchup2_a, matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a])
 
-        matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup2_b = Matchup(teamAId=teamsB[2].id, teamBId=teamsB[3].id, teamAScore=3, teamBScore=4,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[4].id, teamBId=teamsB[5].id, teamAScore=4, teamBScore=5,
-                             matchupType=MatchupType.PLAYOFF)
+        matchup1_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2_b = Matchup(
+            teamAId=teamsB[2].id,
+            teamBId=teamsB[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[4].id,
+            teamBId=teamsB[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.PLAYOFF,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b, matchup2_b, matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b])
 
@@ -485,12 +547,27 @@ class TestAWALAllTimeCalculator(unittest.TestCase):
         week1_a = Week(weekNumber=1, matchups=[matchup1_a, matchup2_a, matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a])
 
-        matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup2_b = Matchup(teamAId=teamsB[2].id, teamBId=teamsB[3].id, teamAScore=3, teamBScore=4,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[4].id, teamBId=teamsB[5].id, teamAScore=4, teamBScore=5,
-                             matchupType=MatchupType.PLAYOFF)
+        matchup1_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2_b = Matchup(
+            teamAId=teamsB[2].id,
+            teamBId=teamsB[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[4].id,
+            teamBId=teamsB[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.PLAYOFF,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b, matchup2_b, matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b])
 
@@ -524,12 +601,27 @@ class TestAWALAllTimeCalculator(unittest.TestCase):
         week1_a = Week(weekNumber=1, matchups=[matchup1_a, matchup2_a, matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a])
 
-        matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup2_b = Matchup(teamAId=teamsB[2].id, teamBId=teamsB[3].id, teamAScore=3, teamBScore=4,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[4].id, teamBId=teamsB[5].id, teamAScore=4, teamBScore=5,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2_b = Matchup(
+            teamAId=teamsB[2].id,
+            teamBId=teamsB[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[4].id,
+            teamBId=teamsB[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b, matchup2_b, matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b])
 
@@ -581,7 +673,9 @@ class TestAWALAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = AWALAllTimeCalculator.getAWALPerGame(league, yearNumberStart=2001, weekNumberStart=2)
+        response = AWALAllTimeCalculator.getAWALPerGame(
+            league, yearNumberStart=2001, weekNumberStart=2
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -632,7 +726,9 @@ class TestAWALAllTimeCalculator(unittest.TestCase):
         self.assertEqual(Deci("0.7"), response[owners[4].id])
         self.assertEqual(Deci("1"), response[owners[5].id])
 
-    def test_getAWALPerGame_yearNumberStartGivenWeekNumberStartGivenAndYearNumberEndGivenWeekNumberEndGiven(self):
+    def test_getAWALPerGame_yearNumberStartGivenWeekNumberStartGivenAndYearNumberEndGivenWeekNumberEndGiven(
+        self,
+    ):
         owners, teamsA = getNDefaultOwnersAndTeams(6)
         teamsB = getTeamsFromOwners(owners)
         teamsC = getTeamsFromOwners(owners)
@@ -661,9 +757,9 @@ class TestAWALAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = AWALAllTimeCalculator.getAWALPerGame(league, yearNumberStart=2001, weekNumberStart=1,
-                                                        yearNumberEnd=2001,
-                                                        weekNumberEnd=2)
+        response = AWALAllTimeCalculator.getAWALPerGame(
+            league, yearNumberStart=2001, weekNumberStart=1, yearNumberEnd=2001, weekNumberEnd=2
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -778,12 +874,27 @@ class TestAWALAllTimeCalculator(unittest.TestCase):
         week1_a = Week(weekNumber=1, matchups=[matchup1_a, matchup2_a, matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a])
 
-        matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup2_b = Matchup(teamAId=teamsB[2].id, teamBId=teamsB[3].id, teamAScore=3, teamBScore=4,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[4].id, teamBId=teamsB[5].id, teamAScore=4, teamBScore=5,
-                             matchupType=MatchupType.PLAYOFF)
+        matchup1_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2_b = Matchup(
+            teamAId=teamsB[2].id,
+            teamBId=teamsB[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[4].id,
+            teamBId=teamsB[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.PLAYOFF,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b, matchup2_b, matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b])
 
@@ -817,12 +928,27 @@ class TestAWALAllTimeCalculator(unittest.TestCase):
         week1_a = Week(weekNumber=1, matchups=[matchup1_a, matchup2_a, matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a])
 
-        matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup2_b = Matchup(teamAId=teamsB[2].id, teamBId=teamsB[3].id, teamAScore=3, teamBScore=4,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[4].id, teamBId=teamsB[5].id, teamAScore=4, teamBScore=5,
-                             matchupType=MatchupType.PLAYOFF)
+        matchup1_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2_b = Matchup(
+            teamAId=teamsB[2].id,
+            teamBId=teamsB[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[4].id,
+            teamBId=teamsB[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.PLAYOFF,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b, matchup2_b, matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b])
 
@@ -856,12 +982,27 @@ class TestAWALAllTimeCalculator(unittest.TestCase):
         week1_a = Week(weekNumber=1, matchups=[matchup1_a, matchup2_a, matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a])
 
-        matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup2_b = Matchup(teamAId=teamsB[2].id, teamBId=teamsB[3].id, teamAScore=3, teamBScore=4,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[4].id, teamBId=teamsB[5].id, teamAScore=4, teamBScore=5,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2_b = Matchup(
+            teamAId=teamsB[2].id,
+            teamBId=teamsB[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[4].id,
+            teamBId=teamsB[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b, matchup2_b, matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b])
 
@@ -913,7 +1054,9 @@ class TestAWALAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = AWALAllTimeCalculator.getOpponentAWAL(league, yearNumberStart=2001, weekNumberStart=2)
+        response = AWALAllTimeCalculator.getOpponentAWAL(
+            league, yearNumberStart=2001, weekNumberStart=2
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -953,7 +1096,9 @@ class TestAWALAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = AWALAllTimeCalculator.getOpponentAWAL(league, yearNumberEnd=2001, weekNumberEnd=2)
+        response = AWALAllTimeCalculator.getOpponentAWAL(
+            league, yearNumberEnd=2001, weekNumberEnd=2
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -964,7 +1109,9 @@ class TestAWALAllTimeCalculator(unittest.TestCase):
         self.assertEqual(Deci("3"), response[owners[4].id])
         self.assertEqual(Deci("2.1"), response[owners[5].id])
 
-    def test_getOpponentAWAL_yearNumberStartGivenWeekNumberStartGivenAndYearNumberEndGivenWeekNumberEndGiven(self):
+    def test_getOpponentAWAL_yearNumberStartGivenWeekNumberStartGivenAndYearNumberEndGivenWeekNumberEndGiven(
+        self,
+    ):
         owners, teamsA = getNDefaultOwnersAndTeams(6)
         teamsB = getTeamsFromOwners(owners)
         teamsC = getTeamsFromOwners(owners)
@@ -993,9 +1140,9 @@ class TestAWALAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = AWALAllTimeCalculator.getOpponentAWAL(league, yearNumberStart=2001, weekNumberStart=1,
-                                                         yearNumberEnd=2001,
-                                                         weekNumberEnd=2)
+        response = AWALAllTimeCalculator.getOpponentAWAL(
+            league, yearNumberStart=2001, weekNumberStart=1, yearNumberEnd=2001, weekNumberEnd=2
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -1109,12 +1256,27 @@ class TestAWALAllTimeCalculator(unittest.TestCase):
         week1_a = Week(weekNumber=1, matchups=[matchup1_a, matchup2_a, matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a])
 
-        matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup2_b = Matchup(teamAId=teamsB[2].id, teamBId=teamsB[3].id, teamAScore=3, teamBScore=4,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[4].id, teamBId=teamsB[5].id, teamAScore=4, teamBScore=5,
-                             matchupType=MatchupType.PLAYOFF)
+        matchup1_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2_b = Matchup(
+            teamAId=teamsB[2].id,
+            teamBId=teamsB[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[4].id,
+            teamBId=teamsB[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.PLAYOFF,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b, matchup2_b, matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b])
 
@@ -1148,12 +1310,27 @@ class TestAWALAllTimeCalculator(unittest.TestCase):
         week1_a = Week(weekNumber=1, matchups=[matchup1_a, matchup2_a, matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a])
 
-        matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup2_b = Matchup(teamAId=teamsB[2].id, teamBId=teamsB[3].id, teamAScore=3, teamBScore=4,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[4].id, teamBId=teamsB[5].id, teamAScore=4, teamBScore=5,
-                             matchupType=MatchupType.PLAYOFF)
+        matchup1_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2_b = Matchup(
+            teamAId=teamsB[2].id,
+            teamBId=teamsB[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[4].id,
+            teamBId=teamsB[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.PLAYOFF,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b, matchup2_b, matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b])
 
@@ -1187,12 +1364,27 @@ class TestAWALAllTimeCalculator(unittest.TestCase):
         week1_a = Week(weekNumber=1, matchups=[matchup1_a, matchup2_a, matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a])
 
-        matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup2_b = Matchup(teamAId=teamsB[2].id, teamBId=teamsB[3].id, teamAScore=3, teamBScore=4,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[4].id, teamBId=teamsB[5].id, teamAScore=4, teamBScore=5,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2_b = Matchup(
+            teamAId=teamsB[2].id,
+            teamBId=teamsB[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[4].id,
+            teamBId=teamsB[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b, matchup2_b, matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b])
 
@@ -1244,7 +1436,9 @@ class TestAWALAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = AWALAllTimeCalculator.getOpponentAWALPerGame(league, yearNumberStart=2001, weekNumberStart=2)
+        response = AWALAllTimeCalculator.getOpponentAWALPerGame(
+            league, yearNumberStart=2001, weekNumberStart=2
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -1284,7 +1478,9 @@ class TestAWALAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = AWALAllTimeCalculator.getOpponentAWALPerGame(league, yearNumberEnd=2001, weekNumberEnd=2)
+        response = AWALAllTimeCalculator.getOpponentAWALPerGame(
+            league, yearNumberEnd=2001, weekNumberEnd=2
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -1296,7 +1492,8 @@ class TestAWALAllTimeCalculator(unittest.TestCase):
         self.assertEqual(Deci("0.7"), response[owners[5].id])
 
     def test_getOpponentAWALPerGame_yearNumberStartGivenWeekNumberStartGivenAndYearNumberEndGivenWeekNumberEndGiven(
-            self):
+        self,
+    ):
         owners, teamsA = getNDefaultOwnersAndTeams(6)
         teamsB = getTeamsFromOwners(owners)
         teamsC = getTeamsFromOwners(owners)
@@ -1325,9 +1522,9 @@ class TestAWALAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = AWALAllTimeCalculator.getOpponentAWALPerGame(league, yearNumberStart=2001, weekNumberStart=1,
-                                                                yearNumberEnd=2001,
-                                                                weekNumberEnd=2)
+        response = AWALAllTimeCalculator.getOpponentAWALPerGame(
+            league, yearNumberStart=2001, weekNumberStart=1, yearNumberEnd=2001, weekNumberEnd=2
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))

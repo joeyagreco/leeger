@@ -29,8 +29,13 @@ class TestLeague(unittest.TestCase):
         # create League 1
         owners_1, teams_1 = getNDefaultOwnersAndTeams(2)
 
-        matchup_1 = Matchup(teamAId=teams_1[0].id, teamBId=teams_1[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_1 = Matchup(
+            teamAId=teams_1[0].id,
+            teamBId=teams_1[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_1 = Week(weekNumber=1, matchups=[matchup_1])
         year_1 = Year(yearNumber=2000, teams=teams_1, weeks=[week_1])
         league_1 = League(name="LEAGUE", owners=owners_1, years=[year_1])
@@ -38,8 +43,13 @@ class TestLeague(unittest.TestCase):
         # create League 2
         owners_2, teams_2 = getNDefaultOwnersAndTeams(2)
 
-        matchup_2 = Matchup(teamAId=teams_2[0].id, teamBId=teams_2[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_2 = Matchup(
+            teamAId=teams_2[0].id,
+            teamBId=teams_2[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_2 = Week(weekNumber=1, matchups=[matchup_2])
         year_2 = Year(yearNumber=2000, teams=teams_2, weeks=[week_2])
         league_2 = League(name="LEAGUE", owners=owners_2, years=[year_2])
@@ -50,8 +60,13 @@ class TestLeague(unittest.TestCase):
         # create League 1
         owners_1, teams_1 = getNDefaultOwnersAndTeams(2)
 
-        matchup_1 = Matchup(teamAId=teams_1[0].id, teamBId=teams_1[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_1 = Matchup(
+            teamAId=teams_1[0].id,
+            teamBId=teams_1[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_1 = Week(weekNumber=1, matchups=[matchup_1])
         year_1 = Year(yearNumber=2000, teams=teams_1, weeks=[week_1])
         league_1 = League(name="LEAGUE 1", owners=owners_1, years=[year_1])
@@ -59,8 +74,13 @@ class TestLeague(unittest.TestCase):
         # create League 2
         owners_2, teams_2 = getNDefaultOwnersAndTeams(2)
 
-        matchup_2 = Matchup(teamAId=teams_2[0].id, teamBId=teams_2[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_2 = Matchup(
+            teamAId=teams_2[0].id,
+            teamBId=teams_2[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_2 = Week(weekNumber=1, matchups=[matchup_2])
         year_2 = Year(yearNumber=2000, teams=teams_2, weeks=[week_2])
         league_2 = League(name="LEAGUE 2", owners=owners_2, years=[year_2])
@@ -71,8 +91,13 @@ class TestLeague(unittest.TestCase):
         # create League 1
         owners_1, teams_1 = getNDefaultOwnersAndTeams(2)
 
-        matchup_1 = Matchup(teamAId=teams_1[0].id, teamBId=teams_1[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_1 = Matchup(
+            teamAId=teams_1[0].id,
+            teamBId=teams_1[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_1 = Week(weekNumber=1, matchups=[matchup_1])
         year_1 = Year(yearNumber=2000, teams=teams_1, weeks=[week_1])
         league_1 = League(name="LEAGUE 1", owners=owners_1, years=[year_1])
@@ -80,8 +105,13 @@ class TestLeague(unittest.TestCase):
         # create League 2
         owners_2, teams_2 = getNDefaultOwnersAndTeams(2)
 
-        matchup_2 = Matchup(teamAId=teams_2[0].id, teamBId=teams_2[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_2 = Matchup(
+            teamAId=teams_2[0].id,
+            teamBId=teams_2[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_2 = Week(weekNumber=1, matchups=[matchup_2])
         year_2 = Year(yearNumber=2001, teams=teams_2, weeks=[week_2])
         league_2 = League(name="LEAGUE 2", owners=owners_2, years=[year_2])
@@ -90,7 +120,9 @@ class TestLeague(unittest.TestCase):
         self.assertIsInstance(combinedLeague, League)
         self.assertEqual("'LEAGUE 1' + 'LEAGUE 2' League", combinedLeague.name)
         self.assertEqual(2, len(combinedLeague.owners))
-        self.assertEqual([owner.name for owner in league_1.owners], [owner.name for owner in league_1.owners])
+        self.assertEqual(
+            [owner.name for owner in league_1.owners], [owner.name for owner in league_1.owners]
+        )
         self.assertEqual(2, len(combinedLeague.years))
         self.assertEqual(2000, combinedLeague.years[0].yearNumber)
         self.assertEqual(2001, combinedLeague.years[1].yearNumber)
@@ -99,8 +131,13 @@ class TestLeague(unittest.TestCase):
         # create League 1
         owners_1, teams_1 = getNDefaultOwnersAndTeams(2)
 
-        matchup_1 = Matchup(teamAId=teams_1[0].id, teamBId=teams_1[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_1 = Matchup(
+            teamAId=teams_1[0].id,
+            teamBId=teams_1[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_1 = Week(weekNumber=1, matchups=[matchup_1])
         year_1 = Year(yearNumber=2000, teams=teams_1, weeks=[week_1])
         league_1 = League(name="LEAGUE 1", owners=owners_1, years=[year_1])
@@ -109,8 +146,13 @@ class TestLeague(unittest.TestCase):
         # create League 2
         owners_2, teams_2 = getNDefaultOwnersAndTeams(2)
 
-        matchup_2 = Matchup(teamAId=teams_2[0].id, teamBId=teams_2[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_2 = Matchup(
+            teamAId=teams_2[0].id,
+            teamBId=teams_2[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_2 = Week(weekNumber=1, matchups=[matchup_2])
         year_2 = Year(yearNumber=2001, teams=teams_2, weeks=[week_2])
         league_2 = League(name="LEAGUE 2", owners=owners_2, years=[year_2])
@@ -124,8 +166,13 @@ class TestLeague(unittest.TestCase):
         # create League 1
         owners_1, teams_1 = getNDefaultOwnersAndTeams(2)
 
-        matchup_1 = Matchup(teamAId=teams_1[0].id, teamBId=teams_1[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_1 = Matchup(
+            teamAId=teams_1[0].id,
+            teamBId=teams_1[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_1 = Week(weekNumber=1, matchups=[matchup_1])
         year_1 = Year(yearNumber=2000, teams=teams_1, weeks=[week_1])
         league_1 = League(name="LEAGUE 1", owners=owners_1, years=[year_1])
@@ -133,8 +180,13 @@ class TestLeague(unittest.TestCase):
         # create League 2
         owners_2, teams_2 = getNDefaultOwnersAndTeams(2)
 
-        matchup_2 = Matchup(teamAId=teams_2[0].id, teamBId=teams_2[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_2 = Matchup(
+            teamAId=teams_2[0].id,
+            teamBId=teams_2[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_2 = Week(weekNumber=1, matchups=[matchup_2])
         year_2 = Year(yearNumber=2001, teams=teams_2, weeks=[week_2])
         league_2 = League(name="LEAGUE 2", owners=owners_2, years=[year_2])
@@ -151,8 +203,13 @@ class TestLeague(unittest.TestCase):
         # create League 1
         owners_1, teams_1 = getNDefaultOwnersAndTeams(2)
 
-        matchup_1 = Matchup(teamAId=teams_1[0].id, teamBId=teams_1[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_1 = Matchup(
+            teamAId=teams_1[0].id,
+            teamBId=teams_1[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_1 = Week(weekNumber=1, matchups=[matchup_1])
         year_1 = Year(yearNumber=2000, teams=teams_1, weeks=[week_1])
         league_1 = League(name="LEAGUE", owners=owners_1, years=[year_1])
@@ -160,8 +217,13 @@ class TestLeague(unittest.TestCase):
         # create League 2
         owners_2, teams_2 = getNDefaultOwnersAndTeams(2)
 
-        matchup_2 = Matchup(teamAId=teams_2[0].id, teamBId=teams_2[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_2 = Matchup(
+            teamAId=teams_2[0].id,
+            teamBId=teams_2[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_2 = Week(weekNumber=1, matchups=[matchup_2])
         year_2 = Year(yearNumber=2001, teams=teams_2, weeks=[week_2])
         league_2 = League(name="LEAGUE", owners=owners_2, years=[year_2])
@@ -176,8 +238,13 @@ class TestLeague(unittest.TestCase):
         # create League 1
         owners_1, teams_1 = getNDefaultOwnersAndTeams(2)
 
-        matchup_1 = Matchup(teamAId=teams_1[0].id, teamBId=teams_1[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_1 = Matchup(
+            teamAId=teams_1[0].id,
+            teamBId=teams_1[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_1 = Week(weekNumber=1, matchups=[matchup_1])
         year_1 = Year(yearNumber=2000, teams=teams_1, weeks=[week_1])
         league_1 = League(name="LEAGUE", owners=owners_1, years=[year_1])
@@ -185,8 +252,13 @@ class TestLeague(unittest.TestCase):
         # create League 2
         owners_2, teams_2 = getNDefaultOwnersAndTeams(2)
 
-        matchup_2 = Matchup(teamAId=teams_2[0].id, teamBId=teams_2[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_2 = Matchup(
+            teamAId=teams_2[0].id,
+            teamBId=teams_2[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_2 = Week(weekNumber=1, matchups=[matchup_2])
         year_2 = Year(yearNumber=2001, teams=teams_2, weeks=[week_2])
         league_2 = League(name="LEAGUE", owners=owners_2, years=[year_2])
@@ -201,8 +273,13 @@ class TestLeague(unittest.TestCase):
         owners_1[0].name = "league 1 owner 1"
         owners_1[1].name = "league 1 owner 2"
 
-        matchup_1 = Matchup(teamAId=teams_1[0].id, teamBId=teams_1[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_1 = Matchup(
+            teamAId=teams_1[0].id,
+            teamBId=teams_1[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_1 = Week(weekNumber=1, matchups=[matchup_1])
         year_1 = Year(yearNumber=2000, teams=teams_1, weeks=[week_1])
         league_1 = League(name="LEAGUE", owners=owners_1, years=[year_1])
@@ -212,8 +289,13 @@ class TestLeague(unittest.TestCase):
         owners_2[0].name = "league 2 owner 1"
         owners_2[1].name = "league 2 owner 2"
 
-        matchup_2 = Matchup(teamAId=teams_2[0].id, teamBId=teams_2[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_2 = Matchup(
+            teamAId=teams_2[0].id,
+            teamBId=teams_2[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_2 = Week(weekNumber=1, matchups=[matchup_2])
         year_2 = Year(yearNumber=2001, teams=teams_2, weeks=[week_2])
         league_2 = League(name="LEAGUE", owners=owners_2, years=[year_2])
@@ -231,8 +313,13 @@ class TestLeague(unittest.TestCase):
         # create League 1
         owners_1, teams_1 = getNDefaultOwnersAndTeams(2)
 
-        matchup_1 = Matchup(teamAId=teams_1[0].id, teamBId=teams_1[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_1 = Matchup(
+            teamAId=teams_1[0].id,
+            teamBId=teams_1[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_1 = Week(weekNumber=1, matchups=[matchup_1])
         year_1 = Year(yearNumber=2000, teams=teams_1, weeks=[week_1])
         league_1 = League(name="LEAGUE 1", owners=owners_1, years=[year_1])
@@ -240,8 +327,13 @@ class TestLeague(unittest.TestCase):
         # create League 2
         owners_2, teams_2 = getNDefaultOwnersAndTeams(2)
 
-        matchup_2 = Matchup(teamAId=teams_2[0].id, teamBId=teams_2[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_2 = Matchup(
+            teamAId=teams_2[0].id,
+            teamBId=teams_2[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_2 = Week(weekNumber=1, matchups=[matchup_2])
         year_2 = Year(yearNumber=2001, teams=teams_2, weeks=[week_2])
         league_2 = League(name="LEAGUE 2", owners=owners_2, years=[year_2])
@@ -255,8 +347,13 @@ class TestLeague(unittest.TestCase):
         # create League 1
         owners_1, teams_1 = getNDefaultOwnersAndTeams(2)
 
-        matchup_1 = Matchup(teamAId=teams_1[0].id, teamBId=teams_1[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_1 = Matchup(
+            teamAId=teams_1[0].id,
+            teamBId=teams_1[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_1 = Week(weekNumber=1, matchups=[matchup_1])
         year_1 = Year(yearNumber=2001, teams=teams_1, weeks=[week_1])
         league_1 = League(name="LEAGUE 1", owners=owners_1, years=[year_1])
@@ -264,8 +361,13 @@ class TestLeague(unittest.TestCase):
         # create League 2
         owners_2, teams_2 = getNDefaultOwnersAndTeams(2)
 
-        matchup_2 = Matchup(teamAId=teams_2[0].id, teamBId=teams_2[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_2 = Matchup(
+            teamAId=teams_2[0].id,
+            teamBId=teams_2[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_2 = Week(weekNumber=1, matchups=[matchup_2])
         year_2 = Year(yearNumber=2000, teams=teams_2, weeks=[week_2])
         league_2 = League(name="LEAGUE 2", owners=owners_2, years=[year_2])
@@ -279,8 +381,13 @@ class TestLeague(unittest.TestCase):
         # create League 1
         owners_1, teams_1 = getNDefaultOwnersAndTeams(2)
 
-        matchup_1 = Matchup(teamAId=teams_1[0].id, teamBId=teams_1[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_1 = Matchup(
+            teamAId=teams_1[0].id,
+            teamBId=teams_1[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_1 = Week(weekNumber=1, matchups=[matchup_1])
         year_1 = Year(yearNumber=2000, teams=teams_1, weeks=[week_1])
         league_1 = League(name="LEAGUE 1", owners=owners_1, years=[year_1])
@@ -288,21 +395,33 @@ class TestLeague(unittest.TestCase):
         # create League 2
         owners_2, teams_2 = getNDefaultOwnersAndTeams(2)
 
-        matchup_2 = Matchup(teamAId=teams_2[0].id, teamBId=teams_2[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_2 = Matchup(
+            teamAId=teams_2[0].id,
+            teamBId=teams_2[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_2 = Week(weekNumber=1, matchups=[matchup_2])
         year_2 = Year(yearNumber=2000, teams=teams_2, weeks=[week_2])
         league_2 = League(name="LEAGUE 2", owners=owners_2, years=[year_2])
 
         with self.assertRaises(InvalidLeagueFormatException) as context:
             league_1 + league_2
-        self.assertEqual("Can only have 1 of each year number within a league.", str(context.exception))
+        self.assertEqual(
+            "Can only have 1 of each year number within a league.", str(context.exception)
+        )
 
     def test_league_toJson(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup_1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_1 = Week(weekNumber=1, matchups=[matchup_1])
         year_1 = Year(yearNumber=2000, teams=teams, weeks=[week_1])
         league = League(name="LEAGUE", owners=owners, years=[year_1])
@@ -325,15 +444,22 @@ class TestLeague(unittest.TestCase):
         self.assertEqual(teams[1].id, leagueJson["years"][0]["weeks"][0]["matchups"][0]["teamBId"])
         self.assertEqual(1.1, leagueJson["years"][0]["weeks"][0]["matchups"][0]["teamAScore"])
         self.assertEqual(2.2, leagueJson["years"][0]["weeks"][0]["matchups"][0]["teamBScore"])
-        self.assertEqual("REGULAR_SEASON", leagueJson["years"][0]["weeks"][0]["matchups"][0]["matchupType"])
+        self.assertEqual(
+            "REGULAR_SEASON", leagueJson["years"][0]["weeks"][0]["matchups"][0]["matchupType"]
+        )
         self.assertFalse(leagueJson["years"][0]["weeks"][0]["matchups"][0]["teamAHasTiebreaker"])
         self.assertFalse(leagueJson["years"][0]["weeks"][0]["matchups"][0]["teamBHasTiebreaker"])
 
     def test_getYearByYearNumber_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup_1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_1 = Week(weekNumber=1, matchups=[matchup_1])
         year_1 = Year(yearNumber=2000, teams=teams, weeks=[week_1])
         league = League(name="LEAGUE", owners=owners, years=[year_1])
@@ -344,22 +470,34 @@ class TestLeague(unittest.TestCase):
     def test_getYearByYearNumber_yearNotInLeague_raisesException(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup_1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_1 = Week(weekNumber=1, matchups=[matchup_1])
         year_1 = Year(yearNumber=2000, teams=teams, weeks=[week_1])
         league = League(name="LEAGUE", owners=owners, years=[year_1])
 
         with self.assertRaises(DoesNotExistException) as context:
             league.getYearByYearNumber(2001)
-        self.assertEqual("League does not have a year with year number 2001", str(context.exception))
+        self.assertEqual(
+            "League does not have a year with year number 2001", str(context.exception)
+        )
 
     def test_getOwnerByName_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         owners[0].name = "owner0"
-        matchup_1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_1 = Week(weekNumber=1, matchups=[matchup_1])
         year_1 = Year(yearNumber=2000, teams=teams, weeks=[week_1])
         league = League(name="LEAGUE", owners=owners, years=[year_1])
@@ -370,8 +508,13 @@ class TestLeague(unittest.TestCase):
     def test_getOwnerByName_ownerNotInLeague_raisesException(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup_1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_1 = Week(weekNumber=1, matchups=[matchup_1])
         year_1 = Year(yearNumber=2000, teams=teams, weeks=[week_1])
         league = League(name="LEAGUE", owners=owners, years=[year_1])
@@ -383,8 +526,14 @@ class TestLeague(unittest.TestCase):
     def test_league_fromJson(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup_1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON, teamAHasTiebreaker=True)
+        matchup_1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+            teamAHasTiebreaker=True,
+        )
         week_1 = Week(weekNumber=1, matchups=[matchup_1])
         year_1 = Year(yearNumber=2000, teams=teams, weeks=[week_1])
         league = League(name="LEAGUE", owners=owners, years=[year_1])

@@ -24,11 +24,13 @@ class YearNavigator:
         raise DoesNotExistException(f"Team with ID {teamId} does not exist in the given Year.")
 
     @classmethod
-    def getNumberOfGamesPlayed(cls,
-                               year: Year,
-                               yearFilters: YearFilters,
-                               countMultiWeekMatchupsAsOneGame=False,
-                               countLeagueMedianGamesAsTwoGames=False) -> dict[str, int]:
+    def getNumberOfGamesPlayed(
+        cls,
+        year: Year,
+        yearFilters: YearFilters,
+        countMultiWeekMatchupsAsOneGame=False,
+        countLeagueMedianGamesAsTwoGames=False,
+    ) -> dict[str, int]:
         """
         Returns the number of games played for each team in the given Year.
 
@@ -62,7 +64,11 @@ class YearNavigator:
                         multiWeekMatchupIdsCounted.append(mwmid)
                     numberOfGamesToAdd = 1
                     # count regular season games in league median years as 2 games
-                    if year.yearSettings.leagueMedianGames and matchup.matchupType == MatchupType.REGULAR_SEASON and countLeagueMedianGamesAsTwoGames:
+                    if (
+                        year.yearSettings.leagueMedianGames
+                        and matchup.matchupType == MatchupType.REGULAR_SEASON
+                        and countLeagueMedianGamesAsTwoGames
+                    ):
                         numberOfGamesToAdd = 2
                     teamIdAndNumberOfGamesPlayed[matchup.teamAId] += numberOfGamesToAdd
                     teamIdAndNumberOfGamesPlayed[matchup.teamBId] += numberOfGamesToAdd
@@ -86,7 +92,9 @@ class YearNavigator:
         return allScores
 
     @staticmethod
-    def getAllMultiWeekMatchups(year: Year, filters: YearFilters = None) -> dict[str, list[Matchup]]:
+    def getAllMultiWeekMatchups(
+        year: Year, filters: YearFilters = None
+    ) -> dict[str, list[Matchup]]:
         """
         Returns a dictionary that has the multi-week matchup ID as the key and a list of matchups as the value.
         """
@@ -115,7 +123,8 @@ class YearNavigator:
             week = year.weeks[i]
             for matchup in week.matchups:
                 if matchup.matchupType in filters.includeMatchupTypes and (
-                        filters.includeMultiWeekMatchups or matchup.multiWeekMatchupId is None):
+                    filters.includeMultiWeekMatchups or matchup.multiWeekMatchupId is None
+                ):
                     allMatchups.append(matchup)
         return allMatchups
 
@@ -125,6 +134,7 @@ class YearNavigator:
         Returns a list of matchups for the given year with multi-week matchups simplified.
         """
         from leeger.util.navigator import MatchupNavigator
+
         filters = filters if filters is not None else YearFilters.getForYear(year)
         if not filters.includeMultiWeekMatchups:
             raise ValueError("Multi-Week matchups must be included in this calculation.")
@@ -134,7 +144,9 @@ class YearNavigator:
         modifiedFilters.includeMultiWeekMatchups = False
         allMatchups: list[Matchup] = YearNavigator.getAllMatchupsInYear(year, modifiedFilters)
         # get all multi-week matchups
-        allMultiWeekMatchups: dict[str, list[Matchup]] = YearNavigator.getAllMultiWeekMatchups(year, filters)
+        allMultiWeekMatchups: dict[str, list[Matchup]] = YearNavigator.getAllMultiWeekMatchups(
+            year, filters
+        )
 
         # simplify multi-week matchups
         for _, matchupList in allMultiWeekMatchups.items():

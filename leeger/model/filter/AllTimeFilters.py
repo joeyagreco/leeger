@@ -13,6 +13,7 @@ class AllTimeFilters:
     """
     Used to house filters that will be used to calculate All-Time stats.
     """
+
     yearNumberStart: int  # year to start at (inclusive)
     weekNumberStart: int  # week to start at (inclusive)
     yearNumberEnd: int  # year to end at (inclusive)
@@ -42,7 +43,7 @@ class AllTimeFilters:
             ("Year Number End", allTimeFilters.yearNumberEnd),
             ("Only Regular Season", allTimeFilters.onlyRegularSeason),
             ("Only Post Season", allTimeFilters.onlyPostSeason),
-            ("Only Championship", allTimeFilters.onlyChampionship)
+            ("Only Championship", allTimeFilters.onlyChampionship),
         ]
 
     @classmethod
@@ -50,17 +51,21 @@ class AllTimeFilters:
         from leeger.exception import InvalidFilterException
         from leeger.util.GeneralUtil import GeneralUtil
         from leeger.util.navigator import LeagueNavigator
+
         kwargsCopy = copy.deepcopy(kwargs)
         onlyChampionship = kwargsCopy.pop("onlyChampionship", False)
         onlyPostSeason = kwargsCopy.pop("onlyPostSeason", False)
         onlyRegularSeason = kwargsCopy.pop("onlyRegularSeason", False)
         yearNumberStart = kwargsCopy.pop("yearNumberStart", league.years[0].yearNumber)
-        weekNumberStart = kwargsCopy.pop("weekNumberStart",
-                                         LeagueNavigator.getYearByYearNumber(league, yearNumberStart).weeks[
-                                             0].weekNumber)
+        weekNumberStart = kwargsCopy.pop(
+            "weekNumberStart",
+            LeagueNavigator.getYearByYearNumber(league, yearNumberStart).weeks[0].weekNumber,
+        )
         yearNumberEnd = kwargsCopy.pop("yearNumberEnd", league.years[-1].yearNumber)
-        weekNumberEnd = kwargsCopy.pop("weekNumberEnd",
-                                       LeagueNavigator.getYearByYearNumber(league, yearNumberEnd).weeks[-1].weekNumber)
+        weekNumberEnd = kwargsCopy.pop(
+            "weekNumberEnd",
+            LeagueNavigator.getYearByYearNumber(league, yearNumberEnd).weeks[-1].weekNumber,
+        )
 
         GeneralUtil.warnForUnusedKwargs(kwargsCopy)
 
@@ -86,21 +91,29 @@ class AllTimeFilters:
         # logic checks
         if [onlyChampionship, onlyPostSeason, onlyRegularSeason].count(True) > 1:
             raise InvalidFilterException(
-                "Only one of 'onlyChampionship', 'onlyPostSeason', 'onlyRegularSeason' can be True")
+                "Only one of 'onlyChampionship', 'onlyPostSeason', 'onlyRegularSeason' can be True"
+            )
         if yearNumberStart > yearNumberEnd:
-            raise InvalidFilterException("'yearNumberStart' cannot be greater than 'yearNumberEnd'.")
+            raise InvalidFilterException(
+                "'yearNumberStart' cannot be greater than 'yearNumberEnd'."
+            )
         if weekNumberStart < 1:
             raise InvalidFilterException("'weekNumberStart' cannot be less than 1.")
         if weekNumberEnd > len(LeagueNavigator.getYearByYearNumber(league, yearNumberEnd).weeks):
-            raise InvalidFilterException("'weekNumberEnd' cannot be greater than the number of weeks in the year.")
+            raise InvalidFilterException(
+                "'weekNumberEnd' cannot be greater than the number of weeks in the year."
+            )
         if weekNumberStart > weekNumberEnd and yearNumberStart == yearNumberEnd:
             raise InvalidFilterException(
-                "'weekNumberStart' cannot be greater than 'weekNumberEnd' within the same year.")
+                "'weekNumberStart' cannot be greater than 'weekNumberEnd' within the same year."
+            )
 
-        return AllTimeFilters(yearNumberStart=yearNumberStart,
-                              weekNumberStart=weekNumberStart,
-                              yearNumberEnd=yearNumberEnd,
-                              weekNumberEnd=weekNumberEnd,
-                              onlyChampionship=onlyChampionship,
-                              onlyPostSeason=onlyPostSeason,
-                              onlyRegularSeason=onlyRegularSeason)
+        return AllTimeFilters(
+            yearNumberStart=yearNumberStart,
+            weekNumberStart=weekNumberStart,
+            yearNumberEnd=yearNumberEnd,
+            weekNumberEnd=weekNumberEnd,
+            onlyChampionship=onlyChampionship,
+            onlyPostSeason=onlyPostSeason,
+            onlyRegularSeason=onlyRegularSeason,
+        )

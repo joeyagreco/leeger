@@ -69,7 +69,9 @@ def checkWeekHasMatchupsWithNoDuplicateTeamIds(week: Week) -> None:
         teamIdsInMatchups.append(matchup.teamBId)
     numberOfExpectedUniqueTeamIds = len(week.matchups) * 2
     if len(set(teamIdsInMatchups)) != numberOfExpectedUniqueTeamIds:
-        raise InvalidWeekFormatException(f"Week {week.weekNumber} has matchups with duplicate team IDs.")
+        raise InvalidWeekFormatException(
+            f"Week {week.weekNumber} has matchups with duplicate team IDs."
+        )
 
 
 def checkWeekDoesNotHaveMoreThanOneChampionshipMatchup(week: Week) -> None:
@@ -82,7 +84,8 @@ def checkWeekDoesNotHaveMoreThanOneChampionshipMatchup(week: Week) -> None:
             championshipMatchupCount += 1
     if championshipMatchupCount > 1:
         raise InvalidWeekFormatException(
-            f"Week {week.weekNumber} has {championshipMatchupCount} championship matchups. Maximum is 1.")
+            f"Week {week.weekNumber} has {championshipMatchupCount} championship matchups. Maximum is 1."
+        )
 
 
 def checkWeekWithPlayoffOrChampionshipMatchupDoesNotHaveRegularSeasonMatchup(week: Week) -> None:
@@ -98,7 +101,8 @@ def checkWeekWithPlayoffOrChampionshipMatchupDoesNotHaveRegularSeasonMatchup(wee
             regularSeasonMatchupCount += 1
     if regularSeasonMatchupCount > 0 and playoffOrChampionshipMatchupCount > 0:
         raise InvalidWeekFormatException(
-            f"Week {week.weekNumber} has regular season matchups and playoff/championship matchups in the same week.")
+            f"Week {week.weekNumber} has regular season matchups and playoff/championship matchups in the same week."
+        )
 
 
 def checkMultiWeekMatchupsWithSameIdAreOnlyInOneMatchupPerWeek(week: Week):
@@ -110,5 +114,6 @@ def checkMultiWeekMatchupsWithSameIdAreOnlyInOneMatchupPerWeek(week: Week):
         if matchup.multiWeekMatchupId is not None:
             if matchup.multiWeekMatchupId in multiWeekMatchupIds:
                 raise InvalidWeekFormatException(
-                    f"Week {week.weekNumber} has the multi-week matchup ID '{matchup.multiWeekMatchupId}' in multiple matchups.")
+                    f"Week {week.weekNumber} has the multi-week matchup ID '{matchup.multiWeekMatchupId}' in multiple matchups."
+                )
             multiWeekMatchupIds.append(matchup.multiWeekMatchupId)

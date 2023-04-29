@@ -26,19 +26,16 @@ class Team(UniqueId, JSONSerializable, JSONDeserializable):
             if self.ownerId != otherTeam.ownerId:
                 notEqualStrings.append("teamAId")
             if len(notEqualStrings) > 0:
-                self.__LOGGER.warning(f"Returning True for equality check when {notEqualStrings} are not equal.")
+                self.__LOGGER.warning(
+                    f"Returning True for equality check when {notEqualStrings} are not equal."
+                )
         return equal
 
     def toJson(self) -> dict:
-        return {
-            "id": self.id,
-            "ownerId": self.ownerId,
-            "name": self.name
-        }
+        return {"id": self.id, "ownerId": self.ownerId, "name": self.name}
 
     @staticmethod
     def fromJson(d: dict) -> Team:
-        team = Team(ownerId=d["ownerId"],
-                    name=d["name"])
+        team = Team(ownerId=d["ownerId"], name=d["name"])
         team.id = d["id"]
         return team

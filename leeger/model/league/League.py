@@ -46,11 +46,16 @@ class League(UniqueId, JSONSerializable, JSONDeserializable):
                 - Duplicate Year.yearNumber across leagues will raise an exception.
         """
         from leeger.validate import leagueValidation
+
         # first, validate the leagues we want to combine.
         leagueValidation.runAllChecks(self)
         leagueValidation.runAllChecks(otherLeague)
 
-        newName = f"'{self.name}' + '{otherLeague.name}' League" if self.name != otherLeague.name else self.name
+        newName = (
+            f"'{self.name}' + '{otherLeague.name}' League"
+            if self.name != otherLeague.name
+            else self.name
+        )
 
         # merge / combine owners
         newOwners = list()
@@ -121,7 +126,7 @@ class League(UniqueId, JSONSerializable, JSONDeserializable):
             "id": self.id,
             "name": self.name,
             "owners": [owner.toJson() for owner in self.owners],
-            "years": [year.toJson() for year in self.years]
+            "years": [year.toJson() for year in self.years],
         }
 
     @staticmethod
@@ -132,8 +137,6 @@ class League(UniqueId, JSONSerializable, JSONDeserializable):
         years = list()
         for yearDict in d["years"]:
             years.append(Year.fromJson(yearDict))
-        league = League(name=d["name"],
-                        owners=owners,
-                        years=years)
+        league = League(name=d["name"], owners=owners, years=years)
         league.id = d["id"]
         return league

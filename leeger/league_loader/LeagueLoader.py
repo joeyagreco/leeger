@@ -24,7 +24,9 @@ class LeagueLoader:
         # this should be formatted like so:
         # ownerNamesAndAliases = {"someOwnerNameIWant": ["alias1", "alias2"],
         #                           someOtherOwnerNameIWant: ["alias3", "alias4"]}
-        self._ownerNamesAndAliases: dict[str, list[str]] = kwargs.get("ownerNamesAndAliases", dict())
+        self._ownerNamesAndAliases: dict[str, list[str]] = kwargs.get(
+            "ownerNamesAndAliases", dict()
+        )
 
         # validation
         if len(years) == 0:
@@ -44,7 +46,8 @@ class LeagueLoader:
             if ownerName == owner.name or generalOwnerName == owner.name:
                 return owner
         raise DoesNotExistException(
-            f"Owner name '{ownerName}' does not match any previously loaded owner names. To add multiple names for a single owner, use the 'ownerNamesAndAliases' keyword argument to define them.")
+            f"Owner name '{ownerName}' does not match any previously loaded owner names. To add multiple names for a single owner, use the 'ownerNamesAndAliases' keyword argument to define them."
+        )
 
     @abstractmethod
     def loadLeague(self, *args, **kwargs) -> League:

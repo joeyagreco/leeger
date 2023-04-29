@@ -2,7 +2,7 @@ from leeger.enum import MatchupType
 
 from leeger.model.league import Owner, Team, Matchup, Week, Year, League, YearSettings
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Build a league manually.
 
     # Create owners.
@@ -25,27 +25,67 @@ if __name__ == '__main__':
 
     # Create matchups for week 1.
     # Use the team IDs when creating a matchup.
-    matchup1 = Matchup(teamAId=teamFrankie2019.id, teamBId=teamDominic2019.id, teamAScore=101.2, teamBScore=122)
-    matchup2 = Matchup(teamAId=teamMonika2019.id, teamBId=teamGiovanna2019.id, teamAScore=78.4, teamBScore=114.3)
-    matchup3 = Matchup(teamAId=teamJoseph2019.id, teamBId=teamVincent2019.id, teamAScore=112, teamBScore=145.3)
+    matchup1 = Matchup(
+        teamAId=teamFrankie2019.id, teamBId=teamDominic2019.id, teamAScore=101.2, teamBScore=122
+    )
+    matchup2 = Matchup(
+        teamAId=teamMonika2019.id, teamBId=teamGiovanna2019.id, teamAScore=78.4, teamBScore=114.3
+    )
+    matchup3 = Matchup(
+        teamAId=teamJoseph2019.id, teamBId=teamVincent2019.id, teamAScore=112, teamBScore=145.3
+    )
 
     # Create matchups for week 2.
     # 'matchupType' defines the type of matchups this is. Default is REGULAR_SEASON.
     # Multi-week matchups will link any consecutive matchups with the same multiWeekMatchupId.
-    matchup4 = Matchup(teamAId=teamFrankie2019.id, teamBId=teamDominic2019.id, teamAScore=98.6, teamBScore=109.3,
-                       matchupType=MatchupType.PLAYOFF, multiWeekMatchupId="1")
-    matchup5 = Matchup(teamAId=teamMonika2019.id, teamBId=teamGiovanna2019.id, teamAScore=118.4, teamBScore=106.1,
-                       matchupType=MatchupType.PLAYOFF, multiWeekMatchupId="2")
-    matchup6 = Matchup(teamAId=teamJoseph2019.id, teamBId=teamVincent2019.id, teamAScore=89.9, teamBScore=100.5,
-                       matchupType=MatchupType.IGNORE)
+    matchup4 = Matchup(
+        teamAId=teamFrankie2019.id,
+        teamBId=teamDominic2019.id,
+        teamAScore=98.6,
+        teamBScore=109.3,
+        matchupType=MatchupType.PLAYOFF,
+        multiWeekMatchupId="1",
+    )
+    matchup5 = Matchup(
+        teamAId=teamMonika2019.id,
+        teamBId=teamGiovanna2019.id,
+        teamAScore=118.4,
+        teamBScore=106.1,
+        matchupType=MatchupType.PLAYOFF,
+        multiWeekMatchupId="2",
+    )
+    matchup6 = Matchup(
+        teamAId=teamJoseph2019.id,
+        teamBId=teamVincent2019.id,
+        teamAScore=89.9,
+        teamBScore=100.5,
+        matchupType=MatchupType.IGNORE,
+    )
 
     # Create matchups for week 3.
-    matchup7 = Matchup(teamAId=teamFrankie2019.id, teamBId=teamDominic2019.id, teamAScore=101.7, teamBScore=99.9,
-                       matchupType=MatchupType.PLAYOFF, multiWeekMatchupId="1")
-    matchup8 = Matchup(teamAId=teamMonika2019.id, teamBId=teamGiovanna2019.id, teamAScore=104.1, teamBScore=98.3,
-                       matchupType=MatchupType.PLAYOFF, multiWeekMatchupId="2")
-    matchup9 = Matchup(teamAId=teamJoseph2019.id, teamBId=teamVincent2019.id, teamAScore=112.2, teamBScore=105.5,
-                       matchupType=MatchupType.IGNORE)
+    matchup7 = Matchup(
+        teamAId=teamFrankie2019.id,
+        teamBId=teamDominic2019.id,
+        teamAScore=101.7,
+        teamBScore=99.9,
+        matchupType=MatchupType.PLAYOFF,
+        multiWeekMatchupId="1",
+    )
+    matchup8 = Matchup(
+        teamAId=teamMonika2019.id,
+        teamBId=teamGiovanna2019.id,
+        teamAScore=104.1,
+        teamBScore=98.3,
+        matchupType=MatchupType.PLAYOFF,
+        multiWeekMatchupId="2",
+    )
+    matchup9 = Matchup(
+        teamAId=teamJoseph2019.id,
+        teamBId=teamVincent2019.id,
+        teamAScore=112.2,
+        teamBScore=105.5,
+        matchupType=MatchupType.IGNORE,
+    )
 
     # Create weeks with matchups.
     week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
@@ -56,23 +96,23 @@ if __name__ == '__main__':
     yearSettings = YearSettings(leagueMedianGames=True)
 
     # Create the 2019 year (season) with custom year settings.
-    year2019 = Year(yearNumber=2019,
-                    teams=[teamFrankie2019,
-                           teamMonika2019,
-                           teamJoseph2019,
-                           teamVincent2019,
-                           teamGiovanna2019,
-                           teamDominic2019],
-                    weeks=[week1, week2, week3],
-                    yearSettings=yearSettings)
+    year2019 = Year(
+        yearNumber=2019,
+        teams=[
+            teamFrankie2019,
+            teamMonika2019,
+            teamJoseph2019,
+            teamVincent2019,
+            teamGiovanna2019,
+            teamDominic2019,
+        ],
+        weeks=[week1, week2, week3],
+        yearSettings=yearSettings,
+    )
 
     # Create the league.
-    league = League(name="G League",
-                    owners=[ownerFrankie,
-                            ownerMonika,
-                            ownerJoseph,
-                            ownerVincent,
-                            ownerGiovanna,
-                            ownerDominic],
-                    years=[year2019])
-
+    league = League(
+        name="G League",
+        owners=[ownerFrankie, ownerMonika, ownerJoseph, ownerVincent, ownerGiovanna, ownerDominic],
+        years=[year2019],
+    )

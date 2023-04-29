@@ -10,7 +10,6 @@ from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestValidators(unittest.TestCase):
-
     @validateLeague
     def dummyLeagueFunction(self, league: League, **kwargs):
         """
@@ -51,8 +50,13 @@ class TestValidators(unittest.TestCase):
 
     def test_validateLeague_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
-        matchup = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
-                          matchupType=MatchupType.REGULAR_SEASON)
+        matchup = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week = Week(weekNumber=1, matchups=[matchup])
         year = Year(yearNumber=2000, teams=teams, weeks=[week])
         league = League(name="LEAGUE", owners=owners, years=[year])
@@ -70,8 +74,13 @@ class TestValidators(unittest.TestCase):
 
     def test_validateYear_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
-        matchup = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
-                          matchupType=MatchupType.REGULAR_SEASON)
+        matchup = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week = Week(weekNumber=1, matchups=[matchup])
         year = Year(yearNumber=2000, teams=teams, weeks=[week])
         self.dummyYearFunction(year)
@@ -88,8 +97,13 @@ class TestValidators(unittest.TestCase):
 
     def test_validateWeek_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
-        matchup = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
-                          matchupType=MatchupType.REGULAR_SEASON)
+        matchup = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week = Week(weekNumber=1, matchups=[matchup])
         self.dummyWeekFunction(week)
 
@@ -105,6 +119,11 @@ class TestValidators(unittest.TestCase):
 
     def test_validateMatchup_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
-        matchup = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
-                          matchupType=MatchupType.REGULAR_SEASON)
+        matchup = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         self.dummyMatchupFunction(matchup)

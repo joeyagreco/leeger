@@ -2,7 +2,6 @@ from abc import ABC, abstractmethod
 
 
 class JSONSerializable(ABC):
-
     @abstractmethod
     def toJson(self) -> dict:
         """

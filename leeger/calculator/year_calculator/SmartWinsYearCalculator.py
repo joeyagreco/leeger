@@ -40,7 +40,9 @@ class SmartWinsYearCalculator(YearCalculator):
         ####################
         # Helper functions #
         ####################
-        def getNumberOfScoresBeatAndTied(score: float | int, scores: list[float | int]) -> list[int, int]:
+        def getNumberOfScoresBeatAndTied(
+            score: float | int, scores: list[float | int]
+        ) -> list[int, int]:
             scoresBeatAndTied = [0, 0]
             for s in scores:
                 if score > s:
@@ -97,9 +99,9 @@ class SmartWinsYearCalculator(YearCalculator):
         """
 
         teamIdAndSmartWins = SmartWinsYearCalculator.getSmartWins(year, **kwargs)
-        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year,
-                                                                            YearFilters.getForYear(year, **kwargs),
-                                                                            countMultiWeekMatchupsAsOneGame=True)
+        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(
+            year, YearFilters.getForYear(year, **kwargs), countMultiWeekMatchupsAsOneGame=True
+        )
 
         teamIdAndSmartWinsPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
@@ -107,7 +109,9 @@ class SmartWinsYearCalculator(YearCalculator):
             if teamIdAndNumberOfGamesPlayed[teamId] == 0:
                 teamIdAndSmartWinsPerGame[teamId] = None
             else:
-                teamIdAndSmartWinsPerGame[teamId] = teamIdAndSmartWins[teamId] / teamIdAndNumberOfGamesPlayed[teamId]
+                teamIdAndSmartWinsPerGame[teamId] = (
+                    teamIdAndSmartWins[teamId] / teamIdAndNumberOfGamesPlayed[teamId]
+                )
 
         return teamIdAndSmartWinsPerGame
 
@@ -130,7 +134,9 @@ class SmartWinsYearCalculator(YearCalculator):
         ####################
         # Helper functions #
         ####################
-        def getNumberOfScoresBeatAndTied(score: float | int, scores: list[float | int]) -> list[int, int]:
+        def getNumberOfScoresBeatAndTied(
+            score: float | int, scores: list[float | int]
+        ) -> list[int, int]:
             scoresBeatAndTied = [0, 0]
             for s in scores:
                 if score > s:
@@ -187,9 +193,9 @@ class SmartWinsYearCalculator(YearCalculator):
         """
 
         teamIdAndOpponentSmartWins = SmartWinsYearCalculator.getOpponentSmartWins(year, **kwargs)
-        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year,
-                                                                            YearFilters.getForYear(year, **kwargs),
-                                                                            countMultiWeekMatchupsAsOneGame=True)
+        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(
+            year, YearFilters.getForYear(year, **kwargs), countMultiWeekMatchupsAsOneGame=True
+        )
 
         teamIdAndOpponentSmartWinsPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
@@ -198,7 +204,8 @@ class SmartWinsYearCalculator(YearCalculator):
             if teamIdAndNumberOfGamesPlayed[teamId] == 0:
                 teamIdAndOpponentSmartWinsPerGame[teamId] = None
             else:
-                teamIdAndOpponentSmartWinsPerGame[teamId] = teamIdAndOpponentSmartWins[teamId] / \
-                                                            teamIdAndNumberOfGamesPlayed[teamId]
+                teamIdAndOpponentSmartWinsPerGame[teamId] = (
+                    teamIdAndOpponentSmartWins[teamId] / teamIdAndNumberOfGamesPlayed[teamId]
+                )
 
         return teamIdAndOpponentSmartWinsPerGame

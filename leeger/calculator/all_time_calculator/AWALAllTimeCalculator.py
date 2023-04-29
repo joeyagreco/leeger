@@ -59,10 +59,11 @@ class AWALAllTimeCalculator(AllTimeCalculator):
         """
 
         ownerIdAndAWAL = cls.getAWAL(league, **kwargs)
-        ownerIdAndNumberOfGamesPlayed = LeagueNavigator.getNumberOfGamesPlayed(league,
-                                                                               AllTimeFilters.getForLeague(league,
-                                                                                                           **kwargs),
-                                                                               countLeagueMedianGamesAsTwoGames=True)
+        ownerIdAndNumberOfGamesPlayed = LeagueNavigator.getNumberOfGamesPlayed(
+            league,
+            AllTimeFilters.getForLeague(league, **kwargs),
+            countLeagueMedianGamesAsTwoGames=True,
+        )
 
         ownerIdAndAWALPerGame = dict()
         allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
@@ -70,7 +71,9 @@ class AWALAllTimeCalculator(AllTimeCalculator):
             if ownerIdAndNumberOfGamesPlayed[ownerId] == 0:
                 ownerIdAndAWALPerGame[ownerId] = None
             else:
-                ownerIdAndAWALPerGame[ownerId] = ownerIdAndAWAL[ownerId] / ownerIdAndNumberOfGamesPlayed[ownerId]
+                ownerIdAndAWALPerGame[ownerId] = (
+                    ownerIdAndAWAL[ownerId] / ownerIdAndNumberOfGamesPlayed[ownerId]
+                )
 
         return ownerIdAndAWALPerGame
 
@@ -108,10 +111,11 @@ class AWALAllTimeCalculator(AllTimeCalculator):
         """
 
         ownerIdAndOpponentAWAL = cls.getOpponentAWAL(league, **kwargs)
-        ownerIdAndNumberOfGamesPlayed = LeagueNavigator.getNumberOfGamesPlayed(league,
-                                                                               AllTimeFilters.getForLeague(league,
-                                                                                                           **kwargs),
-                                                                               countLeagueMedianGamesAsTwoGames=True)
+        ownerIdAndNumberOfGamesPlayed = LeagueNavigator.getNumberOfGamesPlayed(
+            league,
+            AllTimeFilters.getForLeague(league, **kwargs),
+            countLeagueMedianGamesAsTwoGames=True,
+        )
 
         ownerIdAndOpponentAWALPerGame = dict()
         allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
@@ -119,7 +123,8 @@ class AWALAllTimeCalculator(AllTimeCalculator):
             if ownerIdAndNumberOfGamesPlayed[ownerId] == 0:
                 ownerIdAndOpponentAWALPerGame[ownerId] = None
             else:
-                ownerIdAndOpponentAWALPerGame[ownerId] = ownerIdAndOpponentAWAL[ownerId] / \
-                                                         ownerIdAndNumberOfGamesPlayed[ownerId]
+                ownerIdAndOpponentAWALPerGame[ownerId] = (
+                    ownerIdAndOpponentAWAL[ownerId] / ownerIdAndNumberOfGamesPlayed[ownerId]
+                )
 
         return ownerIdAndOpponentAWALPerGame

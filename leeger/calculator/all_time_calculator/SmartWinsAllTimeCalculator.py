@@ -41,7 +41,9 @@ class SmartWinsAllTimeCalculator(AllTimeCalculator):
         ####################
         # Helper functions #
         ####################
-        def getNumberOfScoresBeatAndTied(score: float | int, scores: list[float | int]) -> list[int, int]:
+        def getNumberOfScoresBeatAndTied(
+            score: float | int, scores: list[float | int]
+        ) -> list[int, int]:
             scoresBeatAndTied = [0, 0]
             for s in scores:
                 if score > s:
@@ -100,10 +102,11 @@ class SmartWinsAllTimeCalculator(AllTimeCalculator):
         """
 
         ownerIdAndSmartWins = cls.getSmartWins(league, **kwargs)
-        ownerIdAndNumberOfGamesPlayed = LeagueNavigator.getNumberOfGamesPlayed(league,
-                                                                               AllTimeFilters.getForLeague(league,
-                                                                                                           **kwargs),
-                                                                               countMultiWeekMatchupsAsOneGame=True)
+        ownerIdAndNumberOfGamesPlayed = LeagueNavigator.getNumberOfGamesPlayed(
+            league,
+            AllTimeFilters.getForLeague(league, **kwargs),
+            countMultiWeekMatchupsAsOneGame=True,
+        )
 
         ownerIdAndSmartWinsPerGame = dict()
         allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
@@ -111,8 +114,9 @@ class SmartWinsAllTimeCalculator(AllTimeCalculator):
             if ownerIdAndNumberOfGamesPlayed[ownerId] == 0:
                 ownerIdAndSmartWinsPerGame[ownerId] = None
             else:
-                ownerIdAndSmartWinsPerGame[ownerId] = ownerIdAndSmartWins[ownerId] / ownerIdAndNumberOfGamesPlayed[
-                    ownerId]
+                ownerIdAndSmartWinsPerGame[ownerId] = (
+                    ownerIdAndSmartWins[ownerId] / ownerIdAndNumberOfGamesPlayed[ownerId]
+                )
 
         return ownerIdAndSmartWinsPerGame
 
@@ -135,7 +139,9 @@ class SmartWinsAllTimeCalculator(AllTimeCalculator):
         ####################
         # Helper functions #
         ####################
-        def getNumberOfScoresBeatAndTied(score: float | int, scores: list[float | int]) -> list[int, int]:
+        def getNumberOfScoresBeatAndTied(
+            score: float | int, scores: list[float | int]
+        ) -> list[int, int]:
             scoresBeatAndTied = [0, 0]
             for s in scores:
                 if score > s:
@@ -194,10 +200,11 @@ class SmartWinsAllTimeCalculator(AllTimeCalculator):
         """
 
         ownerIdAndOpponentSmartWins = cls.getOpponentSmartWins(league, **kwargs)
-        ownerIdAndNumberOfGamesPlayed = LeagueNavigator.getNumberOfGamesPlayed(league,
-                                                                               AllTimeFilters.getForLeague(league,
-                                                                                                           **kwargs),
-                                                                               countMultiWeekMatchupsAsOneGame=True)
+        ownerIdAndNumberOfGamesPlayed = LeagueNavigator.getNumberOfGamesPlayed(
+            league,
+            AllTimeFilters.getForLeague(league, **kwargs),
+            countMultiWeekMatchupsAsOneGame=True,
+        )
 
         ownerIdAndOpponentSmartWinsPerGame = dict()
         allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
@@ -205,8 +212,8 @@ class SmartWinsAllTimeCalculator(AllTimeCalculator):
             if ownerIdAndNumberOfGamesPlayed[ownerId] == 0:
                 ownerIdAndOpponentSmartWinsPerGame[ownerId] = None
             else:
-                ownerIdAndOpponentSmartWinsPerGame[ownerId] = ownerIdAndOpponentSmartWins[ownerId] / \
-                                                              ownerIdAndNumberOfGamesPlayed[
-                                                                  ownerId]
+                ownerIdAndOpponentSmartWinsPerGame[ownerId] = (
+                    ownerIdAndOpponentSmartWins[ownerId] / ownerIdAndNumberOfGamesPlayed[ownerId]
+                )
 
         return ownerIdAndOpponentSmartWinsPerGame

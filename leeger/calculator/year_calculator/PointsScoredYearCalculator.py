@@ -61,8 +61,9 @@ class PointsScoredYearCalculator(YearCalculator):
         """
 
         teamIdAndPointsScored = cls.getPointsScored(year, **kwargs)
-        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year, YearFilters.getForYear(year,
-                                                                                                         **kwargs))
+        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(
+            year, YearFilters.getForYear(year, **kwargs)
+        )
 
         teamIdAndPointsScoredPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
@@ -71,8 +72,9 @@ class PointsScoredYearCalculator(YearCalculator):
             if teamIdAndNumberOfGamesPlayed[teamId] == 0:
                 teamIdAndPointsScoredPerGame[teamId] = None
             else:
-                teamIdAndPointsScoredPerGame[teamId] = teamIdAndPointsScored[teamId] / teamIdAndNumberOfGamesPlayed[
-                    teamId]
+                teamIdAndPointsScoredPerGame[teamId] = (
+                    teamIdAndPointsScored[teamId] / teamIdAndNumberOfGamesPlayed[teamId]
+                )
 
         return teamIdAndPointsScoredPerGame
 
@@ -124,8 +126,9 @@ class PointsScoredYearCalculator(YearCalculator):
         """
 
         teamIdAndOpponentPointsScored = cls.getOpponentPointsScored(year, **kwargs)
-        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year, YearFilters.getForYear(year,
-                                                                                                         **kwargs))
+        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(
+            year, YearFilters.getForYear(year, **kwargs)
+        )
 
         teamIdAndOpponentPointsScoredPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
@@ -134,7 +137,8 @@ class PointsScoredYearCalculator(YearCalculator):
             if teamIdAndNumberOfGamesPlayed[teamId] == 0:
                 teamIdAndOpponentPointsScoredPerGame[teamId] = None
             else:
-                teamIdAndOpponentPointsScoredPerGame[teamId] = teamIdAndOpponentPointsScored[teamId] / \
-                                                               teamIdAndNumberOfGamesPlayed[teamId]
+                teamIdAndOpponentPointsScoredPerGame[teamId] = (
+                    teamIdAndOpponentPointsScored[teamId] / teamIdAndNumberOfGamesPlayed[teamId]
+                )
 
         return teamIdAndOpponentPointsScoredPerGame

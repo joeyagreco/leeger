@@ -4,7 +4,6 @@ from leeger.league_loader import SleeperLeagueLoader
 
 
 class TestSleeperLeagueLoader(unittest.TestCase):
-
     def test_loadLeague_intendedFailure(self):
         with self.assertRaises(ValueError) as context:
             leagueLoader = SleeperLeagueLoader("0", [2000])

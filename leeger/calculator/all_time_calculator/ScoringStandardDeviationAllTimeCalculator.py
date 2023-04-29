@@ -56,7 +56,9 @@ class ScoringStandardDeviationAllTimeCalculator(AllTimeCalculator):
         for ownerId in allOwnerIds:
             if len(ownerIdAndScores[ownerId]) > 0:
                 # the Owner has scores in this range
-                ownerIdAndScoringStandardDeviation[ownerId] = Deci(numpy.std(ownerIdAndScores[ownerId]))
+                ownerIdAndScoringStandardDeviation[ownerId] = Deci(
+                    numpy.std(ownerIdAndScores[ownerId])
+                )
             else:
                 # no scores for this Owner in this range, return None for them
                 ownerIdAndScoringStandardDeviation[ownerId] = None

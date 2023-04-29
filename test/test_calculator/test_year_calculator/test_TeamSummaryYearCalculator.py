@@ -10,15 +10,24 @@ from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestTeamSummaryYearCalculator(unittest.TestCase):
-
     def test_getGamesPlayed_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=3)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=3,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.9,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.2,
+            teamBScore=3,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.3,
+            teamBScore=2.9,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -36,10 +45,22 @@ class TestTeamSummaryYearCalculator(unittest.TestCase):
     def test_getGamesPlayed_multiWeekMatchups(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, multiWeekMatchupId="1")
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            multiWeekMatchupId="1",
+        )
         week1 = Week(weekNumber=1, matchups=[matchup1])
 
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, multiWeekMatchupId="1")
+        matchup2 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            multiWeekMatchupId="1",
+        )
         week2 = Week(weekNumber=2, matchups=[matchup2])
 
         matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
@@ -77,10 +98,20 @@ class TestTeamSummaryYearCalculator(unittest.TestCase):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -100,8 +131,13 @@ class TestTeamSummaryYearCalculator(unittest.TestCase):
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -120,10 +156,20 @@ class TestTeamSummaryYearCalculator(unittest.TestCase):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -143,8 +189,13 @@ class TestTeamSummaryYearCalculator(unittest.TestCase):
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=2, teamBScore=1,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -164,8 +215,13 @@ class TestTeamSummaryYearCalculator(unittest.TestCase):
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=2, teamBScore=1,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -185,10 +241,20 @@ class TestTeamSummaryYearCalculator(unittest.TestCase):
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=2, teamBScore=1,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=2, teamBScore=1,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup4 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -197,7 +263,9 @@ class TestTeamSummaryYearCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3, week4])
 
-        response = TeamSummaryYearCalculator.getGamesPlayed(year, weekNumberStart=2, weekNumberEnd=3)
+        response = TeamSummaryYearCalculator.getGamesPlayed(
+            year, weekNumberStart=2, weekNumberEnd=3
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -236,7 +304,9 @@ class TestTeamSummaryYearCalculator(unittest.TestCase):
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
         yearSettings = YearSettings(leagueMedianGames=True)
-        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3], yearSettings=yearSettings)
+        year = Year(
+            yearNumber=2000, teams=teams, weeks=[week1, week2, week3], yearSettings=yearSettings
+        )
 
         response = TeamSummaryYearCalculator.getTotalGames(year)
 
@@ -248,10 +318,22 @@ class TestTeamSummaryYearCalculator(unittest.TestCase):
     def test_getTotalGames_multiWeekMatchups(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, multiWeekMatchupId="1")
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            multiWeekMatchupId="1",
+        )
         week1 = Week(weekNumber=1, matchups=[matchup1])
 
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, multiWeekMatchupId="1")
+        matchup2 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            multiWeekMatchupId="1",
+        )
         week2 = Week(weekNumber=2, matchups=[matchup2])
 
         matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
@@ -289,10 +371,20 @@ class TestTeamSummaryYearCalculator(unittest.TestCase):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -312,15 +404,22 @@ class TestTeamSummaryYearCalculator(unittest.TestCase):
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
         yearSettings = YearSettings(leagueMedianGames=True)
-        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3], yearSettings=yearSettings)
+        year = Year(
+            yearNumber=2000, teams=teams, weeks=[week1, week2, week3], yearSettings=yearSettings
+        )
 
         response = TeamSummaryYearCalculator.getTotalGames(year, onlyRegularSeason=True)
 
@@ -333,10 +432,20 @@ class TestTeamSummaryYearCalculator(unittest.TestCase):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -363,7 +472,9 @@ class TestTeamSummaryYearCalculator(unittest.TestCase):
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
         yearSettings = YearSettings(leagueMedianGames=True)
-        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3], yearSettings=yearSettings)
+        year = Year(
+            yearNumber=2000, teams=teams, weeks=[week1, week2, week3], yearSettings=yearSettings
+        )
 
         response = TeamSummaryYearCalculator.getTotalGames(year, weekNumberStart=2)
 
@@ -377,15 +488,22 @@ class TestTeamSummaryYearCalculator(unittest.TestCase):
 
         matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
         matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=2, teamBScore=1,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup3 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
         yearSettings = YearSettings(leagueMedianGames=True)
-        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3], yearSettings=yearSettings)
+        year = Year(
+            yearNumber=2000, teams=teams, weeks=[week1, week2, week3], yearSettings=yearSettings
+        )
 
         response = TeamSummaryYearCalculator.getTotalGames(year, weekNumberEnd=2)
 
@@ -408,7 +526,12 @@ class TestTeamSummaryYearCalculator(unittest.TestCase):
         week4 = Week(weekNumber=4, matchups=[matchup4])
 
         yearSettings = YearSettings(leagueMedianGames=True)
-        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3, week4], yearSettings=yearSettings)
+        year = Year(
+            yearNumber=2000,
+            teams=teams,
+            weeks=[week1, week2, week3, week4],
+            yearSettings=yearSettings,
+        )
 
         response = TeamSummaryYearCalculator.getTotalGames(year, weekNumberStart=2, weekNumberEnd=3)
 

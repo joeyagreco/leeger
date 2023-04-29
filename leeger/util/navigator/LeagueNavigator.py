@@ -40,11 +40,13 @@ class LeagueNavigator:
         return [owner.id for owner in league.owners]
 
     @classmethod
-    def getNumberOfGamesPlayed(cls,
-                               league: League,
-                               allTimeFilters: AllTimeFilters,
-                               countMultiWeekMatchupsAsOneGame=False,
-                               countLeagueMedianGamesAsTwoGames=False) -> dict[str, int]:
+    def getNumberOfGamesPlayed(
+        cls,
+        league: League,
+        allTimeFilters: AllTimeFilters,
+        countMultiWeekMatchupsAsOneGame=False,
+        countLeagueMedianGamesAsTwoGames=False,
+    ) -> dict[str, int]:
         """
         Returns the number of games played for each owner in the given League all time.
 
@@ -61,20 +63,27 @@ class LeagueNavigator:
         yearWeekNumberStartWeekNumberEnd: list[tuple] = list()
         if allTimeFilters.yearNumberStart == allTimeFilters.yearNumberEnd:
             yearWeekNumberStartWeekNumberEnd.append(
-                (LeagueNavigator.getYearByYearNumber(league, allTimeFilters.yearNumberStart),
-                 allTimeFilters.weekNumberStart,
-                 allTimeFilters.weekNumberEnd))
+                (
+                    LeagueNavigator.getYearByYearNumber(league, allTimeFilters.yearNumberStart),
+                    allTimeFilters.weekNumberStart,
+                    allTimeFilters.weekNumberEnd,
+                )
+            )
         else:
             for year in league.years:
                 if year.yearNumber == allTimeFilters.yearNumberStart:
                     # first year we want, make sure week number start matches what was requested
                     # givenWeekStart and every week greater
-                    yearWeekNumberStartWeekNumberEnd.append((year, allTimeFilters.weekNumberStart, len(year.weeks)))
+                    yearWeekNumberStartWeekNumberEnd.append(
+                        (year, allTimeFilters.weekNumberStart, len(year.weeks))
+                    )
                 elif year.yearNumber == allTimeFilters.yearNumberEnd:
                     # last year we want, make sure week number end matches what was requested
                     # first week and every week til givenWeekEnd
                     yearWeekNumberStartWeekNumberEnd.append((year, 1, allTimeFilters.weekNumberEnd))
-                elif allTimeFilters.yearNumberStart < year.yearNumber < allTimeFilters.yearNumberEnd:
+                elif (
+                    allTimeFilters.yearNumberStart < year.yearNumber < allTimeFilters.yearNumberEnd
+                ):
                     # this year is in our year range, include every week in this year
                     yearWeekNumberStartWeekNumberEnd.append((year, 1, len(year.weeks)))
 
@@ -84,16 +93,22 @@ class LeagueNavigator:
             currentYear = yse[0]
             currentWeekNumberStart = yse[1]
             currentWeekNumberEnd = yse[2]
-            yearFilters = YearFilters(weekNumberStart=currentWeekNumberStart,
-                                      weekNumberEnd=currentWeekNumberEnd,
-                                      onlyChampionship=allTimeFilters.onlyChampionship,
-                                      onlyPostSeason=allTimeFilters.onlyPostSeason,
-                                      onlyRegularSeason=allTimeFilters.onlyRegularSeason)
+            yearFilters = YearFilters(
+                weekNumberStart=currentWeekNumberStart,
+                weekNumberEnd=currentWeekNumberEnd,
+                onlyChampionship=allTimeFilters.onlyChampionship,
+                onlyPostSeason=allTimeFilters.onlyPostSeason,
+                onlyRegularSeason=allTimeFilters.onlyRegularSeason,
+            )
 
-            allResultDicts.append(YearNavigator.getNumberOfGamesPlayed(currentYear,
-                                                                       yearFilters,
-                                                                       countMultiWeekMatchupsAsOneGame=countMultiWeekMatchupsAsOneGame,
-                                                                       countLeagueMedianGamesAsTwoGames=countLeagueMedianGamesAsTwoGames))
+            allResultDicts.append(
+                YearNavigator.getNumberOfGamesPlayed(
+                    currentYear,
+                    yearFilters,
+                    countMultiWeekMatchupsAsOneGame=countMultiWeekMatchupsAsOneGame,
+                    countLeagueMedianGamesAsTwoGames=countLeagueMedianGamesAsTwoGames,
+                )
+            )
 
         # combine results
         ownerIdAndNumberOfGamesPlayed = dict()
@@ -103,7 +118,9 @@ class LeagueNavigator:
 
         for resultDict in allResultDicts:
             for teamId in resultDict.keys():
-                ownerIdAndNumberOfGamesPlayed[LeagueNavigator.getTeamById(league, teamId).ownerId] += resultDict[teamId]
+                ownerIdAndNumberOfGamesPlayed[
+                    LeagueNavigator.getTeamById(league, teamId).ownerId
+                ] += resultDict[teamId]
 
         return ownerIdAndNumberOfGamesPlayed
 
@@ -115,5 +132,7 @@ class LeagueNavigator:
         """
         allScores = list()
         for year in league.years:
-            allScores += YearNavigator.getAllScoresInYear(year, simplifyMultiWeekMatchups=simplifyMultiWeekMatchups)
+            allScores += YearNavigator.getAllScoresInYear(
+                year, simplifyMultiWeekMatchups=simplifyMultiWeekMatchups
+            )
         return allScores

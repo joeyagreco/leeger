@@ -29,7 +29,9 @@ class PointsScoredAllTimeCalculator(AllTimeCalculator):
             ...
             }
         """
-        return cls._addAndCombineResults(league, PointsScoredYearCalculator.getPointsScored, **kwargs)
+        return cls._addAndCombineResults(
+            league, PointsScoredYearCalculator.getPointsScored, **kwargs
+        )
 
     @classmethod
     @validateLeague
@@ -47,9 +49,9 @@ class PointsScoredAllTimeCalculator(AllTimeCalculator):
         """
 
         ownerIdAndPointsScored = cls.getPointsScored(league, **kwargs)
-        ownerIdAndNumberOfGamesPlayed = LeagueNavigator.getNumberOfGamesPlayed(league,
-                                                                               AllTimeFilters.getForLeague(league,
-                                                                                                           **kwargs))
+        ownerIdAndNumberOfGamesPlayed = LeagueNavigator.getNumberOfGamesPlayed(
+            league, AllTimeFilters.getForLeague(league, **kwargs)
+        )
 
         ownerIdAndPointsScoredPerGame = dict()
         allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
@@ -57,8 +59,9 @@ class PointsScoredAllTimeCalculator(AllTimeCalculator):
             if ownerIdAndNumberOfGamesPlayed[ownerId] == 0:
                 ownerIdAndPointsScoredPerGame[ownerId] = None
             else:
-                ownerIdAndPointsScoredPerGame[ownerId] = ownerIdAndPointsScored[ownerId] / \
-                                                         ownerIdAndNumberOfGamesPlayed[ownerId]
+                ownerIdAndPointsScoredPerGame[ownerId] = (
+                    ownerIdAndPointsScored[ownerId] / ownerIdAndNumberOfGamesPlayed[ownerId]
+                )
 
         return ownerIdAndPointsScoredPerGame
 
@@ -77,7 +80,9 @@ class PointsScoredAllTimeCalculator(AllTimeCalculator):
             ...
             }
         """
-        return cls._addAndCombineResults(league, PointsScoredYearCalculator.getOpponentPointsScored, **kwargs)
+        return cls._addAndCombineResults(
+            league, PointsScoredYearCalculator.getOpponentPointsScored, **kwargs
+        )
 
     @classmethod
     @validateLeague
@@ -96,9 +101,9 @@ class PointsScoredAllTimeCalculator(AllTimeCalculator):
         """
 
         ownerIdAndOpponentPointsScored = cls.getOpponentPointsScored(league, **kwargs)
-        ownerIdAndNumberOfGamesPlayed = LeagueNavigator.getNumberOfGamesPlayed(league,
-                                                                               AllTimeFilters.getForLeague(league,
-                                                                                                           **kwargs))
+        ownerIdAndNumberOfGamesPlayed = LeagueNavigator.getNumberOfGamesPlayed(
+            league, AllTimeFilters.getForLeague(league, **kwargs)
+        )
 
         ownerIdAndOpponentPointsScoredPerGame = dict()
         allOwnerIds = LeagueNavigator.getAllOwnerIds(league)
@@ -106,7 +111,8 @@ class PointsScoredAllTimeCalculator(AllTimeCalculator):
             if ownerIdAndNumberOfGamesPlayed[ownerId] == 0:
                 ownerIdAndOpponentPointsScoredPerGame[ownerId] = None
             else:
-                ownerIdAndOpponentPointsScoredPerGame[ownerId] = ownerIdAndOpponentPointsScored[ownerId] / \
-                                                                 ownerIdAndNumberOfGamesPlayed[ownerId]
+                ownerIdAndOpponentPointsScoredPerGame[ownerId] = (
+                    ownerIdAndOpponentPointsScored[ownerId] / ownerIdAndNumberOfGamesPlayed[ownerId]
+                )
 
         return ownerIdAndOpponentPointsScoredPerGame

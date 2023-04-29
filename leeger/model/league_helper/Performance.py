@@ -17,7 +17,9 @@ class Performance(UniqueId, JSONSerializable):
     teamScore: float | int
     hasTiebreaker: bool = False
     matchupType: MatchupType = MatchupType.REGULAR_SEASON
-    multiWeekMatchupId: Optional[str] = None  # This is used to link matchups that span over multiple weeks
+    multiWeekMatchupId: Optional[
+        str
+    ] = None  # This is used to link matchups that span over multiple weeks
 
     def __eq__(self, otherPerformance: Performance) -> bool:
         """
@@ -33,37 +35,46 @@ class Performance(UniqueId, JSONSerializable):
             if self.teamId != otherPerformance.teamId:
                 notEqualStrings.append("teamId")
             if len(notEqualStrings) > 0:
-                self.__LOGGER.warning(f"Returning True for equality check when {notEqualStrings} are not equal.")
+                self.__LOGGER.warning(
+                    f"Returning True for equality check when {notEqualStrings} are not equal."
+                )
         return equal
 
     def __add__(self, otherPerformance: Performance):
         """
         Adds 2 Performances together.
-        
+
         Returns:
             leeger.model.league.Matchup
         """
         from leeger.model.league import Matchup
         from leeger.validate import matchupValidation
+
         if self.matchupType != otherPerformance.matchupType:
             raise InvalidMatchupFormatException(
-                f"Cannot make a matchup from conflicting matchup types '{self.matchupType}' and '{otherPerformance.matchupType}'.")
+                f"Cannot make a matchup from conflicting matchup types '{self.matchupType}' and '{otherPerformance.matchupType}'."
+            )
         if self.multiWeekMatchupId != otherPerformance.multiWeekMatchupId:
             raise InvalidMatchupFormatException(
-                f"Cannot make a matchup from conflicting multi-week matchup IDs '{self.multiWeekMatchupId}' and '{otherPerformance.multiWeekMatchupId}'.")
+                f"Cannot make a matchup from conflicting multi-week matchup IDs '{self.multiWeekMatchupId}' and '{otherPerformance.multiWeekMatchupId}'."
+            )
         tiebreakerInfoLost = list()
         if self.hasTiebreaker:
             tiebreakerInfoLost.append(f"Performance {self.id} had tiebreaker")
         if otherPerformance.hasTiebreaker:
             tiebreakerInfoLost.append(f"Performance {otherPerformance.id} had tiebreaker")
         if tiebreakerInfoLost:
-            self.__LOGGER.warning(f"Combining performances caused loss of tiebreakers: {tiebreakerInfoLost}.")
-        matchup = Matchup(teamAId=self.teamId,
-                          teamBId=otherPerformance.teamId,
-                          teamAScore=self.teamScore,
-                          teamBScore=otherPerformance.teamScore,
-                          matchupType=self.matchupType,
-                          multiWeekMatchupId=self.multiWeekMatchupId)
+            self.__LOGGER.warning(
+                f"Combining performances caused loss of tiebreakers: {tiebreakerInfoLost}."
+            )
+        matchup = Matchup(
+            teamAId=self.teamId,
+            teamBId=otherPerformance.teamId,
+            teamAScore=self.teamScore,
+            teamBScore=otherPerformance.teamScore,
+            matchupType=self.matchupType,
+            multiWeekMatchupId=self.multiWeekMatchupId,
+        )
         # validate new matchup
         matchupValidation.runAllChecks(matchup)
         return matchup
@@ -75,5 +86,5 @@ class Performance(UniqueId, JSONSerializable):
             "teamScore": self.teamScore,
             "hasTiebreaker": self.hasTiebreaker,
             "matchupType": self.matchupType.name,
-            "multiWeekMatchupId": self.multiWeekMatchupId
+            "multiWeekMatchupId": self.multiWeekMatchupId,
         }

@@ -40,8 +40,13 @@ class TestYear(unittest.TestCase):
         # create Year 1
         owners_1, teams_1 = getNDefaultOwnersAndTeams(2)
 
-        matchup_1 = Matchup(teamAId=teams_1[0].id, teamBId=teams_1[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_1 = Matchup(
+            teamAId=teams_1[0].id,
+            teamBId=teams_1[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_1 = Week(weekNumber=1, matchups=[matchup_1])
         yearSettings_1 = YearSettings(leagueMedianGames=True)
         year_1 = Year(yearNumber=2000, teams=teams_1, weeks=[week_1], yearSettings=yearSettings_1)
@@ -49,8 +54,13 @@ class TestYear(unittest.TestCase):
         # create Year 2
         owners_2, teams_2 = getNDefaultOwnersAndTeams(2)
 
-        matchup_2 = Matchup(teamAId=teams_2[0].id, teamBId=teams_2[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_2 = Matchup(
+            teamAId=teams_2[0].id,
+            teamBId=teams_2[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_2 = Week(weekNumber=1, matchups=[matchup_2])
         yearSettings_2 = YearSettings(leagueMedianGames=True)
         year_2 = Year(yearNumber=2000, teams=teams_2, weeks=[week_2], yearSettings=yearSettings_2)
@@ -61,16 +71,26 @@ class TestYear(unittest.TestCase):
         # create Year 1
         owners_1, teams_1 = getNDefaultOwnersAndTeams(2)
 
-        matchup_1 = Matchup(teamAId=teams_1[0].id, teamBId=teams_1[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_1 = Matchup(
+            teamAId=teams_1[0].id,
+            teamBId=teams_1[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_1 = Week(weekNumber=1, matchups=[matchup_1])
         year_1 = Year(yearNumber=2000, teams=teams_1, weeks=[week_1])
 
         # create Year 2
         owners_2, teams_2 = getNDefaultOwnersAndTeams(2)
 
-        matchup_2 = Matchup(teamAId=teams_2[0].id, teamBId=teams_2[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_2 = Matchup(
+            teamAId=teams_2[0].id,
+            teamBId=teams_2[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_2 = Week(weekNumber=1, matchups=[matchup_2])
         year_2 = Year(yearNumber=2001, teams=teams_2, weeks=[week_2])
 
@@ -79,8 +99,13 @@ class TestYear(unittest.TestCase):
     def test_year_toJson(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup_1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_1 = Week(weekNumber=1, matchups=[matchup_1])
         yearSettings = YearSettings(leagueMedianGames=True)
         year = Year(yearNumber=2000, teams=teams, weeks=[week_1], yearSettings=yearSettings)
@@ -107,8 +132,13 @@ class TestYear(unittest.TestCase):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         teams[0].name = "team0"
-        matchup_1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_1 = Week(weekNumber=1, matchups=[matchup_1])
         year = Year(yearNumber=2000, teams=teams, weeks=[week_1])
 
@@ -118,8 +148,13 @@ class TestYear(unittest.TestCase):
     def test_getTeamByName_teamNotInYear_raisesException(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup_1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_1 = Week(weekNumber=1, matchups=[matchup_1])
         year = Year(yearNumber=2000, teams=teams, weeks=[week_1])
 
@@ -130,8 +165,13 @@ class TestYear(unittest.TestCase):
     def test_getWeekByWeekNumber_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup_1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_1 = Week(weekNumber=1, matchups=[matchup_1])
         year = Year(yearNumber=2000, teams=teams, weeks=[week_1])
 
@@ -141,8 +181,13 @@ class TestYear(unittest.TestCase):
     def test_getWeekByWeekNumber_teamNotInYear_raisesException(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup_1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_1 = Week(weekNumber=1, matchups=[matchup_1])
         year = Year(yearNumber=2000, teams=teams, weeks=[week_1])
 
@@ -153,8 +198,13 @@ class TestYear(unittest.TestCase):
     def test_year_fromJson(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup_1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.2,
-                            matchupType=MatchupType.REGULAR_SEASON)
+        matchup_1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
         week_1 = Week(weekNumber=1, matchups=[matchup_1])
         yearSettings = YearSettings(leagueMedianGames=True)
         year = Year(yearNumber=2000, teams=teams, weeks=[week_1], yearSettings=yearSettings)

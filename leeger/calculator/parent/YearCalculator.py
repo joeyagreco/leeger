@@ -12,7 +12,9 @@ class YearCalculator:
     """
 
     @classmethod
-    def _getAllFilteredMatchups(cls, year: Year, yearFilters: YearFilters, **kwargs) -> list[Matchup]:
+    def _getAllFilteredMatchups(
+        cls, year: Year, yearFilters: YearFilters, **kwargs
+    ) -> list[Matchup]:
         """
         Returns all Matchups in the given Year that are remaining after the given filters are applied.
         """
@@ -26,12 +28,15 @@ class YearCalculator:
         return allFilteredMatchups
 
     @classmethod
-    def _setToNoneIfNoGamesPlayed(cls, responseDict: dict[str, Any], year: Year, yearFilters: YearFilters = None,
-                                  **kwargs) -> None:
+    def _setToNoneIfNoGamesPlayed(
+        cls, responseDict: dict[str, Any], year: Year, yearFilters: YearFilters = None, **kwargs
+    ) -> None:
         """
         Takes a response dict and sets any value to None where the Team ID has no games played in the given range.
         """
-        yearFilters = yearFilters if yearFilters is not None else YearFilters.getForYear(year, **kwargs)
+        yearFilters = (
+            yearFilters if yearFilters is not None else YearFilters.getForYear(year, **kwargs)
+        )
         teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year, yearFilters)
 
         for teamId in responseDict:

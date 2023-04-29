@@ -8,4 +8,5 @@ class WeekFilters:
     """
     Used to house filters that will be applied to a Week when navigating through it.
     """
+
     includeMatchupTypes: list[MatchupType]  # include matchups of these types

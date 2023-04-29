@@ -1,7 +1,7 @@
 from leeger.league_loader import MyFantasyLeagueLeagueLoader
 from leeger.model.league import League
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # You will need to log into your MyFantasyLeague account for the following setup.
     # More info on this process can be found at: https://api.myfantasyleague.com/{current_year}/api_info
     # Register a client via the API Client Registration Page: http://www.myfantasyleague.com/{current_year}/csetup?C=APICLI
@@ -19,9 +19,11 @@ if __name__ == '__main__':
     MFL_USER_AGENT_NAME = "myUserAgentName"  # The Client User Agent you set for your API Client.
     LEAGUE_ID = "123456"
 
-    myFantasyLeagueLoader = MyFantasyLeagueLeagueLoader(LEAGUE_ID,
-                                                        [2019, 2020],
-                                                        mflUsername=MFL_USERNAME,
-                                                        mflPassword=MFL_PASSWORD,
-                                                        mflUserAgentName=MFL_USER_AGENT_NAME)
+    myFantasyLeagueLoader = MyFantasyLeagueLeagueLoader(
+        LEAGUE_ID,
+        [2019, 2020],
+        mflUsername=MFL_USERNAME,
+        mflPassword=MFL_PASSWORD,
+        mflUserAgentName=MFL_USER_AGENT_NAME,
+    )
     league: League = myFantasyLeagueLoader.loadLeague()

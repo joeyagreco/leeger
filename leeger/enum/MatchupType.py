@@ -8,6 +8,7 @@ class MatchupType(Enum):
     """
     Used to hold the different types of matchups.
     """
+
     CHAMPIONSHIP = "CHAMPIONSHIP"
     IGNORE = "IGNORE"
     PLAYOFF = "PLAYOFF"

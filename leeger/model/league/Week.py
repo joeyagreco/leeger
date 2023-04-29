@@ -46,7 +46,10 @@ class Week(UniqueId, JSONSerializable, JSONDeserializable):
     def isRegularSeasonWeek(self) -> bool:
         isRegularSeasonWeek = True
         for matchup in self.matchups:
-            if matchup.matchupType != MatchupType.REGULAR_SEASON and matchup.matchupType != MatchupType.IGNORE:
+            if (
+                matchup.matchupType != MatchupType.REGULAR_SEASON
+                and matchup.matchupType != MatchupType.IGNORE
+            ):
                 isRegularSeasonWeek = False
                 break
         return isRegularSeasonWeek
@@ -64,7 +67,7 @@ class Week(UniqueId, JSONSerializable, JSONDeserializable):
         return {
             "id": self.id,
             "weekNumber": self.weekNumber,
-            "matchups": [matchup.toJson() for matchup in self.matchups]
+            "matchups": [matchup.toJson() for matchup in self.matchups],
         }
 
     @staticmethod
@@ -72,7 +75,6 @@ class Week(UniqueId, JSONSerializable, JSONDeserializable):
         matchups = list()
         for matchupDict in d["matchups"]:
             matchups.append(Matchup.fromJson(matchupDict))
-        week = Week(weekNumber=d["weekNumber"],
-                    matchups=matchups)
+        week = Week(weekNumber=d["weekNumber"], matchups=matchups)
         week.id = d["id"]
         return week

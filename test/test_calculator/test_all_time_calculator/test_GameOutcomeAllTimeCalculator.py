@@ -1,6 +1,8 @@
 import unittest
 
-from leeger.calculator.all_time_calculator.GameOutcomeAllTimeCalculator import GameOutcomeAllTimeCalculator
+from leeger.calculator.all_time_calculator.GameOutcomeAllTimeCalculator import (
+    GameOutcomeAllTimeCalculator,
+)
 from leeger.enum.MatchupType import MatchupType
 from leeger.model.league import YearSettings
 from leeger.model.league.League import League
@@ -12,37 +14,66 @@ from test.helper.prototypes import getNDefaultOwnersAndTeams, getTeamsFromOwners
 
 
 class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
-
     def test_getWins_happyPath(self):
         owners, teamsA = getNDefaultOwnersAndTeams(2)
         teamsB = getTeamsFromOwners(owners)
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -63,30 +94,62 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=3, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF, multiWeekMatchupId="1")
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=3, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF, multiWeekMatchupId="1")
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=3,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+            multiWeekMatchupId="1",
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=3,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+            multiWeekMatchupId="1",
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -126,30 +189,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -170,30 +263,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -214,30 +337,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -258,30 +411,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -289,7 +472,9 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = GameOutcomeAllTimeCalculator.getWins(league, yearNumberStart=2001, weekNumberStart=2)
+        response = GameOutcomeAllTimeCalculator.getWins(
+            league, yearNumberStart=2001, weekNumberStart=2
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -302,30 +487,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -340,47 +555,89 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         self.assertEqual(0, response[owners[0].id])
         self.assertEqual(5, response[owners[1].id])
 
-    def test_getWins_yearNumberStartGivenWeekNumberStartGivenAndYearNumberEndGivenWeekNumberEndGiven(self):
+    def test_getWins_yearNumberStartGivenWeekNumberStartGivenAndYearNumberEndGivenWeekNumberEndGiven(
+        self,
+    ):
         owners, teamsA = getNDefaultOwnersAndTeams(2)
         teamsB = getTeamsFromOwners(owners)
         teamsC = getTeamsFromOwners(owners)
         teamsD = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
         yearC = Year(yearNumber=2002, teams=teamsC, weeks=[week1_c, week2_c, week3_c])
 
         matchup1_d = Matchup(teamAId=teamsD[0].id, teamBId=teamsD[1].id, teamAScore=1, teamBScore=2)
-        matchup2_d = Matchup(teamAId=teamsD[0].id, teamBId=teamsD[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_d = Matchup(teamAId=teamsD[0].id, teamBId=teamsD[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_d = Matchup(
+            teamAId=teamsD[0].id,
+            teamBId=teamsD[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_d = Matchup(
+            teamAId=teamsD[0].id,
+            teamBId=teamsD[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_d = Week(weekNumber=1, matchups=[matchup1_d])
         week2_d = Week(weekNumber=2, matchups=[matchup2_d])
         week3_d = Week(weekNumber=3, matchups=[matchup3_d])
@@ -388,9 +645,9 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC, yearD])
 
-        response = GameOutcomeAllTimeCalculator.getWins(league, yearNumberStart=2001, weekNumberStart=2,
-                                                        yearNumberEnd=2002,
-                                                        weekNumberEnd=2)
+        response = GameOutcomeAllTimeCalculator.getWins(
+            league, yearNumberStart=2001, weekNumberStart=2, yearNumberEnd=2002, weekNumberEnd=2
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -403,30 +660,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -447,30 +734,62 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=3, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF, multiWeekMatchupId="1")
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=3, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF, multiWeekMatchupId="1")
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=3,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+            multiWeekMatchupId="1",
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=3,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+            multiWeekMatchupId="1",
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -510,30 +829,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -554,30 +903,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -598,30 +977,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -642,30 +1051,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -673,7 +1112,9 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = GameOutcomeAllTimeCalculator.getLosses(league, yearNumberStart=2001, weekNumberStart=2)
+        response = GameOutcomeAllTimeCalculator.getLosses(
+            league, yearNumberStart=2001, weekNumberStart=2
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -686,30 +1127,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -717,54 +1188,98 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = GameOutcomeAllTimeCalculator.getLosses(league, yearNumberEnd=2001, weekNumberEnd=2)
+        response = GameOutcomeAllTimeCalculator.getLosses(
+            league, yearNumberEnd=2001, weekNumberEnd=2
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
         self.assertEqual(5, response[owners[0].id])
         self.assertEqual(0, response[owners[1].id])
 
-    def test_getLosses_yearNumberStartGivenWeekNumberStartGivenAndYearNumberEndGivenWeekNumberEndGiven(self):
+    def test_getLosses_yearNumberStartGivenWeekNumberStartGivenAndYearNumberEndGivenWeekNumberEndGiven(
+        self,
+    ):
         owners, teamsA = getNDefaultOwnersAndTeams(2)
         teamsB = getTeamsFromOwners(owners)
         teamsC = getTeamsFromOwners(owners)
         teamsD = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
         yearC = Year(yearNumber=2002, teams=teamsC, weeks=[week1_c, week2_c, week3_c])
 
         matchup1_d = Matchup(teamAId=teamsD[0].id, teamBId=teamsD[1].id, teamAScore=1, teamBScore=2)
-        matchup2_d = Matchup(teamAId=teamsD[0].id, teamBId=teamsD[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_d = Matchup(teamAId=teamsD[0].id, teamBId=teamsD[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_d = Matchup(
+            teamAId=teamsD[0].id,
+            teamBId=teamsD[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_d = Matchup(
+            teamAId=teamsD[0].id,
+            teamBId=teamsD[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_d = Week(weekNumber=1, matchups=[matchup1_d])
         week2_d = Week(weekNumber=2, matchups=[matchup2_d])
         week3_d = Week(weekNumber=3, matchups=[matchup3_d])
@@ -772,9 +1287,9 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC, yearD])
 
-        response = GameOutcomeAllTimeCalculator.getLosses(league, yearNumberStart=2001, weekNumberStart=2,
-                                                          yearNumberEnd=2002,
-                                                          weekNumberEnd=2)
+        response = GameOutcomeAllTimeCalculator.getLosses(
+            league, yearNumberStart=2001, weekNumberStart=2, yearNumberEnd=2002, weekNumberEnd=2
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -787,30 +1302,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=1)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=1)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=1)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -831,30 +1376,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=1,
-                             multiWeekMatchupId="1")
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=1,
-                             multiWeekMatchupId="1")
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=1,
+            multiWeekMatchupId="1",
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=1,
+            multiWeekMatchupId="1",
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=1)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=1)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -894,30 +1469,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=1)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=1)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=1)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -938,30 +1543,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=1)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=1)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=1)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -982,30 +1617,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=1)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=1)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=1)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -1026,30 +1691,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=1)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=1)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=1)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -1057,7 +1752,9 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = GameOutcomeAllTimeCalculator.getTies(league, yearNumberStart=2001, weekNumberStart=2)
+        response = GameOutcomeAllTimeCalculator.getTies(
+            league, yearNumberStart=2001, weekNumberStart=2
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -1070,30 +1767,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=1)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=1)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=1)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -1108,47 +1835,89 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         self.assertEqual(2, response[owners[0].id])
         self.assertEqual(2, response[owners[1].id])
 
-    def test_getTies_yearNumberStartGivenWeekNumberStartGivenAndYearNumberEndGivenWeekNumberEndGiven(self):
+    def test_getTies_yearNumberStartGivenWeekNumberStartGivenAndYearNumberEndGivenWeekNumberEndGiven(
+        self,
+    ):
         owners, teamsA = getNDefaultOwnersAndTeams(2)
         teamsB = getTeamsFromOwners(owners)
         teamsC = getTeamsFromOwners(owners)
         teamsD = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=1)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=1)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=1)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
         yearC = Year(yearNumber=2002, teams=teamsC, weeks=[week1_c, week2_c, week3_c])
 
         matchup1_d = Matchup(teamAId=teamsD[0].id, teamBId=teamsD[1].id, teamAScore=1, teamBScore=2)
-        matchup2_d = Matchup(teamAId=teamsD[0].id, teamBId=teamsD[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_d = Matchup(teamAId=teamsD[0].id, teamBId=teamsD[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_d = Matchup(
+            teamAId=teamsD[0].id,
+            teamBId=teamsD[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_d = Matchup(
+            teamAId=teamsD[0].id,
+            teamBId=teamsD[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_d = Week(weekNumber=1, matchups=[matchup1_d])
         week2_d = Week(weekNumber=2, matchups=[matchup2_d])
         week3_d = Week(weekNumber=3, matchups=[matchup3_d])
@@ -1156,9 +1925,9 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC, yearD])
 
-        response = GameOutcomeAllTimeCalculator.getTies(league, yearNumberStart=2001, weekNumberStart=2,
-                                                        yearNumberEnd=2002,
-                                                        weekNumberEnd=2)
+        response = GameOutcomeAllTimeCalculator.getTies(
+            league, yearNumberStart=2001, weekNumberStart=2, yearNumberEnd=2002, weekNumberEnd=2
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -1171,30 +1940,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -1221,7 +2020,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
-        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a], yearSettings=yearSettings)
+        yearA = Year(
+            yearNumber=2000,
+            teams=teamsA,
+            weeks=[week1_a, week2_a, week3_a],
+            yearSettings=yearSettings,
+        )
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1)
         matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1)
@@ -1229,7 +2033,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
-        yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b], yearSettings=yearSettings)
+        yearB = Year(
+            yearNumber=2001,
+            teams=teamsB,
+            weeks=[week1_b, week2_b, week3_b],
+            yearSettings=yearSettings,
+        )
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
         matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=2, teamBScore=1)
@@ -1237,7 +2046,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
-        yearC = Year(yearNumber=2002, teams=teamsC, weeks=[week1_c, week2_c, week3_c], yearSettings=yearSettings)
+        yearC = Year(
+            yearNumber=2002,
+            teams=teamsC,
+            weeks=[week1_c, week2_c, week3_c],
+            yearSettings=yearSettings,
+        )
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
@@ -1254,30 +2068,62 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF, multiWeekMatchupId="1")
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF, multiWeekMatchupId="1")
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+            multiWeekMatchupId="1",
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+            multiWeekMatchupId="1",
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=1)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -1317,30 +2163,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=2, teamBScore=1)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -1361,30 +2237,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -1405,30 +2311,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -1449,30 +2385,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=2, teamBScore=1)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -1480,7 +2446,9 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = GameOutcomeAllTimeCalculator.getWinPercentage(league, yearNumberStart=2001, weekNumberStart=2)
+        response = GameOutcomeAllTimeCalculator.getWinPercentage(
+            league, yearNumberStart=2001, weekNumberStart=2
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -1493,30 +2461,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=2, teamBScore=1)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -1524,54 +2522,98 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = GameOutcomeAllTimeCalculator.getWinPercentage(league, yearNumberEnd=2001, weekNumberEnd=2)
+        response = GameOutcomeAllTimeCalculator.getWinPercentage(
+            league, yearNumberEnd=2001, weekNumberEnd=2
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
         self.assertEqual(Deci("1"), response[owners[0].id])
         self.assertEqual(Deci("0"), response[owners[1].id])
 
-    def test_getWinPercentage_yearNumberStartGivenWeekNumberStartGivenAndYearNumberEndGivenWeekNumberEndGiven(self):
+    def test_getWinPercentage_yearNumberStartGivenWeekNumberStartGivenAndYearNumberEndGivenWeekNumberEndGiven(
+        self,
+    ):
         owners, teamsA = getNDefaultOwnersAndTeams(2)
         teamsB = getTeamsFromOwners(owners)
         teamsC = getTeamsFromOwners(owners)
         teamsD = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=2, teamBScore=1)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
         yearC = Year(yearNumber=2002, teams=teamsC, weeks=[week1_c, week2_c, week3_c])
 
         matchup1_d = Matchup(teamAId=teamsD[0].id, teamBId=teamsD[1].id, teamAScore=1, teamBScore=2)
-        matchup2_d = Matchup(teamAId=teamsD[0].id, teamBId=teamsD[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_d = Matchup(teamAId=teamsD[0].id, teamBId=teamsD[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_d = Matchup(
+            teamAId=teamsD[0].id,
+            teamBId=teamsD[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_d = Matchup(
+            teamAId=teamsD[0].id,
+            teamBId=teamsD[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_d = Week(weekNumber=1, matchups=[matchup1_d])
         week2_d = Week(weekNumber=2, matchups=[matchup2_d])
         week3_d = Week(weekNumber=3, matchups=[matchup3_d])
@@ -1579,11 +2621,9 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC, yearD])
 
-        response = GameOutcomeAllTimeCalculator.getWinPercentage(league,
-                                                                 yearNumberStart=2001,
-                                                                 weekNumberStart=2,
-                                                                 yearNumberEnd=2002,
-                                                                 weekNumberEnd=2)
+        response = GameOutcomeAllTimeCalculator.getWinPercentage(
+            league, yearNumberStart=2001, weekNumberStart=2, yearNumberEnd=2002, weekNumberEnd=2
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -1596,30 +2636,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=1)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -1646,7 +2716,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
-        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a], yearSettings=yearSettings)
+        yearA = Year(
+            yearNumber=2000,
+            teams=teamsA,
+            weeks=[week1_a, week2_a, week3_a],
+            yearSettings=yearSettings,
+        )
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1)
         matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1)
@@ -1654,7 +2729,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
-        yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b], yearSettings=yearSettings)
+        yearB = Year(
+            yearNumber=2001,
+            teams=teamsB,
+            weeks=[week1_b, week2_b, week3_b],
+            yearSettings=yearSettings,
+        )
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=1)
         matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=2, teamBScore=1)
@@ -1662,7 +2742,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
-        yearC = Year(yearNumber=2002, teams=teamsC, weeks=[week1_c, week2_c, week3_c], yearSettings=yearSettings)
+        yearC = Year(
+            yearNumber=2002,
+            teams=teamsC,
+            weeks=[week1_c, week2_c, week3_c],
+            yearSettings=yearSettings,
+        )
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
@@ -1679,30 +2764,62 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF, multiWeekMatchupId="1")
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF, multiWeekMatchupId="1")
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+            multiWeekMatchupId="1",
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+            multiWeekMatchupId="1",
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=1)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -1742,30 +2859,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=2, teamBScore=1)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -1786,30 +2933,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=1)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -1830,30 +3007,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -1874,30 +3081,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=1)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -1905,7 +3142,9 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = GameOutcomeAllTimeCalculator.getWAL(league, yearNumberStart=2001, weekNumberStart=2)
+        response = GameOutcomeAllTimeCalculator.getWAL(
+            league, yearNumberStart=2001, weekNumberStart=2
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -1918,30 +3157,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=1)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -1956,47 +3225,89 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         self.assertEqual(Deci("2.5"), response[owners[0].id])
         self.assertEqual(Deci("2.5"), response[owners[1].id])
 
-    def test_getWAL_yearNumberStartGivenWeekNumberStartGivenAndYearNumberEndGivenWeekNumberEndGiven(self):
+    def test_getWAL_yearNumberStartGivenWeekNumberStartGivenAndYearNumberEndGivenWeekNumberEndGiven(
+        self,
+    ):
         owners, teamsA = getNDefaultOwnersAndTeams(2)
         teamsB = getTeamsFromOwners(owners)
         teamsC = getTeamsFromOwners(owners)
         teamsD = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=1)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
         yearC = Year(yearNumber=2002, teams=teamsC, weeks=[week1_c, week2_c, week3_c])
 
         matchup1_d = Matchup(teamAId=teamsD[0].id, teamBId=teamsD[1].id, teamAScore=1, teamBScore=2)
-        matchup2_d = Matchup(teamAId=teamsD[0].id, teamBId=teamsD[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_d = Matchup(teamAId=teamsD[0].id, teamBId=teamsD[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_d = Matchup(
+            teamAId=teamsD[0].id,
+            teamBId=teamsD[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_d = Matchup(
+            teamAId=teamsD[0].id,
+            teamBId=teamsD[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_d = Week(weekNumber=1, matchups=[matchup1_d])
         week2_d = Week(weekNumber=2, matchups=[matchup2_d])
         week3_d = Week(weekNumber=3, matchups=[matchup3_d])
@@ -2004,11 +3315,9 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC, yearD])
 
-        response = GameOutcomeAllTimeCalculator.getWAL(league,
-                                                       yearNumberStart=2001,
-                                                       weekNumberStart=2,
-                                                       yearNumberEnd=2002,
-                                                       weekNumberEnd=2)
+        response = GameOutcomeAllTimeCalculator.getWAL(
+            league, yearNumberStart=2001, weekNumberStart=2, yearNumberEnd=2002, weekNumberEnd=2
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -2021,30 +3330,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=1)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -2071,7 +3410,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
-        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a], yearSettings=yearSettings)
+        yearA = Year(
+            yearNumber=2000,
+            teams=teamsA,
+            weeks=[week1_a, week2_a, week3_a],
+            yearSettings=yearSettings,
+        )
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1)
         matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1)
@@ -2079,7 +3423,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
-        yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b], yearSettings=yearSettings)
+        yearB = Year(
+            yearNumber=2001,
+            teams=teamsB,
+            weeks=[week1_b, week2_b, week3_b],
+            yearSettings=yearSettings,
+        )
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=1)
         matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=2, teamBScore=1)
@@ -2087,7 +3436,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
-        yearC = Year(yearNumber=2002, teams=teamsC, weeks=[week1_c, week2_c, week3_c], yearSettings=yearSettings)
+        yearC = Year(
+            yearNumber=2002,
+            teams=teamsC,
+            weeks=[week1_c, week2_c, week3_c],
+            yearSettings=yearSettings,
+        )
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
@@ -2104,30 +3458,62 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF, multiWeekMatchupId="1")
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF, multiWeekMatchupId="1")
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+            multiWeekMatchupId="1",
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+            multiWeekMatchupId="1",
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=1)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -2167,30 +3553,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=2, teamBScore=1)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -2211,30 +3627,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=1)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -2255,30 +3701,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -2299,30 +3775,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=1)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -2330,7 +3836,9 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = GameOutcomeAllTimeCalculator.getWALPerGame(league, yearNumberStart=2001, weekNumberStart=2)
+        response = GameOutcomeAllTimeCalculator.getWALPerGame(
+            league, yearNumberStart=2001, weekNumberStart=2
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -2343,30 +3851,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=1)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -2374,54 +3912,98 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = GameOutcomeAllTimeCalculator.getWALPerGame(league, yearNumberEnd=2001, weekNumberEnd=2)
+        response = GameOutcomeAllTimeCalculator.getWALPerGame(
+            league, yearNumberEnd=2001, weekNumberEnd=2
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
         self.assertEqual(Deci("0.5"), response[owners[0].id])
         self.assertEqual(Deci("0.5"), response[owners[1].id])
 
-    def test_getWALPerGame_yearNumberStartGivenWeekNumberStartGivenAndYearNumberEndGivenWeekNumberEndGiven(self):
+    def test_getWALPerGame_yearNumberStartGivenWeekNumberStartGivenAndYearNumberEndGivenWeekNumberEndGiven(
+        self,
+    ):
         owners, teamsA = getNDefaultOwnersAndTeams(2)
         teamsB = getTeamsFromOwners(owners)
         teamsC = getTeamsFromOwners(owners)
         teamsD = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=2, teamBScore=1,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=1)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
         yearC = Year(yearNumber=2002, teams=teamsC, weeks=[week1_c, week2_c, week3_c])
 
         matchup1_d = Matchup(teamAId=teamsD[0].id, teamBId=teamsD[1].id, teamAScore=1, teamBScore=2)
-        matchup2_d = Matchup(teamAId=teamsD[0].id, teamBId=teamsD[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_d = Matchup(teamAId=teamsD[0].id, teamBId=teamsD[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_d = Matchup(
+            teamAId=teamsD[0].id,
+            teamBId=teamsD[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_d = Matchup(
+            teamAId=teamsD[0].id,
+            teamBId=teamsD[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_d = Week(weekNumber=1, matchups=[matchup1_d])
         week2_d = Week(weekNumber=2, matchups=[matchup2_d])
         week3_d = Week(weekNumber=3, matchups=[matchup3_d])
@@ -2429,11 +4011,9 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC, yearD])
 
-        response = GameOutcomeAllTimeCalculator.getWALPerGame(league,
-                                                              yearNumberStart=2001,
-                                                              weekNumberStart=2,
-                                                              yearNumberEnd=2002,
-                                                              weekNumberEnd=2)
+        response = GameOutcomeAllTimeCalculator.getWALPerGame(
+            league, yearNumberStart=2001, weekNumberStart=2, yearNumberEnd=2002, weekNumberEnd=2
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -2453,7 +4033,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
-        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a], yearSettings=yearSettings)
+        yearA = Year(
+            yearNumber=2000,
+            teams=teamsA,
+            weeks=[week1_a, week2_a, week3_a],
+            yearSettings=yearSettings,
+        )
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
         matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
@@ -2461,7 +4046,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
-        yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b], yearSettings=yearSettings)
+        yearB = Year(
+            yearNumber=2001,
+            teams=teamsB,
+            weeks=[week1_b, week2_b, week3_b],
+            yearSettings=yearSettings,
+        )
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
         matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
@@ -2469,7 +4059,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
-        yearC = Year(yearNumber=2002, teams=teamsC, weeks=[week1_c, week2_c, week3_c], yearSettings=yearSettings)
+        yearC = Year(
+            yearNumber=2002,
+            teams=teamsC,
+            weeks=[week1_c, week2_c, week3_c],
+            yearSettings=yearSettings,
+        )
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
@@ -2493,7 +4088,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
-        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a], yearSettings=yearSettings)
+        yearA = Year(
+            yearNumber=2000,
+            teams=teamsA,
+            weeks=[week1_a, week2_a, week3_a],
+            yearSettings=yearSettings,
+        )
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
         matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
@@ -2501,7 +4101,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
-        yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b], yearSettings=yearSettings)
+        yearB = Year(
+            yearNumber=2001,
+            teams=teamsB,
+            weeks=[week1_b, week2_b, week3_b],
+            yearSettings=yearSettings,
+        )
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
         matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
@@ -2509,7 +4114,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
-        yearC = Year(yearNumber=2002, teams=teamsC, weeks=[week1_c, week2_c, week3_c], yearSettings=yearSettings)
+        yearC = Year(
+            yearNumber=2002,
+            teams=teamsC,
+            weeks=[week1_c, week2_c, week3_c],
+            yearSettings=yearSettings,
+        )
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
@@ -2532,7 +4142,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
-        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a], yearSettings=yearSettings)
+        yearA = Year(
+            yearNumber=2000,
+            teams=teamsA,
+            weeks=[week1_a, week2_a, week3_a],
+            yearSettings=yearSettings,
+        )
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=1)
         matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
@@ -2540,7 +4155,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
-        yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b], yearSettings=yearSettings)
+        yearB = Year(
+            yearNumber=2001,
+            teams=teamsB,
+            weeks=[week1_b, week2_b, week3_b],
+            yearSettings=yearSettings,
+        )
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=1)
         matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
@@ -2548,7 +4168,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
-        yearC = Year(yearNumber=2002, teams=teamsC, weeks=[week1_c, week2_c, week3_c], yearSettings=yearSettings)
+        yearC = Year(
+            yearNumber=2002,
+            teams=teamsC,
+            weeks=[week1_c, week2_c, week3_c],
+            yearSettings=yearSettings,
+        )
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
@@ -2567,7 +4192,9 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         yearSettings = YearSettings(leagueMedianGames=True)
-        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a], yearSettings=yearSettings)
+        yearA = Year(
+            yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a], yearSettings=yearSettings
+        )
 
         league = League(name="TEST", owners=owners, years=[yearA])
 
@@ -2585,30 +4212,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -2630,34 +4287,79 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         yearSettings = YearSettings(leagueMedianGames=True)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
-        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a], yearSettings=yearSettings)
+        yearA = Year(
+            yearNumber=2000,
+            teams=teamsA,
+            weeks=[week1_a, week2_a, week3_a],
+            yearSettings=yearSettings,
+        )
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
-        yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b], yearSettings=yearSettings)
+        yearB = Year(
+            yearNumber=2001,
+            teams=teamsB,
+            weeks=[week1_b, week2_b, week3_b],
+            yearSettings=yearSettings,
+        )
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
-        yearC = Year(yearNumber=2002, teams=teamsC, weeks=[week1_c, week2_c, week3_c], yearSettings=yearSettings)
+        yearC = Year(
+            yearNumber=2002,
+            teams=teamsC,
+            weeks=[week1_c, week2_c, week3_c],
+            yearSettings=yearSettings,
+        )
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
@@ -2674,30 +4376,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -2725,7 +4457,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearSettings = YearSettings(leagueMedianGames=True)
 
-        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a], yearSettings=yearSettings)
+        yearA = Year(
+            yearNumber=2000,
+            teams=teamsA,
+            weeks=[week1_a, week2_a, week3_a],
+            yearSettings=yearSettings,
+        )
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
         matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
@@ -2733,7 +4470,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
-        yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b], yearSettings=yearSettings)
+        yearB = Year(
+            yearNumber=2001,
+            teams=teamsB,
+            weeks=[week1_b, week2_b, week3_b],
+            yearSettings=yearSettings,
+        )
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
         matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
@@ -2741,11 +4483,18 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
-        yearC = Year(yearNumber=2002, teams=teamsC, weeks=[week1_c, week2_c, week3_c], yearSettings=yearSettings)
+        yearC = Year(
+            yearNumber=2002,
+            teams=teamsC,
+            weeks=[week1_c, week2_c, week3_c],
+            yearSettings=yearSettings,
+        )
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = GameOutcomeAllTimeCalculator.getLeagueMedianWins(league, yearNumberStart=2001, weekNumberStart=2)
+        response = GameOutcomeAllTimeCalculator.getLeagueMedianWins(
+            league, yearNumberStart=2001, weekNumberStart=2
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -2765,7 +4514,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearSettings = YearSettings(leagueMedianGames=True)
 
-        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a], yearSettings=yearSettings)
+        yearA = Year(
+            yearNumber=2000,
+            teams=teamsA,
+            weeks=[week1_a, week2_a, week3_a],
+            yearSettings=yearSettings,
+        )
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
         matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
@@ -2773,7 +4527,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
-        yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b], yearSettings=yearSettings)
+        yearB = Year(
+            yearNumber=2001,
+            teams=teamsB,
+            weeks=[week1_b, week2_b, week3_b],
+            yearSettings=yearSettings,
+        )
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
         matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
@@ -2781,18 +4540,27 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
-        yearC = Year(yearNumber=2002, teams=teamsC, weeks=[week1_c, week2_c, week3_c], yearSettings=yearSettings)
+        yearC = Year(
+            yearNumber=2002,
+            teams=teamsC,
+            weeks=[week1_c, week2_c, week3_c],
+            yearSettings=yearSettings,
+        )
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = GameOutcomeAllTimeCalculator.getLeagueMedianWins(league, yearNumberEnd=2001, weekNumberEnd=2)
+        response = GameOutcomeAllTimeCalculator.getLeagueMedianWins(
+            league, yearNumberEnd=2001, weekNumberEnd=2
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
         self.assertEqual(0, response[owners[0].id])
         self.assertEqual(5, response[owners[1].id])
 
-    def test_getLeagueMedianWins_yearNumberStartGivenWeekNumberStartGivenAndYearNumberEndGivenWeekNumberEndGiven(self):
+    def test_getLeagueMedianWins_yearNumberStartGivenWeekNumberStartGivenAndYearNumberEndGivenWeekNumberEndGiven(
+        self,
+    ):
         owners, teamsA = getNDefaultOwnersAndTeams(2)
         teamsB = getTeamsFromOwners(owners)
         teamsC = getTeamsFromOwners(owners)
@@ -2805,7 +4573,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
-        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a], yearSettings=yearSettings)
+        yearA = Year(
+            yearNumber=2000,
+            teams=teamsA,
+            weeks=[week1_a, week2_a, week3_a],
+            yearSettings=yearSettings,
+        )
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
         matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
@@ -2813,7 +4586,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
-        yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b], yearSettings=yearSettings)
+        yearB = Year(
+            yearNumber=2001,
+            teams=teamsB,
+            weeks=[week1_b, week2_b, week3_b],
+            yearSettings=yearSettings,
+        )
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
         matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
@@ -2821,7 +4599,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
-        yearC = Year(yearNumber=2002, teams=teamsC, weeks=[week1_c, week2_c, week3_c], yearSettings=yearSettings)
+        yearC = Year(
+            yearNumber=2002,
+            teams=teamsC,
+            weeks=[week1_c, week2_c, week3_c],
+            yearSettings=yearSettings,
+        )
 
         matchup1_d = Matchup(teamAId=teamsD[0].id, teamBId=teamsD[1].id, teamAScore=1, teamBScore=2)
         matchup2_d = Matchup(teamAId=teamsD[0].id, teamBId=teamsD[1].id, teamAScore=1, teamBScore=2)
@@ -2833,11 +4616,9 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC, yearD])
 
-        response = GameOutcomeAllTimeCalculator.getLeagueMedianWins(league,
-                                                                    yearNumberStart=2001,
-                                                                    weekNumberStart=2,
-                                                                    yearNumberEnd=2002,
-                                                                    weekNumberEnd=2)
+        response = GameOutcomeAllTimeCalculator.getLeagueMedianWins(
+            league, yearNumberStart=2001, weekNumberStart=2, yearNumberEnd=2002, weekNumberEnd=2
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -2857,7 +4638,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
-        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a], yearSettings=yearSettings)
+        yearA = Year(
+            yearNumber=2000,
+            teams=teamsA,
+            weeks=[week1_a, week2_a, week3_a],
+            yearSettings=yearSettings,
+        )
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
         matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
@@ -2865,7 +4651,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
-        yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b], yearSettings=yearSettings)
+        yearB = Year(
+            yearNumber=2001,
+            teams=teamsB,
+            weeks=[week1_b, week2_b, week3_b],
+            yearSettings=yearSettings,
+        )
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
         matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
@@ -2873,7 +4664,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
-        yearC = Year(yearNumber=2002, teams=teamsC, weeks=[week1_c, week2_c, week3_c], yearSettings=yearSettings)
+        yearC = Year(
+            yearNumber=2002,
+            teams=teamsC,
+            weeks=[week1_c, week2_c, week3_c],
+            yearSettings=yearSettings,
+        )
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
@@ -2897,7 +4693,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
-        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a], yearSettings=yearSettings)
+        yearA = Year(
+            yearNumber=2000,
+            teams=teamsA,
+            weeks=[week1_a, week2_a, week3_a],
+            yearSettings=yearSettings,
+        )
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
         matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
@@ -2905,7 +4706,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
-        yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b], yearSettings=yearSettings)
+        yearB = Year(
+            yearNumber=2001,
+            teams=teamsB,
+            weeks=[week1_b, week2_b, week3_b],
+            yearSettings=yearSettings,
+        )
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
         matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
@@ -2913,7 +4719,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
-        yearC = Year(yearNumber=2002, teams=teamsC, weeks=[week1_c, week2_c, week3_c], yearSettings=yearSettings)
+        yearC = Year(
+            yearNumber=2002,
+            teams=teamsC,
+            weeks=[week1_c, week2_c, week3_c],
+            yearSettings=yearSettings,
+        )
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
@@ -2936,7 +4747,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
-        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a], yearSettings=yearSettings)
+        yearA = Year(
+            yearNumber=2000,
+            teams=teamsA,
+            weeks=[week1_a, week2_a, week3_a],
+            yearSettings=yearSettings,
+        )
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=1)
         matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
@@ -2944,7 +4760,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
-        yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b], yearSettings=yearSettings)
+        yearB = Year(
+            yearNumber=2001,
+            teams=teamsB,
+            weeks=[week1_b, week2_b, week3_b],
+            yearSettings=yearSettings,
+        )
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=1)
         matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
@@ -2952,7 +4773,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
-        yearC = Year(yearNumber=2002, teams=teamsC, weeks=[week1_c, week2_c, week3_c], yearSettings=yearSettings)
+        yearC = Year(
+            yearNumber=2002,
+            teams=teamsC,
+            weeks=[week1_c, week2_c, week3_c],
+            yearSettings=yearSettings,
+        )
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
@@ -2971,7 +4797,9 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         yearSettings = YearSettings(leagueMedianGames=True)
-        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a], yearSettings=yearSettings)
+        yearA = Year(
+            yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a], yearSettings=yearSettings
+        )
 
         league = League(name="TEST", owners=owners, years=[yearA])
 
@@ -2989,30 +4817,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -3020,7 +4878,9 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = GameOutcomeAllTimeCalculator.getOpponentLeagueMedianWins(league, onlyPostSeason=True)
+        response = GameOutcomeAllTimeCalculator.getOpponentLeagueMedianWins(
+            league, onlyPostSeason=True
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -3034,38 +4894,85 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         yearSettings = YearSettings(leagueMedianGames=True)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
-        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a], yearSettings=yearSettings)
+        yearA = Year(
+            yearNumber=2000,
+            teams=teamsA,
+            weeks=[week1_a, week2_a, week3_a],
+            yearSettings=yearSettings,
+        )
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
-        yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b], yearSettings=yearSettings)
+        yearB = Year(
+            yearNumber=2001,
+            teams=teamsB,
+            weeks=[week1_b, week2_b, week3_b],
+            yearSettings=yearSettings,
+        )
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
-        yearC = Year(yearNumber=2002, teams=teamsC, weeks=[week1_c, week2_c, week3_c], yearSettings=yearSettings)
+        yearC = Year(
+            yearNumber=2002,
+            teams=teamsC,
+            weeks=[week1_c, week2_c, week3_c],
+            yearSettings=yearSettings,
+        )
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = GameOutcomeAllTimeCalculator.getOpponentLeagueMedianWins(league, onlyRegularSeason=True)
+        response = GameOutcomeAllTimeCalculator.getOpponentLeagueMedianWins(
+            league, onlyRegularSeason=True
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -3078,30 +4985,60 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         teamsC = getTeamsFromOwners(owners)
 
         matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
         yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
-        matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.PLAYOFF)
-        matchup3_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2,
-                             matchupType=MatchupType.CHAMPIONSHIP)
+        matchup2_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3_c = Matchup(
+            teamAId=teamsC[0].id,
+            teamBId=teamsC[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
@@ -3109,7 +5046,9 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = GameOutcomeAllTimeCalculator.getOpponentLeagueMedianWins(league, onlyChampionship=True)
+        response = GameOutcomeAllTimeCalculator.getOpponentLeagueMedianWins(
+            league, onlyChampionship=True
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -3129,7 +5068,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearSettings = YearSettings(leagueMedianGames=True)
 
-        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a], yearSettings=yearSettings)
+        yearA = Year(
+            yearNumber=2000,
+            teams=teamsA,
+            weeks=[week1_a, week2_a, week3_a],
+            yearSettings=yearSettings,
+        )
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
         matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
@@ -3137,7 +5081,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
-        yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b], yearSettings=yearSettings)
+        yearB = Year(
+            yearNumber=2001,
+            teams=teamsB,
+            weeks=[week1_b, week2_b, week3_b],
+            yearSettings=yearSettings,
+        )
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
         matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
@@ -3145,12 +5094,18 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
-        yearC = Year(yearNumber=2002, teams=teamsC, weeks=[week1_c, week2_c, week3_c], yearSettings=yearSettings)
+        yearC = Year(
+            yearNumber=2002,
+            teams=teamsC,
+            weeks=[week1_c, week2_c, week3_c],
+            yearSettings=yearSettings,
+        )
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = GameOutcomeAllTimeCalculator.getOpponentLeagueMedianWins(league, yearNumberStart=2001,
-                                                                            weekNumberStart=2)
+        response = GameOutcomeAllTimeCalculator.getOpponentLeagueMedianWins(
+            league, yearNumberStart=2001, weekNumberStart=2
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -3170,7 +5125,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
         yearSettings = YearSettings(leagueMedianGames=True)
 
-        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a], yearSettings=yearSettings)
+        yearA = Year(
+            yearNumber=2000,
+            teams=teamsA,
+            weeks=[week1_a, week2_a, week3_a],
+            yearSettings=yearSettings,
+        )
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
         matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
@@ -3178,7 +5138,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
-        yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b], yearSettings=yearSettings)
+        yearB = Year(
+            yearNumber=2001,
+            teams=teamsB,
+            weeks=[week1_b, week2_b, week3_b],
+            yearSettings=yearSettings,
+        )
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
         matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
@@ -3186,11 +5151,18 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
-        yearC = Year(yearNumber=2002, teams=teamsC, weeks=[week1_c, week2_c, week3_c], yearSettings=yearSettings)
+        yearC = Year(
+            yearNumber=2002,
+            teams=teamsC,
+            weeks=[week1_c, week2_c, week3_c],
+            yearSettings=yearSettings,
+        )
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = GameOutcomeAllTimeCalculator.getOpponentLeagueMedianWins(league, yearNumberEnd=2001, weekNumberEnd=2)
+        response = GameOutcomeAllTimeCalculator.getOpponentLeagueMedianWins(
+            league, yearNumberEnd=2001, weekNumberEnd=2
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -3198,7 +5170,8 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         self.assertEqual(0, response[owners[1].id])
 
     def test_getOpponentLeagueMedianWins_yearNumberStartGivenWeekNumberStartGivenAndYearNumberEndGivenWeekNumberEndGiven(
-            self):
+        self,
+    ):
         owners, teamsA = getNDefaultOwnersAndTeams(2)
         teamsB = getTeamsFromOwners(owners)
         teamsC = getTeamsFromOwners(owners)
@@ -3211,7 +5184,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         week3_a = Week(weekNumber=3, matchups=[matchup3_a])
-        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a], yearSettings=yearSettings)
+        yearA = Year(
+            yearNumber=2000,
+            teams=teamsA,
+            weeks=[week1_a, week2_a, week3_a],
+            yearSettings=yearSettings,
+        )
 
         matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
         matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
@@ -3219,7 +5197,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         week3_b = Week(weekNumber=3, matchups=[matchup3_b])
-        yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b], yearSettings=yearSettings)
+        yearB = Year(
+            yearNumber=2001,
+            teams=teamsB,
+            weeks=[week1_b, week2_b, week3_b],
+            yearSettings=yearSettings,
+        )
 
         matchup1_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
         matchup2_c = Matchup(teamAId=teamsC[0].id, teamBId=teamsC[1].id, teamAScore=1, teamBScore=2)
@@ -3227,7 +5210,12 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         week1_c = Week(weekNumber=1, matchups=[matchup1_c])
         week2_c = Week(weekNumber=2, matchups=[matchup2_c])
         week3_c = Week(weekNumber=3, matchups=[matchup3_c])
-        yearC = Year(yearNumber=2002, teams=teamsC, weeks=[week1_c, week2_c, week3_c], yearSettings=yearSettings)
+        yearC = Year(
+            yearNumber=2002,
+            teams=teamsC,
+            weeks=[week1_c, week2_c, week3_c],
+            yearSettings=yearSettings,
+        )
 
         matchup1_d = Matchup(teamAId=teamsD[0].id, teamBId=teamsD[1].id, teamAScore=1, teamBScore=2)
         matchup2_d = Matchup(teamAId=teamsD[0].id, teamBId=teamsD[1].id, teamAScore=1, teamBScore=2)
@@ -3239,11 +5227,9 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC, yearD])
 
-        response = GameOutcomeAllTimeCalculator.getOpponentLeagueMedianWins(league,
-                                                                            yearNumberStart=2001,
-                                                                            weekNumberStart=2,
-                                                                            yearNumberEnd=2002,
-                                                                            weekNumberEnd=2)
+        response = GameOutcomeAllTimeCalculator.getOpponentLeagueMedianWins(
+            league, yearNumberStart=2001, weekNumberStart=2, yearNumberEnd=2002, weekNumberEnd=2
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))

@@ -6,7 +6,6 @@ from leeger.validate import ownerValidation
 
 
 class TestOwnerValidation(unittest.TestCase):
-
     def test_checkAllTypes_ownerNameIsntTypeStr_raisesException(self):
         with self.assertRaises(InvalidOwnerFormatException) as context:
             ownerValidation.checkAllTypes(Owner(name=None))

@@ -19,13 +19,16 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
     http://home.myfantasyleague.com/
     """
 
-    def __init__(self, leagueId: str,
-                 years: list[int],
-                 *,
-                 mflUsername: str,
-                 mflPassword: str,
-                 mflUserAgentName: str,
-                 **kwargs):
+    def __init__(
+        self,
+        leagueId: str,
+        years: list[int],
+        *,
+        mflUsername: str,
+        mflPassword: str,
+        mflUserAgentName: str,
+        **kwargs
+    ):
         super().__init__(leagueId, years, **kwargs)
 
         self.__mflUsername = mflUsername
@@ -40,13 +43,17 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
         mflLeagues: list[dict] = list()
 
         for year in self._years:
-            APIConfig.add_config_for_year_and_league_id(year=year,
-                                                        league_id=self._leagueId,
-                                                        username=self.__mflUsername,
-                                                        password=self.__mflPassword,
-                                                        user_agent_name=self.__mflUserAgentName)
+            APIConfig.add_config_for_year_and_league_id(
+                year=year,
+                league_id=self._leagueId,
+                username=self.__mflUsername,
+                password=self.__mflPassword,
+                user_agent_name=self.__mflUserAgentName,
+            )
 
-            mflLeague = CommonLeagueInfoAPIClient.get_league(year=year, league_id=self._leagueId)["league"]
+            mflLeague = CommonLeagueInfoAPIClient.get_league(year=year, league_id=self._leagueId)[
+                "league"
+            ]
             self.__mflLeagueIdToYearMap[mflLeague["id"]] = year
             mflLeagues.append(mflLeague)
         return mflLeagues
@@ -93,14 +100,16 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
     def __buildWeeks(self, mflLeague: dict) -> list[Week]:
         yearNumber = self.__mflLeagueIdToYearMap[mflLeague["id"]]
         weeks = list()
-        schedule: dict = CommonLeagueInfoAPIClient.get_schedule(year=yearNumber, league_id=mflLeague["id"])["schedule"]
+        schedule: dict = CommonLeagueInfoAPIClient.get_schedule(
+            year=yearNumber, league_id=mflLeague["id"]
+        )["schedule"]
         # get playoff brackets
         # playoffBrackets: dict = \
         #     CommonLeagueInfoAPIClient.get_playoff_brackets(year=yearNumber, league_id=mflLeague["id"])[
         #         "playoffBrackets"]
-        playoffBracket: dict = CommonLeagueInfoAPIClient.get_playoff_bracket(year=yearNumber,
-                                                                             league_id=mflLeague["id"],
-                                                                             bracket_id="1")["playoffBracket"]
+        playoffBracket: dict = CommonLeagueInfoAPIClient.get_playoff_bracket(
+            year=yearNumber, league_id=mflLeague["id"], bracket_id="1"
+        )["playoffBracket"]
 
         # we will assume that the "true" playoff bracket (i.e. the bracket where the winner of it is the league champion)
         # will always be the playoff bracket with id "1".
@@ -147,20 +156,31 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
                             # if there is only 1 object in the playoffGame field, it is a dict, otherwise it is a list
                             if isinstance(playoffWeek["playoffGame"], dict):
                                 # only 1 game
-                                if (teamAMFLFranchiseId == playoffWeek["playoffGame"]["away"]["franchise_id"]
-                                    or teamBMFLFranchiseId == playoffWeek["playoffGame"]["away"]["franchise_id"]) \
-                                        and (teamAMFLFranchiseId == playoffWeek["playoffGame"]["home"]["franchise_id"]
-                                             or teamBMFLFranchiseId == playoffWeek["playoffGame"]["home"][
-                                                 "franchise_id"]):
+                                if (
+                                    teamAMFLFranchiseId
+                                    == playoffWeek["playoffGame"]["away"]["franchise_id"]
+                                    or teamBMFLFranchiseId
+                                    == playoffWeek["playoffGame"]["away"]["franchise_id"]
+                                ) and (
+                                    teamAMFLFranchiseId
+                                    == playoffWeek["playoffGame"]["home"]["franchise_id"]
+                                    or teamBMFLFranchiseId
+                                    == playoffWeek["playoffGame"]["home"]["franchise_id"]
+                                ):
                                     # this matchup is the championship game
                                     validChampionshipMatchup = True
                             else:
                                 # multiple games
                                 for playoffGame in playoffWeek["playoffGame"]:
-                                    if (teamAMFLFranchiseId == playoffGame["away"]["franchise_id"]
-                                        or teamBMFLFranchiseId == playoffGame["away"]["franchise_id"]) \
-                                            and (teamAMFLFranchiseId == playoffGame["home"]["franchise_id"]
-                                                 or teamBMFLFranchiseId == playoffGame["home"]["franchise_id"]):
+                                    if (
+                                        teamAMFLFranchiseId == playoffGame["away"]["franchise_id"]
+                                        or teamBMFLFranchiseId
+                                        == playoffGame["away"]["franchise_id"]
+                                    ) and (
+                                        teamAMFLFranchiseId == playoffGame["home"]["franchise_id"]
+                                        or teamBMFLFranchiseId
+                                        == playoffGame["home"]["franchise_id"]
+                                    ):
                                         # this matchup is the championship game
                                         validChampionshipMatchup = True
                         else:
@@ -168,20 +188,31 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
                             # if there is only 1 object in the playoffGame field, it is a dict, otherwise it is a list
                             if isinstance(playoffWeek["playoffGame"], dict):
                                 # only 1 game
-                                if (teamAMFLFranchiseId == playoffWeek["playoffGame"]["away"]["franchise_id"]
-                                    or teamBMFLFranchiseId == playoffWeek["playoffGame"]["away"]["franchise_id"]) \
-                                        and (teamAMFLFranchiseId == playoffWeek["playoffGame"]["home"]["franchise_id"]
-                                             or teamBMFLFranchiseId == playoffWeek["playoffGame"]["home"][
-                                                 "franchise_id"]):
+                                if (
+                                    teamAMFLFranchiseId
+                                    == playoffWeek["playoffGame"]["away"]["franchise_id"]
+                                    or teamBMFLFranchiseId
+                                    == playoffWeek["playoffGame"]["away"]["franchise_id"]
+                                ) and (
+                                    teamAMFLFranchiseId
+                                    == playoffWeek["playoffGame"]["home"]["franchise_id"]
+                                    or teamBMFLFranchiseId
+                                    == playoffWeek["playoffGame"]["home"]["franchise_id"]
+                                ):
                                     # this matchup is a valid playoff matchup
                                     validPlayoffMatchup = True
                             else:
                                 # multiple games
                                 for playoffGame in playoffWeek["playoffGame"]:
-                                    if (teamAMFLFranchiseId == playoffGame["away"]["franchise_id"]
-                                        or teamBMFLFranchiseId == playoffGame["away"]["franchise_id"]) \
-                                            and (teamAMFLFranchiseId == playoffGame["home"]["franchise_id"]
-                                                 or teamBMFLFranchiseId == playoffGame["home"]["franchise_id"]):
+                                    if (
+                                        teamAMFLFranchiseId == playoffGame["away"]["franchise_id"]
+                                        or teamBMFLFranchiseId
+                                        == playoffGame["away"]["franchise_id"]
+                                    ) and (
+                                        teamAMFLFranchiseId == playoffGame["home"]["franchise_id"]
+                                        or teamBMFLFranchiseId
+                                        == playoffGame["home"]["franchise_id"]
+                                    ):
                                         # this matchup is a valid playoff matchup
                                         validPlayoffMatchup = True
 
@@ -191,11 +222,17 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
                     if validChampionshipMatchup:
                         matchupType = MatchupType.CHAMPIONSHIP
 
-                matchups.append(Matchup(teamAId=teamAId, teamBId=teamBId,
-                                        teamAScore=teamAScore, teamBScore=teamBScore,
-                                        teamAHasTiebreaker=teamAHasTiebreaker,
-                                        teamBHasTiebreaker=teamBHasTiebreaker,
-                                        matchupType=matchupType))
+                matchups.append(
+                    Matchup(
+                        teamAId=teamAId,
+                        teamBId=teamBId,
+                        teamAScore=teamAScore,
+                        teamBScore=teamBScore,
+                        teamAHasTiebreaker=teamAHasTiebreaker,
+                        teamBHasTiebreaker=teamBHasTiebreaker,
+                        matchupType=matchupType,
+                    )
+                )
             if len(matchups) > 0:
                 weeks.append(Week(weekNumber=weekNumber, matchups=matchups))
 

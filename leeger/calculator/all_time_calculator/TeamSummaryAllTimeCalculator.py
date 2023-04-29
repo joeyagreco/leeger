@@ -7,7 +7,6 @@ from leeger.model.league.League import League
 
 
 class TeamSummaryAllTimeCalculator(AllTimeCalculator):
-
     @classmethod
     @validateLeague
     def getGamesPlayed(cls, league: League, **kwargs) -> dict[str, Optional[int]]:

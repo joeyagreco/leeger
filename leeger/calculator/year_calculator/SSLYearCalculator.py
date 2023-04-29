@@ -65,10 +65,11 @@ class SSLYearCalculator(YearCalculator):
             if None in (awalPerGame, scoringShare, maxScore, minScore):
                 teamIdAndTeamScore[teamId] = None
             else:
-                teamIdAndTeamScore[teamId] = (awalPerGame * Deci(cls.__AWAL_AND_WAL_PER_GAME_MULTIPLIER)) + \
-                                             (scoringShare * Deci(cls.__SCORING_SHARE_MULTIPLIER)) + \
-                                             ((Deci(maxScore) + Deci(minScore)) * Deci(
-                                                 cls.__MAX_AND_MIN_SCORE_MULTIPLIER))
+                teamIdAndTeamScore[teamId] = (
+                    (awalPerGame * Deci(cls.__AWAL_AND_WAL_PER_GAME_MULTIPLIER))
+                    + (scoringShare * Deci(cls.__SCORING_SHARE_MULTIPLIER))
+                    + ((Deci(maxScore) + Deci(minScore)) * Deci(cls.__MAX_AND_MIN_SCORE_MULTIPLIER))
+                )
         return teamIdAndTeamScore
 
     @classmethod
@@ -103,10 +104,11 @@ class SSLYearCalculator(YearCalculator):
             if None in (walPerGame, scoringShare, maxScore, minScore):
                 teamIdAndTeamSuccess[teamId] = None
             else:
-                teamIdAndTeamSuccess[teamId] = (walPerGame * Deci(cls.__AWAL_AND_WAL_PER_GAME_MULTIPLIER)) + \
-                                               (scoringShare * Deci(cls.__SCORING_SHARE_MULTIPLIER)) + \
-                                               ((Deci(maxScore) + Deci(minScore)) * Deci(
-                                                   cls.__MAX_AND_MIN_SCORE_MULTIPLIER))
+                teamIdAndTeamSuccess[teamId] = (
+                    (walPerGame * Deci(cls.__AWAL_AND_WAL_PER_GAME_MULTIPLIER))
+                    + (scoringShare * Deci(cls.__SCORING_SHARE_MULTIPLIER))
+                    + ((Deci(maxScore) + Deci(minScore)) * Deci(cls.__MAX_AND_MIN_SCORE_MULTIPLIER))
+                )
 
         return teamIdAndTeamSuccess
 

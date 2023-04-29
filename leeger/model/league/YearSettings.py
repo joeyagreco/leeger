@@ -22,9 +22,7 @@ class YearSettings(JSONSerializable, JSONDeserializable):
         return self.leagueMedianGames == otherYearSettings.leagueMedianGames
 
     def toJson(self) -> dict:
-        return {
-            "leagueMedianGames": self.leagueMedianGames
-        }
+        return {"leagueMedianGames": self.leagueMedianGames}
 
     @staticmethod
     def fromJson(d: dict) -> YearSettings:

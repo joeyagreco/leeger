@@ -52,15 +52,20 @@ class AWALYearCalculator(YearCalculator):
 
         for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
             week = year.weeks[i]
-            opponentsInWeek = WeekNavigator.getNumberOfValidTeamsInWeek(week, WeekFilters(
-                includeMatchupTypes=filters.includeMatchupTypes)) - 1
+            opponentsInWeek = (
+                WeekNavigator.getNumberOfValidTeamsInWeek(
+                    week, WeekFilters(includeMatchupTypes=filters.includeMatchupTypes)
+                )
+                - 1
+            )
             teamsOutscored = dict()
             teamsTied = dict()
             for teamId in allTeamIds:
                 teamsOutscored[teamId] = 0
                 teamsTied[teamId] = 0
-            allTeamIdsAndScoresForWeek = WeekNavigator.getTeamIdsAndScores(week, WeekFilters(
-                includeMatchupTypes=filters.includeMatchupTypes))
+            allTeamIdsAndScoresForWeek = WeekNavigator.getTeamIdsAndScores(
+                week, WeekFilters(includeMatchupTypes=filters.includeMatchupTypes)
+            )
             allScores = allTeamIdsAndScoresForWeek.values()
 
             for teamId in allTeamIdsAndScoresForWeek.keys():
@@ -76,14 +81,14 @@ class AWALYearCalculator(YearCalculator):
                 teamsTied[teamId] -= 1
                 # calculate the AWAL for each team for this week
                 teamIdAndAWAL[teamId] += (
-                        (Deci(teamsOutscored[teamId])
-                         * (Deci(1) / Deci(opponentsInWeek)))
-                        + (Deci(teamsTied[teamId])
-                           * (Deci(0.5) / Deci(opponentsInWeek))))
+                    Deci(teamsOutscored[teamId]) * (Deci(1) / Deci(opponentsInWeek))
+                ) + (Deci(teamsTied[teamId]) * (Deci(0.5) / Deci(opponentsInWeek)))
 
         # add league median wins if applicable
         if year.yearSettings.leagueMedianGames:
-            teamIdAndLeagueMedianWins = GameOutcomeYearCalculator.getLeagueMedianWins(year, **kwargs)
+            teamIdAndLeagueMedianWins = GameOutcomeYearCalculator.getLeagueMedianWins(
+                year, **kwargs
+            )
             for teamId in allTeamIds:
                 leagueMedianWins = teamIdAndLeagueMedianWins[teamId]
                 teamIdAndAWAL[teamId] = GeneralUtil.safeSum(teamIdAndAWAL[teamId], leagueMedianWins)
@@ -108,10 +113,9 @@ class AWALYearCalculator(YearCalculator):
         """
 
         teamIdAndAWAL = AWALYearCalculator.getAWAL(year, **kwargs)
-        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year,
-                                                                            YearFilters.getForYear(year,
-                                                                                                   **kwargs),
-                                                                            countLeagueMedianGamesAsTwoGames=True)
+        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(
+            year, YearFilters.getForYear(year, **kwargs), countLeagueMedianGamesAsTwoGames=True
+        )
 
         teamIdAndAWALPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
@@ -119,7 +123,9 @@ class AWALYearCalculator(YearCalculator):
             if teamIdAndNumberOfGamesPlayed[teamId] == 0:
                 teamIdAndAWALPerGame[teamId] = None
             else:
-                teamIdAndAWALPerGame[teamId] = teamIdAndAWAL[teamId] / teamIdAndNumberOfGamesPlayed[teamId]
+                teamIdAndAWALPerGame[teamId] = (
+                    teamIdAndAWAL[teamId] / teamIdAndNumberOfGamesPlayed[teamId]
+                )
 
         return teamIdAndAWALPerGame
 
@@ -147,15 +153,20 @@ class AWALYearCalculator(YearCalculator):
 
         for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
             week = year.weeks[i]
-            opponentsInWeek = WeekNavigator.getNumberOfValidTeamsInWeek(week, WeekFilters(
-                includeMatchupTypes=filters.includeMatchupTypes)) - 1
+            opponentsInWeek = (
+                WeekNavigator.getNumberOfValidTeamsInWeek(
+                    week, WeekFilters(includeMatchupTypes=filters.includeMatchupTypes)
+                )
+                - 1
+            )
             teamsOutscored = dict()
             teamsTied = dict()
             for teamId in allTeamIds:
                 teamsOutscored[teamId] = 0
                 teamsTied[teamId] = 0
-            allTeamIdsAndOpponentScoresForWeek = WeekNavigator.getTeamIdsAndOpponentScores(week, WeekFilters(
-                includeMatchupTypes=filters.includeMatchupTypes))
+            allTeamIdsAndOpponentScoresForWeek = WeekNavigator.getTeamIdsAndOpponentScores(
+                week, WeekFilters(includeMatchupTypes=filters.includeMatchupTypes)
+            )
             allScores = allTeamIdsAndOpponentScoresForWeek.values()
 
             for teamId in allTeamIdsAndOpponentScoresForWeek.keys():
@@ -171,17 +182,19 @@ class AWALYearCalculator(YearCalculator):
                 teamsTied[teamId] -= 1
                 # calculate the AWAL for each team's opponent for this week
                 teamIdAndOpponentAWAL[teamId] += (
-                        (Deci(teamsOutscored[teamId])
-                         * (Deci(1) / Deci(opponentsInWeek)))
-                        + (Deci(teamsTied[teamId])
-                           * (Deci(0.5) / Deci(opponentsInWeek))))
+                    Deci(teamsOutscored[teamId]) * (Deci(1) / Deci(opponentsInWeek))
+                ) + (Deci(teamsTied[teamId]) * (Deci(0.5) / Deci(opponentsInWeek)))
 
         # add league median wins if applicable
         if year.yearSettings.leagueMedianGames:
-            teamIdAndLeagueMedianWins = GameOutcomeYearCalculator.getOpponentLeagueMedianWins(year, **kwargs)
+            teamIdAndLeagueMedianWins = GameOutcomeYearCalculator.getOpponentLeagueMedianWins(
+                year, **kwargs
+            )
             for teamId in allTeamIds:
                 leagueMedianWins = teamIdAndLeagueMedianWins[teamId]
-                teamIdAndOpponentAWAL[teamId] = GeneralUtil.safeSum(teamIdAndOpponentAWAL[teamId], leagueMedianWins)
+                teamIdAndOpponentAWAL[teamId] = GeneralUtil.safeSum(
+                    teamIdAndOpponentAWAL[teamId], leagueMedianWins
+                )
 
         cls._setToNoneIfNoGamesPlayed(teamIdAndOpponentAWAL, year, filters, **kwargs)
         return teamIdAndOpponentAWAL
@@ -203,9 +216,9 @@ class AWALYearCalculator(YearCalculator):
         """
 
         teamIdAndOpponentAWAL = AWALYearCalculator.getOpponentAWAL(year, **kwargs)
-        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year, YearFilters.getForYear(year,
-                                                                                                         **kwargs),
-                                                                            countLeagueMedianGamesAsTwoGames=True)
+        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(
+            year, YearFilters.getForYear(year, **kwargs), countLeagueMedianGamesAsTwoGames=True
+        )
 
         teamIdAndOpponentAWALPerGame = dict()
         allTeamIds = YearNavigator.getAllTeamIds(year)
@@ -213,7 +226,8 @@ class AWALYearCalculator(YearCalculator):
             if teamIdAndNumberOfGamesPlayed[teamId] == 0:
                 teamIdAndOpponentAWALPerGame[teamId] = None
             else:
-                teamIdAndOpponentAWALPerGame[teamId] = teamIdAndOpponentAWAL[teamId] / teamIdAndNumberOfGamesPlayed[
-                    teamId]
+                teamIdAndOpponentAWALPerGame[teamId] = (
+                    teamIdAndOpponentAWAL[teamId] / teamIdAndNumberOfGamesPlayed[teamId]
+                )
 
         return teamIdAndOpponentAWALPerGame

@@ -11,7 +11,6 @@ from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestAWALYearCalculator(unittest.TestCase):
-
     def test_getAWAL_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
@@ -33,8 +32,11 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
-                    weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1, week2, week3],
+        )
 
         response = AWALYearCalculator.getAWAL(year)
 
@@ -69,7 +71,9 @@ class TestAWALYearCalculator(unittest.TestCase):
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
         yearSettings = YearSettings(leagueMedianGames=True)
-        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3], yearSettings=yearSettings)
+        year = Year(
+            yearNumber=2000, teams=teams, weeks=[week1, week2, week3], yearSettings=yearSettings
+        )
 
         response = AWALYearCalculator.getAWAL(year)
 
@@ -109,26 +113,59 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
-                    weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1, week2, week3],
+        )
 
         response = AWALYearCalculator.getAWAL(year, onlyPostSeason=True)
 
@@ -150,26 +187,59 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
-                    weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1, week2, week3],
+        )
 
         response = AWALYearCalculator.getAWAL(year, onlyRegularSeason=True)
 
@@ -191,26 +261,59 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
-                    weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1, week2, week3],
+        )
 
         response = AWALYearCalculator.getAWAL(year, onlyChampionship=True)
 
@@ -232,26 +335,59 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
-                    weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1, week2, week3],
+        )
 
         response = AWALYearCalculator.getAWAL(year, weekNumberStart=2)
 
@@ -273,26 +409,59 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
-                    weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1, week2, week3],
+        )
 
         response = AWALYearCalculator.getAWAL(year, weekNumberEnd=2)
 
@@ -314,26 +483,59 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
-                    weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1, week2, week3],
+        )
 
         response = AWALYearCalculator.getAWAL(year, weekNumberStart=2, weekNumberEnd=3)
 
@@ -355,7 +557,11 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]], weeks=[week1])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1],
+        )
 
         response = AWALYearCalculator.getAWAL(year)
 
@@ -377,7 +583,11 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]], weeks=[week1])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1],
+        )
 
         response = AWALYearCalculator.getAWAL(year)
 
@@ -399,7 +609,11 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]], weeks=[week1])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1],
+        )
 
         response = AWALYearCalculator.getAWAL(year)
 
@@ -421,7 +635,11 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]], weeks=[week1])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1],
+        )
 
         response = AWALYearCalculator.getAWAL(year)
 
@@ -446,13 +664,42 @@ class TestAWALYearCalculator(unittest.TestCase):
         matchup7 = Matchup(teamAId=teams[12].id, teamBId=teams[13].id, teamAScore=13, teamBScore=14)
         matchup8 = Matchup(teamAId=teams[14].id, teamBId=teams[15].id, teamAScore=15, teamBScore=16)
 
-        week1 = Week(weekNumber=1,
-                     matchups=[matchup1, matchup2, matchup3, matchup4, matchup5, matchup6, matchup7, matchup8])
+        week1 = Week(
+            weekNumber=1,
+            matchups=[
+                matchup1,
+                matchup2,
+                matchup3,
+                matchup4,
+                matchup5,
+                matchup6,
+                matchup7,
+                matchup8,
+            ],
+        )
 
-        year = Year(yearNumber=2000,
-                    teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5], teams[6], teams[7], teams[8],
-                           teams[9], teams[10], teams[11],
-                           teams[12], teams[13], teams[14], teams[15]], weeks=[week1])
+        year = Year(
+            yearNumber=2000,
+            teams=[
+                teams[0],
+                teams[1],
+                teams[2],
+                teams[3],
+                teams[4],
+                teams[5],
+                teams[6],
+                teams[7],
+                teams[8],
+                teams[9],
+                teams[10],
+                teams[11],
+                teams[12],
+                teams[13],
+                teams[14],
+                teams[15],
+            ],
+            weeks=[week1],
+        )
 
         response = AWALYearCalculator.getAWAL(year)
 
@@ -496,8 +743,11 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
-                    weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1, week2, week3],
+        )
 
         response = AWALYearCalculator.getAWALPerGame(year)
 
@@ -532,7 +782,9 @@ class TestAWALYearCalculator(unittest.TestCase):
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
         yearSettings = YearSettings(leagueMedianGames=True)
-        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3], yearSettings=yearSettings)
+        year = Year(
+            yearNumber=2000, teams=teams, weeks=[week1, week2, week3], yearSettings=yearSettings
+        )
 
         response = AWALYearCalculator.getAWALPerGame(year)
 
@@ -578,26 +830,59 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
-                    weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1, week2, week3],
+        )
 
         response = AWALYearCalculator.getAWALPerGame(year, onlyPostSeason=True)
 
@@ -619,26 +904,59 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
-                    weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1, week2, week3],
+        )
 
         response = AWALYearCalculator.getAWALPerGame(year, onlyRegularSeason=True)
 
@@ -660,26 +978,59 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
-                    weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1, week2, week3],
+        )
 
         response = AWALYearCalculator.getAWALPerGame(year, onlyChampionship=True)
 
@@ -701,26 +1052,59 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
-                    weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1, week2, week3],
+        )
 
         response = AWALYearCalculator.getAWALPerGame(year, weekNumberStart=2)
 
@@ -742,26 +1126,59 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
-                    weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1, week2, week3],
+        )
 
         response = AWALYearCalculator.getAWALPerGame(year, weekNumberEnd=2)
 
@@ -783,35 +1200,83 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week4 = Week(weekNumber=4, matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
-                    weeks=[week1, week2, week3, week4])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1, week2, week3, week4],
+        )
 
         response = AWALYearCalculator.getAWALPerGame(year, weekNumberStart=2, weekNumberEnd=3)
 
@@ -833,13 +1298,21 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[5].id, teamAScore=2, teamBScore=1,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[5].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week2 = Week(weekNumber=2, matchups=[matchup1])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
-                    weeks=[week1, week2])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1, week2],
+        )
 
         response = AWALYearCalculator.getAWALPerGame(year)
 
@@ -873,8 +1346,11 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
-                    weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1, week2, week3],
+        )
 
         response = AWALYearCalculator.getOpponentAWAL(year)
 
@@ -909,7 +1385,9 @@ class TestAWALYearCalculator(unittest.TestCase):
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
         yearSettings = YearSettings(leagueMedianGames=True)
-        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3], yearSettings=yearSettings)
+        year = Year(
+            yearNumber=2000, teams=teams, weeks=[week1, week2, week3], yearSettings=yearSettings
+        )
 
         response = AWALYearCalculator.getOpponentAWAL(year)
 
@@ -955,26 +1433,59 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
-                    weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1, week2, week3],
+        )
 
         response = AWALYearCalculator.getOpponentAWAL(year, onlyPostSeason=True)
 
@@ -996,26 +1507,59 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
-                    weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1, week2, week3],
+        )
 
         response = AWALYearCalculator.getOpponentAWAL(year, onlyRegularSeason=True)
 
@@ -1037,26 +1581,59 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
-                    weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1, week2, week3],
+        )
 
         response = AWALYearCalculator.getOpponentAWAL(year, onlyChampionship=True)
 
@@ -1078,26 +1655,59 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
-                    weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1, week2, week3],
+        )
 
         response = AWALYearCalculator.getOpponentAWAL(year, weekNumberStart=2)
 
@@ -1119,26 +1729,59 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
-                    weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1, week2, week3],
+        )
 
         response = AWALYearCalculator.getOpponentAWAL(year, weekNumberEnd=2)
 
@@ -1160,26 +1803,59 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
-                    weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1, week2, week3],
+        )
 
         response = AWALYearCalculator.getOpponentAWAL(year, weekNumberStart=2, weekNumberEnd=3)
 
@@ -1201,8 +1877,11 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
-                    weeks=[week1])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1],
+        )
 
         response = AWALYearCalculator.getOpponentAWAL(year)
 
@@ -1224,8 +1903,11 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
-                    weeks=[week1])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1],
+        )
 
         response = AWALYearCalculator.getOpponentAWAL(year)
 
@@ -1247,8 +1929,11 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
-                    weeks=[week1])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1],
+        )
 
         response = AWALYearCalculator.getOpponentAWAL(year)
 
@@ -1270,8 +1955,11 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
-                    weeks=[week1])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1],
+        )
 
         response = AWALYearCalculator.getOpponentAWAL(year)
 
@@ -1296,13 +1984,42 @@ class TestAWALYearCalculator(unittest.TestCase):
         matchup7 = Matchup(teamAId=teams[12].id, teamBId=teams[13].id, teamAScore=13, teamBScore=14)
         matchup8 = Matchup(teamAId=teams[14].id, teamBId=teams[15].id, teamAScore=15, teamBScore=16)
 
-        week1 = Week(weekNumber=1,
-                     matchups=[matchup1, matchup2, matchup3, matchup4, matchup5, matchup6, matchup7, matchup8])
+        week1 = Week(
+            weekNumber=1,
+            matchups=[
+                matchup1,
+                matchup2,
+                matchup3,
+                matchup4,
+                matchup5,
+                matchup6,
+                matchup7,
+                matchup8,
+            ],
+        )
 
-        year = Year(yearNumber=2000,
-                    teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5], teams[6], teams[7], teams[8],
-                           teams[9], teams[10], teams[11],
-                           teams[12], teams[13], teams[14], teams[15]], weeks=[week1])
+        year = Year(
+            yearNumber=2000,
+            teams=[
+                teams[0],
+                teams[1],
+                teams[2],
+                teams[3],
+                teams[4],
+                teams[5],
+                teams[6],
+                teams[7],
+                teams[8],
+                teams[9],
+                teams[10],
+                teams[11],
+                teams[12],
+                teams[13],
+                teams[14],
+                teams[15],
+            ],
+            weeks=[week1],
+        )
 
         response = AWALYearCalculator.getOpponentAWAL(year)
 
@@ -1346,8 +2063,11 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
-                    weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1, week2, week3],
+        )
 
         response = AWALYearCalculator.getOpponentAWALPerGame(year)
 
@@ -1382,7 +2102,9 @@ class TestAWALYearCalculator(unittest.TestCase):
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
         yearSettings = YearSettings(leagueMedianGames=True)
-        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3], yearSettings=yearSettings)
+        year = Year(
+            yearNumber=2000, teams=teams, weeks=[week1, week2, week3], yearSettings=yearSettings
+        )
 
         response = AWALYearCalculator.getOpponentAWALPerGame(year)
 
@@ -1428,26 +2150,59 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
-                    weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1, week2, week3],
+        )
 
         response = AWALYearCalculator.getOpponentAWALPerGame(year, onlyPostSeason=True)
 
@@ -1469,26 +2224,59 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
-                    weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1, week2, week3],
+        )
 
         response = AWALYearCalculator.getOpponentAWALPerGame(year, onlyRegularSeason=True)
 
@@ -1510,26 +2298,59 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
-                    weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1, week2, week3],
+        )
 
         response = AWALYearCalculator.getOpponentAWALPerGame(year, onlyChampionship=True)
 
@@ -1551,26 +2372,59 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
-                    weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1, week2, week3],
+        )
 
         response = AWALYearCalculator.getOpponentAWALPerGame(year, weekNumberStart=2)
 
@@ -1592,26 +2446,59 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
-                    weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1, week2, week3],
+        )
 
         response = AWALYearCalculator.getOpponentAWALPerGame(year, weekNumberEnd=2)
 
@@ -1633,37 +2520,87 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.PLAYOFF)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week4 = Week(weekNumber=4, matchups=[matchup1, matchup2, matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
-                    weeks=[week1, week2, week3, week4])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1, week2, week3, week4],
+        )
 
-        response = AWALYearCalculator.getOpponentAWALPerGame(year, weekNumberStart=2, weekNumberEnd=3)
+        response = AWALYearCalculator.getOpponentAWALPerGame(
+            year, weekNumberStart=2, weekNumberEnd=3
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -1683,13 +2620,21 @@ class TestAWALYearCalculator(unittest.TestCase):
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[5].id, teamAScore=2, teamBScore=1,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[5].id,
+            teamAScore=2,
+            teamBScore=1,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week2 = Week(weekNumber=2, matchups=[matchup1])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
-                    weeks=[week1, week2])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1], teams[2], teams[3], teams[4], teams[5]],
+            weeks=[week1, week2],
+        )
 
         response = AWALYearCalculator.getOpponentAWALPerGame(year)
 

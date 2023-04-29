@@ -7,7 +7,6 @@ from sleeper.util.CustomFormatter import CustomFormatter
 
 
 class CustomLogger:
-
     @staticmethod
     def getLogger() -> logging.Logger:
         # set up logging
@@ -20,7 +19,9 @@ class CustomLogger:
             handler.setLevel(logging.INFO)
             handler.setStream(sys.stdout)
             # set up formatter
-            formatter = CustomFormatter("%(asctime)-8s %(levelname)-8s %(message)s", "%Y-%m-%d %H:%M:%S")
+            formatter = CustomFormatter(
+                "%(asctime)-8s %(levelname)-8s %(message)s", "%Y-%m-%d %H:%M:%S"
+            )
             # set in each other
             handler.setFormatter(formatter)
             logger.addHandler(handler)

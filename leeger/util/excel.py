@@ -14,7 +14,11 @@ from openpyxl.worksheet.worksheet import Worksheet
 
 from leeger.model.filter import AllTimeFilters, YearFilters
 from leeger.model.league import Year, League
-from leeger.util.excel_helper import allTimeTeamsStatSheet, yearMatchupsStatSheet, allTimeMatchupsStatSheet
+from leeger.util.excel_helper import (
+    allTimeTeamsStatSheet,
+    yearMatchupsStatSheet,
+    allTimeMatchupsStatSheet,
+)
 from leeger.util.stat_sheet import yearStatSheet, leagueStatSheet
 
 
@@ -28,7 +32,9 @@ def leagueToExcel(league: League, filePath: Optional[str] = None, **kwargs) -> W
         raise ValueError("'league' has not been set.")
     if filePath is not None:
         if os.path.exists(filePath) and not overwrite:
-            raise FileExistsError(f"Cannot create file at path: '{filePath}' because there is already a file there.")
+            raise FileExistsError(
+                f"Cannot create file at path: '{filePath}' because there is already a file there."
+            )
         else:
             try:
                 os.remove(filePath)
@@ -72,15 +78,17 @@ def leagueToExcel(league: League, filePath: Optional[str] = None, **kwargs) -> W
     allTimeTeamsStatSheet_ = allTimeTeamsStatSheet(league, **kwargs.copy())
 
     allTimeFilters = AllTimeFilters.preferredOrderWithTitle(league, **kwargs.copy())
-    _populateWorksheet(worksheet=worksheet,
-                       workbook=workbook,
-                       displayName="AllTimeTeamStats",
-                       titlesAndStatDicts=allTimeTeamsStatSheet_,
-                       entityIds=allTimeTeamIds,
-                       entityIdToColorMap=teamIdToColorMap,
-                       legendKeyValues=allTimeFilters,
-                       freezePanes="D2",
-                       saveToFilepath=filePath)
+    _populateWorksheet(
+        worksheet=worksheet,
+        workbook=workbook,
+        displayName="AllTimeTeamStats",
+        titlesAndStatDicts=allTimeTeamsStatSheet_,
+        entityIds=allTimeTeamIds,
+        entityIdToColorMap=teamIdToColorMap,
+        legendKeyValues=allTimeFilters,
+        freezePanes="D2",
+        saveToFilepath=filePath,
+    )
 
     # add All-Time matchups stats sheet
     # figure out index to put this sheet into
@@ -89,23 +97,27 @@ def leagueToExcel(league: League, filePath: Optional[str] = None, **kwargs) -> W
     workbook.create_sheet("All Time Matchups", index=index)
     worksheet = workbook["All Time Matchups"]
 
-    allTimeMatchupsStatSheet_, modifiedMatchupIdToOwnerIdMap = allTimeMatchupsStatSheet(league, **kwargs.copy())
+    (allTimeMatchupsStatSheet_, modifiedMatchupIdToOwnerIdMap) = allTimeMatchupsStatSheet(
+        league, **kwargs.copy()
+    )
 
     modifiedMatchupIdToColorMap: dict = dict()
     for modifiedMatchupId, ownerId in modifiedMatchupIdToOwnerIdMap.items():
         modifiedMatchupIdToColorMap[modifiedMatchupId] = ownerIdToColorMap[ownerId]
 
     allTimeFilters = AllTimeFilters.preferredOrderWithTitle(league, **kwargs.copy())
-    _populateWorksheet(worksheet=worksheet,
-                       workbook=workbook,
-                       displayName="AllTimeMatchups",
-                       titlesAndStatDicts=allTimeMatchupsStatSheet_,
-                       entityIds=list(modifiedMatchupIdToOwnerIdMap.keys()),
-                       entityIdToColorMap=modifiedMatchupIdToColorMap,
-                       legendKeyValues=allTimeFilters,
-                       freezePanes="C2",
-                       saveToFilepath=filePath,
-                       boldColumnNumbers=[1, 2])
+    _populateWorksheet(
+        worksheet=worksheet,
+        workbook=workbook,
+        displayName="AllTimeMatchups",
+        titlesAndStatDicts=allTimeMatchupsStatSheet_,
+        entityIds=list(modifiedMatchupIdToOwnerIdMap.keys()),
+        entityIdToColorMap=modifiedMatchupIdToColorMap,
+        legendKeyValues=allTimeFilters,
+        freezePanes="C2",
+        saveToFilepath=filePath,
+        boldColumnNumbers=[1, 2],
+    )
 
     # add All-Time owner stats sheet
     # figure out index to put this sheet into
@@ -117,15 +129,17 @@ def leagueToExcel(league: League, filePath: Optional[str] = None, **kwargs) -> W
     allTimeOwnerStatsWithTitles = leagueStatSheet(league, **kwargs.copy()).preferredOrderWithTitle()
     allTimeOwnerStatsWithTitles.insert(0, ("Owner", ownerIdToNameMap))
 
-    return _populateWorksheet(worksheet=worksheet,
-                              workbook=workbook,
-                              displayName="AllTimeOwnerStats",
-                              titlesAndStatDicts=allTimeOwnerStatsWithTitles,
-                              entityIds=ownerIds,
-                              entityIdToColorMap=ownerIdToColorMap,
-                              legendKeyValues=allTimeFilters,
-                              freezePanes="B2",
-                              saveToFilepath=filePath)
+    return _populateWorksheet(
+        worksheet=worksheet,
+        workbook=workbook,
+        displayName="AllTimeOwnerStats",
+        titlesAndStatDicts=allTimeOwnerStatsWithTitles,
+        entityIds=ownerIds,
+        entityIdToColorMap=ownerIdToColorMap,
+        legendKeyValues=allTimeFilters,
+        freezePanes="B2",
+        saveToFilepath=filePath,
+    )
 
 
 def _yearToExcel(year: Year, workbook: Optional[Workbook] = None, **kwargs) -> Workbook:
@@ -176,29 +190,35 @@ def _yearToExcel(year: Year, workbook: Optional[Workbook] = None, **kwargs) -> W
     yearStatsWithTitles = yearStatSheet(year, **kwargs.copy()).preferredOrderWithTitle()
     yearStatsWithTitles.insert(0, ("Team", teamIdToNameMap))
     # save Year teams to Excel sheet
-    _populateWorksheet(worksheet=worksheet,
-                       workbook=workbook,
-                       displayName=f"Teams{year.yearNumber}",
-                       titlesAndStatDicts=yearStatsWithTitles,
-                       entityIds=teamIds,
-                       entityIdToColorMap=teamIdToColorMap,
-                       legendKeyValues=yearFilters,
-                       freezePanes="B2")
+    _populateWorksheet(
+        worksheet=worksheet,
+        workbook=workbook,
+        displayName=f"Teams{year.yearNumber}",
+        titlesAndStatDicts=yearStatsWithTitles,
+        entityIds=teamIds,
+        entityIdToColorMap=teamIdToColorMap,
+        legendKeyValues=yearFilters,
+        freezePanes="B2",
+    )
 
-    yearMatchupsWithTitles, modifiedMatchupIdToOwnerIdMap = yearMatchupsStatSheet(year, **kwargs.copy())
+    (yearMatchupsWithTitles, modifiedMatchupIdToOwnerIdMap) = yearMatchupsStatSheet(
+        year, **kwargs.copy()
+    )
     modifiedMatchupIdToColorMap: dict = dict()
     for modifiedMatchupId, ownerId in modifiedMatchupIdToOwnerIdMap.items():
         modifiedMatchupIdToColorMap[modifiedMatchupId] = ownerIdToColorMap[ownerId]
     worksheet = workbook[f"{year.yearNumber} Matchups"]
     # save Year matchups to Excel sheet
-    _populateWorksheet(worksheet=worksheet,
-                       workbook=workbook,
-                       displayName=f"Matchups{year.yearNumber}",
-                       titlesAndStatDicts=yearMatchupsWithTitles,
-                       entityIds=list(modifiedMatchupIdToOwnerIdMap.keys()),
-                       entityIdToColorMap=modifiedMatchupIdToColorMap,
-                       legendKeyValues=yearFilters,
-                       freezePanes="B2")
+    _populateWorksheet(
+        worksheet=worksheet,
+        workbook=workbook,
+        displayName=f"Matchups{year.yearNumber}",
+        titlesAndStatDicts=yearMatchupsWithTitles,
+        entityIds=list(modifiedMatchupIdToOwnerIdMap.keys()),
+        entityIdToColorMap=modifiedMatchupIdToColorMap,
+        legendKeyValues=yearFilters,
+        freezePanes="B2",
+    )
     return workbook
 
 
@@ -213,17 +233,19 @@ def _getRandomColor(tint: float = 0, seed: str = None) -> Color:
     return Color(rgb=hexCode, tint=tint)
 
 
-def _populateWorksheet(*,
-                       worksheet: Worksheet,
-                       workbook: Workbook,
-                       saveToFilepath: Optional[str] = None,
-                       displayName: str,
-                       titlesAndStatDicts: list[tuple[str, dict]],
-                       entityIds: list[str],
-                       entityIdToColorMap: dict[str, Color],
-                       legendKeyValues: list[tuple[str, Any]],
-                       freezePanes: str,
-                       boldColumnNumbers: Optional[list] = None) -> Workbook:
+def _populateWorksheet(
+    *,
+    worksheet: Worksheet,
+    workbook: Workbook,
+    saveToFilepath: Optional[str] = None,
+    displayName: str,
+    titlesAndStatDicts: list[tuple[str, dict]],
+    entityIds: list[str],
+    entityIdToColorMap: dict[str, Color],
+    legendKeyValues: list[tuple[str, Any]],
+    freezePanes: str,
+    boldColumnNumbers: Optional[list] = None,
+) -> Workbook:
     """
     boldColumnNumbers is a list of column numbers whose values will be bolded.
         - Column numbers will be 1-indexed.
@@ -261,7 +283,7 @@ def _populateWorksheet(*,
                 worksheet[cell] = title
                 worksheet[cell].font = HEADER_COLUMN_FONT
                 worksheet[cell].fill = HEADER_FILL
-                worksheet[cell].alignment = Alignment(horizontal='center')
+                worksheet[cell].alignment = Alignment(horizontal="center")
             # add stat value
             cell = f"{char}{rowNumber + 2}"
             if entityId in statDict:
@@ -273,8 +295,10 @@ def _populateWorksheet(*,
                 worksheet[cell].font = ENTITY_NAME_FONT
 
     # put stats into table
-    table = Table(displayName=displayName,
-                  ref="A1:" + get_column_letter(worksheet.max_column) + str(len(entityIds) + 1))
+    table = Table(
+        displayName=displayName,
+        ref="A1:" + get_column_letter(worksheet.max_column) + str(len(entityIds) + 1),
+    )
     worksheet.add_table(table)
     # freeze owner name column and header row
     worksheet.freeze_panes = freezePanes
@@ -287,7 +311,7 @@ def _populateWorksheet(*,
     leftSideSolid = Side(border_style="thick", color=BLACK)
     rightSideSolid = Side(border_style="thick", color=BLACK)
     # legend formatting
-    legendCellAlignment = Alignment(horizontal='center')
+    legendCellAlignment = Alignment(horizontal="center")
 
     legendRowNumber = len(entityIds) + 4
     legendColLetter = "A"
@@ -295,7 +319,9 @@ def _populateWorksheet(*,
     worksheet[titleCell] = "Filters Applied"
     worksheet[titleCell].fill = PatternFill(patternType="solid", fgColor=MEDIUM_GRAY)
     worksheet[titleCell].font = Font(bold=True)
-    border = Border(left=leftSideSolid, right=rightSideSolid, top=topSideSolid, bottom=bottomSideThin)
+    border = Border(
+        left=leftSideSolid, right=rightSideSolid, top=topSideSolid, bottom=bottomSideThin
+    )
     worksheet[titleCell].border = border
     worksheet[titleCell].alignment = legendCellAlignment
 
@@ -333,8 +359,9 @@ def _populateWorksheet(*,
                 else:
                     multiplier = DATA_MULTIPLIER
                 maxWidth = max((maxWidth, len(str(cell.value)) * multiplier))
-        dim_holder[get_column_letter(columnNumber)] = ColumnDimension(worksheet, min=columnNumber, max=columnNumber,
-                                                                      width=maxWidth + 7)
+        dim_holder[get_column_letter(columnNumber)] = ColumnDimension(
+            worksheet, min=columnNumber, max=columnNumber, width=maxWidth + 7
+        )
 
     worksheet.column_dimensions = dim_holder
 

@@ -13,6 +13,7 @@ class YearFilters:
     """
     Used to house filters that will be applied to a Year when navigating through it.
     """
+
     weekNumberStart: int  # week to start at (inclusive)
     weekNumberEnd: int  # week to end at (inclusive)
     includeMultiWeekMatchups: bool = True  # whether to include multi-week matchups or not
@@ -40,7 +41,7 @@ class YearFilters:
             ("Only Regular Season", yearFilters.onlyRegularSeason),
             ("Only Post Season", yearFilters.onlyPostSeason),
             ("Only Championship", yearFilters.onlyChampionship),
-            ("Include Multi-Week Matchups", yearFilters.includeMultiWeekMatchups)
+            ("Include Multi-Week Matchups", yearFilters.includeMultiWeekMatchups),
         ]
 
     @classmethod
@@ -48,6 +49,7 @@ class YearFilters:
         kwargsCopy = copy.deepcopy(kwargs)
         from leeger.exception import InvalidFilterException
         from leeger.util.GeneralUtil import GeneralUtil
+
         onlyChampionship = kwargsCopy.pop("onlyChampionship", False)
         onlyPostSeason = kwargsCopy.pop("onlyPostSeason", False)
         onlyRegularSeason = kwargsCopy.pop("onlyRegularSeason", False)
@@ -78,18 +80,27 @@ class YearFilters:
         # logic checks
         if [onlyChampionship, onlyPostSeason, onlyRegularSeason].count(True) > 1:
             raise InvalidFilterException(
-                "Only one of 'onlyChampionship', 'onlyPostSeason', 'onlyRegularSeason' can be True")
+                "Only one of 'onlyChampionship', 'onlyPostSeason', 'onlyRegularSeason' can be True"
+            )
         if weekNumberStart < 1:
             raise InvalidFilterException("'weekNumberStart' cannot be less than 1.")
         if weekNumberEnd > len(year.weeks):
-            raise InvalidFilterException("'weekNumberEnd' cannot be greater than the number of weeks in the year.")
+            raise InvalidFilterException(
+                "'weekNumberEnd' cannot be greater than the number of weeks in the year."
+            )
         if weekNumberStart > weekNumberEnd:
-            raise InvalidFilterException("'weekNumberStart' cannot be greater than 'weekNumberEnd'.")
+            raise InvalidFilterException(
+                "'weekNumberStart' cannot be greater than 'weekNumberEnd'."
+            )
 
-        return YearFilters(weekNumberStart=weekNumberStart, weekNumberEnd=weekNumberEnd,
-                           includeMultiWeekMatchups=includeMultiWeekMatchups,
-                           onlyPostSeason=onlyPostSeason, onlyChampionship=onlyChampionship,
-                           onlyRegularSeason=onlyRegularSeason)
+        return YearFilters(
+            weekNumberStart=weekNumberStart,
+            weekNumberEnd=weekNumberEnd,
+            includeMultiWeekMatchups=includeMultiWeekMatchups,
+            onlyPostSeason=onlyPostSeason,
+            onlyChampionship=onlyChampionship,
+            onlyRegularSeason=onlyRegularSeason,
+        )
 
     def asKwargs(self) -> dict[str, Any]:
         return {
@@ -99,5 +110,5 @@ class YearFilters:
             "includeMultiWeekMatchups": self.includeMultiWeekMatchups,
             "onlyPostSeason": self.onlyPostSeason,
             "onlyChampionship": self.onlyChampionship,
-            "onlyRegularSeason": self.onlyRegularSeason
+            "onlyRegularSeason": self.onlyRegularSeason,
         }

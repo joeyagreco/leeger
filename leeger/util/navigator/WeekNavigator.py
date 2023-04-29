@@ -28,7 +28,9 @@ class WeekNavigator:
         return teamIdAndScores
 
     @staticmethod
-    def getTeamIdsAndOpponentScores(week: Week, weekFilters: WeekFilters, **kwargs) -> dict[str, float | int]:
+    def getTeamIdsAndOpponentScores(
+        week: Week, weekFilters: WeekFilters, **kwargs
+    ) -> dict[str, float | int]:
         """
         Returns all scores for each team's opponent in the given Week.
 

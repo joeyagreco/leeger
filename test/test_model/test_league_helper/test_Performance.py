@@ -14,7 +14,7 @@ class TestPerformance(unittest.TestCase):
             teamScore=1.1,
             matchupType=MatchupType.PLAYOFF,
             hasTiebreaker=True,
-            multiWeekMatchupId="id"
+            multiWeekMatchupId="id",
         )
 
         self.assertEqual("teamId", performance.teamId)
@@ -24,10 +24,7 @@ class TestPerformance(unittest.TestCase):
         self.assertEqual("id", performance.multiWeekMatchupId)
 
     def test_performance_init_defaultValues(self):
-        performance = Performance(
-            teamId="teamId",
-            teamScore=1.1
-        )
+        performance = Performance(teamId="teamId", teamScore=1.1)
 
         self.assertEqual("teamId", performance.teamId)
         self.assertEqual(1.1, performance.teamScore)
@@ -38,38 +35,46 @@ class TestPerformance(unittest.TestCase):
     def test_performance_eq_equal(self):
         # create Performance 1
         _, teams_1 = getNDefaultOwnersAndTeams(2)
-        performance_1 = Performance(teamId=teams_1[0].id,
-                                    teamScore=1.1,
-                                    hasTiebreaker=True,
-                                    multiWeekMatchupId="1",
-                                    matchupType=MatchupType.REGULAR_SEASON)
+        performance_1 = Performance(
+            teamId=teams_1[0].id,
+            teamScore=1.1,
+            hasTiebreaker=True,
+            multiWeekMatchupId="1",
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
 
         # create Matchup 2
         _, teams_2 = getNDefaultOwnersAndTeams(2)
-        performance_2 = Performance(teamId=teams_2[0].id,
-                                    teamScore=1.1,
-                                    hasTiebreaker=True,
-                                    multiWeekMatchupId="1",
-                                    matchupType=MatchupType.REGULAR_SEASON)
+        performance_2 = Performance(
+            teamId=teams_2[0].id,
+            teamScore=1.1,
+            hasTiebreaker=True,
+            multiWeekMatchupId="1",
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
 
         self.assertEqual(performance_1, performance_2)
 
     def test_performance_eq_notEqual(self):
         # create Performance 1
         _, teams_1 = getNDefaultOwnersAndTeams(2)
-        performance_1 = Performance(teamId=teams_1[0].id,
-                                    teamScore=1.1,
-                                    hasTiebreaker=True,
-                                    multiWeekMatchupId="1",
-                                    matchupType=MatchupType.PLAYOFF)
+        performance_1 = Performance(
+            teamId=teams_1[0].id,
+            teamScore=1.1,
+            hasTiebreaker=True,
+            multiWeekMatchupId="1",
+            matchupType=MatchupType.PLAYOFF,
+        )
 
         # create Matchup 2
         _, teams_2 = getNDefaultOwnersAndTeams(2)
-        performance_2 = Performance(teamId=teams_2[0].id,
-                                    teamScore=1.1,
-                                    hasTiebreaker=True,
-                                    multiWeekMatchupId="1",
-                                    matchupType=MatchupType.REGULAR_SEASON)
+        performance_2 = Performance(
+            teamId=teams_2[0].id,
+            teamScore=1.1,
+            hasTiebreaker=True,
+            multiWeekMatchupId="1",
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
 
         self.assertNotEqual(performance_1, performance_2)
 
@@ -79,7 +84,7 @@ class TestPerformance(unittest.TestCase):
             teamScore=1.1,
             matchupType=MatchupType.PLAYOFF,
             hasTiebreaker=True,
-            multiWeekMatchupId="id"
+            multiWeekMatchupId="id",
         )
         performanceJson = performance.toJson()
 
@@ -96,7 +101,7 @@ class TestPerformance(unittest.TestCase):
             teamScore=1.1,
             matchupType=MatchupType.REGULAR_SEASON,
             hasTiebreaker=True,
-            multiWeekMatchupId="id"
+            multiWeekMatchupId="id",
         )
 
         performance_2 = Performance(
@@ -104,7 +109,7 @@ class TestPerformance(unittest.TestCase):
             teamScore=2.2,
             matchupType=MatchupType.REGULAR_SEASON,
             hasTiebreaker=True,
-            multiWeekMatchupId="id"
+            multiWeekMatchupId="id",
         )
 
         response = performance_1 + performance_2
@@ -124,7 +129,7 @@ class TestPerformance(unittest.TestCase):
             teamScore=1.1,
             matchupType=MatchupType.PLAYOFF,
             hasTiebreaker=True,
-            multiWeekMatchupId="id"
+            multiWeekMatchupId="id",
         )
 
         performance_2 = Performance(
@@ -132,14 +137,15 @@ class TestPerformance(unittest.TestCase):
             teamScore=2.2,
             matchupType=MatchupType.REGULAR_SEASON,
             hasTiebreaker=True,
-            multiWeekMatchupId="id"
+            multiWeekMatchupId="id",
         )
 
         with self.assertRaises(InvalidMatchupFormatException) as context:
             performance_1 + performance_2
         self.assertEqual(
             "Cannot make a matchup from conflicting matchup types 'MatchupType.PLAYOFF' and 'MatchupType.REGULAR_SEASON'.",
-            str(context.exception))
+            str(context.exception),
+        )
 
     def test_performance_add_performancesHaveDifferentMultiWeekMatchupIds_raisesException(self):
         performance_1 = Performance(
@@ -147,7 +153,7 @@ class TestPerformance(unittest.TestCase):
             teamScore=1.1,
             matchupType=MatchupType.REGULAR_SEASON,
             hasTiebreaker=True,
-            multiWeekMatchupId=None
+            multiWeekMatchupId=None,
         )
 
         performance_2 = Performance(
@@ -155,11 +161,12 @@ class TestPerformance(unittest.TestCase):
             teamScore=2.2,
             matchupType=MatchupType.REGULAR_SEASON,
             hasTiebreaker=True,
-            multiWeekMatchupId="id"
+            multiWeekMatchupId="id",
         )
 
         with self.assertRaises(InvalidMatchupFormatException) as context:
             performance_1 + performance_2
         self.assertEqual(
             "Cannot make a matchup from conflicting multi-week matchup IDs 'None' and 'id'.",
-            str(context.exception))
+            str(context.exception),
+        )

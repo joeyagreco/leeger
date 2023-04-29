@@ -2,12 +2,12 @@
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "ms-python.python",
     "editor.rulers": [
-        79
+        100
     ],
     "python.formatting.provider": "black",
     "python.formatting.blackArgs": [
-        "--line-length=79",
-        "--no-comma"
+        "--line-length=100",
+        "--skip-magic-trailing-comma"
     ],
     "python.testing.pytestEnabled": true,
     "[python]": {

@@ -51,8 +51,9 @@ class ScoringShareYearCalculator(YearCalculator):
                 if totalPointsScoredInYear == 0:
                     teamIdAndScoringShare[teamId] = Deci("0")
                 else:
-                    teamIdAndScoringShare[teamId] = (teamIdAndPointsScored[teamId] / totalPointsScoredInYear) * Deci(
-                        100)
+                    teamIdAndScoringShare[teamId] = (
+                        teamIdAndPointsScored[teamId] / totalPointsScoredInYear
+                    ) * Deci(100)
 
         return teamIdAndScoringShare
 
@@ -79,7 +80,9 @@ class ScoringShareYearCalculator(YearCalculator):
             }
         """
 
-        teamIdAndOpponentPointsScored = PointsScoredYearCalculator.getOpponentPointsScored(year, **kwargs)
+        teamIdAndOpponentPointsScored = PointsScoredYearCalculator.getOpponentPointsScored(
+            year, **kwargs
+        )
         allScores = GeneralUtil.filter(value=None, list_=teamIdAndOpponentPointsScored.values())
         totalPointsScoredInYear = sum(allScores)
         teamIdAndOpponentScoringShare = dict()
@@ -91,8 +94,9 @@ class ScoringShareYearCalculator(YearCalculator):
                 if totalPointsScoredInYear == 0:
                     teamIdAndOpponentScoringShare[teamId] = Deci("0")
                 else:
-                    teamIdAndOpponentScoringShare[teamId] = (teamIdAndOpponentPointsScored[
-                                                                 teamId] / totalPointsScoredInYear) * Deci(100)
+                    teamIdAndOpponentScoringShare[teamId] = (
+                        teamIdAndOpponentPointsScored[teamId] / totalPointsScoredInYear
+                    ) * Deci(100)
 
         return teamIdAndOpponentScoringShare
 
@@ -120,20 +124,29 @@ class ScoringShareYearCalculator(YearCalculator):
 
         for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
             week = year.weeks[i]
-            totalPointsScoredInWeek = sum(WeekNavigator.getTeamIdsAndScores(week, WeekFilters(
-                includeMatchupTypes=filters.includeMatchupTypes)).values())
+            totalPointsScoredInWeek = sum(
+                WeekNavigator.getTeamIdsAndScores(
+                    week, WeekFilters(includeMatchupTypes=filters.includeMatchupTypes)
+                ).values()
+            )
             # avoid division by 0
             if totalPointsScoredInWeek == 0:
                 continue
             else:
                 for matchup in week.matchups:
                     if matchup.matchupType in filters.includeMatchupTypes:
-                        teamAScoringShare = (Deci(matchup.teamAScore) / Deci(totalPointsScoredInWeek)) * Deci("100")
-                        teamBScoringShare = (Deci(matchup.teamBScore) / Deci(totalPointsScoredInWeek)) * Deci("100")
-                        teamIdAndMaxScoringShare[matchup.teamAId] = max(teamAScoringShare,
-                                                                        teamIdAndMaxScoringShare[matchup.teamAId])
-                        teamIdAndMaxScoringShare[matchup.teamBId] = max(teamBScoringShare,
-                                                                        teamIdAndMaxScoringShare[matchup.teamBId])
+                        teamAScoringShare = (
+                            Deci(matchup.teamAScore) / Deci(totalPointsScoredInWeek)
+                        ) * Deci("100")
+                        teamBScoringShare = (
+                            Deci(matchup.teamBScore) / Deci(totalPointsScoredInWeek)
+                        ) * Deci("100")
+                        teamIdAndMaxScoringShare[matchup.teamAId] = max(
+                            teamAScoringShare, teamIdAndMaxScoringShare[matchup.teamAId]
+                        )
+                        teamIdAndMaxScoringShare[matchup.teamBId] = max(
+                            teamBScoringShare, teamIdAndMaxScoringShare[matchup.teamBId]
+                        )
 
         cls._setToNoneIfNoGamesPlayed(teamIdAndMaxScoringShare, year, filters, **kwargs)
         return teamIdAndMaxScoringShare
@@ -162,8 +175,11 @@ class ScoringShareYearCalculator(YearCalculator):
 
         for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
             week = year.weeks[i]
-            totalPointsScoredInWeek = sum(WeekNavigator.getTeamIdsAndScores(week, WeekFilters(
-                includeMatchupTypes=filters.includeMatchupTypes)).values())
+            totalPointsScoredInWeek = sum(
+                WeekNavigator.getTeamIdsAndScores(
+                    week, WeekFilters(includeMatchupTypes=filters.includeMatchupTypes)
+                ).values()
+            )
             for matchup in week.matchups:
                 if matchup.matchupType in filters.includeMatchupTypes:
                     # avoid division by 0
@@ -171,18 +187,24 @@ class ScoringShareYearCalculator(YearCalculator):
                         for teamId in YearNavigator.getAllTeamIds(year):
                             teamIdAndMinScoringShare[teamId] = Deci("0")
                         continue
-                    teamAScoringShare = (Deci(matchup.teamAScore) / Deci(totalPointsScoredInWeek)) * Deci("100")
-                    teamBScoringShare = (Deci(matchup.teamBScore) / Deci(totalPointsScoredInWeek)) * Deci("100")
+                    teamAScoringShare = (
+                        Deci(matchup.teamAScore) / Deci(totalPointsScoredInWeek)
+                    ) * Deci("100")
+                    teamBScoringShare = (
+                        Deci(matchup.teamBScore) / Deci(totalPointsScoredInWeek)
+                    ) * Deci("100")
                     if teamIdAndMinScoringShare[matchup.teamAId] is None:
                         teamIdAndMinScoringShare[matchup.teamAId] = teamAScoringShare
                     else:
-                        teamIdAndMinScoringShare[matchup.teamAId] = min(teamAScoringShare,
-                                                                        teamIdAndMinScoringShare[matchup.teamAId])
+                        teamIdAndMinScoringShare[matchup.teamAId] = min(
+                            teamAScoringShare, teamIdAndMinScoringShare[matchup.teamAId]
+                        )
                     if teamIdAndMinScoringShare[matchup.teamBId] is None:
                         teamIdAndMinScoringShare[matchup.teamBId] = teamBScoringShare
                     else:
-                        teamIdAndMinScoringShare[matchup.teamBId] = min(teamBScoringShare,
-                                                                        teamIdAndMinScoringShare[matchup.teamBId])
+                        teamIdAndMinScoringShare[matchup.teamBId] = min(
+                            teamBScoringShare, teamIdAndMinScoringShare[matchup.teamBId]
+                        )
 
         cls._setToNoneIfNoGamesPlayed(teamIdAndMinScoringShare, year, filters, **kwargs)
         return teamIdAndMinScoringShare

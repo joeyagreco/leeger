@@ -35,9 +35,11 @@ class FleaflickerLeagueLoader(LeagueLoader):
         # return a list of all leagues
         fleaflickerLeagues = list()
         for year in self._years:
-            fleaflickerLeagues.append(LeagueInfoAPIClient.get_league_standings(sport=Sport.NFL,
-                                                                               league_id=int(self._leagueId),
-                                                                               season=year))
+            fleaflickerLeagues.append(
+                LeagueInfoAPIClient.get_league_standings(
+                    sport=Sport.NFL, league_id=int(self._leagueId), season=year
+                )
+            )
         return fleaflickerLeagues
 
     def getOwnerNames(self) -> dict[int, list[str]]:
@@ -69,7 +71,9 @@ class FleaflickerLeagueLoader(LeagueLoader):
             if len(year.weeks) > 0:
                 years.append(year)
             else:
-                self._LOGGER.warning(f"Year '{year.yearNumber}' discarded for not having any weeks.")
+                self._LOGGER.warning(
+                    f"Year '{year.yearNumber}' discarded for not having any weeks."
+                )
         return League(name=leagueName, owners=owners, years=years)
 
     def __buildYear(self, fleaflickerLeague: dict) -> Year:
@@ -80,28 +84,37 @@ class FleaflickerLeagueLoader(LeagueLoader):
     def __buildWeeks(self, fleaflickerLeague: dict) -> list[Week]:
         weeks = list()
         # get all weeks
-        fleaflicker_league_scoreboard = ScoringAPIClient.get_league_scoreboard(sport=Sport.NFL,
-                                                                               league_id=fleaflickerLeague["league"][
-                                                                                   "id"],
-                                                                               season=fleaflickerLeague["season"])
-        number_of_scoring_periods = len(fleaflicker_league_scoreboard["eligibleSchedulePeriods"]) + 1
+        fleaflicker_league_scoreboard = ScoringAPIClient.get_league_scoreboard(
+            sport=Sport.NFL,
+            league_id=fleaflickerLeague["league"]["id"],
+            season=fleaflickerLeague["season"],
+        )
+        number_of_scoring_periods = (
+            len(fleaflicker_league_scoreboard["eligibleSchedulePeriods"]) + 1
+        )
         for scoring_period in range(1, number_of_scoring_periods):
             matchups = list()
             # get all games for this week
-            current_scoreboard = ScoringAPIClient.get_league_scoreboard(sport=Sport.NFL,
-                                                                        league_id=fleaflickerLeague["league"]["id"],
-                                                                        season=fleaflickerLeague["season"],
-                                                                        scoring_period=scoring_period)
+            current_scoreboard = ScoringAPIClient.get_league_scoreboard(
+                sport=Sport.NFL,
+                league_id=fleaflickerLeague["league"]["id"],
+                season=fleaflickerLeague["season"],
+                scoring_period=scoring_period,
+            )
             for game in current_scoreboard.get("games", list()):
                 # team A
                 teamAFleaflicker: dict = game["away"]
                 teamA = self.__fleaflickerTeamIdToTeamMap[teamAFleaflicker["id"]]
-                teamAScore = game["awayScore"]["score"].get("value", 0)  # if "value" isn't found, score is 0
+                teamAScore = game["awayScore"]["score"].get(
+                    "value", 0
+                )  # if "value" isn't found, score is 0
 
                 # team B
                 teamBFleaflicker: dict = game["home"]
                 teamB = self.__fleaflickerTeamIdToTeamMap[teamBFleaflicker["id"]]
-                teamBScore = game["homeScore"]["score"].get("value", 0)  # if "value" isn't found, score is 0
+                teamBScore = game["homeScore"]["score"].get(
+                    "value", 0
+                )  # if "value" isn't found, score is 0
 
                 # figure out tiebreakers
                 teamAHasTieBreaker = game.get("awayResult") == "WIN"
@@ -109,20 +122,28 @@ class FleaflickerLeagueLoader(LeagueLoader):
 
                 # figure out matchup type
                 matchupType = MatchupType.REGULAR_SEASON
-                if game.get("isPlayoffs") or game.get("isConsolation") or game.get("isThirdPlaceGame"):
+                if (
+                    game.get("isPlayoffs")
+                    or game.get("isConsolation")
+                    or game.get("isThirdPlaceGame")
+                ):
                     matchupType = MatchupType.PLAYOFF
                 if game.get("isChampionshipGame"):
                     matchupType = MatchupType.CHAMPIONSHIP
 
                 # only add matchup if it is completed
                 if game.get("isFinalScore"):
-                    matchups.append(Matchup(teamAId=teamA.id,
-                                            teamBId=teamB.id,
-                                            teamAScore=teamAScore,
-                                            teamBScore=teamBScore,
-                                            teamAHasTiebreaker=teamAHasTieBreaker,
-                                            teamBHasTiebreaker=teamBHasTieBreaker,
-                                            matchupType=matchupType))
+                    matchups.append(
+                        Matchup(
+                            teamAId=teamA.id,
+                            teamBId=teamB.id,
+                            teamAScore=teamAScore,
+                            teamBScore=teamBScore,
+                            teamAHasTiebreaker=teamAHasTieBreaker,
+                            teamBHasTiebreaker=teamBHasTieBreaker,
+                            matchupType=matchupType,
+                        )
+                    )
             if len(matchups) > 0:
                 weeks.append(Week(weekNumber=scoring_period, matchups=matchups))
         return weeks

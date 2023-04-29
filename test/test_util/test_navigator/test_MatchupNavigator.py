@@ -27,10 +27,20 @@ class TestMatchupNavigator(unittest.TestCase):
     def test_getTeamIdOfMatchupWinner_tiebreakersGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1,
-                           teamAHasTiebreaker=True)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1,
-                           teamBHasTiebreaker=True)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=1,
+            teamAHasTiebreaker=True,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=1,
+            teamBHasTiebreaker=True,
+        )
 
         response1 = MatchupNavigator.getTeamIdOfMatchupWinner(matchup1)
         response2 = MatchupNavigator.getTeamIdOfMatchupWinner(matchup2)
@@ -43,10 +53,24 @@ class TestMatchupNavigator(unittest.TestCase):
     def test_simplifyMultiWeekMatchups_happyPath(self):
         _, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF, teamAHasTiebreaker=True, multiWeekMatchupId="1")
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF, teamBHasTiebreaker=True, multiWeekMatchupId="1")
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+            teamAHasTiebreaker=True,
+            multiWeekMatchupId="1",
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+            teamBHasTiebreaker=True,
+            multiWeekMatchupId="1",
+        )
 
         response = MatchupNavigator.simplifyMultiWeekMatchups([matchup1, matchup2])
 

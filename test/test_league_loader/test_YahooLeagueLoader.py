@@ -12,8 +12,13 @@ class TestESPNLeagueLoader(unittest.TestCase):
         with self.assertRaises(TimeoutError) as context:
             badClientId = badClientSecret = "bad"
             badLeagueId = 0
-            yahooLeagueLoader = YahooLeagueLoader(badLeagueId, [2000], clientId=badClientId,
-                                                  clientSecret=badClientSecret, loginTimeoutSeconds=1)
+            yahooLeagueLoader = YahooLeagueLoader(
+                badLeagueId,
+                [2000],
+                clientId=badClientId,
+                clientSecret=badClientSecret,
+                loginTimeoutSeconds=1,
+            )
             yahooLeagueLoader.loadLeague()
         self.assertEqual("Login to yahoofantasy timed out.", str(context.exception))
 
@@ -21,8 +26,13 @@ class TestESPNLeagueLoader(unittest.TestCase):
         with self.assertRaises(ValueError) as context:
             badClientId = badClientSecret = "bad"
             badLeagueId = "a"
-            yahooLeagueLoader = YahooLeagueLoader(badLeagueId, [2000], clientId=badClientId,
-                                                  clientSecret=badClientSecret, loginTimeoutSeconds=1)
+            yahooLeagueLoader = YahooLeagueLoader(
+                badLeagueId,
+                [2000],
+                clientId=badClientId,
+                clientSecret=badClientSecret,
+                loginTimeoutSeconds=1,
+            )
         self.assertEqual("League ID 'a' could not be turned into an int.", str(context.exception))
 
     def test_noYearsGiven(self):

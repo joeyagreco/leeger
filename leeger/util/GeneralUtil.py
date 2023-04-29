@@ -5,7 +5,6 @@ from leeger.util.Deci import Deci
 
 
 class GeneralUtil:
-
     @staticmethod
     def filter(*, value: Any, list_: list) -> list:
         """

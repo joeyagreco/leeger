@@ -18,6 +18,7 @@ class ESPNLeagueLoader(LeagueLoader):
     Responsible for loading a League from ESPN Fantasy Football.
     https://www.espn.com/fantasy/football/
     """
+
     __ESPN_WIN_OUTCOME: str = "W"
     __ESPN_LOSS_OUTCOME: str = "L"
     __ESPN_TIE_OUTCOME: str = "T"
@@ -28,10 +29,12 @@ class ESPNLeagueLoader(LeagueLoader):
         4: 2,
         6: 3,
         7: 3,
-        8: 3
+        8: 3,
     }
 
-    def __init__(self, leagueId: str, years: list[int], espnS2: str = None, swid: str = None, **kwargs):
+    def __init__(
+        self, leagueId: str, years: list[int], espnS2: str = None, swid: str = None, **kwargs
+    ):
         # validation
         try:
             int(leagueId)
@@ -48,7 +51,13 @@ class ESPNLeagueLoader(LeagueLoader):
         espnLeagueYears = list()
         for year in self._years:
             espnLeagueYears.append(
-                espn.League(league_id=int(self._leagueId), year=year, espn_s2=self.__espnS2, swid=self.__swid))
+                espn.League(
+                    league_id=int(self._leagueId),
+                    year=year,
+                    espn_s2=self.__espnS2,
+                    swid=self.__swid,
+                )
+            )
         return espnLeagueYears
 
     def getOwnerNames(self) -> dict[int, list[str]]:
@@ -93,7 +102,9 @@ class ESPNLeagueLoader(LeagueLoader):
 
     def __buildWeeks(self, espnLeague: ESPNLeague) -> list[Week]:
         weeks = list()
-        for i in range(espnLeague.current_week):  # current week seems to be the last week in the league
+        for i in range(
+            espnLeague.current_week
+        ):  # current week seems to be the last week in the league
             # get each teams matchup for that week
             matchups = list()
             # to avoid adding matchups twice, we keep track of the ESPN team IDs that have already had a matchup added
@@ -102,7 +113,10 @@ class ESPNLeagueLoader(LeagueLoader):
                 # skip if we already have this team in a matchup
                 # OR
                 # this team is on a bye
-                if espnTeam.team_id in espnTeamIDsWithMatchups or espnTeam.outcomes[i] == self.__ESPN_BYE_OUTCOME:
+                if (
+                    espnTeam.team_id in espnTeamIDsWithMatchups
+                    or espnTeam.outcomes[i] == self.__ESPN_BYE_OUTCOME
+                ):
                     continue
                 # team A is *this* team
                 espnTeamA = espnTeam
@@ -111,25 +125,37 @@ class ESPNLeagueLoader(LeagueLoader):
                 # team B is their opponent
                 espnTeamB = espnTeam.schedule[i]
                 teamB = self.__espnTeamIdToTeamMap[espnTeam.schedule[i].team_id]
-                teamBScore = self.__getESPNTeamByESPNId(espnTeam.schedule[i].team_id, espnLeague.teams).scores[i]
+                teamBScore = self.__getESPNTeamByESPNId(
+                    espnTeam.schedule[i].team_id, espnLeague.teams
+                ).scores[i]
                 # figure out tiebreakers if there needs to be one
-                teamAHasTiebreaker = teamAScore == teamBScore and espnTeamA.outcomes[i] == self.__ESPN_WIN_OUTCOME
-                teamBHasTiebreaker = teamAScore == teamBScore and espnTeamB.outcomes[i] == self.__ESPN_WIN_OUTCOME
+                teamAHasTiebreaker = (
+                    teamAScore == teamBScore and espnTeamA.outcomes[i] == self.__ESPN_WIN_OUTCOME
+                )
+                teamBHasTiebreaker = (
+                    teamAScore == teamBScore and espnTeamB.outcomes[i] == self.__ESPN_WIN_OUTCOME
+                )
                 matchupType = self.__getMatchupType(espnLeague, i + 1, espnTeamA.team_id)
-                matchups.append(Matchup(teamAId=teamA.id,
-                                        teamBId=teamB.id,
-                                        teamAScore=teamAScore,
-                                        teamBScore=teamBScore,
-                                        teamAHasTiebreaker=teamAHasTiebreaker,
-                                        teamBHasTiebreaker=teamBHasTiebreaker,
-                                        matchupType=matchupType))
+                matchups.append(
+                    Matchup(
+                        teamAId=teamA.id,
+                        teamBId=teamB.id,
+                        teamAScore=teamAScore,
+                        teamBScore=teamBScore,
+                        teamAHasTiebreaker=teamAHasTiebreaker,
+                        teamBHasTiebreaker=teamBHasTiebreaker,
+                        matchupType=matchupType,
+                    )
+                )
                 espnTeamIDsWithMatchups.append(espnTeam.team_id)
                 espnTeamIDsWithMatchups.append(espnTeam.schedule[i].team_id)
             if len(matchups) > 0:
                 weeks.append(Week(weekNumber=i + 1, matchups=matchups))
         return weeks
 
-    def __getMatchupType(self, espnLeague: ESPNLeague, weekNumber: int, espnTeamId: int) -> MatchupType:
+    def __getMatchupType(
+        self, espnLeague: ESPNLeague, weekNumber: int, espnTeamId: int
+    ) -> MatchupType:
         isPlayoffWeek = weekNumber > espnLeague.settings.reg_season_count
         if isPlayoffWeek:
             # figure out if this team made the playoffs
@@ -138,7 +164,9 @@ class ESPNLeagueLoader(LeagueLoader):
             if playoffTeamCount >= espnTeam.standing:
                 # this team made the playoffs
                 # figure out if this is the last week of playoffs (the championship week)
-                numberOfPlayoffWeeks = self.__TEAMS_IN_PLAYOFFS_TO_PLAYOFF_WEEK_COUNT_MAP[playoffTeamCount]
+                numberOfPlayoffWeeks = self.__TEAMS_IN_PLAYOFFS_TO_PLAYOFF_WEEK_COUNT_MAP[
+                    playoffTeamCount
+                ]
                 # TODO: Raise specific exception here if not found in map
                 if weekNumber == espnLeague.settings.reg_season_count + numberOfPlayoffWeeks:
                     # this is the championship week

@@ -6,7 +6,6 @@ from leeger.validate import teamValidation
 
 
 class TestYearValidation(unittest.TestCase):
-
     def test_checkAllTypes_teamOwnerIdIsntTypeStr_raisesException(self):
         with self.assertRaises(InvalidTeamFormatException) as context:
             teamValidation.checkAllTypes(Team(ownerId=None, name="team"))

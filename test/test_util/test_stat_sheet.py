@@ -11,9 +11,9 @@ from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestStatSheet(unittest.TestCase):
-
     def test_leagueStatSheet(self):
         from leeger.util.stat_sheet import leagueStatSheet
+
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
@@ -69,6 +69,7 @@ class TestStatSheet(unittest.TestCase):
 
     def test_leagueStatSheet_leagueMedianGamesIsTrueInAnyYearSettings(self):
         from leeger.util.stat_sheet import leagueStatSheet
+
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
@@ -85,6 +86,7 @@ class TestStatSheet(unittest.TestCase):
 
     def test_yearStatSheet(self):
         from leeger.util.stat_sheet import yearStatSheet
+
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
@@ -143,21 +145,16 @@ class TestStatSheet(unittest.TestCase):
 
     def test_yearStatSheet_ownerNamesAndYearsGiven(self):
         from leeger.util.stat_sheet import yearStatSheet
+
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
         week = Week(weekNumber=1, matchups=[matchup])
         year = Year(yearNumber=2000, teams=teams, weeks=[week])
 
-        ownerNames = {
-            teams[0].id: "owner0",
-            teams[1].id: "owner1"
-        }
+        ownerNames = {teams[0].id: "owner0", teams[1].id: "owner1"}
 
-        years = {
-            teams[0].id: 2000,
-            teams[1].id: 2000
-        }
+        years = {teams[0].id: 2000, teams[1].id: 2000}
 
         yearStatSheet = yearStatSheet(year, ownerNames=ownerNames, years=years)
 
@@ -211,6 +208,7 @@ class TestStatSheet(unittest.TestCase):
 
     def test_yearStatSheet_leagueMedianGamesIsTrue(self):
         from leeger.util.stat_sheet import yearStatSheet
+
         owners, teams = getNDefaultOwnersAndTeams(2)
 
         matchup = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)

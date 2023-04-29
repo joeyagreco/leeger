@@ -99,15 +99,21 @@ def checkYearsAreInCorrectOrder(league: League) -> None:
     """
     Checks that the Years are in order from oldest -> most recent years.
     """
-    if [year.yearNumber for year in league.years] != sorted([year.yearNumber for year in league.years]):
-        raise InvalidLeagueFormatException("Years are not in chronological order (oldest -> newest).")
+    if [year.yearNumber for year in league.years] != sorted(
+        [year.yearNumber for year in league.years]
+    ):
+        raise InvalidLeagueFormatException(
+            "Years are not in chronological order (oldest -> newest)."
+        )
 
 
 def checkNoDuplicateYearNumbers(league: League) -> None:
     """
     Checks that all the years in the League have a unique year number.
     """
-    if len(set([year.yearNumber for year in league.years])) != len([year.yearNumber for year in league.years]):
+    if len(set([year.yearNumber for year in league.years])) != len(
+        [year.yearNumber for year in league.years]
+    ):
         raise InvalidLeagueFormatException("Can only have 1 of each year number within a league.")
 
 
@@ -115,7 +121,9 @@ def checkNoDuplicateOwnerNames(league: League) -> None:
     """
     Checks that all Owners in the League have a unique name.
     """
-    if len(set([owner.name for owner in league.owners])) != len([owner.name for owner in league.owners]):
+    if len(set([owner.name for owner in league.owners])) != len(
+        [owner.name for owner in league.owners]
+    ):
         raise InvalidLeagueFormatException("All owners must have a unique name.")
 
 

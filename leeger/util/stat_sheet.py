@@ -1,19 +1,33 @@
-from leeger.calculator.all_time_calculator import AWALAllTimeCalculator, TeamSummaryAllTimeCalculator
-from leeger.calculator.all_time_calculator.GameOutcomeAllTimeCalculator import \
-    GameOutcomeAllTimeCalculator
-from leeger.calculator.all_time_calculator.PlusMinusAllTimeCalculator import PlusMinusAllTimeCalculator
-from leeger.calculator.all_time_calculator.PointsScoredAllTimeCalculator import \
-    PointsScoredAllTimeCalculator
+from leeger.calculator.all_time_calculator import (
+    AWALAllTimeCalculator,
+    TeamSummaryAllTimeCalculator,
+)
+from leeger.calculator.all_time_calculator.GameOutcomeAllTimeCalculator import (
+    GameOutcomeAllTimeCalculator,
+)
+from leeger.calculator.all_time_calculator.PlusMinusAllTimeCalculator import (
+    PlusMinusAllTimeCalculator,
+)
+from leeger.calculator.all_time_calculator.PointsScoredAllTimeCalculator import (
+    PointsScoredAllTimeCalculator,
+)
 from leeger.calculator.all_time_calculator.SSLAllTimeCalculator import SSLAllTimeCalculator
-from leeger.calculator.all_time_calculator.ScoringShareAllTimeCalculator import \
-    ScoringShareAllTimeCalculator
-from leeger.calculator.all_time_calculator.ScoringStandardDeviationAllTimeCalculator import \
-    ScoringStandardDeviationAllTimeCalculator
-from leeger.calculator.all_time_calculator.SingleScoreAllTimeCalculator import \
-    SingleScoreAllTimeCalculator
-from leeger.calculator.all_time_calculator.SmartWinsAllTimeCalculator import SmartWinsAllTimeCalculator
-from leeger.calculator.year_calculator import \
-    ScoringStandardDeviationYearCalculator, TeamSummaryYearCalculator
+from leeger.calculator.all_time_calculator.ScoringShareAllTimeCalculator import (
+    ScoringShareAllTimeCalculator,
+)
+from leeger.calculator.all_time_calculator.ScoringStandardDeviationAllTimeCalculator import (
+    ScoringStandardDeviationAllTimeCalculator,
+)
+from leeger.calculator.all_time_calculator.SingleScoreAllTimeCalculator import (
+    SingleScoreAllTimeCalculator,
+)
+from leeger.calculator.all_time_calculator.SmartWinsAllTimeCalculator import (
+    SmartWinsAllTimeCalculator,
+)
+from leeger.calculator.year_calculator import (
+    ScoringStandardDeviationYearCalculator,
+    TeamSummaryYearCalculator,
+)
 from leeger.calculator.year_calculator import SingleScoreYearCalculator
 from leeger.calculator.year_calculator.AWALYearCalculator import AWALYearCalculator
 from leeger.calculator.year_calculator.GameOutcomeYearCalculator import GameOutcomeYearCalculator
@@ -49,14 +63,17 @@ def leagueStatSheet(league: League, **kwargs) -> AllTimeStatSheet:
     smartWins = SmartWinsAllTimeCalculator.getSmartWins(league, **kwargs)
     smartWinsPerGame = SmartWinsAllTimeCalculator.getSmartWinsPerGame(league, **kwargs)
     opponentSmartWins = SmartWinsAllTimeCalculator.getOpponentSmartWins(league, **kwargs)
-    opponentSmartWinsPerGame = SmartWinsAllTimeCalculator.getOpponentSmartWinsPerGame(league, **kwargs)
+    opponentSmartWinsPerGame = SmartWinsAllTimeCalculator.getOpponentSmartWinsPerGame(
+        league, **kwargs
+    )
 
     # Points Scored
     pointsScored = PointsScoredAllTimeCalculator.getPointsScored(league, **kwargs)
     pointsScoredPerGame = PointsScoredAllTimeCalculator.getPointsScoredPerGame(league, **kwargs)
     opponentPointsScored = PointsScoredAllTimeCalculator.getOpponentPointsScored(league, **kwargs)
-    opponentPointsScoredPerGame = PointsScoredAllTimeCalculator.getOpponentPointsScoredPerGame(league,
-                                                                                               **kwargs)
+    opponentPointsScoredPerGame = PointsScoredAllTimeCalculator.getOpponentPointsScoredPerGame(
+        league, **kwargs
+    )
 
     # Scoring Share
     scoringShare = ScoringShareAllTimeCalculator.getScoringShare(league, **kwargs)
@@ -69,8 +86,9 @@ def leagueStatSheet(league: League, **kwargs) -> AllTimeStatSheet:
     minScore = SingleScoreAllTimeCalculator.getMinScore(league, **kwargs)
 
     # Scoring Standard Deviation
-    scoringStandardDeviation = ScoringStandardDeviationAllTimeCalculator.getScoringStandardDeviation(league,
-                                                                                                     **kwargs)
+    scoringStandardDeviation = (
+        ScoringStandardDeviationAllTimeCalculator.getScoringStandardDeviation(league, **kwargs)
+    )
 
     # Plus Minus
     plusMinus = PlusMinusAllTimeCalculator.getPlusMinus(league, **kwargs)
@@ -88,22 +106,46 @@ def leagueStatSheet(league: League, **kwargs) -> AllTimeStatSheet:
         if year.yearSettings.leagueMedianGames is True:
             totalGames = TeamSummaryAllTimeCalculator.getTotalGames(league, **kwargs)
             leagueMedianWins = GameOutcomeAllTimeCalculator.getLeagueMedianWins(league, **kwargs)
-            opponentLeagueMedianWins = GameOutcomeAllTimeCalculator.getOpponentLeagueMedianWins(league, **kwargs)
+            opponentLeagueMedianWins = GameOutcomeAllTimeCalculator.getOpponentLeagueMedianWins(
+                league, **kwargs
+            )
             break
 
-    return AllTimeStatSheet(gamesPlayed=gamesPlayed, wins=wins, losses=losses, ties=ties, winPercentage=winPercentage,
-                            wal=wal, walPerGame=walPerGame, awal=awal, awalPerGame=awalPerGame,
-                            opponentAWAL=opponentAWAL, opponentAWALPerGame=opponentAWALPerGame, smartWins=smartWins,
-                            smartWinsPerGame=smartWinsPerGame, opponentSmartWins=opponentSmartWins,
-                            opponentSmartWinsPerGame=opponentSmartWinsPerGame, pointsScored=pointsScored,
-                            pointsScoredPerGame=pointsScoredPerGame, opponentPointsScored=opponentPointsScored,
-                            opponentPointsScoredPerGame=opponentPointsScoredPerGame, scoringShare=scoringShare,
-                            opponentScoringShare=opponentScoringShare, maxScore=maxScore, minScore=minScore,
-                            scoringStandardDeviation=scoringStandardDeviation, plusMinus=plusMinus,
-                            adjustedTeamScore=adjustedTeamScore, adjustedTeamSuccess=adjustedTeamSuccess,
-                            adjustedTeamLuck=adjustedTeamLuck, leagueMedianWins=leagueMedianWins, totalGames=totalGames,
-                            opponentLeagueMedianWins=opponentLeagueMedianWins, maxScoringShare=maxScoringShare,
-                            minScoringShare=minScoringShare)
+    return AllTimeStatSheet(
+        gamesPlayed=gamesPlayed,
+        wins=wins,
+        losses=losses,
+        ties=ties,
+        winPercentage=winPercentage,
+        wal=wal,
+        walPerGame=walPerGame,
+        awal=awal,
+        awalPerGame=awalPerGame,
+        opponentAWAL=opponentAWAL,
+        opponentAWALPerGame=opponentAWALPerGame,
+        smartWins=smartWins,
+        smartWinsPerGame=smartWinsPerGame,
+        opponentSmartWins=opponentSmartWins,
+        opponentSmartWinsPerGame=opponentSmartWinsPerGame,
+        pointsScored=pointsScored,
+        pointsScoredPerGame=pointsScoredPerGame,
+        opponentPointsScored=opponentPointsScored,
+        opponentPointsScoredPerGame=opponentPointsScoredPerGame,
+        scoringShare=scoringShare,
+        opponentScoringShare=opponentScoringShare,
+        maxScore=maxScore,
+        minScore=minScore,
+        scoringStandardDeviation=scoringStandardDeviation,
+        plusMinus=plusMinus,
+        adjustedTeamScore=adjustedTeamScore,
+        adjustedTeamSuccess=adjustedTeamSuccess,
+        adjustedTeamLuck=adjustedTeamLuck,
+        leagueMedianWins=leagueMedianWins,
+        totalGames=totalGames,
+        opponentLeagueMedianWins=opponentLeagueMedianWins,
+        maxScoringShare=maxScoringShare,
+        minScoringShare=minScoringShare,
+    )
 
 
 def yearStatSheet(year: Year, **kwargs) -> YearStatSheet:
@@ -135,7 +177,9 @@ def yearStatSheet(year: Year, **kwargs) -> YearStatSheet:
     pointsScored = PointsScoredYearCalculator.getPointsScored(year, **kwargs)
     pointsScoredPerGame = PointsScoredYearCalculator.getPointsScoredPerGame(year, **kwargs)
     opponentPointsScored = PointsScoredYearCalculator.getOpponentPointsScored(year, **kwargs)
-    opponentPointsScoredPerGame = PointsScoredYearCalculator.getOpponentPointsScoredPerGame(year, **kwargs)
+    opponentPointsScoredPerGame = PointsScoredYearCalculator.getOpponentPointsScoredPerGame(
+        year, **kwargs
+    )
 
     # Scoring Share
     scoringShare = ScoringShareYearCalculator.getScoringShare(year, **kwargs)
@@ -148,7 +192,9 @@ def yearStatSheet(year: Year, **kwargs) -> YearStatSheet:
     minScore = SingleScoreYearCalculator.getMinScore(year, **kwargs)
 
     # Scoring Standard Deviation
-    scoringStandardDeviation = ScoringStandardDeviationYearCalculator.getScoringStandardDeviation(year, **kwargs)
+    scoringStandardDeviation = ScoringStandardDeviationYearCalculator.getScoringStandardDeviation(
+        year, **kwargs
+    )
 
     # Plus Minus
     plusMinus = PlusMinusYearCalculator.getPlusMinus(year, **kwargs)
@@ -165,18 +211,44 @@ def yearStatSheet(year: Year, **kwargs) -> YearStatSheet:
     if year.yearSettings.leagueMedianGames is True:
         totalGames = TeamSummaryYearCalculator.getTotalGames(year, **kwargs)
         leagueMedianWins = GameOutcomeYearCalculator.getLeagueMedianWins(year, **kwargs)
-        opponentLeagueMedianWins = GameOutcomeYearCalculator.getOpponentLeagueMedianWins(year, **kwargs)
+        opponentLeagueMedianWins = GameOutcomeYearCalculator.getOpponentLeagueMedianWins(
+            year, **kwargs
+        )
 
-    return YearStatSheet(gamesPlayed=gamesPlayed, wins=wins, losses=losses, ties=ties, winPercentage=winPercentage,
-                         wal=wal, walPerGame=walPerGame, awal=awal, awalPerGame=awalPerGame, opponentAWAL=opponentAWAL,
-                         opponentAWALPerGame=opponentAWALPerGame, smartWins=smartWins,
-                         smartWinsPerGame=smartWinsPerGame, opponentSmartWins=opponentSmartWins,
-                         opponentSmartWinsPerGame=opponentSmartWinsPerGame, pointsScored=pointsScored,
-                         pointsScoredPerGame=pointsScoredPerGame, opponentPointsScored=opponentPointsScored,
-                         opponentPointsScoredPerGame=opponentPointsScoredPerGame, scoringShare=scoringShare,
-                         opponentScoringShare=opponentScoringShare, maxScore=maxScore, minScore=minScore,
-                         scoringStandardDeviation=scoringStandardDeviation, plusMinus=plusMinus,
-                         teamScore=teamScore, teamSuccess=teamSuccess, teamLuck=teamLuck,
-                         leagueMedianWins=leagueMedianWins, totalGames=totalGames,
-                         opponentLeagueMedianWins=opponentLeagueMedianWins, maxScoringShare=maxScoringShare,
-                         minScoringShare=minScoringShare, ownerNames=ownerNames, years=years)
+    return YearStatSheet(
+        gamesPlayed=gamesPlayed,
+        wins=wins,
+        losses=losses,
+        ties=ties,
+        winPercentage=winPercentage,
+        wal=wal,
+        walPerGame=walPerGame,
+        awal=awal,
+        awalPerGame=awalPerGame,
+        opponentAWAL=opponentAWAL,
+        opponentAWALPerGame=opponentAWALPerGame,
+        smartWins=smartWins,
+        smartWinsPerGame=smartWinsPerGame,
+        opponentSmartWins=opponentSmartWins,
+        opponentSmartWinsPerGame=opponentSmartWinsPerGame,
+        pointsScored=pointsScored,
+        pointsScoredPerGame=pointsScoredPerGame,
+        opponentPointsScored=opponentPointsScored,
+        opponentPointsScoredPerGame=opponentPointsScoredPerGame,
+        scoringShare=scoringShare,
+        opponentScoringShare=opponentScoringShare,
+        maxScore=maxScore,
+        minScore=minScore,
+        scoringStandardDeviation=scoringStandardDeviation,
+        plusMinus=plusMinus,
+        teamScore=teamScore,
+        teamSuccess=teamSuccess,
+        teamLuck=teamLuck,
+        leagueMedianWins=leagueMedianWins,
+        totalGames=totalGames,
+        opponentLeagueMedianWins=opponentLeagueMedianWins,
+        maxScoringShare=maxScoringShare,
+        minScoringShare=minScoringShare,
+        ownerNames=ownerNames,
+        years=years,
+    )

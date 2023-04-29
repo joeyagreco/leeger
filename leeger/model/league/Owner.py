@@ -19,10 +19,7 @@ class Owner(UniqueId, JSONSerializable, JSONDeserializable):
         return self.name == otherOwner.name
 
     def toJson(self) -> dict:
-        return {
-            "id": self.id,
-            "name": self.name
-        }
+        return {"id": self.id, "name": self.name}
 
     @staticmethod
     def fromJson(d: dict) -> Owner:

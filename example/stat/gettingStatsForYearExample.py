@@ -1,11 +1,16 @@
-from leeger.calculator.year_calculator import GameOutcomeYearCalculator, PointsScoredYearCalculator, \
-    SingleScoreYearCalculator, ScoringShareYearCalculator, ScoringStandardDeviationYearCalculator
+from leeger.calculator.year_calculator import (
+    GameOutcomeYearCalculator,
+    PointsScoredYearCalculator,
+    SingleScoreYearCalculator,
+    ScoringShareYearCalculator,
+    ScoringStandardDeviationYearCalculator,
+)
 from leeger.league_loader import ESPNLeagueLoader
 from leeger.model.league import League, Year
 from leeger.model.stat.YearStatSheet import YearStatSheet
 from leeger.util.stat_sheet import yearStatSheet
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Get a League object.
     # There are many ways to get a League object, here we will just grab one using the ESPN League Loader.
 
@@ -24,7 +29,9 @@ if __name__ == '__main__':
     wins = GameOutcomeYearCalculator.getWins(year2019)
 
     # Get opponent points scored per game.
-    opponentPointsScoredPerGame = PointsScoredYearCalculator.getOpponentPointsScoredPerGame(year2019)
+    opponentPointsScoredPerGame = PointsScoredYearCalculator.getOpponentPointsScoredPerGame(
+        year2019
+    )
 
     # To limit results to only regular season, specify that as a keyword argument.
     maxScore = SingleScoreYearCalculator.getMaxScore(year2019, onlyRegularSeason=True)
@@ -39,12 +46,14 @@ if __name__ == '__main__':
     # Let's assume this year has weeks 1-15.
 
     # Will get weeks 5-15.
-    scoringStandardDeviation = ScoringStandardDeviationYearCalculator.getScoringStandardDeviation(year2019,
-                                                                                                  weekNumberStart=5)
+    scoringStandardDeviation = ScoringStandardDeviationYearCalculator.getScoringStandardDeviation(
+        year2019, weekNumberStart=5
+    )
     # Will get weeks 1-10.
-    scoringStandardDeviation = ScoringStandardDeviationYearCalculator.getScoringStandardDeviation(year2019,
-                                                                                                  weekNumberEnd=10)
+    scoringStandardDeviation = ScoringStandardDeviationYearCalculator.getScoringStandardDeviation(
+        year2019, weekNumberEnd=10
+    )
     # Will get weeks 5-10.
-    scoringStandardDeviation = ScoringStandardDeviationYearCalculator.getScoringStandardDeviation(year2019,
-                                                                                                  weekNumberStart=5,
-                                                                                                  weekNumberEnd=10)
+    scoringStandardDeviation = ScoringStandardDeviationYearCalculator.getScoringStandardDeviation(
+        year2019, weekNumberStart=5, weekNumberEnd=10
+    )

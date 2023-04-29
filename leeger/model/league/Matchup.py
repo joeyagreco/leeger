@@ -23,12 +23,16 @@ class Matchup(UniqueId, JSONSerializable, JSONDeserializable):
     matchupType: MatchupType = MatchupType.REGULAR_SEASON
     teamAHasTiebreaker: Optional[bool] = False
     teamBHasTiebreaker: Optional[bool] = False
-    multiWeekMatchupId: Optional[str] = None  # This is used to link matchups that span over multiple weeks
+    multiWeekMatchupId: Optional[
+        str
+    ] = None  # This is used to link matchups that span over multiple weeks
 
     def __post_init__(self):
         # Team A and Team B cannot both have the tiebreaker
         if self.teamAHasTiebreaker is True and self.teamBHasTiebreaker is True:
-            raise InvalidMatchupFormatException("Team A and Team B cannot both have the tiebreaker.")
+            raise InvalidMatchupFormatException(
+                "Team A and Team B cannot both have the tiebreaker."
+            )
 
         if self.teamAHasTiebreaker is None:
             self.teamAHasTiebreaker = False
@@ -53,21 +57,27 @@ class Matchup(UniqueId, JSONSerializable, JSONDeserializable):
             if self.teamBId != otherMatchup.teamBId:
                 notEqualStrings.append("teamBId")
             if len(notEqualStrings) > 0:
-                self.__LOGGER.warning(f"Returning True for equality check when {notEqualStrings} are not equal.")
+                self.__LOGGER.warning(
+                    f"Returning True for equality check when {notEqualStrings} are not equal."
+                )
         return equal
 
     def splitToPerformances(self) -> tuple[Performance, Performance]:
         """
         Splits this Matchup into 2 Performances.
         """
-        performanceA = Performance(teamId=self.teamAId,
-                                   teamScore=self.teamAScore,
-                                   matchupType=self.matchupType,
-                                   multiWeekMatchupId=self.multiWeekMatchupId)
-        performanceB = Performance(teamId=self.teamBId,
-                                   teamScore=self.teamBScore,
-                                   matchupType=self.matchupType,
-                                   multiWeekMatchupId=self.multiWeekMatchupId)
+        performanceA = Performance(
+            teamId=self.teamAId,
+            teamScore=self.teamAScore,
+            matchupType=self.matchupType,
+            multiWeekMatchupId=self.multiWeekMatchupId,
+        )
+        performanceB = Performance(
+            teamId=self.teamBId,
+            teamScore=self.teamBScore,
+            matchupType=self.matchupType,
+            multiWeekMatchupId=self.multiWeekMatchupId,
+        )
         return performanceA, performanceB
 
     def getPerformanceForTeamId(self, teamId: str) -> Performance:
@@ -87,18 +97,20 @@ class Matchup(UniqueId, JSONSerializable, JSONDeserializable):
             "matchupType": self.matchupType.name,
             "teamAHasTiebreaker": self.teamAHasTiebreaker,
             "teamBHasTiebreaker": self.teamBHasTiebreaker,
-            "multiWeekMatchupId": self.multiWeekMatchupId
+            "multiWeekMatchupId": self.multiWeekMatchupId,
         }
 
     @staticmethod
     def fromJson(d: dict) -> Matchup:
-        matchup = Matchup(teamAId=d["teamAId"],
-                          teamBId=d["teamBId"],
-                          teamAScore=d["teamAScore"],
-                          teamBScore=d["teamBScore"],
-                          matchupType=MatchupType.fromStr(d["matchupType"]),
-                          teamAHasTiebreaker=d.get("teamAHasTiebreaker"),
-                          teamBHasTiebreaker=d.get("teamBHasTiebreaker"),
-                          multiWeekMatchupId=d.get("multiWeekMatchupId"))
+        matchup = Matchup(
+            teamAId=d["teamAId"],
+            teamBId=d["teamBId"],
+            teamAScore=d["teamAScore"],
+            teamBScore=d["teamBScore"],
+            matchupType=MatchupType.fromStr(d["matchupType"]),
+            teamAHasTiebreaker=d.get("teamAHasTiebreaker"),
+            teamBHasTiebreaker=d.get("teamBHasTiebreaker"),
+            multiWeekMatchupId=d.get("multiWeekMatchupId"),
+        )
         matchup.id = d["id"]
         return matchup

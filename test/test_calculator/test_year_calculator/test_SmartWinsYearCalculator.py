@@ -10,12 +10,16 @@ from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestSmartWinsYearCalculator(unittest.TestCase):
-
     def test_getSmartWins_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.IGNORE)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.IGNORE,
+        )
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
 
@@ -27,12 +31,27 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -52,13 +71,25 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
     def test_getSmartWins_multiWeekMatchups(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, multiWeekMatchupId="1")
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            multiWeekMatchupId="1",
+        )
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, multiWeekMatchupId="1")
+        matchup4 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            multiWeekMatchupId="1",
+        )
         matchup5 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
         matchup6 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
 
@@ -99,8 +130,13 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
     def test_getSmartWins_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.IGNORE)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.IGNORE,
+        )
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
 
@@ -112,12 +148,27 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -137,8 +188,13 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
     def test_getSmartWins_onlyRegularSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.IGNORE)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.IGNORE,
+        )
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
 
@@ -150,12 +206,27 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -175,8 +246,13 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
     def test_getSmartWins_onlyChampionshipIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.IGNORE)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.IGNORE,
+        )
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
 
@@ -188,12 +264,27 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -213,8 +304,13 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
     def test_getSmartWins_weekNumberStartGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.IGNORE)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.IGNORE,
+        )
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
 
@@ -226,12 +322,27 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -251,8 +362,13 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
     def test_getSmartWins_weekNumberEndGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.IGNORE)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.IGNORE,
+        )
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
 
@@ -264,12 +380,27 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -289,8 +420,13 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
     def test_getSmartWins_weekNumberStartGivenWeekNumberEndGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.IGNORE)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.IGNORE,
+        )
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
 
@@ -308,12 +444,27 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week4 = Week(weekNumber=4, matchups=[matchup1, matchup2, matchup3])
 
@@ -333,8 +484,13 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
     def test_getSmartWinsPerGame_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.IGNORE)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.IGNORE,
+        )
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
 
@@ -346,12 +502,27 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -371,13 +542,25 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
     def test_getSmartWinsPerGame_multiWeekMatchups(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, multiWeekMatchupId="1")
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            multiWeekMatchupId="1",
+        )
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, multiWeekMatchupId="1")
+        matchup4 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            multiWeekMatchupId="1",
+        )
         matchup5 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
         matchup6 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
 
@@ -418,8 +601,13 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
     def test_getSmartWinsPerGame_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.IGNORE)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.IGNORE,
+        )
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
 
@@ -431,12 +619,27 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -456,8 +659,13 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
     def test_getSmartWinsPerGame_onlyRegularSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.IGNORE)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.IGNORE,
+        )
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
 
@@ -469,12 +677,27 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -494,8 +717,13 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
     def test_getSmartWinsPerGame_onlyChampionshipIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.IGNORE)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.IGNORE,
+        )
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
 
@@ -507,12 +735,27 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -532,8 +775,13 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
     def test_getSmartWinsPerGame_weekNumberStartGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.IGNORE)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.IGNORE,
+        )
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
 
@@ -545,12 +793,27 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -570,8 +833,13 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
     def test_getSmartWinsPerGame_weekNumberEndGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.IGNORE)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.IGNORE,
+        )
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
 
@@ -583,12 +851,27 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -608,8 +891,13 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
     def test_getSmartWinsPerGame_weekNumberStartGivenWeekNumberEndGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.IGNORE)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.IGNORE,
+        )
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
 
@@ -627,18 +915,35 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week4 = Week(weekNumber=4, matchups=[matchup1, matchup2, matchup3])
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
 
-        response = SmartWinsYearCalculator.getSmartWinsPerGame(year, weekNumberStart=2, weekNumberEnd=3)
+        response = SmartWinsYearCalculator.getSmartWinsPerGame(
+            year, weekNumberStart=2, weekNumberEnd=3
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -652,8 +957,13 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
     def test_getOpponentSmartWins_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.IGNORE)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.IGNORE,
+        )
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
 
@@ -665,12 +975,27 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -690,13 +1015,25 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
     def test_getOpponentSmartWins_multiWeekMatchups(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, multiWeekMatchupId="1")
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            multiWeekMatchupId="1",
+        )
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, multiWeekMatchupId="1")
+        matchup4 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            multiWeekMatchupId="1",
+        )
         matchup5 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
         matchup6 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
 
@@ -737,8 +1074,13 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
     def test_getOpponentSmartWins_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.IGNORE)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.IGNORE,
+        )
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
 
@@ -750,12 +1092,27 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -775,8 +1132,13 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
     def test_getOpponentSmartWins_onlyRegularSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.IGNORE)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.IGNORE,
+        )
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
 
@@ -788,12 +1150,27 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -813,8 +1190,13 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
     def test_getOpponentSmartWins_onlyChampionshipIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.IGNORE)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.IGNORE,
+        )
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
 
@@ -826,12 +1208,27 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -851,8 +1248,13 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
     def test_getOpponentSmartWins_weekNumberStartGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.IGNORE)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.IGNORE,
+        )
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
 
@@ -864,12 +1266,27 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -889,8 +1306,13 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
     def test_getOpponentSmartWins_weekNumberEndGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.IGNORE)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.IGNORE,
+        )
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
 
@@ -902,12 +1324,27 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -927,8 +1364,13 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
     def test_getOpponentSmartWins_weekNumberStartGivenWeekNumberEndGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.IGNORE)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.IGNORE,
+        )
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
 
@@ -946,18 +1388,35 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week4 = Week(weekNumber=4, matchups=[matchup1, matchup2, matchup3])
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
 
-        response = SmartWinsYearCalculator.getOpponentSmartWins(year, weekNumberStart=2, weekNumberEnd=3)
+        response = SmartWinsYearCalculator.getOpponentSmartWins(
+            year, weekNumberStart=2, weekNumberEnd=3
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -971,8 +1430,13 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
     def test_getOpponentSmartWinsPerGame_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.IGNORE)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.IGNORE,
+        )
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
 
@@ -984,12 +1448,27 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -1009,13 +1488,25 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
     def test_getOpponentSmartWinsPerGame_multiWeekMatchups(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, multiWeekMatchupId="1")
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            multiWeekMatchupId="1",
+        )
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2, multiWeekMatchupId="1")
+        matchup4 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            multiWeekMatchupId="1",
+        )
         matchup5 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
         matchup6 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
 
@@ -1056,8 +1547,13 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
     def test_getOpponentSmartWinsPerGame_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.IGNORE)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.IGNORE,
+        )
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
 
@@ -1069,12 +1565,27 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -1094,8 +1605,13 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
     def test_getOpponentSmartWinsPerGame_onlyRegularSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.IGNORE)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.IGNORE,
+        )
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
 
@@ -1107,12 +1623,27 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -1132,8 +1663,13 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
     def test_getOpponentSmartWinsPerGame_onlyChampionshipIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.IGNORE)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.IGNORE,
+        )
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
 
@@ -1145,12 +1681,27 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -1170,8 +1721,13 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
     def test_getOpponentSmartWinsPerGame_weekNumberStartGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.IGNORE)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.IGNORE,
+        )
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
 
@@ -1183,12 +1739,27 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -1208,8 +1779,13 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
     def test_getOpponentSmartWinsPerGame_weekNumberEndGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.IGNORE)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.IGNORE,
+        )
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
 
@@ -1221,12 +1797,27 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -1246,8 +1837,13 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
     def test_getOpponentSmartWinsPerGame_weekNumberStartGivenWeekNumberEndGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.IGNORE)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.IGNORE,
+        )
         matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
         matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
 
@@ -1265,18 +1861,35 @@ class TestSmartWinsYearCalculator(unittest.TestCase):
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4,
-                           matchupType=MatchupType.PLAYOFF)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5,
-                           matchupType=MatchupType.CHAMPIONSHIP)
+        matchup1 = Matchup(
+            teamAId=teams[0].id,
+            teamBId=teams[1].id,
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id,
+            teamBId=teams[3].id,
+            teamAScore=3,
+            teamBScore=4,
+            matchupType=MatchupType.PLAYOFF,
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id,
+            teamBId=teams[5].id,
+            teamAScore=4,
+            teamBScore=5,
+            matchupType=MatchupType.CHAMPIONSHIP,
+        )
 
         week4 = Week(weekNumber=4, matchups=[matchup1, matchup2, matchup3])
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
 
-        response = SmartWinsYearCalculator.getOpponentSmartWinsPerGame(year, weekNumberStart=2, weekNumberEnd=3)
+        response = SmartWinsYearCalculator.getOpponentSmartWinsPerGame(
+            year, weekNumberStart=2, weekNumberEnd=3
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))

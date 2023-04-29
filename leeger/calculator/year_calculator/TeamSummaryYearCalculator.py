@@ -43,4 +43,6 @@ class TeamSummaryYearCalculator(YearCalculator):
         """
         filters = YearFilters.getForYear(year, **kwargs)
 
-        return YearNavigator.getNumberOfGamesPlayed(year, filters, countLeagueMedianGamesAsTwoGames=True)
+        return YearNavigator.getNumberOfGamesPlayed(
+            year, filters, countLeagueMedianGamesAsTwoGames=True
+        )
