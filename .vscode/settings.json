@@ -9,10 +9,6 @@
         "--line-length=79",
         "--no-comma"
     ],
-    "python.testing.pytestArgs": [
-        "test"
-    ],
-    "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true,
     "[python]": {
         "editor.defaultFormatter": "ms-python.python"
