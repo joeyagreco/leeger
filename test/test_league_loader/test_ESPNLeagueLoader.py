@@ -199,6 +199,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
                             ],
                         ),
                     ],
+                    yearSettings=None,
                 )
             ],
         )
