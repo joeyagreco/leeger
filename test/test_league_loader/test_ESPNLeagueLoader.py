@@ -37,10 +37,10 @@ class TestESPNLeagueLoader(unittest.TestCase):
         self.assertEqual("No years given to load league with ID '0'.", str(context.exception))
 
     @patch("espn_api.football.League")
-    def test_load_league(self, mock_league):
+    def test_load_league_happyPath(self, mock_league):
         mock_espn_league = Mock()
         mock_espn_league.year = 2022
-        mock_espn_league.current_week = 1
+        mock_espn_league.current_week = 2
         mock_espn_league.settings.name = "Test League"
         mock_espn_league.settings.reg_season_count = 12
         mock_espn_league.teams = [
@@ -48,65 +48,65 @@ class TestESPNLeagueLoader(unittest.TestCase):
                 team_id=1,
                 owner="Owner 1",
                 team_name="Team 1",
-                outcomes=["W"],
-                scores=[100],
-                schedule=[Mock(team_id=2)],
+                outcomes=["W", "W"],
+                scores=[100, 110],
+                schedule=[Mock(team_id=2), Mock(team_id=3)],
             ),
             Mock(
                 team_id=2,
                 owner="Owner 2",
                 team_name="Team 2",
-                outcomes=["L"],
-                scores=[80],
-                schedule=[Mock(team_id=1)],
+                outcomes=["L", "L"],
+                scores=[80, 70],
+                schedule=[Mock(team_id=1), Mock(team_id=4)],
             ),
             Mock(
                 team_id=3,
                 owner="Owner 3",
                 team_name="Team 3",
-                outcomes=["W"],
-                scores=[90],
-                schedule=[Mock(team_id=4)],
+                outcomes=["W", "L"],
+                scores=[90, 100],
+                schedule=[Mock(team_id=4), Mock(team_id=1)],
             ),
             Mock(
                 team_id=4,
                 owner="Owner 4",
                 team_name="Team 4",
-                outcomes=["L"],
-                scores=[70],
-                schedule=[Mock(team_id=3)],
+                outcomes=["L", "W"],
+                scores=[70, 80],
+                schedule=[Mock(team_id=3), Mock(team_id=2)],
             ),
             Mock(
                 team_id=5,
                 owner="Owner 5",
                 team_name="Team 5",
-                outcomes=["W"],
-                scores=[110],
-                schedule=[Mock(team_id=6)],
+                outcomes=["W", "L"],
+                scores=[110, 80],
+                schedule=[Mock(team_id=6), Mock(team_id=7)],
             ),
             Mock(
                 team_id=6,
                 owner="Owner 6",
                 team_name="Team 6",
-                outcomes=["L"],
-                scores=[60],
-                schedule=[Mock(team_id=5)],
+                outcomes=["L", "W"],
+                scores=[60, 90],
+                schedule=[Mock(team_id=5), Mock(team_id=8)],
             ),
             Mock(
                 team_id=7,
                 owner="Owner 7",
                 team_name="Team 7",
-                outcomes=["W"],
-                scores=[120],
-                schedule=[Mock(team_id=8)],
+                outcomes=["W", "W"],
+                scores=[120, 130],
+                schedule=[Mock(team_id=8), Mock(team_id=5)],
             ),
             Mock(
                 team_id=8,
                 owner="Owner 8",
                 team_name="Team 8",
-                outcomes=["L"],
-                scores=[50],
-                schedule=[Mock(team_id=7)],
+                outcomes=["L", "L"],
+                scores=[50, 40],
+                schedule=[Mock(team_id=7), Mock(team_id=6)],
             ),
         ]
         mock_league.return_value = mock_espn_league
@@ -115,16 +115,14 @@ class TestESPNLeagueLoader(unittest.TestCase):
         league = loader.loadLeague()
 
         # expected league
-        teams = [
-            Team(ownerId=1, name="Team 1"),
-            Team(ownerId=2, name="Team 2"),
-            Team(ownerId=3, name="Team 3"),
-            Team(ownerId=4, name="Team 4"),
-            Team(ownerId=5, name="Team 5"),
-            Team(ownerId=6, name="Team 6"),
-            Team(ownerId=7, name="Team 7"),
-            Team(ownerId=8, name="Team 8"),
-        ]
+        team1 = Team(ownerId=1, name="Team 1")
+        team2 = Team(ownerId=2, name="Team 2")
+        team3 = Team(ownerId=3, name="Team 3")
+        team4 = Team(ownerId=4, name="Team 4")
+        team5 = Team(ownerId=5, name="Team 5")
+        team6 = Team(ownerId=6, name="Team 6")
+        team7 = Team(ownerId=7, name="Team 7")
+        team8 = Team(ownerId=8, name="Team 8")
         expected_league = League(
             name="Test League",
             owners=[
@@ -140,41 +138,74 @@ class TestESPNLeagueLoader(unittest.TestCase):
             years=[
                 Year(
                     yearNumber=2022,
-                    teams=teams,
+                    teams=[team1, team2, team3, team4, team5, team6, team7, team8],
                     weeks=[
                         Week(
                             weekNumber=1,
                             matchups=[
                                 Matchup(
-                                    teamAId=teams[0].id,
-                                    teamBId=teams[1].id,
+                                    teamAId=team1.id,
+                                    teamBId=team2.id,
                                     teamAScore=100,
                                     teamBScore=80,
                                     matchupType=MatchupType.REGULAR_SEASON,
                                 ),
                                 Matchup(
-                                    teamAId=teams[2].id,
-                                    teamBId=teams[3].id,
+                                    teamAId=team3.id,
+                                    teamBId=team4.id,
                                     teamAScore=90,
                                     teamBScore=70,
                                     matchupType=MatchupType.REGULAR_SEASON,
                                 ),
                                 Matchup(
-                                    teamAId=teams[4].id,
-                                    teamBId=teams[5].id,
+                                    teamAId=team5.id,
+                                    teamBId=team6.id,
                                     teamAScore=110,
                                     teamBScore=60,
                                     matchupType=MatchupType.REGULAR_SEASON,
                                 ),
                                 Matchup(
-                                    teamAId=teams[6].id,
-                                    teamBId=teams[7].id,
+                                    teamAId=team7.id,
+                                    teamBId=team8.id,
                                     teamAScore=120,
                                     teamBScore=50,
                                     matchupType=MatchupType.REGULAR_SEASON,
                                 ),
                             ],
-                        )
+                        ),
+                        Week(
+                            weekNumber=2,
+                            matchups=[
+                                Matchup(
+                                    teamAId=team1.id,
+                                    teamBId=team3.id,
+                                    teamAScore=110,
+                                    teamBScore=100,
+                                    matchupType=MatchupType.REGULAR_SEASON,
+                                ),
+                                Matchup(
+                                    teamAId=team2.id,
+                                    teamBId=team4.id,
+                                    teamAScore=70,
+                                    teamBScore=80,
+                                    matchupType=MatchupType.REGULAR_SEASON,
+                                ),
+                                Matchup(
+                                    teamAId=team5.id,
+                                    teamBId=team7.id,
+                                    teamAScore=80,
+                                    teamBScore=130,
+                                    matchupType=MatchupType.REGULAR_SEASON,
+                                ),
+                                Matchup(
+                                    teamAId=team6.id,
+                                    teamBId=team8.id,
+                                    teamAScore=90,
+                                    teamBScore=40,
+                                    matchupType=MatchupType.REGULAR_SEASON,
+                                ),
+                            ],
+                        ),
                     ],
                 )
             ],

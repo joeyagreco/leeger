@@ -102,9 +102,8 @@ class ESPNLeagueLoader(LeagueLoader):
 
     def __buildWeeks(self, espnLeague: ESPNLeague) -> list[Week]:
         weeks = list()
-        for i in range(
-            espnLeague.current_week
-        ):  # current week seems to be the last week in the league
+        # current week seems to be the last week in the league
+        for i in range(espnLeague.current_week):
             # get each teams matchup for that week
             matchups = list()
             # to avoid adding matchups twice, we keep track of the ESPN team IDs that have already had a matchup added
