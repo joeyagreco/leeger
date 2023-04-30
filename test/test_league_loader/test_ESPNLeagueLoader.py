@@ -43,71 +43,47 @@ class TestESPNLeagueLoader(unittest.TestCase):
         mock_espn_league.current_week = 2
         mock_espn_league.settings.name = "Test League"
         mock_espn_league.settings.reg_season_count = 12
+        mockTeam1 = Mock(
+            team_id=1, owner="Owner 1", team_name="Team 1", outcomes=["W", "W"], scores=[100, 110]
+        )
+        mockTeam2 = Mock(
+            team_id=2, owner="Owner 2", team_name="Team 2", outcomes=["L", "L"], scores=[100, 70]
+        )
+        mockTeam3 = Mock(
+            team_id=3, owner="Owner 3", team_name="Team 3", outcomes=["W", "L"], scores=[90.5, 100]
+        )
+        mockTeam4 = Mock(
+            team_id=4, owner="Owner 4", team_name="Team 4", outcomes=["L", "W"], scores=[70.5, 80]
+        )
+        mockTeam5 = Mock(
+            team_id=5, owner="Owner 5", team_name="Team 5", outcomes=["W", "L"], scores=[110, 80]
+        )
+        mockTeam6 = Mock(
+            team_id=6, owner="Owner 6", team_name="Team 6", outcomes=["L", "W"], scores=[60, 90]
+        )
+        mockTeam7 = Mock(
+            team_id=7, owner="Owner 7", team_name="Team 7", outcomes=["W", "W"], scores=[120, 130]
+        )
+        mockTeam8 = Mock(
+            team_id=8, owner="Owner 8", team_name="Team 8", outcomes=["L", "L"], scores=[50, 40]
+        )
+        mockTeam1.schedule = [mockTeam2, mockTeam3]
+        mockTeam2.schedule = [mockTeam1, mockTeam4]
+        mockTeam3.schedule = [mockTeam4, mockTeam1]
+        mockTeam4.schedule = [mockTeam3, mockTeam2]
+        mockTeam5.schedule = [mockTeam6, mockTeam7]
+        mockTeam6.schedule = [mockTeam5, mockTeam8]
+        mockTeam7.schedule = [mockTeam8, mockTeam5]
+        mockTeam8.schedule = [mockTeam7, mockTeam6]
         mock_espn_league.teams = [
-            Mock(
-                team_id=1,
-                owner="Owner 1",
-                team_name="Team 1",
-                outcomes=["W", "W"],
-                scores=[100, 110],
-                schedule=[Mock(team_id=2), Mock(team_id=3)],
-            ),
-            Mock(
-                team_id=2,
-                owner="Owner 2",
-                team_name="Team 2",
-                outcomes=["L", "L"],
-                scores=[80, 70],
-                schedule=[Mock(team_id=1), Mock(team_id=4)],
-            ),
-            Mock(
-                team_id=3,
-                owner="Owner 3",
-                team_name="Team 3",
-                outcomes=["W", "L"],
-                scores=[90, 100],
-                schedule=[Mock(team_id=4), Mock(team_id=1)],
-            ),
-            Mock(
-                team_id=4,
-                owner="Owner 4",
-                team_name="Team 4",
-                outcomes=["L", "W"],
-                scores=[70, 80],
-                schedule=[Mock(team_id=3), Mock(team_id=2)],
-            ),
-            Mock(
-                team_id=5,
-                owner="Owner 5",
-                team_name="Team 5",
-                outcomes=["W", "L"],
-                scores=[110, 80],
-                schedule=[Mock(team_id=6), Mock(team_id=7)],
-            ),
-            Mock(
-                team_id=6,
-                owner="Owner 6",
-                team_name="Team 6",
-                outcomes=["L", "W"],
-                scores=[60, 90],
-                schedule=[Mock(team_id=5), Mock(team_id=8)],
-            ),
-            Mock(
-                team_id=7,
-                owner="Owner 7",
-                team_name="Team 7",
-                outcomes=["W", "W"],
-                scores=[120, 130],
-                schedule=[Mock(team_id=8), Mock(team_id=5)],
-            ),
-            Mock(
-                team_id=8,
-                owner="Owner 8",
-                team_name="Team 8",
-                outcomes=["L", "L"],
-                scores=[50, 40],
-                schedule=[Mock(team_id=7), Mock(team_id=6)],
-            ),
+            mockTeam1,
+            mockTeam2,
+            mockTeam3,
+            mockTeam4,
+            mockTeam5,
+            mockTeam6,
+            mockTeam7,
+            mockTeam8,
         ]
         mock_league.return_value = mock_espn_league
 
@@ -147,15 +123,19 @@ class TestESPNLeagueLoader(unittest.TestCase):
                                     teamAId=team1.id,
                                     teamBId=team2.id,
                                     teamAScore=100,
-                                    teamBScore=80,
+                                    teamBScore=100,
                                     matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=True,
+                                    teamBHasTiebreaker=False,
                                 ),
                                 Matchup(
                                     teamAId=team3.id,
                                     teamBId=team4.id,
-                                    teamAScore=90,
-                                    teamBScore=70,
+                                    teamAScore=90.5,
+                                    teamBScore=70.5,
                                     matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
                                 ),
                                 Matchup(
                                     teamAId=team5.id,
@@ -163,6 +143,8 @@ class TestESPNLeagueLoader(unittest.TestCase):
                                     teamAScore=110,
                                     teamBScore=60,
                                     matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
                                 ),
                                 Matchup(
                                     teamAId=team7.id,
@@ -170,6 +152,8 @@ class TestESPNLeagueLoader(unittest.TestCase):
                                     teamAScore=120,
                                     teamBScore=50,
                                     matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
                                 ),
                             ],
                         ),
@@ -182,6 +166,8 @@ class TestESPNLeagueLoader(unittest.TestCase):
                                     teamAScore=110,
                                     teamBScore=100,
                                     matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
                                 ),
                                 Matchup(
                                     teamAId=team2.id,
@@ -189,6 +175,8 @@ class TestESPNLeagueLoader(unittest.TestCase):
                                     teamAScore=70,
                                     teamBScore=80,
                                     matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
                                 ),
                                 Matchup(
                                     teamAId=team5.id,
@@ -196,6 +184,8 @@ class TestESPNLeagueLoader(unittest.TestCase):
                                     teamAScore=80,
                                     teamBScore=130,
                                     matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
                                 ),
                                 Matchup(
                                     teamAId=team6.id,
@@ -203,6 +193,8 @@ class TestESPNLeagueLoader(unittest.TestCase):
                                     teamAScore=90,
                                     teamBScore=40,
                                     matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
                                 ),
                             ],
                         ),
