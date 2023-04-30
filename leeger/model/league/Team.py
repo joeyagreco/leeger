@@ -24,10 +24,8 @@ class Team(UniqueId, JSONSerializable, JSONDeserializable):
         if equal:
             notEqualStrings = list()
             if self.ownerId != otherTeam.ownerId:
-                notEqualStrings.append("teamAId")
-            if len(notEqualStrings) > 0:
                 self.__LOGGER.warning(
-                    f"Returning True for equality check when {notEqualStrings} are not equal."
+                    f"Returning True for equality check when ownerIds are not equal."
                 )
         return equal
 

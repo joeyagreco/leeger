@@ -11,6 +11,7 @@ from leeger.model.league.Owner import Owner
 from leeger.model.league.Team import Team
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
+from leeger.util.CustomLogger import CustomLogger
 
 
 class TestESPNLeagueLoader(unittest.TestCase):
@@ -56,40 +57,40 @@ class TestESPNLeagueLoader(unittest.TestCase):
             team_id=2,
             owner="Owner 2",
             team_name="Team 2",
-            outcomes=["L", "L", "U", "U"],
-            scores=[100, 70, 0, 0],
+            outcomes=["L", "L", "L", "L"],
+            scores=[100, 70, 1, 1],
             standing=7,
         )
         mockTeam3 = Mock(
             team_id=3,
             owner="Owner 3",
             team_name="Team 3",
-            outcomes=["W", "L", "L", "U"],
-            scores=[90.5, 100, 80, 0],
+            outcomes=["W", "L", "L", "W"],
+            scores=[90.5, 100, 80, 2],
             standing=3,
         )
         mockTeam4 = Mock(
             team_id=4,
             owner="Owner 4",
             team_name="Team 4",
-            outcomes=["L", "W", "U", "U"],
-            scores=[70.5, 80, 0, 0],
+            outcomes=["L", "W", "U", "L"],
+            scores=[70.5, 80, 0, 1],
             standing=5,
         )
         mockTeam5 = Mock(
             team_id=5,
             owner="Owner 5",
             team_name="Team 5",
-            outcomes=["W", "L", "U", "U"],
-            scores=[110, 80, 0, 0],
+            outcomes=["W", "L", "W", "W"],
+            scores=[110, 80, 2, 2],
             standing=4,
         )
         mockTeam6 = Mock(
             team_id=6,
             owner="Owner 6",
             team_name="Team 6",
-            outcomes=["L", "W", "U", "U"],
-            scores=[60, 90, 0, 0],
+            outcomes=["L", "W", "W", "W"],
+            scores=[60, 90, 2, 2],
             standing=6,
         )
         mockTeam7 = Mock(
@@ -104,8 +105,8 @@ class TestESPNLeagueLoader(unittest.TestCase):
             team_id=8,
             owner="Owner 8",
             team_name="Team 8",
-            outcomes=["L", "L", "U", "U"],
-            scores=[50, 40, 0, 0],
+            outcomes=["L", "L", "L", "L"],
+            scores=[50, 40, 1, 1],
             standing=8,
         )
         # playoff seeds:
@@ -247,6 +248,15 @@ class TestESPNLeagueLoader(unittest.TestCase):
                             weekNumber=3,
                             matchups=[
                                 Matchup(
+                                    teamAId=team2.id,
+                                    teamBId=team5.id,
+                                    teamAScore=1,
+                                    teamBScore=2,
+                                    matchupType=MatchupType.IGNORE,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
+                                ),
+                                Matchup(
                                     teamAId=team3.id,
                                     teamBId=team7.id,
                                     teamAScore=80,
@@ -254,7 +264,16 @@ class TestESPNLeagueLoader(unittest.TestCase):
                                     matchupType=MatchupType.PLAYOFF,
                                     teamAHasTiebreaker=False,
                                     teamBHasTiebreaker=False,
-                                )
+                                ),
+                                Matchup(
+                                    teamAId=team6.id,
+                                    teamBId=team8.id,
+                                    teamAScore=2,
+                                    teamBScore=1,
+                                    matchupType=MatchupType.IGNORE,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
+                                ),
                             ],
                         ),
                         Week(
@@ -268,7 +287,34 @@ class TestESPNLeagueLoader(unittest.TestCase):
                                     matchupType=MatchupType.CHAMPIONSHIP,
                                     teamAHasTiebreaker=False,
                                     teamBHasTiebreaker=False,
-                                )
+                                ),
+                                Matchup(
+                                    teamAId=team2.id,
+                                    teamBId=team3.id,
+                                    teamAScore=1,
+                                    teamBScore=2,
+                                    matchupType=MatchupType.IGNORE,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
+                                ),
+                                Matchup(
+                                    teamAId=team4.id,
+                                    teamBId=team5.id,
+                                    teamAScore=1,
+                                    teamBScore=2,
+                                    matchupType=MatchupType.IGNORE,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
+                                ),
+                                Matchup(
+                                    teamAId=team6.id,
+                                    teamBId=team8.id,
+                                    teamAScore=2,
+                                    teamBScore=1,
+                                    matchupType=MatchupType.IGNORE,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
+                                ),
                             ],
                         ),
                     ],
