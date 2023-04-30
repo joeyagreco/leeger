@@ -40,41 +40,86 @@ class TestESPNLeagueLoader(unittest.TestCase):
     def test_load_league_happyPath(self, mock_league):
         mock_espn_league = Mock()
         mock_espn_league.year = 2022
-        mock_espn_league.current_week = 2
+        mock_espn_league.current_week = 4
         mock_espn_league.settings.name = "Test League"
-        mock_espn_league.settings.reg_season_count = 12
+        mock_espn_league.settings.reg_season_count = 2
+        mock_espn_league.settings.playoff_team_count = 3
         mockTeam1 = Mock(
-            team_id=1, owner="Owner 1", team_name="Team 1", outcomes=["W", "W"], scores=[100, 110]
+            team_id=1,
+            owner="Owner 1",
+            team_name="Team 1",
+            outcomes=["W", "W", "U", "W"],
+            scores=[100, 110, 0, 100],
+            standing=1,
         )
         mockTeam2 = Mock(
-            team_id=2, owner="Owner 2", team_name="Team 2", outcomes=["L", "L"], scores=[100, 70]
+            team_id=2,
+            owner="Owner 2",
+            team_name="Team 2",
+            outcomes=["L", "L", "U", "U"],
+            scores=[100, 70, 0, 0],
+            standing=7,
         )
         mockTeam3 = Mock(
-            team_id=3, owner="Owner 3", team_name="Team 3", outcomes=["W", "L"], scores=[90.5, 100]
+            team_id=3,
+            owner="Owner 3",
+            team_name="Team 3",
+            outcomes=["W", "L", "L", "U"],
+            scores=[90.5, 100, 80, 0],
+            standing=3,
         )
         mockTeam4 = Mock(
-            team_id=4, owner="Owner 4", team_name="Team 4", outcomes=["L", "W"], scores=[70.5, 80]
+            team_id=4,
+            owner="Owner 4",
+            team_name="Team 4",
+            outcomes=["L", "W", "U", "U"],
+            scores=[70.5, 80, 0, 0],
+            standing=5,
         )
         mockTeam5 = Mock(
-            team_id=5, owner="Owner 5", team_name="Team 5", outcomes=["W", "L"], scores=[110, 80]
+            team_id=5,
+            owner="Owner 5",
+            team_name="Team 5",
+            outcomes=["W", "L", "U", "U"],
+            scores=[110, 80, 0, 0],
+            standing=4,
         )
         mockTeam6 = Mock(
-            team_id=6, owner="Owner 6", team_name="Team 6", outcomes=["L", "W"], scores=[60, 90]
+            team_id=6,
+            owner="Owner 6",
+            team_name="Team 6",
+            outcomes=["L", "W", "U", "U"],
+            scores=[60, 90, 0, 0],
+            standing=6,
         )
         mockTeam7 = Mock(
-            team_id=7, owner="Owner 7", team_name="Team 7", outcomes=["W", "W"], scores=[120, 130]
+            team_id=7,
+            owner="Owner 7",
+            team_name="Team 7",
+            outcomes=["W", "W", "W", "L"],
+            scores=[120, 130, 90, 90],
+            standing=2,
         )
         mockTeam8 = Mock(
-            team_id=8, owner="Owner 8", team_name="Team 8", outcomes=["L", "L"], scores=[50, 40]
+            team_id=8,
+            owner="Owner 8",
+            team_name="Team 8",
+            outcomes=["L", "L", "U", "U"],
+            scores=[50, 40, 0, 0],
+            standing=8,
         )
-        mockTeam1.schedule = [mockTeam2, mockTeam3]
-        mockTeam2.schedule = [mockTeam1, mockTeam4]
-        mockTeam3.schedule = [mockTeam4, mockTeam1]
-        mockTeam4.schedule = [mockTeam3, mockTeam2]
-        mockTeam5.schedule = [mockTeam6, mockTeam7]
-        mockTeam6.schedule = [mockTeam5, mockTeam8]
-        mockTeam7.schedule = [mockTeam8, mockTeam5]
-        mockTeam8.schedule = [mockTeam7, mockTeam6]
+        # playoff seeds:
+        # Team1: 1
+        # Team7: 2
+        # Team3: 3
+        mockTeam1.schedule = [mockTeam2, mockTeam3, mockTeam4, mockTeam7]
+        mockTeam2.schedule = [mockTeam1, mockTeam4, mockTeam5, mockTeam3]
+        mockTeam3.schedule = [mockTeam4, mockTeam1, mockTeam7, mockTeam2]
+        mockTeam4.schedule = [mockTeam3, mockTeam2, mockTeam1, mockTeam5]
+        mockTeam5.schedule = [mockTeam6, mockTeam7, mockTeam2, mockTeam4]
+        mockTeam6.schedule = [mockTeam5, mockTeam8, mockTeam8, mockTeam8]
+        mockTeam7.schedule = [mockTeam8, mockTeam5, mockTeam3, mockTeam1]
+        mockTeam8.schedule = [mockTeam7, mockTeam6, mockTeam6, mockTeam6]
         mock_espn_league.teams = [
             mockTeam1,
             mockTeam2,
@@ -196,6 +241,34 @@ class TestESPNLeagueLoader(unittest.TestCase):
                                     teamAHasTiebreaker=False,
                                     teamBHasTiebreaker=False,
                                 ),
+                            ],
+                        ),
+                        Week(
+                            weekNumber=3,
+                            matchups=[
+                                Matchup(
+                                    teamAId=team3.id,
+                                    teamBId=team7.id,
+                                    teamAScore=80,
+                                    teamBScore=90,
+                                    matchupType=MatchupType.PLAYOFF,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
+                                )
+                            ],
+                        ),
+                        Week(
+                            weekNumber=4,
+                            matchups=[
+                                Matchup(
+                                    teamAId=team1.id,
+                                    teamBId=team7.id,
+                                    teamAScore=100,
+                                    teamBScore=90,
+                                    matchupType=MatchupType.CHAMPIONSHIP,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
+                                )
                             ],
                         ),
                     ],
