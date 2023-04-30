@@ -4,6 +4,10 @@ from leeger.league_loader import SleeperLeagueLoader
 
 
 class TestSleeperLeagueLoader(unittest.TestCase):
+    """
+    # TODO: Add better tests.
+    """
+
     def test_loadLeague_intendedFailure(self):
         with self.assertRaises(ValueError) as context:
             leagueLoader = SleeperLeagueLoader("0", [2000])
@@ -12,5 +16,5 @@ class TestSleeperLeagueLoader(unittest.TestCase):
 
     def test_noYearsGiven(self):
         with self.assertRaises(ValueError) as context:
-            leagueLoader = SleeperLeagueLoader("0", [])
+            SleeperLeagueLoader("0", [])
         self.assertEqual("No years given to load league with ID '0'.", str(context.exception))

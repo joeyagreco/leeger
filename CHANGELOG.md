@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 - README updates
+- Formatting standardization using [Black](https://black.readthedocs.io/en/stable/)
 
 ## [2.2.0]
 

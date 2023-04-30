@@ -3,7 +3,7 @@ import unittest
 from leeger.league_loader import YahooLeagueLoader
 
 
-class TestESPNLeagueLoader(unittest.TestCase):
+class TestYahooLeagueLoader(unittest.TestCase):
     """
     # TODO: Add better tests.
     """
@@ -26,7 +26,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         with self.assertRaises(ValueError) as context:
             badClientId = badClientSecret = "bad"
             badLeagueId = "a"
-            yahooLeagueLoader = YahooLeagueLoader(
+            YahooLeagueLoader(
                 badLeagueId,
                 [2000],
                 clientId=badClientId,
@@ -37,5 +37,5 @@ class TestESPNLeagueLoader(unittest.TestCase):
 
     def test_noYearsGiven(self):
         with self.assertRaises(ValueError) as context:
-            leagueLoader = YahooLeagueLoader("0", [], clientId="", clientSecret="")
+            YahooLeagueLoader("0", [], clientId="", clientSecret="")
         self.assertEqual("No years given to load league with ID '0'.", str(context.exception))

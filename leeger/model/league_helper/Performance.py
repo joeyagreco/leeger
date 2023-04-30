@@ -17,9 +17,8 @@ class Performance(UniqueId, JSONSerializable):
     teamScore: float | int
     hasTiebreaker: bool = False
     matchupType: MatchupType = MatchupType.REGULAR_SEASON
-    multiWeekMatchupId: Optional[
-        str
-    ] = None  # This is used to link matchups that span over multiple weeks
+    # This is used to link matchups that span over multiple weeks
+    multiWeekMatchupId: Optional[str] = None
 
     def __eq__(self, otherPerformance: Performance) -> bool:
         """

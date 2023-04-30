@@ -9,6 +9,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
     """
     Currently, there is not a good way to test this class due to an issue addressed here: https://github.com/cwendt94/espn-api/issues/338
     For now, we can do some very basic tests.
+    # TODO: Add better tests.
     """
 
     def test_loadLeague_intendedFailure(self):
@@ -19,10 +20,10 @@ class TestESPNLeagueLoader(unittest.TestCase):
 
     def test_loadLeague_nonIntPassingStringForLeagueId(self):
         with self.assertRaises(ValueError) as context:
-            leagueLoader = ESPNLeagueLoader("a", [2000])
+            ESPNLeagueLoader("a", [2000])
         self.assertEqual("League ID 'a' could not be turned into an int.", str(context.exception))
 
     def test_noYearsGiven(self):
         with self.assertRaises(ValueError) as context:
-            leagueLoader = ESPNLeagueLoader("0", [])
+            ESPNLeagueLoader("0", [])
         self.assertEqual("No years given to load league with ID '0'.", str(context.exception))
