@@ -145,7 +145,7 @@ Can I disable validation on my League object?
 
 **A:**
 Yes. While it is not recommended that you disable this, as validation ensures the stats are calculated properly,
-disabling validation can be done by passing `validate=False` into any method that takes a League object.
+disabling validation can be done by passing `validate=False` into any method that takes a League object OR any `loadLeague()` method from a League Loader.
 
 ## Installation
 
