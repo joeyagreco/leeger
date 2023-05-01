@@ -14,12 +14,6 @@ from leeger.model.league.Year import Year
 
 
 class TestESPNLeagueLoader(unittest.TestCase):
-    """
-    Currently, there is not a good way to test this class due to an issue addressed here: https://github.com/cwendt94/espn-api/issues/338
-    For now, we can do some very basic tests.
-    # TODO: Add better tests.
-    """
-
     def test_loadLeague_intendedFailure(self):
         with self.assertRaises(ESPNInvalidLeague) as context:
             leagueLoader = ESPNLeagueLoader("0", [2000])
