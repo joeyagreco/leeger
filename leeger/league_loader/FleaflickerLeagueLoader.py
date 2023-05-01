@@ -53,11 +53,12 @@ class FleaflickerLeagueLoader(LeagueLoader):
                     yearToOwnerNamesMap[self._years[0]].append(ownerName)
         return yearToOwnerNamesMap
 
-    def loadLeague(self) -> League:
+    def loadLeague(self, validate: bool = True) -> League:
         fleaflickerLeagues = self.__getAllLeagues()
         league = self.__buildLeague(fleaflickerLeagues)
-        # validate new league
-        leagueValidation.runAllChecks(league)
+        if validate:
+            # validate new league
+            leagueValidation.runAllChecks(league)
         return league
 
     def __buildLeague(self, fleaflickerLeagues: list[dict]) -> League:

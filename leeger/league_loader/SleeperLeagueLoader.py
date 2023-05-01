@@ -63,11 +63,12 @@ class SleeperLeagueLoader(LeagueLoader):
                 yearToOwnerNamesMap[int(sleeperLeague.season)].append(ownerName)
         return yearToOwnerNamesMap
 
-    def loadLeague(self) -> League:
+    def loadLeague(self, validate: bool = True) -> League:
         sleeperLeagues = self.__getAllLeagues()
         league = self.__buildLeague(sleeperLeagues)
-        # validate new league
-        leagueValidation.runAllChecks(league)
+        if validate:
+            # validate new league
+            leagueValidation.runAllChecks(league)
         return league
 
     def __buildLeague(self, sleeperLeagues: list[SleeperLeague]) -> League:

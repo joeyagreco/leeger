@@ -110,11 +110,12 @@ class YahooLeagueLoader(LeagueLoader):
                 yearToOwnerNamesMap[yahooLeague.season].append(ownerName)
         return yearToOwnerNamesMap
 
-    def loadLeague(self) -> League:
+    def loadLeague(self, validate: bool = True) -> League:
         yahooLeagues = self.__getAllLeagues()
         league = self.__buildLeague(yahooLeagues)
-        # validate new league
-        leagueValidation.runAllChecks(league)
+        if validate:
+            # validate new league
+            leagueValidation.runAllChecks(league)
         return league
 
     def __buildLeague(self, yahooLeagues: list[YahooLeague]) -> League:

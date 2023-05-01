@@ -50,7 +50,7 @@ class LeagueLoader:
         )
 
     @abstractmethod
-    def loadLeague(self, *args, **kwargs) -> League:
+    def loadLeague(self, validate: bool = True, *args, **kwargs) -> League:
         ...
 
     @abstractmethod

@@ -67,11 +67,12 @@ class ESPNLeagueLoader(LeagueLoader):
                 yearToOwnerNamesMap[espnLeagueYear.year].append(espnTeam.owner)
         return yearToOwnerNamesMap
 
-    def loadLeague(self) -> League:
+    def loadLeague(self, validate: bool = True) -> League:
         espnLeagueYears = self.__getAllLeagues()
         league = self.__buildLeague(espnLeagueYears)
-        # validate new league
-        leagueValidation.runAllChecks(league)
+        if validate:
+            # validate new league
+            leagueValidation.runAllChecks(league)
         return league
 
     def __buildLeague(self, espnLeagues: list[ESPNLeague]) -> League:
