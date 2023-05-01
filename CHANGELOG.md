@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- N/A
+
+## [2.3.0]
+
 - Can now turn off League validation when loading a League with a league loader
 - Added better tests for the ESPN League Loader
 - Formatting standardization using [Black](https://black.readthedocs.io/en/stable/)
@@ -192,7 +196,9 @@ All notable changes to this project will be documented in this file.
 
 ### Initial Release
 
-[Unreleased]: https://github.com/joeyagreco/leeger/compare/v2.2.0...HEAD
+[Unreleased]: https://github.com/joeyagreco/leeger/compare/v2.3.0...HEAD
+
+[2.3.0]: https://github.com/joeyagreco/leeger/releases/tag/v2.3.0
 
 [2.2.0]: https://github.com/joeyagreco/leeger/releases/tag/v2.2.0
 
