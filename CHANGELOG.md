@@ -4,8 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- README updates
+- Can now turn off League validation when loading a League with a league loader
+- Added better tests for the ESPN League Loader
 - Formatting standardization using [Black](https://black.readthedocs.io/en/stable/)
+- README updates
+
 
 ## [2.2.0]
 

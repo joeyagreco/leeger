@@ -69,11 +69,12 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
                 yearToOwnerNamesMap[yearNumber].append(ownerName)
         return yearToOwnerNamesMap
 
-    def loadLeague(self) -> League:
+    def loadLeague(self, validate: bool = True) -> League:
         mflLeagues = self.__getAllLeagues()
         league = self.__buildLeague(mflLeagues)
-        # validate new league
-        leagueValidation.runAllChecks(league)
+        if validate:
+            # validate new league
+            leagueValidation.runAllChecks(league)
         return league
 
     def __buildLeague(self, mflLeagues: list[dict]) -> League:

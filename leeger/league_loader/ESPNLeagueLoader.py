@@ -21,7 +21,6 @@ class ESPNLeagueLoader(LeagueLoader):
 
     __ESPN_WIN_OUTCOME: str = "W"
     __ESPN_LOSS_OUTCOME: str = "L"
-    __ESPN_TIE_OUTCOME: str = "T"
     __ESPN_BYE_OUTCOME: str = "U"
     __TEAMS_IN_PLAYOFFS_TO_PLAYOFF_WEEK_COUNT_MAP: dict[int, int] = {
         2: 1,
@@ -45,7 +44,6 @@ class ESPNLeagueLoader(LeagueLoader):
         self.__espnS2 = espnS2
         self.__swid = swid
         self.__espnTeamIdToTeamMap: dict[str, Team] = dict()
-        self.__ownerNamesAndAliases: dict[str, list[str]] = dict()
 
     def __getAllLeagues(self) -> list[ESPNLeague]:
         espnLeagueYears = list()
@@ -69,21 +67,21 @@ class ESPNLeagueLoader(LeagueLoader):
                 yearToOwnerNamesMap[espnLeagueYear.year].append(espnTeam.owner)
         return yearToOwnerNamesMap
 
-    def loadLeague(self) -> League:
+    def loadLeague(self, validate: bool = True) -> League:
         espnLeagueYears = self.__getAllLeagues()
         league = self.__buildLeague(espnLeagueYears)
-        # validate new league
-        leagueValidation.runAllChecks(league)
+        if validate:
+            # validate new league
+            leagueValidation.runAllChecks(league)
         return league
 
     def __buildLeague(self, espnLeagues: list[ESPNLeague]) -> League:
         years = list()
-        leagueName = None
         for espnLeague in espnLeagues:
-            leagueName = espnLeague.settings.name if leagueName is None else leagueName
             self.__loadOwners(espnLeague.teams)
             years.append(self.__buildYear(espnLeague))
-        return League(name=leagueName, owners=self._owners, years=years)
+        # use the league name from the most recent year
+        return League(name=espnLeagues[-1].settings.name, owners=self._owners, years=years)
 
     def __loadOwners(self, espnTeams: list[ESPNTeam]) -> None:
         if self._owners is None:
@@ -102,9 +100,8 @@ class ESPNLeagueLoader(LeagueLoader):
 
     def __buildWeeks(self, espnLeague: ESPNLeague) -> list[Week]:
         weeks = list()
-        for i in range(
-            espnLeague.current_week
-        ):  # current week seems to be the last week in the league
+        # current week seems to be the last week in the league
+        for i in range(espnLeague.current_week):
             # get each teams matchup for that week
             matchups = list()
             # to avoid adding matchups twice, we keep track of the ESPN team IDs that have already had a matchup added

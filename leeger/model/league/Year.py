@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Optional
 
 from leeger.exception import DoesNotExistException
 from leeger.model.abstract.UniqueId import UniqueId
@@ -16,7 +17,7 @@ class Year(UniqueId, JSONSerializable, JSONDeserializable):
     yearNumber: int
     teams: list[Team]
     weeks: list[Week]
-    yearSettings: YearSettings = None
+    yearSettings: Optional[YearSettings] = None
 
     def __post_init__(self):
         if self.yearSettings is None:
