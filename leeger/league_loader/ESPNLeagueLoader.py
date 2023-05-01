@@ -21,7 +21,6 @@ class ESPNLeagueLoader(LeagueLoader):
 
     __ESPN_WIN_OUTCOME: str = "W"
     __ESPN_LOSS_OUTCOME: str = "L"
-    __ESPN_TIE_OUTCOME: str = "T"
     __ESPN_BYE_OUTCOME: str = "U"
     __TEAMS_IN_PLAYOFFS_TO_PLAYOFF_WEEK_COUNT_MAP: dict[int, int] = {
         2: 1,
@@ -45,7 +44,6 @@ class ESPNLeagueLoader(LeagueLoader):
         self.__espnS2 = espnS2
         self.__swid = swid
         self.__espnTeamIdToTeamMap: dict[str, Team] = dict()
-        self.__ownerNamesAndAliases: dict[str, list[str]] = dict()
 
     def __getAllLeagues(self) -> list[ESPNLeague]:
         espnLeagueYears = list()
@@ -78,12 +76,11 @@ class ESPNLeagueLoader(LeagueLoader):
 
     def __buildLeague(self, espnLeagues: list[ESPNLeague]) -> League:
         years = list()
-        leagueName = None
         for espnLeague in espnLeagues:
-            leagueName = espnLeague.settings.name if leagueName is None else leagueName
             self.__loadOwners(espnLeague.teams)
             years.append(self.__buildYear(espnLeague))
-        return League(name=leagueName, owners=self._owners, years=years)
+        # use the league name from the most recent year
+        return League(name=espnLeagues[-1].settings.name, owners=self._owners, years=years)
 
     def __loadOwners(self, espnTeams: list[ESPNTeam]) -> None:
         if self._owners is None:

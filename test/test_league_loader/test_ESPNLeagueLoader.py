@@ -11,7 +11,6 @@ from leeger.model.league.Owner import Owner
 from leeger.model.league.Team import Team
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
-from leeger.util.CustomLogger import CustomLogger
 
 
 class TestESPNLeagueLoader(unittest.TestCase):
@@ -38,14 +37,15 @@ class TestESPNLeagueLoader(unittest.TestCase):
         self.assertEqual("No years given to load league with ID '0'.", str(context.exception))
 
     @patch("espn_api.football.League")
-    def test_load_league_happyPath(self, mock_league):
-        mock_espn_league = Mock()
-        mock_espn_league.year = 2022
-        mock_espn_league.current_week = 4
-        mock_espn_league.settings.name = "Test League"
-        mock_espn_league.settings.reg_season_count = 2
-        mock_espn_league.settings.playoff_team_count = 3
-        mockTeam1 = Mock(
+    def test_load_league_happyPath(self, mockLeague):
+        # mock first year (2022)
+        mockEspnLeague2022 = Mock()
+        mockEspnLeague2022.year = 2022
+        mockEspnLeague2022.current_week = 4
+        mockEspnLeague2022.settings.name = "Test League 2022"
+        mockEspnLeague2022.settings.reg_season_count = 2
+        mockEspnLeague2022.settings.playoff_team_count = 3
+        mockTeam1_2022 = Mock(
             team_id=1,
             owner="Owner 1",
             team_name="Team 1",
@@ -53,7 +53,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
             scores=[100, 110, 0, 100],
             standing=1,
         )
-        mockTeam2 = Mock(
+        mockTeam2_2022 = Mock(
             team_id=2,
             owner="Owner 2",
             team_name="Team 2",
@@ -61,7 +61,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
             scores=[100, 70, 1, 1],
             standing=7,
         )
-        mockTeam3 = Mock(
+        mockTeam3_2022 = Mock(
             team_id=3,
             owner="Owner 3",
             team_name="Team 3",
@@ -69,7 +69,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
             scores=[90.5, 100, 80, 2],
             standing=3,
         )
-        mockTeam4 = Mock(
+        mockTeam4_2022 = Mock(
             team_id=4,
             owner="Owner 4",
             team_name="Team 4",
@@ -77,7 +77,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
             scores=[70.5, 80, 0, 1],
             standing=5,
         )
-        mockTeam5 = Mock(
+        mockTeam5_2022 = Mock(
             team_id=5,
             owner="Owner 5",
             team_name="Team 5",
@@ -85,7 +85,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
             scores=[110, 80, 2, 2],
             standing=4,
         )
-        mockTeam6 = Mock(
+        mockTeam6_2022 = Mock(
             team_id=6,
             owner="Owner 6",
             team_name="Team 6",
@@ -93,7 +93,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
             scores=[60, 90, 2, 2],
             standing=6,
         )
-        mockTeam7 = Mock(
+        mockTeam7_2022 = Mock(
             team_id=7,
             owner="Owner 7",
             team_name="Team 7",
@@ -101,7 +101,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
             scores=[120, 130, 90, 90],
             standing=2,
         )
-        mockTeam8 = Mock(
+        mockTeam8_2022 = Mock(
             team_id=8,
             owner="Owner 8",
             team_name="Team 8",
@@ -113,27 +113,77 @@ class TestESPNLeagueLoader(unittest.TestCase):
         # Team1: 1
         # Team7: 2
         # Team3: 3
-        mockTeam1.schedule = [mockTeam2, mockTeam3, mockTeam4, mockTeam7]
-        mockTeam2.schedule = [mockTeam1, mockTeam4, mockTeam5, mockTeam3]
-        mockTeam3.schedule = [mockTeam4, mockTeam1, mockTeam7, mockTeam2]
-        mockTeam4.schedule = [mockTeam3, mockTeam2, mockTeam1, mockTeam5]
-        mockTeam5.schedule = [mockTeam6, mockTeam7, mockTeam2, mockTeam4]
-        mockTeam6.schedule = [mockTeam5, mockTeam8, mockTeam8, mockTeam8]
-        mockTeam7.schedule = [mockTeam8, mockTeam5, mockTeam3, mockTeam1]
-        mockTeam8.schedule = [mockTeam7, mockTeam6, mockTeam6, mockTeam6]
-        mock_espn_league.teams = [
-            mockTeam1,
-            mockTeam2,
-            mockTeam3,
-            mockTeam4,
-            mockTeam5,
-            mockTeam6,
-            mockTeam7,
-            mockTeam8,
+        mockTeam1_2022.schedule = [mockTeam2_2022, mockTeam3_2022, mockTeam4_2022, mockTeam7_2022]
+        mockTeam2_2022.schedule = [mockTeam1_2022, mockTeam4_2022, mockTeam5_2022, mockTeam3_2022]
+        mockTeam3_2022.schedule = [mockTeam4_2022, mockTeam1_2022, mockTeam7_2022, mockTeam2_2022]
+        mockTeam4_2022.schedule = [mockTeam3_2022, mockTeam2_2022, mockTeam1_2022, mockTeam5_2022]
+        mockTeam5_2022.schedule = [mockTeam6_2022, mockTeam7_2022, mockTeam2_2022, mockTeam4_2022]
+        mockTeam6_2022.schedule = [mockTeam5_2022, mockTeam8_2022, mockTeam8_2022, mockTeam8_2022]
+        mockTeam7_2022.schedule = [mockTeam8_2022, mockTeam5_2022, mockTeam3_2022, mockTeam1_2022]
+        mockTeam8_2022.schedule = [mockTeam7_2022, mockTeam6_2022, mockTeam6_2022, mockTeam6_2022]
+        mockEspnLeague2022.teams = [
+            mockTeam1_2022,
+            mockTeam2_2022,
+            mockTeam3_2022,
+            mockTeam4_2022,
+            mockTeam5_2022,
+            mockTeam6_2022,
+            mockTeam7_2022,
+            mockTeam8_2022,
         ]
-        mock_league.return_value = mock_espn_league
 
-        loader = ESPNLeagueLoader("123", [2022])
+        # mock second year (2023)
+        mockEspnLeague2023 = Mock()
+        mockEspnLeague2023.year = 2023
+        mockEspnLeague2023.current_week = 1
+        mockEspnLeague2023.settings.name = "Test League 2023"
+        mockEspnLeague2023.settings.reg_season_count = 1
+        mockTeam1_2023 = Mock(
+            team_id=1, owner="Owner 1", team_name="Team 1", outcomes=["W"], scores=[100]
+        )
+        mockTeam2_2023 = Mock(
+            team_id=2, owner="Owner 2", team_name="Team 2", outcomes=["L"], scores=[100]
+        )
+        mockTeam3_2023 = Mock(
+            team_id=3, owner="Owner 3", team_name="Team 3", outcomes=["W"], scores=[90.5]
+        )
+        mockTeam4_2023 = Mock(
+            team_id=4, owner="Owner 4", team_name="Team 4", outcomes=["L"], scores=[70.5]
+        )
+        mockTeam5_2023 = Mock(
+            team_id=5, owner="Owner 5", team_name="Team 5", outcomes=["W"], scores=[110]
+        )
+        mockTeam6_2023 = Mock(
+            team_id=6, owner="Owner 6", team_name="Team 6", outcomes=["L"], scores=[60]
+        )
+        mockTeam7_2023 = Mock(
+            team_id=7, owner="Owner 7", team_name="Team 7", outcomes=["W"], scores=[120]
+        )
+        mockTeam8_2023 = Mock(
+            team_id=8, owner="Owner 8", team_name="Team 8", outcomes=["L"], scores=[50]
+        )
+        mockTeam1_2023.schedule = [mockTeam2_2023]
+        mockTeam2_2023.schedule = [mockTeam1_2023]
+        mockTeam3_2023.schedule = [mockTeam4_2023]
+        mockTeam4_2023.schedule = [mockTeam3_2023]
+        mockTeam5_2023.schedule = [mockTeam6_2023]
+        mockTeam6_2023.schedule = [mockTeam5_2023]
+        mockTeam7_2023.schedule = [mockTeam8_2023]
+        mockTeam8_2023.schedule = [mockTeam7_2023]
+        mockEspnLeague2023.teams = [
+            mockTeam1_2023,
+            mockTeam2_2023,
+            mockTeam3_2023,
+            mockTeam4_2023,
+            mockTeam5_2023,
+            mockTeam6_2023,
+            mockTeam7_2023,
+            mockTeam8_2023,
+        ]
+
+        mockLeague.side_effect = [mockEspnLeague2022, mockEspnLeague2023]
+
+        loader = ESPNLeagueLoader("123", [2022, 2023])
         league = loader.loadLeague()
 
         # expected league
@@ -145,8 +195,8 @@ class TestESPNLeagueLoader(unittest.TestCase):
         team6 = Team(ownerId=6, name="Team 6")
         team7 = Team(ownerId=7, name="Team 7")
         team8 = Team(ownerId=8, name="Team 8")
-        expected_league = League(
-            name="Test League",
+        expectedLeague = League(
+            name="Test League 2023",
             owners=[
                 Owner(name="Owner 1"),
                 Owner(name="Owner 2"),
@@ -319,7 +369,55 @@ class TestESPNLeagueLoader(unittest.TestCase):
                         ),
                     ],
                     yearSettings=None,
-                )
+                ),
+                Year(
+                    yearNumber=2023,
+                    teams=[team1, team2, team3, team4, team5, team6, team7, team8],
+                    weeks=[
+                        Week(
+                            weekNumber=1,
+                            matchups=[
+                                Matchup(
+                                    teamAId=team1.id,
+                                    teamBId=team2.id,
+                                    teamAScore=100,
+                                    teamBScore=100,
+                                    matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=True,
+                                    teamBHasTiebreaker=False,
+                                ),
+                                Matchup(
+                                    teamAId=team3.id,
+                                    teamBId=team4.id,
+                                    teamAScore=90.5,
+                                    teamBScore=70.5,
+                                    matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
+                                ),
+                                Matchup(
+                                    teamAId=team5.id,
+                                    teamBId=team6.id,
+                                    teamAScore=110,
+                                    teamBScore=60,
+                                    matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
+                                ),
+                                Matchup(
+                                    teamAId=team7.id,
+                                    teamBId=team8.id,
+                                    teamAScore=120,
+                                    teamBScore=50,
+                                    matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
+                                ),
+                            ],
+                        )
+                    ],
+                    yearSettings=None,
+                ),
             ],
         )
-        self.assertEqual(league, expected_league)
+        self.assertEqual(league, expectedLeague)
