@@ -17,10 +17,3 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
             )
             leagueLoader.loadLeague()
         self.assertEqual("Invalid Password", str(context.exception))
-
-    def test_noYearsGiven(self):
-        with self.assertRaises(ValueError) as context:
-            MyFantasyLeagueLeagueLoader(
-                "0", [], mflUsername="", mflPassword="", mflUserAgentName=""
-            )
-        self.assertEqual("No years given to load league with ID '0'.", str(context.exception))

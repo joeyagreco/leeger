@@ -13,7 +13,9 @@ class LeagueLoader:
     The point of a league loader is to load a League object from different Fantasy Football sources.
     """
 
-    def __init__(self, leagueId: str, years: list[int], **kwargs):
+    def __init__(
+        self, leagueId: str, years: list[int], *, ownerNamesAndAliases: Optional[dict] = None
+    ):
         self._LOGGER = CustomLogger().getLogger()
         self._leagueId = leagueId
         self._years = years
@@ -24,13 +26,16 @@ class LeagueLoader:
         # this should be formatted like so:
         # ownerNamesAndAliases = {"someOwnerNameIWant": ["alias1", "alias2"],
         #                           someOtherOwnerNameIWant: ["alias3", "alias4"]}
-        self._ownerNamesAndAliases: dict[str, list[str]] = kwargs.get(
-            "ownerNamesAndAliases", dict()
+        self._ownerNamesAndAliases: dict[str, list[str]] = (
+            ownerNamesAndAliases if ownerNamesAndAliases else dict()
         )
 
         # validation
         if len(years) == 0:
             raise ValueError(f"No years given to load league with ID '{self._leagueId}'.")
+
+        if not all(isinstance(year, int) for year in self._years):
+            raise ValueError(f"All given years must be ints.")
 
     def _getGeneralOwnerNameFromGivenOwnerName(self, givenOwnerName: str) -> Optional[str]:
         foundGeneralOwnerName = None

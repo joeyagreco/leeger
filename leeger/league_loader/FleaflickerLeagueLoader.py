@@ -1,3 +1,4 @@
+from typing import Optional
 from fleaflicker.api.LeagueInfoAPIClient import LeagueInfoAPIClient
 from fleaflicker.api.ScoringAPIClient import ScoringAPIClient
 from fleaflicker.enum.Sport import Sport
@@ -20,13 +21,19 @@ class FleaflickerLeagueLoader(LeagueLoader):
     https://www.fleaflicker.com/
     """
 
-    def __init__(self, leagueId: str, years: list[int], **kwargs):
+    def __init__(
+        self,
+        leagueId: str,
+        years: list[int],
+        *,
+        ownerNamesAndAliases: Optional[dict[str, list[str]]] = None,
+    ):
         # validation
         try:
             int(leagueId)
         except ValueError:
             raise ValueError(f"League ID '{leagueId}' could not be turned into an int.")
-        super().__init__(leagueId, years, **kwargs)
+        super().__init__(leagueId, years, ownerNamesAndAliases=ownerNamesAndAliases)
 
         self.__fleaflickerTeamIdToOwnerMap: dict[int, Owner] = dict()
         self.__fleaflickerTeamIdToTeamMap: dict[int, Team] = dict()

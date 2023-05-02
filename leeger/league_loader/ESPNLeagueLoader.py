@@ -1,3 +1,4 @@
+from typing import Optional
 import espn_api.football as espn
 from espn_api.football import League as ESPNLeague
 from espn_api.football import Team as ESPNTeam
@@ -32,14 +33,20 @@ class ESPNLeagueLoader(LeagueLoader):
     }
 
     def __init__(
-        self, leagueId: str, years: list[int], espnS2: str = None, swid: str = None, **kwargs
+        self,
+        leagueId: str,
+        years: list[int],
+        *,
+        espnS2: str = None,
+        swid: str = None,
+        ownerNamesAndAliases: Optional[dict[str, list[str]]] = None,
     ):
         # validation
         try:
             int(leagueId)
         except ValueError:
             raise ValueError(f"League ID '{leagueId}' could not be turned into an int.")
-        super().__init__(leagueId, years, **kwargs)
+        super().__init__(leagueId, years, ownerNamesAndAliases=ownerNamesAndAliases)
 
         self.__espnS2 = espnS2
         self.__swid = swid

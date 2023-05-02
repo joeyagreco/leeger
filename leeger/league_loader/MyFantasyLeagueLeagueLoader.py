@@ -1,3 +1,4 @@
+from typing import Optional
 from pymfl.api import CommonLeagueInfoAPIClient
 from pymfl.api.config import APIConfig
 from sleeper.model import Matchup as SleeperMatchup
@@ -27,9 +28,9 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
         mflUsername: str,
         mflPassword: str,
         mflUserAgentName: str,
-        **kwargs,
+        ownerNamesAndAliases: Optional[dict[str, list[str]]] = None,
     ):
-        super().__init__(leagueId, years, **kwargs)
+        super().__init__(leagueId, years, ownerNamesAndAliases=ownerNamesAndAliases)
 
         self.__mflUsername = mflUsername
         self.__mflPassword = mflPassword

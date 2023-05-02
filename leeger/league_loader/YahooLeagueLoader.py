@@ -1,5 +1,6 @@
 import multiprocessing
 import subprocess
+from typing import Optional
 
 from yahoofantasy import Context
 from yahoofantasy import League as YahooLeague
@@ -26,20 +27,26 @@ class YahooLeagueLoader(LeagueLoader):
     """
 
     __NFL = "nfl"
-    __LOGIN_TIMEOUT_SECONDS = 20
 
     def __init__(
-        self, leagueId: str, years: list[int], *, clientId: str, clientSecret: str, **kwargs
+        self,
+        leagueId: str,
+        years: list[int],
+        *,
+        clientId: str,
+        clientSecret: str,
+        loginTimeoutSeconds: Optional[int] = 20,
+        ownerNamesAndAliases: Optional[dict[str, list[str]]] = None,
     ):
         # validation
         try:
             int(leagueId)
         except ValueError:
             raise ValueError(f"League ID '{leagueId}' could not be turned into an int.")
-        super().__init__(leagueId, years, **kwargs)
+        super().__init__(leagueId, years, ownerNamesAndAliases=ownerNamesAndAliases)
         self.__clientId = clientId
         self.__clientSecret = clientSecret
-        self.__timeoutSeconds = kwargs.pop("loginTimeoutSeconds", self.__LOGIN_TIMEOUT_SECONDS)
+        self.__timeoutSeconds = loginTimeoutSeconds
         self.__yahooManagerIdToOwnerMap: dict[int, Owner] = dict()
         self.__yahooTeamIdToTeamMap: dict[str, Team] = dict()
         self.__yearToTeamIdHasLostInPlayoffs: dict[int, dict[int, bool]] = dict()

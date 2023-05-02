@@ -1,4 +1,5 @@
 import itertools
+from typing import Optional
 
 from sleeper.api import LeagueAPIClient
 from sleeper.enum import Sport, SeasonStatus
@@ -28,8 +29,14 @@ class SleeperLeagueLoader(LeagueLoader):
 
     __INVALID_SLEEPER_LEAGUE_IDS = [None, "0"]
 
-    def __init__(self, mostRecentLeagueId: str, years: list[int], **kwargs):
-        super().__init__(mostRecentLeagueId, years, **kwargs)
+    def __init__(
+        self,
+        mostRecentLeagueId: str,
+        years: list[int],
+        *,
+        ownerNamesAndAliases: Optional[dict[str, list[str]]] = None,
+    ):
+        super().__init__(mostRecentLeagueId, years, ownerNamesAndAliases=ownerNamesAndAliases)
 
         self.__sleeperUserIdToOwnerMap: dict[str, Owner] = dict()
         self.__sleeperRosterIdToTeamMap: dict[int, Team] = dict()

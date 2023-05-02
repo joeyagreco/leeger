@@ -25,11 +25,6 @@ class TestESPNLeagueLoader(unittest.TestCase):
             ESPNLeagueLoader("a", [2000])
         self.assertEqual("League ID 'a' could not be turned into an int.", str(context.exception))
 
-    def test_noYearsGiven(self):
-        with self.assertRaises(ValueError) as context:
-            ESPNLeagueLoader("0", [])
-        self.assertEqual("No years given to load league with ID '0'.", str(context.exception))
-
     @patch("espn_api.football.League")
     def test_load_league_happyPath(self, mockLeague):
         # mock first year (2022)
