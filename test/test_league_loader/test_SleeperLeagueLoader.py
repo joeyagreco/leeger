@@ -79,7 +79,7 @@ class TestSleeperLeagueLoader(unittest.TestCase):
     @patch("sleeper.api.LeagueAPIClient.get_rosters")
     @patch("sleeper.api.LeagueAPIClient.get_matchups_for_week")
     def test_load_league(
-        self, mockGetLeague, mockGetUsersInLeague, mockGetRosters, mockGetMatchupsForWeek
+        self, mockGetMatchupsForWeek, mockGetRosters, mockGetUsersInLeague, mockGetLeague
     ):
         # create mock SleeperLeague object
         mockSleeperLeague2022 = Mock()
