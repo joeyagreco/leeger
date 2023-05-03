@@ -5,6 +5,7 @@ from unittest.mock import patch, Mock
 from sleeper.model import User as SleeperUser
 from sleeper.model import Roster as SleeperRoster
 from sleeper.model import Matchup as SleeperMatchup
+from sleeper.model import SportState as SleeperSportState
 
 
 class TestSleeperLeagueLoader(unittest.TestCase):
@@ -68,6 +69,19 @@ class TestSleeperLeagueLoader(unittest.TestCase):
             starters_points=None,
         )
 
+    def __generateMockSleeperSportState(self, *, season: str, leg: int) -> SleeperSportState:
+        return SleeperSportState(
+            display_week=None,
+            league_create_season=None,
+            league_season=None,
+            leg=leg,
+            previous_season=None,
+            season=season,
+            season_start_date=None,
+            season_type=None,
+            week=None,
+        )
+
     def test_loadLeague_intendedFailure(self):
         with self.assertRaises(ValueError) as context:
             leagueLoader = SleeperLeagueLoader("0", [2000])
@@ -78,8 +92,14 @@ class TestSleeperLeagueLoader(unittest.TestCase):
     @patch("sleeper.api.LeagueAPIClient.get_users_in_league")
     @patch("sleeper.api.LeagueAPIClient.get_rosters")
     @patch("sleeper.api.LeagueAPIClient.get_matchups_for_week")
+    @patch("sleeper.api.LeagueAPIClient.get_sport_state")
     def test_load_league(
-        self, mockGetMatchupsForWeek, mockGetRosters, mockGetUsersInLeague, mockGetLeague
+        self,
+        mockGetSportState,
+        mockGetMatchupsForWeek,
+        mockGetRosters,
+        mockGetUsersInLeague,
+        mockGetLeague,
     ):
         # create mock SleeperLeague object
         mockSleeperLeague2022 = Mock()
@@ -131,10 +151,14 @@ class TestSleeperLeagueLoader(unittest.TestCase):
             self.__generateMockSleeperMatchup(matchupId=20220108, rosterId=202208, points=100),
         ]
 
+        # create mock SleeperSportState objects
+        mockSleeperSportState2022 = self.__generateMockSleeperSportState(season="2022", leg=1)
+
         mockGetLeague.side_effect = [mockSleeperLeague2022]
         mockGetUsersInLeague.side_effect = [mockSleeperUsers2022]
         mockGetRosters.side_effect = [mockSleeperRosters2022]
         mockGetMatchupsForWeek.side_effect = [mockSleeperMatchups2022_1]
+        mockGetSportState.side_effect = [mockSleeperSportState2022]
 
         # create instance of SleeperLeagueLoader and call load_league method
         sleeper_league_loader = SleeperLeagueLoader("123", [2022])
