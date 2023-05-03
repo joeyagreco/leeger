@@ -136,12 +136,12 @@ class SleeperLeagueLoader(LeagueLoader):
         weeks = list()
         # get regular season weeks
         for i in range(sleeperLeague.settings.playoff_week_start - 1):
-            # get each teams matchup for that week
-            matchups = list()
-            sleeperMatchups = LeagueAPIClient.get_matchups_for_week(
-                league_id=sleeperLeague.league_id, week=i + 1
-            )
             if self.__isCompletedWeek(i + 1, sleeperLeague):
+                # get each teams matchup for that week
+                matchups = list()
+                sleeperMatchups = LeagueAPIClient.get_matchups_for_week(
+                    league_id=sleeperLeague.league_id, week=i + 1
+                )
                 sleeperMatchupIdToSleeperMatchupMap: dict[int, list[SleeperMatchup]] = dict()
                 for sleeperMatchup in sleeperMatchups:
                     if sleeperMatchup.matchup_id in sleeperMatchupIdToSleeperMatchupMap.keys():
