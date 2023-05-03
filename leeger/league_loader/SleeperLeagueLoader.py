@@ -7,6 +7,7 @@ from sleeper.enum.PlayoffRoundType import PlayoffRoundType
 from sleeper.model import League as SleeperLeague
 from sleeper.model import Matchup as SleeperMatchup
 from sleeper.model import PlayoffMatchup as SleeperPlayoffMatchup
+from sleeper.model import User as SleeperUser
 
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception.DoesNotExistException import DoesNotExistException
@@ -28,6 +29,7 @@ class SleeperLeagueLoader(LeagueLoader):
     """
 
     __INVALID_SLEEPER_LEAGUE_IDS = [None, "0"]
+    __SLEEPER_USERS_BY_LEAGUE_ID = dict()  # functions as a cache for Sleeper Users
 
     def __init__(
         self,
@@ -40,6 +42,15 @@ class SleeperLeagueLoader(LeagueLoader):
 
         self.__sleeperUserIdToOwnerMap: dict[str, Owner] = dict()
         self.__sleeperRosterIdToTeamMap: dict[int, Team] = dict()
+
+    def __getSleeperUsers(self, leagueId: str) -> list[SleeperUser]:
+        if leagueId not in self.__SLEEPER_USERS_BY_LEAGUE_ID:
+            # don't have these users loaded yet
+            sleeperUsers = LeagueAPIClient.get_users_in_league(league_id=leagueId)
+            self.__SLEEPER_USERS_BY_LEAGUE_ID[leagueId] = sleeperUsers
+            return sleeperUsers
+        # do have these users loaded
+        return self.__SLEEPER_USERS_BY_LEAGUE_ID[leagueId]
 
     def __getAllLeagues(self) -> list[SleeperLeague]:
         sleeperLeagues = list()
@@ -64,7 +75,7 @@ class SleeperLeagueLoader(LeagueLoader):
         sleeperLeagues = self.__getAllLeagues()
         for sleeperLeague in sleeperLeagues:
             yearToOwnerNamesMap[int(sleeperLeague.season)] = list()
-            sleeperUsers = LeagueAPIClient.get_users_in_league(league_id=sleeperLeague.league_id)
+            sleeperUsers = self.__getSleeperUsers(sleeperLeague.league_id)
             for sleeperUser in sleeperUsers:
                 ownerName = sleeperUser.display_name
                 yearToOwnerNamesMap[int(sleeperLeague.season)].append(ownerName)
@@ -254,7 +265,7 @@ class SleeperLeagueLoader(LeagueLoader):
 
     def __buildTeams(self, sleeperLeague: SleeperLeague) -> list[Team]:
         teams = list()
-        sleeperUsers = LeagueAPIClient.get_users_in_league(league_id=sleeperLeague.league_id)
+        sleeperUsers = self.__getSleeperUsers(sleeperLeague.league_id)
         sleeperRosters = LeagueAPIClient.get_rosters(league_id=sleeperLeague.league_id)
         for sleeperUser in sleeperUsers:
             # connect a sleeperUser to a sleeperRoster
@@ -281,7 +292,7 @@ class SleeperLeagueLoader(LeagueLoader):
 
     def __loadOwners(self, sleeperLeagues: list[SleeperLeague]) -> None:
         for sleeperLeague in sleeperLeagues:
-            sleeperUsers = LeagueAPIClient.get_users_in_league(league_id=sleeperLeague.league_id)
+            sleeperUsers = self.__getSleeperUsers(sleeperLeague.league_id)
             for sleeperUser in sleeperUsers:
                 ownerName = sleeperUser.display_name
                 # get general owner name if there is one
