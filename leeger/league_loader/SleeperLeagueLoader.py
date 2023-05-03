@@ -30,8 +30,10 @@ class SleeperLeagueLoader(LeagueLoader):
     """
 
     __INVALID_SLEEPER_LEAGUE_IDS = [None, "0"]
-    __SLEEPER_USERS_BY_LEAGUE_ID = dict()  # functions as a cache for Sleeper Users
-    __SLEEPER_SPORT_STATE: SleeperSportState = None  # functions as a cache for Sleeper SportState
+    __SLEEPER_USERS_BY_LEAGUE_ID_CACHE = dict()  # functions as a cache for Sleeper Users
+    __SLEEPER_SPORT_STATE_CACHE: SleeperSportState = (
+        None  # functions as a cache for Sleeper SportState
+    )
 
     def __init__(
         self,
@@ -46,23 +48,23 @@ class SleeperLeagueLoader(LeagueLoader):
         self.__sleeperRosterIdToTeamMap: dict[int, Team] = dict()
 
     def __resetCaches(self) -> None:
-        self.__SLEEPER_USERS_BY_LEAGUE_ID = dict()
-        self.__SLEEPER_SPORT_STATE = None
+        self.__SLEEPER_USERS_BY_LEAGUE_ID_CACHE = dict()
+        self.__SLEEPER_SPORT_STATE_CACHE = None
 
     def __getSleeperUsers(self, leagueId: str) -> list[SleeperUser]:
-        if leagueId not in self.__SLEEPER_USERS_BY_LEAGUE_ID:
+        if leagueId not in self.__SLEEPER_USERS_BY_LEAGUE_ID_CACHE:
             # don't have these users loaded yet
             sleeperUsers = LeagueAPIClient.get_users_in_league(league_id=leagueId)
-            self.__SLEEPER_USERS_BY_LEAGUE_ID[leagueId] = sleeperUsers
+            self.__SLEEPER_USERS_BY_LEAGUE_ID_CACHE[leagueId] = sleeperUsers
             return sleeperUsers
         # do have these users loaded
-        return self.__SLEEPER_USERS_BY_LEAGUE_ID[leagueId]
+        return self.__SLEEPER_USERS_BY_LEAGUE_ID_CACHE[leagueId]
 
     @classmethod
     def __getSleeperSportState(cls):
-        if cls.__SLEEPER_SPORT_STATE is None:
-            cls.__SLEEPER_SPORT_STATE = LeagueAPIClient.get_sport_state(sport=Sport.NFL)
-        return cls.__SLEEPER_SPORT_STATE
+        if cls.__SLEEPER_SPORT_STATE_CACHE is None:
+            cls.__SLEEPER_SPORT_STATE_CACHE = LeagueAPIClient.get_sport_state(sport=Sport.NFL)
+        return cls.__SLEEPER_SPORT_STATE_CACHE
 
     def __getAllLeagues(self) -> list[SleeperLeague]:
         sleeperLeagues = list()
