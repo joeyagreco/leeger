@@ -123,7 +123,7 @@ class TestSleeperLeagueLoader(unittest.TestCase):
         mockGetLeague.side_effect = [mockSleeperLeague2022]
         with self.assertRaises(LeagueLoaderException) as context:
             leagueLoader = SleeperLeagueLoader("0", [2023])
-            leagueLoader.loadLeague()  # 0 is a bad league ID
+            leagueLoader.loadLeague()
         self.assertEqual("Could not find years '[2023]' for league.", str(context.exception))
 
     @patch("sleeper.api.LeagueAPIClient.get_league")
