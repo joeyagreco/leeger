@@ -1,6 +1,7 @@
 from typing import Optional
 import unittest
 from leeger.enum.MatchupType import MatchupType
+from leeger.exception.LeagueLoaderException import LeagueLoaderException
 
 from leeger.league_loader import SleeperLeagueLoader
 from unittest.mock import patch, Mock
@@ -10,6 +11,7 @@ from sleeper.model import Matchup as SleeperMatchup
 from sleeper.model import SportState as SleeperSportState
 from sleeper.model import PlayoffMatchup as SleeperPlayoffMatchup
 from sleeper.enum import PlayoffRoundType as SleeperPlayoffRoundType
+from sleeper.enum import SeasonStatus as SleeperSeasonStatus
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Owner import Owner
@@ -21,10 +23,10 @@ from leeger.model.league.Year import Year
 
 class TestSleeperLeagueLoader(unittest.TestCase):
     """
-    # TODO: test multiple years
     # TODO: test ownerNamesAndAliases
     # TODO: test multi-week matchups
     # TODO: test all playoff round types (including unsupported)
+    # TODO: test league with invalid season status
     """
 
     # helper methods
@@ -114,7 +116,7 @@ class TestSleeperLeagueLoader(unittest.TestCase):
         )
 
     def test_loadLeague_intendedFailure(self):
-        with self.assertRaises(ValueError) as context:
+        with self.assertRaises(LeagueLoaderException) as context:
             leagueLoader = SleeperLeagueLoader("0", [2000])
             leagueLoader.loadLeague()  # 0 is a bad league ID
         self.assertEqual("Could not find years '[2000]' for league.", str(context.exception))
@@ -134,10 +136,10 @@ class TestSleeperLeagueLoader(unittest.TestCase):
         mockGetUsersInLeague,
         mockGetLeague,
     ):
-        # create mock SleeperLeague object
+        # create mock SleeperLeague objects
         mockSleeperLeague2022 = Mock()
         mockSleeperLeague2022.season = "2022"
-        mockSleeperLeague2022.status = "active"
+        mockSleeperLeague2022.status = SleeperSeasonStatus.COMPLETE
         mockSleeperLeague2022.playoff_matchups = []
         mockSleeperLeague2022.name = "Test League 2022"
         mockSleeperLeague2022.settings.playoff_week_start = 3
@@ -146,8 +148,38 @@ class TestSleeperLeagueLoader(unittest.TestCase):
             SleeperPlayoffRoundType.ONE_WEEK_PER_ROUND
         )
 
+        mockSleeperLeague2023 = Mock()
+        mockSleeperLeague2023.season = "2023"
+        mockSleeperLeague2023.status = SleeperSeasonStatus.IN_SEASON
+        mockSleeperLeague2023.playoff_matchups = []
+        mockSleeperLeague2023.name = "Test League 2023"
+        mockSleeperLeague2023.settings.playoff_week_start = 3
+        mockSleeperLeague2023.settings.league_average_match = 0
+        mockSleeperLeague2023.settings.playoff_round_type_enum = (
+            SleeperPlayoffRoundType.ONE_WEEK_PER_ROUND
+        )
+
         # create mock SleeperUser objects
         mockSleeperUsers2022 = [
+            self.__generateMockSleeperUser(displayName="User 1", userId="1"),
+            self.__generateMockSleeperUser(displayName="User 2", userId="2"),
+            self.__generateMockSleeperUser(displayName="User 3", userId="3"),
+            self.__generateMockSleeperUser(displayName="User 4", userId="4"),
+            self.__generateMockSleeperUser(
+                displayName="User 5", userId="5", metadata={"team_name": "Team 5"}
+            ),
+            self.__generateMockSleeperUser(
+                displayName="User 6", userId="6", metadata={"team_name": "Team 6"}
+            ),
+            self.__generateMockSleeperUser(
+                displayName="User 7", userId="7", metadata={"team_name": "Team 7"}
+            ),
+            self.__generateMockSleeperUser(
+                displayName="User 8", userId="8", metadata={"team_name": "Team 8"}
+            ),
+        ]
+
+        mockSleeperUsers2023 = [
             self.__generateMockSleeperUser(displayName="User 1", userId="1"),
             self.__generateMockSleeperUser(displayName="User 2", userId="2"),
             self.__generateMockSleeperUser(displayName="User 3", userId="3"),
@@ -177,6 +209,17 @@ class TestSleeperLeagueLoader(unittest.TestCase):
             self.__generateMockSleeperRoster(ownerId="6", rosterId=202206),
             self.__generateMockSleeperRoster(ownerId="7", rosterId=202207),
             self.__generateMockSleeperRoster(ownerId="8", rosterId=202208),
+        ]
+
+        mockSleeperRosters2023 = [
+            self.__generateMockSleeperRoster(ownerId="1", rosterId=202301),
+            self.__generateMockSleeperRoster(ownerId="2", rosterId=202302),
+            self.__generateMockSleeperRoster(ownerId="3", rosterId=202303),
+            self.__generateMockSleeperRoster(ownerId="4", rosterId=202304),
+            self.__generateMockSleeperRoster(ownerId="5", rosterId=202305),
+            self.__generateMockSleeperRoster(ownerId="6", rosterId=202306),
+            self.__generateMockSleeperRoster(ownerId="7", rosterId=202307),
+            self.__generateMockSleeperRoster(ownerId="8", rosterId=202308),
         ]
 
         # create mock SleeperMatchup objects
@@ -215,8 +258,43 @@ class TestSleeperLeagueLoader(unittest.TestCase):
             self.__generateMockSleeperMatchup(matchupId=20220401, rosterId=202202, points=99),
         ]
 
+        mockSleeperMatchups2023_1 = [
+            self.__generateMockSleeperMatchup(matchupId=20230101, rosterId=202301, points=100),
+            self.__generateMockSleeperMatchup(matchupId=20230101, rosterId=202302, points=100),
+            self.__generateMockSleeperMatchup(matchupId=20230102, rosterId=202303, points=90.5),
+            self.__generateMockSleeperMatchup(matchupId=20230102, rosterId=202304, points=70.5),
+            self.__generateMockSleeperMatchup(matchupId=20230103, rosterId=202305, points=110),
+            self.__generateMockSleeperMatchup(matchupId=20230103, rosterId=202306, points=60),
+            self.__generateMockSleeperMatchup(matchupId=20230104, rosterId=202307, points=120),
+            self.__generateMockSleeperMatchup(matchupId=20230104, rosterId=202308, points=50),
+        ]
+
+        mockSleeperMatchups2023_2 = [
+            self.__generateMockSleeperMatchup(matchupId=20230201, rosterId=202301, points=100),
+            self.__generateMockSleeperMatchup(matchupId=20230201, rosterId=202302, points=100),
+            self.__generateMockSleeperMatchup(matchupId=20230202, rosterId=202303, points=90.5),
+            self.__generateMockSleeperMatchup(matchupId=20230202, rosterId=202304, points=70.5),
+            self.__generateMockSleeperMatchup(matchupId=20230203, rosterId=202305, points=110),
+            self.__generateMockSleeperMatchup(matchupId=20230203, rosterId=202306, points=60),
+            self.__generateMockSleeperMatchup(matchupId=20230204, rosterId=202307, points=120),
+            self.__generateMockSleeperMatchup(matchupId=20230204, rosterId=202308, points=50),
+        ]
+
+        # playoffs
+        mockSleeperMatchups2023_3 = [
+            self.__generateMockSleeperMatchup(matchupId=20230301, rosterId=202302, points=100),
+            self.__generateMockSleeperMatchup(matchupId=20230301, rosterId=202303, points=90.5),
+        ]
+
+        # championship
+        mockSleeperMatchups2023_4 = [
+            self.__generateMockSleeperMatchup(matchupId=20230401, rosterId=202301, points=100),
+            self.__generateMockSleeperMatchup(matchupId=20230401, rosterId=202302, points=99),
+        ]
+
         # create mock SleeperSportState objects
         mockSleeperSportState2022 = self.__generateMockSleeperSportState(season="2022", leg=5)
+        mockSleeperSportState2023 = self.__generateMockSleeperSportState(season="2023", leg=5)
 
         # create mock SleeperPlayoffMatchup objects
         mockSleeperPlayoffMatchups2022 = [
@@ -228,34 +306,59 @@ class TestSleeperLeagueLoader(unittest.TestCase):
             ),
         ]
 
-        mockGetLeague.side_effect = [mockSleeperLeague2022]
-        mockGetUsersInLeague.side_effect = [mockSleeperUsers2022]
-        mockGetRosters.side_effect = [mockSleeperRosters2022]
+        mockSleeperPlayoffMatchups2023 = [
+            self.__generateMockSleeperPlayoffMatchup(
+                round=1, team1RosterId=202302, team2RosterId=202303, winningRosterId=202302, p=0
+            ),
+            self.__generateMockSleeperPlayoffMatchup(
+                round=2, team1RosterId=202301, team2RosterId=202302, winningRosterId=202301, p=1
+            ),
+        ]
+
+        mockGetLeague.side_effect = [mockSleeperLeague2022, mockSleeperLeague2023]
+        mockGetUsersInLeague.side_effect = [mockSleeperUsers2022, mockSleeperUsers2023]
+        mockGetRosters.side_effect = [mockSleeperRosters2022, mockSleeperRosters2023]
         mockGetMatchupsForWeek.side_effect = [
             mockSleeperMatchups2022_1,
             mockSleeperMatchups2022_2,
             mockSleeperMatchups2022_3,
             mockSleeperMatchups2022_4,
+            mockSleeperMatchups2023_1,
+            mockSleeperMatchups2023_2,
+            mockSleeperMatchups2023_3,
+            mockSleeperMatchups2023_4,
         ]
-        mockGetSportState.side_effect = [mockSleeperSportState2022]
-        mockGetWinnersBracket.side_effect = [mockSleeperPlayoffMatchups2022]
+        mockGetSportState.side_effect = [mockSleeperSportState2022, mockSleeperSportState2023]
+        mockGetWinnersBracket.side_effect = [
+            mockSleeperPlayoffMatchups2022,
+            mockSleeperPlayoffMatchups2023,
+        ]
 
         # create instance of SleeperLeagueLoader and call load_league method
-        sleeper_league_loader = SleeperLeagueLoader("123", [2022])
+        sleeper_league_loader = SleeperLeagueLoader("123", [2022, 2023])
         league = sleeper_league_loader.loadLeague()
 
         # expected league
-        team1 = Team(ownerId=1, name="User 1")
-        team2 = Team(ownerId=2, name="User 2")
-        team3 = Team(ownerId=3, name="User 3")
-        team4 = Team(ownerId=4, name="User 4")
-        team5 = Team(ownerId=5, name="Team 5")
-        team6 = Team(ownerId=6, name="Team 6")
-        team7 = Team(ownerId=7, name="Team 7")
-        team8 = Team(ownerId=8, name="Team 8")
+        team1_2022 = Team(ownerId=1, name="User 1")
+        team2_2022 = Team(ownerId=2, name="User 2")
+        team3_2022 = Team(ownerId=3, name="User 3")
+        team4_2022 = Team(ownerId=4, name="User 4")
+        team5_2022 = Team(ownerId=5, name="Team 5")
+        team6_2022 = Team(ownerId=6, name="Team 6")
+        team7_2022 = Team(ownerId=7, name="Team 7")
+        team8_2022 = Team(ownerId=8, name="Team 8")
+
+        team1_2023 = Team(ownerId=1, name="User 1")
+        team2_2023 = Team(ownerId=2, name="User 2")
+        team3_2023 = Team(ownerId=3, name="User 3")
+        team4_2023 = Team(ownerId=4, name="User 4")
+        team5_2023 = Team(ownerId=5, name="Team 5")
+        team6_2023 = Team(ownerId=6, name="Team 6")
+        team7_2023 = Team(ownerId=7, name="Team 7")
+        team8_2023 = Team(ownerId=8, name="Team 8")
 
         expectedLeague = League(
-            name="Test League 2022",
+            name="Test League 2023",
             owners=[
                 Owner(name="User 1"),
                 Owner(name="User 2"),
@@ -269,14 +372,23 @@ class TestSleeperLeagueLoader(unittest.TestCase):
             years=[
                 Year(
                     yearNumber=2022,
-                    teams=[team1, team2, team3, team4, team5, team6, team7, team8],
+                    teams=[
+                        team1_2022,
+                        team2_2022,
+                        team3_2022,
+                        team4_2022,
+                        team5_2022,
+                        team6_2022,
+                        team7_2022,
+                        team8_2022,
+                    ],
                     weeks=[
                         Week(
                             weekNumber=1,
                             matchups=[
                                 Matchup(
-                                    teamAId=team1.id,
-                                    teamBId=team2.id,
+                                    teamAId=team1_2022.id,
+                                    teamBId=team2_2022.id,
                                     teamAScore=100,
                                     teamBScore=100,
                                     matchupType=MatchupType.REGULAR_SEASON,
@@ -284,8 +396,8 @@ class TestSleeperLeagueLoader(unittest.TestCase):
                                     teamBHasTiebreaker=False,
                                 ),
                                 Matchup(
-                                    teamAId=team3.id,
-                                    teamBId=team4.id,
+                                    teamAId=team3_2022.id,
+                                    teamBId=team4_2022.id,
                                     teamAScore=90.5,
                                     teamBScore=70.5,
                                     matchupType=MatchupType.REGULAR_SEASON,
@@ -293,8 +405,8 @@ class TestSleeperLeagueLoader(unittest.TestCase):
                                     teamBHasTiebreaker=False,
                                 ),
                                 Matchup(
-                                    teamAId=team5.id,
-                                    teamBId=team6.id,
+                                    teamAId=team5_2022.id,
+                                    teamBId=team6_2022.id,
                                     teamAScore=110,
                                     teamBScore=60,
                                     matchupType=MatchupType.REGULAR_SEASON,
@@ -302,8 +414,8 @@ class TestSleeperLeagueLoader(unittest.TestCase):
                                     teamBHasTiebreaker=False,
                                 ),
                                 Matchup(
-                                    teamAId=team7.id,
-                                    teamBId=team8.id,
+                                    teamAId=team7_2022.id,
+                                    teamBId=team8_2022.id,
                                     teamAScore=120,
                                     teamBScore=50,
                                     matchupType=MatchupType.REGULAR_SEASON,
@@ -316,8 +428,8 @@ class TestSleeperLeagueLoader(unittest.TestCase):
                             weekNumber=2,
                             matchups=[
                                 Matchup(
-                                    teamAId=team1.id,
-                                    teamBId=team2.id,
+                                    teamAId=team1_2022.id,
+                                    teamBId=team2_2022.id,
                                     teamAScore=100,
                                     teamBScore=100,
                                     matchupType=MatchupType.REGULAR_SEASON,
@@ -325,8 +437,8 @@ class TestSleeperLeagueLoader(unittest.TestCase):
                                     teamBHasTiebreaker=False,
                                 ),
                                 Matchup(
-                                    teamAId=team3.id,
-                                    teamBId=team4.id,
+                                    teamAId=team3_2022.id,
+                                    teamBId=team4_2022.id,
                                     teamAScore=90.5,
                                     teamBScore=70.5,
                                     matchupType=MatchupType.REGULAR_SEASON,
@@ -334,8 +446,8 @@ class TestSleeperLeagueLoader(unittest.TestCase):
                                     teamBHasTiebreaker=False,
                                 ),
                                 Matchup(
-                                    teamAId=team5.id,
-                                    teamBId=team6.id,
+                                    teamAId=team5_2022.id,
+                                    teamBId=team6_2022.id,
                                     teamAScore=110,
                                     teamBScore=60,
                                     matchupType=MatchupType.REGULAR_SEASON,
@@ -343,8 +455,8 @@ class TestSleeperLeagueLoader(unittest.TestCase):
                                     teamBHasTiebreaker=False,
                                 ),
                                 Matchup(
-                                    teamAId=team7.id,
-                                    teamBId=team8.id,
+                                    teamAId=team7_2022.id,
+                                    teamBId=team8_2022.id,
                                     teamAScore=120,
                                     teamBScore=50,
                                     matchupType=MatchupType.REGULAR_SEASON,
@@ -357,8 +469,8 @@ class TestSleeperLeagueLoader(unittest.TestCase):
                             weekNumber=3,
                             matchups=[
                                 Matchup(
-                                    teamAId=team2.id,
-                                    teamBId=team3.id,
+                                    teamAId=team2_2022.id,
+                                    teamBId=team3_2022.id,
                                     teamAScore=100,
                                     teamBScore=90.5,
                                     matchupType=MatchupType.PLAYOFF,
@@ -371,8 +483,8 @@ class TestSleeperLeagueLoader(unittest.TestCase):
                             weekNumber=4,
                             matchups=[
                                 Matchup(
-                                    teamAId=team1.id,
-                                    teamBId=team2.id,
+                                    teamAId=team1_2022.id,
+                                    teamBId=team2_2022.id,
                                     teamAScore=100,
                                     teamBScore=99,
                                     matchupType=MatchupType.CHAMPIONSHIP,
@@ -383,7 +495,133 @@ class TestSleeperLeagueLoader(unittest.TestCase):
                         ),
                     ],
                     yearSettings=None,
-                )
+                ),
+                Year(
+                    yearNumber=2023,
+                    teams=[
+                        team1_2023,
+                        team2_2023,
+                        team3_2023,
+                        team4_2023,
+                        team5_2023,
+                        team6_2023,
+                        team7_2023,
+                        team8_2023,
+                    ],
+                    weeks=[
+                        Week(
+                            weekNumber=1,
+                            matchups=[
+                                Matchup(
+                                    teamAId=team1_2023.id,
+                                    teamBId=team2_2023.id,
+                                    teamAScore=100,
+                                    teamBScore=100,
+                                    matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
+                                ),
+                                Matchup(
+                                    teamAId=team3_2023.id,
+                                    teamBId=team4_2023.id,
+                                    teamAScore=90.5,
+                                    teamBScore=70.5,
+                                    matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
+                                ),
+                                Matchup(
+                                    teamAId=team5_2023.id,
+                                    teamBId=team6_2023.id,
+                                    teamAScore=110,
+                                    teamBScore=60,
+                                    matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
+                                ),
+                                Matchup(
+                                    teamAId=team7_2023.id,
+                                    teamBId=team8_2023.id,
+                                    teamAScore=120,
+                                    teamBScore=50,
+                                    matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
+                                ),
+                            ],
+                        ),
+                        Week(
+                            weekNumber=2,
+                            matchups=[
+                                Matchup(
+                                    teamAId=team1_2023.id,
+                                    teamBId=team2_2023.id,
+                                    teamAScore=100,
+                                    teamBScore=100,
+                                    matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
+                                ),
+                                Matchup(
+                                    teamAId=team3_2023.id,
+                                    teamBId=team4_2023.id,
+                                    teamAScore=90.5,
+                                    teamBScore=70.5,
+                                    matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
+                                ),
+                                Matchup(
+                                    teamAId=team5_2023.id,
+                                    teamBId=team6_2023.id,
+                                    teamAScore=110,
+                                    teamBScore=60,
+                                    matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
+                                ),
+                                Matchup(
+                                    teamAId=team7_2023.id,
+                                    teamBId=team8_2023.id,
+                                    teamAScore=120,
+                                    teamBScore=50,
+                                    matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
+                                ),
+                            ],
+                        ),
+                        Week(
+                            weekNumber=3,
+                            matchups=[
+                                Matchup(
+                                    teamAId=team2_2023.id,
+                                    teamBId=team3_2023.id,
+                                    teamAScore=100,
+                                    teamBScore=90.5,
+                                    matchupType=MatchupType.PLAYOFF,
+                                    teamAHasTiebreaker=True,
+                                    teamBHasTiebreaker=False,
+                                )
+                            ],
+                        ),
+                        Week(
+                            weekNumber=4,
+                            matchups=[
+                                Matchup(
+                                    teamAId=team1_2023.id,
+                                    teamBId=team2_2023.id,
+                                    teamAScore=100,
+                                    teamBScore=99,
+                                    matchupType=MatchupType.CHAMPIONSHIP,
+                                    teamAHasTiebreaker=True,
+                                    teamBHasTiebreaker=False,
+                                )
+                            ],
+                        ),
+                    ],
+                    yearSettings=None,
+                ),
             ],
         )
         self.assertEqual(league, expectedLeague)

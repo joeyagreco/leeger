@@ -2,8 +2,9 @@ import itertools
 from typing import Optional
 
 from sleeper.api import LeagueAPIClient
-from sleeper.enum import Sport, SeasonStatus
-from sleeper.enum.PlayoffRoundType import PlayoffRoundType
+from sleeper.enum import Sport as SleeperSport
+from sleeper.enum import SeasonStatus as SleeperSeasonStatus
+from sleeper.enum import PlayoffRoundType as SleeperPlayoffRoundType
 from sleeper.model import League as SleeperLeague
 from sleeper.model import Matchup as SleeperMatchup
 from sleeper.model import PlayoffMatchup as SleeperPlayoffMatchup
@@ -64,7 +65,9 @@ class SleeperLeagueLoader(LeagueLoader):
     @classmethod
     def __getSleeperSportState(cls):
         if cls.__SLEEPER_SPORT_STATE_CACHE is None:
-            cls.__SLEEPER_SPORT_STATE_CACHE = LeagueAPIClient.get_sport_state(sport=Sport.NFL)
+            cls.__SLEEPER_SPORT_STATE_CACHE = LeagueAPIClient.get_sport_state(
+                sport=SleeperSport.NFL
+            )
         return cls.__SLEEPER_SPORT_STATE_CACHE
 
     def __getAllLeagues(self) -> list[SleeperLeague]:
@@ -74,12 +77,22 @@ class SleeperLeagueLoader(LeagueLoader):
         while len(years) > 0 and currentLeagueId not in self.__INVALID_SLEEPER_LEAGUE_IDS:
             currentLeague: SleeperLeague = LeagueAPIClient.get_league(league_id=currentLeagueId)
             if int(currentLeague.season) in years:
+                # we only want to add valid seasons
+                # NOTE: Not sure if we want to include SleeperSeasonStatus.POSTPONED here or not
+                if currentLeague.status not in (
+                    SleeperSeasonStatus.COMPLETE,
+                    SleeperSeasonStatus.IN_SEASON,
+                    SleeperSeasonStatus.POST_SEASON,
+                ):
+                    raise LeagueLoaderException(
+                        f"Year {currentLeague.season} has a status that is not supported: '{currentLeague.status}'"
+                    )
                 sleeperLeagues.append(currentLeague)
                 years.remove(int(currentLeague.season))
             currentLeagueId = currentLeague.previous_league_id
 
         if len(years) > 0:
-            raise ValueError(f"Could not find years '{years}' for league.")
+            raise LeagueLoaderException(f"Could not find years '{years}' for league.")
 
         # reverse list so most recent is last in list
         sleeperLeagues = sleeperLeagues[::-1]
@@ -119,6 +132,8 @@ class SleeperLeagueLoader(LeagueLoader):
                 self._LOGGER.warning(
                     f"Year '{year.yearNumber}' discarded for not having any weeks."
                 )
+        # make sure years are ordered oldest -> newest
+        years = sorted(years, key=lambda y: y.yearNumber)
         return League(name=leagueName, owners=owners, years=years)
 
     def __buildYear(self, sleeperLeague: SleeperLeague) -> Year:
@@ -251,12 +266,12 @@ class SleeperLeagueLoader(LeagueLoader):
                             matchupType = MatchupType.CHAMPIONSHIP
                             if (
                                 sleeperLeague.settings.playoff_round_type_enum
-                                == PlayoffRoundType.TWO_WEEK_CHAMPIONSHIP_ROUND
+                                == SleeperPlayoffRoundType.TWO_WEEK_CHAMPIONSHIP_ROUND
                             ):
                                 multiWeekMatchupId = f"{teamA.id}{teamB.id}"
                         if (
                             sleeperLeague.settings.playoff_round_type_enum
-                            == PlayoffRoundType.TWO_WEEKS_PER_ROUND
+                            == SleeperPlayoffRoundType.TWO_WEEKS_PER_ROUND
                         ):
                             multiWeekMatchupId = f"{teamA.id}{teamB.id}"
                         matchups.append(
@@ -282,7 +297,7 @@ class SleeperLeagueLoader(LeagueLoader):
         return not (
             sportState.season == sleeperLeague.season
             and sportState.leg <= weekNumber
-            and sleeperLeague.status != SeasonStatus.COMPLETE
+            and sleeperLeague.status != SleeperSeasonStatus.COMPLETE
         )
 
     def __buildTeams(self, sleeperLeague: SleeperLeague) -> list[Team]:
@@ -341,11 +356,11 @@ class SleeperLeagueLoader(LeagueLoader):
             [playoffMatchup.round for playoffMatchup in sleeperPlayoffMatchups]
         )  # don't know a better way to determine this
         match sleeperLeague.settings.playoff_round_type_enum:
-            case PlayoffRoundType.ONE_WEEK_PER_ROUND:
+            case SleeperPlayoffRoundType.ONE_WEEK_PER_ROUND:
                 return numberOfPlayoffRounds
-            case PlayoffRoundType.TWO_WEEK_CHAMPIONSHIP_ROUND:
+            case SleeperPlayoffRoundType.TWO_WEEK_CHAMPIONSHIP_ROUND:
                 return numberOfPlayoffRounds + 1
-            case PlayoffRoundType.TWO_WEEKS_PER_ROUND:
+            case SleeperPlayoffRoundType.TWO_WEEKS_PER_ROUND:
                 return numberOfPlayoffRounds * 2
             case _:
                 raise LeagueLoaderException(
@@ -357,9 +372,9 @@ class SleeperLeagueLoader(LeagueLoader):
         sleeperLeague: SleeperLeague, playoffWeeks: list, numberOfPlayoffRounds: int
     ) -> list[tuple[int, int]]:
         match sleeperLeague.settings.playoff_round_type_enum:
-            case PlayoffRoundType.ONE_WEEK_PER_ROUND:
+            case SleeperPlayoffRoundType.ONE_WEEK_PER_ROUND:
                 return list(zip(playoffWeeks, range(1, numberOfPlayoffRounds + 1)))
-            case PlayoffRoundType.TWO_WEEK_CHAMPIONSHIP_ROUND:
+            case SleeperPlayoffRoundType.TWO_WEEK_CHAMPIONSHIP_ROUND:
                 return list(
                     itertools.zip_longest(
                         playoffWeeks,
@@ -367,7 +382,7 @@ class SleeperLeagueLoader(LeagueLoader):
                         fillvalue=numberOfPlayoffRounds,
                     )
                 )
-            case PlayoffRoundType.TWO_WEEKS_PER_ROUND:
+            case SleeperPlayoffRoundType.TWO_WEEKS_PER_ROUND:
                 playoffRounds = [
                     playoffRound
                     for playoffRound in range(1, numberOfPlayoffRounds + 1)
