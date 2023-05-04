@@ -124,7 +124,6 @@ class TestSleeperLeagueLoader(unittest.TestCase):
         mockSleeperLeague2022.settings.league_average_match = 0
 
         # create mock SleeperUser objects
-        # TODO: mock metadata for team name
         mockSleeperUsers2022 = [
             self.__generateMockSleeperUser(displayName="User 1", userId="1"),
             self.__generateMockSleeperUser(displayName="User 2", userId="2"),
@@ -170,13 +169,24 @@ class TestSleeperLeagueLoader(unittest.TestCase):
             self.__generateMockSleeperMatchup(matchupId=20220104, rosterId=202208, points=50),
         ]
 
+        mockSleeperMatchups2022_2 = [
+            self.__generateMockSleeperMatchup(matchupId=20220201, rosterId=202201, points=100),
+            self.__generateMockSleeperMatchup(matchupId=20220201, rosterId=202202, points=100),
+            self.__generateMockSleeperMatchup(matchupId=20220202, rosterId=202203, points=90.5),
+            self.__generateMockSleeperMatchup(matchupId=20220202, rosterId=202204, points=70.5),
+            self.__generateMockSleeperMatchup(matchupId=20220203, rosterId=202205, points=110),
+            self.__generateMockSleeperMatchup(matchupId=20220203, rosterId=202206, points=60),
+            self.__generateMockSleeperMatchup(matchupId=20220204, rosterId=202207, points=120),
+            self.__generateMockSleeperMatchup(matchupId=20220204, rosterId=202208, points=50),
+        ]
+
         # create mock SleeperSportState objects
-        mockSleeperSportState2022 = self.__generateMockSleeperSportState(season="2022", leg=2)
+        mockSleeperSportState2022 = self.__generateMockSleeperSportState(season="2022", leg=3)
 
         mockGetLeague.side_effect = [mockSleeperLeague2022]
         mockGetUsersInLeague.side_effect = [mockSleeperUsers2022]
         mockGetRosters.side_effect = [mockSleeperRosters2022]
-        mockGetMatchupsForWeek.side_effect = [mockSleeperMatchups2022_1]
+        mockGetMatchupsForWeek.side_effect = [mockSleeperMatchups2022_1, mockSleeperMatchups2022_2]
         mockGetSportState.side_effect = [mockSleeperSportState2022]
         mockGetWinnersBracket.side_effect = [[]]
 
@@ -251,7 +261,48 @@ class TestSleeperLeagueLoader(unittest.TestCase):
                                     teamBHasTiebreaker=False,
                                 ),
                             ],
-                        )
+                        ),
+                        Week(
+                            weekNumber=2,
+                            matchups=[
+                                Matchup(
+                                    teamAId=team1.id,
+                                    teamBId=team2.id,
+                                    teamAScore=100,
+                                    teamBScore=100,
+                                    matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
+                                ),
+                                Matchup(
+                                    teamAId=team3.id,
+                                    teamBId=team4.id,
+                                    teamAScore=90.5,
+                                    teamBScore=70.5,
+                                    matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
+                                ),
+                                Matchup(
+                                    teamAId=team5.id,
+                                    teamBId=team6.id,
+                                    teamAScore=110,
+                                    teamBScore=60,
+                                    matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
+                                ),
+                                Matchup(
+                                    teamAId=team7.id,
+                                    teamBId=team8.id,
+                                    teamAScore=120,
+                                    teamBScore=50,
+                                    matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
+                                ),
+                            ],
+                        ),
                     ],
                     yearSettings=None,
                 )
