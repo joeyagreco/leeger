@@ -21,7 +21,10 @@ from leeger.model.league.Year import Year
 
 class TestSleeperLeagueLoader(unittest.TestCase):
     """
-    # TODO: Add better tests.
+    # TODO: test multiple years
+    # TODO: test ownerNamesAndAliases
+    # TODO: test multi-week matchups
+    # TODO: test all playoff round types (including unsupported)
     """
 
     # helper methods

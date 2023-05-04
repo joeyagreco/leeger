@@ -371,6 +371,6 @@ class SleeperLeagueLoader(LeagueLoader):
                 playoffRounds = [
                     playoffRound
                     for playoffRound in range(1, numberOfPlayoffRounds + 1)
-                    for i in range(1, numberOfPlayoffRounds + 1)
+                    for _ in range(1, numberOfPlayoffRounds + 1)
                 ]
                 return list(zip(playoffWeeks, playoffRounds))
