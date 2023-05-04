@@ -14,6 +14,10 @@ from leeger.model.league.Year import Year
 
 
 class TestESPNLeagueLoader(unittest.TestCase):
+    """
+    # TODO: test ownerNamesAndAliases
+    """
+
     def test_loadLeague_intendedFailure(self):
         with self.assertRaises(ESPNInvalidLeague) as context:
             leagueLoader = ESPNLeagueLoader("0", [2000])

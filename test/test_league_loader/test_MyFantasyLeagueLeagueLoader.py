@@ -7,7 +7,8 @@ from leeger.league_loader import MyFantasyLeagueLeagueLoader
 
 class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
     """
-    # TODO: Add better tests.
+    # TODO: add better tests
+    # TODO: mock intended failure test
     """
 
     def test_loadLeague_intendedFailure(self):
