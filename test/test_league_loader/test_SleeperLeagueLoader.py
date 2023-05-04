@@ -206,14 +206,23 @@ class TestSleeperLeagueLoader(unittest.TestCase):
             self.__generateMockSleeperMatchup(matchupId=20220301, rosterId=202203, points=90.5),
         ]
 
+        # championship
+        mockSleeperMatchups2022_4 = [
+            self.__generateMockSleeperMatchup(matchupId=20220401, rosterId=202201, points=100),
+            self.__generateMockSleeperMatchup(matchupId=20220401, rosterId=202202, points=99),
+        ]
+
         # create mock SleeperSportState objects
-        mockSleeperSportState2022 = self.__generateMockSleeperSportState(season="2022", leg=4)
+        mockSleeperSportState2022 = self.__generateMockSleeperSportState(season="2022", leg=5)
 
         # create mock SleeperPlayoffMatchup objects
         mockSleeperPlayoffMatchups2022 = [
             self.__generateMockSleeperPlayoffMatchup(
                 round=1, team1RosterId=202202, team2RosterId=202203, winningRosterId=202202, p=0
-            )
+            ),
+            self.__generateMockSleeperPlayoffMatchup(
+                round=2, team1RosterId=202201, team2RosterId=202202, winningRosterId=202201, p=1
+            ),
         ]
 
         mockGetLeague.side_effect = [mockSleeperLeague2022]
@@ -223,6 +232,7 @@ class TestSleeperLeagueLoader(unittest.TestCase):
             mockSleeperMatchups2022_1,
             mockSleeperMatchups2022_2,
             mockSleeperMatchups2022_3,
+            mockSleeperMatchups2022_4,
         ]
         mockGetSportState.side_effect = [mockSleeperSportState2022]
         mockGetWinnersBracket.side_effect = [mockSleeperPlayoffMatchups2022]
@@ -349,6 +359,20 @@ class TestSleeperLeagueLoader(unittest.TestCase):
                                     teamAScore=100,
                                     teamBScore=90.5,
                                     matchupType=MatchupType.PLAYOFF,
+                                    teamAHasTiebreaker=True,
+                                    teamBHasTiebreaker=False,
+                                )
+                            ],
+                        ),
+                        Week(
+                            weekNumber=4,
+                            matchups=[
+                                Matchup(
+                                    teamAId=team1.id,
+                                    teamBId=team2.id,
+                                    teamAScore=100,
+                                    teamBScore=99,
+                                    matchupType=MatchupType.CHAMPIONSHIP,
                                     teamAHasTiebreaker=True,
                                     teamBHasTiebreaker=False,
                                 )
