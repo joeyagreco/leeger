@@ -21,6 +21,7 @@ from leeger.model.league.Team import Team
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
 from leeger.validate import leagueValidation
+from leeger.exception.LeagueLoaderException import LeagueLoaderException
 
 
 class SleeperLeagueLoader(LeagueLoader):
@@ -141,7 +142,6 @@ class SleeperLeagueLoader(LeagueLoader):
         foundIncompleteWeek = False
         for i in range(sleeperLeague.settings.playoff_week_start - 1):
             if not foundIncompleteWeek and self.__isCompletedWeek(i + 1, sleeperLeague):
-                print("jg week number: ", i + 1)
                 # get each teams matchup for that week
                 matchups = list()
                 sleeperMatchups = LeagueAPIClient.get_matchups_for_week(
@@ -184,6 +184,7 @@ class SleeperLeagueLoader(LeagueLoader):
             else:
                 foundIncompleteWeek = True
         # get playoff weeks
+        # NOTE: bye weeks will not be returned here. That's ok because we don't want those anyways
         sleeperPlayoffMatchups = LeagueAPIClient.get_winners_bracket(
             league_id=sleeperLeague.league_id
         )
@@ -346,6 +347,10 @@ class SleeperLeagueLoader(LeagueLoader):
                 return numberOfPlayoffRounds + 1
             case PlayoffRoundType.TWO_WEEKS_PER_ROUND:
                 return numberOfPlayoffRounds * 2
+            case _:
+                raise LeagueLoaderException(
+                    f"PlayoffRoundType '{sleeperLeague.settings.playoff_round_type_enum}' is not supported."
+                )
 
     @staticmethod
     def __create_playoff_week_round_list(

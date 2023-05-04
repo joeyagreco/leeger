@@ -8,6 +8,8 @@ from sleeper.model import User as SleeperUser
 from sleeper.model import Roster as SleeperRoster
 from sleeper.model import Matchup as SleeperMatchup
 from sleeper.model import SportState as SleeperSportState
+from sleeper.model import PlayoffMatchup as SleeperPlayoffMatchup
+from sleeper.enum import PlayoffRoundType as SleeperPlayoffRoundType
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Owner import Owner
@@ -93,6 +95,21 @@ class TestSleeperLeagueLoader(unittest.TestCase):
             week=None,
         )
 
+    def __generateMockSleeperPlayoffMatchup(
+        self, *, round: int, team1RosterId: int, team2RosterId: int, winningRosterId: int, p: int
+    ) -> SleeperPlayoffMatchup:
+        return SleeperPlayoffMatchup(
+            losing_roster_id=None,
+            matchup_id=None,
+            round=round,
+            team_1_from=None,
+            team_1_roster_id=team1RosterId,
+            team_2_from=None,
+            team_2_roster_id=team2RosterId,
+            winning_roster_id=winningRosterId,
+            p=p,
+        )
+
     def test_loadLeague_intendedFailure(self):
         with self.assertRaises(ValueError) as context:
             leagueLoader = SleeperLeagueLoader("0", [2000])
@@ -122,6 +139,9 @@ class TestSleeperLeagueLoader(unittest.TestCase):
         mockSleeperLeague2022.name = "Test League 2022"
         mockSleeperLeague2022.settings.playoff_week_start = 3
         mockSleeperLeague2022.settings.league_average_match = 0
+        mockSleeperLeague2022.settings.playoff_round_type_enum = (
+            SleeperPlayoffRoundType.ONE_WEEK_PER_ROUND
+        )
 
         # create mock SleeperUser objects
         mockSleeperUsers2022 = [
@@ -180,15 +200,32 @@ class TestSleeperLeagueLoader(unittest.TestCase):
             self.__generateMockSleeperMatchup(matchupId=20220204, rosterId=202208, points=50),
         ]
 
+        # playoffs
+        mockSleeperMatchups2022_3 = [
+            self.__generateMockSleeperMatchup(matchupId=20220301, rosterId=202202, points=100),
+            self.__generateMockSleeperMatchup(matchupId=20220301, rosterId=202203, points=90.5),
+        ]
+
         # create mock SleeperSportState objects
-        mockSleeperSportState2022 = self.__generateMockSleeperSportState(season="2022", leg=3)
+        mockSleeperSportState2022 = self.__generateMockSleeperSportState(season="2022", leg=4)
+
+        # create mock SleeperPlayoffMatchup objects
+        mockSleeperPlayoffMatchups2022 = [
+            self.__generateMockSleeperPlayoffMatchup(
+                round=1, team1RosterId=202202, team2RosterId=202203, winningRosterId=202202, p=0
+            )
+        ]
 
         mockGetLeague.side_effect = [mockSleeperLeague2022]
         mockGetUsersInLeague.side_effect = [mockSleeperUsers2022]
         mockGetRosters.side_effect = [mockSleeperRosters2022]
-        mockGetMatchupsForWeek.side_effect = [mockSleeperMatchups2022_1, mockSleeperMatchups2022_2]
+        mockGetMatchupsForWeek.side_effect = [
+            mockSleeperMatchups2022_1,
+            mockSleeperMatchups2022_2,
+            mockSleeperMatchups2022_3,
+        ]
         mockGetSportState.side_effect = [mockSleeperSportState2022]
-        mockGetWinnersBracket.side_effect = [[]]
+        mockGetWinnersBracket.side_effect = [mockSleeperPlayoffMatchups2022]
 
         # create instance of SleeperLeagueLoader and call load_league method
         sleeper_league_loader = SleeperLeagueLoader("123", [2022])
@@ -301,6 +338,20 @@ class TestSleeperLeagueLoader(unittest.TestCase):
                                     teamAHasTiebreaker=False,
                                     teamBHasTiebreaker=False,
                                 ),
+                            ],
+                        ),
+                        Week(
+                            weekNumber=3,
+                            matchups=[
+                                Matchup(
+                                    teamAId=team2.id,
+                                    teamBId=team3.id,
+                                    teamAScore=100,
+                                    teamBScore=90.5,
+                                    matchupType=MatchupType.PLAYOFF,
+                                    teamAHasTiebreaker=True,
+                                    teamBHasTiebreaker=False,
+                                )
                             ],
                         ),
                     ],
