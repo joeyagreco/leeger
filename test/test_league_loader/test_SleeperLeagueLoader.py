@@ -1,3 +1,4 @@
+from typing import Optional
 import unittest
 from leeger.enum.MatchupType import MatchupType
 
@@ -22,7 +23,9 @@ class TestSleeperLeagueLoader(unittest.TestCase):
     """
 
     # helper methods
-    def __generateMockSleeperUser(self, *, displayName: str, userId: str) -> SleeperUser:
+    def __generateMockSleeperUser(
+        self, *, displayName: str, userId: str, metadata: Optional[dict] = None
+    ) -> SleeperUser:
         return SleeperUser(
             avatar=None,
             cookies=None,
@@ -35,7 +38,7 @@ class TestSleeperLeagueLoader(unittest.TestCase):
             is_bot=None,
             is_owner=None,
             league_id=None,
-            metadata=None,
+            metadata=metadata,
             notifications=None,
             pending=None,
             phone=None,
@@ -127,10 +130,18 @@ class TestSleeperLeagueLoader(unittest.TestCase):
             self.__generateMockSleeperUser(displayName="User 2", userId="2"),
             self.__generateMockSleeperUser(displayName="User 3", userId="3"),
             self.__generateMockSleeperUser(displayName="User 4", userId="4"),
-            self.__generateMockSleeperUser(displayName="User 5", userId="5"),
-            self.__generateMockSleeperUser(displayName="User 6", userId="6"),
-            self.__generateMockSleeperUser(displayName="User 7", userId="7"),
-            self.__generateMockSleeperUser(displayName="User 8", userId="8"),
+            self.__generateMockSleeperUser(
+                displayName="User 5", userId="5", metadata={"team_name": "Team 5"}
+            ),
+            self.__generateMockSleeperUser(
+                displayName="User 6", userId="6", metadata={"team_name": "Team 6"}
+            ),
+            self.__generateMockSleeperUser(
+                displayName="User 7", userId="7", metadata={"team_name": "Team 7"}
+            ),
+            self.__generateMockSleeperUser(
+                displayName="User 8", userId="8", metadata={"team_name": "Team 8"}
+            ),
         ]
 
         # create mock SleeperRoster objects
@@ -178,10 +189,10 @@ class TestSleeperLeagueLoader(unittest.TestCase):
         team2 = Team(ownerId=2, name="User 2")
         team3 = Team(ownerId=3, name="User 3")
         team4 = Team(ownerId=4, name="User 4")
-        team5 = Team(ownerId=5, name="User 5")
-        team6 = Team(ownerId=6, name="User 6")
-        team7 = Team(ownerId=7, name="User 7")
-        team8 = Team(ownerId=8, name="User 8")
+        team5 = Team(ownerId=5, name="Team 5")
+        team6 = Team(ownerId=6, name="Team 6")
+        team7 = Team(ownerId=7, name="Team 7")
+        team8 = Team(ownerId=8, name="Team 8")
 
         expectedLeague = League(
             name="Test League 2022",
