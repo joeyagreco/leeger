@@ -1,4 +1,5 @@
 import unittest
+from leeger.enum.MatchupType import MatchupType
 
 from leeger.league_loader import SleeperLeagueLoader
 from unittest.mock import patch, Mock
@@ -6,6 +7,13 @@ from sleeper.model import User as SleeperUser
 from sleeper.model import Roster as SleeperRoster
 from sleeper.model import Matchup as SleeperMatchup
 from sleeper.model import SportState as SleeperSportState
+from leeger.model.league.League import League
+from leeger.model.league.Matchup import Matchup
+from leeger.model.league.Owner import Owner
+
+from leeger.model.league.Team import Team
+from leeger.model.league.Week import Week
+from leeger.model.league.Year import Year
 
 
 class TestSleeperLeagueLoader(unittest.TestCase):
@@ -93,8 +101,10 @@ class TestSleeperLeagueLoader(unittest.TestCase):
     @patch("sleeper.api.LeagueAPIClient.get_rosters")
     @patch("sleeper.api.LeagueAPIClient.get_matchups_for_week")
     @patch("sleeper.api.LeagueAPIClient.get_sport_state")
+    @patch("sleeper.api.LeagueAPIClient.get_winners_bracket")
     def test_load_league(
         self,
+        mockGetWinnersBracket,
         mockGetSportState,
         mockGetMatchupsForWeek,
         mockGetRosters,
@@ -109,8 +119,6 @@ class TestSleeperLeagueLoader(unittest.TestCase):
         mockSleeperLeague2022.name = "Test League 2022"
         mockSleeperLeague2022.settings.playoff_week_start = 3
         mockSleeperLeague2022.settings.league_average_match = 0
-        # mockSleeperLeague2022.settings.reg_season_count = 2
-        # mockSleeperLeague2022.settings.playoff_team_count = 3
 
         # create mock SleeperUser objects
         # TODO: mock metadata for team name
@@ -142,24 +150,100 @@ class TestSleeperLeagueLoader(unittest.TestCase):
         # matchup id will be YYYY (year) WW (week number) MM (matchup number)
         mockSleeperMatchups2022_1 = [
             self.__generateMockSleeperMatchup(matchupId=20220101, rosterId=202201, points=100),
-            self.__generateMockSleeperMatchup(matchupId=20220102, rosterId=202202, points=100),
-            self.__generateMockSleeperMatchup(matchupId=20220103, rosterId=202203, points=100),
-            self.__generateMockSleeperMatchup(matchupId=20220104, rosterId=202204, points=100),
-            self.__generateMockSleeperMatchup(matchupId=20220105, rosterId=202205, points=100),
-            self.__generateMockSleeperMatchup(matchupId=20220106, rosterId=202206, points=100),
-            self.__generateMockSleeperMatchup(matchupId=20220107, rosterId=202207, points=100),
-            self.__generateMockSleeperMatchup(matchupId=20220108, rosterId=202208, points=100),
+            self.__generateMockSleeperMatchup(matchupId=20220101, rosterId=202202, points=100),
+            self.__generateMockSleeperMatchup(matchupId=20220102, rosterId=202203, points=90.5),
+            self.__generateMockSleeperMatchup(matchupId=20220102, rosterId=202204, points=70.5),
+            self.__generateMockSleeperMatchup(matchupId=20220103, rosterId=202205, points=110),
+            self.__generateMockSleeperMatchup(matchupId=20220103, rosterId=202206, points=60),
+            self.__generateMockSleeperMatchup(matchupId=20220104, rosterId=202207, points=120),
+            self.__generateMockSleeperMatchup(matchupId=20220104, rosterId=202208, points=50),
         ]
 
         # create mock SleeperSportState objects
-        mockSleeperSportState2022 = self.__generateMockSleeperSportState(season="2022", leg=1)
+        mockSleeperSportState2022 = self.__generateMockSleeperSportState(season="2022", leg=2)
 
         mockGetLeague.side_effect = [mockSleeperLeague2022]
         mockGetUsersInLeague.side_effect = [mockSleeperUsers2022]
         mockGetRosters.side_effect = [mockSleeperRosters2022]
         mockGetMatchupsForWeek.side_effect = [mockSleeperMatchups2022_1]
         mockGetSportState.side_effect = [mockSleeperSportState2022]
+        mockGetWinnersBracket.side_effect = [[]]
 
         # create instance of SleeperLeagueLoader and call load_league method
         sleeper_league_loader = SleeperLeagueLoader("123", [2022])
         league = sleeper_league_loader.loadLeague()
+
+        # expected league
+        team1 = Team(ownerId=1, name="User 1")
+        team2 = Team(ownerId=2, name="User 2")
+        team3 = Team(ownerId=3, name="User 3")
+        team4 = Team(ownerId=4, name="User 4")
+        team5 = Team(ownerId=5, name="User 5")
+        team6 = Team(ownerId=6, name="User 6")
+        team7 = Team(ownerId=7, name="User 7")
+        team8 = Team(ownerId=8, name="User 8")
+
+        expectedLeague = League(
+            name="Test League 2022",
+            owners=[
+                Owner(name="User 1"),
+                Owner(name="User 2"),
+                Owner(name="User 3"),
+                Owner(name="User 4"),
+                Owner(name="User 5"),
+                Owner(name="User 6"),
+                Owner(name="User 7"),
+                Owner(name="User 8"),
+            ],
+            years=[
+                Year(
+                    yearNumber=2022,
+                    teams=[team1, team2, team3, team4, team5, team6, team7, team8],
+                    weeks=[
+                        Week(
+                            weekNumber=1,
+                            matchups=[
+                                Matchup(
+                                    teamAId=team1.id,
+                                    teamBId=team2.id,
+                                    teamAScore=100,
+                                    teamBScore=100,
+                                    matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
+                                ),
+                                Matchup(
+                                    teamAId=team3.id,
+                                    teamBId=team4.id,
+                                    teamAScore=90.5,
+                                    teamBScore=70.5,
+                                    matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
+                                ),
+                                Matchup(
+                                    teamAId=team5.id,
+                                    teamBId=team6.id,
+                                    teamAScore=110,
+                                    teamBScore=60,
+                                    matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
+                                ),
+                                Matchup(
+                                    teamAId=team7.id,
+                                    teamBId=team8.id,
+                                    teamAScore=120,
+                                    teamBScore=50,
+                                    matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
+                                ),
+                            ],
+                        )
+                    ],
+                    yearSettings=None,
+                )
+            ],
+        )
+        self.assertEqual(league, expectedLeague)

@@ -137,8 +137,11 @@ class SleeperLeagueLoader(LeagueLoader):
     def __buildWeeks(self, sleeperLeague: SleeperLeague) -> list[Week]:
         weeks = list()
         # get regular season weeks
+        # once we have found an incomplete week, all weeks after will also be incomplete
+        foundIncompleteWeek = False
         for i in range(sleeperLeague.settings.playoff_week_start - 1):
-            if self.__isCompletedWeek(i + 1, sleeperLeague):
+            if not foundIncompleteWeek and self.__isCompletedWeek(i + 1, sleeperLeague):
+                print("jg week number: ", i + 1)
                 # get each teams matchup for that week
                 matchups = list()
                 sleeperMatchups = LeagueAPIClient.get_matchups_for_week(
@@ -178,93 +181,96 @@ class SleeperLeagueLoader(LeagueLoader):
                         )
                     )
                 weeks.append(Week(weekNumber=i + 1, matchups=matchups))
+            else:
+                foundIncompleteWeek = True
         # get playoff weeks
         sleeperPlayoffMatchups = LeagueAPIClient.get_winners_bracket(
             league_id=sleeperLeague.league_id
         )
-        # sort sleeperPlayoffMatchups by round into a dict
-        playoffRoundAndSleeperPlayoffMatchups: dict[int, list[SleeperPlayoffMatchup]] = dict()
-        for sleeperPlayoffMatchup in sleeperPlayoffMatchups:
-            if sleeperPlayoffMatchup.round in playoffRoundAndSleeperPlayoffMatchups.keys():
-                playoffRoundAndSleeperPlayoffMatchups[sleeperPlayoffMatchup.round].append(
-                    sleeperPlayoffMatchup
+        if len(sleeperPlayoffMatchups) > 0:
+            # sort sleeperPlayoffMatchups by round into a dict
+            playoffRoundAndSleeperPlayoffMatchups: dict[int, list[SleeperPlayoffMatchup]] = dict()
+            for sleeperPlayoffMatchup in sleeperPlayoffMatchups:
+                if sleeperPlayoffMatchup.round in playoffRoundAndSleeperPlayoffMatchups.keys():
+                    playoffRoundAndSleeperPlayoffMatchups[sleeperPlayoffMatchup.round].append(
+                        sleeperPlayoffMatchup
+                    )
+                else:
+                    playoffRoundAndSleeperPlayoffMatchups[sleeperPlayoffMatchup.round] = [
+                        sleeperPlayoffMatchup
+                    ]
+            numberOfPlayoffRounds = max(
+                [playoffMatchup.round for playoffMatchup in sleeperPlayoffMatchups]
+            )  # don't know a better way to determine this
+            numberOfPlayoffWeeks = self.__calculate_number_of_playoff_weeks(
+                sleeperLeague, sleeperPlayoffMatchups
+            )
+            playoffWeeks = list(
+                range(
+                    sleeperLeague.settings.playoff_week_start,
+                    sleeperLeague.settings.playoff_week_start + numberOfPlayoffWeeks,
                 )
-            else:
-                playoffRoundAndSleeperPlayoffMatchups[sleeperPlayoffMatchup.round] = [
-                    sleeperPlayoffMatchup
-                ]
-        numberOfPlayoffRounds = max(
-            [playoffMatchup.round for playoffMatchup in sleeperPlayoffMatchups]
-        )  # don't know a better way to determine this
-        numberOfPlayoffWeeks = self.__calculate_number_of_playoff_weeks(
-            sleeperLeague, sleeperPlayoffMatchups
-        )
-        playoffWeeks = list(
-            range(
-                sleeperLeague.settings.playoff_week_start,
-                sleeperLeague.settings.playoff_week_start + numberOfPlayoffWeeks,
             )
-        )
-        playoffWeekRoundList = self.__create_playoff_week_round_list(
-            sleeperLeague, playoffWeeks, numberOfPlayoffRounds
-        )
-        for weekNumber, roundNumber in playoffWeekRoundList:
-            # get each teams matchup for that week
-            matchups = list()
-            sleeperMatchups = LeagueAPIClient.get_matchups_for_week(
-                league_id=sleeperLeague.league_id, week=weekNumber
+            playoffWeekRoundList = self.__create_playoff_week_round_list(
+                sleeperLeague, playoffWeeks, numberOfPlayoffRounds
             )
-            if self.__isCompletedWeek(weekNumber, sleeperLeague):
-                # sort matchups by roster IDs
-                rosterIdToSleeperMatchupMap: dict[int, SleeperMatchup] = dict()
-                for sleeperMatchup in sleeperMatchups:
-                    rosterIdToSleeperMatchupMap[sleeperMatchup.roster_id] = sleeperMatchup
-                for sleeperPlayoffMatchup in playoffRoundAndSleeperPlayoffMatchups[roundNumber]:
-                    # team A
-                    teamARosterId = sleeperPlayoffMatchup.team_1_roster_id
-                    teamA = self.__sleeperRosterIdToTeamMap[teamARosterId]
-                    teamAPoints = rosterIdToSleeperMatchupMap[teamARosterId].points
-                    teamAHasTiebreaker = (
-                        sleeperPlayoffMatchup.winning_roster_id
-                        == sleeperPlayoffMatchup.team_1_roster_id
-                    )
-                    # team B
-                    teamBRosterId = sleeperPlayoffMatchup.team_2_roster_id
-                    teamB = self.__sleeperRosterIdToTeamMap[teamBRosterId]
-                    teamBPoints = rosterIdToSleeperMatchupMap[teamBRosterId].points
-                    teamBHasTiebreaker = (
-                        sleeperPlayoffMatchup.winning_roster_id
-                        == sleeperPlayoffMatchup.team_2_roster_id
-                    )
+            for weekNumber, roundNumber in playoffWeekRoundList:
+                # get each teams matchup for that week
+                matchups = list()
+                sleeperMatchups = LeagueAPIClient.get_matchups_for_week(
+                    league_id=sleeperLeague.league_id, week=weekNumber
+                )
+                if self.__isCompletedWeek(weekNumber, sleeperLeague):
+                    # sort matchups by roster IDs
+                    rosterIdToSleeperMatchupMap: dict[int, SleeperMatchup] = dict()
+                    for sleeperMatchup in sleeperMatchups:
+                        rosterIdToSleeperMatchupMap[sleeperMatchup.roster_id] = sleeperMatchup
+                    for sleeperPlayoffMatchup in playoffRoundAndSleeperPlayoffMatchups[roundNumber]:
+                        # team A
+                        teamARosterId = sleeperPlayoffMatchup.team_1_roster_id
+                        teamA = self.__sleeperRosterIdToTeamMap[teamARosterId]
+                        teamAPoints = rosterIdToSleeperMatchupMap[teamARosterId].points
+                        teamAHasTiebreaker = (
+                            sleeperPlayoffMatchup.winning_roster_id
+                            == sleeperPlayoffMatchup.team_1_roster_id
+                        )
+                        # team B
+                        teamBRosterId = sleeperPlayoffMatchup.team_2_roster_id
+                        teamB = self.__sleeperRosterIdToTeamMap[teamBRosterId]
+                        teamBPoints = rosterIdToSleeperMatchupMap[teamBRosterId].points
+                        teamBHasTiebreaker = (
+                            sleeperPlayoffMatchup.winning_roster_id
+                            == sleeperPlayoffMatchup.team_2_roster_id
+                        )
 
-                    multiWeekMatchupId = None
-                    # determine if this is a championship matchup or not
-                    matchupType = MatchupType.PLAYOFF
-                    if sleeperPlayoffMatchup.p == 1:
-                        matchupType = MatchupType.CHAMPIONSHIP
+                        multiWeekMatchupId = None
+                        # determine if this is a championship matchup or not
+                        matchupType = MatchupType.PLAYOFF
+                        if sleeperPlayoffMatchup.p == 1:
+                            matchupType = MatchupType.CHAMPIONSHIP
+                            if (
+                                sleeperLeague.settings.playoff_round_type_enum
+                                == PlayoffRoundType.TWO_WEEK_CHAMPIONSHIP_ROUND
+                            ):
+                                multiWeekMatchupId = f"{teamA.id}{teamB.id}"
                         if (
                             sleeperLeague.settings.playoff_round_type_enum
-                            == PlayoffRoundType.TWO_WEEK_CHAMPIONSHIP_ROUND
+                            == PlayoffRoundType.TWO_WEEKS_PER_ROUND
                         ):
                             multiWeekMatchupId = f"{teamA.id}{teamB.id}"
-                    if (
-                        sleeperLeague.settings.playoff_round_type_enum
-                        == PlayoffRoundType.TWO_WEEKS_PER_ROUND
-                    ):
-                        multiWeekMatchupId = f"{teamA.id}{teamB.id}"
-                    matchups.append(
-                        Matchup(
-                            teamAId=teamA.id,
-                            teamBId=teamB.id,
-                            teamAScore=teamAPoints,
-                            teamBScore=teamBPoints,
-                            teamAHasTiebreaker=teamAHasTiebreaker,
-                            teamBHasTiebreaker=teamBHasTiebreaker,
-                            matchupType=matchupType,
-                            multiWeekMatchupId=multiWeekMatchupId,
+                        matchups.append(
+                            Matchup(
+                                teamAId=teamA.id,
+                                teamBId=teamB.id,
+                                teamAScore=teamAPoints,
+                                teamBScore=teamBPoints,
+                                teamAHasTiebreaker=teamAHasTiebreaker,
+                                teamBHasTiebreaker=teamBHasTiebreaker,
+                                matchupType=matchupType,
+                                multiWeekMatchupId=multiWeekMatchupId,
+                            )
                         )
-                    )
-                weeks.append(Week(weekNumber=weekNumber, matchups=matchups))
+                    weeks.append(Week(weekNumber=weekNumber, matchups=matchups))
 
         return weeks
 
