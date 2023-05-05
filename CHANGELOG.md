@@ -4,7 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- N/A
+- Fixed bug in the Sleeper League Loader where 2-week championship rounds would not load
+- Added better tests for the Sleeper League Loader
 
 ## [2.3.0]
 
