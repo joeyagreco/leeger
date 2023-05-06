@@ -5,6 +5,9 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 - Fixed bug in the Sleeper League Loader where 2-week championship rounds would not load
+- Fixed bug in the Sleeper League Loader where 2-week playoff rounds would not load
+- Significantly reduced the number of network calls made when loading Leagues with the Sleeper League Loader
+- Added better tests for the ESPN League Loader
 - Added better tests for the Sleeper League Loader
 
 ## [2.3.0]
