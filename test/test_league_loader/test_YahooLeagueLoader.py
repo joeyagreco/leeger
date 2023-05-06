@@ -51,6 +51,7 @@ class TestYahooLeagueLoader(unittest.TestCase):
         mockSubprocessCall,
     ):
         yahooLeagueLoader = YahooLeagueLoader("123", [2022], clientId="cid", clientSecret="cs")
+        # TODO: assert that the login() method is called with the correct params
         mockLeague2022 = Mock()
         mockLeague2022.league_id = "123"
         mockLeague2022.renew = None
