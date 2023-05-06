@@ -24,6 +24,31 @@ class TestYahooLeagueLoader(unittest.TestCase):
 
         return mockWeeksMethod
 
+    def __getMockYahooTeam(
+        self, *, teamId: int, teamKey: int, name: str, managerNickname: str, managerId: int
+    ) -> Mock:
+        mockTeam = Mock()
+        mockTeam.team_id = teamId
+        mockTeam.team_key = teamKey
+        mockTeam.name = name
+        mockTeam.manager.nickname = managerNickname
+        mockTeam.manager.manager_id = managerId
+        return mockTeam
+
+    def __getMockYahooMatchup(
+        self, *, status: str, winnerTeamKey: int, isPlayoffs: int, league: Mock
+    ) -> Mock:
+        mockYahooMatchup = Mock()
+        mockYahooMatchup.status = status
+        mockYahooMatchup.winner_team_key = winnerTeamKey
+        mockYahooMatchup.is_playoffs = isPlayoffs
+        mockYahooMatchup.league = league
+        return mockYahooMatchup
+
+    def __setMockYahooTeamPoints(self, mockYahooTeam: Mock, teamPointsTotal: int | float) -> Mock:
+        mockYahooTeam.team_points.total = teamPointsTotal
+        return mockYahooTeam
+
     # TODO
     # def test_loadLeague_intendedFailure(self):
     #     with self.assertRaises(TimeoutError) as context:
@@ -74,33 +99,81 @@ class TestYahooLeagueLoader(unittest.TestCase):
         mockLeague2022.end_week = 5
 
         # mock teams
-        mockTeam1_2022 = Mock()
-        mockTeam1_2022.team_id = 1
-        mockTeam1_2022.team_key = 1
-        mockTeam1_2022.manager.nickname = "Owner 1"
-        mockTeam1_2022.manager.manager_id = 1
-        mockTeam1_2022.team_points.total = 100
-        mockTeam2_2022 = Mock()
-        mockTeam2_2022.team_id = 2
-        mockTeam2_2022.team_key = 2
-        mockTeam1_2022.manager.nickname = "Owner 2"
-        mockTeam1_2022.manager.manager_id = 2
-        mockTeam2_2022.team_points.total = 90
-        mockLeague2022.teams = self.__getMockTeamsMethod([mockTeam1_2022, mockTeam2_2022])
+        mockYahooTeam1_2022 = self.__getMockYahooTeam(
+            teamId=1, teamKey=1, name="Team 1", managerNickname="Owner 1", managerId=1
+        )
+        mockYahooTeam2_2022 = self.__getMockYahooTeam(
+            teamId=2, teamKey=2, name="Team 2", managerNickname="Owner 2", managerId=2
+        )
+        mockYahooTeam3_2022 = self.__getMockYahooTeam(
+            teamId=3, teamKey=3, name="Team 3", managerNickname="Owner 3", managerId=3
+        )
+        mockYahooTeam4_2022 = self.__getMockYahooTeam(
+            teamId=4, teamKey=4, name="Team 4", managerNickname="Owner 4", managerId=4
+        )
+        mockYahooTeam5_2022 = self.__getMockYahooTeam(
+            teamId=5, teamKey=5, name="Team 5", managerNickname="Owner 5", managerId=5
+        )
+        mockYahooTeam6_2022 = self.__getMockYahooTeam(
+            teamId=6, teamKey=6, name="Team 6", managerNickname="Owner 6", managerId=6
+        )
+        mockYahooTeam7_2022 = self.__getMockYahooTeam(
+            teamId=7, teamKey=7, name="Team 7", managerNickname="Owner 7", managerId=7
+        )
+        mockYahooTeam8_2022 = self.__getMockYahooTeam(
+            teamId=8, teamKey=8, name="Team 8", managerNickname="Owner 8", managerId=8
+        )
+        mockLeague2022.teams = self.__getMockTeamsMethod(
+            [
+                mockYahooTeam1_2022,
+                mockYahooTeam2_2022,
+                mockYahooTeam3_2022,
+                mockYahooTeam4_2022,
+                mockYahooTeam5_2022,
+                mockYahooTeam6_2022,
+                mockYahooTeam7_2022,
+                mockYahooTeam8_2022,
+            ]
+        )
 
         # mock matchups
-        mockMatchup1_2022 = Mock()
-        mockMatchup1_2022.status = "postevent"
-        mockMatchup1_2022.team1 = mockTeam1_2022
-        mockMatchup1_2022.team2 = mockTeam2_2022
-        mockMatchup1_2022.winner_team_key = 1
-        mockMatchup1_2022.is_playoffs = 0
-        mockMatchup1_2022.league = mockLeague2022
-        mockMatchup1_2022.teams.team = [mockTeam1_2022, mockTeam2_2022]
+        mockYahooMatchup1_2022 = self.__getMockYahooMatchup(
+            status="postevent", winnerTeamKey=1, isPlayoffs=0, league=mockLeague2022
+        )
+        mockYahooMatchup1_2022.teams.team = [
+            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam1_2022, teamPointsTotal=100),
+            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam2_2022, teamPointsTotal=90),
+        ]
+        mockYahooMatchup2_2022 = self.__getMockYahooMatchup(
+            status="postevent", winnerTeamKey=3, isPlayoffs=0, league=mockLeague2022
+        )
+        mockYahooMatchup2_2022.teams.team = [
+            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam3_2022, teamPointsTotal=100),
+            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam4_2022, teamPointsTotal=90),
+        ]
+        mockYahooMatchup3_2022 = self.__getMockYahooMatchup(
+            status="postevent", winnerTeamKey=5, isPlayoffs=0, league=mockLeague2022
+        )
+        mockYahooMatchup3_2022.teams.team = [
+            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam5_2022, teamPointsTotal=100),
+            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam6_2022, teamPointsTotal=90),
+        ]
+        mockYahooMatchup4_2022 = self.__getMockYahooMatchup(
+            status="postevent", winnerTeamKey=7, isPlayoffs=0, league=mockLeague2022
+        )
+        mockYahooMatchup4_2022.teams.team = [
+            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam7_2022, teamPointsTotal=100),
+            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam8_2022, teamPointsTotal=90),
+        ]
 
         # mock weeks
         mockWeek1_2022 = Mock()
-        mockWeek1_2022.matchups = [mockMatchup1_2022]
+        mockWeek1_2022.matchups = [
+            mockYahooMatchup1_2022,
+            mockYahooMatchup2_2022,
+            mockYahooMatchup3_2022,
+            mockYahooMatchup4_2022,
+        ]
         mockLeague2022.weeks = self.__getMockWeeksMethod([mockWeek1_2022])
 
         mockYahooContextInit.side_effect = [None]

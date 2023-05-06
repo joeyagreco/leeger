@@ -51,7 +51,7 @@ class YahooLeagueLoader(LeagueLoader):
         self.__yahooTeamIdToTeamMap: dict[str, Team] = dict()
         self.__yearToTeamIdHasLostInPlayoffs: dict[int, dict[int, bool]] = dict()
 
-    def __login(self, clientId: str, clientSecret: str) -> None:
+    def login(self, clientId: str, clientSecret: str) -> None:
         """
         Logs in via Yahoo OAuth.
         Will open up a browser window.
@@ -71,7 +71,7 @@ class YahooLeagueLoader(LeagueLoader):
 
     def __getAllLeagues(self) -> list[YahooLeague]:
         loginProcess = multiprocessing.Process(
-            target=self.__login, args=(self.__clientId, self.__clientSecret)
+            target=self.login, args=(self.__clientId, self.__clientSecret)
         )
         loginProcess.start()
         loginProcess.join(self.__timeoutSeconds)
@@ -153,13 +153,13 @@ class YahooLeagueLoader(LeagueLoader):
             validYahooMatchups = [m for m in yahooWeek.matchups if m.status == "postevent"]
             for yahooMatchup in validYahooMatchups:
                 # team A is *this* team
-                yahooTeamA = yahooMatchup.team1
-                teamA = self.__yahooTeamIdToTeamMap[yahooMatchup.team1.team_id]
-                teamAScore = yahooMatchup.teams.team[0].team_points.total
+                yahooTeamA = yahooMatchup.teams.team[0]
+                teamA = self.__yahooTeamIdToTeamMap[yahooTeamA.team_id]
+                teamAScore = yahooTeamA.team_points.total
                 # team B is their opponent
-                yahooTeamB = yahooMatchup.team2
-                teamB = self.__yahooTeamIdToTeamMap[yahooMatchup.team2.team_id]
-                teamBScore = yahooMatchup.teams.team[1].team_points.total
+                yahooTeamB = yahooMatchup.teams.team[1]
+                teamB = self.__yahooTeamIdToTeamMap[yahooTeamB.team_id]
+                teamBScore = yahooTeamB.team_points.total
                 # figure out tiebreakers if there needs to be one
                 teamAHasTiebreaker = False
                 teamBHasTiebreaker = False
@@ -184,8 +184,8 @@ class YahooLeagueLoader(LeagueLoader):
         return weeks
 
     def __getMatchupType(self, yahooMatchup: YahooMatchup) -> MatchupType:
-        team1Id = yahooMatchup.team1.team_id
-        team2Id = yahooMatchup.team2.team_id
+        team1Id = yahooMatchup.teams.team[0].team_id
+        team2Id = yahooMatchup.teams.team[1].team_id
         # check if this is a playoff week
         if yahooMatchup.is_playoffs == 1:
             # figure out if this is the last week of playoffs (the championship week)
