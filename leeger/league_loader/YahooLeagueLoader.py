@@ -2,7 +2,7 @@ import multiprocessing
 import subprocess
 from typing import Optional
 
-from yahoofantasy import Context
+from yahoofantasy import Context as YahooContext
 from yahoofantasy import League as YahooLeague
 from yahoofantasy import Matchup as YahooMatchup
 from yahoofantasy import Team as YahooTeam
@@ -52,7 +52,7 @@ class YahooLeagueLoader(LeagueLoader):
         self.__yearToTeamIdHasLostInPlayoffs: dict[int, dict[int, bool]] = dict()
 
     @classmethod
-    def login(cls, clientId: str, clientSecret: str) -> None:
+    def __login(cls, clientId: str, clientSecret: str) -> None:
         """
         Logs in via Yahoo OAuth.
         Will open up a browser window.
@@ -72,14 +72,14 @@ class YahooLeagueLoader(LeagueLoader):
 
     def __getAllLeagues(self) -> list[YahooLeague]:
         loginProcess = multiprocessing.Process(
-            target=self.login, args=(self.__clientId, self.__clientSecret)
+            target=self.__login, args=(self.__clientId, self.__clientSecret)
         )
         loginProcess.start()
         loginProcess.join(self.__timeoutSeconds)
         if loginProcess.is_alive():
             loginProcess.terminate()
             raise TimeoutError("Login to yahoofantasy timed out.")
-        ctx = Context()
+        yahooContext = YahooContext()
         yahooLeagues = list()
         nextLeagueId = self._leagueId
         remainingYears = self._years.copy()
@@ -87,7 +87,7 @@ class YahooLeagueLoader(LeagueLoader):
         while len(remainingYears) > 0 and nextLeagueId is not None:
             # get all leagues this user was in for this year
             currentYear = remainingYears[0]
-            leagues = ctx.get_leagues(self.__NFL, currentYear)
+            leagues = yahooContext.get_leagues(self.__NFL, currentYear)
             # find the league ID we want
             for league in leagues:
                 if str(league.league_id) == nextLeagueId:
