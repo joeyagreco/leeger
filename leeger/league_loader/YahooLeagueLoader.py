@@ -51,8 +51,7 @@ class YahooLeagueLoader(LeagueLoader):
         self.__yahooTeamIdToTeamMap: dict[str, Team] = dict()
         self.__yearToTeamIdHasLostInPlayoffs: dict[int, dict[int, bool]] = dict()
 
-    @classmethod
-    def __login(cls, clientId: str, clientSecret: str) -> None:
+    def __login(self, clientId: str, clientSecret: str) -> None:
         """
         Logs in via Yahoo OAuth.
         Will open up a browser window.
@@ -151,8 +150,8 @@ class YahooLeagueLoader(LeagueLoader):
             # get each teams matchup for that week
             matchups = list()
             # only get matchups that are completed
-            validMatchups = [m for m in yahooWeek.matchups if m.status == "postevent"]
-            for yahooMatchup in validMatchups:
+            validYahooMatchups = [m for m in yahooWeek.matchups if m.status == "postevent"]
+            for yahooMatchup in validYahooMatchups:
                 # team A is *this* team
                 yahooTeamA = yahooMatchup.team1
                 teamA = self.__yahooTeamIdToTeamMap[yahooMatchup.team1.team_id]
