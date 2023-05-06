@@ -23,10 +23,6 @@ from leeger.model.league.YearSettings import YearSettings
 
 
 class TestSleeperLeagueLoader(unittest.TestCase):
-    """
-    # TODO: test median games
-    """
-
     # helper methods
     def __generateMockSleeperUser(
         self, *, displayName: str, userId: str, metadata: Optional[dict] = None
