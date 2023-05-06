@@ -56,6 +56,8 @@ class Matchup(UniqueId, JSONSerializable, JSONDeserializable):
                 notEqualStrings.append("teamAId")
             if self.teamBId != otherMatchup.teamBId:
                 notEqualStrings.append("teamBId")
+            if self.multiWeekMatchupId != otherMatchup.multiWeekMatchupId:
+                notEqualStrings.append("multiWeekMatchupId")
             if len(notEqualStrings) > 0:
                 self.__LOGGER.warning(
                     f"Returning True for equality check when {notEqualStrings} are not equal."

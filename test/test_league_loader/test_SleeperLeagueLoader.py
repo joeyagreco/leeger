@@ -23,8 +23,6 @@ from leeger.model.league.Year import Year
 
 class TestSleeperLeagueLoader(unittest.TestCase):
     """
-    # TODO: test multi-week matchups
-    # TODO: test all playoff round types (including unsupported)
     # TODO: test median games
     """
 
@@ -1469,7 +1467,7 @@ class TestSleeperLeagueLoader(unittest.TestCase):
         ]
 
         # create mock SleeperSportState objects
-        mockSleeperSportState2022 = self.__generateMockSleeperSportState(season="2022", leg=6)
+        mockSleeperSportState2022 = self.__generateMockSleeperSportState(season="2022", leg=7)
 
         # create mock SleeperPlayoffMatchup objects
         mockSleeperPlayoffMatchups2022 = [
@@ -1715,3 +1713,72 @@ class TestSleeperLeagueLoader(unittest.TestCase):
                     self.assertEqual(
                         f"{matchup.teamAId}{matchup.teamBId}", matchup.multiWeekMatchupId
                     )
+
+    @patch("sleeper.api.LeagueAPIClient.get_league")
+    @patch("sleeper.api.LeagueAPIClient.get_users_in_league")
+    @patch("sleeper.api.LeagueAPIClient.get_rosters")
+    @patch("sleeper.api.LeagueAPIClient.get_matchups_for_week")
+    @patch("sleeper.api.LeagueAPIClient.get_sport_state")
+    @patch("sleeper.api.LeagueAPIClient.get_winners_bracket")
+    def test_load_league_happyPath_playoffRoundType_unsupported_raisesException(
+        self,
+        mockGetWinnersBracket,
+        mockGetSportState,
+        mockGetMatchupsForWeek,
+        mockGetRosters,
+        mockGetUsersInLeague,
+        mockGetLeague,
+    ):
+        # create mock SleeperLeague objects
+        mockSleeperLeague2022 = Mock()
+        mockSleeperLeague2022.season = "2022"
+        mockSleeperLeague2022.status = SleeperSeasonStatus.COMPLETE
+        mockSleeperLeague2022.name = "Test League 2022"
+        mockSleeperLeague2022.settings.playoff_week_start = 1
+        mockSleeperLeague2022.settings.playoff_round_type_enum = None
+
+        # create mock SleeperUser objects
+        mockSleeperUsers2022 = [
+            self.__generateMockSleeperUser(displayName="User 1", userId="1"),
+            self.__generateMockSleeperUser(displayName="User 2", userId="2"),
+        ]
+
+        # create mock SleeperRoster objects
+        # roster id will be YYYY (year) RR (roster number)
+        mockSleeperRosters2022 = [
+            self.__generateMockSleeperRoster(ownerId="1", rosterId=202201),
+            self.__generateMockSleeperRoster(ownerId="2", rosterId=202202),
+        ]
+
+        # create mock SleeperMatchup objects
+        # matchup id will be YYYY (year) WW (week number) MM (matchup number)
+        mockSleeperMatchups2022_1 = [
+            self.__generateMockSleeperMatchup(matchupId=20220101, rosterId=202201, points=100),
+            self.__generateMockSleeperMatchup(matchupId=20220101, rosterId=202202, points=100),
+        ]
+        # create mock SleeperSportState objects
+        mockSleeperSportState2022 = self.__generateMockSleeperSportState(season="2022", leg=None)
+
+        # create mock SleeperPlayoffMatchup objects
+        mockSleeperPlayoffMatchups2022 = [
+            self.__generateMockSleeperPlayoffMatchup(
+                round=1,
+                team1RosterId=202202,
+                team2RosterId=202203,
+                winningRosterId=202202,
+                p=0,
+                matchupId=20220301,
+            )
+        ]
+
+        mockGetLeague.side_effect = [mockSleeperLeague2022]
+        mockGetUsersInLeague.side_effect = [mockSleeperUsers2022]
+        mockGetRosters.side_effect = [mockSleeperRosters2022]
+        mockGetMatchupsForWeek.side_effect = [mockSleeperMatchups2022_1]
+        mockGetSportState.side_effect = [mockSleeperSportState2022]
+        mockGetWinnersBracket.side_effect = [mockSleeperPlayoffMatchups2022]
+
+        with self.assertRaises(LeagueLoaderException) as context:
+            sleeper_league_loader = SleeperLeagueLoader("123", [2022])
+            sleeper_league_loader.loadLeague()
+        self.assertEqual("PlayoffRoundType 'None' is not supported.", str(context.exception))
