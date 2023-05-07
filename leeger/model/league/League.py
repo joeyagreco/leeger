@@ -7,12 +7,15 @@ from leeger.exception import DoesNotExistException
 from leeger.model.abstract.UniqueId import UniqueId
 from leeger.model.league.Owner import Owner
 from leeger.model.league.Year import Year
+from leeger.util.CustomLogger import CustomLogger
+from leeger.util.GeneralUtil import GeneralUtil
 from leeger.util.JSONDeserializable import JSONDeserializable
 from leeger.util.JSONSerializable import JSONSerializable
 
 
 @dataclass(kw_only=True, eq=False)
 class League(UniqueId, JSONSerializable, JSONDeserializable):
+    __LOGGER = CustomLogger.getLogger()
     name: str
     owners: list[Owner]
     years: list[Year]
@@ -28,6 +31,13 @@ class League(UniqueId, JSONSerializable, JSONDeserializable):
         equal = self.name == otherLeague.name
         equal = equal and self.owners == otherLeague.owners
         equal = equal and self.years == otherLeague.years
+        if not equal:
+            differences = GeneralUtil.findDifferentFields(
+                self.toJson(),
+                otherLeague.toJson(),
+                ignoreKeyNames=["id", "ownerId", "teamAId", "teamBId"],
+            )
+            self.__LOGGER.info(f"Differences: {differences}")
         return equal
 
     def __add__(self, otherLeague: League) -> League:
