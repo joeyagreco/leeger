@@ -10,6 +10,7 @@ from yahoofantasy import Week as YahooWeek
 
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception.DoesNotExistException import DoesNotExistException
+from leeger.exception.LeagueLoaderException import LeagueLoaderException
 from leeger.league_loader.LeagueLoader import LeagueLoader
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup
@@ -30,7 +31,7 @@ class YahooLeagueLoader(LeagueLoader):
 
     def __init__(
         self,
-        leagueId: str,
+        mostRecentLeagueId: str,
         years: list[int],
         *,
         clientId: str,
@@ -40,10 +41,10 @@ class YahooLeagueLoader(LeagueLoader):
     ):
         # validation
         try:
-            int(leagueId)
+            int(mostRecentLeagueId)
         except ValueError:
-            raise ValueError(f"League ID '{leagueId}' could not be turned into an int.")
-        super().__init__(leagueId, years, ownerNamesAndAliases=ownerNamesAndAliases)
+            raise ValueError(f"League ID '{mostRecentLeagueId}' could not be turned into an int.")
+        super().__init__(mostRecentLeagueId, years, ownerNamesAndAliases=ownerNamesAndAliases)
         self.__clientId = clientId
         self.__clientSecret = clientSecret
         self.__timeoutSeconds = loginTimeoutSeconds
@@ -80,23 +81,26 @@ class YahooLeagueLoader(LeagueLoader):
             raise TimeoutError("Login to yahoofantasy timed out.")
         yahooContext = YahooContext()
         yahooLeagues = list()
-        nextLeagueId = self._leagueId
-        remainingYears = self._years.copy()
+        # years from most -> least recent
+        remainingYears = sorted(self._years, reverse=True)
+        currentLeagueId = self._leagueId
+        previousLeagueId = None
         foundYears = list()
-        while len(remainingYears) > 0 and nextLeagueId is not None:
+        for year in remainingYears:
+            foundLeagueForYear = False
             # get all leagues this user was in for this year
-            currentYear = remainingYears[0]
-            leagues = yahooContext.get_leagues(self.__NFL, currentYear)
-            # find the league ID we want
+            leagues = yahooContext.get_leagues(self.__NFL, year)
+            # find the league that we want (has a matching ID)
             for league in leagues:
-                if str(league.league_id) == nextLeagueId:
+                if str(league.league_id) == currentLeagueId:
                     yahooLeagues.append(league)
-                    foundYears.append(currentYear)
-                    nextLeagueId = league.renew
-                    if nextLeagueId is not None:
-                        nextLeagueId = str(nextLeagueId)[3:]
-                        break
-            remainingYears.pop(0)
+                    foundLeagueForYear = True
+                    previousLeagueId = league.past_league_id
+            if not foundLeagueForYear:
+                raise LeagueLoaderException(
+                    f"Could not find league for year {year} with ID {currentLeagueId}."
+                )
+            currentLeagueId = previousLeagueId
 
         if len(yahooLeagues) != len(self._years):
             # TODO: Give a more descriptive // accurate error message
