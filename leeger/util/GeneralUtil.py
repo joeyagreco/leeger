@@ -77,7 +77,7 @@ class GeneralUtil:
                         isRootDict=isRootDict,
                     )
                 )
-            elif isinstance(value1, list) and isinstance(value2, list):
+            elif isinstance(value1, (list, tuple)) and isinstance(value2, (list, tuple)):
                 if len(value1) != len(value2):
                     differentFields.append((fullKey, (value1, value2)))
                 else:

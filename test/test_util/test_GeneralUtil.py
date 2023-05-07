@@ -50,6 +50,12 @@ class TestGeneralUtil(unittest.TestCase):
         response = GeneralUtil.findDifferentFields(d1, d2)
         self.assertEqual(list(), response)
 
+        # with tuple
+        d1 = {"foo": ("baz", "boy"), "bar": "bot"}
+        d2 = {"foo": ("baz", "boy"), "bar": "bot"}
+        response = GeneralUtil.findDifferentFields(d1, d2)
+        self.assertEqual(list(), response)
+
         # with ignore key names (some keys)
         d1 = {"foo": "baz", "bar": "bot"}
         d2 = {"foo": "baz", "bar": "bot"}
@@ -95,6 +101,27 @@ class TestGeneralUtil(unittest.TestCase):
         d2 = {"foo": ["baz"]}
         response = GeneralUtil.findDifferentFields(d1, d2)
         self.assertEqual([("foo", (["baz", "bar"], ["baz"]))], response)
+
+        # tuple differences
+        # single field difference with same list length
+        d1 = {"foo": ("baz", "bar")}
+        d2 = {"foo": ("baz", "ba")}
+        response = GeneralUtil.findDifferentFields(d1, d2)
+        self.assertEqual([("foo[1]", ("bar", "ba"))], response)
+
+        # all values in tuples differ, shows key as difference
+        d1 = {"foo": ("baz", "bar", "bot", "boy")}
+        d2 = {"foo": ("ba", "ba", "bo", "bo")}
+        response = GeneralUtil.findDifferentFields(d1, d2)
+        self.assertEqual(
+            [("foo", (("baz", "bar", "bot", "boy"), ("ba", "ba", "bo", "bo")))], response
+        )
+
+        # tuples have unequal length, shows key as difference
+        d1 = {"foo": ("baz", "bar")}
+        d2 = {"foo": ("baz")}
+        response = GeneralUtil.findDifferentFields(d1, d2)
+        self.assertEqual([("foo", (("baz", "bar"), ("baz")))], response)
 
         # multiple field differences
         d1 = {"foo": "baz", "bar": "bot"}
