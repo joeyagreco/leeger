@@ -83,7 +83,16 @@ class GeneralUtil:
                 else:
                     list_differences = []
                     for i in range(len(value1)):
-                        if value1[i] != value2[i]:
+                        if isinstance(value1[i], dict) and isinstance(value2[i], dict):
+                            nested_diff = GeneralUtil.findDifferentFields(
+                                value1[i],
+                                value2[i],
+                                parentKey=f"{fullKey}[{i}]",
+                                ignoreKeyNames=ignoreKeyNames,
+                                isRootDict=False,
+                            )
+                            differentFields.extend(nested_diff)
+                        elif value1[i] != value2[i]:
                             list_differences.append(i)
                     if len(list_differences) == len(value1):
                         differentFields.append((fullKey, (value1, value2)))
