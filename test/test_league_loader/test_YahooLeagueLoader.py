@@ -102,7 +102,6 @@ class TestYahooLeagueLoader(unittest.TestCase):
         mockLeague2022.name = "Test League 2022"
         mockLeague2022.league_id = "123"
         mockLeague2022.season = 2022
-        mockLeague2022.renew = None
         mockLeague2022.current_week = 1
         mockLeague2022.end_week = 5
 
@@ -156,8 +155,8 @@ class TestYahooLeagueLoader(unittest.TestCase):
             status="postevent", winnerTeamKey=3, isPlayoffs=0, isTied=0, league=mockLeague2022
         )
         mockYahooMatchup2_2022.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam3_2022, teamPointsTotal=100),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam4_2022, teamPointsTotal=90),
+            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam3_2022, teamPointsTotal=100.1),
+            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam4_2022, teamPointsTotal=90.1),
         ]
         mockYahooMatchup3_2022 = self.__getMockYahooMatchup(
             status="postevent", winnerTeamKey=5, isPlayoffs=0, isTied=0, league=mockLeague2022
@@ -243,8 +242,8 @@ class TestYahooLeagueLoader(unittest.TestCase):
                                 Matchup(
                                     teamAId=team3_2022.id,
                                     teamBId=team4_2022.id,
-                                    teamAScore=100,
-                                    teamBScore=90,
+                                    teamAScore=100.1,
+                                    teamBScore=90.1,
                                     matchupType=MatchupType.REGULAR_SEASON,
                                     teamAHasTiebreaker=True,
                                     teamBHasTiebreaker=False,
