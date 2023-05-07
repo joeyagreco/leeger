@@ -62,6 +62,12 @@ class TestGeneralUtil(unittest.TestCase):
         response = GeneralUtil.findDifferentFields(d1, d2, ignoreKeyNames=["foo", "bar"])
         self.assertEqual(list(), response)
 
+        # with parent key given
+        d1 = {"foo": "baz", "bar": "bot"}
+        d2 = {"foo": "baz", "bar": "bot"}
+        response = GeneralUtil.findDifferentFields(d1, d2, parentKey="abc")
+        self.assertEqual(list(), response)
+
     def test_findDifferentFields_someDifference_simpleDict(self):
         # single field difference
         d1 = {"foo": "baz", "bar": "bot"}
@@ -108,6 +114,12 @@ class TestGeneralUtil(unittest.TestCase):
         response = GeneralUtil.findDifferentFields(d1, d2, ignoreKeyNames=["foo", "bar"])
         self.assertEqual(list(), response)
 
+        # with parent key given
+        d1 = {"foo": "baz", "bar": "bot"}
+        d2 = {"foo": "ba", "bar": "bot"}
+        response = GeneralUtil.findDifferentFields(d1, d2, parentKey="abc")
+        self.assertEqual([("abc.foo", ("baz", "ba"))], response)
+
     def test_findDifferentFields_nestedDict(self):
         # with dict nested
         d1 = {"foo": {"baz": "bar"}, "bot": {"boo": "boy"}}
@@ -151,3 +163,9 @@ class TestGeneralUtil(unittest.TestCase):
         d2 = {"foo": {"bar": [{"bot": "bo"}]}}
         response = GeneralUtil.findDifferentFields(d1, d2)
         self.assertEqual([("foo.bar[0].bot", ("boy", "bo"))], response)
+
+        # with parent key given
+        d1 = {"foo": {"baz": "bar"}, "bot": {"boo": "boy"}}
+        d2 = {"foo": {"baz": "ba"}, "bot": {"boo": "bo"}}
+        response = GeneralUtil.findDifferentFields(d1, d2, parentKey="abc")
+        self.assertEqual([("abc.foo.baz", ("bar", "ba")), ("abc.bot.boo", ("boy", "bo"))], response)
