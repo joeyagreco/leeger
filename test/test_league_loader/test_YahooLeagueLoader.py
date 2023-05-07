@@ -1,8 +1,15 @@
 import unittest
 from unittest import mock
 from unittest.mock import Mock
+from leeger.enum.MatchupType import MatchupType
 
 from leeger.league_loader import YahooLeagueLoader
+from leeger.model.league.League import League
+from leeger.model.league.Matchup import Matchup
+from leeger.model.league.Owner import Owner
+from leeger.model.league.Team import Team
+from leeger.model.league.Week import Week
+from leeger.model.league.Year import Year
 
 
 class TestYahooLeagueLoader(unittest.TestCase):
@@ -181,4 +188,93 @@ class TestYahooLeagueLoader(unittest.TestCase):
         mockLoginProcess = mockMultiprocessingProcess.return_value
         mockLoginProcess.is_alive.return_value = False  # Simulate login process completion
 
-        yahooLeagueLoader.loadLeague()
+        league = yahooLeagueLoader.loadLeague()
+
+        # expected league
+        team1_2022 = Team(ownerId=1, name="Team 1")
+        team2_2022 = Team(ownerId=2, name="Team 2")
+        team3_2022 = Team(ownerId=3, name="Team 3")
+        team4_2022 = Team(ownerId=4, name="Team 4")
+        team5_2022 = Team(ownerId=5, name="Team 5")
+        team6_2022 = Team(ownerId=6, name="Team 6")
+        team7_2022 = Team(ownerId=7, name="Team 7")
+        team8_2022 = Team(ownerId=8, name="Team 8")
+
+        expectedLeague = League(
+            name="Test League 2022",
+            owners=[
+                Owner(name="Owner 1"),
+                Owner(name="Owner 2"),
+                Owner(name="Owner 3"),
+                Owner(name="Owner 4"),
+                Owner(name="Owner 5"),
+                Owner(name="Owner 6"),
+                Owner(name="Owner 7"),
+                Owner(name="Owner 8"),
+            ],
+            years=[
+                Year(
+                    yearNumber=2022,
+                    teams=[
+                        team1_2022,
+                        team2_2022,
+                        team3_2022,
+                        team4_2022,
+                        team5_2022,
+                        team6_2022,
+                        team7_2022,
+                        team8_2022,
+                    ],
+                    weeks=[
+                        Week(
+                            weekNumber=1,
+                            matchups=[
+                                Matchup(
+                                    teamAId=team1_2022.id,
+                                    teamBId=team2_2022.id,
+                                    teamAScore=100,
+                                    teamBScore=90,
+                                    matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
+                                    multiWeekMatchupId=None,
+                                ),
+                                Matchup(
+                                    teamAId=team3_2022.id,
+                                    teamBId=team4_2022.id,
+                                    teamAScore=100,
+                                    teamBScore=90,
+                                    matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
+                                    multiWeekMatchupId=None,
+                                ),
+                                Matchup(
+                                    teamAId=team5_2022.id,
+                                    teamBId=team6_2022.id,
+                                    teamAScore=100,
+                                    teamBScore=90,
+                                    matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
+                                    multiWeekMatchupId=None,
+                                ),
+                                Matchup(
+                                    teamAId=team7_2022.id,
+                                    teamBId=team8_2022.id,
+                                    teamAScore=100,
+                                    teamBScore=90,
+                                    matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=False,
+                                    teamBHasTiebreaker=False,
+                                    multiWeekMatchupId=None,
+                                ),
+                            ],
+                        )
+                    ],
+                    yearSettings=None,
+                )
+            ],
+        )
+
+        self.assertEqual(league, expectedLeague)
