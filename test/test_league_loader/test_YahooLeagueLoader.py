@@ -15,10 +15,6 @@ from leeger.model.league.Year import Year
 
 
 class TestYahooLeagueLoader(unittest.TestCase):
-    """
-    # TODO: test ownerNamesAndAliases
-    """
-
     # helper methods
     def __getMockTeamsMethod(self, teams: list) -> callable:
         def mockTeamsMethod():
