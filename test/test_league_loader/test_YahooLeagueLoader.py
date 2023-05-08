@@ -15,8 +15,8 @@ from leeger.model.league.Year import Year
 
 class TestYahooLeagueLoader(unittest.TestCase):
     """
-    # TODO: add better tests
     # TODO: mock failure tests
+    # TODO: test ownerNamesAndAliases
     """
 
     # helper methods
@@ -385,3 +385,8 @@ class TestYahooLeagueLoader(unittest.TestCase):
         )
 
         self.assertEqual(league, expectedLeague)
+        # check multiWeekMatchupIds
+        for year in league.years:
+            for week in year.weeks:
+                for matchup in week.matchups:
+                    self.assertIsNone(matchup.multiWeekMatchupId)
