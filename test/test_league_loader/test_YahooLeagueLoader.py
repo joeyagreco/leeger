@@ -1,6 +1,7 @@
 import unittest
 from unittest import mock
 from unittest.mock import Mock
+import copy
 from leeger.enum.MatchupType import MatchupType
 
 from leeger.league_loader import YahooLeagueLoader
@@ -45,17 +46,21 @@ class TestYahooLeagueLoader(unittest.TestCase):
     def __getMockYahooMatchup(
         self, *, status: str, winnerTeamKey: int, isTied: int, isPlayoffs: int, league: Mock
     ) -> Mock:
+        # duplicate mockYahooTeam to avoid using the same object in memory
+        dupLeague = copy.deepcopy(league)
         mockYahooMatchup = Mock()
         mockYahooMatchup.status = status
         mockYahooMatchup.winner_team_key = winnerTeamKey
         mockYahooMatchup.is_tied = isTied
         mockYahooMatchup.is_playoffs = isPlayoffs
-        mockYahooMatchup.league = league
+        mockYahooMatchup.league = dupLeague
         return mockYahooMatchup
 
     def __setMockYahooTeamPoints(self, mockYahooTeam: Mock, teamPointsTotal: int | float) -> Mock:
-        mockYahooTeam.team_points.total = teamPointsTotal
-        return mockYahooTeam
+        # duplicate mockYahooTeam to avoid using the same object in memory
+        dupMockYahooTeam = copy.deepcopy(mockYahooTeam)
+        dupMockYahooTeam.team_points.total = teamPointsTotal
+        return dupMockYahooTeam
 
     # TODO
     # def test_loadLeague_intendedFailure(self):
@@ -102,7 +107,7 @@ class TestYahooLeagueLoader(unittest.TestCase):
         mockLeague2022.name = "Test League 2022"
         mockLeague2022.league_id = "123"
         mockLeague2022.season = 2022
-        mockLeague2022.current_week = 1
+        mockLeague2022.current_week = 2
         mockLeague2022.end_week = 5
 
         # mock teams
@@ -144,44 +149,55 @@ class TestYahooLeagueLoader(unittest.TestCase):
         )
 
         # mock matchups
-        mockYahooMatchup1_2022 = self.__getMockYahooMatchup(
+        # week -> matchup number -> year
+        mockYahooMatchup1_1_2022 = self.__getMockYahooMatchup(
             status="postevent", winnerTeamKey=1, isPlayoffs=0, isTied=0, league=mockLeague2022
         )
-        mockYahooMatchup1_2022.teams.team = [
+        mockYahooMatchup1_1_2022.teams.team = [
             self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam1_2022, teamPointsTotal=100),
             self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam2_2022, teamPointsTotal=100),
         ]
-        mockYahooMatchup2_2022 = self.__getMockYahooMatchup(
+        mockYahooMatchup1_2_2022 = self.__getMockYahooMatchup(
             status="postevent", winnerTeamKey=3, isPlayoffs=0, isTied=0, league=mockLeague2022
         )
-        mockYahooMatchup2_2022.teams.team = [
+        mockYahooMatchup1_2_2022.teams.team = [
             self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam3_2022, teamPointsTotal=100.1),
             self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam4_2022, teamPointsTotal=90.1),
         ]
-        mockYahooMatchup3_2022 = self.__getMockYahooMatchup(
+        mockYahooMatchup1_3_2022 = self.__getMockYahooMatchup(
             status="postevent", winnerTeamKey=5, isPlayoffs=0, isTied=0, league=mockLeague2022
         )
-        mockYahooMatchup3_2022.teams.team = [
+        mockYahooMatchup1_3_2022.teams.team = [
             self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam5_2022, teamPointsTotal=100),
             self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam6_2022, teamPointsTotal=90),
         ]
-        mockYahooMatchup4_2022 = self.__getMockYahooMatchup(
+        mockYahooMatchup1_4_2022 = self.__getMockYahooMatchup(
             status="postevent", winnerTeamKey=7, isPlayoffs=0, isTied=0, league=mockLeague2022
         )
-        mockYahooMatchup4_2022.teams.team = [
+        mockYahooMatchup1_4_2022.teams.team = [
             self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam7_2022, teamPointsTotal=100),
             self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam8_2022, teamPointsTotal=90),
+        ]
+        # playoffs
+        mockYahooMatchup2_1_2022 = self.__getMockYahooMatchup(
+            status="postevent", winnerTeamKey=2, isPlayoffs=1, isTied=0, league=mockLeague2022
+        )
+        mockYahooMatchup2_1_2022.teams.team = [
+            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam2_2022, teamPointsTotal=101),
+            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam3_2022, teamPointsTotal=91),
         ]
 
         # mock weeks
         mockWeek1_2022 = Mock()
         mockWeek1_2022.matchups = [
-            mockYahooMatchup1_2022,
-            mockYahooMatchup2_2022,
-            mockYahooMatchup3_2022,
-            mockYahooMatchup4_2022,
+            mockYahooMatchup1_1_2022,
+            mockYahooMatchup1_2_2022,
+            mockYahooMatchup1_3_2022,
+            mockYahooMatchup1_4_2022,
         ]
-        mockLeague2022.weeks = self.__getMockWeeksMethod([mockWeek1_2022])
+        mockWeek2_2022 = Mock()
+        mockWeek2_2022.matchups = [mockYahooMatchup2_1_2022]
+        mockLeague2022.weeks = self.__getMockWeeksMethod([mockWeek1_2022, mockWeek2_2022])
 
         mockYahooContextInit.side_effect = [None]
         mockYahooContextGetLeagues.side_effect = [[mockLeague2022]]
@@ -270,7 +286,22 @@ class TestYahooLeagueLoader(unittest.TestCase):
                                     multiWeekMatchupId=None,
                                 ),
                             ],
-                        )
+                        ),
+                        Week(
+                            weekNumber=2,
+                            matchups=[
+                                Matchup(
+                                    teamAId=team2_2022.id,
+                                    teamBId=team3_2022.id,
+                                    teamAScore=101,
+                                    teamBScore=91,
+                                    matchupType=MatchupType.PLAYOFF,
+                                    teamAHasTiebreaker=True,
+                                    teamBHasTiebreaker=False,
+                                    multiWeekMatchupId=None,
+                                )
+                            ],
+                        ),
                     ],
                     yearSettings=None,
                 )

@@ -35,6 +35,7 @@ class League(UniqueId, JSONSerializable, JSONDeserializable):
             differences = GeneralUtil.findDifferentFields(
                 self.toJson(),
                 otherLeague.toJson(),
+                parentKey="League",
                 ignoreKeyNames=["id", "ownerId", "teamAId", "teamBId"],
             )
             self.__LOGGER.info(f"Differences: {differences}")
