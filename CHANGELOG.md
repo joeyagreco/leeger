@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 - Now load Yahoo Leagues using the most recent league ID
+- Fixed bug in Yahoo League Loader where playoff week types could be determined incorrectly
 - Fixed bug in the Sleeper League Loader where 2-week championship rounds would not load
 - Fixed bug in the Sleeper League Loader where 2-week playoff rounds would not load
 - Significantly reduced the number of network calls made when loading Leagues with the Sleeper League Loader

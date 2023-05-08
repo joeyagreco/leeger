@@ -195,29 +195,30 @@ class YahooLeagueLoader(LeagueLoader):
             # figure out if this is the last week of playoffs (the championship week)
             if yahooMatchup.week == yahooMatchup.league.end_week:
                 # this is the championship week
-                # figure out if either team has lost in the playoffs yet
+                # figure out if either team has lost in the playoffs yet (or hasn't played in the playoffs yet, in case their first game is the championship)
                 if (
-                    team1Id in self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season]
-                    and not self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season][
+                    (
                         team1Id
-                    ]
-                    and team2Id in self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season]
-                    and not self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season][
+                        not in self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season]
+                        or not self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season][
+                            team1Id
+                        ]
+                    )
+                    and (
                         team2Id
-                    ]
+                        not in self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season]
+                        or not self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season][
+                            team2Id
+                        ]
+                    )
                     and yahooMatchup.is_consolation == 0
                 ):
                     return MatchupType.CHAMPIONSHIP
-            # update class dict with the team that lost
+            # update tracking dict with the team that lost
             for yahooTeamResult in yahooMatchup.teams.team:
-                if yahooTeamResult.win_probability == 0:
-                    self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season][
-                        yahooTeamResult.team_id
-                    ] = True
-                elif yahooTeamResult.win_probability == 1:
-                    self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season][
-                        yahooTeamResult.team_id
-                    ] = False
+                self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season][
+                    yahooTeamResult.team_id
+                ] = (yahooTeamResult.team_key != yahooMatchup.winner_team_key)
             return MatchupType.PLAYOFF
         else:
             return MatchupType.REGULAR_SEASON
