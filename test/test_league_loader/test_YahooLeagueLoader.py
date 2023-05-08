@@ -3,6 +3,7 @@ from unittest import mock
 from unittest.mock import Mock
 import copy
 from leeger.enum.MatchupType import MatchupType
+from leeger.exception.LeagueLoaderException import LeagueLoaderException
 
 from leeger.league_loader import YahooLeagueLoader
 from leeger.model.league.League import League
@@ -15,7 +16,6 @@ from leeger.model.league.Year import Year
 
 class TestYahooLeagueLoader(unittest.TestCase):
     """
-    # TODO: mock failure tests
     # TODO: test ownerNamesAndAliases
     """
 
@@ -72,21 +72,6 @@ class TestYahooLeagueLoader(unittest.TestCase):
         dupMockYahooTeam.team_points.total = teamPointsTotal
         return dupMockYahooTeam
 
-    # TODO
-    # def test_loadLeague_intendedFailure(self):
-    #     with self.assertRaises(TimeoutError) as context:
-    #         badClientId = badClientSecret = "bad"
-    #         badLeagueId = 0
-    #         yahooLeagueLoader = YahooLeagueLoader(
-    #             badLeagueId,
-    #             [2000],
-    #             clientId=badClientId,
-    #             clientSecret=badClientSecret,
-    #             loginTimeoutSeconds=1,
-    #         )
-    #         yahooLeagueLoader.loadLeague()
-    #     self.assertEqual("Login to yahoofantasy timed out.", str(context.exception))
-
     def test_loadLeague_nonIntPassingStringForLeagueId(self):
         with self.assertRaises(ValueError) as context:
             badClientId = badClientSecret = "bad"
@@ -99,6 +84,15 @@ class TestYahooLeagueLoader(unittest.TestCase):
                 loginTimeoutSeconds=1,
             )
         self.assertEqual("League ID 'a' could not be turned into an int.", str(context.exception))
+
+    @mock.patch("multiprocessing.Process")
+    def test_loadLeague_intendedFailure(self, mockMultiprocessingProcess):
+        mockLoginProcess = mockMultiprocessingProcess.return_value
+        mockLoginProcess.is_alive.return_value = True  # Simulate login process failure
+        with self.assertRaises(TimeoutError) as context:
+            yahooLeagueLoader = YahooLeagueLoader("123", [2022], clientId="cid", clientSecret="cs")
+            yahooLeagueLoader.loadLeague()
+        self.assertEqual("Login to yahoofantasy timed out.", str(context.exception))
 
     @mock.patch("multiprocessing.Process")
     @mock.patch("yahoofantasy.Context.__init__")
