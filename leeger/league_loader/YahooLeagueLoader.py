@@ -135,6 +135,8 @@ class YahooLeagueLoader(LeagueLoader):
             leagueName = yahooLeague.name if leagueName is None else leagueName
             self.__loadOwners(yahooLeague.teams())
             years.append(self.__buildYear(yahooLeague))
+        # make sure years are sorted oldest -> newest
+        years.sort(key=lambda y: y.yearNumber)
         return League(
             name=leagueName, owners=list(self.__yahooManagerIdToOwnerMap.values()), years=years
         )

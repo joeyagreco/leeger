@@ -100,13 +100,20 @@ class TestYahooLeagueLoader(unittest.TestCase):
     def test_get_all_leagues(
         self, mockYahooContextGetLeagues, mockYahooContextInit, mockMultiprocessingProcess
     ):
-        # mock league 2022
+        # mock real league 2022
         mockLeague2022 = Mock()
         mockLeague2022.name = "Test League 2022"
         mockLeague2022.league_id = "123"
         mockLeague2022.season = 2022
         mockLeague2022.current_week = 3
         mockLeague2022.end_week = 3
+
+        # mock fake leagues 2022
+        mockLeague2022_fake1 = Mock()
+        mockLeague2022_fake1.league_id = "456"
+
+        mockLeague2022_fake2 = Mock()
+        mockLeague2022_fake2.league_id = "999"
 
         # mock league 2023
         mockLeague2023 = Mock()
@@ -116,6 +123,13 @@ class TestYahooLeagueLoader(unittest.TestCase):
         mockLeague2023.current_week = 3
         mockLeague2023.end_week = 3
         mockLeague2023.past_league_id = "123"
+
+        # mock fake leagues 2023
+        mockLeague2023_fake1 = Mock()
+        mockLeague2023_fake1.league_id = "123"
+
+        mockLeague2023_fake2 = Mock()
+        mockLeague2023_fake2.league_id = "999"
 
         # mock teams 2022
         mockYahooTeam1_2022 = self.__getMockYahooTeam(
@@ -398,8 +412,10 @@ class TestYahooLeagueLoader(unittest.TestCase):
         )
 
         mockYahooContextInit.side_effect = [None]
-        # TODO: put dummy leagues with bad IDs to make sure they arent used
-        mockYahooContextGetLeagues.side_effect = [[mockLeague2023], [mockLeague2022]]
+        mockYahooContextGetLeagues.side_effect = [
+            [mockLeague2023_fake1, mockLeague2023, mockLeague2023_fake2],
+            [mockLeague2022_fake1, mockLeague2022, mockLeague2022_fake2],
+        ]
         mockLoginProcess = mockMultiprocessingProcess.return_value
         mockLoginProcess.is_alive.return_value = False  # Simulate login process completion
 
