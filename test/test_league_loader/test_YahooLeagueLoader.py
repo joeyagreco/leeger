@@ -314,7 +314,6 @@ class TestYahooLeagueLoader(unittest.TestCase):
                                     matchupType=MatchupType.REGULAR_SEASON,
                                     teamAHasTiebreaker=True,
                                     teamBHasTiebreaker=False,
-                                    multiWeekMatchupId=None,
                                 ),
                                 Matchup(
                                     teamAId=team3_2022.id,
@@ -324,7 +323,6 @@ class TestYahooLeagueLoader(unittest.TestCase):
                                     matchupType=MatchupType.REGULAR_SEASON,
                                     teamAHasTiebreaker=True,
                                     teamBHasTiebreaker=False,
-                                    multiWeekMatchupId=None,
                                 ),
                                 Matchup(
                                     teamAId=team5_2022.id,
@@ -334,7 +332,6 @@ class TestYahooLeagueLoader(unittest.TestCase):
                                     matchupType=MatchupType.REGULAR_SEASON,
                                     teamAHasTiebreaker=True,
                                     teamBHasTiebreaker=False,
-                                    multiWeekMatchupId=None,
                                 ),
                                 Matchup(
                                     teamAId=team7_2022.id,
@@ -344,7 +341,6 @@ class TestYahooLeagueLoader(unittest.TestCase):
                                     matchupType=MatchupType.REGULAR_SEASON,
                                     teamAHasTiebreaker=True,
                                     teamBHasTiebreaker=False,
-                                    multiWeekMatchupId=None,
                                 ),
                             ],
                         ),
@@ -359,7 +355,6 @@ class TestYahooLeagueLoader(unittest.TestCase):
                                     matchupType=MatchupType.PLAYOFF,
                                     teamAHasTiebreaker=True,
                                     teamBHasTiebreaker=False,
-                                    multiWeekMatchupId=None,
                                 )
                             ],
                         ),
@@ -374,7 +369,6 @@ class TestYahooLeagueLoader(unittest.TestCase):
                                     matchupType=MatchupType.CHAMPIONSHIP,
                                     teamAHasTiebreaker=True,
                                     teamBHasTiebreaker=False,
-                                    multiWeekMatchupId=None,
                                 )
                             ],
                         ),
