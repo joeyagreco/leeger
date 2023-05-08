@@ -100,16 +100,11 @@ class TestYahooLeagueLoader(unittest.TestCase):
             )
         self.assertEqual("League ID 'a' could not be turned into an int.", str(context.exception))
 
-    @mock.patch("subprocess.call")
     @mock.patch("multiprocessing.Process")
     @mock.patch("yahoofantasy.Context.__init__")
     @mock.patch("yahoofantasy.Context.get_leagues")
     def test_get_all_leagues(
-        self,
-        mockYahooContextGetLeagues,
-        mockYahooContextInit,
-        mockMultiprocessingProcess,
-        mockSubprocessCall,
+        self, mockYahooContextGetLeagues, mockYahooContextInit, mockMultiprocessingProcess
     ):
         yahooLeagueLoader = YahooLeagueLoader("123", [2022], clientId="cid", clientSecret="cs")
         # TODO: assert that the login() method is called with the correct params
@@ -376,6 +371,11 @@ class TestYahooLeagueLoader(unittest.TestCase):
                     yearSettings=None,
                 )
             ],
+        )
+
+        # make sure we called login correctly
+        mockMultiprocessingProcess.assert_called_once_with(
+            target=yahooLeagueLoader.login, args=("cid", "cs")
         )
 
         self.assertEqual(league, expectedLeague)
