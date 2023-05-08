@@ -106,8 +106,6 @@ class TestYahooLeagueLoader(unittest.TestCase):
     def test_get_all_leagues(
         self, mockYahooContextGetLeagues, mockYahooContextInit, mockMultiprocessingProcess
     ):
-        yahooLeagueLoader = YahooLeagueLoader("123", [2022], clientId="cid", clientSecret="cs")
-        # TODO: assert that the login() method is called with the correct params
         mockLeague2022 = Mock()
         mockLeague2022.name = "Test League 2022"
         mockLeague2022.league_id = "123"
@@ -260,6 +258,8 @@ class TestYahooLeagueLoader(unittest.TestCase):
         mockLoginProcess = mockMultiprocessingProcess.return_value
         mockLoginProcess.is_alive.return_value = False  # Simulate login process completion
 
+        # load league
+        yahooLeagueLoader = YahooLeagueLoader("123", [2022], clientId="cid", clientSecret="cs")
         league = yahooLeagueLoader.loadLeague()
 
         # expected league
