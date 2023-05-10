@@ -107,9 +107,6 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
             year=yearNumber, league_id=mflLeague["id"]
         )["schedule"]
         # get playoff brackets
-        # playoffBrackets: dict = \
-        #     CommonLeagueInfoAPIClient.get_playoff_brackets(year=yearNumber, league_id=mflLeague["id"])[
-        #         "playoffBrackets"]
         playoffBracket: dict = CommonLeagueInfoAPIClient.get_playoff_bracket(
             year=yearNumber, league_id=mflLeague["id"], bracket_id="1"
         )["playoffBracket"]
