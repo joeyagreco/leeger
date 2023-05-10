@@ -136,6 +136,21 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                             }
                         ],
                     },
+                    {
+                        "week": "3",
+                        "matchup": [
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise1_2022, score=104, result="W"
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise2_2022, score=94, result="L"
+                                    ),
+                                ]
+                            }
+                        ],
+                    },
                 ]
             }
         }
@@ -143,9 +158,13 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
             "playoffBracket": {
                 "playoffRound": [
                     {
-                        "week": 1,
+                        "week": 2,
                         "playoffGame": {"away": {"franchise_id": 2}, "home": {"franchise_id": 3}},
-                    }
+                    },
+                    {
+                        "week": 3,
+                        "playoffGame": {"away": {"franchise_id": 1}, "home": {"franchise_id": 2}},
+                    },
                 ]
             }
         }
@@ -245,6 +264,20 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                                     teamAScore=103,
                                     teamBScore=93,
                                     matchupType=MatchupType.PLAYOFF,
+                                    teamAHasTiebreaker=True,
+                                    teamBHasTiebreaker=False,
+                                )
+                            ],
+                        ),
+                        Week(
+                            weekNumber=3,
+                            matchups=[
+                                Matchup(
+                                    teamAId=team1_2022.id,
+                                    teamBId=team2_2022.id,
+                                    teamAScore=104,
+                                    teamBScore=94,
+                                    matchupType=MatchupType.CHAMPIONSHIP,
                                     teamAHasTiebreaker=True,
                                     teamBHasTiebreaker=False,
                                 )
