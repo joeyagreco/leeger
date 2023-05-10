@@ -18,6 +18,8 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
     """
     # TODO: add better tests
     # TODO: mock intended failure test
+    # TODO: test 1 round of playoff vs multiple weeks (dict vs list)
+    # TODO: test 1 playoff matchup in playoff week vs multiple matchups (dict vs list)
     """
 
     def __addScoreToMockFranchise(
@@ -118,11 +120,35 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                                 ]
                             },
                         ],
+                    },
+                    {
+                        "week": "2",
+                        "matchup": [
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise2_2022, score=103, result="W"
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise3_2022, score=93, result="L"
+                                    ),
+                                ]
+                            }
+                        ],
+                    },
+                ]
+            }
+        }
+        mockPlayoffSchedule_2022 = {
+            "playoffBracket": {
+                "playoffRound": [
+                    {
+                        "week": 1,
+                        "playoffGame": {"away": {"franchise_id": 2}, "home": {"franchise_id": 3}},
                     }
                 ]
             }
         }
-        mockPlayoffSchedule_2022 = {"playoffBracket": {"playoffRound": []}}
 
         mockGetLeague.side_effect = [mockLeague2022]
         mockGetSchedule.side_effect = [mockSchedule2022]
@@ -209,7 +235,21 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                                     teamBHasTiebreaker=False,
                                 ),
                             ],
-                        )
+                        ),
+                        Week(
+                            weekNumber=2,
+                            matchups=[
+                                Matchup(
+                                    teamAId=team2_2022.id,
+                                    teamBId=team3_2022.id,
+                                    teamAScore=103,
+                                    teamBScore=93,
+                                    matchupType=MatchupType.PLAYOFF,
+                                    teamAHasTiebreaker=True,
+                                    teamBHasTiebreaker=False,
+                                )
+                            ],
+                        ),
                     ],
                     yearSettings=None,
                 )
