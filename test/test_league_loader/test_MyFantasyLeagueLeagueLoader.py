@@ -16,10 +16,9 @@ from leeger.model.league.Year import Year
 
 class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
     """
-    # TODO: add better tests
+    # TODO: test ownerNamesAndAliases
     # TODO: mock intended failure test
-    # TODO: test 1 round of playoff vs multiple weeks (dict vs list)
-    # TODO: test 1 playoff matchup in playoff week vs multiple matchups (dict vs list)
+    # TODO: test 1 round of playoff vs multiple rounds (dict vs list)
     """
 
     def __addScoreToMockFranchise(
@@ -42,12 +41,15 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
     @mock.patch("pymfl.api.CommonLeagueInfoAPIClient.get_league")
     @mock.patch("pymfl.api.CommonLeagueInfoAPIClient.get_schedule")
     @mock.patch("pymfl.api.CommonLeagueInfoAPIClient.get_playoff_bracket")
-    def test_loadLeague_happyPath_noOwnerNamesAndAliases_multiplePlayoffRounds(
+    def test_loadLeague_happyPath_noOwnerNamesAndAliases(
         self, mockGetPlayoffBracket, mockGetSchedule, mockGetLeague, mockAddConfig
     ):
         """
-        NOTE: This also tests having 1 playoff matchup in a playoff week vs multiple playoff matchups in a playoff week.
-
+        NOTE: This also tests the following cases:
+            - having 1 playoff round in a year (dict)
+            - having multiple playoff rounds in a year (list)
+            - having 1 playoff matchup in a playoff week (dict)
+            - having multiple playoff matchups in a playoff week (list)
         """
         mockFranchise1_2022 = {"owner_name": "Owner 1", "name": "Team 1", "id": 1}
         mockFranchise2_2022 = {"owner_name": "Owner 2", "name": "Team 2", "id": 2}
@@ -66,6 +68,15 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
         mockFranchise6_2023 = {"owner_name": "Owner 6", "name": "Team 6", "id": 6}
         mockFranchise7_2023 = {"owner_name": "Owner 7", "name": "Team 7", "id": 7}
         mockFranchise8_2023 = {"owner_name": "Owner 8", "name": "Team 8", "id": 8}
+
+        mockFranchise1_2024 = {"owner_name": "Owner 1", "name": "Team 1", "id": 1}
+        mockFranchise2_2024 = {"owner_name": "Owner 2", "name": "Team 2", "id": 2}
+        mockFranchise3_2024 = {"owner_name": "Owner 3", "name": "Team 3", "id": 3}
+        mockFranchise4_2024 = {"owner_name": "Owner 4", "name": "Team 4", "id": 4}
+        mockFranchise5_2024 = {"owner_name": "Owner 5", "name": "Team 5", "id": 5}
+        mockFranchise6_2024 = {"owner_name": "Owner 6", "name": "Team 6", "id": 6}
+        mockFranchise7_2024 = {"owner_name": "Owner 7", "name": "Team 7", "id": 7}
+        mockFranchise8_2024 = {"owner_name": "Owner 8", "name": "Team 8", "id": 8}
 
         mockLeague2022 = {
             "league": {
@@ -102,6 +113,26 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                         mockFranchise6_2023,
                         mockFranchise7_2023,
                         mockFranchise8_2023,
+                    ]
+                },
+            }
+        }
+
+        mockLeague2024 = {
+            "league": {
+                "id": 789,
+                "name": "Test League 2024",
+                "lastRegularSeasonWeek": "1",
+                "franchises": {
+                    "franchise": [
+                        mockFranchise1_2024,
+                        mockFranchise2_2024,
+                        mockFranchise3_2024,
+                        mockFranchise4_2024,
+                        mockFranchise5_2024,
+                        mockFranchise6_2024,
+                        mockFranchise7_2024,
+                        mockFranchise8_2024,
                     ]
                 },
             }
@@ -296,6 +327,73 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
             }
         }
 
+        mockSchedule2024 = {
+            "schedule": {
+                "weeklySchedule": [
+                    {
+                        "week": "1",
+                        "matchup": [
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise1_2022, score=100, result="W"
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise2_2022, score=100, result="L"
+                                    ),
+                                ]
+                            },
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise3_2022, score=100.1, result="W"
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise4_2022, score=90.1, result="L"
+                                    ),
+                                ]
+                            },
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise5_2022, score=101, result="W"
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise6_2022, score=91, result="L"
+                                    ),
+                                ]
+                            },
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise7_2022, score=102, result="W"
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise8_2022, score=92, result="L"
+                                    ),
+                                ]
+                            },
+                        ],
+                    },
+                    {
+                        "week": "2",
+                        "matchup": [
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise1_2022, score=103, result="W"
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise2_2022, score=93, result="L"
+                                    ),
+                                ]
+                            }
+                        ],
+                    },
+                ]
+            }
+        }
+
         mockPlayoffSchedule_2022 = {
             "playoffBracket": {
                 "playoffRound": [
@@ -333,12 +431,29 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
             }
         }
 
-        mockGetLeague.side_effect = [mockLeague2022, mockLeague2023]
-        mockGetSchedule.side_effect = [mockSchedule2022, mockSchedule2023]
-        mockGetPlayoffBracket.side_effect = [mockPlayoffSchedule_2022, mockPlayoffSchedule_2023]
+        mockPlayoffSchedule_2024 = {
+            "playoffBracket": {
+                "playoffRound": {
+                    "week": 2,
+                    "playoffGame": {"away": {"franchise_id": 1}, "home": {"franchise_id": 2}},
+                }
+            }
+        }
+
+        mockGetLeague.side_effect = [mockLeague2022, mockLeague2023, mockLeague2024]
+        mockGetSchedule.side_effect = [mockSchedule2022, mockSchedule2023, mockSchedule2024]
+        mockGetPlayoffBracket.side_effect = [
+            mockPlayoffSchedule_2022,
+            mockPlayoffSchedule_2023,
+            mockPlayoffSchedule_2024,
+        ]
 
         leagueLoader = MyFantasyLeagueLeagueLoader(
-            "456", [2022, 2023], mflUsername="mflu", mflPassword="mflp", mflUserAgentName="mfluan"
+            "789",
+            [2022, 2023, 2024],
+            mflUsername="mflu",
+            mflPassword="mflp",
+            mflUserAgentName="mfluan",
         )
         league = leagueLoader.loadLeague()
 
@@ -361,8 +476,17 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
         team7_2023 = Team(ownerId=7, name="Team 7")
         team8_2023 = Team(ownerId=8, name="Team 8")
 
+        team1_2024 = Team(ownerId=1, name="Team 1")
+        team2_2024 = Team(ownerId=2, name="Team 2")
+        team3_2024 = Team(ownerId=3, name="Team 3")
+        team4_2024 = Team(ownerId=4, name="Team 4")
+        team5_2024 = Team(ownerId=5, name="Team 5")
+        team6_2024 = Team(ownerId=6, name="Team 6")
+        team7_2024 = Team(ownerId=7, name="Team 7")
+        team8_2024 = Team(ownerId=8, name="Team 8")
+
         expectedLeague = League(
-            name="Test League 2023",
+            name="Test League 2024",
             owners=[
                 Owner(name="Owner 1"),
                 Owner(name="Owner 2"),
@@ -558,6 +682,77 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                                     teamBId=team2_2023.id,
                                     teamAScore=104,
                                     teamBScore=94,
+                                    matchupType=MatchupType.CHAMPIONSHIP,
+                                    teamAHasTiebreaker=True,
+                                    teamBHasTiebreaker=False,
+                                )
+                            ],
+                        ),
+                    ],
+                    yearSettings=None,
+                ),
+                Year(
+                    yearNumber=2024,
+                    teams=[
+                        team1_2024,
+                        team2_2024,
+                        team3_2024,
+                        team4_2024,
+                        team5_2024,
+                        team6_2024,
+                        team7_2024,
+                        team8_2024,
+                    ],
+                    weeks=[
+                        Week(
+                            weekNumber=1,
+                            matchups=[
+                                Matchup(
+                                    teamAId=team1_2024.id,
+                                    teamBId=team2_2024.id,
+                                    teamAScore=100,
+                                    teamBScore=100,
+                                    matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=True,
+                                    teamBHasTiebreaker=False,
+                                ),
+                                Matchup(
+                                    teamAId=team3_2024.id,
+                                    teamBId=team4_2024.id,
+                                    teamAScore=100.1,
+                                    teamBScore=90.1,
+                                    matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=True,
+                                    teamBHasTiebreaker=False,
+                                ),
+                                Matchup(
+                                    teamAId=team5_2024.id,
+                                    teamBId=team6_2024.id,
+                                    teamAScore=101,
+                                    teamBScore=91,
+                                    matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=True,
+                                    teamBHasTiebreaker=False,
+                                ),
+                                Matchup(
+                                    teamAId=team7_2024.id,
+                                    teamBId=team8_2024.id,
+                                    teamAScore=102,
+                                    teamBScore=92,
+                                    matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=True,
+                                    teamBHasTiebreaker=False,
+                                ),
+                            ],
+                        ),
+                        Week(
+                            weekNumber=2,
+                            matchups=[
+                                Matchup(
+                                    teamAId=team1_2024.id,
+                                    teamBId=team2_2024.id,
+                                    teamAScore=103,
+                                    teamBScore=93,
                                     matchupType=MatchupType.CHAMPIONSHIP,
                                     teamAHasTiebreaker=True,
                                     teamBHasTiebreaker=False,
