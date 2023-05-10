@@ -766,3 +766,8 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
         )
 
         self.assertEqual(league, expectedLeague)
+        # check multiWeekMatchupIds
+        for year in league.years:
+            for week in year.weeks:
+                for matchup in week.matchups:
+                    self.assertIsNone(matchup.multiWeekMatchupId)
