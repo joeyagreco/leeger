@@ -43,35 +43,35 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
     def test_loadLeague_happyPath(
         self, mockGetPlayoffBracket, mockGetSchedule, mockGetLeague, mockAddConfig
     ):
-        mockFranchise1 = {"owner_name": "Owner 1", "name": "Team 1", "id": 1}
-        mockFranchise2 = {"owner_name": "Owner 2", "name": "Team 2", "id": 2}
-        mockFranchise3 = {"owner_name": "Owner 3", "name": "Team 3", "id": 3}
-        mockFranchise4 = {"owner_name": "Owner 4", "name": "Team 4", "id": 4}
-        mockFranchise5 = {"owner_name": "Owner 5", "name": "Team 5", "id": 5}
-        mockFranchise6 = {"owner_name": "Owner 6", "name": "Team 6", "id": 6}
-        mockFranchise7 = {"owner_name": "Owner 7", "name": "Team 7", "id": 7}
-        mockFranchise8 = {"owner_name": "Owner 8", "name": "Team 8", "id": 8}
-        mockLeague = {
+        mockFranchise1_2022 = {"owner_name": "Owner 1", "name": "Team 1", "id": 1}
+        mockFranchise2_2022 = {"owner_name": "Owner 2", "name": "Team 2", "id": 2}
+        mockFranchise3_2022 = {"owner_name": "Owner 3", "name": "Team 3", "id": 3}
+        mockFranchise4_2022 = {"owner_name": "Owner 4", "name": "Team 4", "id": 4}
+        mockFranchise5_2022 = {"owner_name": "Owner 5", "name": "Team 5", "id": 5}
+        mockFranchise6_2022 = {"owner_name": "Owner 6", "name": "Team 6", "id": 6}
+        mockFranchise7_2022 = {"owner_name": "Owner 7", "name": "Team 7", "id": 7}
+        mockFranchise8_2022 = {"owner_name": "Owner 8", "name": "Team 8", "id": 8}
+        mockLeague2022 = {
             "league": {
                 "id": 123,
                 "name": "Test League 2022",
                 "lastRegularSeasonWeek": "1",
                 "franchises": {
                     "franchise": [
-                        mockFranchise1,
-                        mockFranchise2,
-                        mockFranchise3,
-                        mockFranchise4,
-                        mockFranchise5,
-                        mockFranchise6,
-                        mockFranchise7,
-                        mockFranchise8,
+                        mockFranchise1_2022,
+                        mockFranchise2_2022,
+                        mockFranchise3_2022,
+                        mockFranchise4_2022,
+                        mockFranchise5_2022,
+                        mockFranchise6_2022,
+                        mockFranchise7_2022,
+                        mockFranchise8_2022,
                     ]
                 },
             }
         }
 
-        mockSchedule = {
+        mockSchedule2022 = {
             "schedule": {
                 "weeklySchedule": [
                     {
@@ -80,40 +80,40 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise1, score=100, result="W"
+                                        mockFranchise=mockFranchise1_2022, score=100, result="W"
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise2, score=100, result="L"
-                                    ),
-                                ]
-                            },
-                            {
-                                "franchise": [
-                                    self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise3, score=100.1, result="W"
-                                    ),
-                                    self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise4, score=90.1, result="L"
+                                        mockFranchise=mockFranchise2_2022, score=100, result="L"
                                     ),
                                 ]
                             },
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise5, score=101, result="W"
+                                        mockFranchise=mockFranchise3_2022, score=100.1, result="W"
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise6, score=91, result="L"
+                                        mockFranchise=mockFranchise4_2022, score=90.1, result="L"
                                     ),
                                 ]
                             },
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise7, score=102, result="W"
+                                        mockFranchise=mockFranchise5_2022, score=101, result="W"
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise8, score=92, result="L"
+                                        mockFranchise=mockFranchise6_2022, score=91, result="L"
+                                    ),
+                                ]
+                            },
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise7_2022, score=102, result="W"
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise8_2022, score=92, result="L"
                                     ),
                                 ]
                             },
@@ -122,11 +122,11 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                 ]
             }
         }
-        mockPlayoffSchedule = {"playoffBracket": {"playoffRound": []}}
+        mockPlayoffSchedule_2022 = {"playoffBracket": {"playoffRound": []}}
 
-        mockGetLeague.side_effect = [mockLeague]
-        mockGetSchedule.side_effect = [mockSchedule]
-        mockGetPlayoffBracket.side_effect = [mockPlayoffSchedule]
+        mockGetLeague.side_effect = [mockLeague2022]
+        mockGetSchedule.side_effect = [mockSchedule2022]
+        mockGetPlayoffBracket.side_effect = [mockPlayoffSchedule_2022]
 
         leagueLoader = MyFantasyLeagueLeagueLoader(
             "123", [2022], mflUsername="mflu", mflPassword="mflp", mflUserAgentName="mfluan"
