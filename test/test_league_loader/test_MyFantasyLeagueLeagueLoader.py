@@ -2,8 +2,16 @@ import unittest
 import unittest
 from unittest import mock
 from unittest.mock import Mock
+import copy
+from leeger.enum.MatchupType import MatchupType
 
 from leeger.league_loader import MyFantasyLeagueLeagueLoader
+from leeger.model.league.League import League
+from leeger.model.league.Matchup import Matchup
+from leeger.model.league.Owner import Owner
+from leeger.model.league.Team import Team
+from leeger.model.league.Week import Week
+from leeger.model.league.Year import Year
 
 
 class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
@@ -11,6 +19,14 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
     # TODO: add better tests
     # TODO: mock intended failure test
     """
+
+    def __addScoreToMockFranchise(
+        self, *, mockFranchise: dict, score: int | float, result: str
+    ) -> dict:
+        dupMockFranchise = copy.deepcopy(mockFranchise)
+        dupMockFranchise["score"] = score
+        dupMockFranchise["result"] = result
+        return dupMockFranchise
 
     # def test_loadLeague_intendedFailure(self):
     #     with self.assertRaises(MFLAPIClientException) as context:
@@ -29,19 +45,80 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
     ):
         mockFranchise1 = {"owner_name": "Owner 1", "name": "Team 1", "id": 1}
         mockFranchise2 = {"owner_name": "Owner 2", "name": "Team 2", "id": 2}
+        mockFranchise3 = {"owner_name": "Owner 3", "name": "Team 3", "id": 3}
+        mockFranchise4 = {"owner_name": "Owner 4", "name": "Team 4", "id": 4}
+        mockFranchise5 = {"owner_name": "Owner 5", "name": "Team 5", "id": 5}
+        mockFranchise6 = {"owner_name": "Owner 6", "name": "Team 6", "id": 6}
+        mockFranchise7 = {"owner_name": "Owner 7", "name": "Team 7", "id": 7}
+        mockFranchise8 = {"owner_name": "Owner 8", "name": "Team 8", "id": 8}
         mockLeague = {
             "league": {
                 "id": 123,
                 "name": "Test League 2022",
                 "lastRegularSeasonWeek": "1",
-                "franchises": {"franchise": [mockFranchise1, mockFranchise2]},
+                "franchises": {
+                    "franchise": [
+                        mockFranchise1,
+                        mockFranchise2,
+                        mockFranchise3,
+                        mockFranchise4,
+                        mockFranchise5,
+                        mockFranchise6,
+                        mockFranchise7,
+                        mockFranchise8,
+                    ]
+                },
             }
         }
 
         mockSchedule = {
             "schedule": {
                 "weeklySchedule": [
-                    {"week": "1", "matchup": [{"franchise": [mockFranchise1, mockFranchise2]}]}
+                    {
+                        "week": "1",
+                        "matchup": [
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise1, score=100, result="W"
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise2, score=100, result="L"
+                                    ),
+                                ]
+                            },
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise3, score=100.1, result="W"
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise4, score=90.1, result="L"
+                                    ),
+                                ]
+                            },
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise5, score=101, result="W"
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise6, score=91, result="L"
+                                    ),
+                                ]
+                            },
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise7, score=102, result="W"
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise8, score=92, result="L"
+                                    ),
+                                ]
+                            },
+                        ],
+                    }
                 ]
             }
         }
@@ -54,4 +131,89 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
         leagueLoader = MyFantasyLeagueLeagueLoader(
             "123", [2022], mflUsername="mflu", mflPassword="mflp", mflUserAgentName="mfluan"
         )
-        leagueLoader.loadLeague()
+        league = leagueLoader.loadLeague()
+
+        # expected league
+        team1_2022 = Team(ownerId=1, name="Team 1")
+        team2_2022 = Team(ownerId=2, name="Team 2")
+        team3_2022 = Team(ownerId=3, name="Team 3")
+        team4_2022 = Team(ownerId=4, name="Team 4")
+        team5_2022 = Team(ownerId=5, name="Team 5")
+        team6_2022 = Team(ownerId=6, name="Team 6")
+        team7_2022 = Team(ownerId=7, name="Team 7")
+        team8_2022 = Team(ownerId=8, name="Team 8")
+
+        expectedLeague = League(
+            name="Test League 2022",
+            owners=[
+                Owner(name="Owner 1"),
+                Owner(name="Owner 2"),
+                Owner(name="Owner 3"),
+                Owner(name="Owner 4"),
+                Owner(name="Owner 5"),
+                Owner(name="Owner 6"),
+                Owner(name="Owner 7"),
+                Owner(name="Owner 8"),
+            ],
+            years=[
+                Year(
+                    yearNumber=2022,
+                    teams=[
+                        team1_2022,
+                        team2_2022,
+                        team3_2022,
+                        team4_2022,
+                        team5_2022,
+                        team6_2022,
+                        team7_2022,
+                        team8_2022,
+                    ],
+                    weeks=[
+                        Week(
+                            weekNumber=1,
+                            matchups=[
+                                Matchup(
+                                    teamAId=team1_2022.id,
+                                    teamBId=team2_2022.id,
+                                    teamAScore=100,
+                                    teamBScore=100,
+                                    matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=True,
+                                    teamBHasTiebreaker=False,
+                                ),
+                                Matchup(
+                                    teamAId=team3_2022.id,
+                                    teamBId=team4_2022.id,
+                                    teamAScore=100.1,
+                                    teamBScore=90.1,
+                                    matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=True,
+                                    teamBHasTiebreaker=False,
+                                ),
+                                Matchup(
+                                    teamAId=team5_2022.id,
+                                    teamBId=team6_2022.id,
+                                    teamAScore=101,
+                                    teamBScore=91,
+                                    matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=True,
+                                    teamBHasTiebreaker=False,
+                                ),
+                                Matchup(
+                                    teamAId=team7_2022.id,
+                                    teamBId=team8_2022.id,
+                                    teamAScore=102,
+                                    teamBScore=92,
+                                    matchupType=MatchupType.REGULAR_SEASON,
+                                    teamAHasTiebreaker=True,
+                                    teamBHasTiebreaker=False,
+                                ),
+                            ],
+                        )
+                    ],
+                    yearSettings=None,
+                )
+            ],
+        )
+
+        self.assertEqual(league, expectedLeague)
