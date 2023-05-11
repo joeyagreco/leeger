@@ -25,7 +25,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.x  # Specify the Python version you want to use
+          python-version: 3.10
 
       - name: Install dependencies
         run: |
@@ -34,21 +34,21 @@ jobs:
 
       - name: Run Black Formatting
         run: |
-          FILES=$(git ls-files -o -c --exclude-standard | grep '\.py$')
-          if [[ -n $FILES ]]; then
-            UNFORMATTED_FILES=""
-            for FILE in $FILES; do
-              black --check --diff --config .vscode/settings.json "$FILE"
-              if [[ $? -ne 0 ]]; then
-                UNFORMATTED_FILES="${UNFORMATTED_FILES}${FILE}\n"
-              fi
-            done
-            if [[ -n $UNFORMATTED_FILES ]]; then
-              echo -e "The following files are not formatted correctly:\n${UNFORMATTED_FILES}"
-              exit 1
+            FILES=$(git ls-files -o -c --exclude-standard | grep '\.py$')
+            if [[ -n $FILES ]]; then
+                UNFORMATTED_FILES=""
+                for FILE in $FILES; do
+                black --check --diff --config pyproject.toml "$FILE"
+                if [[ $? -ne 0 ]]; then
+                    UNFORMATTED_FILES="${UNFORMATTED_FILES}${FILE}\n"
+                fi
+                done
+                if [[ -n $UNFORMATTED_FILES ]]; then
+                echo -e "The following files are not formatted correctly:\n${UNFORMATTED_FILES}"
+                exit 1
+                else
+                echo "All code is formatted correctly."
+                fi
             else
-              echo "All code is formatted correctly."
+                echo "No Python files to format."
             fi
-          else
-            echo "No Python files to format."
-          fi
