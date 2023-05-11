@@ -1,7 +1,6 @@
 from typing import Optional
 from pymfl.api import CommonLeagueInfoAPIClient
 from pymfl.api.config import APIConfig
-from sleeper.model import Matchup as SleeperMatchup
 
 from leeger.enum.MatchupType import MatchupType
 from leeger.league_loader.LeagueLoader import LeagueLoader
@@ -84,7 +83,7 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
         self.__loadOwners(mflLeagues)
         owners = list(self.__mflFranchiseIdToOwnerMap.values())
         for mflLeague in mflLeagues:
-            leagueName = mflLeague["name"] if leagueName is None else leagueName
+            leagueName = mflLeague["name"] if mflLeague["name"] is not None else leagueName
             year = self.__buildYear(mflLeague)
             if len(year.weeks) > 0:
                 years.append(year)
@@ -124,6 +123,7 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
             # multiple playoff rounds
             for playoffBracketInfo in playoffBracket["playoffRound"]:
                 playoffWeeks.append(playoffBracketInfo)
+
         playoffWeekNumbers = [int(playoffWeek["week"]) for playoffWeek in playoffWeeks]
 
         playoffsStarted = False
@@ -144,78 +144,27 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
                 teamBScore = float(matchup["franchise"][1]["score"])
                 teamBHasTiebreaker = matchup["franchise"][1]["result"] == "W"
 
+                validPlayoffMatchup = False
+                validChampionshipMatchup = False
+
                 matchupType = MatchupType.REGULAR_SEASON
                 if playoffsStarted:
                     # this is a playoff matchup or a championship matchup
-                    validPlayoffMatchup = False
-                    validChampionshipMatchup = False
-
                     for playoffWeek in playoffWeeks:
-                        if weekNumber == max(playoffWeekNumbers):
-                            # this is the last week in the bracket, the championship week
-                            # if there is only 1 object in the playoffGame field, it is a dict, otherwise it is a list
-                            if isinstance(playoffWeek["playoffGame"], dict):
-                                # only 1 game
-                                if (
-                                    teamAMFLFranchiseId
-                                    == playoffWeek["playoffGame"]["away"]["franchise_id"]
-                                    or teamBMFLFranchiseId
-                                    == playoffWeek["playoffGame"]["away"]["franchise_id"]
-                                ) and (
-                                    teamAMFLFranchiseId
-                                    == playoffWeek["playoffGame"]["home"]["franchise_id"]
-                                    or teamBMFLFranchiseId
-                                    == playoffWeek["playoffGame"]["home"]["franchise_id"]
-                                ):
-                                    # this matchup is the championship game
-                                    validChampionshipMatchup = True
-                            else:
-                                # multiple games
-                                for playoffGame in playoffWeek["playoffGame"]:
-                                    if (
-                                        teamAMFLFranchiseId == playoffGame["away"]["franchise_id"]
-                                        or teamBMFLFranchiseId
-                                        == playoffGame["away"]["franchise_id"]
-                                    ) and (
-                                        teamAMFLFranchiseId == playoffGame["home"]["franchise_id"]
-                                        or teamBMFLFranchiseId
-                                        == playoffGame["home"]["franchise_id"]
-                                    ):
-                                        # this matchup is the championship game
-                                        validChampionshipMatchup = True
-                        else:
-                            # playoff week, but not the championship week
-                            # if there is only 1 object in the playoffGame field, it is a dict, otherwise it is a list
-                            if isinstance(playoffWeek["playoffGame"], dict):
-                                # only 1 game
-                                if (
-                                    teamAMFLFranchiseId
-                                    == playoffWeek["playoffGame"]["away"]["franchise_id"]
-                                    or teamBMFLFranchiseId
-                                    == playoffWeek["playoffGame"]["away"]["franchise_id"]
-                                ) and (
-                                    teamAMFLFranchiseId
-                                    == playoffWeek["playoffGame"]["home"]["franchise_id"]
-                                    or teamBMFLFranchiseId
-                                    == playoffWeek["playoffGame"]["home"]["franchise_id"]
-                                ):
-                                    # this matchup is a valid playoff matchup
-                                    validPlayoffMatchup = True
-                            else:
-                                # multiple games
-                                for playoffGame in playoffWeek["playoffGame"]:
-                                    if (
-                                        teamAMFLFranchiseId == playoffGame["away"]["franchise_id"]
-                                        or teamBMFLFranchiseId
-                                        == playoffGame["away"]["franchise_id"]
-                                    ) and (
-                                        teamAMFLFranchiseId == playoffGame["home"]["franchise_id"]
-                                        or teamBMFLFranchiseId
-                                        == playoffGame["home"]["franchise_id"]
-                                    ):
-                                        # this matchup is a valid playoff matchup
-                                        validPlayoffMatchup = True
-
+                        (
+                            currentValidPlayoffMatchup,
+                            currentValidChampionshipMatchup,
+                        ) = self.__getPlayoffMatchupBooleansForPlayoffWeek(
+                            playoffWeek=playoffWeek,
+                            playoffWeekNumbers=playoffWeekNumbers,
+                            weekNumber=weekNumber,
+                            teamAMFLFranchiseId=teamAMFLFranchiseId,
+                            teamBMFLFranchiseId=teamBMFLFranchiseId,
+                        )
+                        validPlayoffMatchup = validPlayoffMatchup or currentValidPlayoffMatchup
+                        validChampionshipMatchup = (
+                            validChampionshipMatchup or currentValidChampionshipMatchup
+                        )
                     matchupType = MatchupType.IGNORE
                     if validPlayoffMatchup:
                         matchupType = MatchupType.PLAYOFF
@@ -239,9 +188,66 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
         return weeks
 
     @staticmethod
-    def __isCompletedWeek(sleeperMatchups: list[SleeperMatchup]) -> bool:
-        # there might be a better way of determining this
-        return sum([sleeperMatchup.points for sleeperMatchup in sleeperMatchups]) != 0
+    def __getPlayoffMatchupBooleansForPlayoffWeek(
+        *,
+        playoffWeek: dict,
+        playoffWeekNumbers: list[int],
+        weekNumber: int,
+        teamAMFLFranchiseId: int,
+        teamBMFLFranchiseId: int,
+    ) -> tuple[bool, bool]:
+        """
+        Will return 2 booleans.
+        validPlayoffMatchup, validChampionshipMatchup
+        """
+
+        # helper method
+        def isValid(*, pGame: dict, aId: int, bId: int) -> bool:
+            return (
+                aId == pGame["away"]["franchise_id"] or bId == pGame["away"]["franchise_id"]
+            ) and (aId == pGame["home"]["franchise_id"] or bId == pGame["home"]["franchise_id"])
+
+        # this is a playoff matchup or a championship matchup
+        validPlayoffMatchup = False
+        validChampionshipMatchup = False
+
+        if weekNumber == max(playoffWeekNumbers):
+            # this is the last week in the bracket, the championship week
+            # if there is only 1 object in the playoffGame field, it is a dict, otherwise it is a list
+            if isinstance(playoffWeek["playoffGame"], dict):
+                # only 1 game
+                # check if this matchup is the championship game
+                validChampionshipMatchup = isValid(
+                    pGame=playoffWeek["playoffGame"],
+                    aId=teamAMFLFranchiseId,
+                    bId=teamBMFLFranchiseId,
+                )
+            else:
+                # multiple games
+                # check if this matchup is the championship game
+                for playoffGame in playoffWeek["playoffGame"]:
+                    validChampionshipMatchup = validChampionshipMatchup or isValid(
+                        pGame=playoffGame, aId=teamAMFLFranchiseId, bId=teamBMFLFranchiseId
+                    )
+        else:
+            # playoff week, but not the championship week
+            # if there is only 1 object in the playoffGame field, it is a dict, otherwise it is a list
+            if isinstance(playoffWeek["playoffGame"], dict):
+                # only 1 game
+                # check if this matchup is a valid playoff matchup
+                validPlayoffMatchup = isValid(
+                    pGame=playoffWeek["playoffGame"],
+                    aId=teamAMFLFranchiseId,
+                    bId=teamBMFLFranchiseId,
+                )
+            else:
+                # multiple games
+                for playoffGame in playoffWeek["playoffGame"]:
+                    # check if this matchup is a valid playoff matchup
+                    validPlayoffMatchup = validPlayoffMatchup or isValid(
+                        pGame=playoffGame, aId=teamAMFLFranchiseId, bId=teamBMFLFranchiseId
+                    )
+        return validPlayoffMatchup, validChampionshipMatchup
 
     def __buildTeams(self, mflLeague: dict) -> list[Team]:
         teams = list()
