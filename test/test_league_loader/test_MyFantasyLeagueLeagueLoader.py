@@ -15,12 +15,6 @@ from leeger.model.league.Year import Year
 
 
 class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
-    """
-    # TODO: test ownerNamesAndAliases
-    # TODO: mock intended failure test
-    # TODO: test 1 round of playoff vs multiple rounds (dict vs list)
-    """
-
     def __addScoreToMockFranchise(
         self, *, mockFranchise: dict, score: int | float, result: str
     ) -> dict:
@@ -28,14 +22,6 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
         dupMockFranchise["score"] = score
         dupMockFranchise["result"] = result
         return dupMockFranchise
-
-    # def test_loadLeague_intendedFailure(self):
-    #     with self.assertRaises(MFLAPIClientException) as context:
-    #         leagueLoader = MyFantasyLeagueLeagueLoader(
-    #             "0", [2000], mflUsername="", mflPassword="", mflUserAgentName=""
-    #         )
-    #         leagueLoader.loadLeague()
-    #     self.assertEqual("Invalid Password", str(context.exception))
 
     @mock.patch("pymfl.api.config.APIConfig.add_config_for_year_and_league_id")
     @mock.patch("pymfl.api.CommonLeagueInfoAPIClient.get_league")
