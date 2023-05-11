@@ -1763,7 +1763,6 @@ class TestExcel(unittest.TestCase):
                         self.assertAlmostEqual(cell1Value, cell2Value)
 
     def test_leagueToExcel_leagueIsNone_raisesException(self):
-
         with self.assertRaises(ValueError) as context:
             leagueToExcel(None, "")
         self.assertEqual("'league' has not been set.", str(context.exception))

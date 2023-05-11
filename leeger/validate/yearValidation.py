@@ -284,7 +284,7 @@ def checkMultiWeekMatchupsAreInMoreThanOneWeekOrAreNotTheMostRecentWeek(year: Ye
                         isMostRecentWeekInYear,
                     ]
 
-    for (mwmid, countAndMostRecentWeek) in multiWeekMatchupIdToCountAndMostRecentWeekMap.items():
+    for mwmid, countAndMostRecentWeek in multiWeekMatchupIdToCountAndMostRecentWeekMap.items():
         count, isMostRecentWeek = countAndMostRecentWeek
         if count == 1 and not isMostRecentWeek:
             raise InvalidYearFormatException(

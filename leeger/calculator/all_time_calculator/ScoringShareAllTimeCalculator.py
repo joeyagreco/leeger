@@ -122,7 +122,7 @@ class ScoringShareAllTimeCalculator(AllTimeCalculator):
         )
         # swap out team IDs for owner IDs
         maxScoringSharesByYear = dict()
-        for (yearNumber, maxScoringSharesByTeamId) in maxScoringSharesByYearTeamIds.items():
+        for yearNumber, maxScoringSharesByTeamId in maxScoringSharesByYearTeamIds.items():
             maxScoringSharesByYear[yearNumber] = dict()
             for teamId, maxScoringShare in maxScoringSharesByTeamId.items():
                 ownerId = LeagueNavigator.getTeamById(league, teamId).ownerId
@@ -183,7 +183,7 @@ class ScoringShareAllTimeCalculator(AllTimeCalculator):
         )
         # swap out team IDs for owner IDs
         minScoringSharesByYear = dict()
-        for (yearNumber, minScoringSharesByTeamId) in minScoringSharesByYearTeamIds.items():
+        for yearNumber, minScoringSharesByTeamId in minScoringSharesByYearTeamIds.items():
             minScoringSharesByYear[yearNumber] = dict()
             for teamId, maxScoringShare in minScoringSharesByTeamId.items():
                 ownerId = LeagueNavigator.getTeamById(league, teamId).ownerId

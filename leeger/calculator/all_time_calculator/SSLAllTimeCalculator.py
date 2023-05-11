@@ -60,7 +60,7 @@ class SSLAllTimeCalculator(AllTimeCalculator):
 
         ownerIdToTeamScoreAndGamesPlayedListMap: dict[str, list[tuple[Deci, int]]] = dict()
         # {"someOwnerId": [(Deci("101.5"), 4), (Deci("109.4), 5)]}
-        for (yearNumber, teamScoreResultDict) in teamScoreResultsOrderedByYear.items():
+        for yearNumber, teamScoreResultDict in teamScoreResultsOrderedByYear.items():
             for teamId, teamScore in teamScoreResultDict.items():
                 team = LeagueNavigator.getTeamById(league, teamId)
                 gamesPlayed = gamesPlayedByYear[yearNumber][teamId]
@@ -75,10 +75,7 @@ class SSLAllTimeCalculator(AllTimeCalculator):
 
         # adjust team scores by games played
         ownerIdAndAdjustedTeamScore: dict[str, Optional[Deci]] = dict()
-        for (
-            ownerId,
-            teamScoreAndGamesPlayedList,
-        ) in ownerIdToTeamScoreAndGamesPlayedListMap.items():
+        for ownerId, teamScoreAndGamesPlayedList in ownerIdToTeamScoreAndGamesPlayedListMap.items():
             totalGamesPlayed = sum([tsagp[1] for tsagp in teamScoreAndGamesPlayedList])
             if totalGamesPlayed > 0:
                 for teamScore, gamesPlayed in teamScoreAndGamesPlayedList:
@@ -130,7 +127,7 @@ class SSLAllTimeCalculator(AllTimeCalculator):
 
         ownerIdToTeamSuccessAndGamesPlayedListMap: dict[str, list[tuple[Deci, int]]] = dict()
         # {"someOwnerId": [(Deci("101.5"), 4), (Deci("109.4), 5)]}
-        for (yearNumber, teamSuccessResultDict) in teamSuccessResultsOrderedByYear.items():
+        for yearNumber, teamSuccessResultDict in teamSuccessResultsOrderedByYear.items():
             for teamId, teamSuccess in teamSuccessResultDict.items():
                 team = LeagueNavigator.getTeamById(league, teamId)
                 gamesPlayed = gamesPlayedByYear[yearNumber][teamId]
