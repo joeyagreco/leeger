@@ -32,23 +32,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install black
 
-      - name: Run Black Formatting
+      - name: Check Formatting
         run: |
-            FILES=$(git ls-files -o -c --exclude-standard | grep '\.py$')
-            if [[ -n $FILES ]]; then
-                UNFORMATTED_FILES=""
-                for FILE in $FILES; do
-                black --check --diff --config pyproject.toml "$FILE"
-                if [[ $? -ne 0 ]]; then
-                    UNFORMATTED_FILES="${UNFORMATTED_FILES}${FILE}\n"
-                fi
-                done
-                if [[ -n $UNFORMATTED_FILES ]]; then
-                echo -e "The following files are not formatted correctly:\n${UNFORMATTED_FILES}"
-                exit 1
-                else
-                echo "All code is formatted correctly."
-                fi
-            else
-                echo "No Python files to format."
-            fi
+            black --check --diff --config pyproject.toml . || echo "There are formatting issues in your code. Run 'black --config pyproject.toml .' to format the repository."
+  
+      - name: List Unformatted Files
+        run: |
+            black --check --diff --config pyproject.toml . --quiet || { echo "The following files are not formatted correctly:"; black --check --diff --config pyproject.toml . --quiet; exit 1; }
