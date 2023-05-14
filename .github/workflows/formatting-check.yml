@@ -40,4 +40,4 @@ jobs:
         run: pip install autoflake==2.1.1
 
       - name: Check for Unused Imports
-        run: autoflake --remove-all-unused-imports --recursive --ignore-init-module-imports . --check
+        run: autoflake --config pyproject.toml . --check
