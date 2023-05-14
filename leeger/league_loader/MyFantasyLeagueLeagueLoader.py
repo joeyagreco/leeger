@@ -56,6 +56,7 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
             ]
             self.__mflLeagueIdToYearMap[mflLeague["id"]] = year
             mflLeagues.append(mflLeague)
+        self._validateRetrievedLeagues(mflLeagues)
         return mflLeagues
 
     def getOwnerNames(self) -> dict[int, list[str]]:

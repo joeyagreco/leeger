@@ -2,6 +2,7 @@ from abc import abstractmethod
 from typing import Optional
 
 from leeger.exception.DoesNotExistException import DoesNotExistException
+from leeger.exception.LeagueLoaderException import LeagueLoaderException
 from leeger.model.league.League import League
 from leeger.model.league.Owner import Owner
 from leeger.util.CustomLogger import CustomLogger
@@ -36,6 +37,14 @@ class LeagueLoader:
         self._ownerNamesAndAliases: dict[str, list[str]] = (
             ownerNamesAndAliases if ownerNamesAndAliases else dict()
         )
+
+    def _validateRetrievedLeagues(self, retrievedLeagues: list) -> None:
+        expectedLeagueCount = len(self._years)
+        actualLeagueCount = len(retrievedLeagues)
+        if actualLeagueCount != expectedLeagueCount:
+            raise LeagueLoaderException(
+                f"Expected to retrieve {expectedLeagueCount} league/s, got {actualLeagueCount} league/s."
+            )
 
     def _getGeneralOwnerNameFromGivenOwnerName(self, givenOwnerName: str) -> Optional[str]:
         foundGeneralOwnerName = None

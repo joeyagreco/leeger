@@ -91,11 +91,9 @@ class SleeperLeagueLoader(LeagueLoader):
                 years.remove(int(currentLeague.season))
             currentLeagueId = currentLeague.previous_league_id
 
-        if len(years) > 0:
-            raise LeagueLoaderException(f"Could not find years '{years}' for league.")
-
         # reverse list so most recent is last in list
         sleeperLeagues = sleeperLeagues[::-1]
+        self._validateRetrievedLeagues(sleeperLeagues)
         return sleeperLeagues
 
     def getOwnerNames(self) -> dict[int, list[str]]:

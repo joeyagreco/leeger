@@ -102,11 +102,7 @@ class YahooLeagueLoader(LeagueLoader):
                 )
             currentLeagueId = previousLeagueId
 
-        if len(yahooLeagues) != len(self._years):
-            # TODO: Give a more descriptive // accurate error message
-            raise DoesNotExistException(
-                f"Found years {foundYears}, expected to find {self._years}."
-            )
+        self._validateRetrievedLeagues(yahooLeagues)
         return yahooLeagues
 
     def getOwnerNames(self) -> dict[int, list[str]]:

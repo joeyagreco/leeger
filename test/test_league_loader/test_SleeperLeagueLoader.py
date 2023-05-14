@@ -117,17 +117,6 @@ class TestSleeperLeagueLoader(unittest.TestCase):
         )
 
     @patch("sleeper.api.LeagueAPIClient.get_league")
-    def test_loadLeague_intendedFailure(self, mockGetLeague):
-        # create mock SleeperLeague object
-        mockSleeperLeague2022 = Mock()
-        mockSleeperLeague2022.season = "2022"
-        mockGetLeague.side_effect = [mockSleeperLeague2022]
-        with self.assertRaises(LeagueLoaderException) as context:
-            leagueLoader = SleeperLeagueLoader("0", [2023])  # invalid league id
-            leagueLoader.loadLeague()
-        self.assertEqual("Could not find years '[2023]' for league.", str(context.exception))
-
-    @patch("sleeper.api.LeagueAPIClient.get_league")
     def test_loadLeague_invalidSeasonStatus(self, mockGetLeague):
         # create mock SleeperLeague object
         mockSleeperLeague2022 = Mock()

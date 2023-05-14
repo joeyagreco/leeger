@@ -48,7 +48,7 @@ class FleaflickerLeagueLoader(LeagueLoader):
                     sport=Sport.NFL, league_id=int(self._leagueId), season=year
                 )
             )
-        # TODO: add some validation here to make sure we got all years
+        self._validateRetrievedLeagues(fleaflickerLeagues)
         return fleaflickerLeagues
 
     def getOwnerNames(self) -> dict[int, list[str]]:

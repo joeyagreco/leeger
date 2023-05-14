@@ -1,5 +1,6 @@
 import unittest
 from leeger.exception.DoesNotExistException import DoesNotExistException
+from leeger.exception.LeagueLoaderException import LeagueLoaderException
 
 from leeger.league_loader import SleeperLeagueLoader
 from leeger.league_loader.LeagueLoader import LeagueLoader
@@ -83,3 +84,13 @@ class TestLeagueLoader(unittest.TestCase):
         # alias that does not exist
         with self.assertRaises(DoesNotExistException):
             leagueLoader._getOwnerByName("Foo")
+
+    def test__validateRetrievedLeagues(self):
+        # test for no error
+        leagueLoader = LeagueLoader("leagueId", [2021])
+        leagueLoader._validateRetrievedLeagues([{}])
+
+        # test for error
+        with self.assertRaises(LeagueLoaderException) as context:
+            leagueLoader._validateRetrievedLeagues([{}, {}])
+        self.assertEqual("Expected to retrieve 1 league/s, got 2 league/s.", str(context.exception))

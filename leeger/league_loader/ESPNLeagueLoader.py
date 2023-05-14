@@ -63,6 +63,7 @@ class ESPNLeagueLoader(LeagueLoader):
                     swid=self.__swid,
                 )
             )
+        self._validateRetrievedLeagues(espnLeagueYears)
         return espnLeagueYears
 
     def getOwnerNames(self) -> dict[int, list[str]]:
