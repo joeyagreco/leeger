@@ -5,7 +5,6 @@ from fleaflicker.enum.Sport import Sport
 from sleeper.enum import Sport
 
 from leeger.enum.MatchupType import MatchupType
-from leeger.exception.LeagueLoaderException import LeagueLoaderException
 from leeger.league_loader.LeagueLoader import LeagueLoader
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup

@@ -3,7 +3,6 @@ from unittest import mock
 from unittest.mock import Mock
 import copy
 from leeger.enum.MatchupType import MatchupType
-from leeger.exception.LeagueLoaderException import LeagueLoaderException
 
 from leeger.league_loader import YahooLeagueLoader
 from leeger.model.league.League import League

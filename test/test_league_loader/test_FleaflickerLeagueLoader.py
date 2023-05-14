@@ -1,7 +1,5 @@
 import unittest
 from unittest import mock
-from unittest.mock import Mock
-import copy
 from leeger.enum.MatchupType import MatchupType
 
 from leeger.model.league.League import League
