@@ -26,3 +26,10 @@ if __name__ == "__main__":
         "12345678", [2019, 2020], ownerNamesAndAliases=ownerNamesAndAliases
     )
     league: League = sleeperLeagueLoader.loadLeague()
+
+    # Set a custom league name by passing in leagueName to any league loader.
+    # This will ignore any league names from 2019 and 2020 that are loaded and force the league name to be "My Awesome League".
+    sleeperLeagueLoader = SleeperLeagueLoader(
+        "12345678", [2019, 2020], leagueName="My Awesome League"
+    )
+    league: League = sleeperLeagueLoader.loadLeague()
