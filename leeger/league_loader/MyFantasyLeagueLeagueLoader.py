@@ -80,11 +80,11 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
 
     def __buildLeague(self, mflLeagues: list[dict]) -> League:
         years = list()
-        leagueName = None
         self.__loadOwners(mflLeagues)
         owners = list(self.__mflFranchiseIdToOwnerMap.values())
         for mflLeague in mflLeagues:
-            leagueName = mflLeague["name"] if mflLeague["name"] is not None else leagueName
+            # save league name for each year
+            self._leagueNameByYear[self.__mflLeagueIdToYearMap[mflLeague["id"]]] = mflLeague["name"]
             year = self.__buildYear(mflLeague)
             if len(year.weeks) > 0:
                 years.append(year)
@@ -92,7 +92,7 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
                 self._LOGGER.warning(
                     f"Year '{year.yearNumber}' discarded for not having any weeks."
                 )
-        return League(name=leagueName, owners=owners, years=years)
+        return League(name=self._getLeagueName(), owners=owners, years=years)
 
     def __buildYear(self, mflLeague: dict) -> Year:
         yearNumber = self.__mflLeagueIdToYearMap[mflLeague["id"]]

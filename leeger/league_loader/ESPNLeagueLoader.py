@@ -86,10 +86,12 @@ class ESPNLeagueLoader(LeagueLoader):
     def __buildLeague(self, espnLeagues: list[ESPNLeague]) -> League:
         years = list()
         for espnLeague in espnLeagues:
+            # save league name for each year
+            self._leagueNameByYear[espnLeague.year] = espnLeague.settings.name
             self.__loadOwners(espnLeague.teams)
             years.append(self.__buildYear(espnLeague))
         # use the league name from the most recent year
-        return League(name=espnLeagues[-1].settings.name, owners=self._owners, years=years)
+        return League(name=self._getLeagueName(), owners=self._owners, years=years)
 
     def __loadOwners(self, espnTeams: list[ESPNTeam]) -> None:
         if self._owners is None:

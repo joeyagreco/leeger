@@ -15,7 +15,12 @@ class LeagueLoader:
     """
 
     def __init__(
-        self, leagueId: str, years: list[int], *, ownerNamesAndAliases: Optional[dict] = None
+        self,
+        leagueId: str,
+        years: list[int],
+        *,
+        ownerNamesAndAliases: Optional[dict] = None,
+        leagueName: Optional[str] = None,
     ):
         self._LOGGER = CustomLogger().getLogger()
         # validation
@@ -37,6 +42,22 @@ class LeagueLoader:
         self._ownerNamesAndAliases: dict[str, list[str]] = (
             ownerNamesAndAliases if ownerNamesAndAliases else dict()
         )
+        self._leagueName = leagueName
+        self._leagueNameByYear: dict[
+            int, str
+        ] = dict()  # will hold league name by year like {2020: "foo", 2021: "baz", ...}
+
+    def _getLeagueName(self) -> str:
+        leagueName = self._leagueName
+        if self._leagueName is None:
+            if len(self._leagueNameByYear.keys()) == 0:
+                raise LeagueLoaderException(
+                    "Tried to retrieve league name with no leagueName parameter given and no league names set."
+                )
+            # use most recent year league name
+            mostRecentYear = sorted(self._leagueNameByYear.keys())[-1]
+            leagueName = self._leagueNameByYear[mostRecentYear]
+        return leagueName
 
     def _validateRetrievedLeagues(self, retrievedLeagues: list) -> None:
         expectedLeagueCount = len(self._years)

@@ -84,12 +84,25 @@ class TestLeagueLoader(unittest.TestCase):
         with self.assertRaises(DoesNotExistException):
             leagueLoader._getOwnerByName("Foo")
 
-    def test__validateRetrievedLeagues(self):
-        # test for no error
+    def test__getLeagueName(self):
+        # no league name given, takes most recent year name
         leagueLoader = LeagueLoader("leagueId", [2021])
-        leagueLoader._validateRetrievedLeagues([{}])
+        leagueLoader._leagueNameByYear = {2022: "foo", 2019: "baz", 2021: "bar"}
+        leagueName = leagueLoader._getLeagueName()
+        self.assertEqual("foo", leagueName)
 
-        # test for error
+        # league name given, takes league name given
+        leagueLoader = LeagueLoader("leagueId", [2021], leagueName="bot")
+        leagueLoader._leagueNameByYear = {2022: "foo", 2019: "baz", 2021: "bar"}
+        leagueName = leagueLoader._getLeagueName()
+        self.assertEqual("bot", leagueName)
+
+        # no league name given, no league names by year set, raises exception
+        leagueLoader = LeagueLoader("leagueId", [2021])
+
         with self.assertRaises(LeagueLoaderException) as context:
-            leagueLoader._validateRetrievedLeagues([{}, {}])
-        self.assertEqual("Expected to retrieve 1 league/s, got 2 league/s.", str(context.exception))
+            leagueLoader._getLeagueName()
+        self.assertEqual(
+            "Tried to retrieve league name with no leagueName parameter given and no league names set.",
+            str(context.exception),
+        )

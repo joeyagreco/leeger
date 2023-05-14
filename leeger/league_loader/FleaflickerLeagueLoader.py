@@ -71,15 +71,13 @@ class FleaflickerLeagueLoader(LeagueLoader):
 
     def __buildLeague(self, fleaflickerLeagues: list[dict]) -> League:
         years = list()
-        leagueName = None
         self.__loadOwners(fleaflickerLeagues)
         owners = list(self.__fleaflickerTeamIdToOwnerMap.values())
         for fleaflickerLeague in fleaflickerLeagues:
-            leagueName = (
-                fleaflickerLeague["league"]["name"]
-                if fleaflickerLeague["league"]["name"] is not None
-                else leagueName
-            )
+            # save league name for each year
+            self._leagueNameByYear[fleaflickerLeague["season"]] = fleaflickerLeague["league"][
+                "name"
+            ]
             year = self.__buildYear(fleaflickerLeague)
             if len(year.weeks) > 0:
                 years.append(year)
@@ -89,7 +87,7 @@ class FleaflickerLeagueLoader(LeagueLoader):
                 )
         # make sure years are ordered oldest -> newest
         years = sorted(years, key=lambda y: y.yearNumber)
-        return League(name=leagueName, owners=owners, years=years)
+        return League(name=self._getLeagueName(), owners=owners, years=years)
 
     def __buildYear(self, fleaflickerLeague: dict) -> Year:
         teams = self.__buildTeams(fleaflickerLeague)

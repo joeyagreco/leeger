@@ -117,11 +117,11 @@ class SleeperLeagueLoader(LeagueLoader):
 
     def __buildLeague(self, sleeperLeagues: list[SleeperLeague]) -> League:
         years = list()
-        leagueName = None
         self.__loadOwners(sleeperLeagues)
         owners = list(self.__sleeperUserIdToOwnerMap.values())
         for sleeperLeague in sleeperLeagues:
-            leagueName = sleeperLeague.name if leagueName is None else leagueName
+            # save league name for each year
+            self._leagueNameByYear[int(sleeperLeague.season)] = sleeperLeague.name
             year = self.__buildYear(sleeperLeague)
             if len(year.weeks) > 0:
                 years.append(year)
@@ -131,7 +131,7 @@ class SleeperLeagueLoader(LeagueLoader):
                 )
         # make sure years are ordered oldest -> newest
         years = sorted(years, key=lambda y: y.yearNumber)
-        return League(name=leagueName, owners=owners, years=years)
+        return League(name=self._getLeagueName(), owners=owners, years=years)
 
     def __buildYear(self, sleeperLeague: SleeperLeague) -> Year:
         teams = self.__buildTeams(sleeperLeague)
