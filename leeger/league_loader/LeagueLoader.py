@@ -17,8 +17,15 @@ class LeagueLoader:
         self, leagueId: str, years: list[int], *, ownerNamesAndAliases: Optional[dict] = None
     ):
         self._LOGGER = CustomLogger().getLogger()
+        # validation
+        if len(years) == 0:
+            raise ValueError(f"No years given to load league with ID '{leagueId}'.")
+
+        if not all(isinstance(year, int) for year in years):
+            raise ValueError(f"All given years must be ints.")
+        
         self._leagueId = leagueId
-        self._years = years
+        self._years = sorted(years)
         self._owners: Optional[list[Owner]] = None
         # owners may have multiple names across different years,
         # defining owner names and aliases allows users to have multiple names that can belong to the same owner.
@@ -29,13 +36,6 @@ class LeagueLoader:
         self._ownerNamesAndAliases: dict[str, list[str]] = (
             ownerNamesAndAliases if ownerNamesAndAliases else dict()
         )
-
-        # validation
-        if len(years) == 0:
-            raise ValueError(f"No years given to load league with ID '{self._leagueId}'.")
-
-        if not all(isinstance(year, int) for year in self._years):
-            raise ValueError(f"All given years must be ints.")
 
     def _getGeneralOwnerNameFromGivenOwnerName(self, givenOwnerName: str) -> Optional[str]:
         foundGeneralOwnerName = None
