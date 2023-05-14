@@ -23,7 +23,7 @@ class LeagueLoader:
 
         if not all(isinstance(year, int) for year in years):
             raise ValueError(f"All given years must be ints.")
-        
+
         self._leagueId = leagueId
         self._years = sorted(years)
         self._owners: Optional[list[Owner]] = None

@@ -76,7 +76,11 @@ class FleaflickerLeagueLoader(LeagueLoader):
         self.__loadOwners(fleaflickerLeagues)
         owners = list(self.__fleaflickerTeamIdToOwnerMap.values())
         for fleaflickerLeague in fleaflickerLeagues:
-            leagueName = fleaflickerLeague["league"]["name"] if fleaflickerLeague["league"]["name"] is not None else leagueName
+            leagueName = (
+                fleaflickerLeague["league"]["name"]
+                if fleaflickerLeague["league"]["name"] is not None
+                else leagueName
+            )
             year = self.__buildYear(fleaflickerLeague)
             if len(year.weeks) > 0:
                 years.append(year)

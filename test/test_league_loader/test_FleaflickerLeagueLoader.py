@@ -37,7 +37,7 @@ class TestFleaflickerLeagueLoader(unittest.TestCase):
         mockTeam6_2022 = {"owners": [{"displayName": "Owner 6"}], "id": 6, "name": "Team 6"}
         mockTeam7_2022 = {"owners": [{"displayName": "Owner 7"}], "id": 7, "name": "Team 7"}
         mockTeam8_2022 = {"owners": [{"displayName": "Owner 8"}], "id": 8, "name": "Team 8"}
-        
+
         mockTeam1_2023 = {"owners": [{"displayName": "Owner 1"}], "id": 1, "name": "Team 1"}
         mockTeam2_2023 = {"owners": [{"displayName": "Owner 2"}], "id": 2, "name": "Team 2"}
         mockTeam3_2023 = {"owners": [{"displayName": "Owner 3"}], "id": 3, "name": "Team 3"}
@@ -65,7 +65,7 @@ class TestFleaflickerLeagueLoader(unittest.TestCase):
             "league": {"name": "Test League 2022", "id": 123},
             "season": 2022,
         }
-        
+
         mockLeagueStandings2023 = {
             "divisions": [
                 {
@@ -84,7 +84,6 @@ class TestFleaflickerLeagueLoader(unittest.TestCase):
             "league": {"name": "Test League 2023", "id": 123},
             "season": 2023,
         }
-
 
         mockWeek1_2022 = {
             "games": [
@@ -126,7 +125,7 @@ class TestFleaflickerLeagueLoader(unittest.TestCase):
                 },
             ]
         }
-        
+
         mockWeek1_2023 = {
             "games": [
                 {
@@ -182,7 +181,7 @@ class TestFleaflickerLeagueLoader(unittest.TestCase):
                 }
             ]
         }
-        
+
         mockWeek2_2023 = {
             "games": [
                 {
@@ -212,7 +211,7 @@ class TestFleaflickerLeagueLoader(unittest.TestCase):
                 }
             ]
         }
-        
+
         mockWeek3_2023 = {
             "games": [
                 {
@@ -231,7 +230,7 @@ class TestFleaflickerLeagueLoader(unittest.TestCase):
         mockScoreboard2022 = {
             "eligibleSchedulePeriods": [mockWeek1_2022, mockWeek2_2022, mockWeek3_2022]
         }
-        
+
         mockScoreboard2023 = {
             "eligibleSchedulePeriods": [mockWeek1_2023, mockWeek2_2023, mockWeek3_2023]
         }
@@ -242,7 +241,7 @@ class TestFleaflickerLeagueLoader(unittest.TestCase):
             mockWeek1_2022,
             mockWeek2_2022,
             mockWeek3_2022,
-                        mockScoreboard2023,
+            mockScoreboard2023,
             mockWeek1_2023,
             mockWeek2_2023,
             mockWeek3_2023,
@@ -260,7 +259,7 @@ class TestFleaflickerLeagueLoader(unittest.TestCase):
         team6_2022 = Team(ownerId=6, name="Team 6")
         team7_2022 = Team(ownerId=7, name="Team 7")
         team8_2022 = Team(ownerId=8, name="Team 8")
-        
+
         team1_2023 = Team(ownerId=1, name="Team 1")
         team2_2023 = Team(ownerId=2, name="Team 2")
         team3_2023 = Team(ownerId=3, name="Team 3")
@@ -452,8 +451,7 @@ class TestFleaflickerLeagueLoader(unittest.TestCase):
                         ),
                     ],
                     yearSettings=None,
-                )
-            
+                ),
             ],
         )
 
