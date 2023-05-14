@@ -34,10 +34,10 @@ jobs:
 
       - name: Check Formatting
         run: |
-          black --check --diff --config pyproject.toml . --quiet || { echo "The following files are not formatted correctly:"; black --check --diff --config pyproject.toml . --quiet; exit 1; }
+          black --config pyproject.toml --check --diff .
 
       - name: Install autoflake
         run: pip install autoflake==2.1.1
 
       - name: Check for Unused Imports
-        run: autoflake --config pyproject.toml . --check
+        run: autoflake --config pyproject.toml --check .
