@@ -37,9 +37,22 @@ class TestFleaflickerLeagueLoader(unittest.TestCase):
         mockTeam6_2022 = {"owners": [{"displayName": "Owner 6"}], "id": 6, "name": "Team 6"}
         mockTeam7_2022 = {"owners": [{"displayName": "Owner 7"}], "id": 7, "name": "Team 7"}
         mockTeam8_2022 = {"owners": [{"displayName": "Owner 8"}], "id": 8, "name": "Team 8"}
-        
+
         mockLeagueStandings2022 = {
-            "divisions": [{"teams": [mockTeam1_2022, mockTeam2_2022, mockTeam3_2022, mockTeam4_2022, mockTeam5_2022, mockTeam6_2022, mockTeam7_2022, mockTeam8_2022]}],
+            "divisions": [
+                {
+                    "teams": [
+                        mockTeam1_2022,
+                        mockTeam2_2022,
+                        mockTeam3_2022,
+                        mockTeam4_2022,
+                        mockTeam5_2022,
+                        mockTeam6_2022,
+                        mockTeam7_2022,
+                        mockTeam8_2022,
+                    ]
+                }
+            ],
             "league": {"name": "Test League 2022", "id": 123},
             "season": 2022,
         }
@@ -55,7 +68,7 @@ class TestFleaflickerLeagueLoader(unittest.TestCase):
                     "homeResult": "LOSS",
                     "isFinalScore": True,
                 },
-                                {
+                {
                     "away": mockTeam3_2022,
                     "home": mockTeam4_2022,
                     "awayScore": {"score": {"value": 100}},
@@ -64,7 +77,7 @@ class TestFleaflickerLeagueLoader(unittest.TestCase):
                     "homeResult": "LOSS",
                     "isFinalScore": True,
                 },
-                                                {
+                {
                     "away": mockTeam5_2022,
                     "home": mockTeam6_2022,
                     "awayScore": {"score": {"value": 100.1}},
@@ -73,7 +86,7 @@ class TestFleaflickerLeagueLoader(unittest.TestCase):
                     "homeResult": "LOSS",
                     "isFinalScore": True,
                 },
-                                                                {
+                {
                     "away": mockTeam7_2022,
                     "home": mockTeam8_2022,
                     "awayScore": {"score": {"value": 100.2}},
@@ -85,14 +98,51 @@ class TestFleaflickerLeagueLoader(unittest.TestCase):
             ]
         }
 
-        mockScoreboard2022 = {"eligibleSchedulePeriods": [mockWeek1_2022]}
+        mockWeek2_2022 = {
+            "games": [
+                {
+                    "away": mockTeam2_2022,
+                    "home": mockTeam3_2022,
+                    "awayScore": {"score": {"value": 100.4}},
+                    "homeScore": {"score": {"value": 90.4}},
+                    "awayResult": "WIN",
+                    "homeResult": "LOSS",
+                    "isFinalScore": True,
+                    "isThirdPlaceGame": True,
+                }
+            ]
+        }
+
+        mockWeek3_2022 = {
+            "games": [
+                {
+                    "away": mockTeam1_2022,
+                    "home": mockTeam2_2022,
+                    "awayScore": {"score": {"value": 100.5}},
+                    "homeScore": {"score": {"value": 90.5}},
+                    "awayResult": "WIN",
+                    "homeResult": "LOSS",
+                    "isFinalScore": True,
+                    "isChampionshipGame": True,
+                }
+            ]
+        }
+
+        mockScoreboard2022 = {
+            "eligibleSchedulePeriods": [mockWeek1_2022, mockWeek2_2022, mockWeek3_2022]
+        }
 
         mockGetLeaguestandings.side_effect = [mockLeagueStandings2022]
-        mockGetLeagueScoreboard.side_effect = [mockScoreboard2022, mockWeek1_2022]
+        mockGetLeagueScoreboard.side_effect = [
+            mockScoreboard2022,
+            mockWeek1_2022,
+            mockWeek2_2022,
+            mockWeek3_2022,
+        ]
 
         leagueLoader = FleaflickerLeagueLoader("123", [2022])
         league = leagueLoader.loadLeague()
-        
+
         # expected league
         team1_2022 = Team(ownerId=1, name="Team 1")
         team2_2022 = Team(ownerId=2, name="Team 2")
@@ -169,10 +219,39 @@ class TestFleaflickerLeagueLoader(unittest.TestCase):
                                     teamBHasTiebreaker=False,
                                 ),
                             ],
-                        )],
+                        ),
+                        Week(
+                            weekNumber=2,
+                            matchups=[
+                                Matchup(
+                                    teamAId=team2_2022.id,
+                                    teamBId=team3_2022.id,
+                                    teamAScore=100.4,
+                                    teamBScore=90.4,
+                                    matchupType=MatchupType.PLAYOFF,
+                                    teamAHasTiebreaker=True,
+                                    teamBHasTiebreaker=False,
+                                )
+                            ],
+                        ),
+                        Week(
+                            weekNumber=3,
+                            matchups=[
+                                Matchup(
+                                    teamAId=team1_2022.id,
+                                    teamBId=team2_2022.id,
+                                    teamAScore=100.5,
+                                    teamBScore=90.5,
+                                    matchupType=MatchupType.CHAMPIONSHIP,
+                                    teamAHasTiebreaker=True,
+                                    teamBHasTiebreaker=False,
+                                )
+                            ],
+                        ),
+                    ],
                     yearSettings=None,
-                ),
-                ],
+                )
+            ],
         )
 
         self.assertEqual(league, expectedLeague)
