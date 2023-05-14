@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 - Now load Yahoo Leagues using the most recent league ID
 - Significantly reduced the number of network calls made when loading Leagues with the Sleeper League Loader
+- Fixed bug in Fleaflicker League Loader where owners could not be loaded sometimes
 - Fixed bug in the Sleeper League Loader where 2-week championship rounds would not load
 - Fixed bug in the Sleeper League Loader where 2-week playoff rounds would not load
 - Fixed bug in Yahoo League Loader where playoff week types could be determined incorrectly

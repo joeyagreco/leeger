@@ -5,6 +5,7 @@ from fleaflicker.enum.Sport import Sport
 from sleeper.enum import Sport
 
 from leeger.enum.MatchupType import MatchupType
+from leeger.exception.LeagueLoaderException import LeagueLoaderException
 from leeger.league_loader.LeagueLoader import LeagueLoader
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup
@@ -47,6 +48,7 @@ class FleaflickerLeagueLoader(LeagueLoader):
                     sport=Sport.NFL, league_id=int(self._leagueId), season=year
                 )
             )
+        # TODO: add some validation here to make sure we got all years
         return fleaflickerLeagues
 
     def getOwnerNames(self) -> dict[int, list[str]]:
@@ -172,7 +174,11 @@ class FleaflickerLeagueLoader(LeagueLoader):
         for fleaflickerLeague in fleaflickerLeagues:
             for division in fleaflickerLeague["divisions"]:
                 for team in division["teams"]:
-                    ownerName = team["owners"][0]["displayName"]
+                    if "owners" not in team:
+                        # some teams don't have owners listed in them, use the team name instead
+                        ownerName = team["name"]
+                    else:
+                        ownerName = team["owners"][0]["displayName"]
                     # get general owner name if there is one
                     generalOwnerName = self._getGeneralOwnerNameFromGivenOwnerName(ownerName)
                     ownerName = generalOwnerName if generalOwnerName is not None else ownerName
