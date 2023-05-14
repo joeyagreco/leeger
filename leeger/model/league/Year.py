@@ -8,12 +8,15 @@ from leeger.model.abstract.UniqueId import UniqueId
 from leeger.model.league.Team import Team
 from leeger.model.league.Week import Week
 from leeger.model.league.YearSettings import YearSettings
+from leeger.util.CustomLogger import CustomLogger
+from leeger.util.GeneralUtil import GeneralUtil
 from leeger.util.JSONDeserializable import JSONDeserializable
 from leeger.util.JSONSerializable import JSONSerializable
 
 
 @dataclass(kw_only=True, eq=False)
 class Year(UniqueId, JSONSerializable, JSONDeserializable):
+    __LOGGER = CustomLogger.getLogger()
     yearNumber: int
     teams: list[Team]
     weeks: list[Week]
@@ -35,6 +38,14 @@ class Year(UniqueId, JSONSerializable, JSONDeserializable):
         equal = equal and self.teams == otherYear.teams
         equal = equal and self.weeks == otherYear.weeks
         equal = equal and self.yearSettings == otherYear.yearSettings
+        if not equal:
+            differences = GeneralUtil.findDifferentFields(
+                self.toJson(),
+                otherYear.toJson(),
+                parentKey="Year",
+                ignoreKeyNames=["id", "ownerId", "teamAId", "teamBId"],
+            )
+            self.__LOGGER.info(f"Differences: {differences}")
         return equal
 
     def getTeamByName(self, teamName: str) -> Team:

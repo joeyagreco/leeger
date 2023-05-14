@@ -9,6 +9,7 @@ from leeger.exception.InvalidMatchupFormatException import InvalidMatchupFormatE
 from leeger.model.abstract.UniqueId import UniqueId
 from leeger.model.league_helper.Performance import Performance
 from leeger.util.CustomLogger import CustomLogger
+from leeger.util.GeneralUtil import GeneralUtil
 from leeger.util.JSONDeserializable import JSONDeserializable
 from leeger.util.JSONSerializable import JSONSerializable
 
@@ -62,6 +63,14 @@ class Matchup(UniqueId, JSONSerializable, JSONDeserializable):
                 self.__LOGGER.warning(
                     f"Returning True for equality check when {notEqualStrings} are not equal."
                 )
+        else:
+            differences = GeneralUtil.findDifferentFields(
+                self.toJson(),
+                otherMatchup.toJson(),
+                parentKey="Matchup",
+                ignoreKeyNames=["id", "ownerId", "teamAId", "teamBId"],
+            )
+            self.__LOGGER.info(f"Differences: {differences}")
         return equal
 
     def splitToPerformances(self) -> tuple[Performance, Performance]:
