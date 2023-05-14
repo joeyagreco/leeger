@@ -15,7 +15,7 @@ on:
 
 jobs:
   format:
-    name: Format with Black
+    name: Check code formatting
     runs-on: ubuntu-latest
 
     steps:

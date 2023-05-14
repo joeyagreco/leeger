@@ -7,4 +7,3 @@ class JSONSerializable(ABC):
         """
         Takes *this* instance of the implemented method's class and returns its representation as a dictionary.
         """
-        pass
