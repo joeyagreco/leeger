@@ -10,4 +10,3 @@ class JSONDeserializable(ABC):
         """
         Takes a dict and turns it into an instance of *this* class.
         """
-        pass

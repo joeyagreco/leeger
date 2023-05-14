@@ -10,12 +10,12 @@ on:
   workflow_dispatch:
     inputs:
       manual:
-        description: 'Trigger the workflow manually'
+        description: "Trigger the workflow manually"
         required: false
 
 jobs:
   format:
-    name: Format with Black
+    name: Check code formatting
     runs-on: ubuntu-latest
 
     steps:
@@ -31,7 +31,13 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install black==23.3.0
-  
+
       - name: Check Formatting
         run: |
-            black --check --diff --config pyproject.toml . --quiet || { echo "The following files are not formatted correctly:"; black --check --diff --config pyproject.toml . --quiet; exit 1; }
+          black --config pyproject.toml --check --diff .
+
+      - name: Install autoflake
+        run: pip install autoflake==2.1.1
+
+      - name: Check for Unused Imports
+        run: autoflake --config pyproject.toml --check .
