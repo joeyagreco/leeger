@@ -15,6 +15,7 @@ All notable changes to this project will be documented in this file.
 - Added better tests for the MyFantasyLeague League Loader
 - Added better tests for the Sleeper League Loader
 - Added better tests for the Yahoo League Loader
+- Added better validation to all League Loaders
 - Updated League Loader examples
 
 ## [2.3.0]
