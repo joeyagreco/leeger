@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 - Fixed bug in the Sleeper League Loader where 2-week championship rounds would not load
 - Fixed bug in the Sleeper League Loader where 2-week playoff rounds would not load
 - Fixed bug in Yahoo League Loader where playoff week types could be determined incorrectly
+- Added leagueName parameter to all League Loaders, which allows users to pass in a custom league name
 - Added better tests for the ESPN League Loader
 - Added better tests for the Fleaflicker League Loader
 - Added better tests for the MyFantasyLeague League Loader
