@@ -76,7 +76,7 @@ class FleaflickerLeagueLoader(LeagueLoader):
         self.__loadOwners(fleaflickerLeagues)
         owners = list(self.__fleaflickerTeamIdToOwnerMap.values())
         for fleaflickerLeague in fleaflickerLeagues:
-            leagueName = fleaflickerLeague["league"]["name"] if leagueName is None else leagueName
+            leagueName = fleaflickerLeague["league"]["name"] if fleaflickerLeague["league"]["name"] is not None else leagueName
             year = self.__buildYear(fleaflickerLeague)
             if len(year.weeks) > 0:
                 years.append(year)
@@ -84,6 +84,8 @@ class FleaflickerLeagueLoader(LeagueLoader):
                 self._LOGGER.warning(
                     f"Year '{year.yearNumber}' discarded for not having any weeks."
                 )
+        # make sure years are ordered oldest -> newest
+        years = sorted(years, key=lambda y: y.yearNumber)
         return League(name=leagueName, owners=owners, years=years)
 
     def __buildYear(self, fleaflickerLeague: dict) -> Year:
