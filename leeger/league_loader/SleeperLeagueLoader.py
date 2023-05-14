@@ -32,10 +32,6 @@ class SleeperLeagueLoader(LeagueLoader):
     """
 
     __INVALID_SLEEPER_LEAGUE_IDS = [None, "0"]
-    __SLEEPER_USERS_BY_LEAGUE_ID_CACHE = dict()  # functions as a cache for Sleeper Users
-    __SLEEPER_SPORT_STATE_CACHE: SleeperSportState = (
-        None  # functions as a cache for Sleeper SportState
-    )
 
     def __init__(
         self,
@@ -48,6 +44,10 @@ class SleeperLeagueLoader(LeagueLoader):
 
         self.__sleeperUserIdToOwnerMap: dict[str, Owner] = dict()
         self.__sleeperRosterIdToTeamMap: dict[int, Team] = dict()
+        self.__SLEEPER_USERS_BY_LEAGUE_ID_CACHE = dict()  # functions as a cache for Sleeper Users
+        self.__SLEEPER_SPORT_STATE_CACHE: SleeperSportState = (
+            None  # functions as a cache for Sleeper SportState
+        )
 
     def __resetCaches(self) -> None:
         self.__SLEEPER_USERS_BY_LEAGUE_ID_CACHE = dict()
@@ -62,13 +62,12 @@ class SleeperLeagueLoader(LeagueLoader):
         # do have these users loaded
         return self.__SLEEPER_USERS_BY_LEAGUE_ID_CACHE[leagueId]
 
-    @classmethod
-    def __getSleeperSportState(cls):
-        if cls.__SLEEPER_SPORT_STATE_CACHE is None:
-            cls.__SLEEPER_SPORT_STATE_CACHE = LeagueAPIClient.get_sport_state(
+    def __getSleeperSportState(self):
+        if self.__SLEEPER_SPORT_STATE_CACHE is None:
+            self.__SLEEPER_SPORT_STATE_CACHE = LeagueAPIClient.get_sport_state(
                 sport=SleeperSport.NFL
             )
-        return cls.__SLEEPER_SPORT_STATE_CACHE
+        return self.__SLEEPER_SPORT_STATE_CACHE
 
     def __getAllLeagues(self) -> list[SleeperLeague]:
         sleeperLeagues = list()
@@ -293,10 +292,9 @@ class SleeperLeagueLoader(LeagueLoader):
                     weeks.append(Week(weekNumber=weekNumber, matchups=matchups))
         return weeks
 
-    @classmethod
-    def __isCompletedWeek(cls, weekNumber: int, sleeperLeague: SleeperLeague) -> bool:
+    def __isCompletedWeek(self, weekNumber: int, sleeperLeague: SleeperLeague) -> bool:
         # see if this is the current year/week of the NFL
-        sportState = cls.__getSleeperSportState()
+        sportState = self.__getSleeperSportState()
         return not (
             sportState.season == sleeperLeague.season
             and sportState.leg <= weekNumber
