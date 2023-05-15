@@ -78,16 +78,8 @@ class FleaflickerLeagueLoader(LeagueLoader):
             self._leagueNameByYear[fleaflickerLeague["season"]] = fleaflickerLeague["league"][
                 "name"
             ]
-            year = self.__buildYear(fleaflickerLeague)
-            if len(year.weeks) > 0:
-                years.append(year)
-            else:
-                self._LOGGER.warning(
-                    f"Year '{year.yearNumber}' discarded for not having any weeks."
-                )
-        # make sure years are ordered oldest -> newest
-        years = sorted(years, key=lambda y: y.yearNumber)
-        return League(name=self._getLeagueName(), owners=owners, years=years)
+            years.append(self.__buildYear(fleaflickerLeague))
+        return League(name=self._getLeagueName(), owners=owners, years=self._getValidYears(years))
 
     def __buildYear(self, fleaflickerLeague: dict) -> Year:
         teams = self.__buildTeams(fleaflickerLeague)

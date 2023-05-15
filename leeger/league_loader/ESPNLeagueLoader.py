@@ -91,7 +91,9 @@ class ESPNLeagueLoader(LeagueLoader):
             self.__loadOwners(espnLeague.teams)
             years.append(self.__buildYear(espnLeague))
         # use the league name from the most recent year
-        return League(name=self._getLeagueName(), owners=self._owners, years=years)
+        return League(
+            name=self._getLeagueName(), owners=self._owners, years=self._getValidYears(years)
+        )
 
     def __loadOwners(self, espnTeams: list[ESPNTeam]) -> None:
         if self._owners is None:

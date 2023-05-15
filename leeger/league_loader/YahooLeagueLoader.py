@@ -131,12 +131,10 @@ class YahooLeagueLoader(LeagueLoader):
             self._leagueNameByYear[yahooLeague.season] = yahooLeague.name
             self.__loadOwners(yahooLeague.teams())
             years.append(self.__buildYear(yahooLeague))
-        # make sure years are sorted oldest -> newest
-        years.sort(key=lambda y: y.yearNumber)
         return League(
             name=self._getLeagueName(),
             owners=list(self.__yahooManagerIdToOwnerMap.values()),
-            years=years,
+            years=self._getValidYears(years),
         )
 
     def __buildYear(self, yahooLeague: YahooLeague) -> Year:

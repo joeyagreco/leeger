@@ -5,6 +5,7 @@ from leeger.exception.DoesNotExistException import DoesNotExistException
 from leeger.exception.LeagueLoaderException import LeagueLoaderException
 from leeger.model.league.League import League
 from leeger.model.league.Owner import Owner
+from leeger.model.league.Year import Year
 from leeger.util.CustomLogger import CustomLogger
 
 
@@ -58,6 +59,18 @@ class LeagueLoader:
             mostRecentYear = sorted(self._leagueNameByYear.keys())[-1]
             leagueName = self._leagueNameByYear[mostRecentYear]
         return leagueName
+
+    def _getValidYears(self, years: list[Year]) -> list[Year]:
+        validYears = list()
+        # make sure years are ordered oldest -> newest
+        for year in sorted(years, key=lambda y: y.yearNumber):
+            if len(year.weeks) > 0:
+                validYears.append(year)
+            else:
+                self._LOGGER.warning(
+                    f"Year '{year.yearNumber}' discarded for not having any weeks."
+                )
+        return validYears
 
     def _validateRetrievedLeagues(self, retrievedLeagues: list) -> None:
         expectedLeagueCount = len(self._years)

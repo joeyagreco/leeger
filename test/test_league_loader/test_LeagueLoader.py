@@ -4,6 +4,8 @@ from leeger.exception.LeagueLoaderException import LeagueLoaderException
 
 from leeger.league_loader.LeagueLoader import LeagueLoader
 from leeger.model.league.Owner import Owner
+from leeger.model.league.Week import Week
+from leeger.model.league.Year import Year
 
 
 class TestLeagueLoader(unittest.TestCase):
@@ -106,3 +108,31 @@ class TestLeagueLoader(unittest.TestCase):
             "Tried to retrieve league name with no leagueName parameter given and no league names set.",
             str(context.exception),
         )
+
+    def test__getValidYears(self):
+        # no change -> returns same years
+        dummyWeeks = [Week(weekNumber=1, matchups=list())]
+        year2020 = Year(yearNumber=2020, teams=list(), weeks=dummyWeeks)
+        year2021 = Year(yearNumber=2021, teams=list(), weeks=dummyWeeks)
+        year2022 = Year(yearNumber=2022, teams=list(), weeks=dummyWeeks)
+        leagueLoader = LeagueLoader("leagueId", [2020, 2021, 2022])
+        response = leagueLoader._getValidYears([year2020, year2021, year2022])
+        self.assertEqual([year2020, year2021, year2022], response)
+
+        # year with no weeks -> removes year
+        dummyWeeks = [Week(weekNumber=1, matchups=list())]
+        year2020 = Year(yearNumber=2020, teams=list(), weeks=dummyWeeks)
+        year2021 = Year(yearNumber=2021, teams=list(), weeks=list())
+        year2022 = Year(yearNumber=2022, teams=list(), weeks=dummyWeeks)
+        leagueLoader = LeagueLoader("leagueId", [2020, 2021, 2022])
+        response = leagueLoader._getValidYears([year2020, year2021, year2022])
+        self.assertEqual([year2020, year2022], response)
+
+        # years not sorted correctly -> sorts years
+        dummyWeeks = [Week(weekNumber=1, matchups=list())]
+        year2020 = Year(yearNumber=2020, teams=list(), weeks=dummyWeeks)
+        year2021 = Year(yearNumber=2021, teams=list(), weeks=dummyWeeks)
+        year2022 = Year(yearNumber=2022, teams=list(), weeks=dummyWeeks)
+        leagueLoader = LeagueLoader("leagueId", [2020, 2021, 2022])
+        response = leagueLoader._getValidYears([year2021, year2022, year2020])
+        self.assertEqual([year2020, year2021, year2022], response)
