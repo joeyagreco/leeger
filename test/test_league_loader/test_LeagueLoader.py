@@ -93,9 +93,14 @@ class TestLeagueLoader(unittest.TestCase):
         leagueName = leagueLoader._getLeagueName()
         self.assertEqual("foo", leagueName)
 
-        # league name given, takes league name given
+        # league name given, league names by year set, takes league name given
         leagueLoader = LeagueLoader("leagueId", [2021], leagueName="bot")
         leagueLoader._leagueNameByYear = {2022: "foo", 2019: "baz", 2021: "bar"}
+        leagueName = leagueLoader._getLeagueName()
+        self.assertEqual("bot", leagueName)
+
+        # league name given, no league names by year set, takes league name given
+        leagueLoader = LeagueLoader("leagueId", [2021], leagueName="bot")
         leagueName = leagueLoader._getLeagueName()
         self.assertEqual("bot", leagueName)
 
