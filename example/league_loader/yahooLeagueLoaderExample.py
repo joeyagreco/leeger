@@ -7,7 +7,7 @@ if __name__ == "__main__":
     # The app only needs to have read permissions.
     # The app will need to have a callback/redirect URI of https://localhost:8000
 
-    # Get a League object with years 2019 and 2020 for Yahoo league with ID: 123456.
+    # Get a League object with years 2019 and 2020 for the Yahoo league with the most recent league ID of "123456".
     clientId = "myClientId"
     clientSecret = "myClientSecret"
     yahooLeagueLoader = YahooLeagueLoader(

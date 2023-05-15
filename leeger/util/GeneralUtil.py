@@ -42,3 +42,66 @@ class GeneralUtil:
                 safeSum += number
 
         return safeSum
+
+    def findDifferentFields(
+        dict1: dict,
+        dict2: dict,
+        *,
+        parentKey: str = "",
+        ignoreKeyNames: Optional[list[str]] = None,
+        isRootDict: bool = True,
+    ) -> list[str]:
+        """
+        Finds the differences in the dicts and returns them.
+        Uses dot notation, i.e. 'foo.baz.bar'
+        """
+        differentFields = []
+
+        if ignoreKeyNames is None:
+            ignoreKeyNames = []
+
+        for key in dict1:
+            fullKey = f"{parentKey}.{key}" if parentKey else key
+
+            value1 = dict1[key]
+            value2 = dict2[key]
+
+            if isinstance(value1, dict) and isinstance(value2, dict):
+                isRootDict = False
+                differentFields.extend(
+                    GeneralUtil.findDifferentFields(
+                        value1,
+                        value2,
+                        parentKey=fullKey,
+                        ignoreKeyNames=ignoreKeyNames,
+                        isRootDict=isRootDict,
+                    )
+                )
+            elif isinstance(value1, (list, tuple)) and isinstance(value2, (list, tuple)):
+                if len(value1) != len(value2):
+                    differentFields.append((fullKey, (value1, value2)))
+                else:
+                    list_differences = []
+                    for i in range(len(value1)):
+                        if isinstance(value1[i], dict) and isinstance(value2[i], dict):
+                            nested_diff = GeneralUtil.findDifferentFields(
+                                value1[i],
+                                value2[i],
+                                parentKey=f"{fullKey}[{i}]",
+                                ignoreKeyNames=ignoreKeyNames,
+                                isRootDict=False,
+                            )
+                            differentFields.extend(nested_diff)
+                        elif value1[i] != value2[i]:
+                            list_differences.append(i)
+                    if len(list_differences) == len(value1):
+                        differentFields.append((fullKey, (value1, value2)))
+                    elif list_differences:
+                        for index in list_differences:
+                            differentFields.append(
+                                (f"{fullKey}[{index}]", (value1[index], value2[index]))
+                            )
+            elif value1 != value2 and key not in ignoreKeyNames:
+                differentFields.append((fullKey, (value1, value2)))
+
+        return differentFields

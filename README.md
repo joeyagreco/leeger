@@ -194,6 +194,14 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 Please make sure to update tests as appropriate.
 
+## Development
+
+### Formatting
+
+_Run these commands from the root folder (leeger) before committing._\
+**General Format:** `black --config=pyproject.toml . `\
+**Import/Variable Format:** `autoflake --config=pyproject.toml .`
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)

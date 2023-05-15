@@ -1,3 +1,4 @@
+from typing import Optional
 import espn_api.football as espn
 from espn_api.football import League as ESPNLeague
 from espn_api.football import Team as ESPNTeam
@@ -32,14 +33,20 @@ class ESPNLeagueLoader(LeagueLoader):
     }
 
     def __init__(
-        self, leagueId: str, years: list[int], espnS2: str = None, swid: str = None, **kwargs
+        self,
+        leagueId: str,
+        years: list[int],
+        *,
+        espnS2: str = None,
+        swid: str = None,
+        ownerNamesAndAliases: Optional[dict[str, list[str]]] = None,
     ):
         # validation
         try:
             int(leagueId)
         except ValueError:
             raise ValueError(f"League ID '{leagueId}' could not be turned into an int.")
-        super().__init__(leagueId, years, **kwargs)
+        super().__init__(leagueId, years, ownerNamesAndAliases=ownerNamesAndAliases)
 
         self.__espnS2 = espnS2
         self.__swid = swid
@@ -56,6 +63,7 @@ class ESPNLeagueLoader(LeagueLoader):
                     swid=self.__swid,
                 )
             )
+        self._validateRetrievedLeagues(espnLeagueYears)
         return espnLeagueYears
 
     def getOwnerNames(self) -> dict[int, list[str]]:
@@ -78,10 +86,14 @@ class ESPNLeagueLoader(LeagueLoader):
     def __buildLeague(self, espnLeagues: list[ESPNLeague]) -> League:
         years = list()
         for espnLeague in espnLeagues:
+            # save league name for each year
+            self._leagueNameByYear[espnLeague.year] = espnLeague.settings.name
             self.__loadOwners(espnLeague.teams)
             years.append(self.__buildYear(espnLeague))
         # use the league name from the most recent year
-        return League(name=espnLeagues[-1].settings.name, owners=self._owners, years=years)
+        return League(
+            name=self._getLeagueName(), owners=self._owners, years=self._getValidYears(years)
+        )
 
     def __loadOwners(self, espnTeams: list[ESPNTeam]) -> None:
         if self._owners is None:

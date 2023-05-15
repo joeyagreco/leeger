@@ -1,3 +1,4 @@
+from typing import Optional
 from fleaflicker.api.LeagueInfoAPIClient import LeagueInfoAPIClient
 from fleaflicker.api.ScoringAPIClient import ScoringAPIClient
 from fleaflicker.enum.Sport import Sport
@@ -20,13 +21,19 @@ class FleaflickerLeagueLoader(LeagueLoader):
     https://www.fleaflicker.com/
     """
 
-    def __init__(self, leagueId: str, years: list[int], **kwargs):
+    def __init__(
+        self,
+        leagueId: str,
+        years: list[int],
+        *,
+        ownerNamesAndAliases: Optional[dict[str, list[str]]] = None,
+    ):
         # validation
         try:
             int(leagueId)
         except ValueError:
             raise ValueError(f"League ID '{leagueId}' could not be turned into an int.")
-        super().__init__(leagueId, years, **kwargs)
+        super().__init__(leagueId, years, ownerNamesAndAliases=ownerNamesAndAliases)
 
         self.__fleaflickerTeamIdToOwnerMap: dict[int, Owner] = dict()
         self.__fleaflickerTeamIdToTeamMap: dict[int, Team] = dict()
@@ -40,6 +47,7 @@ class FleaflickerLeagueLoader(LeagueLoader):
                     sport=Sport.NFL, league_id=int(self._leagueId), season=year
                 )
             )
+        self._validateRetrievedLeagues(fleaflickerLeagues)
         return fleaflickerLeagues
 
     def getOwnerNames(self) -> dict[int, list[str]]:
@@ -63,19 +71,15 @@ class FleaflickerLeagueLoader(LeagueLoader):
 
     def __buildLeague(self, fleaflickerLeagues: list[dict]) -> League:
         years = list()
-        leagueName = None
         self.__loadOwners(fleaflickerLeagues)
         owners = list(self.__fleaflickerTeamIdToOwnerMap.values())
         for fleaflickerLeague in fleaflickerLeagues:
-            leagueName = fleaflickerLeague["league"]["name"] if leagueName is None else leagueName
-            year = self.__buildYear(fleaflickerLeague)
-            if len(year.weeks) > 0:
-                years.append(year)
-            else:
-                self._LOGGER.warning(
-                    f"Year '{year.yearNumber}' discarded for not having any weeks."
-                )
-        return League(name=leagueName, owners=owners, years=years)
+            # save league name for each year
+            self._leagueNameByYear[fleaflickerLeague["season"]] = fleaflickerLeague["league"][
+                "name"
+            ]
+            years.append(self.__buildYear(fleaflickerLeague))
+        return League(name=self._getLeagueName(), owners=owners, years=self._getValidYears(years))
 
     def __buildYear(self, fleaflickerLeague: dict) -> Year:
         teams = self.__buildTeams(fleaflickerLeague)
@@ -165,7 +169,11 @@ class FleaflickerLeagueLoader(LeagueLoader):
         for fleaflickerLeague in fleaflickerLeagues:
             for division in fleaflickerLeague["divisions"]:
                 for team in division["teams"]:
-                    ownerName = team["owners"][0]["displayName"]
+                    if "owners" not in team:
+                        # some teams don't have owners listed in them, use the team name instead
+                        ownerName = team["name"]
+                    else:
+                        ownerName = team["owners"][0]["displayName"]
                     # get general owner name if there is one
                     generalOwnerName = self._getGeneralOwnerNameFromGivenOwnerName(ownerName)
                     ownerName = generalOwnerName if generalOwnerName is not None else ownerName

@@ -4,6 +4,7 @@ from dataclasses import dataclass
 
 from leeger.model.abstract.UniqueId import UniqueId
 from leeger.util.CustomLogger import CustomLogger
+from leeger.util.GeneralUtil import GeneralUtil
 from leeger.util.JSONDeserializable import JSONDeserializable
 from leeger.util.JSONSerializable import JSONSerializable
 
@@ -22,11 +23,18 @@ class Team(UniqueId, JSONSerializable, JSONDeserializable):
         equal = self.name == otherTeam.name
         # warn if this is going to return True but ID based fields are not equal
         if equal:
-            notEqualStrings = list()
             if self.ownerId != otherTeam.ownerId:
                 self.__LOGGER.warning(
                     f"Returning True for equality check when ownerIds are not equal."
                 )
+        else:
+            differences = GeneralUtil.findDifferentFields(
+                self.toJson(),
+                otherTeam.toJson(),
+                parentKey="Team",
+                ignoreKeyNames=["id", "ownerId", "teamAId", "teamBId"],
+            )
+            self.__LOGGER.info(f"Differences: {differences}")
         return equal
 
     def toJson(self) -> dict:

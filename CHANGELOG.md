@@ -4,7 +4,21 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- N/A
+- Now load Yahoo Leagues using the most recent league ID
+- Significantly reduced the number of network calls made when loading Leagues with the Sleeper League Loader
+- Fixed bug in the Fleaflicker League Loader where owners could not be loaded sometimes
+- Fixed bug in the Sleeper League Loader where 2-week championship rounds would not load
+- Fixed bug in the Sleeper League Loader where 2-week playoff rounds would not load
+- Fixed bug in Yahoo League Loader where playoff week types could be determined incorrectly
+- Added leagueName parameter to all League Loaders, which allows users to pass in a custom league name
+- Added better tests for the ESPN League Loader
+- Added better tests for the Fleaflicker League Loader
+- Added better tests for the MyFantasyLeague League Loader
+- Added better tests for the Sleeper League Loader
+- Added better tests for the Yahoo League Loader
+- Added better validation to all League Loaders
+- Added human-readable info logging with differences when comparing league models with "=="
+- Updated League Loader examples
 
 ## [2.3.0]
 
@@ -12,7 +26,6 @@ All notable changes to this project will be documented in this file.
 - Added better tests for the ESPN League Loader
 - Formatting standardization using [Black](https://black.readthedocs.io/en/stable/)
 - README updates
-
 
 ## [2.2.0]
 
@@ -197,59 +210,31 @@ All notable changes to this project will be documented in this file.
 ### Initial Release
 
 [Unreleased]: https://github.com/joeyagreco/leeger/compare/v2.3.0...HEAD
-
 [2.3.0]: https://github.com/joeyagreco/leeger/releases/tag/v2.3.0
-
 [2.2.0]: https://github.com/joeyagreco/leeger/releases/tag/v2.2.0
-
 [2.1.1]: https://github.com/joeyagreco/leeger/releases/tag/v2.1.1
-
 [2.1.0]: https://github.com/joeyagreco/leeger/releases/tag/v2.1.0
-
 [2.0.0]: https://github.com/joeyagreco/leeger/releases/tag/v2.0.0
-
 [1.15.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.15.0
-
 [1.14.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.14.0
-
 [1.13.1]: https://github.com/joeyagreco/leeger/releases/tag/v1.13.1
-
 [1.13.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.13.0
-
 [1.12.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.12.0
-
 [1.11.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.11.0
-
 [1.10.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.10.0
-
 [1.9.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.9.0
-
 [1.8.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.8.0
-
 [1.7.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.7.0
-
 [1.6.1]: https://github.com/joeyagreco/leeger/releases/tag/v1.6.1
-
 [1.6.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.6.0
-
 [1.5.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.5.0
-
 [1.4.1]: https://github.com/joeyagreco/leeger/releases/tag/v1.4.1
-
 [1.4.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.4.0
-
 [1.3.3]: https://github.com/joeyagreco/leeger/releases/tag/v1.3.3
-
 [1.3.2]: https://github.com/joeyagreco/leeger/releases/tag/v1.3.2
-
 [1.3.1]: https://github.com/joeyagreco/leeger/releases/tag/v1.3.1
-
 [1.3.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.3.0
-
 [1.2.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.2.0
-
 [1.1.1]: https://github.com/joeyagreco/leeger/releases/tag/v1.1.1
-
 [1.1.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.1.0
-
 [1.0.0]: https://github.com/joeyagreco/leeger/releases/tag/v1.0.0

@@ -6,12 +6,15 @@ from leeger.enum.MatchupType import MatchupType
 from leeger.exception import DoesNotExistException
 from leeger.model.abstract.UniqueId import UniqueId
 from leeger.model.league.Matchup import Matchup
+from leeger.util.CustomLogger import CustomLogger
+from leeger.util.GeneralUtil import GeneralUtil
 from leeger.util.JSONDeserializable import JSONDeserializable
 from leeger.util.JSONSerializable import JSONSerializable
 
 
 @dataclass(kw_only=True, eq=False)
 class Week(UniqueId, JSONSerializable, JSONDeserializable):
+    __LOGGER = CustomLogger.getLogger()
     weekNumber: int
     matchups: list[Matchup]
 
@@ -22,6 +25,14 @@ class Week(UniqueId, JSONSerializable, JSONDeserializable):
         """
         equal = self.weekNumber == otherWeek.weekNumber
         equal = equal and self.matchups == otherWeek.matchups
+        if not equal:
+            differences = GeneralUtil.findDifferentFields(
+                self.toJson(),
+                otherWeek.toJson(),
+                parentKey="Week",
+                ignoreKeyNames=["id", "ownerId", "teamAId", "teamBId"],
+            )
+            self.__LOGGER.info(f"Differences: {differences}")
         return equal
 
     @property
