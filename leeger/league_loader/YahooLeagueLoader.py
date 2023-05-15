@@ -47,7 +47,7 @@ class YahooLeagueLoader(LeagueLoader):
         super().__init__(mostRecentLeagueId, years, ownerNamesAndAliases=ownerNamesAndAliases)
         self.__clientId = clientId
         self.__clientSecret = clientSecret
-        self.__timeoutSeconds = loginTimeoutSeconds
+        self.__loginTimeoutSeconds = loginTimeoutSeconds
         self.__yahooManagerIdToOwnerMap: dict[int, Owner] = dict()
         self.__yahooTeamIdToTeamMap: dict[str, Team] = dict()
         self.__yearToTeamIdHasLostInPlayoffs: dict[int, dict[int, bool]] = dict()
@@ -75,7 +75,7 @@ class YahooLeagueLoader(LeagueLoader):
             target=self.login, args=(self.__clientId, self.__clientSecret)
         )
         loginProcess.start()
-        loginProcess.join(self.__timeoutSeconds)
+        loginProcess.join(self.__loginTimeoutSeconds)
         if loginProcess.is_alive():
             loginProcess.terminate()
             raise TimeoutError("Login to yahoofantasy timed out.")
@@ -85,7 +85,6 @@ class YahooLeagueLoader(LeagueLoader):
         remainingYears = sorted(self._years, reverse=True)
         currentLeagueId = self._leagueId
         previousLeagueId = None
-        foundYears = list()
         for year in remainingYears:
             foundLeagueForYear = False
             # get all leagues this user was in for this year

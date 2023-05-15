@@ -17,6 +17,7 @@ All notable changes to this project will be documented in this file.
 - Added better tests for the Sleeper League Loader
 - Added better tests for the Yahoo League Loader
 - Added better validation to all League Loaders
+- Added human-readable info logging with differences when comparing league models with "=="
 - Updated League Loader examples
 
 ## [2.3.0]
