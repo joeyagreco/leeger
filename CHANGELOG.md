@@ -2,7 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## Unreleased
+
+- N/A
+
+## [2.4.0]
 
 - Now load Yahoo Leagues using the most recent league ID
 - Significantly reduced the number of network calls made when loading Leagues with the Sleeper League Loader
@@ -209,7 +213,8 @@ All notable changes to this project will be documented in this file.
 
 ### Initial Release
 
-[Unreleased]: https://github.com/joeyagreco/leeger/compare/v2.3.0...HEAD
+[Unreleased]: https://github.com/joeyagreco/leeger/compare/v2.4.0...HEAD
+[2.4.0]: https://github.com/joeyagreco/leeger/releases/tag/v2.4.0
 [2.3.0]: https://github.com/joeyagreco/leeger/releases/tag/v2.3.0
 [2.2.0]: https://github.com/joeyagreco/leeger/releases/tag/v2.2.0
 [2.1.1]: https://github.com/joeyagreco/leeger/releases/tag/v2.1.1
