@@ -37,7 +37,9 @@ class League(UniqueId, JSONSerializable, JSONDeserializable):
                 self.toJson(),
                 otherLeague.toJson(),
                 parentKey="League",
-                ignoreKeyNames=ConfigReader.get("EQUALITY_CHECK", "IGNORE_KEY_NAMES", asType=list, propFile="league.properties"),
+                ignoreKeyNames=ConfigReader.get(
+                    "EQUALITY_CHECK", "IGNORE_KEY_NAMES", asType=list, propFile="league.properties"
+                ),
             )
             self.__LOGGER.info(f"Differences: {differences}")
         return equal

@@ -44,7 +44,9 @@ class Performance(UniqueId, JSONSerializable):
                 self.toJson(),
                 otherPerformance.toJson(),
                 parentKey="Performance",
-                ignoreKeyNames=ConfigReader.get("EQUALITY_CHECK", "IGNORE_KEY_NAMES", asType=list, propFile="league.properties"),
+                ignoreKeyNames=ConfigReader.get(
+                    "EQUALITY_CHECK", "IGNORE_KEY_NAMES", asType=list, propFile="league.properties"
+                ),
             )
             self.__LOGGER.info(f"Differences: {differences}")
         return equal
