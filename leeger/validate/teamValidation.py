@@ -18,3 +18,5 @@ def checkAllTypes(team: Team) -> None:
         raise InvalidTeamFormatException("ownerId must be type 'str'.")
     if not isinstance(team.name, str):
         raise InvalidTeamFormatException("name must be type 'str'.")
+    if not isinstance(team.divisionId, (str, type(None))):
+        raise InvalidTeamFormatException("divisionId must be 'None' or type 'str'.")

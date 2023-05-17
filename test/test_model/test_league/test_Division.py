@@ -25,7 +25,7 @@ class TestDivision(unittest.TestCase):
         division_2 = Division(name="divisionDIF")
 
         self.assertNotEqual(division_1, division_2)
-        
+
     def test_toFromJson(self):
         division = Division(name="division")
         self.assertEqual(division, Division.fromJson(division.toJson()))

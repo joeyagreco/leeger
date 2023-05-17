@@ -17,7 +17,13 @@ class TestYear(unittest.TestCase):
         team = Team(ownerId="", name="")
         division = Division(name="")
         yearSettings = YearSettings(leagueMedianGames=True)
-        year = Year(yearNumber=2000, teams=[team], weeks=[week], divisions=[division], yearSettings=yearSettings)
+        year = Year(
+            yearNumber=2000,
+            teams=[team],
+            weeks=[week],
+            divisions=[division],
+            yearSettings=yearSettings,
+        )
 
         self.assertEqual(2000, year.yearNumber)
         self.assertEqual(1, len(year.teams))
@@ -54,7 +60,13 @@ class TestYear(unittest.TestCase):
         week_1 = Week(weekNumber=1, matchups=[matchup_1])
         division_1 = Division(name="div")
         yearSettings_1 = YearSettings(leagueMedianGames=True)
-        year_1 = Year(yearNumber=2000, teams=teams_1, weeks=[week_1], divisions=[division_1], yearSettings=yearSettings_1)
+        year_1 = Year(
+            yearNumber=2000,
+            teams=teams_1,
+            weeks=[week_1],
+            divisions=[division_1],
+            yearSettings=yearSettings_1,
+        )
 
         # create Year 2
         _, teams_2 = getNDefaultOwnersAndTeams(2)
@@ -69,7 +81,13 @@ class TestYear(unittest.TestCase):
         week_2 = Week(weekNumber=1, matchups=[matchup_2])
         division_2 = Division(name="div")
         yearSettings_2 = YearSettings(leagueMedianGames=True)
-        year_2 = Year(yearNumber=2000, teams=teams_2, weeks=[week_2], divisions=[division_2], yearSettings=yearSettings_2)
+        year_2 = Year(
+            yearNumber=2000,
+            teams=teams_2,
+            weeks=[week_2],
+            divisions=[division_2],
+            yearSettings=yearSettings_2,
+        )
 
         self.assertEqual(year_1, year_2)
 
@@ -101,7 +119,7 @@ class TestYear(unittest.TestCase):
         year_2 = Year(yearNumber=2001, teams=teams_2, weeks=[week_2])
 
         self.assertNotEqual(year_1, year_2)
-        
+
     def test_toFromJson(self):
         _, teams = getNDefaultOwnersAndTeams(2)
 
@@ -115,8 +133,14 @@ class TestYear(unittest.TestCase):
         week_1 = Week(weekNumber=1, matchups=[matchup_1])
         division_1 = Division(name="div")
         yearSettings = YearSettings(leagueMedianGames=True)
-        year = Year(yearNumber=2000, teams=teams, weeks=[week_1], divisions=[division_1], yearSettings=yearSettings)
-        
+        year = Year(
+            yearNumber=2000,
+            teams=teams,
+            weeks=[week_1],
+            divisions=[division_1],
+            yearSettings=yearSettings,
+        )
+
         self.assertEqual(year, Year.fromJson(year.toJson()))
 
     def test_getTeamByName_happyPath(self):

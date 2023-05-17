@@ -44,7 +44,12 @@ class Team(UniqueId, JSONSerializable, JSONDeserializable):
         return equal
 
     def toJson(self) -> dict:
-        return {"id": self.id, "ownerId": self.ownerId, "name": self.name, "divisionId": self.divisionId}
+        return {
+            "id": self.id,
+            "ownerId": self.ownerId,
+            "name": self.name,
+            "divisionId": self.divisionId,
+        }
 
     @staticmethod
     def fromJson(d: dict) -> Team:
