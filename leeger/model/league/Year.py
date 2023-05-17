@@ -9,6 +9,7 @@ from leeger.model.league.Division import Division
 from leeger.model.league.Team import Team
 from leeger.model.league.Week import Week
 from leeger.model.league.YearSettings import YearSettings
+from leeger.util.ConfigReader import ConfigReader
 from leeger.util.CustomLogger import CustomLogger
 from leeger.util.GeneralUtil import GeneralUtil
 from leeger.util.JSONDeserializable import JSONDeserializable
@@ -48,7 +49,7 @@ class Year(UniqueId, JSONSerializable, JSONDeserializable):
                 self.toJson(),
                 otherYear.toJson(),
                 parentKey="Year",
-                ignoreKeyNames=["id", "ownerId", "teamAId", "teamBId"],
+                ignoreKeyNames=ConfigReader.get("EQUALITY_CHECK", "IGNORE_KEY_NAMES", asType=list, propFile="league.properties"),
             )
             self.__LOGGER.info(f"Differences: {differences}")
         return equal

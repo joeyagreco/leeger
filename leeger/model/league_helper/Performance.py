@@ -6,7 +6,9 @@ from typing import Optional
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception import InvalidMatchupFormatException
 from leeger.model.abstract.UniqueId import UniqueId
+from leeger.util.ConfigReader import ConfigReader
 from leeger.util.CustomLogger import CustomLogger
+from leeger.util.GeneralUtil import GeneralUtil
 from leeger.util.JSONSerializable import JSONSerializable
 
 
@@ -37,6 +39,14 @@ class Performance(UniqueId, JSONSerializable):
                 self.__LOGGER.warning(
                     f"Returning True for equality check when {notEqualStrings} are not equal."
                 )
+        else:
+            differences = GeneralUtil.findDifferentFields(
+                self.toJson(),
+                otherPerformance.toJson(),
+                parentKey="Performance",
+                ignoreKeyNames=ConfigReader.get("EQUALITY_CHECK", "IGNORE_KEY_NAMES", asType=list, propFile="league.properties"),
+            )
+            self.__LOGGER.info(f"Differences: {differences}")
         return equal
 
     def __add__(self, otherPerformance: Performance):

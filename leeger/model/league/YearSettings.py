@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from typing import Optional
+from leeger.util.ConfigReader import ConfigReader
 from leeger.util.CustomLogger import CustomLogger
 from leeger.util.GeneralUtil import GeneralUtil
 
@@ -28,7 +29,7 @@ class YearSettings(JSONSerializable, JSONDeserializable):
                 self.toJson(),
                 otherYearSettings.toJson(),
                 parentKey="YearSettings",
-                ignoreKeyNames=["id", "ownerId", "teamAId", "teamBId"],
+                ignoreKeyNames=ConfigReader.get("EQUALITY_CHECK", "IGNORE_KEY_NAMES", asType=list, propFile="league.properties"),
             )
             self.__LOGGER.info(f"Differences: {differences}")
         return equal

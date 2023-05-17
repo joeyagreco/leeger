@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from leeger.model.abstract.UniqueId import UniqueId
+from leeger.util.ConfigReader import ConfigReader
 from leeger.util.CustomLogger import CustomLogger
 from leeger.util.GeneralUtil import GeneralUtil
 from leeger.util.JSONDeserializable import JSONDeserializable
@@ -25,7 +26,7 @@ class Division(UniqueId, JSONSerializable, JSONDeserializable):
                 self.toJson(),
                 otherDivision.toJson(),
                 parentKey="Division",
-                ignoreKeyNames=["id", "ownerId", "teamAId", "teamBId"],
+                ignoreKeyNames=ConfigReader.get("EQUALITY_CHECK", "IGNORE_KEY_NAMES", asType=list, propFile="league.properties"),
             )
             self.__LOGGER.info(f"Differences: {differences}")
         return equal

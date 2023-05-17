@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from typing import Optional
 
 from leeger.model.abstract.UniqueId import UniqueId
+from leeger.util.ConfigReader import ConfigReader
 from leeger.util.CustomLogger import CustomLogger
 from leeger.util.GeneralUtil import GeneralUtil
 from leeger.util.JSONDeserializable import JSONDeserializable
@@ -35,7 +36,7 @@ class Team(UniqueId, JSONSerializable, JSONDeserializable):
                 self.toJson(),
                 otherTeam.toJson(),
                 parentKey="Team",
-                ignoreKeyNames=["id", "ownerId", "teamAId", "teamBId"],
+                ignoreKeyNames=ConfigReader.get("EQUALITY_CHECK", "IGNORE_KEY_NAMES", asType=list, propFile="league.properties"),
             )
             self.__LOGGER.info(f"Differences: {differences}")
         return equal
