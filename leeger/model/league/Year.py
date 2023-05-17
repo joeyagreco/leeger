@@ -5,6 +5,7 @@ from typing import Optional
 
 from leeger.exception import DoesNotExistException
 from leeger.model.abstract.UniqueId import UniqueId
+from leeger.model.league.Division import Division
 from leeger.model.league.Team import Team
 from leeger.model.league.Week import Week
 from leeger.model.league.YearSettings import YearSettings
@@ -20,9 +21,12 @@ class Year(UniqueId, JSONSerializable, JSONDeserializable):
     yearNumber: int
     teams: list[Team]
     weeks: list[Week]
+    divisions: Optional[list[Division]] = None
     yearSettings: Optional[YearSettings] = None
 
     def __post_init__(self):
+        if self.divisions is None:
+            self.divisions = list()
         if self.yearSettings is None:
             self.yearSettings = YearSettings()
 
