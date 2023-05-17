@@ -25,17 +25,7 @@ class TestDivision(unittest.TestCase):
         division_2 = Division(name="divisionDIF")
 
         self.assertNotEqual(division_1, division_2)
-
-    def test_division_toJson(self):
+        
+    def test_toFromJson(self):
         division = Division(name="division")
-        divisionJson = division.toJson()
-
-        self.assertIsInstance(divisionJson, dict)
-        self.assertEqual("division", divisionJson["name"])
-
-    def test_division_fromJson(self):
-        division = Division(name="division")
-        divisionJson = division.toJson()
-        divisionDerived = Division.fromJson(divisionJson)
-        self.assertEqual(division, divisionDerived)
-        self.assertEqual(division.id, divisionDerived.id)
+        self.assertEqual(division, Division.fromJson(division.toJson()))

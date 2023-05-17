@@ -44,10 +44,10 @@ class Team(UniqueId, JSONSerializable, JSONDeserializable):
         return equal
 
     def toJson(self) -> dict:
-        return {"id": self.id, "ownerId": self.ownerId, "name": self.name}
+        return {"id": self.id, "ownerId": self.ownerId, "name": self.name, "divisionId": self.divisionId}
 
     @staticmethod
     def fromJson(d: dict) -> Team:
-        team = Team(ownerId=d["ownerId"], name=d["name"])
+        team = Team(ownerId=d["ownerId"], name=d["name"], divisionId=d.get("divisionId"))
         team.id = d["id"]
         return team

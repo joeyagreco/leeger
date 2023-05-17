@@ -80,6 +80,7 @@ class Year(UniqueId, JSONSerializable, JSONDeserializable):
             "yearNumber": self.yearNumber,
             "teams": [team.toJson() for team in self.teams],
             "weeks": [week.toJson() for week in self.weeks],
+            "divisions": [division.toJson() for division in self.divisions],
             "yearSettings": self.yearSettings.toJson(),
         }
 
@@ -91,10 +92,14 @@ class Year(UniqueId, JSONSerializable, JSONDeserializable):
         weeks = list()
         for weekDict in d["weeks"]:
             weeks.append(Week.fromJson(weekDict))
+        divisions = list()
+        for divisionDict in d["divisions"]:
+            divisions.append(Division.fromJson(divisionDict))
         year = Year(
             yearNumber=d["yearNumber"],
             teams=teams,
             weeks=weeks,
+            divisions=divisions,
             yearSettings=YearSettings.fromJson(d.get("yearSettings")),
         )
         year.id = d["id"]
