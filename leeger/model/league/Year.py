@@ -41,6 +41,7 @@ class Year(UniqueId, JSONSerializable, JSONDeserializable):
         equal = self.yearNumber == otherYear.yearNumber
         equal = equal and self.teams == otherYear.teams
         equal = equal and self.weeks == otherYear.weeks
+        equal = equal and self.divisions == otherYear.divisions
         equal = equal and self.yearSettings == otherYear.yearSettings
         if not equal:
             differences = GeneralUtil.findDifferentFields(

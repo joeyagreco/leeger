@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Optional
 
 from leeger.model.abstract.UniqueId import UniqueId
 from leeger.util.CustomLogger import CustomLogger
@@ -14,6 +15,7 @@ class Team(UniqueId, JSONSerializable, JSONDeserializable):
     __LOGGER = CustomLogger.getLogger()
     ownerId: str
     name: str
+    divisionId: Optional[str] = None
 
     def __eq__(self, otherTeam: Team) -> bool:
         """
@@ -21,6 +23,7 @@ class Team(UniqueId, JSONSerializable, JSONDeserializable):
         Does not check for equality of IDs, just values.
         """
         equal = self.name == otherTeam.name
+        equal = equal and self.divisionId == otherTeam.divisionId
         # warn if this is going to return True but ID based fields are not equal
         if equal:
             if self.ownerId != otherTeam.ownerId:
