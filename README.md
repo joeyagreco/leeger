@@ -196,11 +196,10 @@ Please make sure to update tests as appropriate.
 
 ## Development
 
-### Formatting
+_Run these commands from the root folder_
+- Format Code: `./main fmt`
+- Generate Coverage Report: `./main cov`
 
-_Run these commands from the root folder (leeger) before committing._\
-**General Format:** `black --config=pyproject.toml . `\
-**Import/Variable Format:** `autoflake --config=pyproject.toml .`
 
 ## License
 
