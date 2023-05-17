@@ -198,6 +198,7 @@ Please make sure to update tests as appropriate.
 
 _Run these commands from the root folder_
 - Format Code: `./main fmt`
+- Run Unit Tests: `./main test`
 - Generate Coverage Report: `./main cov`
 
 

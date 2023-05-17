@@ -2,6 +2,8 @@
 
 IF "%1"=="fmt" (
     call batch\format.bat
+) ELSE IF "%1" == "test" (
+    call batch\test.bat
 ) ELSE IF "%1"=="cov" (
     call batch\coverage.bat
 ) ELSE (
