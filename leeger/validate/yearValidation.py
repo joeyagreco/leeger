@@ -40,7 +40,7 @@ def runAllChecks(year: Year) -> None:
     checkMultiWeekMatchupsWithSameIdHaveSameMatchupType(year)
     checkMultiWeekMatchupsWithSameIdHaveSameTeamIds(year)
     checkMultiWeekMatchupsWithSameIdHaveSameTiebreakers(year)
-    checkIfAnyTeamIsInADivisionThatAllTeamsAreInADivision(year)
+    checkEitherAllTeamsAreInADivisionOrNoTeamsAreInADivision(year)
     checkDivisionIdsMatchTeamDivisionIds(year)
     checkDivisionsHaveNoDuplicateIds(year)
 
@@ -404,10 +404,10 @@ def checkMultiWeekMatchupsWithSameIdHaveSameTiebreakers(year: Year):
                 )
 
 
-def checkIfAnyTeamIsInADivisionThatAllTeamsAreInADivision(year: Year):
+def checkEitherAllTeamsAreInADivisionOrNoTeamsAreInADivision(year: Year):
     # TODO: test this
     """
-    Checks that if at least 1 team is in a division, all teams are in a division.
+    Checks that either all teams are in a division or no teams are in a division.
     """
     allTeamDivisionIds = [team.divisionId for team in year.teams]
 
