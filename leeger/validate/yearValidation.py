@@ -41,6 +41,8 @@ def runAllChecks(year: Year) -> None:
     checkMultiWeekMatchupsWithSameIdHaveSameTeamIds(year)
     checkMultiWeekMatchupsWithSameIdHaveSameTiebreakers(year)
     checkIfAnyTeamIsInADivisionThatAllTeamsAreInADivision(year)
+    checkDivisionIdsMatchTeamDivisionIds(year)
+    checkDivisionsHaveNoDuplicateIds(year)
 
 
 def checkYearSettings(year: Year) -> None:
@@ -401,15 +403,43 @@ def checkMultiWeekMatchupsWithSameIdHaveSameTiebreakers(year: Year):
                     f"Multi-week matchups with ID '{mwmid}' do not all have the same tiebreakers."
                 )
 
+
 def checkIfAnyTeamIsInADivisionThatAllTeamsAreInADivision(year: Year):
     # TODO: test this
     """
     Checks that if at least 1 team is in a division, all teams are in a division.
     """
-    allDivisionIds = [team.divisionId for team in year.teams]
-    
-    # Check if all teams have a division ID
-    if not (all(isinstance(divisionId, str) for divisionId in allDivisionIds) or all(divisionId is None for divisionId in allDivisionIds)):
-        raise InvalidYearFormatException(f"Only some teams in year f{year.yearNumber} have a divisionId.")
-    
-    
+    allTeamDivisionIds = [team.divisionId for team in year.teams]
+
+    if not (
+        all(isinstance(divisionId, str) for divisionId in allTeamDivisionIds)
+        or all(divisionId is None for divisionId in allTeamDivisionIds)
+    ):
+        raise InvalidYearFormatException(
+            f"Only some teams in Year {year.yearNumber} have a divisionId."
+        )
+
+
+def checkDivisionIdsMatchTeamDivisionIds(year: Year):
+    # TODO: test this
+    """
+    Checks that the divisions in a year exactly match all division IDs for all teams in a year.
+    """
+    allDivisionIds = [division.id for division in year.divisions]
+    allTeamDivisionIds = [team.divisionId for team in year.teams if team.divisionId is not None]
+
+    if set(allDivisionIds) != set(allTeamDivisionIds):
+        raise InvalidYearFormatException(
+            f"All division IDs in Year {year.yearNumber} must belong to a team."
+        )
+
+
+def checkDivisionsHaveNoDuplicateIds(year: Year):
+    # TODO: test this
+    """
+    Checks that all divisions have a unique ID.
+    """
+    allDivisionIds = [division.id for division in year.divisions]
+
+    if len(set(allDivisionIds)) != len(allDivisionIds):
+        raise InvalidYearFormatException(f"Year {year.yearNumber} has duplicate division IDs.")

@@ -634,11 +634,13 @@ class TestYearValidation(unittest.TestCase):
         with self.assertRaises(InvalidYearFormatException) as context:
             yearValidation.checkAllTypes(Year(yearNumber=2000, teams=list(), weeks=None))
         self.assertEqual("weeks must be type 'list'.", str(context.exception))
-        
+
     def test_checkAllTypes_divisionsIsntTypeList_raisesException(self):
         with self.assertRaises(InvalidYearFormatException) as context:
-            yearValidation.checkAllTypes(Year(yearNumber=2000, teams=list(), weeks=list(), divisions=""))
-        self.assertEqual("divisions must be type 'list'.", str(context.exception))      
+            yearValidation.checkAllTypes(
+                Year(yearNumber=2000, teams=list(), weeks=list(), divisions="")
+            )
+        self.assertEqual("divisions must be type 'list'.", str(context.exception))
 
     def test_checkAllTypes_yearSettingsIsntTypeYearSettings_raisesException(self):
         with self.assertRaises(InvalidYearFormatException) as context:
