@@ -40,6 +40,7 @@ def runAllChecks(year: Year) -> None:
     checkMultiWeekMatchupsWithSameIdHaveSameMatchupType(year)
     checkMultiWeekMatchupsWithSameIdHaveSameTeamIds(year)
     checkMultiWeekMatchupsWithSameIdHaveSameTiebreakers(year)
+    checkIfAnyTeamIsInADivisionThatAllTeamsAreInADivision(year)
 
 
 def checkYearSettings(year: Year) -> None:
