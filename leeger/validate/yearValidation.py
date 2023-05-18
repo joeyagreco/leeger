@@ -399,3 +399,16 @@ def checkMultiWeekMatchupsWithSameIdHaveSameTiebreakers(year: Year):
                 raise InvalidYearFormatException(
                     f"Multi-week matchups with ID '{mwmid}' do not all have the same tiebreakers."
                 )
+
+def checkIfAnyTeamIsInADivisionThatAllTeamsAreInADivision(year: Year):
+    # TODO: test this
+    """
+    Checks that if at least 1 team is in a division, all teams are in a division.
+    """
+    allDivisionIds = [team.divisionId for team in year.teams]
+    
+    # Check if all teams have a division ID
+    if not (all(isinstance(divisionId, str) for divisionId in allDivisionIds) or all(divisionId is None for divisionId in allDivisionIds)):
+        raise InvalidYearFormatException(f"Only some teams in year f{year.yearNumber} have a divisionId.")
+    
+    
