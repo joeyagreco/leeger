@@ -2,6 +2,8 @@ from functools import lru_cache
 
 from leeger.exception.InvalidLeagueFormatException import InvalidLeagueFormatException
 from leeger.model.league.League import League
+from leeger.model.league.Owner import Owner
+from leeger.model.league.Year import Year
 from leeger.validate import ownerValidation, yearValidation
 
 """
@@ -52,10 +54,10 @@ def checkAllTypes(league: League) -> None:
     """
     if not isinstance(league.name, str):
         raise InvalidLeagueFormatException("name must be type 'str'.")
-    if not isinstance(league.owners, list):
-        raise InvalidLeagueFormatException("owners must be type 'list'.")
-    if not isinstance(league.years, list):
-        raise InvalidLeagueFormatException("years must be type 'list'.")
+    if not isinstance(league.owners, list) or not all(isinstance(owner, Owner) for owner in league.owners):
+        raise InvalidLeagueFormatException("owners must be type 'list[Owner]'.")
+    if not isinstance(league.years, list) or not all(isinstance(year, Year) for year in league.years):
+        raise InvalidLeagueFormatException("years must be type 'list[Year]'.")
 
 
 def checkForDuplicateOwners(league: League) -> None:
