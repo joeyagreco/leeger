@@ -54,9 +54,13 @@ def checkAllTypes(league: League) -> None:
     """
     if not isinstance(league.name, str):
         raise InvalidLeagueFormatException("name must be type 'str'.")
-    if not isinstance(league.owners, list) or not all(isinstance(owner, Owner) for owner in league.owners):
+    if not isinstance(league.owners, list) or not all(
+        isinstance(owner, Owner) for owner in league.owners
+    ):
         raise InvalidLeagueFormatException("owners must be type 'list[Owner]'.")
-    if not isinstance(league.years, list) or not all(isinstance(year, Year) for year in league.years):
+    if not isinstance(league.years, list) or not all(
+        isinstance(year, Year) for year in league.years
+    ):
         raise InvalidLeagueFormatException("years must be type 'list[Year]'.")
 
 

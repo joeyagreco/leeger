@@ -197,19 +197,18 @@ class TestLeagueValidation(unittest.TestCase):
         with self.assertRaises(InvalidLeagueFormatException) as context:
             leagueValidation.checkAllTypes(League(name="TEST", owners=None, years=list()))
         self.assertEqual("owners must be type 'list[Owner]'.", str(context.exception))
-        
+
         # given a list of non Owner
         with self.assertRaises(InvalidLeagueFormatException) as context:
             leagueValidation.checkAllTypes(League(name="TEST", owners=["foo"], years=list()))
         self.assertEqual("owners must be type 'list[Owner]'.", str(context.exception))
-        
 
     def test_checkAllTypes_leagueYearsIsntTypeList_raisesException(self):
         # not given a list
         with self.assertRaises(InvalidLeagueFormatException) as context:
             leagueValidation.checkAllTypes(League(name="TEST", owners=list(), years=None))
         self.assertEqual("years must be type 'list[Year]'.", str(context.exception))
-        
+
         # given a list of non Year
         with self.assertRaises(InvalidLeagueFormatException) as context:
             leagueValidation.checkAllTypes(League(name="TEST", owners=list(), years=["foo"]))

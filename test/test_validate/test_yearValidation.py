@@ -715,21 +715,41 @@ class TestYearValidation(unittest.TestCase):
         self.assertEqual("yearNumber must be type 'int'.", str(context.exception))
 
     def test_checkAllTypes_yearTeamsIsntTypeList_raisesException(self):
+        # not given a list
         with self.assertRaises(InvalidYearFormatException) as context:
             yearValidation.checkAllTypes(Year(yearNumber=2000, teams=None, weeks=list()))
-        self.assertEqual("teams must be type 'list'.", str(context.exception))
+        self.assertEqual("teams must be type 'list[Team]'.", str(context.exception))
+
+        # given a list of non Team
+        with self.assertRaises(InvalidYearFormatException) as context:
+            yearValidation.checkAllTypes(Year(yearNumber=2000, teams=["foo"], weeks=list()))
+        self.assertEqual("teams must be type 'list[Team]'.", str(context.exception))
 
     def test_checkAllTypes_yearWeeksIsntTypeList_raisesException(self):
+        # not given a list
         with self.assertRaises(InvalidYearFormatException) as context:
             yearValidation.checkAllTypes(Year(yearNumber=2000, teams=list(), weeks=None))
-        self.assertEqual("weeks must be type 'list'.", str(context.exception))
+        self.assertEqual("weeks must be type 'list[Week]'.", str(context.exception))
+
+        # given a list of non Week
+        with self.assertRaises(InvalidYearFormatException) as context:
+            yearValidation.checkAllTypes(Year(yearNumber=2000, teams=list(), weeks=["foo"]))
+        self.assertEqual("weeks must be type 'list[Week]'.", str(context.exception))
 
     def test_checkAllTypes_divisionsIsntTypeList_raisesException(self):
+        # not given a list
         with self.assertRaises(InvalidYearFormatException) as context:
             yearValidation.checkAllTypes(
                 Year(yearNumber=2000, teams=list(), weeks=list(), divisions="")
             )
-        self.assertEqual("divisions must be type 'list'.", str(context.exception))
+        self.assertEqual("divisions must be type 'list[Division]'.", str(context.exception))
+
+        # given a list of non Division
+        with self.assertRaises(InvalidYearFormatException) as context:
+            yearValidation.checkAllTypes(
+                Year(yearNumber=2000, teams=list(), weeks=list(), divisions=["foo"])
+            )
+        self.assertEqual("divisions must be type 'list[Division]'.", str(context.exception))
 
     def test_checkAllTypes_yearSettingsIsntTypeYearSettings_raisesException(self):
         with self.assertRaises(InvalidYearFormatException) as context:

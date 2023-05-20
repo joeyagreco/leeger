@@ -2,6 +2,9 @@ from functools import lru_cache
 
 from leeger.exception.InvalidYearFormatException import InvalidYearFormatException
 from leeger.model.league import Matchup, YearSettings
+from leeger.model.league.Division import Division
+from leeger.model.league.Team import Team
+from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
 from leeger.util.navigator import YearNavigator
 from leeger.validate import (
@@ -83,12 +86,14 @@ def checkAllTypes(year: Year) -> None:
 
     if not isinstance(year.yearNumber, int):
         raise InvalidYearFormatException("yearNumber must be type 'int'.")
-    if not isinstance(year.teams, list):
-        raise InvalidYearFormatException("teams must be type 'list'.")
-    if not isinstance(year.weeks, list):
-        raise InvalidYearFormatException("weeks must be type 'list'.")
-    if not isinstance(year.divisions, list):
-        raise InvalidYearFormatException("divisions must be type 'list'.")
+    if not isinstance(year.teams, list) or not all(isinstance(team, Team) for team in year.teams):
+        raise InvalidYearFormatException("teams must be type 'list[Team]'.")
+    if not isinstance(year.weeks, list) or not all(isinstance(week, Week) for week in year.weeks):
+        raise InvalidYearFormatException("weeks must be type 'list[Week]'.")
+    if not isinstance(year.divisions, list) or not all(
+        isinstance(division, Division) for division in year.divisions
+    ):
+        raise InvalidYearFormatException("divisions must be type 'list[Division]'.")
     if not isinstance(year.yearSettings, YearSettings):
         raise InvalidYearFormatException("yearSettings must be type 'YearSettings'.")
 
