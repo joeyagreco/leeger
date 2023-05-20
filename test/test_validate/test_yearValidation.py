@@ -616,6 +616,33 @@ class TestYearValidation(unittest.TestCase):
             str(context.exception),
         )
 
+    def test_checkEitherAllTeamsAreInADivisionOrNoTeamsAreInADivision(self):
+        # all in division, no error
+        team1 = Team(ownerId="", name="", divisionId="1")
+        team2 = Team(ownerId="", name="", divisionId="2")
+
+        year = Year(yearNumber=2000, teams=[team1, team2], weeks=list())
+
+        yearValidation.checkEitherAllTeamsAreInADivisionOrNoTeamsAreInADivision(year)
+
+        # none in division, no error
+        team1 = Team(ownerId="", name="", divisionId=None)
+        team2 = Team(ownerId="", name="", divisionId=None)
+
+        year = Year(yearNumber=2000, teams=[team1, team2], weeks=list())
+
+        yearValidation.checkEitherAllTeamsAreInADivisionOrNoTeamsAreInADivision(year)
+
+        # some in division, has error
+        team1 = Team(ownerId="", name="", divisionId="1")
+        team2 = Team(ownerId="", name="", divisionId=None)
+
+        year = Year(yearNumber=2000, teams=[team1, team2], weeks=list())
+
+        with self.assertRaises(InvalidYearFormatException) as context:
+            yearValidation.checkEitherAllTeamsAreInADivisionOrNoTeamsAreInADivision(year)
+        self.assertEqual(f"Only some teams in Year 2000 have a divisionId.", str(context.exception))
+
     """
     TYPE CHECK TESTS
     """
