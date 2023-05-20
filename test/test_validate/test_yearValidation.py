@@ -617,7 +617,7 @@ class TestYearValidation(unittest.TestCase):
         )
 
     def test_checkEitherAllTeamsAreInADivisionOrNoTeamsAreInADivision(self):
-        # all in division, no error
+        # all teams in division, no error
         team1 = Team(ownerId="", name="", divisionId="1")
         team2 = Team(ownerId="", name="", divisionId="2")
 
@@ -625,7 +625,7 @@ class TestYearValidation(unittest.TestCase):
 
         yearValidation.checkEitherAllTeamsAreInADivisionOrNoTeamsAreInADivision(year)
 
-        # none in division, no error
+        # no teams in division, no error
         team1 = Team(ownerId="", name="", divisionId=None)
         team2 = Team(ownerId="", name="", divisionId=None)
 
@@ -633,7 +633,7 @@ class TestYearValidation(unittest.TestCase):
 
         yearValidation.checkEitherAllTeamsAreInADivisionOrNoTeamsAreInADivision(year)
 
-        # some in division, has error
+        # some teams in division, has error
         team1 = Team(ownerId="", name="", divisionId="1")
         team2 = Team(ownerId="", name="", divisionId=None)
 
@@ -642,6 +642,68 @@ class TestYearValidation(unittest.TestCase):
         with self.assertRaises(InvalidYearFormatException) as context:
             yearValidation.checkEitherAllTeamsAreInADivisionOrNoTeamsAreInADivision(year)
         self.assertEqual(f"Only some teams in Year 2000 have a divisionId.", str(context.exception))
+
+    def test_checkDivisionIdsMatchTeamDivisionIds(self):
+        # ids match, no error
+        division1 = Division(name="d1")
+        division2 = Division(name="d2")
+        team1 = Team(ownerId="", name="", divisionId=division1.id)
+        team2 = Team(ownerId="", name="", divisionId=division2.id)
+
+        year = Year(
+            yearNumber=2000, teams=[team1, team2], weeks=list(), divisions=[division1, division2]
+        )
+
+        yearValidation.checkDivisionIdsMatchTeamDivisionIds(year)
+
+        # not all team division ids match division ids, has error
+        division1 = Division(name="d1")
+        division2 = Division(name="d2")
+        team1 = Team(ownerId="", name="", divisionId=division1.id)
+        team2 = Team(ownerId="", name="", divisionId=division1.id)
+
+        year = Year(
+            yearNumber=2000, teams=[team1, team2], weeks=list(), divisions=[division1, division2]
+        )
+
+        with self.assertRaises(InvalidYearFormatException) as context:
+            yearValidation.checkDivisionIdsMatchTeamDivisionIds(year)
+        self.assertEqual(
+            f"All division IDs in Year 2000 must belong to at least 1 team.", str(context.exception)
+        )
+
+    def test_checkDivisionsHaveNoDuplicateIds(self):
+        # no duplicate division ids, no error
+        division1 = Division(name="d1")
+        division2 = Division(name="d2")
+        team1 = Team(ownerId="", name="", divisionId=division1.id)
+        team2 = Team(ownerId="", name="", divisionId=division2.id)
+
+        year = Year(
+            yearNumber=2000, teams=[team1, team2], weeks=list(), divisions=[division1, division2]
+        )
+
+        yearValidation.checkDivisionsHaveNoDuplicateIds(year)
+
+        # duplicate division ids, has error
+        division1 = Division(name="d1")
+        division2 = Division(name="d2")
+        division2_dup = Division(name="d2 dup")
+        division2_dup.id = division2.id
+
+        team1 = Team(ownerId="", name="", divisionId=division1.id)
+        team2 = Team(ownerId="", name="", divisionId=division2.id)
+
+        year = Year(
+            yearNumber=2000,
+            teams=[team1, team2],
+            weeks=list(),
+            divisions=[division1, division2, division2_dup],
+        )
+
+        with self.assertRaises(InvalidYearFormatException) as context:
+            yearValidation.checkDivisionsHaveNoDuplicateIds(year)
+        self.assertEqual(f"Year 2000 has duplicate division IDs.", str(context.exception))
 
     """
     TYPE CHECK TESTS

@@ -405,7 +405,6 @@ def checkMultiWeekMatchupsWithSameIdHaveSameTiebreakers(year: Year):
 
 
 def checkEitherAllTeamsAreInADivisionOrNoTeamsAreInADivision(year: Year):
-    # TODO: test this
     """
     Checks that either all teams are in a division or no teams are in a division.
     """
@@ -421,7 +420,6 @@ def checkEitherAllTeamsAreInADivisionOrNoTeamsAreInADivision(year: Year):
 
 
 def checkDivisionIdsMatchTeamDivisionIds(year: Year):
-    # TODO: test this
     """
     Checks that the divisions in a year exactly match all division IDs for all teams in a year.
     """
@@ -430,12 +428,11 @@ def checkDivisionIdsMatchTeamDivisionIds(year: Year):
 
     if set(allDivisionIds) != set(allTeamDivisionIds):
         raise InvalidYearFormatException(
-            f"All division IDs in Year {year.yearNumber} must belong to a team."
+            f"All division IDs in Year {year.yearNumber} must belong to at least 1 team."
         )
 
 
 def checkDivisionsHaveNoDuplicateIds(year: Year):
-    # TODO: test this
     """
     Checks that all divisions have a unique ID.
     """
