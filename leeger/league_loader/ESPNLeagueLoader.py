@@ -109,9 +109,11 @@ class ESPNLeagueLoader(LeagueLoader):
             self._owners = owners
 
     def __buildYear(self, espnLeague: ESPNLeague) -> Year:
+        print(f"jg pre year division map: {self.__espnDivisionIdToDivisionMap}")
         # save division info
         for espnDivisionId, espnDivisionName in espnLeague.settings.division_map.items():
             self.__espnDivisionIdToDivisionMap[espnDivisionId] = Division(name=espnDivisionName)
+        print(f"jg pre teams division map: {self.__espnDivisionIdToDivisionMap}")
         teams = self.__buildTeams(espnLeague.teams)
         weeks = self.__buildWeeks(espnLeague)
         # TODO: see if there are cases where ESPN leagues do NOT have divisions

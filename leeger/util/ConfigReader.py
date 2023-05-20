@@ -12,18 +12,22 @@ class ConfigReader:
 
     @staticmethod
     def get(
-        section: str, name: str, *, asType: type = str, propFile: str = "app.properties"
+        section: str, name: str, *, asType: str | list = str, propFile: str = "app.properties"
     ) -> Optional[str | int | float | bool]:
         LOGGER = CustomLogger().getLogger()
-        configParser = configparser.ConfigParser()
+        configParser = configparser.ConfigParser(
+            converters={"list": lambda x: [i.strip() for i in x.split(",")]}
+        )
         propertiesDirectory = os.path.abspath(
             os.path.join(os.path.dirname(os.path.realpath(__file__)), "../properties")
         )
         configParser.read(os.path.join(propertiesDirectory, propFile))
         value = None
-        try:
+        # cast as type
+        if asType == list:
+            value = configParser.getlist(section, name)
+        elif asType == str:
             value = configParser[section][name]
-            value = asType(value)
-        except Exception as e:
-            LOGGER.error(e)
+        else:
+            raise ValueError(f"Type '{asType}' not supported for conversion.")
         return value

@@ -24,12 +24,17 @@ class Team(UniqueId, JSONSerializable, JSONDeserializable):
         Does not check for equality of IDs, just values.
         """
         equal = self.name == otherTeam.name
-        equal = equal and self.divisionId == otherTeam.divisionId
         # warn if this is going to return True but ID based fields are not equal
         if equal:
+            notEqualStrings = list()
             if self.ownerId != otherTeam.ownerId:
+                notEqualStrings.append("ownerId")
+            if self.divisionId != otherTeam.divisionId:
+                notEqualStrings.append("divisionId")
+
+            if len(notEqualStrings) > 0:
                 self.__LOGGER.warning(
-                    f"Returning True for equality check when ownerIds are not equal."
+                    f"Returning True for equality check when {notEqualStrings} are not equal."
                 )
         else:
             differences = GeneralUtil.findDifferentFields(

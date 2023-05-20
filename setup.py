@@ -18,7 +18,7 @@ setuptools.setup(
     version=package_version,
     author="Joey Greco",
     author_email="joeyagreco@gmail.com",
-    description="Instant stats for your fantasy football league.",
+    description="Instant stats for any fantasy football league.",
     long_description_content_type="text/markdown",
     long_description=readme,
     license="MIT",
