@@ -1,5 +1,6 @@
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception.InvalidWeekFormatException import InvalidWeekFormatException
+from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Week import Week
 from leeger.validate import matchupValidation
 
@@ -23,8 +24,10 @@ def checkAllTypes(week: Week) -> None:
     Checks all types that are within the Week object.
     """
 
-    if not isinstance(week.matchups, list):
-        raise InvalidWeekFormatException("matchups must be type 'list'.")
+    if not isinstance(week.matchups, list) or not all(
+        isinstance(matchup, Matchup) for matchup in week.matchups
+    ):
+        raise InvalidWeekFormatException("matchups must be type 'list[Matchup]'.")
     if not isinstance(week.weekNumber, int):
         raise InvalidWeekFormatException("weekNumber must be type 'int'.")
 

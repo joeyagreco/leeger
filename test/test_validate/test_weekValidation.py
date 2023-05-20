@@ -132,6 +132,12 @@ class TestWeekValidation(unittest.TestCase):
         self.assertEqual("weekNumber must be type 'int'.", str(context.exception))
 
     def test_checkAllTypes_weekMatchupsIsntTypeList_raisesException(self):
+        # not given a list
         with self.assertRaises(InvalidWeekFormatException) as context:
             weekValidation.checkAllTypes(Week(weekNumber=1, matchups=None))
-        self.assertEqual("matchups must be type 'list'.", str(context.exception))
+        self.assertEqual("matchups must be type 'list[Matchup]'.", str(context.exception))
+
+        # given a list of non Matchup
+        with self.assertRaises(InvalidWeekFormatException) as context:
+            weekValidation.checkAllTypes(Week(weekNumber=1, matchups=["foo"]))
+        self.assertEqual("matchups must be type 'list[Matchup]'.", str(context.exception))
