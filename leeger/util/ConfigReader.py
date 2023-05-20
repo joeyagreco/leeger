@@ -2,7 +2,6 @@ import configparser
 import os
 from typing import Optional
 
-from leeger.util.CustomLogger import CustomLogger
 
 
 class ConfigReader:
@@ -14,7 +13,6 @@ class ConfigReader:
     def get(
         section: str, name: str, *, asType: str | list = str, propFile: str = "app.properties"
     ) -> Optional[str | int | float | bool]:
-        LOGGER = CustomLogger().getLogger()
         configParser = configparser.ConfigParser(
             converters={"list": lambda x: [i.strip() for i in x.split(",")]}
         )
