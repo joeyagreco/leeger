@@ -11,6 +11,7 @@ from leeger.model.league.Team import Team
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
 from leeger.validate import leagueValidation
+from leeger.model.league.Division import Division
 
 
 class MyFantasyLeagueLeagueLoader(LeagueLoader):
@@ -38,6 +39,9 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
         self.__mflLeagueIdToYearMap: dict[str, int] = dict()
         self.__mflFranchiseIdToOwnerMap: dict[str, Owner] = dict()
         self.__mflFranchiseIdToTeamMap: dict[int, Team] = dict()
+        self.__mflDivisionIdToDivisionMap: dict[
+            str, Division
+        ] = dict()  # holds the division info for ONLY the current year
 
     def __getAllLeagues(self) -> list[dict]:
         mflLeagues: list[dict] = list()
@@ -89,10 +93,22 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
         return League(name=self._getLeagueName(), owners=owners, years=self._getValidYears(years))
 
     def __buildYear(self, mflLeague: dict) -> Year:
+        # save division info
+        for division in mflLeague["divisions"]["division"]:
+            self.__mflDivisionIdToDivisionMap[division["id"]] = Division(name=division["name"])
         yearNumber = self.__mflLeagueIdToYearMap[mflLeague["id"]]
         teams = self.__buildTeams(mflLeague)
         weeks = self.__buildWeeks(mflLeague)
-        return Year(yearNumber=yearNumber, teams=teams, weeks=weeks)
+        # TODO: see if there are cases where MFL leagues do NOT have divisions
+        year = Year(
+            yearNumber=yearNumber,
+            teams=teams,
+            weeks=weeks,
+            divisions=list(self.__mflDivisionIdToDivisionMap.values()),
+        )
+        # clear division info
+        self.__mflDivisionIdToDivisionMap = dict()
+        return year
 
     def __buildWeeks(self, mflLeague: dict) -> list[Week]:
         yearNumber = self.__mflLeagueIdToYearMap[mflLeague["id"]]
@@ -247,8 +263,10 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
     def __buildTeams(self, mflLeague: dict) -> list[Team]:
         teams = list()
         for franchise in mflLeague["franchises"]["franchise"]:
+            # TODO: see if there are cases where MFL leagues do NOT have divisions
+            divisionId = self.__mflDivisionIdToDivisionMap[franchise["division"]].id
             owner = self.__mflFranchiseIdToOwnerMap[franchise["id"]]
-            team = Team(name=franchise["name"], ownerId=owner.id)
+            team = Team(name=franchise["name"], ownerId=owner.id, divisionId=divisionId)
             self.__mflFranchiseIdToTeamMap[franchise["id"]] = team
             teams.append(team)
         return teams
