@@ -420,7 +420,7 @@ def checkEitherAllTeamsAreInADivisionOrNoTeamsAreInADivision(year: Year):
         or all(divisionId is None for divisionId in allTeamDivisionIds)
     ):
         raise InvalidYearFormatException(
-            f"Only some teams in Year {year.yearNumber} have a divisionId."
+            f"Only some teams in Year {year.yearNumber} have a Division ID."
         )
 
 
@@ -428,13 +428,37 @@ def checkDivisionIdsMatchTeamDivisionIds(year: Year):
     """
     Checks that the divisions in a year exactly match all division IDs for all teams in a year.
     """
-    allDivisionIds = [division.id for division in year.divisions]
-    allTeamDivisionIds = [team.divisionId for team in year.teams if team.divisionId is not None]
+    allUniqueDivisionIds = {division.id for division in year.divisions}
+    allUniqueTeamDivisionIds = {
+        team.divisionId for team in year.teams if team.divisionId is not None
+    }
 
-    if set(allDivisionIds) != set(allTeamDivisionIds):
-        raise InvalidYearFormatException(
-            f"All division IDs in Year {year.yearNumber} must belong to at least 1 team."
-        )
+    if allUniqueDivisionIds != allUniqueTeamDivisionIds:
+        if len(allUniqueDivisionIds) == 0:
+            # no divisions, some team division ids
+            raise InvalidYearFormatException(
+                f"Teams in Year {year.yearNumber} have Division IDs, but Year {year.yearNumber} has no Divisions."
+            )
+        elif len(allUniqueTeamDivisionIds) == 0:
+            # some divisions, no team division ids
+            raise InvalidYearFormatException(
+                f"Year {year.yearNumber} has Divisions, but Teams in Year {year.yearNumber} have Division IDs."
+            )
+        elif len(allUniqueDivisionIds) > len(allUniqueTeamDivisionIds):
+            # some divisions, some team division ids, more divisions than division team ids
+            raise InvalidYearFormatException(
+                f"There are Divisions in Year {year.yearNumber} that do not belong to any Team."
+            )
+        elif len(allUniqueDivisionIds) < len(allUniqueTeamDivisionIds):
+            # some divisions, some team division ids, more division team ids than divisions
+            raise InvalidYearFormatException(
+                f"There are Teams with Division IDs in Year {year.yearNumber} that do not belong to any Division."
+            )
+        else:
+            # same number of divisions and team division ids, they do not match
+            raise InvalidYearFormatException(
+                f"The Divisions in Year {year.yearNumber} do not corrospond correctly to the Team Division IDs in Year {year.yearNumber}."
+            )
 
 
 def checkDivisionsHaveNoDuplicateIds(year: Year):
