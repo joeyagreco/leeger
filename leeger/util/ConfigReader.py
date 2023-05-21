@@ -3,7 +3,6 @@ import os
 from typing import Optional
 
 
-
 class ConfigReader:
     """
     Used to read from .properties files
