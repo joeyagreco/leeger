@@ -93,6 +93,7 @@ class FleaflickerLeagueLoader(LeagueLoader):
             )
         teams = self.__buildTeams(fleaflickerLeague)
         weeks = self.__buildWeeks(fleaflickerLeague)
+        # TODO: see if there are cases where Fleaflicker leagues do NOT have divisions
         year = Year(
             yearNumber=int(fleaflickerLeague["season"]),
             teams=teams,
@@ -177,6 +178,7 @@ class FleaflickerLeagueLoader(LeagueLoader):
                 teamName = team["name"]
                 teamId = team["id"]
                 owner = self.__fleaflickerTeamIdToOwnerMap[teamId]
+                # TODO: see if there are cases where Fleaflicker leagues do NOT have divisions
                 team = Team(
                     ownerId=owner.id,
                     name=teamName,
