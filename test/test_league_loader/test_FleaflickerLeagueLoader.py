@@ -251,36 +251,36 @@ class TestFleaflickerLeagueLoader(unittest.TestCase):
 
         division1_2023 = Division(name="d1_2023")
 
-        team1_2022 = Team(ownerId=1, name="Team 1", divisionId=division1_2022.id)
-        team2_2022 = Team(ownerId=2, name="Team 2", divisionId=division1_2022.id)
-        team3_2022 = Team(ownerId=3, name="Team 3", divisionId=division1_2022.id)
-        team4_2022 = Team(ownerId=4, name="Team 4", divisionId=division1_2022.id)
-        team5_2022 = Team(ownerId=5, name="Team 5", divisionId=division2_2022.id)
-        team6_2022 = Team(ownerId=6, name="Team 6", divisionId=division2_2022.id)
-        team7_2022 = Team(ownerId=7, name="Team 7", divisionId=division2_2022.id)
-        team8_2022 = Team(ownerId=8, name="Team 8", divisionId=division2_2022.id)
+        owner1 = Owner(name="Owner 1")
+        owner2 = Owner(name="Owner 2")
+        owner3 = Owner(name="Owner 3")
+        owner4 = Owner(name="Owner 4")
+        owner5 = Owner(name="Owner 5")
+        owner6 = Owner(name="Owner 6")
+        owner7 = Owner(name="Owner 7")
+        owner8 = Owner(name="Owner 8")
 
-        team1_2023 = Team(ownerId=1, name="Team 1", divisionId=division1_2023.id)
-        team2_2023 = Team(ownerId=2, name="Team 2", divisionId=division1_2023.id)
-        team3_2023 = Team(ownerId=3, name="Team 3", divisionId=division1_2023.id)
-        team4_2023 = Team(ownerId=4, name="Team 4", divisionId=division1_2023.id)
-        team5_2023 = Team(ownerId=5, name="Team 5", divisionId=division1_2023.id)
-        team6_2023 = Team(ownerId=6, name="Team 6", divisionId=division1_2023.id)
-        team7_2023 = Team(ownerId=7, name="Team 7", divisionId=division1_2023.id)
-        team8_2023 = Team(ownerId=8, name="Team 8", divisionId=division1_2023.id)
+        team1_2022 = Team(ownerId=owner1.id, name="Team 1", divisionId=division1_2022.id)
+        team2_2022 = Team(ownerId=owner2.id, name="Team 2", divisionId=division1_2022.id)
+        team3_2022 = Team(ownerId=owner3.id, name="Team 3", divisionId=division1_2022.id)
+        team4_2022 = Team(ownerId=owner4.id, name="Team 4", divisionId=division1_2022.id)
+        team5_2022 = Team(ownerId=owner5.id, name="Team 5", divisionId=division2_2022.id)
+        team6_2022 = Team(ownerId=owner6.id, name="Team 6", divisionId=division2_2022.id)
+        team7_2022 = Team(ownerId=owner7.id, name="Team 7", divisionId=division2_2022.id)
+        team8_2022 = Team(ownerId=owner8.id, name="Team 8", divisionId=division2_2022.id)
+
+        team1_2023 = Team(ownerId=owner1.id, name="Team 1", divisionId=division1_2023.id)
+        team2_2023 = Team(ownerId=owner2.id, name="Team 2", divisionId=division1_2023.id)
+        team3_2023 = Team(ownerId=owner3.id, name="Team 3", divisionId=division1_2023.id)
+        team4_2023 = Team(ownerId=owner4.id, name="Team 4", divisionId=division1_2023.id)
+        team5_2023 = Team(ownerId=owner5.id, name="Team 5", divisionId=division1_2023.id)
+        team6_2023 = Team(ownerId=owner6.id, name="Team 6", divisionId=division1_2023.id)
+        team7_2023 = Team(ownerId=owner7.id, name="Team 7", divisionId=division1_2023.id)
+        team8_2023 = Team(ownerId=owner8.id, name="Team 8", divisionId=division1_2023.id)
 
         expectedLeague = League(
             name="Test League 2023",
-            owners=[
-                Owner(name="Owner 1"),
-                Owner(name="Owner 2"),
-                Owner(name="Owner 3"),
-                Owner(name="Owner 4"),
-                Owner(name="Owner 5"),
-                Owner(name="Owner 6"),
-                Owner(name="Owner 7"),
-                Owner(name="Owner 8"),
-            ],
+            owners=[owner1, owner2, owner3, owner4, owner5, owner6, owner7, owner8],
             years=[
                 Year(
                     yearNumber=2022,
@@ -709,36 +709,36 @@ class TestFleaflickerLeagueLoader(unittest.TestCase):
 
         division1_2023 = Division(name="d1_2023")
 
-        team1_2022 = Team(ownerId=1, name="Team 1", divisionId=division1_2022.id)
-        team2_2022 = Team(ownerId=2, name="Team 2", divisionId=division1_2022.id)
-        team3_2022 = Team(ownerId=3, name="Team 3", divisionId=division1_2022.id)
-        team4_2022 = Team(ownerId=4, name="Team 4", divisionId=division1_2022.id)
-        team5_2022 = Team(ownerId=5, name="Team 5", divisionId=division2_2022.id)
-        team6_2022 = Team(ownerId=6, name="Team 6", divisionId=division2_2022.id)
-        team7_2022 = Team(ownerId=7, name="Team 7", divisionId=division2_2022.id)
-        team8_2022 = Team(ownerId=8, name="Team 8", divisionId=division2_2022.id)
+        owner1 = Owner(name="o1")
+        owner2 = Owner(name="o2")
+        owner3 = Owner(name="o3")
+        owner4 = Owner(name="o4")
+        owner5 = Owner(name="o5")
+        owner6 = Owner(name="o6")
+        owner7 = Owner(name="o7")
+        owner8 = Owner(name="o8")
 
-        team1_2023 = Team(ownerId=1, name="Team 1", divisionId=division1_2023.id)
-        team2_2023 = Team(ownerId=2, name="Team 2", divisionId=division1_2023.id)
-        team3_2023 = Team(ownerId=3, name="Team 3", divisionId=division1_2023.id)
-        team4_2023 = Team(ownerId=4, name="Team 4", divisionId=division1_2023.id)
-        team5_2023 = Team(ownerId=5, name="Team 5", divisionId=division1_2023.id)
-        team6_2023 = Team(ownerId=6, name="Team 6", divisionId=division1_2023.id)
-        team7_2023 = Team(ownerId=7, name="Team 7", divisionId=division1_2023.id)
-        team8_2023 = Team(ownerId=8, name="Team 8", divisionId=division1_2023.id)
+        team1_2022 = Team(ownerId=owner1.id, name="Team 1", divisionId=division1_2022.id)
+        team2_2022 = Team(ownerId=owner2.id, name="Team 2", divisionId=division1_2022.id)
+        team3_2022 = Team(ownerId=owner3.id, name="Team 3", divisionId=division1_2022.id)
+        team4_2022 = Team(ownerId=owner4.id, name="Team 4", divisionId=division1_2022.id)
+        team5_2022 = Team(ownerId=owner5.id, name="Team 5", divisionId=division2_2022.id)
+        team6_2022 = Team(ownerId=owner6.id, name="Team 6", divisionId=division2_2022.id)
+        team7_2022 = Team(ownerId=owner7.id, name="Team 7", divisionId=division2_2022.id)
+        team8_2022 = Team(ownerId=owner8.id, name="Team 8", divisionId=division2_2022.id)
+
+        team1_2023 = Team(ownerId=owner1.id, name="Team 1", divisionId=division1_2023.id)
+        team2_2023 = Team(ownerId=owner2.id, name="Team 2", divisionId=division1_2023.id)
+        team3_2023 = Team(ownerId=owner3.id, name="Team 3", divisionId=division1_2023.id)
+        team4_2023 = Team(ownerId=owner4.id, name="Team 4", divisionId=division1_2023.id)
+        team5_2023 = Team(ownerId=owner5.id, name="Team 5", divisionId=division1_2023.id)
+        team6_2023 = Team(ownerId=owner6.id, name="Team 6", divisionId=division1_2023.id)
+        team7_2023 = Team(ownerId=owner7.id, name="Team 7", divisionId=division1_2023.id)
+        team8_2023 = Team(ownerId=owner8.id, name="Team 8", divisionId=division1_2023.id)
 
         expectedLeague = League(
             name="Test League 2023",
-            owners=[
-                Owner(name="o1"),
-                Owner(name="o2"),
-                Owner(name="o3"),
-                Owner(name="o4"),
-                Owner(name="o5"),
-                Owner(name="o6"),
-                Owner(name="o7"),
-                Owner(name="o8"),
-            ],
+            owners=[owner1, owner2, owner3, owner4, owner5, owner6, owner7, owner8],
             years=[
                 Year(
                     yearNumber=2022,

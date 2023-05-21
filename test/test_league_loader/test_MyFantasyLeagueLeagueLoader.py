@@ -4,6 +4,7 @@ import copy
 from leeger.enum.MatchupType import MatchupType
 
 from leeger.league_loader import MyFantasyLeagueLeagueLoader
+from leeger.model.league.Division import Division
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Owner import Owner
@@ -35,32 +36,32 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
             - having 1 playoff matchup in a playoff week (dict)
             - having multiple playoff matchups in a playoff week (list)
         """
-        mockFranchise1_2022 = {"owner_name": "Owner 1", "name": "Team 1", "id": 1}
-        mockFranchise2_2022 = {"owner_name": "Owner 2", "name": "Team 2", "id": 2}
-        mockFranchise3_2022 = {"owner_name": "Owner 3", "name": "Team 3", "id": 3}
-        mockFranchise4_2022 = {"owner_name": "Owner 4", "name": "Team 4", "id": 4}
-        mockFranchise5_2022 = {"owner_name": "Owner 5", "name": "Team 5", "id": 5}
-        mockFranchise6_2022 = {"owner_name": "Owner 6", "name": "Team 6", "id": 6}
-        mockFranchise7_2022 = {"owner_name": "Owner 7", "name": "Team 7", "id": 7}
-        mockFranchise8_2022 = {"owner_name": "Owner 8", "name": "Team 8", "id": 8}
+        mockFranchise1_2022 = {"owner_name": "Owner 1", "name": "Team 1", "id": 1, "division": "1"}
+        mockFranchise2_2022 = {"owner_name": "Owner 2", "name": "Team 2", "id": 2, "division": "1"}
+        mockFranchise3_2022 = {"owner_name": "Owner 3", "name": "Team 3", "id": 3, "division": "1"}
+        mockFranchise4_2022 = {"owner_name": "Owner 4", "name": "Team 4", "id": 4, "division": "1"}
+        mockFranchise5_2022 = {"owner_name": "Owner 5", "name": "Team 5", "id": 5, "division": "2"}
+        mockFranchise6_2022 = {"owner_name": "Owner 6", "name": "Team 6", "id": 6, "division": "2"}
+        mockFranchise7_2022 = {"owner_name": "Owner 7", "name": "Team 7", "id": 7, "division": "2"}
+        mockFranchise8_2022 = {"owner_name": "Owner 8", "name": "Team 8", "id": 8, "division": "2"}
 
-        mockFranchise1_2023 = {"owner_name": "Owner 1", "name": "Team 1", "id": 1}
-        mockFranchise2_2023 = {"owner_name": "Owner 2", "name": "Team 2", "id": 2}
-        mockFranchise3_2023 = {"owner_name": "Owner 3", "name": "Team 3", "id": 3}
-        mockFranchise4_2023 = {"owner_name": "Owner 4", "name": "Team 4", "id": 4}
-        mockFranchise5_2023 = {"owner_name": "Owner 5", "name": "Team 5", "id": 5}
-        mockFranchise6_2023 = {"owner_name": "Owner 6", "name": "Team 6", "id": 6}
-        mockFranchise7_2023 = {"owner_name": "Owner 7", "name": "Team 7", "id": 7}
-        mockFranchise8_2023 = {"owner_name": "Owner 8", "name": "Team 8", "id": 8}
+        mockFranchise1_2023 = {"owner_name": "Owner 1", "name": "Team 1", "id": 1, "division": "1"}
+        mockFranchise2_2023 = {"owner_name": "Owner 2", "name": "Team 2", "id": 2, "division": "1"}
+        mockFranchise3_2023 = {"owner_name": "Owner 3", "name": "Team 3", "id": 3, "division": "1"}
+        mockFranchise4_2023 = {"owner_name": "Owner 4", "name": "Team 4", "id": 4, "division": "1"}
+        mockFranchise5_2023 = {"owner_name": "Owner 5", "name": "Team 5", "id": 5, "division": "2"}
+        mockFranchise6_2023 = {"owner_name": "Owner 6", "name": "Team 6", "id": 6, "division": "2"}
+        mockFranchise7_2023 = {"owner_name": "Owner 7", "name": "Team 7", "id": 7, "division": "2"}
+        mockFranchise8_2023 = {"owner_name": "Owner 8", "name": "Team 8", "id": 8, "division": "2"}
 
-        mockFranchise1_2024 = {"owner_name": "Owner 1", "name": "Team 1", "id": 1}
-        mockFranchise2_2024 = {"owner_name": "Owner 2", "name": "Team 2", "id": 2}
-        mockFranchise3_2024 = {"owner_name": "Owner 3", "name": "Team 3", "id": 3}
-        mockFranchise4_2024 = {"owner_name": "Owner 4", "name": "Team 4", "id": 4}
-        mockFranchise5_2024 = {"owner_name": "Owner 5", "name": "Team 5", "id": 5}
-        mockFranchise6_2024 = {"owner_name": "Owner 6", "name": "Team 6", "id": 6}
-        mockFranchise7_2024 = {"owner_name": "Owner 7", "name": "Team 7", "id": 7}
-        mockFranchise8_2024 = {"owner_name": "Owner 8", "name": "Team 8", "id": 8}
+        mockFranchise1_2024 = {"owner_name": "Owner 1", "name": "Team 1", "id": 1, "division": "1"}
+        mockFranchise2_2024 = {"owner_name": "Owner 2", "name": "Team 2", "id": 2, "division": "1"}
+        mockFranchise3_2024 = {"owner_name": "Owner 3", "name": "Team 3", "id": 3, "division": "1"}
+        mockFranchise4_2024 = {"owner_name": "Owner 4", "name": "Team 4", "id": 4, "division": "1"}
+        mockFranchise5_2024 = {"owner_name": "Owner 5", "name": "Team 5", "id": 5, "division": "2"}
+        mockFranchise6_2024 = {"owner_name": "Owner 6", "name": "Team 6", "id": 6, "division": "2"}
+        mockFranchise7_2024 = {"owner_name": "Owner 7", "name": "Team 7", "id": 7, "division": "2"}
+        mockFranchise8_2024 = {"owner_name": "Owner 8", "name": "Team 8", "id": 8, "division": "2"}
 
         mockLeague2022 = {
             "league": {
@@ -78,6 +79,9 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                         mockFranchise7_2022,
                         mockFranchise8_2022,
                     ]
+                },
+                "divisions": {
+                    "division": [{"id": "1", "name": "d1_2022"}, {"id": "2", "name": "d2_2022"}]
                 },
             }
         }
@@ -99,6 +103,9 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                         mockFranchise8_2023,
                     ]
                 },
+                "divisions": {
+                    "division": [{"id": "1", "name": "d1_2023"}, {"id": "2", "name": "d2_2023"}]
+                },
             }
         }
 
@@ -118,6 +125,9 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                         mockFranchise7_2024,
                         mockFranchise8_2024,
                     ]
+                },
+                "divisions": {
+                    "division": [{"id": "1", "name": "d1_2024"}, {"id": "2", "name": "d2_2024"}]
                 },
             }
         }
@@ -442,45 +452,55 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
         league = leagueLoader.loadLeague()
 
         # expected league
-        team1_2022 = Team(ownerId=1, name="Team 1")
-        team2_2022 = Team(ownerId=2, name="Team 2")
-        team3_2022 = Team(ownerId=3, name="Team 3")
-        team4_2022 = Team(ownerId=4, name="Team 4")
-        team5_2022 = Team(ownerId=5, name="Team 5")
-        team6_2022 = Team(ownerId=6, name="Team 6")
-        team7_2022 = Team(ownerId=7, name="Team 7")
-        team8_2022 = Team(ownerId=8, name="Team 8")
 
-        team1_2023 = Team(ownerId=1, name="Team 1")
-        team2_2023 = Team(ownerId=2, name="Team 2")
-        team3_2023 = Team(ownerId=3, name="Team 3")
-        team4_2023 = Team(ownerId=4, name="Team 4")
-        team5_2023 = Team(ownerId=5, name="Team 5")
-        team6_2023 = Team(ownerId=6, name="Team 6")
-        team7_2023 = Team(ownerId=7, name="Team 7")
-        team8_2023 = Team(ownerId=8, name="Team 8")
+        division1_2022 = Division(name="d1_2022")
+        division2_2022 = Division(name="d2_2022")
 
-        team1_2024 = Team(ownerId=1, name="Team 1")
-        team2_2024 = Team(ownerId=2, name="Team 2")
-        team3_2024 = Team(ownerId=3, name="Team 3")
-        team4_2024 = Team(ownerId=4, name="Team 4")
-        team5_2024 = Team(ownerId=5, name="Team 5")
-        team6_2024 = Team(ownerId=6, name="Team 6")
-        team7_2024 = Team(ownerId=7, name="Team 7")
-        team8_2024 = Team(ownerId=8, name="Team 8")
+        division1_2023 = Division(name="d1_2023")
+        division2_2023 = Division(name="d2_2023")
+
+        division1_2024 = Division(name="d1_2024")
+        division2_2024 = Division(name="d2_2024")
+
+        owner1 = Owner(name="Owner 1")
+        owner2 = Owner(name="Owner 2")
+        owner3 = Owner(name="Owner 3")
+        owner4 = Owner(name="Owner 4")
+        owner5 = Owner(name="Owner 5")
+        owner6 = Owner(name="Owner 6")
+        owner7 = Owner(name="Owner 7")
+        owner8 = Owner(name="Owner 8")
+
+        team1_2022 = Team(ownerId=owner1.id, name="Team 1", divisionId=division1_2022.id)
+        team2_2022 = Team(ownerId=owner2.id, name="Team 2", divisionId=division1_2022.id)
+        team3_2022 = Team(ownerId=owner3.id, name="Team 3", divisionId=division1_2022.id)
+        team4_2022 = Team(ownerId=owner4.id, name="Team 4", divisionId=division1_2022.id)
+        team5_2022 = Team(ownerId=owner5.id, name="Team 5", divisionId=division2_2022.id)
+        team6_2022 = Team(ownerId=owner6.id, name="Team 6", divisionId=division2_2022.id)
+        team7_2022 = Team(ownerId=owner7.id, name="Team 7", divisionId=division2_2022.id)
+        team8_2022 = Team(ownerId=owner8.id, name="Team 8", divisionId=division2_2022.id)
+
+        team1_2023 = Team(ownerId=owner1.id, name="Team 1", divisionId=division1_2023.id)
+        team2_2023 = Team(ownerId=owner2.id, name="Team 2", divisionId=division1_2023.id)
+        team3_2023 = Team(ownerId=owner3.id, name="Team 3", divisionId=division1_2023.id)
+        team4_2023 = Team(ownerId=owner4.id, name="Team 4", divisionId=division1_2023.id)
+        team5_2023 = Team(ownerId=owner5.id, name="Team 5", divisionId=division2_2023.id)
+        team6_2023 = Team(ownerId=owner6.id, name="Team 6", divisionId=division2_2023.id)
+        team7_2023 = Team(ownerId=owner7.id, name="Team 7", divisionId=division2_2023.id)
+        team8_2023 = Team(ownerId=owner8.id, name="Team 8", divisionId=division2_2023.id)
+
+        team1_2024 = Team(ownerId=owner1.id, name="Team 1", divisionId=division1_2024.id)
+        team2_2024 = Team(ownerId=owner2.id, name="Team 2", divisionId=division1_2024.id)
+        team3_2024 = Team(ownerId=owner3.id, name="Team 3", divisionId=division1_2024.id)
+        team4_2024 = Team(ownerId=owner4.id, name="Team 4", divisionId=division1_2024.id)
+        team5_2024 = Team(ownerId=owner5.id, name="Team 5", divisionId=division2_2024.id)
+        team6_2024 = Team(ownerId=owner6.id, name="Team 6", divisionId=division2_2024.id)
+        team7_2024 = Team(ownerId=owner7.id, name="Team 7", divisionId=division2_2024.id)
+        team8_2024 = Team(ownerId=owner8.id, name="Team 8", divisionId=division2_2024.id)
 
         expectedLeague = League(
             name="Test League 2024",
-            owners=[
-                Owner(name="Owner 1"),
-                Owner(name="Owner 2"),
-                Owner(name="Owner 3"),
-                Owner(name="Owner 4"),
-                Owner(name="Owner 5"),
-                Owner(name="Owner 6"),
-                Owner(name="Owner 7"),
-                Owner(name="Owner 8"),
-            ],
+            owners=[owner1, owner2, owner3, owner4, owner5, owner6, owner7, owner8],
             years=[
                 Year(
                     yearNumber=2022,
@@ -566,6 +586,7 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                         ),
                     ],
                     yearSettings=None,
+                    divisions=[division1_2022, division2_2022],
                 ),
                 Year(
                     yearNumber=2023,
@@ -674,6 +695,7 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                         ),
                     ],
                     yearSettings=None,
+                    divisions=[division1_2023, division2_2023],
                 ),
                 Year(
                     yearNumber=2024,
@@ -745,6 +767,7 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                         ),
                     ],
                     yearSettings=None,
+                    divisions=[division1_2024, division2_2024],
                 ),
             ],
         )
@@ -770,32 +793,32 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
             - having 1 playoff matchup in a playoff week (dict)
             - having multiple playoff matchups in a playoff week (list)
         """
-        mockFranchise1_2022 = {"owner_name": "Owner 1", "name": "Team 1", "id": 1}
-        mockFranchise2_2022 = {"owner_name": "Owner 2", "name": "Team 2", "id": 2}
-        mockFranchise3_2022 = {"owner_name": "Owner 3", "name": "Team 3", "id": 3}
-        mockFranchise4_2022 = {"owner_name": "Owner 4", "name": "Team 4", "id": 4}
-        mockFranchise5_2022 = {"owner_name": "Owner 5", "name": "Team 5", "id": 5}
-        mockFranchise6_2022 = {"owner_name": "Owner 6", "name": "Team 6", "id": 6}
-        mockFranchise7_2022 = {"owner_name": "Owner 7", "name": "Team 7", "id": 7}
-        mockFranchise8_2022 = {"owner_name": "Owner 8", "name": "Team 8", "id": 8}
+        mockFranchise1_2022 = {"owner_name": "Owner 1", "name": "Team 1", "id": 1, "division": "1"}
+        mockFranchise2_2022 = {"owner_name": "Owner 2", "name": "Team 2", "id": 2, "division": "1"}
+        mockFranchise3_2022 = {"owner_name": "Owner 3", "name": "Team 3", "id": 3, "division": "1"}
+        mockFranchise4_2022 = {"owner_name": "Owner 4", "name": "Team 4", "id": 4, "division": "1"}
+        mockFranchise5_2022 = {"owner_name": "Owner 5", "name": "Team 5", "id": 5, "division": "2"}
+        mockFranchise6_2022 = {"owner_name": "Owner 6", "name": "Team 6", "id": 6, "division": "2"}
+        mockFranchise7_2022 = {"owner_name": "Owner 7", "name": "Team 7", "id": 7, "division": "2"}
+        mockFranchise8_2022 = {"owner_name": "Owner 8", "name": "Team 8", "id": 8, "division": "2"}
 
-        mockFranchise1_2023 = {"owner_name": "Owner 1", "name": "Team 1", "id": 1}
-        mockFranchise2_2023 = {"owner_name": "Owner 2", "name": "Team 2", "id": 2}
-        mockFranchise3_2023 = {"owner_name": "Owner 3", "name": "Team 3", "id": 3}
-        mockFranchise4_2023 = {"owner_name": "Owner 4", "name": "Team 4", "id": 4}
-        mockFranchise5_2023 = {"owner_name": "Owner 5", "name": "Team 5", "id": 5}
-        mockFranchise6_2023 = {"owner_name": "Owner 6", "name": "Team 6", "id": 6}
-        mockFranchise7_2023 = {"owner_name": "Owner 7", "name": "Team 7", "id": 7}
-        mockFranchise8_2023 = {"owner_name": "Owner 8", "name": "Team 8", "id": 8}
+        mockFranchise1_2023 = {"owner_name": "Owner 1", "name": "Team 1", "id": 1, "division": "1"}
+        mockFranchise2_2023 = {"owner_name": "Owner 2", "name": "Team 2", "id": 2, "division": "1"}
+        mockFranchise3_2023 = {"owner_name": "Owner 3", "name": "Team 3", "id": 3, "division": "1"}
+        mockFranchise4_2023 = {"owner_name": "Owner 4", "name": "Team 4", "id": 4, "division": "1"}
+        mockFranchise5_2023 = {"owner_name": "Owner 5", "name": "Team 5", "id": 5, "division": "2"}
+        mockFranchise6_2023 = {"owner_name": "Owner 6", "name": "Team 6", "id": 6, "division": "2"}
+        mockFranchise7_2023 = {"owner_name": "Owner 7", "name": "Team 7", "id": 7, "division": "2"}
+        mockFranchise8_2023 = {"owner_name": "Owner 8", "name": "Team 8", "id": 8, "division": "2"}
 
-        mockFranchise1_2024 = {"owner_name": "Owner 1", "name": "Team 1", "id": 1}
-        mockFranchise2_2024 = {"owner_name": "Owner 2", "name": "Team 2", "id": 2}
-        mockFranchise3_2024 = {"owner_name": "Owner 3", "name": "Team 3", "id": 3}
-        mockFranchise4_2024 = {"owner_name": "Owner 4", "name": "Team 4", "id": 4}
-        mockFranchise5_2024 = {"owner_name": "Owner 5", "name": "Team 5", "id": 5}
-        mockFranchise6_2024 = {"owner_name": "Owner 6", "name": "Team 6", "id": 6}
-        mockFranchise7_2024 = {"owner_name": "Owner 7", "name": "Team 7", "id": 7}
-        mockFranchise8_2024 = {"owner_name": "Owner 8", "name": "Team 8", "id": 8}
+        mockFranchise1_2024 = {"owner_name": "Owner 1", "name": "Team 1", "id": 1, "division": "1"}
+        mockFranchise2_2024 = {"owner_name": "Owner 2", "name": "Team 2", "id": 2, "division": "1"}
+        mockFranchise3_2024 = {"owner_name": "Owner 3", "name": "Team 3", "id": 3, "division": "1"}
+        mockFranchise4_2024 = {"owner_name": "Owner 4", "name": "Team 4", "id": 4, "division": "1"}
+        mockFranchise5_2024 = {"owner_name": "Owner 5", "name": "Team 5", "id": 5, "division": "2"}
+        mockFranchise6_2024 = {"owner_name": "Owner 6", "name": "Team 6", "id": 6, "division": "2"}
+        mockFranchise7_2024 = {"owner_name": "Owner 7", "name": "Team 7", "id": 7, "division": "2"}
+        mockFranchise8_2024 = {"owner_name": "Owner 8", "name": "Team 8", "id": 8, "division": "2"}
 
         mockLeague2022 = {
             "league": {
@@ -813,6 +836,9 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                         mockFranchise7_2022,
                         mockFranchise8_2022,
                     ]
+                },
+                "divisions": {
+                    "division": [{"id": "1", "name": "d1_2022"}, {"id": "2", "name": "d2_2022"}]
                 },
             }
         }
@@ -834,6 +860,9 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                         mockFranchise8_2023,
                     ]
                 },
+                "divisions": {
+                    "division": [{"id": "1", "name": "d1_2023"}, {"id": "2", "name": "d2_2023"}]
+                },
             }
         }
 
@@ -853,6 +882,9 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                         mockFranchise7_2024,
                         mockFranchise8_2024,
                     ]
+                },
+                "divisions": {
+                    "division": [{"id": "1", "name": "d1_2024"}, {"id": "2", "name": "d2_2024"}]
                 },
             }
         }
@@ -1187,45 +1219,55 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
         league = leagueLoader.loadLeague()
 
         # expected league
-        team1_2022 = Team(ownerId=1, name="Team 1")
-        team2_2022 = Team(ownerId=2, name="Team 2")
-        team3_2022 = Team(ownerId=3, name="Team 3")
-        team4_2022 = Team(ownerId=4, name="Team 4")
-        team5_2022 = Team(ownerId=5, name="Team 5")
-        team6_2022 = Team(ownerId=6, name="Team 6")
-        team7_2022 = Team(ownerId=7, name="Team 7")
-        team8_2022 = Team(ownerId=8, name="Team 8")
 
-        team1_2023 = Team(ownerId=1, name="Team 1")
-        team2_2023 = Team(ownerId=2, name="Team 2")
-        team3_2023 = Team(ownerId=3, name="Team 3")
-        team4_2023 = Team(ownerId=4, name="Team 4")
-        team5_2023 = Team(ownerId=5, name="Team 5")
-        team6_2023 = Team(ownerId=6, name="Team 6")
-        team7_2023 = Team(ownerId=7, name="Team 7")
-        team8_2023 = Team(ownerId=8, name="Team 8")
+        division1_2022 = Division(name="d1_2022")
+        division2_2022 = Division(name="d2_2022")
 
-        team1_2024 = Team(ownerId=1, name="Team 1")
-        team2_2024 = Team(ownerId=2, name="Team 2")
-        team3_2024 = Team(ownerId=3, name="Team 3")
-        team4_2024 = Team(ownerId=4, name="Team 4")
-        team5_2024 = Team(ownerId=5, name="Team 5")
-        team6_2024 = Team(ownerId=6, name="Team 6")
-        team7_2024 = Team(ownerId=7, name="Team 7")
-        team8_2024 = Team(ownerId=8, name="Team 8")
+        division1_2023 = Division(name="d1_2023")
+        division2_2023 = Division(name="d2_2023")
+
+        division1_2024 = Division(name="d1_2024")
+        division2_2024 = Division(name="d2_2024")
+
+        owner1 = Owner(name="o1")
+        owner2 = Owner(name="o2")
+        owner3 = Owner(name="o3")
+        owner4 = Owner(name="o4")
+        owner5 = Owner(name="o5")
+        owner6 = Owner(name="o6")
+        owner7 = Owner(name="o7")
+        owner8 = Owner(name="o8")
+
+        team1_2022 = Team(ownerId=owner1.id, name="Team 1", divisionId=division1_2022.id)
+        team2_2022 = Team(ownerId=owner2.id, name="Team 2", divisionId=division1_2022.id)
+        team3_2022 = Team(ownerId=owner3.id, name="Team 3", divisionId=division1_2022.id)
+        team4_2022 = Team(ownerId=owner4.id, name="Team 4", divisionId=division1_2022.id)
+        team5_2022 = Team(ownerId=owner5.id, name="Team 5", divisionId=division2_2022.id)
+        team6_2022 = Team(ownerId=owner6.id, name="Team 6", divisionId=division2_2022.id)
+        team7_2022 = Team(ownerId=owner7.id, name="Team 7", divisionId=division2_2022.id)
+        team8_2022 = Team(ownerId=owner8.id, name="Team 8", divisionId=division2_2022.id)
+
+        team1_2023 = Team(ownerId=owner1.id, name="Team 1", divisionId=division1_2023.id)
+        team2_2023 = Team(ownerId=owner2.id, name="Team 2", divisionId=division1_2023.id)
+        team3_2023 = Team(ownerId=owner3.id, name="Team 3", divisionId=division1_2023.id)
+        team4_2023 = Team(ownerId=owner4.id, name="Team 4", divisionId=division1_2023.id)
+        team5_2023 = Team(ownerId=owner5.id, name="Team 5", divisionId=division2_2023.id)
+        team6_2023 = Team(ownerId=owner6.id, name="Team 6", divisionId=division2_2023.id)
+        team7_2023 = Team(ownerId=owner7.id, name="Team 7", divisionId=division2_2023.id)
+        team8_2023 = Team(ownerId=owner8.id, name="Team 8", divisionId=division2_2023.id)
+
+        team1_2024 = Team(ownerId=owner1.id, name="Team 1", divisionId=division1_2024.id)
+        team2_2024 = Team(ownerId=owner2.id, name="Team 2", divisionId=division1_2024.id)
+        team3_2024 = Team(ownerId=owner3.id, name="Team 3", divisionId=division1_2024.id)
+        team4_2024 = Team(ownerId=owner4.id, name="Team 4", divisionId=division1_2024.id)
+        team5_2024 = Team(ownerId=owner5.id, name="Team 5", divisionId=division2_2024.id)
+        team6_2024 = Team(ownerId=owner6.id, name="Team 6", divisionId=division2_2024.id)
+        team7_2024 = Team(ownerId=owner7.id, name="Team 7", divisionId=division2_2024.id)
+        team8_2024 = Team(ownerId=owner8.id, name="Team 8", divisionId=division2_2024.id)
 
         expectedLeague = League(
             name="Test League 2024",
-            owners=[
-                Owner(name="o1"),
-                Owner(name="o2"),
-                Owner(name="o3"),
-                Owner(name="o4"),
-                Owner(name="o5"),
-                Owner(name="o6"),
-                Owner(name="o7"),
-                Owner(name="o8"),
-            ],
+            owners=[owner1, owner2, owner3, owner4, owner5, owner6, owner7, owner8],
             years=[
                 Year(
                     yearNumber=2022,
@@ -1311,6 +1353,7 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                         ),
                     ],
                     yearSettings=None,
+                    divisions=[division1_2022, division2_2022],
                 ),
                 Year(
                     yearNumber=2023,
@@ -1419,6 +1462,7 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                         ),
                     ],
                     yearSettings=None,
+                    divisions=[division1_2023, division2_2023],
                 ),
                 Year(
                     yearNumber=2024,
@@ -1490,6 +1534,7 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                         ),
                     ],
                     yearSettings=None,
+                    divisions=[division1_2024, division2_2024],
                 ),
             ],
         )

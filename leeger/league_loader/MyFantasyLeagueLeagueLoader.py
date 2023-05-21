@@ -124,6 +124,8 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
         # we will assume that the "true" playoff bracket (i.e. the bracket where the winner of it is the league champion)
         # will always be the playoff bracket with id "1".
         # if this changes or is not the case, this will need to be refactored to reflect that.
+        # the reason we only care about this bracket (and not the other ones) is because we only need to know who won the championship from this info.
+        # we can get all playoff matchup data from the regular schedule
 
         # if there is only 1 object in the playoffRound field, it is a dict, otherwise it is a list
         playoffWeeks = list()
@@ -155,31 +157,26 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
                 teamBScore = float(matchup["franchise"][1]["score"])
                 teamBHasTiebreaker = matchup["franchise"][1]["result"] == "W"
 
-                validPlayoffMatchup = False
-                validChampionshipMatchup = False
+                isChampionshipMatchup = False
 
                 matchupType = MatchupType.REGULAR_SEASON
                 if playoffsStarted:
                     # this is a playoff matchup or a championship matchup
+                    # NOTE: If there are MFL leagues that have matchups during playoff weeks that are
+                    # NOTE: NOT playoff matchups, this logic will need to be changed.
                     for playoffWeek in playoffWeeks:
-                        (
-                            currentValidPlayoffMatchup,
-                            currentValidChampionshipMatchup,
-                        ) = self.__getPlayoffMatchupBooleansForPlayoffWeek(
+                        currentIsChampionshipMatchup = self.__isChampionshipMatchup(
                             playoffWeek=playoffWeek,
                             playoffWeekNumbers=playoffWeekNumbers,
                             weekNumber=weekNumber,
                             teamAMFLFranchiseId=teamAMFLFranchiseId,
                             teamBMFLFranchiseId=teamBMFLFranchiseId,
                         )
-                        validPlayoffMatchup = validPlayoffMatchup or currentValidPlayoffMatchup
-                        validChampionshipMatchup = (
-                            validChampionshipMatchup or currentValidChampionshipMatchup
+                        isChampionshipMatchup = (
+                            isChampionshipMatchup or currentIsChampionshipMatchup
                         )
-                    matchupType = MatchupType.IGNORE
-                    if validPlayoffMatchup:
-                        matchupType = MatchupType.PLAYOFF
-                    if validChampionshipMatchup:
+                    matchupType = MatchupType.PLAYOFF
+                    if isChampionshipMatchup:
                         matchupType = MatchupType.CHAMPIONSHIP
 
                 matchups.append(
@@ -199,7 +196,7 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
         return weeks
 
     @staticmethod
-    def __getPlayoffMatchupBooleansForPlayoffWeek(
+    def __isChampionshipMatchup(
         *,
         playoffWeek: dict,
         playoffWeekNumbers: list[int],
@@ -207,20 +204,13 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
         teamAMFLFranchiseId: int,
         teamBMFLFranchiseId: int,
     ) -> tuple[bool, bool]:
-        """
-        Will return 2 booleans.
-        validPlayoffMatchup, validChampionshipMatchup
-        """
-
         # helper method
         def isValid(*, pGame: dict, aId: int, bId: int) -> bool:
             return (
                 aId == pGame["away"]["franchise_id"] or bId == pGame["away"]["franchise_id"]
             ) and (aId == pGame["home"]["franchise_id"] or bId == pGame["home"]["franchise_id"])
 
-        # this is a playoff matchup or a championship matchup
-        validPlayoffMatchup = False
-        validChampionshipMatchup = False
+        isChampionshipMatchup = False
 
         if weekNumber == max(playoffWeekNumbers):
             # this is the last week in the bracket, the championship week
@@ -228,7 +218,7 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
             if isinstance(playoffWeek["playoffGame"], dict):
                 # only 1 game
                 # check if this matchup is the championship game
-                validChampionshipMatchup = isValid(
+                isChampionshipMatchup = isValid(
                     pGame=playoffWeek["playoffGame"],
                     aId=teamAMFLFranchiseId,
                     bId=teamBMFLFranchiseId,
@@ -237,28 +227,10 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
                 # multiple games
                 # check if this matchup is the championship game
                 for playoffGame in playoffWeek["playoffGame"]:
-                    validChampionshipMatchup = validChampionshipMatchup or isValid(
+                    isChampionshipMatchup = isChampionshipMatchup or isValid(
                         pGame=playoffGame, aId=teamAMFLFranchiseId, bId=teamBMFLFranchiseId
                     )
-        else:
-            # playoff week, but not the championship week
-            # if there is only 1 object in the playoffGame field, it is a dict, otherwise it is a list
-            if isinstance(playoffWeek["playoffGame"], dict):
-                # only 1 game
-                # check if this matchup is a valid playoff matchup
-                validPlayoffMatchup = isValid(
-                    pGame=playoffWeek["playoffGame"],
-                    aId=teamAMFLFranchiseId,
-                    bId=teamBMFLFranchiseId,
-                )
-            else:
-                # multiple games
-                for playoffGame in playoffWeek["playoffGame"]:
-                    # check if this matchup is a valid playoff matchup
-                    validPlayoffMatchup = validPlayoffMatchup or isValid(
-                        pGame=playoffGame, aId=teamAMFLFranchiseId, bId=teamBMFLFranchiseId
-                    )
-        return validPlayoffMatchup, validChampionshipMatchup
+        return isChampionshipMatchup
 
     def __buildTeams(self, mflLeague: dict) -> list[Team]:
         teams = list()
