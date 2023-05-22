@@ -144,12 +144,12 @@ class SleeperLeagueLoader(LeagueLoader):
         # get regular season weeks
         # once we have found an incomplete week, all weeks after will also be incomplete
         foundIncompleteWeek = False
-        for i in range(sleeperLeague.settings.playoff_week_start - 1):
-            if not foundIncompleteWeek and self.__isCompletedWeek(i + 1, sleeperLeague):
+        for weekNumber in range(1, sleeperLeague.settings.playoff_week_start):
+            if not foundIncompleteWeek and self.__isCompletedWeek(weekNumber, sleeperLeague):
                 # get each teams matchup for that week
                 matchups = list()
                 sleeperMatchupsForThisWeek = LeagueAPIClient.get_matchups_for_week(
-                    league_id=sleeperLeague.league_id, week=i + 1
+                    league_id=sleeperLeague.league_id, week=weekNumber
                 )
                 sleeperMatchupIdToSleeperMatchupMap: dict[int, list[SleeperMatchup]] = dict()
                 for sleeperMatchup in sleeperMatchupsForThisWeek:
@@ -184,7 +184,7 @@ class SleeperLeagueLoader(LeagueLoader):
                             matchupType=MatchupType.REGULAR_SEASON,
                         )
                     )
-                weeks.append(Week(weekNumber=i + 1, matchups=matchups))
+                weeks.append(Week(weekNumber=weekNumber, matchups=matchups))
             else:
                 foundIncompleteWeek = True
         # get playoff weeks
@@ -225,10 +225,16 @@ class SleeperLeagueLoader(LeagueLoader):
                 sleeperMatchupsForThisWeek = LeagueAPIClient.get_matchups_for_week(
                     league_id=sleeperLeague.league_id, week=weekNumber
                 )
-                # used to check if a Sleeper playoff matchup is in this week's matchups
-                sleeperMatchupIdsForThisWeek = [
-                    sleeperMatchup.matchup_id for sleeperMatchup in sleeperMatchupsForThisWeek
+                # remove matchups that don't have a matchup id
+                sleeperMatchupsForThisWeek = [
+                    sleeperMatchup
+                    for sleeperMatchup in sleeperMatchupsForThisWeek
+                    if sleeperMatchup.matchup_id is not None
                 ]
+                # used to check if a Sleeper playoff matchup is in this week's matchups
+                sleeperMatchupIdsForThisWeek = {
+                    sleeperMatchup.matchup_id for sleeperMatchup in sleeperMatchupsForThisWeek
+                }
                 if self.__isCompletedWeek(weekNumber, sleeperLeague):
                     # sort matchups by roster IDs
                     rosterIdToSleeperMatchupMap: dict[int, SleeperMatchup] = dict()
@@ -236,7 +242,11 @@ class SleeperLeagueLoader(LeagueLoader):
                         rosterIdToSleeperMatchupMap[sleeperMatchup.roster_id] = sleeperMatchup
                     for sleeperPlayoffMatchup in playoffRoundAndSleeperPlayoffMatchups[roundNumber]:
                         # check if this matchup is in this week (needed for leagues with multiple weeks in a single round)
-                        if sleeperPlayoffMatchup.matchup_id in sleeperMatchupIdsForThisWeek:
+                        if (
+                            sleeperPlayoffMatchup.matchup_id in sleeperMatchupIdsForThisWeek
+                            or sleeperLeague.settings.playoff_round_type_enum
+                            == SleeperPlayoffRoundType.ONE_WEEK_PER_ROUND
+                        ):
                             # team A
                             teamARosterId = sleeperPlayoffMatchup.team_1_roster_id
                             teamA = self.__sleeperRosterIdToTeamMap[teamARosterId]
