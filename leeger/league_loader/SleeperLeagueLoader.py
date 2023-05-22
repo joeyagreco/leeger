@@ -23,6 +23,7 @@ from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
 from leeger.validate import leagueValidation
 from leeger.exception.LeagueLoaderException import LeagueLoaderException
+from leeger.model.league.Division import Division
 
 
 class SleeperLeagueLoader(LeagueLoader):
@@ -48,6 +49,9 @@ class SleeperLeagueLoader(LeagueLoader):
         self.__SLEEPER_SPORT_STATE_CACHE: SleeperSportState = (
             None  # functions as a cache for Sleeper SportState
         )
+        self.__sleeperDivisionIdToDivisionMap: dict[
+            int, Division
+        ] = dict()  # holds the division info for ONLY the current year
 
     def __resetCaches(self) -> None:
         self.__SLEEPER_USERS_BY_LEAGUE_ID_CACHE = dict()
@@ -126,18 +130,28 @@ class SleeperLeagueLoader(LeagueLoader):
         return League(name=self._getLeagueName(), owners=owners, years=self._getValidYears(years))
 
     def __buildYear(self, sleeperLeague: SleeperLeague) -> Year:
+        # save division info
+        for divisionNumber in range(1, sleeperLeague.settings.divisions + 1):
+            self.__sleeperDivisionIdToDivisionMap[divisionNumber] = Division(
+                name=getattr(sleeperLeague.metadata, f"division_{divisionNumber}")
+            )
         teams = self.__buildTeams(sleeperLeague)
         weeks = self.__buildWeeks(sleeperLeague)
         # add YearSettings
         yearSettings = YearSettings()
         if sleeperLeague.settings.league_average_match == 1:
             yearSettings.leagueMedianGames = True
-        return Year(
+        # TODO: see if there are cases where Sleeper leagues do NOT have divisions
+        year = Year(
             yearNumber=int(sleeperLeague.season),
             teams=teams,
             weeks=weeks,
             yearSettings=yearSettings,
+            divisions=list(self.__sleeperDivisionIdToDivisionMap.values()),
         )
+        # clear division info
+        self.__sleeperDivisionIdToDivisionMap = dict()
+        return year
 
     def __buildWeeks(self, sleeperLeague: SleeperLeague) -> list[Week]:
         weeks = list()
@@ -310,9 +324,14 @@ class SleeperLeagueLoader(LeagueLoader):
         for sleeperUser in sleeperUsers:
             # connect a sleeperUser to a sleeperRoster
             rosterId = None
+            divisionId = None
             for sleeperRoster in sleeperRosters:
                 if sleeperRoster.owner_id == sleeperUser.user_id:
                     rosterId = sleeperRoster.roster_id
+                    # TODO: see if there are cases where ESPN leagues do NOT have divisions
+                    divisionId = self.__sleeperDivisionIdToDivisionMap[
+                        sleeperRoster.settings.division
+                    ].id
             if rosterId is None:
                 raise DoesNotExistException(
                     f"No Roster ID match found for Sleeper User with ID: '{sleeperUser.user_id}'."
@@ -325,7 +344,7 @@ class SleeperLeagueLoader(LeagueLoader):
                 and "team_name" in sleeperUser.metadata.keys()
             ):
                 teamName = sleeperUser.metadata["team_name"]
-            team = Team(ownerId=owner.id, name=teamName)
+            team = Team(ownerId=owner.id, name=teamName, divisionId=divisionId)
             teams.append(team)
             self.__sleeperRosterIdToTeamMap[rosterId] = team
         return teams
