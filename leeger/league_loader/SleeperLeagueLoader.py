@@ -81,7 +81,7 @@ class SleeperLeagueLoader(LeagueLoader):
             currentLeague: SleeperLeague = LeagueAPIClient.get_league(league_id=currentLeagueId)
             if int(currentLeague.season) in years:
                 # we only want to add valid seasons
-                # NOTE: Not sure if we want to include SleeperSeasonStatus.POSTPONED here or not
+                # NOTE: Not sure if we should include SleeperSeasonStatus.POSTPONED here or not
                 if currentLeague.status not in (
                     SleeperSeasonStatus.COMPLETE,
                     SleeperSeasonStatus.IN_SEASON,
