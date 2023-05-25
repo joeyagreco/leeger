@@ -39,7 +39,9 @@ class Team(UniqueId, JSONSerializable, JSONDeserializable):
         )
 
     def __eq__(self, otherTeam: Team) -> bool:
-        self.__LOGGER.warning("'==' should not be used for equality checks. Use .equals() instead.")
+        self.__LOGGER.info(
+            "Use .equals() for more options when comparing instances of this object."
+        )
         return self.equals(otherTeam=otherTeam)
 
     def toJson(self) -> dict:
