@@ -25,9 +25,7 @@ class Team(UniqueId, JSONSerializable, JSONDeserializable):
         """
         Checks if *this* Team is the same as the given Team.
         """
-        ignoreKeyNames = ConfigReader.get(
-            "EQUALITY_CHECK", "IGNORE_KEY_NAMES", asType=list, propFile="league.properties"
-        )
+
         return equals(
             objA=self,
             objB=otherTeam,
@@ -36,7 +34,9 @@ class Team(UniqueId, JSONSerializable, JSONDeserializable):
             parentKey="Team",
             ignoreIdFields=ignoreIds,
             logDifferences=logDifferences,
-            ignoreKeyNames=ignoreKeyNames,
+            ignoreKeyNames=ConfigReader.get(
+                "EQUALITY_CHECK", "IGNORE_KEY_NAMES", asType=list, propFile="league.properties"
+            ),
         )
 
     def __eq__(self, otherTeam: Team) -> bool:

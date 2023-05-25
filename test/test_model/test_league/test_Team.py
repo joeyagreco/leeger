@@ -18,7 +18,7 @@ class TestTeam(unittest.TestCase):
         # create Team 2
         team_2 = Team(ownerId="1", name="1", divisionId="did")
 
-        self.assertEqual(team_1, team_2)
+        self.assertTrue(team_1.equals(team_2))
 
     def test_team_eq_notEqual(self):
         # create Team 1
@@ -27,7 +27,7 @@ class TestTeam(unittest.TestCase):
         # create Team 2
         team_2 = Team(ownerId="2", name="2dif", divisionId="did")
 
-        self.assertNotEqual(team_1, team_2)
+        self.assertFalse(team_1.equals(team_2))
 
     def test_team_toFromJson(self):
         team = Team(ownerId="", name="team", divisionId="did")
