@@ -9,6 +9,7 @@ from leeger.util.CustomLogger import CustomLogger
 from leeger.util.GeneralUtil import GeneralUtil
 from leeger.util.JSONDeserializable import JSONDeserializable
 from leeger.util.JSONSerializable import JSONSerializable
+from leeger.util.equality import equals
 
 
 @dataclass(kw_only=True, eq=False)
@@ -18,10 +19,31 @@ class Team(UniqueId, JSONSerializable, JSONDeserializable):
     name: str
     divisionId: Optional[str] = None
 
+    def equals(
+        self, otherTeam: Team, *, ignoreIds: bool = False, logDifferences: bool = False
+    ) -> bool:
+        """
+        Checks if *this* Team is the same as the given Team.
+        """
+        ignoreKeyNames = ConfigReader.get(
+            "EQUALITY_CHECK", "IGNORE_KEY_NAMES", asType=list, propFile="league.properties"
+        )
+        return equals(
+            objA=self,
+            objB=otherTeam,
+            baseFields={"name"},
+            idFields={"ownerId", "divisionId"},
+            parentKey="Team",
+            ignoreIdFields=ignoreIds,
+            logDifferences=logDifferences,
+            ignoreKeyNames=ignoreKeyNames,
+        )
+
     def __eq__(self, otherTeam: Team) -> bool:
         """
         Checks if *this* Team is the same as the given Team.
         Does not check for equality of IDs, just values.
+        TODO: REMOVE THIS
         """
         equal = self.name == otherTeam.name
         # warn if this is going to return True but ID based fields are not equal
