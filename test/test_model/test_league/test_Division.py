@@ -8,6 +8,17 @@ class TestDivision(unittest.TestCase):
 
         self.assertEqual("name", division.name)
 
+    def test_division_eq_callsEqualsMethod(self):
+        # create division 1
+        division_1 = Division(name="division")
+
+        # create division 2
+        division_2 = Division(name="division")
+
+        result = division_1 == division_2
+
+        self.assertTrue(result)
+
     def test_division_eq_equal(self):
         # create division 1
         division_1 = Division(name="division")
@@ -15,7 +26,9 @@ class TestDivision(unittest.TestCase):
         # create division 2
         division_2 = Division(name="division")
 
-        self.assertEqual(division_1, division_2)
+        result = division_1.equals(division_2)
+
+        self.assertTrue(result)
 
     def test_division_eq_notEqual(self):
         # create division 1
@@ -24,7 +37,9 @@ class TestDivision(unittest.TestCase):
         # create division 2
         division_2 = Division(name="divisionDIF")
 
-        self.assertNotEqual(division_1, division_2)
+        result = division_1.equals(division_2)
+
+        self.assertFalse(result)
 
     def test_toFromJson(self):
         division = Division(name="division")
