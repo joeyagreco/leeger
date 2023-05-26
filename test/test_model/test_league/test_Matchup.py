@@ -75,6 +75,31 @@ class TestMatchup(unittest.TestCase):
             "Team A and Team B cannot both have the tiebreaker.", str(context.exception)
         )
 
+    def test_matchup_eq_callsEqualsMethod(self):
+        # create Matchup 1
+        _, teams_1 = getNDefaultOwnersAndTeams(2)
+        matchup_1 = Matchup(
+            teamAId=teams_1[0].id,
+            teamBId=teams_1[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            multiWeekMatchupId="1",
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
+
+        matchup_2 = Matchup(
+            teamAId=teams_1[0].id,
+            teamBId=teams_1[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            multiWeekMatchupId="1",
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
+
+        result = matchup_1 == matchup_2
+
+        self.assertTrue(result)
+
     def test_matchup_eq_equal(self):
         # create Matchup 1
         _, teams_1 = getNDefaultOwnersAndTeams(2)
@@ -87,18 +112,18 @@ class TestMatchup(unittest.TestCase):
             matchupType=MatchupType.REGULAR_SEASON,
         )
 
-        # create Matchup 2
-        _, teams_2 = getNDefaultOwnersAndTeams(2)
         matchup_2 = Matchup(
-            teamAId=teams_2[0].id,
-            teamBId=teams_2[1].id,
+            teamAId=teams_1[0].id,
+            teamBId=teams_1[1].id,
             teamAScore=1.1,
             teamBScore=2.2,
             multiWeekMatchupId="1",
             matchupType=MatchupType.REGULAR_SEASON,
         )
 
-        self.assertEqual(matchup_1, matchup_2)
+        result = matchup_1.equals(matchup_2)
+
+        self.assertTrue(result)
 
     def test_matchup_eq_notEqual(self):
         # create Matchup 1
@@ -120,10 +145,12 @@ class TestMatchup(unittest.TestCase):
             teamAScore=1.1,
             teamBScore=2.2,
             multiWeekMatchupId="1",
-            matchupType=MatchupType.PLAYOFF,
+            matchupType=MatchupType.REGULAR_SEASON,
         )
 
-        self.assertNotEqual(matchup_1, matchup_2)
+        result = matchup_1.equals(matchup_2)
+
+        self.assertFalse(result)
 
     def test_matchup_toJson(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
