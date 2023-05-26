@@ -8,9 +8,9 @@ from leeger.model.abstract.UniqueId import UniqueId
 from leeger.model.league.Matchup import Matchup
 from leeger.util.ConfigReader import ConfigReader
 from leeger.util.CustomLogger import CustomLogger
-from leeger.util.GeneralUtil import GeneralUtil
 from leeger.util.JSONDeserializable import JSONDeserializable
 from leeger.util.JSONSerializable import JSONSerializable
+from leeger.util.equality import equals
 
 
 @dataclass(kw_only=True, eq=False)
@@ -19,24 +19,42 @@ class Week(UniqueId, JSONSerializable, JSONDeserializable):
     weekNumber: int
     matchups: list[Matchup]
 
-    def __eq__(self, otherWeek: Week) -> bool:
+    def equals(
+        self, otherWeek: Week, *, ignoreIds: bool = False, logDifferences: bool = False
+    ) -> bool:
         """
         Checks if *this* Week is the same as the given Week.
-        Does not check for equality of IDs, just values.
         """
-        equal = self.weekNumber == otherWeek.weekNumber
-        equal = equal and self.matchups == otherWeek.matchups
-        if not equal:
-            differences = GeneralUtil.findDifferentFields(
-                self.toJson(),
-                otherWeek.toJson(),
-                parentKey="Week",
-                ignoreKeyNames=ConfigReader.get(
-                    "EQUALITY_CHECK", "IGNORE_KEY_NAMES", asType=list, propFile="league.properties"
-                ),
-            )
-            self.__LOGGER.info(f"Differences: {differences}")
-        return equal
+
+        def matchupsEqual(
+            matchupList1: list[Matchup], matchupList2: list[Matchup], **kwargs
+        ) -> bool:
+            if len(matchupList1) != len(matchupList2):
+                return False
+            equal = True
+            for matchup1, matchup2 in zip(matchupList1, matchupList2):
+                equal = equal and matchup1.equals(
+                    matchup2, ignoreIds=kwargs.get("ignoreIds", False)
+                )
+            return equal
+
+        return equals(
+            objA=self,
+            objB=otherWeek,
+            baseFields={"weekNumber", "matchups"},
+            parentKey="Week",
+            ignoreIdFields=ignoreIds,
+            logDifferences=logDifferences,
+            ignoreKeyNames=ConfigReader.get(
+                "EQUALITY_CHECK", "IGNORE_KEY_NAMES", asType=list, propFile="league.properties"
+            ),
+            equalityFunctionMap={"matchups": matchupsEqual},
+            equalityFunctionKwargsMap={"matchups": {"ignoreIds": ignoreIds}},
+        )
+
+    def __eq__(self, otherWeek: Week) -> bool:
+        self.__LOGGER.info("Use .equals() for more options when comparing Week instances.")
+        return self.equals(otherWeek=otherWeek)
 
     @property
     def isPlayoffWeek(self) -> bool:

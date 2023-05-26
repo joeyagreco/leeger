@@ -15,6 +15,8 @@ def equals(
     logDifferences: bool = False,
     ignoreKeyNames: Optional[list[str]] = None,
     toJsonMethodName: str = "toJson",
+    equalityFunctionMap: Optional[dict[str, callable]] = None,
+    equalityFunctionKwargsMap: Optional[dict[str, dict]] = None,
 ) -> bool:
     """
     Checks if objA is the same as objB.
@@ -28,16 +30,41 @@ def equals(
     logDifferences: whether to log differences in the case of inequality or not
     ignoreKeyNames: list of key names to ignore when logging differences
     toJsonMethodName: the name of the method to call on these objects that will return the JSON representation of it
+    equalityFunctionMap: maps the names of fields to a custom equality function that should be called for them*
+    equalityFunctionKwargsMap: maps the names of fields to the kwargs that should be passed into their equalityFunctionMap
+
+    *
+    - equality functions should take at least 2 parameters (1 parameter for each field value).
+    - equality functions should return a boolean.
+    - equality functions should take **kwargs as the 3rd parameter.
+    - equality functions will be passed the kwargs from equalityFunctionKwargsMap that match the field name (if given)
     """
     LOGGER = CustomLogger.getLogger()
 
+    equalityFunctionMap = dict() if equalityFunctionMap is None else equalityFunctionMap
+    equalityFunctionKwargsMap = (
+        dict() if equalityFunctionKwargsMap is None else equalityFunctionKwargsMap
+    )
+
+    def isEqual(field: str, objA: Any, objB: Any) -> bool:
+        if field in equalityFunctionMap:
+            equalityFunction = equalityFunctionMap[field]
+            # see if we should pass any kwargs
+            kwargsToPass = (
+                dict()
+                if field not in equalityFunctionKwargsMap
+                else equalityFunctionKwargsMap[field]
+            )
+            return equalityFunction(getattr(objA, field), getattr(objB, field), **kwargsToPass)
+        return getattr(objA, field) == getattr(objB, field)
+
     equal = True
     for field in baseFields:
-        equal = equal and getattr(objA, field) == getattr(objB, field)
+        equal = equal and isEqual(field, objA, objB)
 
     if not ignoreIdFields and idFields:
         for field in idFields:
-            equal = equal and getattr(objA, field) == getattr(objB, field)
+            equal = equal and isEqual(field, objA, objB)
 
     if not equal and logDifferences:
         ignoreKeyNames = list() if ignoreKeyNames is None else ignoreKeyNames
