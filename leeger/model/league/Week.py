@@ -27,15 +27,13 @@ class Week(UniqueId, JSONSerializable, JSONDeserializable):
         """
 
         def matchupsEqual(
-            matchupList1: list[Matchup], matchupList2: list[Matchup], **kwargs
+            matchupList1: list[Matchup], matchupList2: list[Matchup], *, ignoreIds: bool
         ) -> bool:
             if len(matchupList1) != len(matchupList2):
                 return False
             equal = True
             for matchup1, matchup2 in zip(matchupList1, matchupList2):
-                equal = equal and matchup1.equals(
-                    matchup2, ignoreIds=kwargs.get("ignoreIds", False)
-                )
+                equal = equal and matchup1.equals(matchup2, ignoreIds=ignoreIds)
             return equal
 
         return equals(
