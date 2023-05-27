@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from typing import Optional
+from leeger.model.abstract.EqualityCheck import EqualityCheck
 
 from leeger.model.abstract.UniqueId import UniqueId
 from leeger.util.CustomLogger import CustomLogger
@@ -11,7 +12,7 @@ from leeger.util.equality import modelEquals
 
 
 @dataclass(kw_only=True, eq=False)
-class Team(UniqueId, JSONSerializable, JSONDeserializable):
+class Team(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
     __LOGGER = CustomLogger.getLogger()
     ownerId: str
     name: str

@@ -32,6 +32,19 @@ class TestPerformance(unittest.TestCase):
         self.assertFalse(performance.hasTiebreaker)
         self.assertIsNone(performance.multiWeekMatchupId)
 
+    def test_performance_eq_callsEqualsMethod(self):
+        # create Performance 1
+        _, teams_1 = getNDefaultOwnersAndTeams(2)
+        performance_1 = Performance(
+            teamId=teams_1[0].id,
+            teamScore=1.1,
+            hasTiebreaker=True,
+            multiWeekMatchupId="1",
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
+
+        self.assertTrue(performance_1 == performance_1)
+
     def test_performance_eq_equal(self):
         # create Performance 1
         _, teams_1 = getNDefaultOwnersAndTeams(2)
@@ -44,16 +57,15 @@ class TestPerformance(unittest.TestCase):
         )
 
         # create Matchup 2
-        _, teams_2 = getNDefaultOwnersAndTeams(2)
         performance_2 = Performance(
-            teamId=teams_2[0].id,
+            teamId=teams_1[0].id,
             teamScore=1.1,
             hasTiebreaker=True,
             multiWeekMatchupId="1",
             matchupType=MatchupType.REGULAR_SEASON,
         )
 
-        self.assertEqual(performance_1, performance_2)
+        self.assertTrue(performance_1.equals(performance_2, ignoreBaseId=True))
 
     def test_performance_eq_notEqual(self):
         # create Performance 1
@@ -76,7 +88,7 @@ class TestPerformance(unittest.TestCase):
             matchupType=MatchupType.REGULAR_SEASON,
         )
 
-        self.assertNotEqual(performance_1, performance_2)
+        self.assertFalse(performance_1.equals(performance_2, ignoreBaseId=True))
 
     def test_performance_toJson(self):
         performance = Performance(

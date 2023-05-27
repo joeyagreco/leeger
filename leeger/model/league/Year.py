@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from typing import Optional
 
 from leeger.exception import DoesNotExistException
+from leeger.model.abstract.EqualityCheck import EqualityCheck
 from leeger.model.abstract.UniqueId import UniqueId
 from leeger.model.league.Division import Division
 from leeger.model.league.Team import Team
@@ -16,7 +17,7 @@ from leeger.util.equality import modelEquals
 
 
 @dataclass(kw_only=True, eq=False)
-class Year(UniqueId, JSONSerializable, JSONDeserializable):
+class Year(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
     __LOGGER = CustomLogger.getLogger()
     yearNumber: int
     teams: list[Team]

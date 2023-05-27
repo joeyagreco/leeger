@@ -4,6 +4,7 @@ import copy
 from dataclasses import dataclass
 
 from leeger.exception import DoesNotExistException
+from leeger.model.abstract.EqualityCheck import EqualityCheck
 from leeger.model.abstract.UniqueId import UniqueId
 from leeger.model.league.Owner import Owner
 from leeger.model.league.Year import Year
@@ -14,7 +15,7 @@ from leeger.util.equality import modelEquals
 
 
 @dataclass(kw_only=True, eq=False)
-class League(UniqueId, JSONSerializable, JSONDeserializable):
+class League(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
     __LOGGER = CustomLogger.getLogger()
     name: str
     owners: list[Owner]

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from typing import Optional
+from leeger.model.abstract.EqualityCheck import EqualityCheck
 from leeger.util.CustomLogger import CustomLogger
 
 from leeger.util.JSONDeserializable import JSONDeserializable
@@ -10,7 +11,7 @@ from leeger.util.equality import modelEquals
 
 
 @dataclass(kw_only=True, eq=False)
-class YearSettings(JSONSerializable, JSONDeserializable):
+class YearSettings(EqualityCheck, JSONSerializable, JSONDeserializable):
     __LOGGER = CustomLogger.getLogger()
     leagueMedianGames: Optional[bool] = False
 
