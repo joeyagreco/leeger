@@ -19,7 +19,12 @@ class Team(UniqueId, JSONSerializable, JSONDeserializable):
     divisionId: Optional[str] = None
 
     def equals(
-        self, otherTeam: Team, *, ignoreIds: bool = False, logDifferences: bool = False
+        self,
+        otherTeam: Team,
+        *,
+        ignoreIds: bool = False,
+        ignoreBaseId: bool = False,
+        logDifferences: bool = False,
     ) -> bool:
         """
         Checks if *this* Team is the same as the given Team.
@@ -32,6 +37,7 @@ class Team(UniqueId, JSONSerializable, JSONDeserializable):
             idFields={"ownerId", "divisionId"},
             parentKey="Team",
             ignoreIdFields=ignoreIds,
+            ignoreBaseIdField=ignoreBaseId,
             logDifferences=logDifferences,
             ignoreKeyNames=ConfigReader.get(
                 "EQUALITY_CHECK", "IGNORE_KEY_NAMES", asType=list, propFile="league.properties"
