@@ -67,7 +67,7 @@ def modelEquals(
     if not ignoreIdFields and idFields:
         for field in idFields:
             equal = equal and isEqual(field, objA, objB)
-            
+
     if not ignoreBaseIdField:
         equal = equal and isEqual("id", objA, objB)
 

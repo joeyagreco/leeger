@@ -16,7 +16,12 @@ class Division(UniqueId, JSONSerializable, JSONDeserializable):
     name: str
 
     def equals(
-        self, otherDivision: Division, *, ignoreIds: bool = False, logDifferences: bool = False
+        self,
+        otherDivision: Division,
+        *,
+        ignoreIds: bool = False,
+        ignoreBaseId: bool = False,
+        logDifferences: bool = False,
     ) -> bool:
         """
         Checks if *this* Division is the same as the given Division.
@@ -28,6 +33,7 @@ class Division(UniqueId, JSONSerializable, JSONDeserializable):
             baseFields={"name"},
             parentKey="Division",
             ignoreIdFields=ignoreIds,
+            ignoreBaseIdField=ignoreBaseId,
             logDifferences=logDifferences,
             ignoreKeyNames=ConfigReader.get(
                 "EQUALITY_CHECK", "IGNORE_KEY_NAMES", asType=list, propFile="league.properties"

@@ -83,7 +83,7 @@ class TestEquality(unittest.TestCase):
 
         self.assertFalse(result)
         mockLogger.info.assert_not_called()
-        
+
         # basic equal object when ignoring  base id field
         objA = Foo("a", 1, "id", id="id1")
         objB = Foo("a", 1, "id", id="id1")
