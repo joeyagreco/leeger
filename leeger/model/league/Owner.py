@@ -16,7 +16,12 @@ class Owner(UniqueId, JSONSerializable, JSONDeserializable):
     name: str
 
     def equals(
-        self, otherOwner: Owner, *, ignoreIds: bool = False, logDifferences: bool = False
+        self,
+        otherOwner: Owner,
+        *,
+        ignoreIds: bool = False,
+        ignoreBaseId: bool = False,
+        logDifferences: bool = False,
     ) -> bool:
         """
         Checks if *this* Owner is the same as the given Owner.
@@ -28,6 +33,7 @@ class Owner(UniqueId, JSONSerializable, JSONDeserializable):
             baseFields={"name"},
             parentKey="Owner",
             ignoreIdFields=ignoreIds,
+            ignoreBaseIdField=ignoreBaseId,
             logDifferences=logDifferences,
             ignoreKeyNames=ConfigReader.get(
                 "EQUALITY_CHECK", "IGNORE_KEY_NAMES", asType=list, propFile="league.properties"

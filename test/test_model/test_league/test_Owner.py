@@ -16,6 +16,8 @@ class TestOwner(unittest.TestCase):
         # create Owner 2
         owner_2 = Owner(name="owner")
 
+        owner_2.id = owner_1.id
+
         result = owner_1 == owner_2
 
         self.assertTrue(result)
@@ -27,7 +29,7 @@ class TestOwner(unittest.TestCase):
         # create Owner 2
         owner_2 = Owner(name="owner")
 
-        self.assertTrue(owner_1.equals(owner_2))
+        self.assertTrue(owner_1.equals(owner_2, ignoreBaseId=True))
 
     def test_owner_eq_notEqual(self):
         # create Owner 1
@@ -36,7 +38,7 @@ class TestOwner(unittest.TestCase):
         # create Owner 2
         owner_2 = Owner(name="ownerDIF")
 
-        self.assertFalse(owner_1.equals(owner_2))
+        self.assertFalse(owner_1.equals(owner_2, ignoreBaseId=True))
 
     def test_owner_toJson(self):
         owner = Owner(name="owner")

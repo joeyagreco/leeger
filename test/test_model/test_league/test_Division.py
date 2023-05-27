@@ -38,7 +38,7 @@ class TestDivision(unittest.TestCase):
         # create division 2
         division_2 = Division(name="divisionDIF")
 
-        result = division_1.equals(division_2)
+        result = division_1.equals(division_2, ignoreBaseId=True)
 
         self.assertFalse(result)
 
