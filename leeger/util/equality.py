@@ -69,7 +69,11 @@ def modelEquals(
             equal = equal and isEqual(field, objA, objB)
 
     if not ignoreBaseIdField:
-        equal = equal and isEqual("id", objA, objB)
+        if hasattr(objA, "id") and hasattr(objB, "id"):
+            equal = equal and isEqual("id", objA, objB)
+        # weird case: one instance has an id field and the other doesn't
+        if hasattr(objA, "id") != hasattr(objB, "id"):
+            equal = False
 
     if not equal and logDifferences:
         ignoreKeyNames = list() if ignoreKeyNames is None else ignoreKeyNames

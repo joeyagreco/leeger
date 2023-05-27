@@ -4,10 +4,10 @@ from dataclasses import dataclass
 from typing import Optional
 from leeger.util.ConfigReader import ConfigReader
 from leeger.util.CustomLogger import CustomLogger
-from leeger.util.GeneralUtil import GeneralUtil
 
 from leeger.util.JSONDeserializable import JSONDeserializable
 from leeger.util.JSONSerializable import JSONSerializable
+from leeger.util.equality import modelEquals
 
 
 @dataclass(kw_only=True, eq=False)
@@ -19,22 +19,34 @@ class YearSettings(JSONSerializable, JSONDeserializable):
         if self.leagueMedianGames is None:
             self.leagueMedianGames = False
 
-    def __eq__(self, otherYearSettings: YearSettings) -> bool:
+    def equals(
+        self,
+        otherYearSettings: YearSettings,
+        *,
+        ignoreIds: bool = False,
+        ignoreBaseId: bool = False,
+        logDifferences: bool = False,
+    ) -> bool:
         """
         Checks if *this* YearSettings is the same as the given YearSettings.
         """
-        equal = self.leagueMedianGames == otherYearSettings.leagueMedianGames
-        if not equal:
-            differences = GeneralUtil.findDifferentFields(
-                self.toJson(),
-                otherYearSettings.toJson(),
-                parentKey="YearSettings",
-                ignoreKeyNames=ConfigReader.get(
-                    "EQUALITY_CHECK", "IGNORE_KEY_NAMES", asType=list, propFile="league.properties"
-                ),
-            )
-            self.__LOGGER.info(f"Differences: {differences}")
-        return equal
+
+        return modelEquals(
+            objA=self,
+            objB=otherYearSettings,
+            baseFields={"leagueMedianGames"},
+            parentKey="YearSettings",
+            ignoreIdFields=ignoreIds,
+            ignoreBaseIdField=ignoreBaseId,
+            logDifferences=logDifferences,
+            ignoreKeyNames=ConfigReader.get(
+                "EQUALITY_CHECK", "IGNORE_KEY_NAMES", asType=list, propFile="league.properties"
+            ),
+        )
+
+    def __eq__(self, otherYearSettings: YearSettings) -> bool:
+        self.__LOGGER.info("Use .equals() for more options when comparing YearSettings instances.")
+        return self.equals(otherYearSettings=otherYearSettings)
 
     def toJson(self) -> dict:
         return {"leagueMedianGames": self.leagueMedianGames}

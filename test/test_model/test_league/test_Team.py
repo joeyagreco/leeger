@@ -1,7 +1,6 @@
 import unittest
 
 from leeger.model.league.Team import Team
-from unittest.mock import patch
 
 
 class TestTeam(unittest.TestCase):
@@ -12,8 +11,7 @@ class TestTeam(unittest.TestCase):
         self.assertEqual("name", team.name)
         self.assertEqual("did", team.divisionId)
 
-    @patch("leeger.util.CustomLogger.CustomLogger.getLogger")
-    def test_team_eq_callsEqualsMethod(self, mockGetLogger):
+    def test_team_eq_callsEqualsMethod(self):
         # create Team 1
         team_1 = Team(ownerId="1", name="1", divisionId="did")
 
