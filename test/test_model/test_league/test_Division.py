@@ -27,7 +27,7 @@ class TestDivision(unittest.TestCase):
         # create division 2
         division_2 = Division(name="division")
 
-        result = division_1.equals(division_2, ignoreBaseId=True)
+        result = division_1.equals(division_2, ignoreBaseIds=True)
 
         self.assertTrue(result)
 
@@ -38,7 +38,7 @@ class TestDivision(unittest.TestCase):
         # create division 2
         division_2 = Division(name="divisionDIF")
 
-        result = division_1.equals(division_2, ignoreBaseId=True)
+        result = division_1.equals(division_2, ignoreBaseIds=True)
 
         self.assertFalse(result)
 

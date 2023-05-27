@@ -39,7 +39,7 @@ class Year(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
         otherYear: Year,
         *,
         ignoreIds: bool = False,
-        ignoreBaseId: bool = False,
+        ignoreBaseIds: bool = False,
         logDifferences: bool = False,
     ) -> bool:
         """
@@ -51,14 +51,14 @@ class Year(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
             list2: list[Team | Week | Division],
             *,
             ignoreIds: bool,
-            ignoreBaseId: bool,
+            ignoreBaseIds: bool,
         ) -> bool:
             if len(list1) != len(list2):
                 return False
             equal = True
             for item1, item2 in zip(list1, list2):
                 equal = equal and item1.equals(
-                    item2, ignoreIds=ignoreIds, ignoreBaseId=ignoreBaseId
+                    item2, ignoreIds=ignoreIds, ignoreBaseIds=ignoreBaseIds
                 )
             return equal
 
@@ -67,10 +67,10 @@ class Year(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
             yearSettings2: YearSettings,
             *,
             ignoreIds: bool,
-            ignoreBaseId: bool,
+            ignoreBaseIds: bool,
         ) -> bool:
             return yearSettings1.equals(
-                yearSettings2, ignoreIds=ignoreIds, ignoreBaseId=ignoreBaseId
+                yearSettings2, ignoreIds=ignoreIds, ignoreBaseIds=ignoreBaseIds
             )
 
         return modelEquals(
@@ -79,7 +79,7 @@ class Year(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
             baseFields={"yearNumber", "teams", "weeks", "divisions", "yearSettings"},
             parentKey="Year",
             ignoreIdFields=ignoreIds,
-            ignoreBaseIdField=ignoreBaseId,
+            ignoreBaseIdField=ignoreBaseIds,
             logDifferences=logDifferences,
             equalityFunctionMap={
                 "teams": listsEqual,
@@ -88,10 +88,10 @@ class Year(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
                 "yearSettings": yearSettingsEqual,
             },
             equalityFunctionKwargsMap={
-                "teams": {"ignoreIds": ignoreIds, "ignoreBaseId": ignoreBaseId},
-                "weeks": {"ignoreIds": ignoreIds, "ignoreBaseId": ignoreBaseId},
-                "divisions": {"ignoreIds": ignoreIds, "ignoreBaseId": ignoreBaseId},
-                "yearSettings": {"ignoreIds": ignoreIds, "ignoreBaseId": ignoreBaseId},
+                "teams": {"ignoreIds": ignoreIds, "ignoreBaseIds": ignoreBaseIds},
+                "weeks": {"ignoreIds": ignoreIds, "ignoreBaseIds": ignoreBaseIds},
+                "divisions": {"ignoreIds": ignoreIds, "ignoreBaseIds": ignoreBaseIds},
+                "yearSettings": {"ignoreIds": ignoreIds, "ignoreBaseIds": ignoreBaseIds},
             },
         )
 

@@ -730,7 +730,7 @@ class TestSleeperLeagueLoader(unittest.TestCase):
                 ),
             ],
         )
-        self.assertTrue(league.equals(expectedLeague, ignoreBaseId=True, ignoreIds=True))
+        self.assertTrue(league.equals(expectedLeague, ignoreBaseIds=True, ignoreIds=True))
         # check multiWeekMatchupIds
         for year in league.years:
             for week in year.weeks:
@@ -1054,7 +1054,7 @@ class TestSleeperLeagueLoader(unittest.TestCase):
                 )
             ],
         )
-        self.assertTrue(league.equals(expectedLeague, ignoreBaseId=True, ignoreIds=True))
+        self.assertTrue(league.equals(expectedLeague, ignoreBaseIds=True, ignoreIds=True))
         # check multiWeekMatchupIds
         for year in league.years:
             for week in year.weeks:
@@ -1384,7 +1384,7 @@ class TestSleeperLeagueLoader(unittest.TestCase):
                 )
             ],
         )
-        self.assertTrue(league.equals(expectedLeague, ignoreBaseId=True, ignoreIds=True))
+        self.assertTrue(league.equals(expectedLeague, ignoreBaseIds=True, ignoreIds=True))
         # check multiWeekMatchupIds
         for year in league.years:
             for week in year.weeks[:3]:
@@ -1748,7 +1748,7 @@ class TestSleeperLeagueLoader(unittest.TestCase):
                 )
             ],
         )
-        self.assertTrue(league.equals(expectedLeague, ignoreBaseId=True, ignoreIds=True))
+        self.assertTrue(league.equals(expectedLeague, ignoreBaseIds=True, ignoreIds=True))
         # check multiWeekMatchupIds
         for year in league.years:
             for week in year.weeks[:2]:
@@ -2390,7 +2390,7 @@ class TestSleeperLeagueLoader(unittest.TestCase):
                 ),
             ],
         )
-        self.assertTrue(league.equals(expectedLeague, ignoreBaseId=True, ignoreIds=True))
+        self.assertTrue(league.equals(expectedLeague, ignoreBaseIds=True, ignoreIds=True))
         # check multiWeekMatchupIds
         for year in league.years:
             for week in year.weeks:

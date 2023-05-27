@@ -143,7 +143,7 @@ class TestYear(unittest.TestCase):
             yearSettings=yearSettings_2,
         )
 
-        self.assertTrue(year_1.equals(year_2, ignoreIds=True, ignoreBaseId=True))
+        self.assertTrue(year_1.equals(year_2, ignoreIds=True, ignoreBaseIds=True))
 
     def test_year_eq_notEqual(self):
         # create Year 1

@@ -24,7 +24,7 @@ class YearSettings(EqualityCheck, JSONSerializable, JSONDeserializable):
         otherYearSettings: YearSettings,
         *,
         ignoreIds: bool = False,
-        ignoreBaseId: bool = False,
+        ignoreBaseIds: bool = False,
         logDifferences: bool = False,
     ) -> bool:
         """
@@ -37,7 +37,7 @@ class YearSettings(EqualityCheck, JSONSerializable, JSONDeserializable):
             baseFields={"leagueMedianGames"},
             parentKey="YearSettings",
             ignoreIdFields=ignoreIds,
-            ignoreBaseIdField=ignoreBaseId,
+            ignoreBaseIdField=ignoreBaseIds,
             logDifferences=logDifferences,
         )
 

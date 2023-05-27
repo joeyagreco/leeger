@@ -630,7 +630,7 @@ class TestYahooLeagueLoader(unittest.TestCase):
             target=yahooLeagueLoader.login, args=("cid", "cs")
         )
 
-        self.assertTrue(league.equals(expectedLeague, ignoreBaseId=True, ignoreIds=True))
+        self.assertTrue(league.equals(expectedLeague, ignoreBaseIds=True, ignoreIds=True))
         # check multiWeekMatchupIds
         for year in league.years:
             for week in year.weeks:
@@ -1191,7 +1191,7 @@ class TestYahooLeagueLoader(unittest.TestCase):
             target=yahooLeagueLoader.login, args=("cid", "cs")
         )
 
-        self.assertTrue(league.equals(expectedLeague, ignoreBaseId=True, ignoreIds=True))
+        self.assertTrue(league.equals(expectedLeague, ignoreBaseIds=True, ignoreIds=True))
         # check multiWeekMatchupIds
         for year in league.years:
             for week in year.weeks:

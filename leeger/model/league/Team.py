@@ -23,7 +23,7 @@ class Team(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
         otherTeam: Team,
         *,
         ignoreIds: bool = False,
-        ignoreBaseId: bool = False,
+        ignoreBaseIds: bool = False,
         logDifferences: bool = False,
     ) -> bool:
         """
@@ -37,7 +37,7 @@ class Team(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
             idFields={"ownerId", "divisionId"},
             parentKey="Team",
             ignoreIdFields=ignoreIds,
-            ignoreBaseIdField=ignoreBaseId,
+            ignoreBaseIdField=ignoreBaseIds,
             logDifferences=logDifferences,
         )
 

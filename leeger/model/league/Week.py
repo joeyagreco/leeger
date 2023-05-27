@@ -24,7 +24,7 @@ class Week(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
         otherWeek: Week,
         *,
         ignoreIds: bool = False,
-        ignoreBaseId: bool = False,
+        ignoreBaseIds: bool = False,
         logDifferences: bool = False,
     ) -> bool:
         """
@@ -36,14 +36,14 @@ class Week(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
             matchupList2: list[Matchup],
             *,
             ignoreIds: bool,
-            ignoreBaseId: bool,
+            ignoreBaseIds: bool,
         ) -> bool:
             if len(matchupList1) != len(matchupList2):
                 return False
             equal = True
             for matchup1, matchup2 in zip(matchupList1, matchupList2):
                 equal = equal and matchup1.equals(
-                    matchup2, ignoreIds=ignoreIds, ignoreBaseId=ignoreBaseId
+                    matchup2, ignoreIds=ignoreIds, ignoreBaseIds=ignoreBaseIds
                 )
             return equal
 
@@ -53,11 +53,11 @@ class Week(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
             baseFields={"weekNumber", "matchups"},
             parentKey="Week",
             ignoreIdFields=ignoreIds,
-            ignoreBaseIdField=ignoreBaseId,
+            ignoreBaseIdField=ignoreBaseIds,
             logDifferences=logDifferences,
             equalityFunctionMap={"matchups": matchupsEqual},
             equalityFunctionKwargsMap={
-                "matchups": {"ignoreIds": ignoreIds, "ignoreBaseId": ignoreBaseId}
+                "matchups": {"ignoreIds": ignoreIds, "ignoreBaseIds": ignoreBaseIds}
             },
         )
 

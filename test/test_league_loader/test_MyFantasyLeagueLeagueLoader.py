@@ -772,7 +772,7 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
             ],
         )
 
-        self.assertTrue(league.equals(expectedLeague, ignoreBaseId=True, ignoreIds=True))
+        self.assertTrue(league.equals(expectedLeague, ignoreBaseIds=True, ignoreIds=True))
         # check multiWeekMatchupIds
         for year in league.years:
             for week in year.weeks:
@@ -1539,7 +1539,7 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
             ],
         )
 
-        self.assertTrue(league.equals(expectedLeague, ignoreBaseId=True, ignoreIds=True))
+        self.assertTrue(league.equals(expectedLeague, ignoreBaseIds=True, ignoreIds=True))
         # check multiWeekMatchupIds
         for year in league.years:
             for week in year.weeks:

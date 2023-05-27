@@ -71,7 +71,7 @@ class TestLeague(unittest.TestCase):
         year_2 = Year(yearNumber=2000, teams=teams_2, weeks=[week_2])
         league_2 = League(name="LEAGUE", owners=owners_2, years=[year_2])
 
-        self.assertTrue(league_1.equals(league_2, ignoreBaseId=True, ignoreIds=True))
+        self.assertTrue(league_1.equals(league_2, ignoreBaseIds=True, ignoreIds=True))
 
     def test_league_eq_notEqual(self):
         # create League 1
@@ -102,7 +102,7 @@ class TestLeague(unittest.TestCase):
         year_2 = Year(yearNumber=2000, teams=teams_2, weeks=[week_2])
         league_2 = League(name="LEAGUE 2", owners=owners_2, years=[year_2])
 
-        self.assertFalse(league_1.equals(league_2, ignoreBaseId=True, ignoreIds=True))
+        self.assertFalse(league_1.equals(league_2, ignoreBaseIds=True, ignoreIds=True))
 
     def test_league_add_happyPath(self):
         # create League 1
@@ -176,8 +176,8 @@ class TestLeague(unittest.TestCase):
         league_2_copy = copy.deepcopy(league_2)
 
         league_1 + league_2
-        self.assertTrue(league_1.equals(league_1_copy, ignoreBaseId=True, ignoreIds=True))
-        self.assertTrue(league_2.equals(league_2_copy, ignoreBaseId=True, ignoreIds=True))
+        self.assertTrue(league_1.equals(league_1_copy, ignoreBaseIds=True, ignoreIds=True))
+        self.assertTrue(league_2.equals(league_2_copy, ignoreBaseIds=True, ignoreIds=True))
 
     def test_league_add_teamsWithSameOwnersHaveSameOwnerIdAcrossYears(self):
         # create League 1
@@ -249,7 +249,7 @@ class TestLeague(unittest.TestCase):
         combinedLeague2 = league_2 + league_1
         self.assertIsInstance(combinedLeague1, League)
         self.assertIsInstance(combinedLeague2, League)
-        self.assertTrue(combinedLeague1.equals(combinedLeague2, ignoreBaseId=True, ignoreIds=True))
+        self.assertTrue(combinedLeague1.equals(combinedLeague2, ignoreBaseIds=True, ignoreIds=True))
 
     def test_league_add_sameLeagueName_nameIsntChanged(self):
         # create League 1

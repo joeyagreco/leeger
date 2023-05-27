@@ -208,7 +208,7 @@ class TestWeek(unittest.TestCase):
         )
         week_2 = Week(weekNumber=1, matchups=[matchup_2])
 
-        result = week_1.equals(week_2, ignoreBaseId=True)
+        result = week_1.equals(week_2, ignoreBaseIds=True)
 
         self.assertTrue(result)
 
@@ -235,7 +235,7 @@ class TestWeek(unittest.TestCase):
         )
         week_2 = Week(weekNumber=1, matchups=[matchup_2])
 
-        result = week_1.equals(week_2, ignoreBaseId=True)
+        result = week_1.equals(week_2, ignoreBaseIds=True)
 
         self.assertFalse(result)
 

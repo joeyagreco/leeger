@@ -27,7 +27,7 @@ class Performance(UniqueId, EqualityCheck, JSONSerializable):
         otherPerformance: Performance,
         *,
         ignoreIds: bool = False,
-        ignoreBaseId: bool = False,
+        ignoreBaseIds: bool = False,
         logDifferences: bool = False,
     ) -> bool:
         """
@@ -41,7 +41,7 @@ class Performance(UniqueId, EqualityCheck, JSONSerializable):
             idFields={"multiWeekMatchupId"},
             parentKey="Performance",
             ignoreIdFields=ignoreIds,
-            ignoreBaseIdField=ignoreBaseId,
+            ignoreBaseIdField=ignoreBaseIds,
             logDifferences=logDifferences,
         )
 

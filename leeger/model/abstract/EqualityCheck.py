@@ -15,7 +15,7 @@ class EqualityCheck(ABC):
         otherInstance: Any,
         *,
         ignoreIds: bool = False,
-        ignoreBaseId: bool = False,
+        ignoreBaseIds: bool = False,
         logDifferences: bool = False,
     ) -> bool:
         ...

@@ -123,7 +123,7 @@ class TestMatchup(unittest.TestCase):
             matchupType=MatchupType.REGULAR_SEASON,
         )
 
-        result = matchup_1.equals(matchup_2, ignoreBaseId=True)
+        result = matchup_1.equals(matchup_2, ignoreBaseIds=True)
 
         self.assertTrue(result)
 
@@ -150,7 +150,7 @@ class TestMatchup(unittest.TestCase):
             matchupType=MatchupType.REGULAR_SEASON,
         )
 
-        result = matchup_1.equals(matchup_2, ignoreBaseId=True)
+        result = matchup_1.equals(matchup_2, ignoreBaseIds=True)
 
         self.assertFalse(result)
 

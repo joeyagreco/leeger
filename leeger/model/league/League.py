@@ -29,7 +29,7 @@ class League(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
         otherLeague: League,
         *,
         ignoreIds: bool = False,
-        ignoreBaseId: bool = False,
+        ignoreBaseIds: bool = False,
         logDifferences: bool = False,
     ) -> bool:
         """
@@ -41,14 +41,14 @@ class League(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
             list2: list[Owner | Year],
             *,
             ignoreIds: bool,
-            ignoreBaseId: bool,
+            ignoreBaseIds: bool,
         ) -> bool:
             if len(list1) != len(list2):
                 return False
             equal = True
             for item1, item2 in zip(list1, list2):
                 equal = equal and item1.equals(
-                    item2, ignoreIds=ignoreIds, ignoreBaseId=ignoreBaseId
+                    item2, ignoreIds=ignoreIds, ignoreBaseIds=ignoreBaseIds
                 )
             return equal
 
@@ -58,12 +58,12 @@ class League(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
             baseFields={"name", "owners", "years"},
             parentKey="League",
             ignoreIdFields=ignoreIds,
-            ignoreBaseIdField=ignoreBaseId,
+            ignoreBaseIdField=ignoreBaseIds,
             logDifferences=logDifferences,
             equalityFunctionMap={"owners": listsEqual, "years": listsEqual},
             equalityFunctionKwargsMap={
-                "owners": {"ignoreIds": ignoreIds, "ignoreBaseId": ignoreBaseId},
-                "years": {"ignoreIds": ignoreIds, "ignoreBaseId": ignoreBaseId},
+                "owners": {"ignoreIds": ignoreIds, "ignoreBaseIds": ignoreBaseIds},
+                "years": {"ignoreIds": ignoreIds, "ignoreBaseIds": ignoreBaseIds},
             },
         )
 

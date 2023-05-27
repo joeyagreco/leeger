@@ -20,7 +20,7 @@ class Division(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
         otherDivision: Division,
         *,
         ignoreIds: bool = False,
-        ignoreBaseId: bool = False,
+        ignoreBaseIds: bool = False,
         logDifferences: bool = False,
     ) -> bool:
         """
@@ -33,7 +33,7 @@ class Division(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
             baseFields={"name"},
             parentKey="Division",
             ignoreIdFields=ignoreIds,
-            ignoreBaseIdField=ignoreBaseId,
+            ignoreBaseIdField=ignoreBaseIds,
             logDifferences=logDifferences,
         )
 

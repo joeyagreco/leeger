@@ -20,7 +20,7 @@ class Owner(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
         otherOwner: Owner,
         *,
         ignoreIds: bool = False,
-        ignoreBaseId: bool = False,
+        ignoreBaseIds: bool = False,
         logDifferences: bool = False,
     ) -> bool:
         """
@@ -33,7 +33,7 @@ class Owner(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
             baseFields={"name"},
             parentKey="Owner",
             ignoreIdFields=ignoreIds,
-            ignoreBaseIdField=ignoreBaseId,
+            ignoreBaseIdField=ignoreBaseIds,
             logDifferences=logDifferences,
         )
 

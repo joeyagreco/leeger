@@ -46,7 +46,7 @@ class Matchup(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
         otherMatchup: Matchup,
         *,
         ignoreIds: bool = False,
-        ignoreBaseId: bool = False,
+        ignoreBaseIds: bool = False,
         logDifferences: bool = False,
     ) -> bool:
         """
@@ -66,7 +66,7 @@ class Matchup(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
             idFields={"teamAId", "teamBId", "multiWeekMatchupId"},
             parentKey="Matchup",
             ignoreIdFields=ignoreIds,
-            ignoreBaseIdField=ignoreBaseId,
+            ignoreBaseIdField=ignoreBaseIds,
             logDifferences=logDifferences,
         )
 

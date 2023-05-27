@@ -65,7 +65,7 @@ class TestPerformance(unittest.TestCase):
             matchupType=MatchupType.REGULAR_SEASON,
         )
 
-        self.assertTrue(performance_1.equals(performance_2, ignoreBaseId=True))
+        self.assertTrue(performance_1.equals(performance_2, ignoreBaseIds=True))
 
     def test_performance_eq_notEqual(self):
         # create Performance 1
@@ -88,7 +88,7 @@ class TestPerformance(unittest.TestCase):
             matchupType=MatchupType.REGULAR_SEASON,
         )
 
-        self.assertFalse(performance_1.equals(performance_2, ignoreBaseId=True))
+        self.assertFalse(performance_1.equals(performance_2, ignoreBaseIds=True))
 
     def test_performance_toJson(self):
         performance = Performance(
