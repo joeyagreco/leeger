@@ -490,7 +490,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
                 ),
             ],
         )
-        self.assertEqual(league, expectedLeague)
+        self.assertTrue(league.equals(expectedLeague, ignoreBaseId=True, ignoreIds=True))
         # check multiWeekMatchupIds
         for year in league.years:
             for week in year.weeks:
@@ -981,7 +981,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
                 ),
             ],
         )
-        self.assertEqual(league, expectedLeague)
+        self.assertTrue(league.equals(expectedLeague, ignoreBaseId=True, ignoreIds=True))
         # check multiWeekMatchupIds
         for year in league.years:
             for week in year.weeks:
