@@ -15,6 +15,7 @@ class Foo:
     field2: int
     idField1: str
     nestedField: Optional[Any] = None
+    id: str = ""
 
     def fooEquals(self, otherFoo: Any, *, ignoreIdFields: bool = False) -> bool:
         return modelEquals(
@@ -60,6 +61,32 @@ class TestEquality(unittest.TestCase):
         # basic equal object when ignoring id fields
         objA = Foo("a", 1, "id")
         objB = Foo("a", 1, "id2")
+
+        result = modelEquals(
+            objA=objA,
+            objB=objB,
+            baseFields={"field1", "field2"},
+            idFields={"idField1"},
+            ignoreIdFields=True,
+        )
+
+        self.assertTrue(result)
+        mockLogger.info.assert_not_called()
+
+        # basic unequal object when not ignoring id fields
+        objA = Foo("a", 1, "id")
+        objB = Foo("a", 1, "id2")
+
+        result = modelEquals(
+            objA=objA, objB=objB, baseFields={"field1", "field2"}, idFields={"idField1"}
+        )
+
+        self.assertFalse(result)
+        mockLogger.info.assert_not_called()
+        
+        # basic equal object when ignoring  base id field
+        objA = Foo("a", 1, "id", id="id1")
+        objB = Foo("a", 1, "id", id="id1")
         mockLogger.info.assert_not_called()
 
         result = modelEquals(
@@ -72,16 +99,16 @@ class TestEquality(unittest.TestCase):
 
         self.assertTrue(result)
 
-        # basic unequal object when not ignoring id fields
-        objA = Foo("a", 1, "id")
-        objB = Foo("a", 1, "id2")
-        mockLogger.info.assert_not_called()
+        # basic unequal object when not ignoring base id field
+        objA = Foo("a", 1, "id", id="id1")
+        objB = Foo("a", 1, "id", id="id2")
 
         result = modelEquals(
             objA=objA, objB=objB, baseFields={"field1", "field2"}, idFields={"idField1"}
         )
 
         self.assertFalse(result)
+        mockLogger.info.assert_not_called()
 
         # basic unequal object logging differences
         objA = Foo("a", 1, "id")
