@@ -46,6 +46,60 @@ class TestYear(unittest.TestCase):
         self.assertEqual(YearSettings(), year.yearSettings)
         self.assertEqual(list(), year.divisions)
 
+    def test_year_eq_callsEqualsMethod(self):
+        # create Year 1
+        _, teams_1 = getNDefaultOwnersAndTeams(2)
+
+        matchup_1 = Matchup(
+            teamAId=teams_1[0].id,
+            teamBId=teams_1[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
+        week_1 = Week(weekNumber=1, matchups=[matchup_1])
+        division_1 = Division(name="div")
+        yearSettings_1 = YearSettings(leagueMedianGames=True)
+        year_1 = Year(
+            yearNumber=2000,
+            teams=teams_1,
+            weeks=[week_1],
+            divisions=[division_1],
+            yearSettings=yearSettings_1,
+        )
+
+        # create Year 2
+        _, teams_2 = getNDefaultOwnersAndTeams(2)
+
+        matchup_2 = Matchup(
+            teamAId=teams_1[0].id,
+            teamBId=teams_1[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
+        week_2 = Week(weekNumber=1, matchups=[matchup_2])
+        division_2 = Division(name="div")
+        yearSettings_2 = YearSettings(leagueMedianGames=True)
+        year_2 = Year(
+            yearNumber=2000,
+            teams=teams_2,
+            weeks=[week_2],
+            divisions=[division_2],
+            yearSettings=yearSettings_2,
+        )
+
+        year_2.id = year_1.id
+        division_2.id = division_1.id
+        week_2.id = week_1.id
+        matchup_2.id = matchup_1.id
+        teams_2[0].id = teams_1[0].id
+        teams_2[1].id = teams_1[1].id
+        teams_2[0].ownerId = teams_1[0].ownerId
+        teams_2[1].ownerId = teams_1[1].ownerId
+
+        self.assertTrue(year_1 == year_2)
+
     def test_year_eq_equal(self):
         # create Year 1
         _, teams_1 = getNDefaultOwnersAndTeams(2)
@@ -89,7 +143,7 @@ class TestYear(unittest.TestCase):
             yearSettings=yearSettings_2,
         )
 
-        self.assertEqual(year_1, year_2)
+        self.assertTrue(year_1.equals(year_2, ignoreIds=True, ignoreBaseId=True))
 
     def test_year_eq_notEqual(self):
         # create Year 1

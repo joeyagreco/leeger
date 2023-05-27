@@ -11,9 +11,9 @@ from leeger.model.league.Week import Week
 from leeger.model.league.YearSettings import YearSettings
 from leeger.util.ConfigReader import ConfigReader
 from leeger.util.CustomLogger import CustomLogger
-from leeger.util.GeneralUtil import GeneralUtil
 from leeger.util.JSONDeserializable import JSONDeserializable
 from leeger.util.JSONSerializable import JSONSerializable
+from leeger.util.equality import modelEquals
 
 
 @dataclass(kw_only=True, eq=False)
@@ -34,27 +34,73 @@ class Year(UniqueId, JSONSerializable, JSONDeserializable):
     def __hash__(self):
         return hash(str(self.toJson()))
 
-    def __eq__(self, otherYear: Year) -> bool:
+    def equals(
+        self,
+        otherYear: Year,
+        *,
+        ignoreIds: bool = False,
+        ignoreBaseId: bool = False,
+        logDifferences: bool = False,
+    ) -> bool:
         """
         Checks if *this* Year is the same as the given Year.
-        Does not check for equality of IDs, just values.
         """
-        equal = self.yearNumber == otherYear.yearNumber
-        equal = equal and self.teams == otherYear.teams
-        equal = equal and self.weeks == otherYear.weeks
-        equal = equal and self.divisions == otherYear.divisions
-        equal = equal and self.yearSettings == otherYear.yearSettings
-        if not equal:
-            differences = GeneralUtil.findDifferentFields(
-                self.toJson(),
-                otherYear.toJson(),
-                parentKey="Year",
-                ignoreKeyNames=ConfigReader.get(
-                    "EQUALITY_CHECK", "IGNORE_KEY_NAMES", asType=list, propFile="league.properties"
-                ),
+
+        def listsEqual(
+            list1: list[Team | Week | Division],
+            list2: list[Team | Week | Division],
+            *,
+            ignoreIds: bool,
+            ignoreBaseId: bool,
+        ) -> bool:
+            if len(list1) != len(list2):
+                return False
+            equal = True
+            for item1, item2 in zip(list1, list2):
+                equal = equal and item1.equals(
+                    item2, ignoreIds=ignoreIds, ignoreBaseId=ignoreBaseId
+                )
+            return equal
+
+        def yearSettingsEqual(
+            yearSettings1: YearSettings,
+            yearSettings2: YearSettings,
+            *,
+            ignoreIds: bool,
+            ignoreBaseId: bool,
+        ) -> bool:
+            return yearSettings1.equals(
+                yearSettings2, ignoreIds=ignoreIds, ignoreBaseId=ignoreBaseId
             )
-            self.__LOGGER.info(f"Differences: {differences}")
-        return equal
+
+        return modelEquals(
+            objA=self,
+            objB=otherYear,
+            baseFields={"yearNumber", "teams", "weeks", "divisions", "yearSettings"},
+            parentKey="Year",
+            ignoreIdFields=ignoreIds,
+            ignoreBaseIdField=ignoreBaseId,
+            logDifferences=logDifferences,
+            ignoreKeyNames=ConfigReader.get(
+                "EQUALITY_CHECK", "IGNORE_KEY_NAMES", asType=list, propFile="league.properties"
+            ),
+            equalityFunctionMap={
+                "teams": listsEqual,
+                "weeks": listsEqual,
+                "divisions": listsEqual,
+                "yearSettings": yearSettingsEqual,
+            },
+            equalityFunctionKwargsMap={
+                "teams": {"ignoreIds": ignoreIds, "ignoreBaseId": ignoreBaseId},
+                "weeks": {"ignoreIds": ignoreIds, "ignoreBaseId": ignoreBaseId},
+                "divisions": {"ignoreIds": ignoreIds, "ignoreBaseId": ignoreBaseId},
+                "yearSettings": {"ignoreIds": ignoreIds, "ignoreBaseId": ignoreBaseId},
+            },
+        )
+
+    def __eq__(self, otherYear: Year) -> bool:
+        self.__LOGGER.info("Use .equals() for more options when comparing Year instances.")
+        return self.equals(otherYear=otherYear)
 
     def getTeamByName(self, teamName: str) -> Team:
         """
