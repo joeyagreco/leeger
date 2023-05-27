@@ -33,7 +33,7 @@ class TestWeek(unittest.TestCase):
         self.assertEqual(matchup3.id, week3.matchups[0].id)
 
     def test_isPlayoffWeek_weekHasPlayoffMatchups_returnsTrue(self):
-        owners, teams = getNDefaultOwnersAndTeams(2)
+        _, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(
             teamAId=teams[0].id,
@@ -51,7 +51,7 @@ class TestWeek(unittest.TestCase):
         self.assertTrue(response)
 
     def test_isPlayoffWeek_weekDoesNotHavePlayoffMatchups_returnsFalse(self):
-        owners, teams = getNDefaultOwnersAndTeams(2)
+        _, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(
             teamAId=teams[0].id,
@@ -69,7 +69,7 @@ class TestWeek(unittest.TestCase):
         self.assertFalse(response)
 
     def test_isChampionshipWeek_weekHasAChampionshipMatchup_returnsTrue(self):
-        owners, teams = getNDefaultOwnersAndTeams(2)
+        _, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(
             teamAId=teams[0].id,
@@ -90,7 +90,7 @@ class TestWeek(unittest.TestCase):
         self.assertTrue(response2)
 
     def test_isChampionshipWeek_weekDoesNotHaveAnyChampionshipMatchups_returnsFalse(self):
-        owners, teams = getNDefaultOwnersAndTeams(2)
+        _, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(
             teamAId=teams[0].id,
@@ -108,7 +108,7 @@ class TestWeek(unittest.TestCase):
         self.assertFalse(response)
 
     def test_isRegularSeasonWeek_weekHasAllRegularSeasonMatchups_returnsTrue(self):
-        owners, teams = getNDefaultOwnersAndTeams(4)
+        _, teams = getNDefaultOwnersAndTeams(4)
 
         matchup1 = Matchup(
             teamAId=teams[0].id,
@@ -133,7 +133,7 @@ class TestWeek(unittest.TestCase):
         self.assertTrue(response)
 
     def test_isChampionshipWeek_weekHasANonRegularSeasonMatchup_returnsFalse(self):
-        owners, teams = getNDefaultOwnersAndTeams(4)
+        _, teams = getNDefaultOwnersAndTeams(4)
 
         matchup1 = Matchup(
             teamAId=teams[0].id,
@@ -240,7 +240,7 @@ class TestWeek(unittest.TestCase):
         self.assertFalse(result)
 
     def test_week_toJson(self):
-        owners, teams = getNDefaultOwnersAndTeams(2)
+        _, teams = getNDefaultOwnersAndTeams(2)
 
         matchup_1 = Matchup(
             teamAId=teams[0].id,
@@ -264,7 +264,7 @@ class TestWeek(unittest.TestCase):
         self.assertFalse(weekJson["matchups"][0]["teamBHasTiebreaker"])
 
     def test_getMatchupWithTeamId_happyPath(self):
-        owners, teams = getNDefaultOwnersAndTeams(2)
+        _, teams = getNDefaultOwnersAndTeams(2)
 
         matchup_1 = Matchup(
             teamAId=teams[0].id,
@@ -279,7 +279,7 @@ class TestWeek(unittest.TestCase):
         self.assertEqual(matchup_1, response)
 
     def test_getMatchupWithTeamId_teamIdNotInMatchups_raisesException(self):
-        owners, teams = getNDefaultOwnersAndTeams(2)
+        _, teams = getNDefaultOwnersAndTeams(2)
 
         matchup_1 = Matchup(
             teamAId=teams[0].id,
@@ -297,7 +297,7 @@ class TestWeek(unittest.TestCase):
         )
 
     def test_week_fromJson(self):
-        owners, teams = getNDefaultOwnersAndTeams(2)
+        _, teams = getNDefaultOwnersAndTeams(2)
 
         matchup_1 = Matchup(
             teamAId=teams[0].id,
