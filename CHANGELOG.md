@@ -6,9 +6,10 @@ All notable changes to this project will be documented in this file.
 
 - Fixed a bug in the MyFantasyLeague League Loader where playoff Matchups could be ignored
 - Fixed a bug in the Sleeper League Loader where leagues with 1-week playoff rounds could be loaded incorrectly
-- Added Division model to league model flow (currently not used for calculations or league loading)
+- Integration Divisions into league models
+- Added Divisions to all League Loader flows
+- Added an .equals() method to each league model object, allowing for more customized model comparisons
 - Added better validation for league models
-- Added human-readable info logging with differences when comparing Owner, Performance, Team, Week, Year, and YearSettings models with "=="
 
 ## [2.4.0]
 
