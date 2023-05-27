@@ -42,7 +42,12 @@ class Matchup(UniqueId, JSONSerializable, JSONDeserializable):
             self.teamBHasTiebreaker = False
 
     def equals(
-        self, otherMatchup: Matchup, *, ignoreIds: bool = False, logDifferences: bool = False
+        self,
+        otherMatchup: Matchup,
+        *,
+        ignoreIds: bool = False,
+        ignoreBaseId: bool = False,
+        logDifferences: bool = False,
     ) -> bool:
         """
         Checks if *this* Matchup is the same as the given Matchup.
@@ -61,6 +66,7 @@ class Matchup(UniqueId, JSONSerializable, JSONDeserializable):
             idFields={"teamAId", "teamBId", "multiWeekMatchupId"},
             parentKey="Matchup",
             ignoreIdFields=ignoreIds,
+            ignoreBaseIdField=ignoreBaseId,
             logDifferences=logDifferences,
             ignoreKeyNames=ConfigReader.get(
                 "EQUALITY_CHECK", "IGNORE_KEY_NAMES", asType=list, propFile="league.properties"

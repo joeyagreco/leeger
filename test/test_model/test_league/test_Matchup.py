@@ -96,6 +96,8 @@ class TestMatchup(unittest.TestCase):
             matchupType=MatchupType.REGULAR_SEASON,
         )
 
+        matchup_2.id = matchup_1.id
+
         result = matchup_1 == matchup_2
 
         self.assertTrue(result)
@@ -121,7 +123,7 @@ class TestMatchup(unittest.TestCase):
             matchupType=MatchupType.REGULAR_SEASON,
         )
 
-        result = matchup_1.equals(matchup_2)
+        result = matchup_1.equals(matchup_2, ignoreBaseId=True)
 
         self.assertTrue(result)
 
