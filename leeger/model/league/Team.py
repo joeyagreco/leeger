@@ -8,7 +8,7 @@ from leeger.util.ConfigReader import ConfigReader
 from leeger.util.CustomLogger import CustomLogger
 from leeger.util.JSONDeserializable import JSONDeserializable
 from leeger.util.JSONSerializable import JSONSerializable
-from leeger.util.equality import equals
+from leeger.util.equality import modelEquals
 
 
 @dataclass(kw_only=True, eq=False)
@@ -25,7 +25,7 @@ class Team(UniqueId, JSONSerializable, JSONDeserializable):
         Checks if *this* Team is the same as the given Team.
         """
 
-        return equals(
+        return modelEquals(
             objA=self,
             objB=otherTeam,
             baseFields={"name"},

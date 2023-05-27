@@ -12,7 +12,7 @@ from leeger.util.ConfigReader import ConfigReader
 from leeger.util.CustomLogger import CustomLogger
 from leeger.util.JSONDeserializable import JSONDeserializable
 from leeger.util.JSONSerializable import JSONSerializable
-from leeger.util.equality import equals
+from leeger.util.equality import modelEquals
 
 
 @dataclass(kw_only=True, eq=False)
@@ -48,7 +48,7 @@ class Matchup(UniqueId, JSONSerializable, JSONDeserializable):
         Checks if *this* Matchup is the same as the given Matchup.
         """
 
-        return equals(
+        return modelEquals(
             objA=self,
             objB=otherMatchup,
             baseFields={

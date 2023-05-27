@@ -7,7 +7,7 @@ from leeger.util.ConfigReader import ConfigReader
 from leeger.util.CustomLogger import CustomLogger
 from leeger.util.JSONDeserializable import JSONDeserializable
 from leeger.util.JSONSerializable import JSONSerializable
-from leeger.util.equality import equals
+from leeger.util.equality import modelEquals
 
 
 @dataclass(kw_only=True, eq=False)
@@ -22,7 +22,7 @@ class Division(UniqueId, JSONSerializable, JSONDeserializable):
         Checks if *this* Division is the same as the given Division.
         """
 
-        return equals(
+        return modelEquals(
             objA=self,
             objB=otherDivision,
             baseFields={"name"},

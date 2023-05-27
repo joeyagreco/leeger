@@ -4,7 +4,7 @@ from leeger.util.CustomLogger import CustomLogger
 from leeger.util.GeneralUtil import GeneralUtil
 
 
-def equals(
+def modelEquals(
     *,
     objA: Any,
     objB: Any,

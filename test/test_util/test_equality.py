@@ -3,7 +3,7 @@ import unittest
 
 from typing import Any, Optional
 
-from leeger.util.equality import equals
+from leeger.util.equality import modelEquals
 from unittest.mock import patch
 
 # helper stuff
@@ -17,7 +17,7 @@ class Foo:
     nestedField: Optional[Any] = None
 
     def fooEquals(self, otherFoo: Any, *, ignoreIdFields: bool = False) -> bool:
-        return equals(
+        return modelEquals(
             objA=self,
             objB=otherFoo,
             baseFields={"field1", "field2", "nestedField"},
@@ -39,7 +39,7 @@ class TestEquality(unittest.TestCase):
         objA = Foo("a", 1, "id")
         objB = Foo("a", 1, "id")
 
-        result = equals(
+        result = modelEquals(
             objA=objA, objB=objB, baseFields={"field1", "field2"}, idFields={"idField1"}
         )
 
@@ -50,7 +50,7 @@ class TestEquality(unittest.TestCase):
         objA = Foo("a", 1, "id")
         objB = Foo("b", 1, "id")
 
-        result = equals(
+        result = modelEquals(
             objA=objA, objB=objB, baseFields={"field1", "field2"}, idFields={"idField1"}
         )
 
@@ -62,7 +62,7 @@ class TestEquality(unittest.TestCase):
         objB = Foo("a", 1, "id2")
         mockLogger.info.assert_not_called()
 
-        result = equals(
+        result = modelEquals(
             objA=objA,
             objB=objB,
             baseFields={"field1", "field2"},
@@ -77,7 +77,7 @@ class TestEquality(unittest.TestCase):
         objB = Foo("a", 1, "id2")
         mockLogger.info.assert_not_called()
 
-        result = equals(
+        result = modelEquals(
             objA=objA, objB=objB, baseFields={"field1", "field2"}, idFields={"idField1"}
         )
 
@@ -87,7 +87,7 @@ class TestEquality(unittest.TestCase):
         objA = Foo("a", 1, "id")
         objB = Foo("b", 1, "id")
 
-        result = equals(
+        result = modelEquals(
             objA=objA,
             objB=objB,
             baseFields={"field1", "field2"},
@@ -103,7 +103,7 @@ class TestEquality(unittest.TestCase):
         objA = Foo("a", 1, "id")
         objB = Foo("b", 1, "id")
 
-        result = equals(
+        result = modelEquals(
             objA=objA,
             objB=objB,
             baseFields={"field1", "field2"},
@@ -120,7 +120,7 @@ class TestEquality(unittest.TestCase):
         objA = Foo("a", 1, "id")
         objB = Foo("b", 1, "id")
 
-        result = equals(
+        result = modelEquals(
             objA=objA,
             objB=objB,
             baseFields={"field1", "field2"},
@@ -140,7 +140,7 @@ class TestEquality(unittest.TestCase):
         def checkField1(a, b, **kwargs):
             return a == b
 
-        result = equals(
+        result = modelEquals(
             objA=objA,
             objB=objB,
             baseFields={"field1", "field2"},
@@ -158,7 +158,7 @@ class TestEquality(unittest.TestCase):
         def checkField1(a, b, **kwargs):
             return False
 
-        result = equals(
+        result = modelEquals(
             objA=objA,
             objB=objB,
             baseFields={"field1", "field2"},
@@ -181,7 +181,7 @@ class TestEquality(unittest.TestCase):
                 equals = equals and curA.fooEquals(curB, **kwargs)
             return equals
 
-        result = equals(
+        result = modelEquals(
             objA=objA,
             objB=objB,
             baseFields={"field1", "field2", "nestedField"},
@@ -204,7 +204,7 @@ class TestEquality(unittest.TestCase):
                 equals = equals and curA.fooEquals(curB, **kwargs)
             return equals
 
-        result = equals(
+        result = modelEquals(
             objA=objA,
             objB=objB,
             baseFields={"field1", "field2", "nestedField"},
