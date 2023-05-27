@@ -20,20 +20,31 @@ class Week(UniqueId, JSONSerializable, JSONDeserializable):
     matchups: list[Matchup]
 
     def equals(
-        self, otherWeek: Week, *, ignoreIds: bool = False, logDifferences: bool = False
+        self,
+        otherWeek: Week,
+        *,
+        ignoreIds: bool = False,
+        ignoreBaseId: bool = False,
+        logDifferences: bool = False,
     ) -> bool:
         """
         Checks if *this* Week is the same as the given Week.
         """
 
         def matchupsEqual(
-            matchupList1: list[Matchup], matchupList2: list[Matchup], *, ignoreIds: bool
+            matchupList1: list[Matchup],
+            matchupList2: list[Matchup],
+            *,
+            ignoreIds: bool,
+            ignoreBaseId: bool,
         ) -> bool:
             if len(matchupList1) != len(matchupList2):
                 return False
             equal = True
             for matchup1, matchup2 in zip(matchupList1, matchupList2):
-                equal = equal and matchup1.equals(matchup2, ignoreIds=ignoreIds)
+                equal = equal and matchup1.equals(
+                    matchup2, ignoreIds=ignoreIds, ignoreBaseId=ignoreBaseId
+                )
             return equal
 
         return modelEquals(
@@ -42,12 +53,15 @@ class Week(UniqueId, JSONSerializable, JSONDeserializable):
             baseFields={"weekNumber", "matchups"},
             parentKey="Week",
             ignoreIdFields=ignoreIds,
+            ignoreBaseIdField=ignoreBaseId,
             logDifferences=logDifferences,
             ignoreKeyNames=ConfigReader.get(
                 "EQUALITY_CHECK", "IGNORE_KEY_NAMES", asType=list, propFile="league.properties"
             ),
             equalityFunctionMap={"matchups": matchupsEqual},
-            equalityFunctionKwargsMap={"matchups": {"ignoreIds": ignoreIds}},
+            equalityFunctionKwargsMap={
+                "matchups": {"ignoreIds": ignoreIds, "ignoreBaseId": ignoreBaseId}
+            },
         )
 
     def __eq__(self, otherWeek: Week) -> bool:
