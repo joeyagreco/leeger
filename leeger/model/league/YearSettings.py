@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from typing import Optional
-from leeger.util.ConfigReader import ConfigReader
 from leeger.util.CustomLogger import CustomLogger
 
 from leeger.util.JSONDeserializable import JSONDeserializable
@@ -39,9 +38,6 @@ class YearSettings(JSONSerializable, JSONDeserializable):
             ignoreIdFields=ignoreIds,
             ignoreBaseIdField=ignoreBaseId,
             logDifferences=logDifferences,
-            ignoreKeyNames=ConfigReader.get(
-                "EQUALITY_CHECK", "IGNORE_KEY_NAMES", asType=list, propFile="league.properties"
-            ),
         )
 
     def __eq__(self, otherYearSettings: YearSettings) -> bool:

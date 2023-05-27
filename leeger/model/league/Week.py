@@ -6,7 +6,6 @@ from leeger.enum.MatchupType import MatchupType
 from leeger.exception import DoesNotExistException
 from leeger.model.abstract.UniqueId import UniqueId
 from leeger.model.league.Matchup import Matchup
-from leeger.util.ConfigReader import ConfigReader
 from leeger.util.CustomLogger import CustomLogger
 from leeger.util.JSONDeserializable import JSONDeserializable
 from leeger.util.JSONSerializable import JSONSerializable
@@ -55,9 +54,6 @@ class Week(UniqueId, JSONSerializable, JSONDeserializable):
             ignoreIdFields=ignoreIds,
             ignoreBaseIdField=ignoreBaseId,
             logDifferences=logDifferences,
-            ignoreKeyNames=ConfigReader.get(
-                "EQUALITY_CHECK", "IGNORE_KEY_NAMES", asType=list, propFile="league.properties"
-            ),
             equalityFunctionMap={"matchups": matchupsEqual},
             equalityFunctionKwargsMap={
                 "matchups": {"ignoreIds": ignoreIds, "ignoreBaseId": ignoreBaseId}

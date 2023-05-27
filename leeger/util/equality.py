@@ -14,7 +14,6 @@ def modelEquals(
     ignoreIdFields: bool = False,
     ignoreBaseIdField: bool = False,
     logDifferences: bool = False,
-    ignoreKeyNames: Optional[list[str]] = None,
     toJsonMethodName: str = "toJson",
     equalityFunctionMap: Optional[dict[str, callable]] = None,
     equalityFunctionKwargsMap: Optional[dict[str, dict]] = None,
@@ -30,7 +29,6 @@ def modelEquals(
     ignoreIds: whether to compare id fields or not (does not include 'id' for any model)
     ignoreBaseIdField: whether to compare base id fields (id) or not
     logDifferences: whether to log differences in the case of inequality or not
-    ignoreKeyNames: list of key names to ignore when logging differences
     toJsonMethodName: the name of the method to call on these objects that will return the JSON representation of it
     equalityFunctionMap: maps the names of fields to a custom equality function that should be called for them*
     equalityFunctionKwargsMap: maps the names of fields to the kwargs that should be passed into their equalityFunctionMap
@@ -76,7 +74,11 @@ def modelEquals(
             equal = False
 
     if not equal and logDifferences:
-        ignoreKeyNames = list() if ignoreKeyNames is None else ignoreKeyNames
+        ignoreKeyNames = list()
+        if ignoreIdFields:
+            ignoreKeyNames += idFields
+        if ignoreBaseIdField:
+            ignoreKeyNames.append("id")
         objAJson = getattr(objA, toJsonMethodName)()
         objBJson = getattr(objB, toJsonMethodName)()
         differences = GeneralUtil.findDifferentFields(
