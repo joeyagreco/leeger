@@ -19,6 +19,7 @@ from leeger.util.excel_helper import (
     yearMatchupsStatSheet,
     allTimeMatchupsStatSheet,
 )
+from leeger.util.navigator.YearNavigator import YearNavigator
 from leeger.util.stat_sheet import yearStatSheet, leagueStatSheet
 
 
@@ -78,6 +79,7 @@ def leagueToExcel(league: League, filePath: Optional[str] = None, **kwargs) -> W
     allTimeTeamsStatSheet_ = allTimeTeamsStatSheet(league, **kwargs.copy())
 
     allTimeFilters = AllTimeFilters.preferredOrderWithTitle(league, **kwargs.copy())
+
     _populateWorksheet(
         worksheet=worksheet,
         workbook=workbook,
@@ -86,7 +88,8 @@ def leagueToExcel(league: League, filePath: Optional[str] = None, **kwargs) -> W
         entityIds=allTimeTeamIds,
         entityIdToColorMap=teamIdToColorMap,
         legendKeyValues=allTimeFilters,
-        freezePanes="D2",
+        # TODO: need logic here to see if we do NOT have a division column and if so, move the frozen panes to the left 1 column
+        freezePanes="E2",
         saveToFilepath=filePath,
     )
 
@@ -172,12 +175,19 @@ def _yearToExcel(year: Year, workbook: Optional[Workbook] = None, **kwargs) -> W
     # make sure we have the same color for owners and their teams across sheets
     ownerIdToSeedMap = dict()
     teamIdToNameMap = dict()
+    teamIdToDivisionNameMap = dict()
     for team in year.teams:
         ownerIdToSeedMap[team.ownerId] = f"{team.ownerId}{datetime.now().date()}"
         teamIdToNameMap[team.id] = team.name
+        if team.divisionId:
+            teamIdToDivisionNameMap[team.id] = YearNavigator.getDivisionById(
+                year, team.divisionId
+            ).name
     ownerIdToColorMap = dict()
     for ownerId, seed in ownerIdToSeedMap.items():
         ownerIdToColorMap[ownerId] = _getRandomColor(0.5, seed)
+
+    freezePanes = "B2"
 
     teamIdToColorMap = dict()
     teamIds = list()
@@ -189,7 +199,9 @@ def _yearToExcel(year: Year, workbook: Optional[Workbook] = None, **kwargs) -> W
 
     yearStatsWithTitles = yearStatSheet(year, **kwargs.copy()).preferredOrderWithTitle()
     yearStatsWithTitles.insert(0, ("Team", teamIdToNameMap))
-    yearStatsWithTitles.insert(1, ("foo", teamIdToNameMap))
+    if len(year.divisions) > 0:
+        yearStatsWithTitles.insert(1, ("Division", teamIdToDivisionNameMap))
+        freezePanes = "C2"
     # save Year teams to Excel sheet
     _populateWorksheet(
         worksheet=worksheet,
@@ -199,7 +211,7 @@ def _yearToExcel(year: Year, workbook: Optional[Workbook] = None, **kwargs) -> W
         entityIds=teamIds,
         entityIdToColorMap=teamIdToColorMap,
         legendKeyValues=yearFilters,
-        freezePanes="B2",
+        freezePanes=freezePanes,
     )
 
     (yearMatchupsWithTitles, modifiedMatchupIdToOwnerIdMap) = yearMatchupsStatSheet(
