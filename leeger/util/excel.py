@@ -160,7 +160,7 @@ def _yearToExcel(year: Year, workbook: Optional[Workbook] = None, **kwargs) -> W
         # figure out index to put this sheet into
         # we want the years as sheets in order from oldest -> newest year
         index = 0
-        for i, sheetname in enumerate(workbook.sheetnames):
+        for sheetname in workbook.sheetnames:
             if year.yearNumber > int(sheetname[:5]):
                 index += 1
         workbook.create_sheet(f"{year.yearNumber} Teams", index=index)
@@ -189,6 +189,7 @@ def _yearToExcel(year: Year, workbook: Optional[Workbook] = None, **kwargs) -> W
 
     yearStatsWithTitles = yearStatSheet(year, **kwargs.copy()).preferredOrderWithTitle()
     yearStatsWithTitles.insert(0, ("Team", teamIdToNameMap))
+    yearStatsWithTitles.insert(1, ("foo", teamIdToNameMap))
     # save Year teams to Excel sheet
     _populateWorksheet(
         worksheet=worksheet,
