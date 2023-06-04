@@ -26,7 +26,7 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
     @mock.patch("pymfl.api.CommonLeagueInfoAPIClient.get_league")
     @mock.patch("pymfl.api.CommonLeagueInfoAPIClient.get_schedule")
     @mock.patch("pymfl.api.CommonLeagueInfoAPIClient.get_playoff_bracket")
-    def test_loadLeague_happyPath_noOwnerNamesAndAliases(
+    def test_loadLeague_happyPath(
         self, mockGetPlayoffBracket, mockGetSchedule, mockGetLeague, mockAddConfig
     ):
         """
@@ -1545,3 +1545,428 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
             for week in year.weeks:
                 for matchup in week.matchups:
                     self.assertIsNone(matchup.multiWeekMatchupId)
+
+    @mock.patch("pymfl.api.config.APIConfig.add_config_for_year_and_league_id")
+    @mock.patch("pymfl.api.CommonLeagueInfoAPIClient.get_league")
+    @mock.patch("pymfl.api.CommonLeagueInfoAPIClient.get_schedule")
+    @mock.patch("pymfl.api.CommonLeagueInfoAPIClient.get_playoff_bracket")
+    def test_loadLeague_withLeagueName(
+        self, mockGetPlayoffBracket, mockGetSchedule, mockGetLeague, mockAddConfig
+    ):
+        mockFranchise1_2022 = {"owner_name": "Owner 1", "name": "Team 1", "id": 1, "division": "1"}
+        mockFranchise2_2022 = {"owner_name": "Owner 2", "name": "Team 2", "id": 2, "division": "1"}
+        mockFranchise3_2022 = {"owner_name": "Owner 3", "name": "Team 3", "id": 3, "division": "1"}
+        mockFranchise4_2022 = {"owner_name": "Owner 4", "name": "Team 4", "id": 4, "division": "1"}
+        mockFranchise5_2022 = {"owner_name": "Owner 5", "name": "Team 5", "id": 5, "division": "2"}
+        mockFranchise6_2022 = {"owner_name": "Owner 6", "name": "Team 6", "id": 6, "division": "2"}
+        mockFranchise7_2022 = {"owner_name": "Owner 7", "name": "Team 7", "id": 7, "division": "2"}
+        mockFranchise8_2022 = {"owner_name": "Owner 8", "name": "Team 8", "id": 8, "division": "2"}
+
+        mockFranchise1_2023 = {"owner_name": "Owner 1", "name": "Team 1", "id": 1, "division": "1"}
+        mockFranchise2_2023 = {"owner_name": "Owner 2", "name": "Team 2", "id": 2, "division": "1"}
+        mockFranchise3_2023 = {"owner_name": "Owner 3", "name": "Team 3", "id": 3, "division": "1"}
+        mockFranchise4_2023 = {"owner_name": "Owner 4", "name": "Team 4", "id": 4, "division": "1"}
+        mockFranchise5_2023 = {"owner_name": "Owner 5", "name": "Team 5", "id": 5, "division": "2"}
+        mockFranchise6_2023 = {"owner_name": "Owner 6", "name": "Team 6", "id": 6, "division": "2"}
+        mockFranchise7_2023 = {"owner_name": "Owner 7", "name": "Team 7", "id": 7, "division": "2"}
+        mockFranchise8_2023 = {"owner_name": "Owner 8", "name": "Team 8", "id": 8, "division": "2"}
+
+        mockFranchise1_2024 = {"owner_name": "Owner 1", "name": "Team 1", "id": 1, "division": "1"}
+        mockFranchise2_2024 = {"owner_name": "Owner 2", "name": "Team 2", "id": 2, "division": "1"}
+        mockFranchise3_2024 = {"owner_name": "Owner 3", "name": "Team 3", "id": 3, "division": "1"}
+        mockFranchise4_2024 = {"owner_name": "Owner 4", "name": "Team 4", "id": 4, "division": "1"}
+        mockFranchise5_2024 = {"owner_name": "Owner 5", "name": "Team 5", "id": 5, "division": "2"}
+        mockFranchise6_2024 = {"owner_name": "Owner 6", "name": "Team 6", "id": 6, "division": "2"}
+        mockFranchise7_2024 = {"owner_name": "Owner 7", "name": "Team 7", "id": 7, "division": "2"}
+        mockFranchise8_2024 = {"owner_name": "Owner 8", "name": "Team 8", "id": 8, "division": "2"}
+
+        mockLeague2022 = {
+            "league": {
+                "id": 123,
+                "name": "Test League 2022",
+                "lastRegularSeasonWeek": "1",
+                "franchises": {
+                    "franchise": [
+                        mockFranchise1_2022,
+                        mockFranchise2_2022,
+                        mockFranchise3_2022,
+                        mockFranchise4_2022,
+                        mockFranchise5_2022,
+                        mockFranchise6_2022,
+                        mockFranchise7_2022,
+                        mockFranchise8_2022,
+                    ]
+                },
+                "divisions": {
+                    "division": [{"id": "1", "name": "d1_2022"}, {"id": "2", "name": "d2_2022"}]
+                },
+            }
+        }
+
+        mockLeague2023 = {
+            "league": {
+                "id": 456,
+                "name": "Test League 2023",
+                "lastRegularSeasonWeek": "1",
+                "franchises": {
+                    "franchise": [
+                        mockFranchise1_2023,
+                        mockFranchise2_2023,
+                        mockFranchise3_2023,
+                        mockFranchise4_2023,
+                        mockFranchise5_2023,
+                        mockFranchise6_2023,
+                        mockFranchise7_2023,
+                        mockFranchise8_2023,
+                    ]
+                },
+                "divisions": {
+                    "division": [{"id": "1", "name": "d1_2023"}, {"id": "2", "name": "d2_2023"}]
+                },
+            }
+        }
+
+        mockLeague2024 = {
+            "league": {
+                "id": 789,
+                "name": "Test League 2024",
+                "lastRegularSeasonWeek": "1",
+                "franchises": {
+                    "franchise": [
+                        mockFranchise1_2024,
+                        mockFranchise2_2024,
+                        mockFranchise3_2024,
+                        mockFranchise4_2024,
+                        mockFranchise5_2024,
+                        mockFranchise6_2024,
+                        mockFranchise7_2024,
+                        mockFranchise8_2024,
+                    ]
+                },
+                "divisions": {
+                    "division": [{"id": "1", "name": "d1_2024"}, {"id": "2", "name": "d2_2024"}]
+                },
+            }
+        }
+
+        mockSchedule2022 = {
+            "schedule": {
+                "weeklySchedule": [
+                    {
+                        "week": "1",
+                        "matchup": [
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise1_2022, score=100, result="W"
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise2_2022, score=100, result="L"
+                                    ),
+                                ]
+                            },
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise3_2022, score=100.1, result="W"
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise4_2022, score=90.1, result="L"
+                                    ),
+                                ]
+                            },
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise5_2022, score=101, result="W"
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise6_2022, score=91, result="L"
+                                    ),
+                                ]
+                            },
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise7_2022, score=102, result="W"
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise8_2022, score=92, result="L"
+                                    ),
+                                ]
+                            },
+                        ],
+                    },
+                    {
+                        "week": "2",
+                        "matchup": [
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise2_2022, score=103, result="W"
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise3_2022, score=93, result="L"
+                                    ),
+                                ]
+                            }
+                        ],
+                    },
+                    {
+                        "week": "3",
+                        "matchup": [
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise1_2022, score=104, result="W"
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise2_2022, score=94, result="L"
+                                    ),
+                                ]
+                            }
+                        ],
+                    },
+                ]
+            }
+        }
+
+        mockSchedule2023 = {
+            "schedule": {
+                "weeklySchedule": [
+                    {
+                        "week": "1",
+                        "matchup": [
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise1_2023, score=100, result="W"
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise2_2023, score=100, result="L"
+                                    ),
+                                ]
+                            },
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise3_2023, score=100.1, result="W"
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise4_2023, score=90.1, result="L"
+                                    ),
+                                ]
+                            },
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise5_2023, score=101, result="W"
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise6_2023, score=91, result="L"
+                                    ),
+                                ]
+                            },
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise7_2023, score=102, result="W"
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise8_2023, score=92, result="L"
+                                    ),
+                                ]
+                            },
+                        ],
+                    },
+                    {
+                        "week": "2",
+                        "matchup": [
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise2_2023, score=103, result="W"
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise3_2023, score=93, result="L"
+                                    ),
+                                ]
+                            },
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise4_2023, score=103, result="W"
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise5_2023, score=93, result="L"
+                                    ),
+                                ]
+                            },
+                        ],
+                    },
+                    {
+                        "week": "3",
+                        "matchup": [
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise2_2023, score=104, result="W"
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise3_2023, score=94, result="L"
+                                    ),
+                                ]
+                            }
+                        ],
+                    },
+                    {
+                        "week": "4",
+                        "matchup": [
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise1_2023, score=104, result="W"
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise2_2023, score=94, result="L"
+                                    ),
+                                ]
+                            }
+                        ],
+                    },
+                ]
+            }
+        }
+
+        mockSchedule2024 = {
+            "schedule": {
+                "weeklySchedule": [
+                    {
+                        "week": "1",
+                        "matchup": [
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise1_2022, score=100, result="W"
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise2_2022, score=100, result="L"
+                                    ),
+                                ]
+                            },
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise3_2022, score=100.1, result="W"
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise4_2022, score=90.1, result="L"
+                                    ),
+                                ]
+                            },
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise5_2022, score=101, result="W"
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise6_2022, score=91, result="L"
+                                    ),
+                                ]
+                            },
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise7_2022, score=102, result="W"
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise8_2022, score=92, result="L"
+                                    ),
+                                ]
+                            },
+                        ],
+                    },
+                    {
+                        "week": "2",
+                        "matchup": [
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise1_2022, score=103, result="W"
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise2_2022, score=93, result="L"
+                                    ),
+                                ]
+                            }
+                        ],
+                    },
+                ]
+            }
+        }
+
+        mockPlayoffSchedule_2022 = {
+            "playoffBracket": {
+                "playoffRound": [
+                    {
+                        "week": 2,
+                        "playoffGame": {"away": {"franchise_id": 2}, "home": {"franchise_id": 3}},
+                    },
+                    {
+                        "week": 3,
+                        "playoffGame": {"away": {"franchise_id": 1}, "home": {"franchise_id": 2}},
+                    },
+                ]
+            }
+        }
+
+        mockPlayoffSchedule_2023 = {
+            "playoffBracket": {
+                "playoffRound": [
+                    {
+                        "week": 2,
+                        "playoffGame": [
+                            {"away": {"franchise_id": 2}, "home": {"franchise_id": 3}},
+                            {"away": {"franchise_id": 4}, "home": {"franchise_id": 5}},
+                        ],
+                    },
+                    {
+                        "week": 3,
+                        "playoffGame": {"away": {"franchise_id": 2}, "home": {"franchise_id": 4}},
+                    },
+                    {
+                        "week": 4,
+                        "playoffGame": {"away": {"franchise_id": 1}, "home": {"franchise_id": 2}},
+                    },
+                ]
+            }
+        }
+
+        mockPlayoffSchedule_2024 = {
+            "playoffBracket": {
+                "playoffRound": {
+                    "week": 2,
+                    "playoffGame": {"away": {"franchise_id": 1}, "home": {"franchise_id": 2}},
+                }
+            }
+        }
+
+        mockGetLeague.side_effect = [mockLeague2022, mockLeague2023, mockLeague2024]
+        mockGetSchedule.side_effect = [mockSchedule2022, mockSchedule2023, mockSchedule2024]
+        mockGetPlayoffBracket.side_effect = [
+            mockPlayoffSchedule_2022,
+            mockPlayoffSchedule_2023,
+            mockPlayoffSchedule_2024,
+        ]
+
+        leagueLoader = MyFantasyLeagueLeagueLoader(
+            "789",
+            [2022, 2023, 2024],
+            mflUsername="mflu",
+            mflPassword="mflp",
+            mflUserAgentName="mfluan",
+            leagueName="custom name",
+        )
+        league = leagueLoader.loadLeague()
+
+        self.assertEqual("custom name", league.name)

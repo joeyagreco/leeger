@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 - Added Divisions to all League Loader flows
 - Added Division column to Excel sheets
 - Added an .equals() method to each league model object, allowing for more customized model comparisons
+- Added the ability to pass a custom league name for each League Loader
 - Added better validation for league models
 
 ## [2.4.0]
