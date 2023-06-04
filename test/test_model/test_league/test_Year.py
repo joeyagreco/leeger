@@ -3,6 +3,7 @@ import unittest
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception import DoesNotExistException
 from leeger.model.league import YearSettings
+from leeger.model.league.Division import Division
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Team import Team
 from leeger.model.league.Week import Week
@@ -14,14 +15,22 @@ class TestYear(unittest.TestCase):
     def test_year_init(self):
         week = Week(weekNumber=1, matchups=[])
         team = Team(ownerId="", name="")
+        division = Division(name="")
         yearSettings = YearSettings(leagueMedianGames=True)
-        year = Year(yearNumber=2000, teams=[team], weeks=[week], yearSettings=yearSettings)
+        year = Year(
+            yearNumber=2000,
+            teams=[team],
+            weeks=[week],
+            divisions=[division],
+            yearSettings=yearSettings,
+        )
 
         self.assertEqual(2000, year.yearNumber)
         self.assertEqual(1, len(year.teams))
         self.assertEqual(1, len(year.weeks))
         self.assertEqual(week.id, year.weeks[0].id)
         self.assertEqual(team.id, year.teams[0].id)
+        self.assertEqual(division.id, year.divisions[0].id)
         self.assertTrue(year.yearSettings.leagueMedianGames)
 
     def test_year_init_default(self):
@@ -35,10 +44,11 @@ class TestYear(unittest.TestCase):
         self.assertEqual(week.id, year.weeks[0].id)
         self.assertEqual(team.id, year.teams[0].id)
         self.assertEqual(YearSettings(), year.yearSettings)
+        self.assertEqual(list(), year.divisions)
 
-    def test_year_eq_equal(self):
+    def test_year_eq_callsEqualsMethod(self):
         # create Year 1
-        owners_1, teams_1 = getNDefaultOwnersAndTeams(2)
+        _, teams_1 = getNDefaultOwnersAndTeams(2)
 
         matchup_1 = Matchup(
             teamAId=teams_1[0].id,
@@ -48,11 +58,72 @@ class TestYear(unittest.TestCase):
             matchupType=MatchupType.REGULAR_SEASON,
         )
         week_1 = Week(weekNumber=1, matchups=[matchup_1])
+        division_1 = Division(name="div")
         yearSettings_1 = YearSettings(leagueMedianGames=True)
-        year_1 = Year(yearNumber=2000, teams=teams_1, weeks=[week_1], yearSettings=yearSettings_1)
+        year_1 = Year(
+            yearNumber=2000,
+            teams=teams_1,
+            weeks=[week_1],
+            divisions=[division_1],
+            yearSettings=yearSettings_1,
+        )
 
         # create Year 2
-        owners_2, teams_2 = getNDefaultOwnersAndTeams(2)
+        _, teams_2 = getNDefaultOwnersAndTeams(2)
+
+        matchup_2 = Matchup(
+            teamAId=teams_1[0].id,
+            teamBId=teams_1[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
+        week_2 = Week(weekNumber=1, matchups=[matchup_2])
+        division_2 = Division(name="div")
+        yearSettings_2 = YearSettings(leagueMedianGames=True)
+        year_2 = Year(
+            yearNumber=2000,
+            teams=teams_2,
+            weeks=[week_2],
+            divisions=[division_2],
+            yearSettings=yearSettings_2,
+        )
+
+        year_2.id = year_1.id
+        division_2.id = division_1.id
+        week_2.id = week_1.id
+        matchup_2.id = matchup_1.id
+        teams_2[0].id = teams_1[0].id
+        teams_2[1].id = teams_1[1].id
+        teams_2[0].ownerId = teams_1[0].ownerId
+        teams_2[1].ownerId = teams_1[1].ownerId
+
+        self.assertTrue(year_1 == year_2)
+
+    def test_year_eq_equal(self):
+        # create Year 1
+        _, teams_1 = getNDefaultOwnersAndTeams(2)
+
+        matchup_1 = Matchup(
+            teamAId=teams_1[0].id,
+            teamBId=teams_1[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+            matchupType=MatchupType.REGULAR_SEASON,
+        )
+        week_1 = Week(weekNumber=1, matchups=[matchup_1])
+        division_1 = Division(name="div")
+        yearSettings_1 = YearSettings(leagueMedianGames=True)
+        year_1 = Year(
+            yearNumber=2000,
+            teams=teams_1,
+            weeks=[week_1],
+            divisions=[division_1],
+            yearSettings=yearSettings_1,
+        )
+
+        # create Year 2
+        _, teams_2 = getNDefaultOwnersAndTeams(2)
 
         matchup_2 = Matchup(
             teamAId=teams_2[0].id,
@@ -62,14 +133,21 @@ class TestYear(unittest.TestCase):
             matchupType=MatchupType.REGULAR_SEASON,
         )
         week_2 = Week(weekNumber=1, matchups=[matchup_2])
+        division_2 = Division(name="div")
         yearSettings_2 = YearSettings(leagueMedianGames=True)
-        year_2 = Year(yearNumber=2000, teams=teams_2, weeks=[week_2], yearSettings=yearSettings_2)
+        year_2 = Year(
+            yearNumber=2000,
+            teams=teams_2,
+            weeks=[week_2],
+            divisions=[division_2],
+            yearSettings=yearSettings_2,
+        )
 
-        self.assertEqual(year_1, year_2)
+        self.assertTrue(year_1.equals(year_2, ignoreIds=True, ignoreBaseIds=True))
 
     def test_year_eq_notEqual(self):
         # create Year 1
-        owners_1, teams_1 = getNDefaultOwnersAndTeams(2)
+        _, teams_1 = getNDefaultOwnersAndTeams(2)
 
         matchup_1 = Matchup(
             teamAId=teams_1[0].id,
@@ -82,7 +160,7 @@ class TestYear(unittest.TestCase):
         year_1 = Year(yearNumber=2000, teams=teams_1, weeks=[week_1])
 
         # create Year 2
-        owners_2, teams_2 = getNDefaultOwnersAndTeams(2)
+        _, teams_2 = getNDefaultOwnersAndTeams(2)
 
         matchup_2 = Matchup(
             teamAId=teams_2[0].id,
@@ -96,8 +174,8 @@ class TestYear(unittest.TestCase):
 
         self.assertNotEqual(year_1, year_2)
 
-    def test_year_toJson(self):
-        owners, teams = getNDefaultOwnersAndTeams(2)
+    def test_toFromJson(self):
+        _, teams = getNDefaultOwnersAndTeams(2)
 
         matchup_1 = Matchup(
             teamAId=teams[0].id,
@@ -107,29 +185,20 @@ class TestYear(unittest.TestCase):
             matchupType=MatchupType.REGULAR_SEASON,
         )
         week_1 = Week(weekNumber=1, matchups=[matchup_1])
+        division_1 = Division(name="div")
         yearSettings = YearSettings(leagueMedianGames=True)
-        year = Year(yearNumber=2000, teams=teams, weeks=[week_1], yearSettings=yearSettings)
-        yearJson = year.toJson()
+        year = Year(
+            yearNumber=2000,
+            teams=teams,
+            weeks=[week_1],
+            divisions=[division_1],
+            yearSettings=yearSettings,
+        )
 
-        self.assertIsInstance(yearJson, dict)
-        self.assertEqual(2000, yearJson["yearNumber"])
-        self.assertEqual(2, len(yearJson["teams"]))
-        self.assertEqual("1", yearJson["teams"][0]["name"])
-        self.assertEqual("2", yearJson["teams"][1]["name"])
-        self.assertEqual(1, len(yearJson["weeks"]))
-        self.assertEqual(1, yearJson["weeks"][0]["weekNumber"])
-        self.assertEqual(1, len(yearJson["weeks"][0]["matchups"]))
-        self.assertEqual(teams[0].id, yearJson["weeks"][0]["matchups"][0]["teamAId"])
-        self.assertEqual(teams[1].id, yearJson["weeks"][0]["matchups"][0]["teamBId"])
-        self.assertEqual(1.1, yearJson["weeks"][0]["matchups"][0]["teamAScore"])
-        self.assertEqual(2.2, yearJson["weeks"][0]["matchups"][0]["teamBScore"])
-        self.assertEqual("REGULAR_SEASON", yearJson["weeks"][0]["matchups"][0]["matchupType"])
-        self.assertFalse(yearJson["weeks"][0]["matchups"][0]["teamAHasTiebreaker"])
-        self.assertFalse(yearJson["weeks"][0]["matchups"][0]["teamBHasTiebreaker"])
-        self.assertTrue(yearJson["yearSettings"]["leagueMedianGames"])
+        self.assertEqual(year, Year.fromJson(year.toJson()))
 
     def test_getTeamByName_happyPath(self):
-        owners, teams = getNDefaultOwnersAndTeams(2)
+        _, teams = getNDefaultOwnersAndTeams(2)
 
         teams[0].name = "team0"
         matchup_1 = Matchup(
@@ -146,7 +215,7 @@ class TestYear(unittest.TestCase):
         self.assertEqual(teams[0], response)
 
     def test_getTeamByName_teamNotInYear_raisesException(self):
-        owners, teams = getNDefaultOwnersAndTeams(2)
+        _, teams = getNDefaultOwnersAndTeams(2)
 
         matchup_1 = Matchup(
             teamAId=teams[0].id,
@@ -163,7 +232,7 @@ class TestYear(unittest.TestCase):
         self.assertEqual("Year does not have a team with name 'team0'.", str(context.exception))
 
     def test_getWeekByWeekNumber_happyPath(self):
-        owners, teams = getNDefaultOwnersAndTeams(2)
+        _, teams = getNDefaultOwnersAndTeams(2)
 
         matchup_1 = Matchup(
             teamAId=teams[0].id,
@@ -179,7 +248,7 @@ class TestYear(unittest.TestCase):
         self.assertEqual(week_1, response)
 
     def test_getWeekByWeekNumber_teamNotInYear_raisesException(self):
-        owners, teams = getNDefaultOwnersAndTeams(2)
+        _, teams = getNDefaultOwnersAndTeams(2)
 
         matchup_1 = Matchup(
             teamAId=teams[0].id,
@@ -194,28 +263,3 @@ class TestYear(unittest.TestCase):
         with self.assertRaises(DoesNotExistException) as context:
             year.getWeekByWeekNumber(2)
         self.assertEqual("Year does not have a week with week number 2.", str(context.exception))
-
-    def test_year_fromJson(self):
-        owners, teams = getNDefaultOwnersAndTeams(2)
-
-        matchup_1 = Matchup(
-            teamAId=teams[0].id,
-            teamBId=teams[1].id,
-            teamAScore=1.1,
-            teamBScore=2.2,
-            matchupType=MatchupType.REGULAR_SEASON,
-        )
-        week_1 = Week(weekNumber=1, matchups=[matchup_1])
-        yearSettings = YearSettings(leagueMedianGames=True)
-        year = Year(yearNumber=2000, teams=teams, weeks=[week_1], yearSettings=yearSettings)
-        yearJson = year.toJson()
-        yearDerived = Year.fromJson(yearJson)
-        self.assertEqual(year, yearDerived)
-        self.assertEqual(year.id, yearDerived.id)
-
-        # without year settings
-        year = Year(yearNumber=2000, teams=teams, weeks=[week_1])
-        yearJson = year.toJson()
-        yearDerived = Year.fromJson(yearJson)
-        self.assertEqual(year, yearDerived)
-        self.assertEqual(year.id, yearDerived.id)

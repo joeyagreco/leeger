@@ -5,6 +5,7 @@ from espn_api.football import Team as ESPNTeam
 
 from leeger.enum.MatchupType import MatchupType
 from leeger.league_loader.LeagueLoader import LeagueLoader
+from leeger.model.league.Division import Division
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Owner import Owner
@@ -40,17 +41,23 @@ class ESPNLeagueLoader(LeagueLoader):
         espnS2: str = None,
         swid: str = None,
         ownerNamesAndAliases: Optional[dict[str, list[str]]] = None,
+        leagueName: Optional[str] = None,
     ):
         # validation
         try:
             int(leagueId)
         except ValueError:
             raise ValueError(f"League ID '{leagueId}' could not be turned into an int.")
-        super().__init__(leagueId, years, ownerNamesAndAliases=ownerNamesAndAliases)
+        super().__init__(
+            leagueId, years, ownerNamesAndAliases=ownerNamesAndAliases, leagueName=leagueName
+        )
 
         self.__espnS2 = espnS2
         self.__swid = swid
         self.__espnTeamIdToTeamMap: dict[str, Team] = dict()
+        self.__espnDivisionIdToDivisionMap: dict[
+            int, Division
+        ] = dict()  # holds the division info for ONLY the current year
 
     def __getAllLeagues(self) -> list[ESPNLeague]:
         espnLeagueYears = list()
@@ -90,7 +97,6 @@ class ESPNLeagueLoader(LeagueLoader):
             self._leagueNameByYear[espnLeague.year] = espnLeague.settings.name
             self.__loadOwners(espnLeague.teams)
             years.append(self.__buildYear(espnLeague))
-        # use the league name from the most recent year
         return League(
             name=self._getLeagueName(), owners=self._owners, years=self._getValidYears(years)
         )
@@ -106,9 +112,21 @@ class ESPNLeagueLoader(LeagueLoader):
             self._owners = owners
 
     def __buildYear(self, espnLeague: ESPNLeague) -> Year:
+        # save division info
+        for espnDivisionId, espnDivisionName in espnLeague.settings.division_map.items():
+            self.__espnDivisionIdToDivisionMap[espnDivisionId] = Division(name=espnDivisionName)
         teams = self.__buildTeams(espnLeague.teams)
         weeks = self.__buildWeeks(espnLeague)
-        return Year(yearNumber=espnLeague.year, teams=teams, weeks=weeks)
+        # TODO: see if there are cases where ESPN leagues do NOT have divisions
+        year = Year(
+            yearNumber=espnLeague.year,
+            teams=teams,
+            weeks=weeks,
+            divisions=list(self.__espnDivisionIdToDivisionMap.values()),
+        )
+        # clear division info
+        self.__espnDivisionIdToDivisionMap = dict()
+        return year
 
     def __buildWeeks(self, espnLeague: ESPNLeague) -> list[Week]:
         weeks = list()
@@ -205,8 +223,10 @@ class ESPNLeagueLoader(LeagueLoader):
     def __buildTeams(self, espnTeams: list[ESPNTeam]) -> list[Team]:
         teams = list()
         for espnTeam in espnTeams:
+            # TODO: see if there are cases where ESPN leagues do NOT have divisions
+            divisionId = self.__espnDivisionIdToDivisionMap[espnTeam.division_id].id
             owner = self._getOwnerByName(espnTeam.owner)
-            team = Team(ownerId=owner.id, name=espnTeam.team_name)
+            team = Team(ownerId=owner.id, name=espnTeam.team_name, divisionId=divisionId)
             teams.append(team)
             self.__espnTeamIdToTeamMap[espnTeam.team_id] = team
         return teams

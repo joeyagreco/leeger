@@ -2,9 +2,17 @@ from functools import lru_cache
 
 from leeger.exception.InvalidYearFormatException import InvalidYearFormatException
 from leeger.model.league import Matchup, YearSettings
+from leeger.model.league.Division import Division
+from leeger.model.league.Team import Team
+from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
 from leeger.util.navigator import YearNavigator
-from leeger.validate import teamValidation, weekValidation, yearSettingsValidation
+from leeger.validate import (
+    divisionValidation,
+    teamValidation,
+    weekValidation,
+    yearSettingsValidation,
+)
 
 
 @lru_cache(maxsize=None)
@@ -17,14 +25,17 @@ def runAllChecks(year: Year) -> None:
     checkYearSettings(year)
     checkAllWeeks(year)
     checkAllTeams(year)
+    checkAllDivisions(year)
     checkForDuplicateTeams(year)
     checkForDuplicateWeeks(year)
+    checkForDuplicateDivisions(year)
     checkAtLeastOneWeekInYear(year)
     checkWeekNumberingInYear(year)
     checkPlayoffWeekOrderingInYear(year)
     checkAtLeastTwoTeamsInYear(year)
     checkGivenYearHasValidYearNumber(year)
     checkTeamNamesInYear(year)
+    checkDivisionNamesInYear(year)
     checkTeamOwnerIdsInYear(year)
     checkEveryTeamInYearIsInAMatchup(year)
     checkMultiWeekMatchupsAreInConsecutiveWeeks(year)
@@ -32,6 +43,9 @@ def runAllChecks(year: Year) -> None:
     checkMultiWeekMatchupsWithSameIdHaveSameMatchupType(year)
     checkMultiWeekMatchupsWithSameIdHaveSameTeamIds(year)
     checkMultiWeekMatchupsWithSameIdHaveSameTiebreakers(year)
+    checkEitherAllTeamsAreInADivisionOrNoTeamsAreInADivision(year)
+    checkDivisionIdsMatchTeamDivisionIds(year)
+    checkDivisionsHaveNoDuplicateIds(year)
 
 
 def checkYearSettings(year: Year) -> None:
@@ -57,6 +71,14 @@ def checkAllTeams(year: Year) -> None:
         teamValidation.runAllChecks(team)
 
 
+def checkAllDivisions(year: Year) -> None:
+    """
+    Runs all checks on all Divisions.
+    """
+    for division in year.divisions:
+        divisionValidation.runAllChecks(division)
+
+
 def checkAllTypes(year: Year) -> None:
     """
     Runs all checks on the given Year.
@@ -64,10 +86,14 @@ def checkAllTypes(year: Year) -> None:
 
     if not isinstance(year.yearNumber, int):
         raise InvalidYearFormatException("yearNumber must be type 'int'.")
-    if not isinstance(year.teams, list):
-        raise InvalidYearFormatException("teams must be type 'list'.")
-    if not isinstance(year.weeks, list):
-        raise InvalidYearFormatException("weeks must be type 'list'.")
+    if not isinstance(year.teams, list) or not all(isinstance(team, Team) for team in year.teams):
+        raise InvalidYearFormatException("teams must be type 'list[Team]'.")
+    if not isinstance(year.weeks, list) or not all(isinstance(week, Week) for week in year.weeks):
+        raise InvalidYearFormatException("weeks must be type 'list[Week]'.")
+    if not isinstance(year.divisions, list) or not all(
+        isinstance(division, Division) for division in year.divisions
+    ):
+        raise InvalidYearFormatException("divisions must be type 'list[Division]'.")
     if not isinstance(year.yearSettings, YearSettings):
         raise InvalidYearFormatException("yearSettings must be type 'YearSettings'.")
 
@@ -94,6 +120,39 @@ def checkForDuplicateWeeks(year: Year) -> None:
             raise InvalidYearFormatException("Weeks must all be unique instances.")
         else:
             weekInstanceIds.append(id(week))
+
+
+def checkForDuplicateDivisions(year: Year) -> None:
+    """
+    Checks that all Weeks are unique instances.
+    """
+    divisionInstanceIds = list()
+    for division in year.divisions:
+        if id(division) in divisionInstanceIds:
+            raise InvalidYearFormatException("Divisions must all be unique instances.")
+        else:
+            divisionInstanceIds.append(id(division))
+
+
+def checkDivisionNamesInYear(year: Year) -> None:
+    """
+    Checks that each division in the given Year has a unique name
+    Counts names as too similar if they are the same
+        - when whitespace is removed
+        - when case is uniform
+    """
+    if len(set([division.name for division in year.divisions])) != len(
+        [division.name for division in year.divisions]
+    ):
+        raise InvalidYearFormatException(
+            f"Year {year.yearNumber} has divisions with duplicate names."
+        )
+    if len(set([division.name.strip().upper() for division in year.divisions])) != len(
+        [division.name for division in year.divisions]
+    ):
+        raise InvalidYearFormatException(
+            f"Year {year.yearNumber} has divisions with very similar names."
+        )
 
 
 def checkAtLeastOneWeekInYear(year: Year) -> None:
@@ -348,3 +407,65 @@ def checkMultiWeekMatchupsWithSameIdHaveSameTiebreakers(year: Year):
                 raise InvalidYearFormatException(
                     f"Multi-week matchups with ID '{mwmid}' do not all have the same tiebreakers."
                 )
+
+
+def checkEitherAllTeamsAreInADivisionOrNoTeamsAreInADivision(year: Year):
+    """
+    Checks that either all teams are in a division or no teams are in a division.
+    """
+    allTeamDivisionIds = [team.divisionId for team in year.teams]
+
+    if not (
+        all(isinstance(divisionId, str) for divisionId in allTeamDivisionIds)
+        or all(divisionId is None for divisionId in allTeamDivisionIds)
+    ):
+        raise InvalidYearFormatException(
+            f"Only some teams in Year {year.yearNumber} have a Division ID."
+        )
+
+
+def checkDivisionIdsMatchTeamDivisionIds(year: Year):
+    """
+    Checks that the divisions in a year exactly match all division IDs for all teams in a year.
+    """
+    allUniqueDivisionIds = {division.id for division in year.divisions}
+    allUniqueTeamDivisionIds = {
+        team.divisionId for team in year.teams if team.divisionId is not None
+    }
+
+    if allUniqueDivisionIds != allUniqueTeamDivisionIds:
+        if len(allUniqueDivisionIds) == 0:
+            # no divisions, some team division ids
+            raise InvalidYearFormatException(
+                f"Teams in Year {year.yearNumber} have Division IDs, but Year {year.yearNumber} has no Divisions."
+            )
+        elif len(allUniqueTeamDivisionIds) == 0:
+            # some divisions, no team division ids
+            raise InvalidYearFormatException(
+                f"Year {year.yearNumber} has Divisions, but Teams in Year {year.yearNumber} have Division IDs."
+            )
+        elif len(allUniqueDivisionIds) > len(allUniqueTeamDivisionIds):
+            # some divisions, some team division ids, more divisions than division team ids
+            raise InvalidYearFormatException(
+                f"There are Divisions in Year {year.yearNumber} that do not belong to any Team."
+            )
+        elif len(allUniqueDivisionIds) < len(allUniqueTeamDivisionIds):
+            # some divisions, some team division ids, more division team ids than divisions
+            raise InvalidYearFormatException(
+                f"There are Teams with Division IDs in Year {year.yearNumber} that do not belong to any Division."
+            )
+        else:
+            # same number of divisions and team division ids, they do not match
+            raise InvalidYearFormatException(
+                f"The Divisions in Year {year.yearNumber} do not corrospond correctly to the Team Division IDs in Year {year.yearNumber}."
+            )
+
+
+def checkDivisionsHaveNoDuplicateIds(year: Year):
+    """
+    Checks that all divisions have a unique ID.
+    """
+    allDivisionIds = [division.id for division in year.divisions]
+
+    if len(set(allDivisionIds)) != len(allDivisionIds):
+        raise InvalidYearFormatException(f"Year {year.yearNumber} has duplicate division IDs.")

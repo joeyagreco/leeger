@@ -4,17 +4,18 @@ import copy
 from dataclasses import dataclass
 
 from leeger.exception import DoesNotExistException
+from leeger.model.abstract.EqualityCheck import EqualityCheck
 from leeger.model.abstract.UniqueId import UniqueId
 from leeger.model.league.Owner import Owner
 from leeger.model.league.Year import Year
 from leeger.util.CustomLogger import CustomLogger
-from leeger.util.GeneralUtil import GeneralUtil
 from leeger.util.JSONDeserializable import JSONDeserializable
 from leeger.util.JSONSerializable import JSONSerializable
+from leeger.util.equality import modelEquals
 
 
 @dataclass(kw_only=True, eq=False)
-class League(UniqueId, JSONSerializable, JSONDeserializable):
+class League(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
     __LOGGER = CustomLogger.getLogger()
     name: str
     owners: list[Owner]
@@ -23,23 +24,52 @@ class League(UniqueId, JSONSerializable, JSONDeserializable):
     def __hash__(self):
         return hash(str(self.toJson()))
 
-    def __eq__(self, otherLeague: League) -> bool:
+    def equals(
+        self,
+        otherLeague: League,
+        *,
+        ignoreIds: bool = False,
+        ignoreBaseIds: bool = False,
+        logDifferences: bool = False,
+    ) -> bool:
         """
         Checks if *this* League is the same as the given League.
-        Does not check for equality of IDs, just values.
         """
-        equal = self.name == otherLeague.name
-        equal = equal and self.owners == otherLeague.owners
-        equal = equal and self.years == otherLeague.years
-        if not equal:
-            differences = GeneralUtil.findDifferentFields(
-                self.toJson(),
-                otherLeague.toJson(),
-                parentKey="League",
-                ignoreKeyNames=["id", "ownerId", "teamAId", "teamBId"],
-            )
-            self.__LOGGER.info(f"Differences: {differences}")
-        return equal
+
+        def listsEqual(
+            list1: list[Owner | Year],
+            list2: list[Owner | Year],
+            *,
+            ignoreIds: bool,
+            ignoreBaseIds: bool,
+        ) -> bool:
+            if len(list1) != len(list2):
+                return False
+            equal = True
+            for item1, item2 in zip(list1, list2):
+                equal = equal and item1.equals(
+                    item2, ignoreIds=ignoreIds, ignoreBaseIds=ignoreBaseIds
+                )
+            return equal
+
+        return modelEquals(
+            objA=self,
+            objB=otherLeague,
+            baseFields={"name", "owners", "years"},
+            parentKey="League",
+            ignoreIdFields=ignoreIds,
+            ignoreBaseIdField=ignoreBaseIds,
+            logDifferences=logDifferences,
+            equalityFunctionMap={"owners": listsEqual, "years": listsEqual},
+            equalityFunctionKwargsMap={
+                "owners": {"ignoreIds": ignoreIds, "ignoreBaseIds": ignoreBaseIds},
+                "years": {"ignoreIds": ignoreIds, "ignoreBaseIds": ignoreBaseIds},
+            },
+        )
+
+    def __eq__(self, otherLeague: League) -> bool:
+        self.__LOGGER.info("Use .equals() for more options when comparing League instances.")
+        return self.equals(otherLeague=otherLeague)
 
     def __add__(self, otherLeague: League) -> League:
         """

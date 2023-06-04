@@ -1,3 +1,4 @@
+from .Division import Division
 from .League import League
 from .Matchup import Matchup
 from .Owner import Owner

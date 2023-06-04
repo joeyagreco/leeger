@@ -9,6 +9,19 @@ class TestOwner(unittest.TestCase):
 
         self.assertEqual("name", owner.name)
 
+    def test_owner_eq_callsEqualsMethod(self):
+        # create Owner 1
+        owner_1 = Owner(name="owner")
+
+        # create Owner 2
+        owner_2 = Owner(name="owner")
+
+        owner_2.id = owner_1.id
+
+        result = owner_1 == owner_2
+
+        self.assertTrue(result)
+
     def test_owner_eq_equal(self):
         # create Owner 1
         owner_1 = Owner(name="owner")
@@ -16,7 +29,7 @@ class TestOwner(unittest.TestCase):
         # create Owner 2
         owner_2 = Owner(name="owner")
 
-        self.assertEqual(owner_1, owner_2)
+        self.assertTrue(owner_1.equals(owner_2, ignoreBaseIds=True))
 
     def test_owner_eq_notEqual(self):
         # create Owner 1
@@ -25,7 +38,7 @@ class TestOwner(unittest.TestCase):
         # create Owner 2
         owner_2 = Owner(name="ownerDIF")
 
-        self.assertNotEqual(owner_1, owner_2)
+        self.assertFalse(owner_1.equals(owner_2, ignoreBaseIds=True))
 
     def test_owner_toJson(self):
         owner = Owner(name="owner")

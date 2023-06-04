@@ -19,14 +19,16 @@ from leeger.util.excel_helper import (
     yearMatchupsStatSheet,
     allTimeMatchupsStatSheet,
 )
+from leeger.util.navigator.YearNavigator import YearNavigator
 from leeger.util.stat_sheet import yearStatSheet, leagueStatSheet
 
 
-def leagueToExcel(league: League, filePath: Optional[str] = None, **kwargs) -> Workbook:
+def leagueToExcel(
+    league: League, filePath: Optional[str] = None, overwrite: bool = False, **kwargs
+) -> Workbook:
     """
     Saves the given League object to an Excel file.
     """
-    overwrite = kwargs.pop("overwrite", False)
 
     if league is None:
         raise ValueError("'league' has not been set.")
@@ -78,6 +80,14 @@ def leagueToExcel(league: League, filePath: Optional[str] = None, **kwargs) -> W
     allTimeTeamsStatSheet_ = allTimeTeamsStatSheet(league, **kwargs.copy())
 
     allTimeFilters = AllTimeFilters.preferredOrderWithTitle(league, **kwargs.copy())
+
+    # see if we have a division column
+    # if we do, shift the frozen panes 1 column to the right
+    freezePanes = "D2"
+    for title, _ in allTimeTeamsStatSheet_:
+        if title == "Division":
+            freezePanes = "E2"
+
     _populateWorksheet(
         worksheet=worksheet,
         workbook=workbook,
@@ -86,7 +96,7 @@ def leagueToExcel(league: League, filePath: Optional[str] = None, **kwargs) -> W
         entityIds=allTimeTeamIds,
         entityIdToColorMap=teamIdToColorMap,
         legendKeyValues=allTimeFilters,
-        freezePanes="D2",
+        freezePanes=freezePanes,
         saveToFilepath=filePath,
     )
 
@@ -160,7 +170,7 @@ def _yearToExcel(year: Year, workbook: Optional[Workbook] = None, **kwargs) -> W
         # figure out index to put this sheet into
         # we want the years as sheets in order from oldest -> newest year
         index = 0
-        for i, sheetname in enumerate(workbook.sheetnames):
+        for sheetname in workbook.sheetnames:
             if year.yearNumber > int(sheetname[:5]):
                 index += 1
         workbook.create_sheet(f"{year.yearNumber} Teams", index=index)
@@ -172,9 +182,14 @@ def _yearToExcel(year: Year, workbook: Optional[Workbook] = None, **kwargs) -> W
     # make sure we have the same color for owners and their teams across sheets
     ownerIdToSeedMap = dict()
     teamIdToNameMap = dict()
+    teamIdToDivisionNameMap = dict()
     for team in year.teams:
         ownerIdToSeedMap[team.ownerId] = f"{team.ownerId}{datetime.now().date()}"
         teamIdToNameMap[team.id] = team.name
+        if team.divisionId:
+            teamIdToDivisionNameMap[team.id] = YearNavigator.getDivisionById(
+                year, team.divisionId
+            ).name
     ownerIdToColorMap = dict()
     for ownerId, seed in ownerIdToSeedMap.items():
         ownerIdToColorMap[ownerId] = _getRandomColor(0.5, seed)
@@ -189,6 +204,11 @@ def _yearToExcel(year: Year, workbook: Optional[Workbook] = None, **kwargs) -> W
 
     yearStatsWithTitles = yearStatSheet(year, **kwargs.copy()).preferredOrderWithTitle()
     yearStatsWithTitles.insert(0, ("Team", teamIdToNameMap))
+
+    freezePanes = "B2"
+    if len(year.divisions) > 0:
+        yearStatsWithTitles.insert(1, ("Division", teamIdToDivisionNameMap))
+        freezePanes = "C2"
     # save Year teams to Excel sheet
     _populateWorksheet(
         worksheet=worksheet,
@@ -198,7 +218,7 @@ def _yearToExcel(year: Year, workbook: Optional[Workbook] = None, **kwargs) -> W
         entityIds=teamIds,
         entityIdToColorMap=teamIdToColorMap,
         legendKeyValues=yearFilters,
-        freezePanes="B2",
+        freezePanes=freezePanes,
     )
 
     (yearMatchupsWithTitles, modifiedMatchupIdToOwnerIdMap) = yearMatchupsStatSheet(

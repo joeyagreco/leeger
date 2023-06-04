@@ -13,6 +13,7 @@ from leeger.model.league.Team import Team
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
 from leeger.validate import leagueValidation
+from leeger.model.league.Division import Division
 
 
 class FleaflickerLeagueLoader(LeagueLoader):
@@ -27,16 +28,22 @@ class FleaflickerLeagueLoader(LeagueLoader):
         years: list[int],
         *,
         ownerNamesAndAliases: Optional[dict[str, list[str]]] = None,
+        leagueName: Optional[str] = None,
     ):
         # validation
         try:
             int(leagueId)
         except ValueError:
             raise ValueError(f"League ID '{leagueId}' could not be turned into an int.")
-        super().__init__(leagueId, years, ownerNamesAndAliases=ownerNamesAndAliases)
+        super().__init__(
+            leagueId, years, ownerNamesAndAliases=ownerNamesAndAliases, leagueName=leagueName
+        )
 
         self.__fleaflickerTeamIdToOwnerMap: dict[int, Owner] = dict()
         self.__fleaflickerTeamIdToTeamMap: dict[int, Team] = dict()
+        self.__fleaflickerDivisionIdToDivisionMap: dict[
+            int, Division
+        ] = dict()  # holds the division info for ONLY the current year
 
     def __getAllLeagues(self) -> list[dict]:
         # return a list of all leagues
@@ -82,9 +89,22 @@ class FleaflickerLeagueLoader(LeagueLoader):
         return League(name=self._getLeagueName(), owners=owners, years=self._getValidYears(years))
 
     def __buildYear(self, fleaflickerLeague: dict) -> Year:
+        # save division info
+        for fleaflickerDivision in fleaflickerLeague["divisions"]:
+            self.__fleaflickerDivisionIdToDivisionMap[fleaflickerDivision["id"]] = Division(
+                name=fleaflickerDivision["name"]
+            )
         teams = self.__buildTeams(fleaflickerLeague)
         weeks = self.__buildWeeks(fleaflickerLeague)
-        return Year(yearNumber=int(fleaflickerLeague["season"]), teams=teams, weeks=weeks)
+        year = Year(
+            yearNumber=int(fleaflickerLeague["season"]),
+            teams=teams,
+            weeks=weeks,
+            divisions=list(self.__fleaflickerDivisionIdToDivisionMap.values()),
+        )
+        # clear division info
+        self.__fleaflickerDivisionIdToDivisionMap = dict()
+        return year
 
     def __buildWeeks(self, fleaflickerLeague: dict) -> list[Week]:
         weeks = list()
@@ -160,7 +180,11 @@ class FleaflickerLeagueLoader(LeagueLoader):
                 teamName = team["name"]
                 teamId = team["id"]
                 owner = self.__fleaflickerTeamIdToOwnerMap[teamId]
-                team = Team(ownerId=owner.id, name=teamName)
+                team = Team(
+                    ownerId=owner.id,
+                    name=teamName,
+                    divisionId=self.__fleaflickerDivisionIdToDivisionMap[division["id"]].id,
+                )
                 teams.append(team)
                 self.__fleaflickerTeamIdToTeamMap[teamId] = team
         return teams

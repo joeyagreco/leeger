@@ -38,13 +38,19 @@ class YahooLeagueLoader(LeagueLoader):
         clientSecret: str,
         loginTimeoutSeconds: Optional[int] = 20,
         ownerNamesAndAliases: Optional[dict[str, list[str]]] = None,
+        leagueName: Optional[str] = None,
     ):
         # validation
         try:
             int(mostRecentLeagueId)
         except ValueError:
             raise ValueError(f"League ID '{mostRecentLeagueId}' could not be turned into an int.")
-        super().__init__(mostRecentLeagueId, years, ownerNamesAndAliases=ownerNamesAndAliases)
+        super().__init__(
+            mostRecentLeagueId,
+            years,
+            ownerNamesAndAliases=ownerNamesAndAliases,
+            leagueName=leagueName,
+        )
         self.__clientId = clientId
         self.__clientSecret = clientSecret
         self.__loginTimeoutSeconds = loginTimeoutSeconds

@@ -19,6 +19,15 @@ class TestYearSettings(unittest.TestCase):
 
         self.assertFalse(yearSettings.leagueMedianGames)
 
+    def test_yearSettings_eq_callsEqualsMethod(self):
+        # create yearSettings 1
+        yearSettings_1 = YearSettings(leagueMedianGames=True)
+
+        # create yearSettings 2
+        yearSettings_2 = YearSettings(leagueMedianGames=True)
+
+        self.assertTrue(yearSettings_1 == yearSettings_2)
+
     def test_yearSettings_eq_equal(self):
         # create yearSettings 1
         yearSettings_1 = YearSettings(leagueMedianGames=True)
@@ -26,7 +35,7 @@ class TestYearSettings(unittest.TestCase):
         # create yearSettings 2
         yearSettings_2 = YearSettings(leagueMedianGames=True)
 
-        self.assertEqual(yearSettings_1, yearSettings_2)
+        self.assertTrue(yearSettings_1.equals(yearSettings_2))
 
     def test_yearSettings_eq_notEqual(self):
         # create yearSettings 1
@@ -35,7 +44,7 @@ class TestYearSettings(unittest.TestCase):
         # create yearSettings 2
         yearSettings_2 = YearSettings(leagueMedianGames=False)
 
-        self.assertNotEqual(yearSettings_1, yearSettings_2)
+        self.assertFalse(yearSettings_1.equals(yearSettings_2))
 
     def test_yearSettings_toJson(self):
         yearSettings = YearSettings(leagueMedianGames=True)

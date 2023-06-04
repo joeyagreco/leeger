@@ -5,13 +5,15 @@ from typing import Optional
 
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception import InvalidMatchupFormatException
+from leeger.model.abstract.EqualityCheck import EqualityCheck
 from leeger.model.abstract.UniqueId import UniqueId
 from leeger.util.CustomLogger import CustomLogger
 from leeger.util.JSONSerializable import JSONSerializable
+from leeger.util.equality import modelEquals
 
 
 @dataclass(kw_only=True, eq=False)
-class Performance(UniqueId, JSONSerializable):
+class Performance(UniqueId, EqualityCheck, JSONSerializable):
     __LOGGER = CustomLogger.getLogger()
     teamId: str
     teamScore: float | int
@@ -20,24 +22,32 @@ class Performance(UniqueId, JSONSerializable):
     # This is used to link matchups that span over multiple weeks
     multiWeekMatchupId: Optional[str] = None
 
-    def __eq__(self, otherPerformance: Performance) -> bool:
+    def equals(
+        self,
+        otherPerformance: Performance,
+        *,
+        ignoreIds: bool = False,
+        ignoreBaseIds: bool = False,
+        logDifferences: bool = False,
+    ) -> bool:
         """
         Checks if *this* Performance is the same as the given Performance.
-        Does not check for equality of IDs, just values.
         """
-        equal = self.teamScore == otherPerformance.teamScore
-        equal = equal and self.hasTiebreaker == otherPerformance.hasTiebreaker
-        equal = equal and self.matchupType == otherPerformance.matchupType
-        # warn if this is going to return True but ID based fields are not equal
-        if equal:
-            notEqualStrings = list()
-            if self.teamId != otherPerformance.teamId:
-                notEqualStrings.append("teamId")
-            if len(notEqualStrings) > 0:
-                self.__LOGGER.warning(
-                    f"Returning True for equality check when {notEqualStrings} are not equal."
-                )
-        return equal
+
+        return modelEquals(
+            objA=self,
+            objB=otherPerformance,
+            baseFields={"teamId", "teamScore", "hasTiebreaker", "matchupType"},
+            idFields={"multiWeekMatchupId"},
+            parentKey="Performance",
+            ignoreIdFields=ignoreIds,
+            ignoreBaseIdField=ignoreBaseIds,
+            logDifferences=logDifferences,
+        )
+
+    def __eq__(self, otherPerformance: Performance) -> bool:
+        self.__LOGGER.info("Use .equals() for more options when comparing Performance instances.")
+        return self.equals(otherPerformance=otherPerformance)
 
     def __add__(self, otherPerformance: Performance):
         """

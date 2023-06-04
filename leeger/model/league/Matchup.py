@@ -6,16 +6,17 @@ from typing import Optional
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception import DoesNotExistException
 from leeger.exception.InvalidMatchupFormatException import InvalidMatchupFormatException
+from leeger.model.abstract.EqualityCheck import EqualityCheck
 from leeger.model.abstract.UniqueId import UniqueId
 from leeger.model.league_helper.Performance import Performance
 from leeger.util.CustomLogger import CustomLogger
-from leeger.util.GeneralUtil import GeneralUtil
 from leeger.util.JSONDeserializable import JSONDeserializable
 from leeger.util.JSONSerializable import JSONSerializable
+from leeger.util.equality import modelEquals
 
 
 @dataclass(kw_only=True, eq=False)
-class Matchup(UniqueId, JSONSerializable, JSONDeserializable):
+class Matchup(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
     __LOGGER = CustomLogger.getLogger()
     teamAId: str
     teamBId: str
@@ -40,38 +41,38 @@ class Matchup(UniqueId, JSONSerializable, JSONDeserializable):
         if self.teamBHasTiebreaker is None:
             self.teamBHasTiebreaker = False
 
-    def __eq__(self, otherMatchup: Matchup) -> bool:
+    def equals(
+        self,
+        otherMatchup: Matchup,
+        *,
+        ignoreIds: bool = False,
+        ignoreBaseIds: bool = False,
+        logDifferences: bool = False,
+    ) -> bool:
         """
         Checks if *this* Matchup is the same as the given Matchup.
-        Does not check for equality of IDs, just values.
         """
-        equal = self.teamAScore == otherMatchup.teamAScore
-        equal = equal and self.teamBScore == otherMatchup.teamBScore
-        equal = equal and self.matchupType == otherMatchup.matchupType
-        equal = equal and self.teamAHasTiebreaker == otherMatchup.teamAHasTiebreaker
-        equal = equal and self.teamBHasTiebreaker == otherMatchup.teamBHasTiebreaker
-        # warn if this is going to return True but ID based fields are not equal
-        if equal:
-            notEqualStrings = list()
-            if self.teamAId != otherMatchup.teamAId:
-                notEqualStrings.append("teamAId")
-            if self.teamBId != otherMatchup.teamBId:
-                notEqualStrings.append("teamBId")
-            if self.multiWeekMatchupId != otherMatchup.multiWeekMatchupId:
-                notEqualStrings.append("multiWeekMatchupId")
-            if len(notEqualStrings) > 0:
-                self.__LOGGER.warning(
-                    f"Returning True for equality check when {notEqualStrings} are not equal."
-                )
-        else:
-            differences = GeneralUtil.findDifferentFields(
-                self.toJson(),
-                otherMatchup.toJson(),
-                parentKey="Matchup",
-                ignoreKeyNames=["id", "ownerId", "teamAId", "teamBId"],
-            )
-            self.__LOGGER.info(f"Differences: {differences}")
-        return equal
+
+        return modelEquals(
+            objA=self,
+            objB=otherMatchup,
+            baseFields={
+                "teamAScore",
+                "teamBScore",
+                "matchupType",
+                "teamAHasTiebreaker",
+                "teamBHasTiebreaker",
+            },
+            idFields={"teamAId", "teamBId", "multiWeekMatchupId"},
+            parentKey="Matchup",
+            ignoreIdFields=ignoreIds,
+            ignoreBaseIdField=ignoreBaseIds,
+            logDifferences=logDifferences,
+        )
+
+    def __eq__(self, otherMatchup: Matchup) -> bool:
+        self.__LOGGER.info("Use .equals() for more options when comparing Matchup instances.")
+        return self.equals(otherMatchup=otherMatchup)
 
     def splitToPerformances(self) -> tuple[Performance, Performance]:
         """

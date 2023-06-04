@@ -23,6 +23,7 @@ from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
 from leeger.validate import leagueValidation
 from leeger.exception.LeagueLoaderException import LeagueLoaderException
+from leeger.model.league.Division import Division
 
 
 class SleeperLeagueLoader(LeagueLoader):
@@ -39,8 +40,14 @@ class SleeperLeagueLoader(LeagueLoader):
         years: list[int],
         *,
         ownerNamesAndAliases: Optional[dict[str, list[str]]] = None,
+        leagueName: Optional[str] = None,
     ):
-        super().__init__(mostRecentLeagueId, years, ownerNamesAndAliases=ownerNamesAndAliases)
+        super().__init__(
+            mostRecentLeagueId,
+            years,
+            ownerNamesAndAliases=ownerNamesAndAliases,
+            leagueName=leagueName,
+        )
 
         self.__sleeperUserIdToOwnerMap: dict[str, Owner] = dict()
         self.__sleeperRosterIdToTeamMap: dict[int, Team] = dict()
@@ -48,6 +55,9 @@ class SleeperLeagueLoader(LeagueLoader):
         self.__SLEEPER_SPORT_STATE_CACHE: SleeperSportState = (
             None  # functions as a cache for Sleeper SportState
         )
+        self.__sleeperDivisionIdToDivisionMap: dict[
+            int, Division
+        ] = dict()  # holds the division info for ONLY the current year
 
     def __resetCaches(self) -> None:
         self.__SLEEPER_USERS_BY_LEAGUE_ID_CACHE = dict()
@@ -77,7 +87,7 @@ class SleeperLeagueLoader(LeagueLoader):
             currentLeague: SleeperLeague = LeagueAPIClient.get_league(league_id=currentLeagueId)
             if int(currentLeague.season) in years:
                 # we only want to add valid seasons
-                # NOTE: Not sure if we want to include SleeperSeasonStatus.POSTPONED here or not
+                # NOTE: Not sure if we should include SleeperSeasonStatus.POSTPONED here or not
                 if currentLeague.status not in (
                     SleeperSeasonStatus.COMPLETE,
                     SleeperSeasonStatus.IN_SEASON,
@@ -126,30 +136,40 @@ class SleeperLeagueLoader(LeagueLoader):
         return League(name=self._getLeagueName(), owners=owners, years=self._getValidYears(years))
 
     def __buildYear(self, sleeperLeague: SleeperLeague) -> Year:
+        # save division info
+        for divisionNumber in range(1, sleeperLeague.settings.divisions + 1):
+            self.__sleeperDivisionIdToDivisionMap[divisionNumber] = Division(
+                name=getattr(sleeperLeague.metadata, f"division_{divisionNumber}")
+            )
         teams = self.__buildTeams(sleeperLeague)
         weeks = self.__buildWeeks(sleeperLeague)
         # add YearSettings
         yearSettings = YearSettings()
         if sleeperLeague.settings.league_average_match == 1:
             yearSettings.leagueMedianGames = True
-        return Year(
+        # TODO: see if there are cases where Sleeper leagues do NOT have divisions
+        year = Year(
             yearNumber=int(sleeperLeague.season),
             teams=teams,
             weeks=weeks,
             yearSettings=yearSettings,
+            divisions=list(self.__sleeperDivisionIdToDivisionMap.values()),
         )
+        # clear division info
+        self.__sleeperDivisionIdToDivisionMap = dict()
+        return year
 
     def __buildWeeks(self, sleeperLeague: SleeperLeague) -> list[Week]:
         weeks = list()
         # get regular season weeks
         # once we have found an incomplete week, all weeks after will also be incomplete
         foundIncompleteWeek = False
-        for i in range(sleeperLeague.settings.playoff_week_start - 1):
-            if not foundIncompleteWeek and self.__isCompletedWeek(i + 1, sleeperLeague):
+        for weekNumber in range(1, sleeperLeague.settings.playoff_week_start):
+            if not foundIncompleteWeek and self.__isCompletedWeek(weekNumber, sleeperLeague):
                 # get each teams matchup for that week
                 matchups = list()
                 sleeperMatchupsForThisWeek = LeagueAPIClient.get_matchups_for_week(
-                    league_id=sleeperLeague.league_id, week=i + 1
+                    league_id=sleeperLeague.league_id, week=weekNumber
                 )
                 sleeperMatchupIdToSleeperMatchupMap: dict[int, list[SleeperMatchup]] = dict()
                 for sleeperMatchup in sleeperMatchupsForThisWeek:
@@ -184,7 +204,7 @@ class SleeperLeagueLoader(LeagueLoader):
                             matchupType=MatchupType.REGULAR_SEASON,
                         )
                     )
-                weeks.append(Week(weekNumber=i + 1, matchups=matchups))
+                weeks.append(Week(weekNumber=weekNumber, matchups=matchups))
             else:
                 foundIncompleteWeek = True
         # get playoff weeks
@@ -225,10 +245,16 @@ class SleeperLeagueLoader(LeagueLoader):
                 sleeperMatchupsForThisWeek = LeagueAPIClient.get_matchups_for_week(
                     league_id=sleeperLeague.league_id, week=weekNumber
                 )
-                # used to check if a Sleeper playoff matchup is in this week's matchups
-                sleeperMatchupIdsForThisWeek = [
-                    sleeperMatchup.matchup_id for sleeperMatchup in sleeperMatchupsForThisWeek
+                # remove matchups that don't have a matchup id
+                sleeperMatchupsForThisWeek = [
+                    sleeperMatchup
+                    for sleeperMatchup in sleeperMatchupsForThisWeek
+                    if sleeperMatchup.matchup_id is not None
                 ]
+                # used to check if a Sleeper playoff matchup is in this week's matchups
+                sleeperMatchupIdsForThisWeek = {
+                    sleeperMatchup.matchup_id for sleeperMatchup in sleeperMatchupsForThisWeek
+                }
                 if self.__isCompletedWeek(weekNumber, sleeperLeague):
                     # sort matchups by roster IDs
                     rosterIdToSleeperMatchupMap: dict[int, SleeperMatchup] = dict()
@@ -236,7 +262,11 @@ class SleeperLeagueLoader(LeagueLoader):
                         rosterIdToSleeperMatchupMap[sleeperMatchup.roster_id] = sleeperMatchup
                     for sleeperPlayoffMatchup in playoffRoundAndSleeperPlayoffMatchups[roundNumber]:
                         # check if this matchup is in this week (needed for leagues with multiple weeks in a single round)
-                        if sleeperPlayoffMatchup.matchup_id in sleeperMatchupIdsForThisWeek:
+                        if (
+                            sleeperPlayoffMatchup.matchup_id in sleeperMatchupIdsForThisWeek
+                            or sleeperLeague.settings.playoff_round_type_enum
+                            == SleeperPlayoffRoundType.ONE_WEEK_PER_ROUND
+                        ):
                             # team A
                             teamARosterId = sleeperPlayoffMatchup.team_1_roster_id
                             teamA = self.__sleeperRosterIdToTeamMap[teamARosterId]
@@ -300,9 +330,14 @@ class SleeperLeagueLoader(LeagueLoader):
         for sleeperUser in sleeperUsers:
             # connect a sleeperUser to a sleeperRoster
             rosterId = None
+            divisionId = None
             for sleeperRoster in sleeperRosters:
                 if sleeperRoster.owner_id == sleeperUser.user_id:
                     rosterId = sleeperRoster.roster_id
+                    # TODO: see if there are cases where ESPN leagues do NOT have divisions
+                    divisionId = self.__sleeperDivisionIdToDivisionMap[
+                        sleeperRoster.settings.division
+                    ].id
             if rosterId is None:
                 raise DoesNotExistException(
                     f"No Roster ID match found for Sleeper User with ID: '{sleeperUser.user_id}'."
@@ -315,7 +350,7 @@ class SleeperLeagueLoader(LeagueLoader):
                 and "team_name" in sleeperUser.metadata.keys()
             ):
                 teamName = sleeperUser.metadata["team_name"]
-            team = Team(ownerId=owner.id, name=teamName)
+            team = Team(ownerId=owner.id, name=teamName, divisionId=divisionId)
             teams.append(team)
             self.__sleeperRosterIdToTeamMap[rosterId] = team
         return teams

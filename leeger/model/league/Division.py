@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Optional
 from leeger.model.abstract.EqualityCheck import EqualityCheck
 
 from leeger.model.abstract.UniqueId import UniqueId
@@ -12,49 +11,41 @@ from leeger.util.equality import modelEquals
 
 
 @dataclass(kw_only=True, eq=False)
-class Team(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
+class Division(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
     __LOGGER = CustomLogger.getLogger()
-    ownerId: str
     name: str
-    divisionId: Optional[str] = None
 
     def equals(
         self,
-        otherTeam: Team,
+        otherDivision: Division,
         *,
         ignoreIds: bool = False,
         ignoreBaseIds: bool = False,
         logDifferences: bool = False,
     ) -> bool:
         """
-        Checks if *this* Team is the same as the given Team.
+        Checks if *this* Division is the same as the given Division.
         """
 
         return modelEquals(
             objA=self,
-            objB=otherTeam,
+            objB=otherDivision,
             baseFields={"name"},
-            idFields={"ownerId", "divisionId"},
-            parentKey="Team",
+            parentKey="Division",
             ignoreIdFields=ignoreIds,
             ignoreBaseIdField=ignoreBaseIds,
             logDifferences=logDifferences,
         )
 
-    def __eq__(self, otherTeam: Team) -> bool:
-        self.__LOGGER.info("Use .equals() for more options when comparing Team instances.")
-        return self.equals(otherTeam=otherTeam)
+    def __eq__(self, otherDivision: Division) -> bool:
+        self.__LOGGER.info("Use .equals() for more options when comparing Division instances.")
+        return self.equals(otherDivision=otherDivision)
 
     def toJson(self) -> dict:
-        return {
-            "id": self.id,
-            "ownerId": self.ownerId,
-            "name": self.name,
-            "divisionId": self.divisionId,
-        }
+        return {"id": self.id, "name": self.name}
 
     @staticmethod
-    def fromJson(d: dict) -> Team:
-        team = Team(ownerId=d["ownerId"], name=d["name"], divisionId=d.get("divisionId"))
-        team.id = d["id"]
-        return team
+    def fromJson(d: dict) -> Division:
+        division = Division(name=d["name"])
+        division.id = d["id"]
+        return division

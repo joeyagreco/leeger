@@ -10,15 +10,23 @@ def allTimeTeamsStatSheet(league: League, **kwargs) -> list[tuple[str, dict]]:
         ownerNames: dict[str, str] = dict()
         years: dict[str, int] = dict()
         teamIdToNameMap = dict()
+        teamIdToDivisionNameMap = dict()
         for team in year.teams:
             ownerNames[team.id] = LeagueNavigator.getOwnerById(league, team.ownerId).name
             years[team.id] = year.yearNumber
             teamIdToNameMap[team.id] = team.name
+            if team.divisionId:
+                teamIdToDivisionNameMap[team.id] = YearNavigator.getDivisionById(
+                    year, team.divisionId
+                ).name
         yearStatsWithTitles = yearStatSheet(
             year, ownerNames=ownerNames, years=years, **kwargs
         ).preferredOrderWithTitle()
 
         yearStatsWithTitles.insert(0, ("Team", teamIdToNameMap))
+        if len(year.divisions) > 0:
+            yearStatsWithTitles.insert(2, ("Division", teamIdToDivisionNameMap))
+
         allTimeTeamsStatsWithTitles += yearStatsWithTitles
 
     # condense stats with titles so there's only 1 list value for each title
