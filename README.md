@@ -115,6 +115,7 @@ TypeError: dataclass() got an unexpected keyword argument 'kw_only'
 This error occurs when the Python version you are using is not 3.10 or greater.\
 Make sure you are using Python version 3.10 or a newer version.
 
+___
 **Q:**
 How do I use this library to pull stats from my online fantasy league?
 
@@ -180,14 +181,6 @@ If a fantasy site you use is not listed here and you would like it to be, please
 Stats used in this library are
 documented [here](https://github.com/joeyagreco/leeger/blob/main/doc/stats.md).
 
-## Running Tests
-
-To run tests, run the following command:
-
-```bash
-  pytest
-```
-
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
@@ -200,6 +193,14 @@ _Run these commands from the root folder_
 - Format Code: `./main fmt`
 - Run Unit Tests: `./main test`
 - Generate Coverage Report: `./main cov`
+
+### Running Tests
+
+Run the following command from the root folder:
+
+```bash
+  pytest
+```
 
 
 ## License
