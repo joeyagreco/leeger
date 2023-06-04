@@ -23,7 +23,9 @@ from leeger.util.navigator.YearNavigator import YearNavigator
 from leeger.util.stat_sheet import yearStatSheet, leagueStatSheet
 
 
-def leagueToExcel(league: League, filePath: Optional[str] = None, overwrite: bool = False, **kwargs) -> Workbook:
+def leagueToExcel(
+    league: League, filePath: Optional[str] = None, overwrite: bool = False, **kwargs
+) -> Workbook:
     """
     Saves the given League object to an Excel file.
     """

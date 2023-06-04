@@ -1,4 +1,5 @@
 from typing import Any, Optional
+from leeger.util.ConfigReader import ConfigReader
 
 from leeger.util.CustomLogger import CustomLogger
 from leeger.util.Deci import Deci
@@ -13,15 +14,20 @@ class GeneralUtil:
         return [v for v in list_ if v is not value]
 
     @staticmethod
-    def warnForUnusedKwargs(kwargs: dict[str, Any], *, excludeKeys: Optional[list[str]] = None) -> None:
+    def warnForUnusedKwargs(
+        kwargs: dict[str, Any], *, excludeKeys: Optional[list[str]] = None
+    ) -> None:
         """
         Logs a warning for each present kwarg in the given dict.
         Will ignore kwargs with a key in excludeKeys.
         """
         LOGGER = CustomLogger.getLogger()
-        # this is a list of common kwargs that sometimes linger in kwargs to be used later.
+
         excludeKeys = excludeKeys if excludeKeys is not None else list()
-        excludeKeys.append("validate") # TODO: put this in a config file
+        # get the list of common kwargs that sometimes linger in kwargs to be passed down and used later.
+        defaultExcludeKeys = ConfigReader.get("KWARGS", "WARNING_EXCLUDE_KEYS", asType=list)
+        excludeKeys += defaultExcludeKeys
+
         unused_kwargs = [kwarg for kwarg in kwargs.keys() if kwarg not in excludeKeys]
         for kwarg in unused_kwargs:
             LOGGER.warning(f"Keyword argument '{kwarg}' unused.")
