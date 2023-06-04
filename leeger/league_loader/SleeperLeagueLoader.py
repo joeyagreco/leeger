@@ -40,8 +40,14 @@ class SleeperLeagueLoader(LeagueLoader):
         years: list[int],
         *,
         ownerNamesAndAliases: Optional[dict[str, list[str]]] = None,
+        leagueName: Optional[str] = None,
     ):
-        super().__init__(mostRecentLeagueId, years, ownerNamesAndAliases=ownerNamesAndAliases)
+        super().__init__(
+            mostRecentLeagueId,
+            years,
+            ownerNamesAndAliases=ownerNamesAndAliases,
+            leagueName=leagueName,
+        )
 
         self.__sleeperUserIdToOwnerMap: dict[str, Owner] = dict()
         self.__sleeperRosterIdToTeamMap: dict[int, Team] = dict()

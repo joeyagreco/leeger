@@ -28,13 +28,16 @@ class FleaflickerLeagueLoader(LeagueLoader):
         years: list[int],
         *,
         ownerNamesAndAliases: Optional[dict[str, list[str]]] = None,
+        leagueName: Optional[str] = None,
     ):
         # validation
         try:
             int(leagueId)
         except ValueError:
             raise ValueError(f"League ID '{leagueId}' could not be turned into an int.")
-        super().__init__(leagueId, years, ownerNamesAndAliases=ownerNamesAndAliases)
+        super().__init__(
+            leagueId, years, ownerNamesAndAliases=ownerNamesAndAliases, leagueName=leagueName
+        )
 
         self.__fleaflickerTeamIdToOwnerMap: dict[int, Owner] = dict()
         self.__fleaflickerTeamIdToTeamMap: dict[int, Team] = dict()

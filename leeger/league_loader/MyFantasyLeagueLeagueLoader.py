@@ -29,8 +29,11 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
         mflPassword: str,
         mflUserAgentName: str,
         ownerNamesAndAliases: Optional[dict[str, list[str]]] = None,
+        leagueName: Optional[str] = None,
     ):
-        super().__init__(leagueId, years, ownerNamesAndAliases=ownerNamesAndAliases)
+        super().__init__(
+            leagueId, years, ownerNamesAndAliases=ownerNamesAndAliases, leagueName=leagueName
+        )
 
         self.__mflUsername = mflUsername
         self.__mflPassword = mflPassword
