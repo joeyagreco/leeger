@@ -21,6 +21,13 @@ class TestGeneralUtil(unittest.TestCase):
         self.assertEqual(2, len(captured.records))
         self.assertEqual("Keyword argument 'a' unused.", captured.records[0].getMessage())
         self.assertEqual("Keyword argument 'b' unused.", captured.records[1].getMessage())
+        
+        # with exclude keys
+        kwargs = {"a": 1, "b": 2}
+        with self.assertLogs() as captured:
+            GeneralUtil.warnForUnusedKwargs(kwargs, excludeKeys=["a"])
+        self.assertEqual(1, len(captured.records))
+        self.assertEqual("Keyword argument 'b' unused.", captured.records[0].getMessage())
 
     def test_safeSum_happyPath(self):
         response = GeneralUtil.safeSum(None, 1, 1)

@@ -56,9 +56,8 @@ class YearFilters:
         weekNumberStart = kwargsCopy.pop("weekNumberStart", year.weeks[0].weekNumber)
         weekNumberEnd = kwargsCopy.pop("weekNumberEnd", year.weeks[-1].weekNumber)
         includeMultiWeekMatchups = kwargsCopy.pop("includeMultiWeekMatchups", True)
-        kwargsCopy.pop("includeMatchupTypes", None)  # so we don't get an unused kwarg warning
 
-        GeneralUtil.warnForUnusedKwargs(kwargsCopy)
+        GeneralUtil.warnForUnusedKwargs(kwargsCopy, excludeKeys=["includeMatchupTypes"])
 
         ####################
         # validate filters #
