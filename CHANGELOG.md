@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+- N/A
+
+## [2.5.0]
+
 - Fixed a bug in the MyFantasyLeague League Loader where playoff Matchups could be ignored
 - Fixed a bug in the Sleeper League Loader where leagues with 1-week playoff rounds could be loaded incorrectly
 - Integration Divisions into league models
@@ -220,7 +224,8 @@ All notable changes to this project will be documented in this file.
 
 ### Initial Release
 
-[Unreleased]: https://github.com/joeyagreco/leeger/compare/v2.4.0...HEAD
+[Unreleased]: https://github.com/joeyagreco/leeger/compare/v2.5.0...HEAD
+[2.5.0]: https://github.com/joeyagreco/leeger/releases/tag/v2.5.0
 [2.4.0]: https://github.com/joeyagreco/leeger/releases/tag/v2.4.0
 [2.3.0]: https://github.com/joeyagreco/leeger/releases/tag/v2.3.0
 [2.2.0]: https://github.com/joeyagreco/leeger/releases/tag/v2.2.0
