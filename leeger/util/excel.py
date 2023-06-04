@@ -81,6 +81,13 @@ def leagueToExcel(
 
     allTimeFilters = AllTimeFilters.preferredOrderWithTitle(league, **kwargs.copy())
 
+    # see if we have a division column
+    # if we do, shift the frozen panes 1 column to the right
+    freezePanes = "D2"
+    for title, _ in allTimeTeamsStatSheet_:
+        if title == "Division":
+            freezePanes = "E2"
+
     _populateWorksheet(
         worksheet=worksheet,
         workbook=workbook,
@@ -89,8 +96,7 @@ def leagueToExcel(
         entityIds=allTimeTeamIds,
         entityIdToColorMap=teamIdToColorMap,
         legendKeyValues=allTimeFilters,
-        # TODO: need logic here to see if we do NOT have a division column and if so, move the frozen panes to the left 1 column
-        freezePanes="E2",
+        freezePanes=freezePanes,
         saveToFilepath=filePath,
     )
 
@@ -188,8 +194,6 @@ def _yearToExcel(year: Year, workbook: Optional[Workbook] = None, **kwargs) -> W
     for ownerId, seed in ownerIdToSeedMap.items():
         ownerIdToColorMap[ownerId] = _getRandomColor(0.5, seed)
 
-    freezePanes = "B2"
-
     teamIdToColorMap = dict()
     teamIds = list()
     for team in year.teams:
@@ -200,6 +204,8 @@ def _yearToExcel(year: Year, workbook: Optional[Workbook] = None, **kwargs) -> W
 
     yearStatsWithTitles = yearStatSheet(year, **kwargs.copy()).preferredOrderWithTitle()
     yearStatsWithTitles.insert(0, ("Team", teamIdToNameMap))
+
+    freezePanes = "B2"
     if len(year.divisions) > 0:
         yearStatsWithTitles.insert(1, ("Division", teamIdToDivisionNameMap))
         freezePanes = "C2"

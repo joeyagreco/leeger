@@ -24,7 +24,6 @@ def allTimeTeamsStatSheet(league: League, **kwargs) -> list[tuple[str, dict]]:
         ).preferredOrderWithTitle()
 
         yearStatsWithTitles.insert(0, ("Team", teamIdToNameMap))
-        # TODO: need logic here to insert "N/A" for division column if some years have divisions and some years don't
         if len(year.divisions) > 0:
             yearStatsWithTitles.insert(2, ("Division", teamIdToDivisionNameMap))
 

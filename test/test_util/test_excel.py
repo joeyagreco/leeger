@@ -5,6 +5,7 @@ from decimal import Decimal
 
 from openpyxl import load_workbook
 from openpyxl.utils import get_column_letter
+from leeger.model.league.Division import Division
 
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup
@@ -17,12 +18,16 @@ from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 class TestExcel(unittest.TestCase):
     def test_leagueToExcel_filePathGiven_happyPath(self):
+        division1 = Division(name="d1")
+        division2 = Division(name="d2")
         owners, teams1 = getNDefaultOwnersAndTeams(2)
         teams1[0].name = "a"
         teams1[1].name = "b"
+        teams1[0].divisionId = division1.id
+        teams1[1].divisionId = division2.id
         matchup1 = Matchup(teamAId=teams1[0].id, teamBId=teams1[1].id, teamAScore=1, teamBScore=2)
         week1 = Week(weekNumber=1, matchups=[matchup1])
-        year1 = Year(yearNumber=2000, teams=teams1, weeks=[week1])
+        year1 = Year(yearNumber=2000, teams=teams1, weeks=[week1], divisions=[division1, division2])
 
         teams2 = [Team(ownerId=owners[0].id, name="a2"), Team(ownerId=owners[1].id, name="b2")]
         matchup2 = Matchup(teamAId=teams2[0].id, teamBId=teams2[1].id, teamAScore=1, teamBScore=2)
@@ -60,6 +65,7 @@ class TestExcel(unittest.TestCase):
             worksheet2000TeamValues = [
                 [
                     "Team",
+                    "Division",
                     "Games Played",
                     "Wins",
                     "Losses",
@@ -93,6 +99,7 @@ class TestExcel(unittest.TestCase):
                 ],
                 [
                     "a",
+                    "d1",
                     1,
                     0,
                     1,
@@ -126,6 +133,7 @@ class TestExcel(unittest.TestCase):
                 ],
                 [
                     "b",
+                    "d2",
                     1,
                     1,
                     0,
@@ -436,6 +444,7 @@ class TestExcel(unittest.TestCase):
                 [
                     "Team",
                     "Owner",
+                    "Division",
                     "Year",
                     "Games Played",
                     "Wins",
@@ -471,6 +480,7 @@ class TestExcel(unittest.TestCase):
                 [
                     "a",
                     "1",
+                    "d1",
                     2000,
                     1,
                     0,
@@ -506,6 +516,7 @@ class TestExcel(unittest.TestCase):
                 [
                     "b",
                     "2",
+                    "d2",
                     2000,
                     1,
                     1,
@@ -541,6 +552,7 @@ class TestExcel(unittest.TestCase):
                 [
                     "a2",
                     "1",
+                    "N/A",
                     2001,
                     1,
                     0,
@@ -576,6 +588,7 @@ class TestExcel(unittest.TestCase):
                 [
                     "b2",
                     "2",
+                    "N/A",
                     2001,
                     1,
                     1,
@@ -611,6 +624,7 @@ class TestExcel(unittest.TestCase):
                 [
                     "a3",
                     "1",
+                    "N/A",
                     2002,
                     1,
                     0,
@@ -646,6 +660,7 @@ class TestExcel(unittest.TestCase):
                 [
                     "b3",
                     "2",
+                    "N/A",
                     2002,
                     1,
                     1,
