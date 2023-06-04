@@ -32,14 +32,14 @@ class TestYearNavigator(unittest.TestCase):
             "Team with ID 'badId' does not exist in the given Year.", str(context.exception)
         )
 
-    def test_getTDivisionById_happyPath(self):
+    def test_getDivisionById_happyPath(self):
         division = Division(name="d1")
         year = Year(yearNumber=2000, divisions=[division], teams=list(), weeks=list())
 
         response = YearNavigator.getDivisionById(year, division.id)
         self.assertTrue(division.equals(response))
 
-    def test_getTDivisionById_notFound_raisesException(self):
+    def test_getDivisionById_notFound_raisesException(self):
         division = Division(name="d1")
         year = Year(yearNumber=2000, divisions=[division], teams=list(), weeks=list())
 
