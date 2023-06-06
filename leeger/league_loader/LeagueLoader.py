@@ -97,6 +97,23 @@ class LeagueLoader:
             f"Owner name '{ownerName}' does not match any previously loaded owner names. To add multiple names for a single owner, use the 'ownerNamesAndAliases' keyword argument to define them."
         )
 
+    ## validation
+
+    def _warnForUnusedOwnerNames(self, league: League) -> None:
+        """
+        Logs a warning for all owner names that are not in the loaded league IF ownerNamesAndAliases is given.
+        """
+        if self._ownerNamesAndAliases:
+            allLoadedOwnerNames = [owner.name for owner in league.owners]
+            unusedOwnerNames = list()
+            for ownerName in self._ownerNamesAndAliases.keys():
+                if ownerName not in allLoadedOwnerNames:
+                    unusedOwnerNames.append(ownerName)
+            if unusedOwnerNames:
+                self._LOGGER.warning(
+                    f"Some owner names were given but not assigned to the loaded League: {unusedOwnerNames}"
+                )
+
     @abstractmethod
     def loadLeague(self, validate: bool = True, *args, **kwargs) -> League:
         ...

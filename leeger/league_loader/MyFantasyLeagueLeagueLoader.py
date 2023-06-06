@@ -83,6 +83,7 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
         if validate:
             # validate new league
             leagueValidation.runAllChecks(league)
+        self._warnForUnusedOwnerNames(league)
         return league
 
     def __buildLeague(self, mflLeagues: list[dict]) -> League:

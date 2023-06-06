@@ -123,6 +123,7 @@ class SleeperLeagueLoader(LeagueLoader):
             # validate new league
             leagueValidation.runAllChecks(league)
         self.__resetCaches()
+        self._warnForUnusedOwnerNames(league)
         return league
 
     def __buildLeague(self, sleeperLeagues: list[SleeperLeague]) -> League:

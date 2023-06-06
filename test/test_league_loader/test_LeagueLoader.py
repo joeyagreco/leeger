@@ -3,6 +3,7 @@ from leeger.exception.DoesNotExistException import DoesNotExistException
 from leeger.exception.LeagueLoaderException import LeagueLoaderException
 
 from leeger.league_loader.LeagueLoader import LeagueLoader
+from leeger.model.league.League import League
 from leeger.model.league.Owner import Owner
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
@@ -141,3 +142,44 @@ class TestLeagueLoader(unittest.TestCase):
         leagueLoader = LeagueLoader("leagueId", [2020, 2021, 2022])
         response = leagueLoader._getValidYears([year2021, year2022, year2020])
         self.assertEqual([year2020, year2021, year2022], response)
+
+    def test__warnForUnusedOwnerNames(self):
+        # ownerNamesAndAliases not given, nothing is logged
+        owner1 = Owner(name="o1")
+        owner2 = Owner(name="o2")
+        league = League(name="league", owners=[owner1, owner2], years=list())
+        leagueLoader = LeagueLoader("leagueId", [2020])
+
+        try:
+            with self.assertLogs() as _:
+                leagueLoader._warnForUnusedOwnerNames(league)
+        except AssertionError:
+            pass
+        else:
+            self.fail("Logs were produced but weren't expected")
+
+        # ownerNamesAndAliases given, all are used, nothing is logged
+        leagueLoader = LeagueLoader(
+            "leagueId", [2020], ownerNamesAndAliases={"o1": list(), "o2": list()}
+        )
+        try:
+            with self.assertLogs() as _:
+                leagueLoader._warnForUnusedOwnerNames(league)
+        except AssertionError:
+            pass
+        else:
+            self.fail("Logs were produced but weren't expected")
+
+        # ownerNamesAndAliases given, some aren't used, logs each unused owner name
+        leagueLoader = LeagueLoader(
+            "leagueId",
+            [2020],
+            ownerNamesAndAliases={"o1": list(), "o2": list(), "o3": list(), "o4": list()},
+        )
+
+        with self.assertLogs() as captured:
+            leagueLoader._warnForUnusedOwnerNames(league)
+        self.assertEqual(
+            "Some owner names were given but not assigned to the loaded League: ['o3', 'o4']",
+            str(captured.records[0].getMessage()),
+        )

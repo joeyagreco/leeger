@@ -127,6 +127,7 @@ class YahooLeagueLoader(LeagueLoader):
         if validate:
             # validate new league
             leagueValidation.runAllChecks(league)
+        self._warnForUnusedOwnerNames(league)
         return league
 
     def __buildLeague(self, yahooLeagues: list[YahooLeague]) -> League:

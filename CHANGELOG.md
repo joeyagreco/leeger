@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
-- N/A
+- Added warning log for unused Owner names for all League Loaders
 
 ## [2.5.0]
 
