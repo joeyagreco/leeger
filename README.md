@@ -8,7 +8,7 @@ Instant stats for any fantasy football league.
 <br>
 ![End-to-end Tests](https://github.com/joeyagreco/leeger/actions/workflows/e2e-tests.yml/badge.svg)
 ![Formatting Check](https://github.com/joeyagreco/leeger/actions/workflows/formatting-check.yml/badge.svg)
-![Synax And Unit Tests](https://github.com/joeyagreco/leeger/actions/workflows/syntax-and-unit-tests.yml/badge.svg)
+![Unit Tests](https://github.com/joeyagreco/leeger/actions/workflows/unit-tests.yml/badge.svg)
 </div>
 
 ### Table of Contents
