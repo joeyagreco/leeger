@@ -4,5 +4,6 @@ import os
 
 if __name__ == "__main__":
     tempDir = os.environ["TEMP_DIR"]
+    print(f"temp dir: {tempDir}")
 
     leagueToExcel(LEAGUE, f"{tempDir}\\excel.xlsx")
