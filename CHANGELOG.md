@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 - N/A
 
-## [2.5.1]
+## [2.5.2]
 
 - Fixed fatal bug where League Loaders could not run
 - Added warning log for unused Owner names for all League Loaders
@@ -229,8 +229,8 @@ All notable changes to this project will be documented in this file.
 
 ### Initial Release
 
-[Unreleased]: https://github.com/joeyagreco/leeger/compare/v2.5.1...HEAD
-[2.5.1]: https://github.com/joeyagreco/leeger/releases/tag/v2.5.1
+[Unreleased]: https://github.com/joeyagreco/leeger/compare/v2.5.2...HEAD
+[2.5.2]: https://github.com/joeyagreco/leeger/releases/tag/v2.5.2
 [2.5.0]: https://github.com/joeyagreco/leeger/releases/tag/v2.5.0
 [2.4.0]: https://github.com/joeyagreco/leeger/releases/tag/v2.4.0
 [2.3.0]: https://github.com/joeyagreco/leeger/releases/tag/v2.3.0
