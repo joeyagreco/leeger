@@ -83,10 +83,10 @@ if __name__ == "__main__":
     week3 = Week(weekNumber=3, matchups=[matchup7, matchup8, matchup9])
 
     yearSettings = YearSettings(leagueMedianGames=True)
-    
+
     division1 = Division(name="Boyz")
     division2 = Division(name="Girlz")
-    
+
     teamFrankie2019.divisionId = division1.id
     teamMonika2019.divisionId = division2.id
     teamJoseph2019.divisionId = division1.id
@@ -106,7 +106,7 @@ if __name__ == "__main__":
         ],
         weeks=[week1, week2, week3],
         yearSettings=yearSettings,
-        divisions=[division1, division2]
+        divisions=[division1, division2],
     )
 
     league = League(

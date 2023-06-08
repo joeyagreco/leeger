@@ -95,11 +95,11 @@ if __name__ == "__main__":
 
     # Set up year settings for a year
     yearSettings = YearSettings(leagueMedianGames=True)
-    
+
     # Create Divisions for the a year
     division1 = Division(name="Boyz")
     division2 = Division(name="Girlz")
-    
+
     # Add division to each team
     teamFrankie2019.divisionId = division1.id
     teamMonika2019.divisionId = division2.id
@@ -121,7 +121,7 @@ if __name__ == "__main__":
         ],
         weeks=[week1, week2, week3],
         yearSettings=yearSettings,
-        divisions=[division1, division2]
+        divisions=[division1, division2],
     )
 
     # Create the league.

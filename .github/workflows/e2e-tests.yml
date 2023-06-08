@@ -37,5 +37,5 @@ jobs:
       - name: Install Package
         run: pip install .
 
-      - name: Run Test Script
-        run: python e2e/base.py
+      - name: Manually Build League
+        run: python e2e/manuallyBuildLeague.py
