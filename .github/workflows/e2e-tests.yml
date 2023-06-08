@@ -10,6 +10,10 @@ on:
       manual:
         description: "Trigger the workflow manually"
         required: false
+  schedule:
+    # CST is UTC-6, so 6:00 AM CST is 12:00 PM (or 12:00) UTC.
+    # If daylight saving is in effect (CDT, UTC-5), this will run at 7:00 AM CDT.
+    - cron: "0 12 * * *"
 
 jobs:
   build:
