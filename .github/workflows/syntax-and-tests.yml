@@ -1,4 +1,4 @@
-name: Syntax and Tests
+name: syntax check and unit tests
 
 on:
   push:

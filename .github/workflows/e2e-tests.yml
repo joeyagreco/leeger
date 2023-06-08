@@ -1,4 +1,4 @@
-name: End-to-End Tests
+name: e2e tests
 
 on:
   push:
@@ -46,7 +46,7 @@ jobs:
           python e2e/test-excel.py
           echo "Contents of Temp Directory:"
           ls -l ${{ env.TMP_DIR }}
-          if [ -z "$(ls -A ${{ env.TMP_DIR }})" ]; then
+          if [ ! -f "${{ env.TMP_DIR }}/excel.xlsx" ]; then
              echo "Excel file not found"
              exit 1
           fi
