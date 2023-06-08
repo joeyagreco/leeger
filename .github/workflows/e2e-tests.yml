@@ -42,6 +42,15 @@ jobs:
         run: echo "TMP_DIR=$(mktemp -d)" >> $GITHUB_ENV
 
       - name: Test Excel
-        run: python e2e/test-excel.py
+        run: |
+          python e2e/test-excel.py
+          echo "Contents of Temp Directory:"
+          ls -l ${{ env.TMP_DIR }}
+          if [ -z "$(ls -A ${{ env.TMP_DIR }})" ]; then
+             echo "Temp directory is empty"
+             exit 1
+          else
+             echo "Temp directory is not empty"
+          fi
         env:
           TEMP_DIR: ${{ env.TMP_DIR }}
