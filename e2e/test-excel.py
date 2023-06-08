@@ -4,6 +4,9 @@ import os
 
 if __name__ == "__main__":
     tempDir = os.environ["TEMP_DIR"]
-    print(f"temp dir: {tempDir}")
 
-    leagueToExcel(LEAGUE, f"{tempDir}\\excel.xlsx")
+    fullPath = os.path.abspath(os.path.join(tempDir, "excel.xlsx"))
+
+    print(f"fullPath: {fullPath}")
+
+    leagueToExcel(LEAGUE, fullPath)
