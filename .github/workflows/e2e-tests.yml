@@ -34,8 +34,14 @@ jobs:
       - name: Check Build
         run: |
           twine check dist/*
+
       - name: Install Package
         run: pip install .
 
-      - name: Manually Build League
-        run: python e2e/manuallyBuildLeague.py
+      - name: Create Temporary Directory
+        run: echo "TMP_DIR=$(mktemp -d)" >> $GITHUB_ENV
+
+      - name: Test Excel
+        run: python e2e/test-excel.py
+        env:
+          TEMP_DIR: ${{ env.TMP_DIR }}
