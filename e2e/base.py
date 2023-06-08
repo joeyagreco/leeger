@@ -6,8 +6,6 @@ from leeger.model.league.Division import Division
 if __name__ == "__main__":
     # Build a league manually.
 
-    # Create owners.
-    # One owner can have multiple teams (1 per year) but a team can only have 1 owner.
     ownerFrankie = Owner(name="Frankie")
     ownerMonika = Owner(name="Monika")
     ownerJoseph = Owner(name="Joseph")
@@ -15,8 +13,6 @@ if __name__ == "__main__":
     ownerGiovanna = Owner(name="Giovanna")
     ownerDominic = Owner(name="Dominic")
 
-    # Create teams for 2019 season.
-    # Use the owner IDs for that team's owner when creating a team.
     teamFrankie2019 = Team(ownerId=ownerFrankie.id, name="Basil Bombers")
     teamMonika2019 = Team(ownerId=ownerMonika.id, name="Philosopher's Thrown")
     teamJoseph2019 = Team(ownerId=ownerJoseph.id, name="Leeger Legends")
@@ -24,8 +20,6 @@ if __name__ == "__main__":
     teamGiovanna2019 = Team(ownerId=ownerGiovanna.id, name="High Notes")
     teamDominic2019 = Team(ownerId=ownerDominic.id, name="Bike Ridas")
 
-    # Create matchups for week 1.
-    # Use the team IDs when creating a matchup.
     matchup1 = Matchup(
         teamAId=teamFrankie2019.id, teamBId=teamDominic2019.id, teamAScore=101.2, teamBScore=122
     )
@@ -36,9 +30,6 @@ if __name__ == "__main__":
         teamAId=teamJoseph2019.id, teamBId=teamVincent2019.id, teamAScore=112, teamBScore=145.3
     )
 
-    # Create matchups for week 2.
-    # 'matchupType' defines the type of matchups this is. Default is REGULAR_SEASON.
-    # Multi-week matchups will link any consecutive matchups with the same multiWeekMatchupId.
     matchup4 = Matchup(
         teamAId=teamFrankie2019.id,
         teamBId=teamDominic2019.id,
@@ -63,7 +54,6 @@ if __name__ == "__main__":
         matchupType=MatchupType.IGNORE,
     )
 
-    # Create matchups for week 3.
     matchup7 = Matchup(
         teamAId=teamFrankie2019.id,
         teamBId=teamDominic2019.id,
@@ -88,19 +78,15 @@ if __name__ == "__main__":
         matchupType=MatchupType.IGNORE,
     )
 
-    # Create weeks with matchups.
     week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
     week2 = Week(weekNumber=2, matchups=[matchup4, matchup5, matchup6])
     week3 = Week(weekNumber=3, matchups=[matchup7, matchup8, matchup9])
 
-    # Set up year settings for a year
     yearSettings = YearSettings(leagueMedianGames=True)
     
-    # Create Divisions for the a year
     division1 = Division(name="Boyz")
     division2 = Division(name="Girlz")
     
-    # Add division to each team
     teamFrankie2019.divisionId = division1.id
     teamMonika2019.divisionId = division2.id
     teamJoseph2019.divisionId = division1.id
@@ -108,7 +94,6 @@ if __name__ == "__main__":
     teamGiovanna2019.divisionId = division2.id
     teamDominic2019.divisionId = division1.id
 
-    # Create the 2019 year (season) with custom year settings.
     year2019 = Year(
         yearNumber=2019,
         teams=[
@@ -124,7 +109,6 @@ if __name__ == "__main__":
         divisions=[division1, division2]
     )
 
-    # Create the league.
     league = League(
         name="G League",
         owners=[ownerFrankie, ownerMonika, ownerJoseph, ownerVincent, ownerGiovanna, ownerDominic],

@@ -34,3 +34,8 @@ jobs:
       - name: Check Build
         run: |
           twine check dist/*
+      - name: Install Package
+        run: pip install .
+
+      - name: Run Test Script
+        run: python e2e/base.py
