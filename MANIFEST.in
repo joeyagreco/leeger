@@ -1,2 +1,3 @@
 include requirements.txt
 recursive-include leeger/properties *
+global-exclude *.bat
