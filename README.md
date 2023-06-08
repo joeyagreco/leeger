@@ -4,8 +4,11 @@
 Instant stats for any fantasy football league.
 
 <a target="_blank" href="https://www.python.org/downloads/" title="Python version"><img src="https://img.shields.io/badge/python-%3E=_3.10-teal.svg"></a>
-![Main Build](https://github.com/joeyagreco/leeger/actions/workflows/main-build.yml/badge.svg)
 ![Last Commit](https://img.shields.io/github/last-commit/joeyagreco/leeger)
+<br>
+![End-to-end Tests](https://github.com/joeyagreco/leeger/actions/workflows/e2e-tests.yml/badge.svg)
+![Formatting Check](https://github.com/joeyagreco/leeger/actions/workflows/formatting-check.yml/badge.svg)
+![Synax And Unit Tests](https://github.com/joeyagreco/leeger/actions/workflows/syntax-and-unit-tests.yml/badge.svg)
 </div>
 
 ### Table of Contents
