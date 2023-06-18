@@ -131,27 +131,29 @@ class ScoringShareAllTimeCalculator(AllTimeCalculator):
         ownerIdAndMaxScoringShares: dict[str, list] = dict()
         for yearNumber in maxScoringSharesByYear.keys():
             for ownerId in allOwnerIds:
-                if (
-                    ownerId in ownerIdAndMaxScoringShares.keys()
-                    and ownerIdAndMaxScoringShares[ownerId] is not None
-                ):
-                    ownerIdAndMaxScoringShares[ownerId].append(
-                        maxScoringSharesByYear[yearNumber][ownerId]
-                    )
-                else:
-                    ownerIdAndMaxScoringShares[ownerId] = [
-                        maxScoringSharesByYear[yearNumber][ownerId]
-                    ]
+                if ownerId in ownerIdAndMaxScoringShares.keys():
+                    if (
+                        ownerId in ownerIdAndMaxScoringShares.keys()
+                        and ownerIdAndMaxScoringShares[ownerId] is not None
+                    ):
+                        ownerIdAndMaxScoringShares[ownerId].append(
+                            maxScoringSharesByYear[yearNumber][ownerId]
+                        )
+                    else:
+                        ownerIdAndMaxScoringShares[ownerId] = [
+                            maxScoringSharesByYear[yearNumber][ownerId]
+                        ]
 
         for ownerId in allOwnerIds:
-            # remove all None values from list
-            ownerIdAndMaxScoringShares[ownerId] = [
-                i for i in ownerIdAndMaxScoringShares[ownerId] if i is not None
-            ]
-            if len(ownerIdAndMaxScoringShares[ownerId]) > 0:
-                ownerIdAndMaxScoringShare[ownerId] = max(ownerIdAndMaxScoringShares[ownerId])
-            else:
-                ownerIdAndMaxScoringShare[ownerId] = None
+            if ownerId in ownerIdAndMaxScoringShares:
+                # remove all None values from list
+                ownerIdAndMaxScoringShares[ownerId] = [
+                    i for i in ownerIdAndMaxScoringShares[ownerId] if i is not None
+                ]
+                if len(ownerIdAndMaxScoringShares[ownerId]) > 0:
+                    ownerIdAndMaxScoringShare[ownerId] = max(ownerIdAndMaxScoringShares[ownerId])
+                else:
+                    ownerIdAndMaxScoringShare[ownerId] = None
 
         return ownerIdAndMaxScoringShare
 
@@ -192,26 +194,28 @@ class ScoringShareAllTimeCalculator(AllTimeCalculator):
         ownerIdAndMinScoringShares: dict[str, list] = dict()
         for yearNumber in minScoringSharesByYear.keys():
             for ownerId in allOwnerIds:
-                if (
-                    ownerId in ownerIdAndMinScoringShares.keys()
-                    and ownerIdAndMinScoringShares[ownerId] is not None
-                ):
-                    ownerIdAndMinScoringShares[ownerId].append(
-                        minScoringSharesByYear[yearNumber][ownerId]
-                    )
-                else:
-                    ownerIdAndMinScoringShares[ownerId] = [
-                        minScoringSharesByYear[yearNumber][ownerId]
-                    ]
+                if ownerId in ownerIdAndMinScoringShares:
+                    if (
+                        ownerId in ownerIdAndMinScoringShares.keys()
+                        and ownerIdAndMinScoringShares[ownerId] is not None
+                    ):
+                        ownerIdAndMinScoringShares[ownerId].append(
+                            minScoringSharesByYear[yearNumber][ownerId]
+                        )
+                    else:
+                        ownerIdAndMinScoringShares[ownerId] = [
+                            minScoringSharesByYear[yearNumber][ownerId]
+                        ]
 
         for ownerId in allOwnerIds:
-            # remove all None values from list
-            ownerIdAndMinScoringShares[ownerId] = [
-                i for i in ownerIdAndMinScoringShares[ownerId] if i is not None
-            ]
-            if len(ownerIdAndMinScoringShares[ownerId]) > 0:
-                ownerIdAndMinScoringShare[ownerId] = min(ownerIdAndMinScoringShares[ownerId])
-            else:
-                ownerIdAndMinScoringShare[ownerId] = None
+            if ownerId in ownerIdAndMinScoringShares:
+                # remove all None values from list
+                ownerIdAndMinScoringShares[ownerId] = [
+                    i for i in ownerIdAndMinScoringShares[ownerId] if i is not None
+                ]
+                if len(ownerIdAndMinScoringShares[ownerId]) > 0:
+                    ownerIdAndMinScoringShare[ownerId] = min(ownerIdAndMinScoringShares[ownerId])
+                else:
+                    ownerIdAndMinScoringShare[ownerId] = None
 
         return ownerIdAndMinScoringShare

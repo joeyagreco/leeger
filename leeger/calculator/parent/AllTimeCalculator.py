@@ -50,9 +50,12 @@ class AllTimeCalculator:
                 # check if this is a valid result
                 if resultDict[teamId] is None:
                     continue
-                team = LeagueNavigator.getTeamById(league, teamId)
-                result[team.ownerId] += resultDict[teamId]
-                ownerIdAndWhetherOwnerHasHadAValidResult[team.ownerId] = True
+                try:
+                    team = LeagueNavigator.getTeamById(league, teamId)
+                    result[team.ownerId] += resultDict[teamId]
+                    ownerIdAndWhetherOwnerHasHadAValidResult[team.ownerId] = True
+                except:
+                    continue
 
         # set None for each Owner that did not have a single valid result
         for ownerId in ownerIdAndWhetherOwnerHasHadAValidResult:

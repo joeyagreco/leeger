@@ -37,15 +37,18 @@ class SingleScoreAllTimeCalculator(AllTimeCalculator):
             ownerIdAndMaxScore[ownerId] = None
 
         for matchup in allMatchups:
-            aOwnerId = LeagueNavigator.getTeamById(league, matchup.teamAId).ownerId
-            aPreviousMaxScore = ownerIdAndMaxScore[aOwnerId]
-            if aPreviousMaxScore is None or matchup.teamAScore > aPreviousMaxScore:
-                ownerIdAndMaxScore[aOwnerId] = matchup.teamAScore
+            try:
+                aOwnerId = LeagueNavigator.getTeamById(league, matchup.teamAId).ownerId
+                aPreviousMaxScore = ownerIdAndMaxScore[aOwnerId]
+                if aPreviousMaxScore is None or matchup.teamAScore > aPreviousMaxScore:
+                    ownerIdAndMaxScore[aOwnerId] = matchup.teamAScore
 
-            bOwnerId = LeagueNavigator.getTeamById(league, matchup.teamBId).ownerId
-            bPreviousMaxScore = ownerIdAndMaxScore[bOwnerId]
-            if bPreviousMaxScore is None or matchup.teamBScore > bPreviousMaxScore:
-                ownerIdAndMaxScore[bOwnerId] = matchup.teamBScore
+                bOwnerId = LeagueNavigator.getTeamById(league, matchup.teamBId).ownerId
+                bPreviousMaxScore = ownerIdAndMaxScore[bOwnerId]
+                if bPreviousMaxScore is None or matchup.teamBScore > bPreviousMaxScore:
+                    ownerIdAndMaxScore[bOwnerId] = matchup.teamBScore
+            except: 
+                pass
 
         return ownerIdAndMaxScore
 
@@ -74,14 +77,17 @@ class SingleScoreAllTimeCalculator(AllTimeCalculator):
             ownerIdAndMinScore[ownerId] = None
 
         for matchup in allMatchups:
-            aOwnerId = LeagueNavigator.getTeamById(league, matchup.teamAId).ownerId
-            aPreviousMinScore = ownerIdAndMinScore[aOwnerId]
-            if aPreviousMinScore is None or matchup.teamAScore < aPreviousMinScore:
-                ownerIdAndMinScore[aOwnerId] = matchup.teamAScore
+            try:
+                aOwnerId = LeagueNavigator.getTeamById(league, matchup.teamAId).ownerId
+                aPreviousMinScore = ownerIdAndMinScore[aOwnerId]
+                if aPreviousMinScore is None or matchup.teamAScore < aPreviousMinScore:
+                    ownerIdAndMinScore[aOwnerId] = matchup.teamAScore
 
-            bOwnerId = LeagueNavigator.getTeamById(league, matchup.teamBId).ownerId
-            bPreviousMinScore = ownerIdAndMinScore[bOwnerId]
-            if bPreviousMinScore is None or matchup.teamBScore < bPreviousMinScore:
-                ownerIdAndMinScore[bOwnerId] = matchup.teamBScore
+                bOwnerId = LeagueNavigator.getTeamById(league, matchup.teamBId).ownerId
+                bPreviousMinScore = ownerIdAndMinScore[bOwnerId]
+                if bPreviousMinScore is None or matchup.teamBScore < bPreviousMinScore:
+                    ownerIdAndMinScore[bOwnerId] = matchup.teamBScore
+            except:
+                pass
 
         return ownerIdAndMinScore

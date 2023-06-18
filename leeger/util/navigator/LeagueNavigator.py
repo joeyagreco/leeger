@@ -118,9 +118,12 @@ class LeagueNavigator:
 
         for resultDict in allResultDicts:
             for teamId in resultDict.keys():
-                ownerIdAndNumberOfGamesPlayed[
-                    LeagueNavigator.getTeamById(league, teamId).ownerId
-                ] += resultDict[teamId]
+                try:
+                    ownerIdAndNumberOfGamesPlayed[
+                        LeagueNavigator.getTeamById(league, teamId).ownerId
+                    ] += resultDict[teamId]
+                except:
+                    continue
 
         return ownerIdAndNumberOfGamesPlayed
 

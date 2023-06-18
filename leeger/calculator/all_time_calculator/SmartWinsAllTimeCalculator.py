@@ -78,7 +78,7 @@ class SmartWinsAllTimeCalculator(AllTimeCalculator):
         for ownerId, score in ownerIdsAndScores:
             scoresBeat, scoresTied = getNumberOfScoresBeatAndTied(score, allScores)
             smartWins = (scoresBeat + (scoresTied / Deci(2))) / (len(allScores) - Deci(1))
-            if ownerIdAndSmartWins[ownerId] is None:
+            if ownerId not in ownerIdAndSmartWins or ownerIdAndSmartWins[ownerId] is None:
                 ownerIdAndSmartWins[ownerId] = smartWins
             else:
                 ownerIdAndSmartWins[ownerId] += smartWins
@@ -176,7 +176,7 @@ class SmartWinsAllTimeCalculator(AllTimeCalculator):
         for ownerId, opponentScore in ownerIdsAndOpponentScores:
             scoresBeat, scoresTied = getNumberOfScoresBeatAndTied(opponentScore, allScores)
             smartWins = (scoresBeat + (scoresTied / Deci(2))) / (len(allScores) - Deci(1))
-            if ownerIdAndOpponentSmartWins[ownerId] is None:
+            if ownerId not in ownerIdAndOpponentSmartWins or ownerIdAndOpponentSmartWins[ownerId] is None:
                 ownerIdAndOpponentSmartWins[ownerId] = smartWins
             else:
                 ownerIdAndOpponentSmartWins[ownerId] += smartWins

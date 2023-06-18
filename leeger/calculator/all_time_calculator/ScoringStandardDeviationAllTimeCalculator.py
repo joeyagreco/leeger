@@ -47,10 +47,13 @@ class ScoringStandardDeviationAllTimeCalculator(AllTimeCalculator):
             ownerIdAndScores[ownerId] = list()
 
         for matchup in cls._getAllFilteredMatchups(league, filters, simplifyMultiWeekMatchups=True):
-            ownerAId = LeagueNavigator.getTeamById(league, matchup.teamAId).ownerId
-            ownerBId = LeagueNavigator.getTeamById(league, matchup.teamBId).ownerId
-            ownerIdAndScores[ownerAId].append(Deci(matchup.teamAScore))
-            ownerIdAndScores[ownerBId].append(Deci(matchup.teamBScore))
+            try:
+                ownerAId = LeagueNavigator.getTeamById(league, matchup.teamAId).ownerId
+                ownerBId = LeagueNavigator.getTeamById(league, matchup.teamBId).ownerId
+                ownerIdAndScores[ownerAId].append(Deci(matchup.teamAScore))
+                ownerIdAndScores[ownerBId].append(Deci(matchup.teamBScore))
+            except:
+                pass
 
         ownerIdAndScoringStandardDeviation = dict()
         for ownerId in allOwnerIds:

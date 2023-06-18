@@ -50,6 +50,7 @@ def leagueToExcel(
     ownerIdToSeedMap = dict()
     ownerIds = list()
     ownerIdToNameMap = dict()
+    print(len(league.owners))
     for owner in league.owners:
         ownerIdToSeedMap[owner.id] = f"{owner.id}{datetime.now().date()}"
         ownerIds.append(owner.id)
@@ -64,8 +65,9 @@ def leagueToExcel(
     workbook = None
     for year in league.years:
         for team in year.teams:
-            allTimeTeamIds.append(team.id)
-            teamIdToColorMap[team.id] = ownerIdToColorMap[team.ownerId]
+            if team.ownerId in ownerIdToColorMap.keys():
+                allTimeTeamIds.append(team.id)
+                teamIdToColorMap[team.id] = ownerIdToColorMap[team.ownerId]
 
         # add a sheet to the Excel document for this year
         workbook = _yearToExcel(year, workbook, **kwargs.copy())
@@ -113,7 +115,8 @@ def leagueToExcel(
 
     modifiedMatchupIdToColorMap: dict = dict()
     for modifiedMatchupId, ownerId in modifiedMatchupIdToOwnerIdMap.items():
-        modifiedMatchupIdToColorMap[modifiedMatchupId] = ownerIdToColorMap[ownerId]
+        if ownerId in ownerIdToColorMap.keys():
+            modifiedMatchupIdToColorMap[modifiedMatchupId] = ownerIdToColorMap[ownerId]
 
     allTimeFilters = AllTimeFilters.preferredOrderWithTitle(league, **kwargs.copy())
     _populateWorksheet(
@@ -294,7 +297,9 @@ def _populateWorksheet(
 
     # add all stats
     for rowNumber, entityId in enumerate(entityIds):
-        rowFill = PatternFill(patternType="solid", fgColor=entityIdToColorMap[entityId])
+        # TODO
+        color = LIGHT_GRAY if entityId not in entityIdToColorMap.keys() else entityIdToColorMap[entityId]
+        rowFill = PatternFill(patternType="solid", fgColor=color)
         for columnNumber, (title, statDict) in enumerate(titlesAndStatDicts):
             char = get_column_letter(columnNumber + 1)
             if rowNumber == 1:

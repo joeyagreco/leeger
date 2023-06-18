@@ -1,3 +1,4 @@
+from leeger.exception.DoesNotExistException import DoesNotExistException
 from leeger.model.filter import YearFilters, AllTimeFilters
 from leeger.model.league import League, Year
 from leeger.util.navigator import LeagueNavigator, YearNavigator
@@ -12,13 +13,16 @@ def allTimeTeamsStatSheet(league: League, **kwargs) -> list[tuple[str, dict]]:
         teamIdToNameMap = dict()
         teamIdToDivisionNameMap = dict()
         for team in year.teams:
-            ownerNames[team.id] = LeagueNavigator.getOwnerById(league, team.ownerId).name
-            years[team.id] = year.yearNumber
-            teamIdToNameMap[team.id] = team.name
-            if team.divisionId:
-                teamIdToDivisionNameMap[team.id] = YearNavigator.getDivisionById(
-                    year, team.divisionId
-                ).name
+            try:
+                ownerNames[team.id] = LeagueNavigator.getOwnerById(league, team.ownerId).name
+                years[team.id] = year.yearNumber
+                teamIdToNameMap[team.id] = team.name
+                if team.divisionId:
+                    teamIdToDivisionNameMap[team.id] = YearNavigator.getDivisionById(
+                        year, team.divisionId
+                    ).name
+            except DoesNotExistException:
+                pass
         yearStatsWithTitles = yearStatSheet(
             year, ownerNames=ownerNames, years=years, **kwargs
         ).preferredOrderWithTitle()
@@ -163,15 +167,21 @@ def allTimeMatchupsStatSheet(
                 # turn owner IDs into owner names
                 currentOwnerForNames: dict[str, str] = dict()
                 for key, ownerId in statDict.items():
-                    owner = LeagueNavigator.getOwnerById(league, ownerId)
-                    currentOwnerForNames[key] = owner.name
+                    try:
+                        owner = LeagueNavigator.getOwnerById(league, ownerId)
+                        currentOwnerForNames[key] = owner.name
+                    except DoesNotExistException:
+                        pass
                 ownerForNames.update(currentOwnerForNames)
             elif title == "Owner ID Against":
                 # turn owner IDs into owner names
                 currentOwnerAgainstNames: dict[str, str] = dict()
                 for key, ownerId in statDict.items():
-                    owner = LeagueNavigator.getOwnerById(league, ownerId)
-                    currentOwnerAgainstNames[key] = owner.name
+                    try:
+                        owner = LeagueNavigator.getOwnerById(league, ownerId)
+                        currentOwnerAgainstNames[key] = owner.name
+                    except DoesNotExistException:
+                        pass
                 ownerAgainstNames.update(currentOwnerAgainstNames)
 
     combinedModifiedMatchupIdToOwnerIdMap: dict = dict()
