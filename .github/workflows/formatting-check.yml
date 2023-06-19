@@ -34,7 +34,7 @@ jobs:
 
       - name: Check for Duplicate Test Method Names
         run: |
-          python ../batch/helper/duplicate-test-methods.py
+          python batch/helper/duplicate-test-methods.py
 
       - name: Check Formatting
         run: |
