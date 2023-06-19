@@ -1480,6 +1480,37 @@ class TestGameOutcomeAllTimeCalculator(unittest.TestCase):
         self.assertEqual(3, response[owners[0].id])
         self.assertEqual(3, response[owners[1].id])
 
+    def test_getTies_nonAnnualOwner(self):
+        ownersA, teamsA = getNDefaultOwnersAndTeams(2, randomNames=True)
+        ownersB, teamsB = getNDefaultOwnersAndTeams(2, randomNames=True)
+
+        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=1)
+        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=1)
+        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=1)
+        week1_a = Week(weekNumber=1, matchups=[matchup1_a])
+        week2_a = Week(weekNumber=2, matchups=[matchup2_a])
+        week3_a = Week(weekNumber=3, matchups=[matchup3_a])
+        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
+
+        matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=1)
+        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=1)
+        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=1)
+        week1_b = Week(weekNumber=1, matchups=[matchup1_b])
+        week2_b = Week(weekNumber=2, matchups=[matchup2_b])
+        week3_b = Week(weekNumber=3, matchups=[matchup3_b])
+        yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
+
+        league = League(name="TEST", owners=ownersA + ownersB, years=[yearA, yearB])
+
+        response = GameOutcomeAllTimeCalculator.getTies(league)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(4, len(response.keys()))
+        self.assertEqual(3, response[ownersA[0].id])
+        self.assertEqual(3, response[ownersA[1].id])
+        self.assertEqual(3, response[ownersB[0].id])
+        self.assertEqual(3, response[ownersB[1].id])
+
     def test_getTies_multiWeekMatchups(self):
         owners, teamsA = getNDefaultOwnersAndTeams(2)
         teamsB = getTeamsFromOwners(owners)
