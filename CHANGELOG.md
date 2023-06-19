@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
-- N/A
+- Added tests to ensure support for non-annual owners in a League
 
 ## [2.5.3]
 

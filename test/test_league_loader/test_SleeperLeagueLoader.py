@@ -1067,7 +1067,7 @@ class TestSleeperLeagueLoader(unittest.TestCase):
     @patch("sleeper.api.LeagueAPIClient.get_matchups_for_week")
     @patch("sleeper.api.LeagueAPIClient.get_sport_state")
     @patch("sleeper.api.LeagueAPIClient.get_winners_bracket")
-    def test_load_league_happyPath(
+    def test_load_league_customName(
         self,
         mockGetWinnersBracket,
         mockGetSportState,

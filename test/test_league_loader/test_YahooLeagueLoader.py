@@ -1201,7 +1201,7 @@ class TestYahooLeagueLoader(unittest.TestCase):
     @mock.patch("multiprocessing.Process")
     @mock.patch("yahoofantasy.Context.__init__")
     @mock.patch("yahoofantasy.Context.get_leagues")
-    def test_loadLeague_happyPath(
+    def test_loadLeague_customName(
         self, mockYahooContextGetLeagues, mockYahooContextInit, mockMultiprocessingProcess
     ):
         # mock real league 2022
