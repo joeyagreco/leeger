@@ -48,9 +48,9 @@ jobs:
       - name: Test Excel
         run: |
           python e2e/test-excel.py
-          echo "Contents of Temp Directory:"
-          ls -l ${{ env.TMP_DIR }}
           if [ ! -f "${{ env.TMP_DIR }}/excel.xlsx" ]; then
+             echo "Contents of Temp Directory:"
+             ls -l ${{ env.TMP_DIR }}
              echo "Excel file not found"
              exit 1
           fi
