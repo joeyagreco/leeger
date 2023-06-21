@@ -19,7 +19,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Get Python versions
+      - name: Get current required Python version
         id: get-python-versions
         run: |
           MINIMUM_VERSION=$(grep -oP '__version_minimum_python__ = "\K.*(?=")' leeger/_version.py)
@@ -27,7 +27,7 @@ jobs:
           OLD_VERSION="${MINIMUM_VERSION%.*}.$((${MINIMUM_VERSION##*.}-1))"
           echo "::set-output name=old_version::${OLD_VERSION}"
 
-      - name: Set up Current Python Version
+      - name: Set up current Python version
         uses: actions/setup-python@v3
         with:
           python-version: ${{ steps.get-python-versions.outputs.current_version }}
@@ -37,15 +37,15 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Test setup.py
+      - name: setup.py with current required Python version works
         run: |
           python setup.py install || echo "Current Python Version setup.py test failed"
 
-      - name: Set up Old Python Version
+      - name: Set up invalid Python version
         uses: actions/setup-python@v3
         with:
           python-version: ${{ steps.get-python-versions.outputs.old_version }}
 
-      - name: Test setup.py with old Python
+      - name: setup.py with invalid Python version fails
         run: |
           python setup.py install || echo "Old Python Version setup.py test failed"
