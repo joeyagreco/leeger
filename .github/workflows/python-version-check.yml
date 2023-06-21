@@ -24,14 +24,14 @@ jobs:
         id: get-python-versions
         run: |
           MINIMUM_VERSION=$(grep -oP '__version_minimum_python__ = "\K.*(?=")' leeger/_version.py)
-          echo "::set-output name=current_version::${MINIMUM_VERSION}"
+          echo "CURRENT_VERSION=$MINIMUM_VERSION" >> $GITHUB_ENV
           OLD_VERSION="${MINIMUM_VERSION%.*}.$((${MINIMUM_VERSION##*.}-1))"
-          echo "::set-output name=old_version::${OLD_VERSION}"
+          echo "OLD_VERSION=$OLD_VERSION" >> $GITHUB_ENV
 
       - name: Set up current Python version
         uses: actions/setup-python@v3
         with:
-          python-version: ${{ steps.get-python-versions.outputs.current_version }}
+          python-version: ${{ env.CURRENT_VERSION }}
 
       - name: Install dependencies
         run: |
@@ -45,7 +45,7 @@ jobs:
       - name: Set up invalid Python version
         uses: actions/setup-python@v3
         with:
-          python-version: ${{ steps.get-python-versions.outputs.old_version }}
+          python-version: ${{ env.OLD_VERSION }}
 
       - name: setup.py with invalid Python version fails
         run: |

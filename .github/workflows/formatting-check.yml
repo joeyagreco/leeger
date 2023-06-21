@@ -25,11 +25,11 @@ jobs:
         id: get-python-versions
         run: |
           MINIMUM_VERSION=$(grep -oP '__version_minimum_python__ = "\K.*(?=")' leeger/_version.py)
-          echo "::set-output name=current_version::${MINIMUM_VERSION}"
+          echo "CURRENT_VERSION=$MINIMUM_VERSION" >> $GITHUB_ENV
 
       - uses: actions/setup-python@v2
         with:
-          python-version: ${{ steps.get-python-versions.outputs.current_version }}
+          python-version: ${{ env.CURRENT_VERSION }}
 
       - name: Install dependencies
         run: |
