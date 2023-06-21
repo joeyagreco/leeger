@@ -15,7 +15,7 @@ on:
 
 jobs:
   format:
-    name: Check code formatting
+    name: formatting check
     runs-on: ubuntu-latest
 
     steps:
