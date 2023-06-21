@@ -39,7 +39,7 @@ jobs:
 
       - name: setup.py with current required Python version works
         run: |
-          python setup.py install || echo "Current Python Version setup.py test failed"
+          python setup.py install
 
       - name: Set up invalid Python version
         uses: actions/setup-python@v3
@@ -48,4 +48,4 @@ jobs:
 
       - name: setup.py with invalid Python version fails
         run: |
-          python setup.py install || echo "Old Python Version setup.py test failed"
+          ! python setup.py install
