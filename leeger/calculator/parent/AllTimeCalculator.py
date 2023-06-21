@@ -30,7 +30,7 @@ class AllTimeCalculator:
             ...
             }
         NOTE: The type in the return dictionary values will match whatever the type the callable returns in its values for each Year.
-        NOTE2: If ALL results for an Owner are None, the response will have None for that Owner. If only SOME results are None, then the None results will be ignored.
+        NOTE: If ALL results for an Owner are None, the response will have None for that Owner. If only SOME results are None, then the None results will be ignored.
         """
 
         allResultDicts = cls.__getAllResultDicts(league, function, **kwargs)
