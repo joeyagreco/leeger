@@ -22,7 +22,7 @@ jobs:
       - name: Get Python versions
         id: get-python-versions
         run: |
-          MINIMUM_VERSION=$(grep -oP '__version_minimum_python__ = "\K.*(?=")' _version.py)
+          MINIMUM_VERSION=$(grep -oP '__version_minimum_python__ = "\K.*(?=")' ../../leeger/_version.py)
           echo "::set-output name=current_version::${MINIMUM_VERSION}"
           OLD_VERSION="${MINIMUM_VERSION%.*}.$((${MINIMUM_VERSION##*.}-1))"
           echo "::set-output name=old_version::${OLD_VERSION}"
