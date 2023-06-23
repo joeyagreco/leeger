@@ -91,6 +91,53 @@ class TestPointsScoredAllTimeCalculator(unittest.TestCase):
         self.assertEqual(Deci("13.2"), response[owners[4].id])
         self.assertEqual(Deci("16.5"), response[owners[5].id])
 
+    def test_getPointsScored_nonAnnualOwner(self):
+        ownersA, teamsA = getNDefaultOwnersAndTeams(6, randomNames=True)
+        ownersB, teamsB = getNDefaultOwnersAndTeams(6, randomNames=True)
+
+        matchup1_a = Matchup(
+            teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1.1, teamBScore=2.2
+        )
+        matchup2_a = Matchup(
+            teamAId=teamsA[2].id, teamBId=teamsA[3].id, teamAScore=3.3, teamBScore=4.4
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[4].id, teamBId=teamsA[5].id, teamAScore=4.4, teamBScore=5.5
+        )
+        week1_a = Week(weekNumber=1, matchups=[matchup1_a, matchup2_a, matchup3_a])
+        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a])
+
+        matchup1_b = Matchup(
+            teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1.1, teamBScore=2.2
+        )
+        matchup2_b = Matchup(
+            teamAId=teamsB[2].id, teamBId=teamsB[3].id, teamAScore=3.3, teamBScore=4.4
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[4].id, teamBId=teamsB[5].id, teamAScore=4.4, teamBScore=5.5
+        )
+        week1_b = Week(weekNumber=1, matchups=[matchup1_b, matchup2_b, matchup3_b])
+        yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b])
+
+        league = League(name="TEST", owners=ownersA + ownersB, years=[yearA, yearB])
+
+        response = PointsScoredAllTimeCalculator.getPointsScored(league)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(12, len(response.keys()))
+        self.assertEqual(Deci("1.1"), response[ownersA[0].id])
+        self.assertEqual(Deci("2.2"), response[ownersA[1].id])
+        self.assertEqual(Deci("3.3"), response[ownersA[2].id])
+        self.assertEqual(Deci("4.4"), response[ownersA[3].id])
+        self.assertEqual(Deci("4.4"), response[ownersA[4].id])
+        self.assertEqual(Deci("5.5"), response[ownersA[5].id])
+        self.assertEqual(Deci("1.1"), response[ownersB[0].id])
+        self.assertEqual(Deci("2.2"), response[ownersB[1].id])
+        self.assertEqual(Deci("3.3"), response[ownersB[2].id])
+        self.assertEqual(Deci("4.4"), response[ownersB[3].id])
+        self.assertEqual(Deci("4.4"), response[ownersB[4].id])
+        self.assertEqual(Deci("5.5"), response[ownersB[5].id])
+
     def test_getPointsScored_noneIfNoGamesPlayed(self):
         owners, teamsA = getNDefaultOwnersAndTeams(3)
 
@@ -698,6 +745,53 @@ class TestPointsScoredAllTimeCalculator(unittest.TestCase):
         self.assertEqual(Deci("4.4"), response[owners[3].id])
         self.assertEqual(Deci("4.4"), response[owners[4].id])
         self.assertEqual(Deci("5.5"), response[owners[5].id])
+
+    def test_getPointsScoredPerGame_nonAnnualOwner(self):
+        ownersA, teamsA = getNDefaultOwnersAndTeams(6, randomNames=True)
+        ownersB, teamsB = getNDefaultOwnersAndTeams(6, randomNames=True)
+
+        matchup1_a = Matchup(
+            teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1.1, teamBScore=2.2
+        )
+        matchup2_a = Matchup(
+            teamAId=teamsA[2].id, teamBId=teamsA[3].id, teamAScore=3.3, teamBScore=4.4
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[4].id, teamBId=teamsA[5].id, teamAScore=4.4, teamBScore=5.5
+        )
+        week1_a = Week(weekNumber=1, matchups=[matchup1_a, matchup2_a, matchup3_a])
+        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a])
+
+        matchup1_b = Matchup(
+            teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1.1, teamBScore=2.2
+        )
+        matchup2_b = Matchup(
+            teamAId=teamsB[2].id, teamBId=teamsB[3].id, teamAScore=3.3, teamBScore=4.4
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[4].id, teamBId=teamsB[5].id, teamAScore=4.4, teamBScore=5.5
+        )
+        week1_b = Week(weekNumber=1, matchups=[matchup1_b, matchup2_b, matchup3_b])
+        yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b])
+
+        league = League(name="TEST", owners=ownersA + ownersB, years=[yearA, yearB])
+
+        response = PointsScoredAllTimeCalculator.getPointsScoredPerGame(league)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(12, len(response.keys()))
+        self.assertEqual(Deci("1.1"), response[ownersA[0].id])
+        self.assertEqual(Deci("2.2"), response[ownersA[1].id])
+        self.assertEqual(Deci("3.3"), response[ownersA[2].id])
+        self.assertEqual(Deci("4.4"), response[ownersA[3].id])
+        self.assertEqual(Deci("4.4"), response[ownersA[4].id])
+        self.assertEqual(Deci("5.5"), response[ownersA[5].id])
+        self.assertEqual(Deci("1.1"), response[ownersB[0].id])
+        self.assertEqual(Deci("2.2"), response[ownersB[1].id])
+        self.assertEqual(Deci("3.3"), response[ownersB[2].id])
+        self.assertEqual(Deci("4.4"), response[ownersB[3].id])
+        self.assertEqual(Deci("4.4"), response[ownersB[4].id])
+        self.assertEqual(Deci("5.5"), response[ownersB[5].id])
 
     def test_getPointsScoredPerGame_noneIfNoGamesPlayed(self):
         owners, teamsA = getNDefaultOwnersAndTeams(3)
@@ -1311,6 +1405,53 @@ class TestPointsScoredAllTimeCalculator(unittest.TestCase):
         self.assertEqual(Deci("16.5"), response[owners[4].id])
         self.assertEqual(Deci("13.2"), response[owners[5].id])
 
+    def test_getOpponentPointsScored_nonAnnualOwner(self):
+        ownersA, teamsA = getNDefaultOwnersAndTeams(6, randomNames=True)
+        ownersB, teamsB = getNDefaultOwnersAndTeams(6, randomNames=True)
+
+        matchup1_a = Matchup(
+            teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1.1, teamBScore=2.2
+        )
+        matchup2_a = Matchup(
+            teamAId=teamsA[2].id, teamBId=teamsA[3].id, teamAScore=3.3, teamBScore=4.4
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[4].id, teamBId=teamsA[5].id, teamAScore=4.4, teamBScore=5.5
+        )
+        week1_a = Week(weekNumber=1, matchups=[matchup1_a, matchup2_a, matchup3_a])
+        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a])
+
+        matchup1_b = Matchup(
+            teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1.1, teamBScore=2.2
+        )
+        matchup2_b = Matchup(
+            teamAId=teamsB[2].id, teamBId=teamsB[3].id, teamAScore=3.3, teamBScore=4.4
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[4].id, teamBId=teamsB[5].id, teamAScore=4.4, teamBScore=5.5
+        )
+        week1_b = Week(weekNumber=1, matchups=[matchup1_b, matchup2_b, matchup3_b])
+        yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b])
+
+        league = League(name="TEST", owners=ownersA + ownersB, years=[yearA, yearB])
+
+        response = PointsScoredAllTimeCalculator.getOpponentPointsScored(league)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(12, len(response.keys()))
+        self.assertEqual(Deci("2.2"), response[ownersA[0].id])
+        self.assertEqual(Deci("1.1"), response[ownersA[1].id])
+        self.assertEqual(Deci("4.4"), response[ownersA[2].id])
+        self.assertEqual(Deci("3.3"), response[ownersA[3].id])
+        self.assertEqual(Deci("5.5"), response[ownersA[4].id])
+        self.assertEqual(Deci("4.4"), response[ownersA[5].id])
+        self.assertEqual(Deci("2.2"), response[ownersB[0].id])
+        self.assertEqual(Deci("1.1"), response[ownersB[1].id])
+        self.assertEqual(Deci("4.4"), response[ownersB[2].id])
+        self.assertEqual(Deci("3.3"), response[ownersB[3].id])
+        self.assertEqual(Deci("5.5"), response[ownersB[4].id])
+        self.assertEqual(Deci("4.4"), response[ownersB[5].id])
+
     def test_getOpponentPointsScored_noneIfNoGamesPlayed(self):
         owners, teamsA = getNDefaultOwnersAndTeams(3)
 
@@ -1922,6 +2063,53 @@ class TestPointsScoredAllTimeCalculator(unittest.TestCase):
         self.assertEqual(Deci("3.3"), response[owners[3].id])
         self.assertEqual(Deci("5.5"), response[owners[4].id])
         self.assertEqual(Deci("4.4"), response[owners[5].id])
+
+    def test_getOpponentPointsScoredPerGame_nonAnnualOwner(self):
+        ownersA, teamsA = getNDefaultOwnersAndTeams(6, randomNames=True)
+        ownersB, teamsB = getNDefaultOwnersAndTeams(6, randomNames=True)
+
+        matchup1_a = Matchup(
+            teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1.1, teamBScore=2.2
+        )
+        matchup2_a = Matchup(
+            teamAId=teamsA[2].id, teamBId=teamsA[3].id, teamAScore=3.3, teamBScore=4.4
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[4].id, teamBId=teamsA[5].id, teamAScore=4.4, teamBScore=5.5
+        )
+        week1_a = Week(weekNumber=1, matchups=[matchup1_a, matchup2_a, matchup3_a])
+        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a])
+
+        matchup1_b = Matchup(
+            teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1.1, teamBScore=2.2
+        )
+        matchup2_b = Matchup(
+            teamAId=teamsB[2].id, teamBId=teamsB[3].id, teamAScore=3.3, teamBScore=4.4
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[4].id, teamBId=teamsB[5].id, teamAScore=4.4, teamBScore=5.5
+        )
+        week1_b = Week(weekNumber=1, matchups=[matchup1_b, matchup2_b, matchup3_b])
+        yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b])
+
+        league = League(name="TEST", owners=ownersA + ownersB, years=[yearA, yearB])
+
+        response = PointsScoredAllTimeCalculator.getOpponentPointsScoredPerGame(league)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(12, len(response.keys()))
+        self.assertEqual(Deci("2.2"), response[ownersA[0].id])
+        self.assertEqual(Deci("1.1"), response[ownersA[1].id])
+        self.assertEqual(Deci("4.4"), response[ownersA[2].id])
+        self.assertEqual(Deci("3.3"), response[ownersA[3].id])
+        self.assertEqual(Deci("5.5"), response[ownersA[4].id])
+        self.assertEqual(Deci("4.4"), response[ownersA[5].id])
+        self.assertEqual(Deci("2.2"), response[ownersB[0].id])
+        self.assertEqual(Deci("1.1"), response[ownersB[1].id])
+        self.assertEqual(Deci("4.4"), response[ownersB[2].id])
+        self.assertEqual(Deci("3.3"), response[ownersB[3].id])
+        self.assertEqual(Deci("5.5"), response[ownersB[4].id])
+        self.assertEqual(Deci("4.4"), response[ownersB[5].id])
 
     def test_getOpponentPointsScoredPerGame_noneIfNoGamesPlayed(self):
         owners, teamsA = getNDefaultOwnersAndTeams(3)
