@@ -137,24 +137,27 @@ class SleeperLeagueLoader(LeagueLoader):
         return League(name=self._getLeagueName(), owners=owners, years=self._getValidYears(years))
 
     def __buildYear(self, sleeperLeague: SleeperLeague) -> Year:
-        # save division info
-        for divisionNumber in range(1, sleeperLeague.settings.divisions + 1):
-            self.__sleeperDivisionIdToDivisionMap[divisionNumber] = Division(
-                name=getattr(sleeperLeague.metadata, f"division_{divisionNumber}")
-            )
+        # save division info if applicable
+        if self.__yearHasDivisions(sleeperLeague):
+            for divisionNumber in range(1, sleeperLeague.settings.divisions + 1):
+                self.__sleeperDivisionIdToDivisionMap[divisionNumber] = Division(
+                    name=getattr(sleeperLeague.metadata, f"division_{divisionNumber}")
+                )
         teams = self.__buildTeams(sleeperLeague)
         weeks = self.__buildWeeks(sleeperLeague)
         # add YearSettings
         yearSettings = YearSettings()
         if sleeperLeague.settings.league_average_match == 1:
             yearSettings.leagueMedianGames = True
-        # TODO: see if there are cases where Sleeper leagues do NOT have divisions
+
         year = Year(
             yearNumber=int(sleeperLeague.season),
             teams=teams,
             weeks=weeks,
             yearSettings=yearSettings,
-            divisions=list(self.__sleeperDivisionIdToDivisionMap.values()),
+            divisions=None
+            if not self.__yearHasDivisions(sleeperLeague)
+            else list(self.__sleeperDivisionIdToDivisionMap.values()),
         )
         # clear division info
         self.__sleeperDivisionIdToDivisionMap = dict()
@@ -315,6 +318,9 @@ class SleeperLeagueLoader(LeagueLoader):
                     weeks.append(Week(weekNumber=weekNumber, matchups=matchups))
         return weeks
 
+    def __yearHasDivisions(self, sleeperLeague: SleeperLeague) -> bool:
+        return sleeperLeague.settings.divisions is not None
+
     def __isCompletedWeek(self, weekNumber: int, sleeperLeague: SleeperLeague) -> bool:
         # see if this is the current year/week of the NFL
         sportState = self.__getSleeperSportState()
@@ -335,10 +341,10 @@ class SleeperLeagueLoader(LeagueLoader):
             for sleeperRoster in sleeperRosters:
                 if sleeperRoster.owner_id == sleeperUser.user_id:
                     rosterId = sleeperRoster.roster_id
-                    # TODO: see if there are cases where ESPN leagues do NOT have divisions
-                    divisionId = self.__sleeperDivisionIdToDivisionMap[
-                        sleeperRoster.settings.division
-                    ].id
+                    if self.__yearHasDivisions(sleeperLeague):
+                        divisionId = self.__sleeperDivisionIdToDivisionMap[
+                            sleeperRoster.settings.division
+                        ].id
             if rosterId is None:
                 raise DoesNotExistException(
                     f"No Roster ID match found for Sleeper User with ID: '{sleeperUser.user_id}'."
