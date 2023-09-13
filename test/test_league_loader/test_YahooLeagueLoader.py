@@ -117,7 +117,7 @@ class TestYahooLeagueLoader(unittest.TestCase):
         mockLeague2023.season = 2023
         mockLeague2023.current_week = 3
         mockLeague2023.end_week = 3
-        mockLeague2023.past_league_id = "123"
+        mockLeague2023.past_league_id = ["", "123"]
 
         # mock fake leagues 2023
         mockLeague2023_fake1 = Mock()
@@ -665,7 +665,7 @@ class TestYahooLeagueLoader(unittest.TestCase):
         mockLeague2023.season = 2023
         mockLeague2023.current_week = 3
         mockLeague2023.end_week = 3
-        mockLeague2023.past_league_id = "123"
+        mockLeague2023.past_league_id = ["", "123"]
 
         # mock fake leagues 2023
         mockLeague2023_fake1 = Mock()
@@ -1226,7 +1226,7 @@ class TestYahooLeagueLoader(unittest.TestCase):
         mockLeague2023.season = 2023
         mockLeague2023.current_week = 3
         mockLeague2023.end_week = 3
-        mockLeague2023.past_league_id = "123"
+        mockLeague2023.past_league_id = ["", "123"]
 
         # mock fake leagues 2023
         mockLeague2023_fake1 = Mock()
