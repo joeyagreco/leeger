@@ -90,6 +90,7 @@ class YahooLeagueLoader(LeagueLoader):
         # years from most -> least recent
         remainingYears = sorted(self._years, reverse=True)
         currentLeagueId = self._leagueId
+        print('jg clid', currentLeagueId)
         previousLeagueId = None
         for year in remainingYears:
             foundLeagueForYear = False
@@ -100,12 +101,18 @@ class YahooLeagueLoader(LeagueLoader):
                 if str(league.league_id) == currentLeagueId:
                     yahooLeagues.append(league)
                     foundLeagueForYear = True
-                    previousLeagueId = league.past_league_id
+                    try:
+                        # NOTE: this is weird. apparently the league ID here is returned like this: (414, 957486)
+                        # NOTE: and the league id is always at index 1
+                        previousLeagueId = str(league.past_league_id[1])
+                    except Exception as e:
+                        self._LOGGER.warning(f"could not get previous league id: {e}")
             if not foundLeagueForYear:
                 raise LeagueLoaderException(
                     f"Could not find league for year {year} with ID {currentLeagueId}."
                 )
             currentLeagueId = previousLeagueId
+            print('jg clid', currentLeagueId)
 
         self._validateRetrievedLeagues(yahooLeagues)
         return yahooLeagues

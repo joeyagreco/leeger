@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## Unreleased
 
 - Fixed bug where Sleeper leagues without divisions would fail to load
+- Fixed bug where Yahoo leagues could not load league IDs for previous years
 
 ## [2.5.3]
 
