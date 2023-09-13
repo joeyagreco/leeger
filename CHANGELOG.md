@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
-- N/A
+- Fixed bug where Sleeper leagues without divisions would fail to load
 
 ## [2.5.3]
 
