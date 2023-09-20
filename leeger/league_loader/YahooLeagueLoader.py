@@ -90,6 +90,7 @@ class YahooLeagueLoader(LeagueLoader):
         # years from most -> least recent
         remainingYears = sorted(self._years, reverse=True)
         currentLeagueId = self._leagueId
+        print('jg clid', currentLeagueId)
         previousLeagueId = None
         for year in remainingYears:
             foundLeagueForYear = False
@@ -111,6 +112,7 @@ class YahooLeagueLoader(LeagueLoader):
                     f"Could not find league for year {year} with ID {currentLeagueId}."
                 )
             currentLeagueId = previousLeagueId
+            print('jg clid', currentLeagueId)
 
         self._validateRetrievedLeagues(yahooLeagues)
         return yahooLeagues
