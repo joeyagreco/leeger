@@ -6,6 +6,10 @@ All notable changes to this project will be documented in this file.
 
 - N/A
 
+## [2.5.5]
+
+- Fixed bug where Yahoo leagues would sometimes count consolation playoff games as championship games
+
 ## [2.5.4]
 
 - Fixed bug where Sleeper leagues without divisions would fail to load
@@ -234,7 +238,8 @@ All notable changes to this project will be documented in this file.
 
 ### Initial Release
 
-[Unreleased]: https://github.com/joeyagreco/leeger/compare/v2.5.4...HEAD
+[Unreleased]: https://github.com/joeyagreco/leeger/compare/v2.5.5...HEAD
+[2.5.5]: https://github.com/joeyagreco/leeger/releases/tag/v2.5.5
 [2.5.4]: https://github.com/joeyagreco/leeger/releases/tag/v2.5.4
 [2.5.3]: https://github.com/joeyagreco/leeger/releases/tag/v2.5.3
 [2.5.0]: https://github.com/joeyagreco/leeger/releases/tag/v2.5.0

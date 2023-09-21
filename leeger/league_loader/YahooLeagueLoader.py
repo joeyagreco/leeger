@@ -225,9 +225,13 @@ class YahooLeagueLoader(LeagueLoader):
                     return MatchupType.CHAMPIONSHIP
             # update tracking dict with the team that lost
             for yahooTeamResult in yahooMatchup.teams.team:
-                self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season][
-                    yahooTeamResult.team_id
-                ] = (yahooTeamResult.team_key != yahooMatchup.winner_team_key)
+                # NOTE: this check is needed so we don't overwrite teams that have already lost with a win (e.g. W, L, W)
+                if not self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season].get(
+                    yahooTeamResult.team_id, False
+                ):
+                    self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season][
+                        yahooTeamResult.team_id
+                    ] = (yahooTeamResult.team_key != yahooMatchup.winner_team_key)
             return MatchupType.PLAYOFF
         else:
             return MatchupType.REGULAR_SEASON
