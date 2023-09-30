@@ -319,7 +319,7 @@ class SleeperLeagueLoader(LeagueLoader):
         return weeks
 
     def __yearHasDivisions(self, sleeperLeague: SleeperLeague) -> bool:
-        return sleeperLeague.settings.divisions is not None
+        return sleeperLeague.settings.divisions not in [None, 0]
 
     def __isCompletedWeek(self, weekNumber: int, sleeperLeague: SleeperLeague) -> bool:
         # see if this is the current year/week of the NFL
@@ -345,6 +345,7 @@ class SleeperLeagueLoader(LeagueLoader):
                         divisionId = self.__sleeperDivisionIdToDivisionMap[
                             sleeperRoster.settings.division
                         ].id
+
             if rosterId is None:
                 raise DoesNotExistException(
                     f"No Roster ID match found for Sleeper User with ID: '{sleeperUser.user_id}'."

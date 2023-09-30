@@ -6,6 +6,10 @@ All notable changes to this project will be documented in this file.
 
 - N/A
 
+## [2.5.6]
+
+- Fixed bug where older Sleeper leagues would sometimes fail to load
+
 ## [2.5.5]
 
 - Fixed bug where Yahoo leagues would sometimes count consolation playoff games as championship games
