@@ -4,10 +4,6 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
-- N/A
-
-## [2.5.6]
-
 - Fixed bug where older Sleeper leagues would sometimes fail to load
 
 ## [2.5.5]
