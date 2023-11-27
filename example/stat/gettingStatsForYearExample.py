@@ -1,9 +1,9 @@
 from leeger.calculator.year_calculator import (
     GameOutcomeYearCalculator,
     PointsScoredYearCalculator,
-    SingleScoreYearCalculator,
     ScoringShareYearCalculator,
     ScoringStandardDeviationYearCalculator,
+    SingleScoreYearCalculator,
 )
 from leeger.league_loader import ESPNLeagueLoader
 from leeger.model.league import League, Year

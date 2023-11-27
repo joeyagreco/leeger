@@ -1,9 +1,9 @@
 import unittest
+from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 from leeger.enum import MatchupType
 from leeger.model.league.Matchup import Matchup
 from leeger.util.navigator.MatchupNavigator import MatchupNavigator
-from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestMatchupNavigator(unittest.TestCase):

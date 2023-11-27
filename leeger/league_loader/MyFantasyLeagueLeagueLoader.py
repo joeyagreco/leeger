@@ -1,9 +1,11 @@
 from typing import Optional
+
 from pymfl.api import CommonLeagueInfoAPIClient
 from pymfl.api.config import APIConfig
 
 from leeger.enum.MatchupType import MatchupType
 from leeger.league_loader.LeagueLoader import LeagueLoader
+from leeger.model.league.Division import Division
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Owner import Owner
@@ -11,7 +13,6 @@ from leeger.model.league.Team import Team
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
 from leeger.validate import leagueValidation
-from leeger.model.league.Division import Division
 
 
 class MyFantasyLeagueLeagueLoader(LeagueLoader):

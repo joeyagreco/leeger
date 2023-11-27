@@ -2,19 +2,21 @@ import itertools
 from typing import Optional
 
 from sleeper.api import LeagueAPIClient
-from sleeper.enum import Sport as SleeperSport
-from sleeper.enum import SeasonStatus as SleeperSeasonStatus
 from sleeper.enum import PlayoffRoundType as SleeperPlayoffRoundType
+from sleeper.enum import SeasonStatus as SleeperSeasonStatus
+from sleeper.enum import Sport as SleeperSport
 from sleeper.model import League as SleeperLeague
 from sleeper.model import Matchup as SleeperMatchup
 from sleeper.model import PlayoffMatchup as SleeperPlayoffMatchup
-from sleeper.model import User as SleeperUser
 from sleeper.model import SportState as SleeperSportState
+from sleeper.model import User as SleeperUser
 
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception.DoesNotExistException import DoesNotExistException
+from leeger.exception.LeagueLoaderException import LeagueLoaderException
 from leeger.league_loader.LeagueLoader import LeagueLoader
 from leeger.model.league import YearSettings
+from leeger.model.league.Division import Division
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Owner import Owner
@@ -22,8 +24,6 @@ from leeger.model.league.Team import Team
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
 from leeger.validate import leagueValidation
-from leeger.exception.LeagueLoaderException import LeagueLoaderException
-from leeger.model.league.Division import Division
 
 
 class SleeperLeagueLoader(LeagueLoader):

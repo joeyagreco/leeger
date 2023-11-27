@@ -1,9 +1,9 @@
+import copy
 import unittest
 from unittest import mock
 from unittest.mock import Mock
-import copy
-from leeger.enum.MatchupType import MatchupType
 
+from leeger.enum.MatchupType import MatchupType
 from leeger.league_loader import YahooLeagueLoader
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup

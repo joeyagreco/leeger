@@ -1,5 +1,6 @@
 import copy
 import unittest
+from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception import DoesNotExistException
@@ -10,7 +11,6 @@ from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Owner import Owner
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
-from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestLeague(unittest.TestCase):

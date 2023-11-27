@@ -1,4 +1,5 @@
 import unittest
+from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 from leeger.model.league import YearSettings
 from leeger.model.league.League import League
@@ -7,7 +8,6 @@ from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
 from leeger.model.stat.AllTimeStatSheet import AllTimeStatSheet
 from leeger.model.stat.YearStatSheet import YearStatSheet
-from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestStatSheet(unittest.TestCase):

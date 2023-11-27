@@ -1,5 +1,6 @@
 import random
 import string
+
 from leeger.model.league.Owner import Owner
 from leeger.model.league.Team import Team
 
