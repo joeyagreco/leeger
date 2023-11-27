@@ -1,11 +1,11 @@
 import unittest
+from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 from leeger.enum.MatchupType import MatchupType
 from leeger.model.filter.WeekFilters import WeekFilters
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Week import Week
 from leeger.util.navigator.WeekNavigator import WeekNavigator
-from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestWeekNavigator(unittest.TestCase):

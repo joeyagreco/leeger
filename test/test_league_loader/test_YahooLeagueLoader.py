@@ -1,9 +1,9 @@
+import copy
 import unittest
 from unittest import mock
 from unittest.mock import Mock
-import copy
-from leeger.enum.MatchupType import MatchupType
 
+from leeger.enum.MatchupType import MatchupType
 from leeger.league_loader import YahooLeagueLoader
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup
@@ -1201,7 +1201,7 @@ class TestYahooLeagueLoader(unittest.TestCase):
     @mock.patch("multiprocessing.Process")
     @mock.patch("yahoofantasy.Context.__init__")
     @mock.patch("yahoofantasy.Context.get_leagues")
-    def test_loadLeague_happyPath(
+    def test_loadLeague_customName(
         self, mockYahooContextGetLeagues, mockYahooContextInit, mockMultiprocessingProcess
     ):
         # mock real league 2022

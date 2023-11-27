@@ -1,4 +1,4 @@
-name: unit tests
+name: python version check
 
 on:
   push:
@@ -11,24 +11,24 @@ on:
         description: "Trigger the workflow manually"
         required: false
 
-permissions:
-  contents: read
-
 jobs:
-  build:
-    name: unit tests
+  test:
+    name: python version check
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       - name: Get current required Python version
         id: get-python-versions
         run: |
           MINIMUM_VERSION=$(grep -oP '__version_minimum_python__ = "\K.*(?=")' leeger/_version.py)
           echo "CURRENT_VERSION=$MINIMUM_VERSION" >> $GITHUB_ENV
+          OLD_VERSION="${MINIMUM_VERSION%.*}.$((${MINIMUM_VERSION##*.}-1))"
+          echo "OLD_VERSION=$OLD_VERSION" >> $GITHUB_ENV
 
-      - name: Set up Python
+      - name: Set up current Python version
         uses: actions/setup-python@v3
         with:
           python-version: ${{ env.CURRENT_VERSION }}
@@ -36,8 +36,17 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          make deps
+          pip install -r requirements.txt
 
-      - name: Run unit tests
+      - name: setup.py with current required Python version works
         run: |
-          make test
+          python setup.py install
+
+      - name: Set up invalid Python version
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ env.OLD_VERSION }}
+
+      - name: setup.py with invalid Python version fails
+        run: |
+          ! python setup.py install

@@ -1,4 +1,4 @@
-from leeger.model.league import YearSettings, Year
+from leeger.model.league import Year, YearSettings
 
 if __name__ == "__main__":
     # Year Settings are settings for each year in a league that represent features of the league.

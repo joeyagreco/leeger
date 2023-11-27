@@ -133,12 +133,13 @@ class ScoringShareAllTimeCalculator(AllTimeCalculator):
             for ownerId in allOwnerIds:
                 if (
                     ownerId in ownerIdAndMaxScoringShares.keys()
+                    and ownerId in maxScoringSharesByYear[yearNumber].keys()
                     and ownerIdAndMaxScoringShares[ownerId] is not None
                 ):
                     ownerIdAndMaxScoringShares[ownerId].append(
                         maxScoringSharesByYear[yearNumber][ownerId]
                     )
-                else:
+                elif ownerId in maxScoringSharesByYear[yearNumber].keys():
                     ownerIdAndMaxScoringShares[ownerId] = [
                         maxScoringSharesByYear[yearNumber][ownerId]
                     ]
@@ -194,12 +195,13 @@ class ScoringShareAllTimeCalculator(AllTimeCalculator):
             for ownerId in allOwnerIds:
                 if (
                     ownerId in ownerIdAndMinScoringShares.keys()
+                    and ownerId in minScoringSharesByYear[yearNumber].keys()
                     and ownerIdAndMinScoringShares[ownerId] is not None
                 ):
                     ownerIdAndMinScoringShares[ownerId].append(
                         minScoringSharesByYear[yearNumber][ownerId]
                     )
-                else:
+                elif ownerId in minScoringSharesByYear[yearNumber].keys():
                     ownerIdAndMinScoringShares[ownerId] = [
                         minScoringSharesByYear[yearNumber][ownerId]
                     ]

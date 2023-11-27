@@ -1,6 +1,6 @@
 from typing import Any, Optional
-from leeger.util.ConfigReader import ConfigReader
 
+from leeger.util.ConfigReader import ConfigReader
 from leeger.util.CustomLogger import CustomLogger
 from leeger.util.Deci import Deci
 

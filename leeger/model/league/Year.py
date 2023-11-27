@@ -11,9 +11,9 @@ from leeger.model.league.Team import Team
 from leeger.model.league.Week import Week
 from leeger.model.league.YearSettings import YearSettings
 from leeger.util.CustomLogger import CustomLogger
+from leeger.util.equality import modelEquals
 from leeger.util.JSONDeserializable import JSONDeserializable
 from leeger.util.JSONSerializable import JSONSerializable
-from leeger.util.equality import modelEquals
 
 
 @dataclass(kw_only=True, eq=False)

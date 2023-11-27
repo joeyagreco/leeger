@@ -1,10 +1,10 @@
 from leeger.calculator.all_time_calculator import (
+    AWALAllTimeCalculator,
     GameOutcomeAllTimeCalculator,
     PointsScoredAllTimeCalculator,
-    SingleScoreAllTimeCalculator,
     ScoringShareAllTimeCalculator,
-    AWALAllTimeCalculator,
     ScoringStandardDeviationAllTimeCalculator,
+    SingleScoreAllTimeCalculator,
     SmartWinsAllTimeCalculator,
 )
 from leeger.league_loader import ESPNLeagueLoader

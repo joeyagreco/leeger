@@ -1,4 +1,5 @@
 import unittest
+from test.helper.prototypes import getNDefaultOwnersAndTeams, getTeamsFromOwners
 
 from leeger.calculator.all_time_calculator import TeamSummaryAllTimeCalculator
 from leeger.enum.MatchupType import MatchupType
@@ -7,7 +8,6 @@ from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
-from test.helper.prototypes import getNDefaultOwnersAndTeams, getTeamsFromOwners
 
 
 class TestTeamSummaryAllTimeCalculator(unittest.TestCase):
@@ -84,6 +84,37 @@ class TestTeamSummaryAllTimeCalculator(unittest.TestCase):
         self.assertEqual(2, len(response.keys()))
         self.assertEqual(9, response[owners[0].id])
         self.assertEqual(9, response[owners[1].id])
+
+    def test_getGamesPlayed_nonAnnualOwner(self):
+        ownersA, teamsA = getNDefaultOwnersAndTeams(2, randomNames=True)
+        ownersB, teamsB = getNDefaultOwnersAndTeams(2, randomNames=True)
+
+        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        week1_a = Week(weekNumber=1, matchups=[matchup1_a])
+        week2_a = Week(weekNumber=2, matchups=[matchup2_a])
+        week3_a = Week(weekNumber=3, matchups=[matchup3_a])
+        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
+
+        matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
+        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
+        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
+        week1_b = Week(weekNumber=1, matchups=[matchup1_b])
+        week2_b = Week(weekNumber=2, matchups=[matchup2_b])
+        week3_b = Week(weekNumber=3, matchups=[matchup3_b])
+        yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
+
+        league = League(name="TEST", owners=ownersA + ownersB, years=[yearA, yearB])
+
+        response = TeamSummaryAllTimeCalculator.getGamesPlayed(league)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(4, len(response.keys()))
+        self.assertEqual(3, response[ownersA[0].id])
+        self.assertEqual(3, response[ownersA[1].id])
+        self.assertEqual(3, response[ownersB[0].id])
+        self.assertEqual(3, response[ownersB[1].id])
 
     def test_getGamesPlayed_multiWeekMatchups(self):
         owners, teamsA = getNDefaultOwnersAndTeams(2)
@@ -727,6 +758,37 @@ class TestTeamSummaryAllTimeCalculator(unittest.TestCase):
         self.assertEqual(9, response[owners[0].id])
         self.assertEqual(9, response[owners[1].id])
 
+    def test_getTotalGames_default_nonAnnualOwner(self):
+        ownersA, teamsA = getNDefaultOwnersAndTeams(2, randomNames=True)
+        ownersB, teamsB = getNDefaultOwnersAndTeams(2, randomNames=True)
+
+        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        week1_a = Week(weekNumber=1, matchups=[matchup1_a])
+        week2_a = Week(weekNumber=2, matchups=[matchup2_a])
+        week3_a = Week(weekNumber=3, matchups=[matchup3_a])
+        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a, week3_a])
+
+        matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
+        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
+        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
+        week1_b = Week(weekNumber=1, matchups=[matchup1_b])
+        week2_b = Week(weekNumber=2, matchups=[matchup2_b])
+        week3_b = Week(weekNumber=3, matchups=[matchup3_b])
+        yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b, week2_b, week3_b])
+
+        league = League(name="TEST", owners=ownersA + ownersB, years=[yearA, yearB])
+
+        response = TeamSummaryAllTimeCalculator.getTotalGames(league)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(4, len(response.keys()))
+        self.assertEqual(3, response[ownersA[0].id])
+        self.assertEqual(3, response[ownersA[1].id])
+        self.assertEqual(3, response[ownersB[0].id])
+        self.assertEqual(3, response[ownersB[1].id])
+
     def test_getTotalGames_leagueMedianGamesIsOn_happyPath(self):
         owners, teamsA = getNDefaultOwnersAndTeams(2)
         teamsB = getTeamsFromOwners(owners)
@@ -780,6 +842,48 @@ class TestTeamSummaryAllTimeCalculator(unittest.TestCase):
         self.assertEqual(2, len(response.keys()))
         self.assertEqual(18, response[owners[0].id])
         self.assertEqual(18, response[owners[1].id])
+
+    def test_getTotalGames_leagueMedianGamesIsOn_nonAnnualOwner(self):
+        ownersA, teamsA = getNDefaultOwnersAndTeams(2, randomNames=True)
+        ownersB, teamsB = getNDefaultOwnersAndTeams(2, randomNames=True)
+        yearSettings = YearSettings(leagueMedianGames=True)
+
+        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup3_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        week1_a = Week(weekNumber=1, matchups=[matchup1_a])
+        week2_a = Week(weekNumber=2, matchups=[matchup2_a])
+        week3_a = Week(weekNumber=3, matchups=[matchup3_a])
+        yearA = Year(
+            yearNumber=2000,
+            teams=teamsA,
+            weeks=[week1_a, week2_a, week3_a],
+            yearSettings=yearSettings,
+        )
+
+        matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
+        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
+        matchup3_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
+        week1_b = Week(weekNumber=1, matchups=[matchup1_b])
+        week2_b = Week(weekNumber=2, matchups=[matchup2_b])
+        week3_b = Week(weekNumber=3, matchups=[matchup3_b])
+        yearB = Year(
+            yearNumber=2001,
+            teams=teamsB,
+            weeks=[week1_b, week2_b, week3_b],
+            yearSettings=yearSettings,
+        )
+
+        league = League(name="TEST", owners=ownersA + ownersB, years=[yearA, yearB])
+
+        response = TeamSummaryAllTimeCalculator.getTotalGames(league)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(4, len(response.keys()))
+        self.assertEqual(6, response[ownersA[0].id])
+        self.assertEqual(6, response[ownersA[1].id])
+        self.assertEqual(6, response[ownersB[0].id])
+        self.assertEqual(6, response[ownersB[1].id])
 
     def test_getTotalGames_multiWeekMatchups(self):
         owners, teamsA = getNDefaultOwnersAndTeams(2)

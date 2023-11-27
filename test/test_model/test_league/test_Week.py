@@ -1,10 +1,10 @@
 import unittest
+from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception import DoesNotExistException
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Week import Week
-from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestWeek(unittest.TestCase):

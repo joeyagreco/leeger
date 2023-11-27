@@ -9,9 +9,9 @@ from leeger.model.abstract.UniqueId import UniqueId
 from leeger.model.league.Owner import Owner
 from leeger.model.league.Year import Year
 from leeger.util.CustomLogger import CustomLogger
+from leeger.util.equality import modelEquals
 from leeger.util.JSONDeserializable import JSONDeserializable
 from leeger.util.JSONSerializable import JSONSerializable
-from leeger.util.equality import modelEquals
 
 
 @dataclass(kw_only=True, eq=False)

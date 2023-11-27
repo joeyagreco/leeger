@@ -1,4 +1,5 @@
 import unittest
+from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 from leeger.calculator.year_calculator.AWALYearCalculator import AWALYearCalculator
 from leeger.enum.MatchupType import MatchupType
@@ -7,7 +8,6 @@ from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
 from leeger.util.Deci import Deci
-from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestAWALYearCalculator(unittest.TestCase):

@@ -1,23 +1,23 @@
-from typing import Optional
 import unittest
-from leeger.enum.MatchupType import MatchupType
-from leeger.exception.LeagueLoaderException import LeagueLoaderException
+from typing import Optional
+from unittest.mock import Mock, patch
 
-from leeger.league_loader import SleeperLeagueLoader
-from unittest.mock import patch, Mock
-from sleeper.model import User as SleeperUser
-from sleeper.model import Roster as SleeperRoster
-from sleeper.model import Matchup as SleeperMatchup
-from sleeper.model import SportState as SleeperSportState
-from sleeper.model import PlayoffMatchup as SleeperPlayoffMatchup
-from sleeper.model import RosterSettings as SleeperRosterSettings
 from sleeper.enum import PlayoffRoundType as SleeperPlayoffRoundType
 from sleeper.enum import SeasonStatus as SleeperSeasonStatus
+from sleeper.model import Matchup as SleeperMatchup
+from sleeper.model import PlayoffMatchup as SleeperPlayoffMatchup
+from sleeper.model import Roster as SleeperRoster
+from sleeper.model import RosterSettings as SleeperRosterSettings
+from sleeper.model import SportState as SleeperSportState
+from sleeper.model import User as SleeperUser
+
+from leeger.enum.MatchupType import MatchupType
+from leeger.exception.LeagueLoaderException import LeagueLoaderException
+from leeger.league_loader import SleeperLeagueLoader
+from leeger.model.league.Division import Division
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Owner import Owner
-from leeger.model.league.Division import Division
-
 from leeger.model.league.Team import Team
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
@@ -1067,7 +1067,7 @@ class TestSleeperLeagueLoader(unittest.TestCase):
     @patch("sleeper.api.LeagueAPIClient.get_matchups_for_week")
     @patch("sleeper.api.LeagueAPIClient.get_sport_state")
     @patch("sleeper.api.LeagueAPIClient.get_winners_bracket")
-    def test_load_league_happyPath(
+    def test_load_league_customName(
         self,
         mockGetWinnersBracket,
         mockGetSportState,

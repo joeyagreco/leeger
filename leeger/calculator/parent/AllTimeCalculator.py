@@ -30,10 +30,10 @@ class AllTimeCalculator:
             ...
             }
         NOTE: The type in the return dictionary values will match whatever the type the callable returns in its values for each Year.
-        NOTE2: If ALL results for an Owner are None, the response will have None for that Owner. If only SOME results are None, then the None results will be ignored.
+        NOTE: If ALL results for an Owner are None, the response will have None for that Owner. If only SOME results are None, then the None results will be ignored.
         """
 
-        allResultDicts = cls.__getAllResultDicts(league, function, **kwargs)
+        allResultDicts = list(cls._getAllResultDictsByYear(league, function, **kwargs).values())
 
         # this will keep track of whether an Owner has had a non-None result
         ownerIdAndWhetherOwnerHasHadAValidResult: dict[str, bool] = dict()
@@ -59,64 +59,6 @@ class AllTimeCalculator:
             if not ownerIdAndWhetherOwnerHasHadAValidResult[ownerId]:
                 result[ownerId] = None
         return result
-
-    @classmethod
-    def __getAllResultDicts(
-        cls, league: League, function: callable, **kwargs
-    ) -> list[dict[str, int | float | Deci]]:
-        """
-        Returns the results for each given callable function in order from least -> most recent year.
-        TODO: Replace this with the getAllResultDictsByYear() function.
-        """
-
-        allTimeFilters = AllTimeFilters.getForLeague(league, **kwargs)
-
-        # parse filters
-        yearWeekNumberStartWeekNumberEnd: list[tuple] = list()
-        if allTimeFilters.yearNumberStart == allTimeFilters.yearNumberEnd:
-            yearWeekNumberStartWeekNumberEnd.append(
-                (
-                    LeagueNavigator.getYearByYearNumber(league, allTimeFilters.yearNumberStart),
-                    allTimeFilters.weekNumberStart,
-                    allTimeFilters.weekNumberEnd,
-                )
-            )
-        else:
-            for year in league.years:
-                if year.yearNumber == allTimeFilters.yearNumberStart:
-                    # first year we want, make sure week number start matches what was requested
-                    # givenWeekStart and every week greater
-                    yearWeekNumberStartWeekNumberEnd.append(
-                        (year, allTimeFilters.weekNumberStart, len(year.weeks))
-                    )
-                elif year.yearNumber == allTimeFilters.yearNumberEnd:
-                    # last year we want, make sure week number end matches what was requested
-                    # first week and every week til givenWeekEnd
-                    yearWeekNumberStartWeekNumberEnd.append((year, 1, allTimeFilters.weekNumberEnd))
-                elif (
-                    allTimeFilters.yearNumberStart < year.yearNumber < allTimeFilters.yearNumberEnd
-                ):
-                    # this year is in our year range, include every week in this year
-                    yearWeekNumberStartWeekNumberEnd.append((year, 1, len(year.weeks)))
-
-        allResultDicts: list[dict] = list()
-
-        for yse in yearWeekNumberStartWeekNumberEnd:
-            currentYear = yse[0]
-            currentWeekNumberStart = yse[1]
-            currentWeekNumberEnd = yse[2]
-            allResultDicts.append(
-                function(
-                    currentYear,
-                    onlyChampionship=allTimeFilters.onlyChampionship,
-                    onlyPostSeason=allTimeFilters.onlyPostSeason,
-                    onlyRegularSeason=allTimeFilters.onlyRegularSeason,
-                    weekNumberStart=currentWeekNumberStart,
-                    weekNumberEnd=currentWeekNumberEnd,
-                    validate=kwargs.get("validate", True),
-                )
-            )
-        return allResultDicts
 
     @classmethod
     def _getAllResultDictsByYear(
@@ -260,7 +202,6 @@ class AllTimeCalculator:
         # TODO: look into how we are handling multiWeekMatchups in this filter transfer
         yearFiltersByYear: dict[str, YearFilters] = dict()
         # parse filters
-        yearWeekNumberStartWeekNumberEnd: list[tuple] = list()
         if allTimeFilters.yearNumberStart == allTimeFilters.yearNumberEnd:
             yearNumber = str(
                 LeagueNavigator.getYearByYearNumber(

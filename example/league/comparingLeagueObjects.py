@@ -1,5 +1,4 @@
 from leeger.league_loader.ESPNLeagueLoader import ESPNLeagueLoader
-
 from leeger.model.league import League
 
 if __name__ == "__main__":

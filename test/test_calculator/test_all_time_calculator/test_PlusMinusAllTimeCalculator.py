@@ -1,4 +1,5 @@
 import unittest
+from test.helper.prototypes import getNDefaultOwnersAndTeams, getTeamsFromOwners
 
 from leeger.calculator.all_time_calculator.PlusMinusAllTimeCalculator import (
     PlusMinusAllTimeCalculator,
@@ -9,7 +10,6 @@ from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
 from leeger.util.Deci import Deci
-from test.helper.prototypes import getNDefaultOwnersAndTeams, getTeamsFromOwners
 
 
 class TestPlusMinusAllTimeCalculator(unittest.TestCase):
@@ -90,6 +90,53 @@ class TestPlusMinusAllTimeCalculator(unittest.TestCase):
         self.assertEqual(Deci("3"), response[owners[3].id])
         self.assertEqual(Deci("-3"), response[owners[4].id])
         self.assertEqual(Deci("3"), response[owners[5].id])
+
+    def test_getPlusMinus_nonAnnualOwner(self):
+        ownersA, teamsA = getNDefaultOwnersAndTeams(6, randomNames=True)
+        ownersB, teamsB = getNDefaultOwnersAndTeams(6, randomNames=True)
+
+        matchup1_a = Matchup(
+            teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1.1, teamBScore=2.1
+        )
+        matchup2_a = Matchup(
+            teamAId=teamsA[2].id, teamBId=teamsA[3].id, teamAScore=3.1, teamBScore=4.1
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[4].id, teamBId=teamsA[5].id, teamAScore=4.1, teamBScore=5.1
+        )
+        week1_a = Week(weekNumber=1, matchups=[matchup1_a, matchup2_a, matchup3_a])
+        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a])
+
+        matchup1_b = Matchup(
+            teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1.2, teamBScore=2.2
+        )
+        matchup2_b = Matchup(
+            teamAId=teamsB[2].id, teamBId=teamsB[3].id, teamAScore=3.2, teamBScore=4.2
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[4].id, teamBId=teamsB[5].id, teamAScore=4.2, teamBScore=5.2
+        )
+        week1_b = Week(weekNumber=1, matchups=[matchup1_b, matchup2_b, matchup3_b])
+        yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b])
+
+        league = League(name="TEST", owners=ownersA + ownersB, years=[yearA, yearB])
+
+        response = PlusMinusAllTimeCalculator.getPlusMinus(league)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(12, len(response.keys()))
+        self.assertEqual(Deci("-1"), response[ownersA[0].id])
+        self.assertEqual(Deci("1"), response[ownersA[1].id])
+        self.assertEqual(Deci("-1"), response[ownersA[2].id])
+        self.assertEqual(Deci("1"), response[ownersA[3].id])
+        self.assertEqual(Deci("-1"), response[ownersA[4].id])
+        self.assertEqual(Deci("1"), response[ownersA[5].id])
+        self.assertEqual(Deci("-1"), response[ownersB[0].id])
+        self.assertEqual(Deci("1"), response[ownersB[1].id])
+        self.assertEqual(Deci("-1"), response[ownersB[2].id])
+        self.assertEqual(Deci("1"), response[ownersB[3].id])
+        self.assertEqual(Deci("-1"), response[ownersB[4].id])
+        self.assertEqual(Deci("1"), response[ownersB[5].id])
 
     def test_getPlusMinus_noneIfNoGamesPlayed(self):
         owners, teamsA = getNDefaultOwnersAndTeams(3)

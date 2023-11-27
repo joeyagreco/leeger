@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## Unreleased
 
 - Fixed bug where older Sleeper leagues would sometimes fail to load
+- Added tests to ensure support for non-annual owners in a League
 
 ## [2.5.5]
 
