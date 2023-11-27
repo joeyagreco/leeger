@@ -34,13 +34,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install black==23.3.0 autoflake==2.1.1
-
-      - name: Check Duplicate Test Method Names
-        run: python batch/helper/duplicate-test-methods.py
+          make deps
 
       - name: Check Formatting
-        run: black --config pyproject.toml --check --diff .
-
-      - name: Check Unused Imports
-        run: autoflake --config pyproject.toml --check .
+        run: make fmt-check
