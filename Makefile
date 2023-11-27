@@ -1,7 +1,7 @@
 .PHONY: deps
 deps: deps
-	@python3 -m pip install -r requirements.dev.txt
-	@python3 -m pip install -r requirements.txt
+	@python3.10 -m pip install -r requirements.dev.txt
+	@python3.10 -m pip install -r requirements.txt
 
 .PHONY: fmt
 fmt:
@@ -11,7 +11,7 @@ fmt:
 
 .PHONY: test
 test:
-	@python3 -m pytest test/
+	@python3.10 -m pytest test/
 
 .PHONY: up-reqs
 up-reqs:
