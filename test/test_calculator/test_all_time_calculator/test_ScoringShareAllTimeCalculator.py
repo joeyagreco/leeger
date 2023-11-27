@@ -93,6 +93,79 @@ class TestScoringShareAllTimeCalculator(unittest.TestCase):
         self.assertEqual(Deci("22.22222222222222222222222222"), response[owners[4].id])
         self.assertEqual(Deci("27.77777777777777777777777778"), response[owners[5].id])
 
+    def test_getScoringShare_nonAnnualOwner(self):
+        ownersA, teamsA = getNDefaultOwnersAndTeams(6, randomNames=True)
+        ownersB, teamsB = getNDefaultOwnersAndTeams(6, randomNames=True)
+
+        matchup1_a = Matchup(
+            teamAId=teamsA[0].id,
+            teamBId=teamsA[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+        )
+        matchup2_a = Matchup(
+            teamAId=teamsA[2].id,
+            teamBId=teamsA[3].id,
+            teamAScore=3.3,
+            teamBScore=4.4,
+        )
+        matchup3_a = Matchup(
+            teamAId=teamsA[4].id,
+            teamBId=teamsA[5].id,
+            teamAScore=4.4,
+            teamBScore=5.5,
+        )
+        
+        week1_a = Week(weekNumber=1, matchups=[matchup1_a, matchup2_a, matchup3_a])
+        yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a])
+        
+        matchup1_b = Matchup(
+            teamAId=teamsB[0].id,
+            teamBId=teamsB[1].id,
+            teamAScore=1.1,
+            teamBScore=2.2,
+        )
+        matchup2_b = Matchup(
+            teamAId=teamsB[2].id,
+            teamBId=teamsB[3].id,
+            teamAScore=3.3,
+            teamBScore=4.4,
+        )
+        matchup3_b = Matchup(
+            teamAId=teamsB[4].id,
+            teamBId=teamsB[5].id,
+            teamAScore=4.4,
+            teamBScore=5.5,
+        )
+
+        
+        week1_b = Week(weekNumber=1, matchups=[matchup1_b, matchup2_b, matchup3_b])
+        yearB = Year(yearNumber=2001, teams=teamsB, weeks=[week1_b])
+
+
+        league = League(name="TEST", owners=ownersA+ ownersB, years=[yearA, yearB])
+
+        response = ScoringShareAllTimeCalculator.getScoringShare(league)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(12, len(response.keys()))
+        self.assertEqual(Deci("100"), sum(response.values()))
+        self.assertEqual(Deci("2.631578947368421052631578947"), response[ownersA[0].id])
+        self.assertEqual(Deci("2.631578947368421052631578947"), response[ownersB[0].id])
+        self.assertEqual(Deci("5.263157894736842105263157895"), response[ownersA[1].id])
+        self.assertEqual(Deci("5.263157894736842105263157895"), response[ownersB[1].id])
+        self.assertEqual(Deci("7.894736842105263157894736842"), response[ownersA[2].id])
+        self.assertEqual(Deci("7.894736842105263157894736842"), response[ownersB[2].id])
+        self.assertEqual(Deci("10.52631578947368421052631579"), response[ownersA[3].id])
+        self.assertEqual(Deci("10.52631578947368421052631579"), response[ownersB[3].id])
+        self.assertEqual(Deci("10.52631578947368421052631579"), response[ownersA[4].id])
+        self.assertEqual(Deci("10.52631578947368421052631579"), response[ownersB[4].id])
+        self.assertEqual(Deci("10.52631578947368421052631579"), response[ownersA[4].id])
+        self.assertEqual(Deci("10.52631578947368421052631579"), response[ownersB[4].id])
+        self.assertEqual(Deci("13.15789473684210526315789474"), response[ownersA[5].id])
+        self.assertEqual(Deci("13.15789473684210526315789474"), response[ownersB[5].id])
+
+
     def test_getScoringShare_noneIfNoGamesPlayed(self):
         owners, teamsA = getNDefaultOwnersAndTeams(3)
 
