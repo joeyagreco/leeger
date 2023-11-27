@@ -193,18 +193,8 @@ Please make sure to update tests as appropriate.
 ## Development
 
 _Run these commands from the root folder_
-- Format Code: `./main fmt`
-- Run Unit Tests: `./main test`
-- Generate Coverage Report: `./main cov`
-
-### Running Tests
-
-Run the following command from the root folder:
-
-```bash
-  pytest
-```
-
+- Format Code: `make fmt`
+- Run Unit Tests: `make test`
 
 ## License
 

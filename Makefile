@@ -11,8 +11,8 @@ fmt:
 
 .PHONY: test
 test:
-	@pytest test/
+	@python3 -m pytest test/
 
 .PHONY: up-reqs
 up-reqs:
-	@pipreqs --force
+	@pipreqs --force --mode compat
