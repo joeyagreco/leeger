@@ -4,7 +4,17 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+- Fixed bug where older Sleeper leagues would sometimes fail to load
 - Added tests to ensure support for non-annual owners in a League
+
+## [2.5.5]
+
+- Fixed bug where Yahoo leagues would sometimes count consolation playoff games as championship games
+
+## [2.5.4]
+
+- Fixed bug where Sleeper leagues without divisions would fail to load
+- Fixed bug where Yahoo leagues could not load league IDs for previous years
 
 ## [2.5.3]
 
@@ -229,7 +239,9 @@ All notable changes to this project will be documented in this file.
 
 ### Initial Release
 
-[Unreleased]: https://github.com/joeyagreco/leeger/compare/v2.5.3...HEAD
+[Unreleased]: https://github.com/joeyagreco/leeger/compare/v2.5.5...HEAD
+[2.5.5]: https://github.com/joeyagreco/leeger/releases/tag/v2.5.5
+[2.5.4]: https://github.com/joeyagreco/leeger/releases/tag/v2.5.4
 [2.5.3]: https://github.com/joeyagreco/leeger/releases/tag/v2.5.3
 [2.5.0]: https://github.com/joeyagreco/leeger/releases/tag/v2.5.0
 [2.4.0]: https://github.com/joeyagreco/leeger/releases/tag/v2.4.0

@@ -100,7 +100,12 @@ class YahooLeagueLoader(LeagueLoader):
                 if str(league.league_id) == currentLeagueId:
                     yahooLeagues.append(league)
                     foundLeagueForYear = True
-                    previousLeagueId = league.past_league_id
+                    try:
+                        # NOTE: this is weird. apparently the league ID here is returned like this: (414, 957486)
+                        # NOTE: and the league id is always at index 1
+                        previousLeagueId = str(league.past_league_id[1])
+                    except Exception as e:
+                        self._LOGGER.warning(f"could not get previous league id: {e}")
             if not foundLeagueForYear:
                 raise LeagueLoaderException(
                     f"Could not find league for year {year} with ID {currentLeagueId}."
@@ -220,9 +225,13 @@ class YahooLeagueLoader(LeagueLoader):
                     return MatchupType.CHAMPIONSHIP
             # update tracking dict with the team that lost
             for yahooTeamResult in yahooMatchup.teams.team:
-                self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season][
-                    yahooTeamResult.team_id
-                ] = (yahooTeamResult.team_key != yahooMatchup.winner_team_key)
+                # NOTE: this check is needed so we don't overwrite teams that have already lost with a win (e.g. W, L, W)
+                if not self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season].get(
+                    yahooTeamResult.team_id, False
+                ):
+                    self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season][
+                        yahooTeamResult.team_id
+                    ] = (yahooTeamResult.team_key != yahooMatchup.winner_team_key)
             return MatchupType.PLAYOFF
         else:
             return MatchupType.REGULAR_SEASON
