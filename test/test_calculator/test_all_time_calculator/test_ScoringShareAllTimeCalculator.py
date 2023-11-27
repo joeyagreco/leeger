@@ -1537,7 +1537,7 @@ class TestScoringShareAllTimeCalculator(unittest.TestCase):
 
         week1_a2 = Week(weekNumber=1, matchups=[matchup1_a2, matchup2_a2, matchup3_a2])
         yearA_2 = Year(yearNumber=2001, teams=teamsA_2, weeks=[week1_a2])
-        
+
         # years 3-4, has ownersB
         matchup1_b1 = Matchup(
             teamAId=teamsB_1[0].id, teamBId=teamsB_1[1].id, teamAScore=1.1, teamBScore=2.2
@@ -1565,26 +1565,51 @@ class TestScoringShareAllTimeCalculator(unittest.TestCase):
         week1_b2 = Week(weekNumber=1, matchups=[matchup1_b2, matchup2_b2, matchup3_b2])
         yearB_2 = Year(yearNumber=2003, teams=teamsB_2, weeks=[week1_b2])
 
-        league = League(name="TEST", owners=ownersA + ownersB, years=[yearA_1, yearA_2, yearB_1, yearB_2])
+        league = League(
+            name="TEST", owners=ownersA + ownersB, years=[yearA_1, yearA_2, yearB_1, yearB_2]
+        )
 
         response = ScoringShareAllTimeCalculator.getMaxScoringShare(league)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(12, len(response.keys()))
         self.assertEqual(Deci("33.33333333333333333333333333"), response[ownersA[0].id])
-        self.assertAlmostEqual(Deci("10.52631578947368320322336943"), response[ownersA[1].id], delta=Deci("0.00000000000001"))
+        self.assertAlmostEqual(
+            Deci("10.52631578947368320322336943"),
+            response[ownersA[1].id],
+            delta=Deci("0.00000000000001"),
+        )
         self.assertEqual(Deci("33.33333333333333333333333333"), response[ownersA[2].id])
-        self.assertAlmostEqual(Deci("21.05263157894736640644673886"), response[ownersA[3].id], delta=Deci("0.00000000000001"))
+        self.assertAlmostEqual(
+            Deci("21.05263157894736640644673886"),
+            response[ownersA[3].id],
+            delta=Deci("0.00000000000001"),
+        )
         self.assertEqual(Deci("33.33333333333333333333333333"), response[ownersA[4].id])
-        self.assertAlmostEqual(Deci("26.31578947368420800805842357"), response[ownersA[5].id], delta=Deci("0.00000000000001"))
+        self.assertAlmostEqual(
+            Deci("26.31578947368420800805842357"),
+            response[ownersA[5].id],
+            delta=Deci("0.00000000000001"),
+        )
         self.assertEqual(Deci("33.33333333333333333333333333"), response[ownersB[0].id])
-        self.assertAlmostEqual(Deci("10.52631578947368320322336943"), response[ownersB[1].id], delta=Deci("0.00000000000001"))
+        self.assertAlmostEqual(
+            Deci("10.52631578947368320322336943"),
+            response[ownersB[1].id],
+            delta=Deci("0.00000000000001"),
+        )
         self.assertEqual(Deci("33.33333333333333333333333333"), response[ownersB[2].id])
-        self.assertAlmostEqual(Deci("21.05263157894736640644673886"), response[ownersB[3].id], delta=Deci("0.00000000000001"))
+        self.assertAlmostEqual(
+            Deci("21.05263157894736640644673886"),
+            response[ownersB[3].id],
+            delta=Deci("0.00000000000001"),
+        )
         self.assertEqual(Deci("33.33333333333333333333333333"), response[ownersB[4].id])
-        self.assertAlmostEqual(Deci("26.31578947368420800805842357"), response[ownersB[5].id], delta=Deci("0.00000000000001"))
+        self.assertAlmostEqual(
+            Deci("26.31578947368420800805842357"),
+            response[ownersB[5].id],
+            delta=Deci("0.00000000000001"),
+        )
 
-    
     def test_getMaxScoringShare_noneIfNoGamesPlayed(self):
         owners, teamsA = getNDefaultOwnersAndTeams(6)
         teamsB = getTeamsFromOwners(owners)
@@ -2097,6 +2122,111 @@ class TestScoringShareAllTimeCalculator(unittest.TestCase):
         self.assertEqual(Deci("0"), response[owners[3].id])
         self.assertEqual(Deci("0"), response[owners[4].id])
         self.assertEqual(Deci("0"), response[owners[5].id])
+
+    def test_getMinScoringShare_nonAnnualOwner(self):
+        ownersA, teamsA_1 = getNDefaultOwnersAndTeams(6, randomNames=True)
+        teamsA_2 = getTeamsFromOwners(ownersA)
+        ownersB, teamsB_1 = getNDefaultOwnersAndTeams(6, randomNames=True)
+        teamsB_2 = getTeamsFromOwners(ownersB)
+
+        # years 1-2, has ownersA
+        matchup1_a1 = Matchup(
+            teamAId=teamsA_1[0].id, teamBId=teamsA_1[1].id, teamAScore=1.1, teamBScore=2.2
+        )
+        matchup2_a1 = Matchup(
+            teamAId=teamsA_1[2].id, teamBId=teamsA_1[3].id, teamAScore=3.3, teamBScore=4.4
+        )
+        matchup3_a1 = Matchup(
+            teamAId=teamsA_1[4].id, teamBId=teamsA_1[5].id, teamAScore=4.4, teamBScore=5.5
+        )
+
+        week1_a1 = Week(weekNumber=1, matchups=[matchup1_a1, matchup2_a1, matchup3_a1])
+        yearA_1 = Year(yearNumber=2000, teams=teamsA_1, weeks=[week1_a1])
+
+        matchup1_a2 = Matchup(
+            teamAId=teamsA_2[0].id, teamBId=teamsA_2[1].id, teamAScore=1, teamBScore=0
+        )
+        matchup2_a2 = Matchup(
+            teamAId=teamsA_2[2].id, teamBId=teamsA_2[3].id, teamAScore=1, teamBScore=0
+        )
+        matchup3_a2 = Matchup(
+            teamAId=teamsA_2[4].id, teamBId=teamsA_2[5].id, teamAScore=1, teamBScore=0
+        )
+
+        week1_a2 = Week(weekNumber=1, matchups=[matchup1_a2, matchup2_a2, matchup3_a2])
+        yearA_2 = Year(yearNumber=2001, teams=teamsA_2, weeks=[week1_a2])
+
+        # years 3-4, has ownersB
+        matchup1_b1 = Matchup(
+            teamAId=teamsB_1[0].id, teamBId=teamsB_1[1].id, teamAScore=1.1, teamBScore=2.2
+        )
+        matchup2_b1 = Matchup(
+            teamAId=teamsB_1[2].id, teamBId=teamsB_1[3].id, teamAScore=3.3, teamBScore=4.4
+        )
+        matchup3_b1 = Matchup(
+            teamAId=teamsB_1[4].id, teamBId=teamsB_1[5].id, teamAScore=4.4, teamBScore=5.5
+        )
+
+        week1_b1 = Week(weekNumber=1, matchups=[matchup1_b1, matchup2_b1, matchup3_b1])
+        yearB_1 = Year(yearNumber=2002, teams=teamsB_1, weeks=[week1_b1])
+
+        matchup1_b2 = Matchup(
+            teamAId=teamsB_2[0].id, teamBId=teamsB_2[1].id, teamAScore=1, teamBScore=0
+        )
+        matchup2_b2 = Matchup(
+            teamAId=teamsB_2[2].id, teamBId=teamsB_2[3].id, teamAScore=1, teamBScore=0
+        )
+        matchup3_b2 = Matchup(
+            teamAId=teamsB_2[4].id, teamBId=teamsB_2[5].id, teamAScore=1, teamBScore=0
+        )
+
+        week1_b2 = Week(weekNumber=1, matchups=[matchup1_b2, matchup2_b2, matchup3_b2])
+        yearB_2 = Year(yearNumber=2003, teams=teamsB_2, weeks=[week1_b2])
+
+        league = League(
+            name="TEST", owners=ownersA + ownersB, years=[yearA_1, yearA_2, yearB_1, yearB_2]
+        )
+
+        response = ScoringShareAllTimeCalculator.getMinScoringShare(league)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(12, len(response.keys()))
+        self.assertAlmostEqual(
+            Deci("5.263157894736841601611684714"),
+            response[ownersA[0].id],
+            delta=Deci("0.00000000000001"),
+        )
+        self.assertEqual(Deci("0"), response[ownersA[1].id])
+        self.assertAlmostEqual(
+            Deci("15.78947368421052480483505414"),
+            response[ownersA[2].id],
+            delta=Deci("0.00000000000001"),
+        )
+        self.assertEqual(Deci("0"), response[ownersA[3].id])
+        self.assertAlmostEqual(
+            Deci("21.05263157894736640644673886"),
+            response[ownersA[4].id],
+            delta=Deci("0.00000000000001"),
+        )
+        self.assertEqual(Deci("0"), response[ownersA[5].id])
+        self.assertAlmostEqual(
+            Deci("5.263157894736841601611684714"),
+            response[ownersB[0].id],
+            delta=Deci("0.00000000000001"),
+        )
+        self.assertEqual(Deci("0"), response[ownersB[1].id])
+        self.assertAlmostEqual(
+            Deci("15.78947368421052480483505414"),
+            response[ownersB[2].id],
+            delta=Deci("0.00000000000001"),
+        )
+        self.assertEqual(Deci("0"), response[ownersB[3].id])
+        self.assertAlmostEqual(
+            Deci("21.05263157894736640644673886"),
+            response[ownersB[4].id],
+            delta=Deci("0.00000000000001"),
+        )
+        self.assertEqual(Deci("0"), response[ownersB[5].id])
 
     def test_getMinScoringShare_noneIfNoGamesPlayed(self):
         owners, teamsA = getNDefaultOwnersAndTeams(6)
