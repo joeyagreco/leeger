@@ -1,1 +1,2 @@
-from .validators import validateLeague, validateYear, validateWeek, validateMatchup
+from .validators import (validateLeague, validateMatchup, validateWeek,
+                         validateYear)

@@ -1,8 +1,7 @@
 import unittest
-from unittest.mock import patch, Mock
+from unittest.mock import Mock, patch
 
 from leeger.enum.MatchupType import MatchupType
-
 from leeger.league_loader.ESPNLeagueLoader import ESPNLeagueLoader
 from leeger.model.league.Division import Division
 from leeger.model.league.League import League

@@ -5,14 +5,15 @@ from typing import Optional
 
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception import DoesNotExistException
-from leeger.exception.InvalidMatchupFormatException import InvalidMatchupFormatException
+from leeger.exception.InvalidMatchupFormatException import \
+    InvalidMatchupFormatException
 from leeger.model.abstract.EqualityCheck import EqualityCheck
 from leeger.model.abstract.UniqueId import UniqueId
 from leeger.model.league_helper.Performance import Performance
 from leeger.util.CustomLogger import CustomLogger
+from leeger.util.equality import modelEquals
 from leeger.util.JSONDeserializable import JSONDeserializable
 from leeger.util.JSONSerializable import JSONSerializable
-from leeger.util.equality import modelEquals
 
 
 @dataclass(kw_only=True, eq=False)

@@ -1,4 +1,5 @@
 import unittest
+from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 from leeger.model.league import YearSettings
 from leeger.model.league.League import League
@@ -6,7 +7,6 @@ from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
 from leeger.util.excel_helper import allTimeTeamsStatSheet
-from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestExcelHelper(unittest.TestCase):

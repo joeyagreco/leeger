@@ -6,21 +6,19 @@ from datetime import datetime
 from typing import Any, Optional
 
 from openpyxl import Workbook
-from openpyxl.styles import Font, Color, PatternFill, Alignment, Side, Border
+from openpyxl.styles import Alignment, Border, Color, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
-from openpyxl.worksheet.dimensions import DimensionHolder, ColumnDimension
+from openpyxl.worksheet.dimensions import ColumnDimension, DimensionHolder
 from openpyxl.worksheet.table import Table
 from openpyxl.worksheet.worksheet import Worksheet
 
 from leeger.model.filter import AllTimeFilters, YearFilters
-from leeger.model.league import Year, League
-from leeger.util.excel_helper import (
-    allTimeTeamsStatSheet,
-    yearMatchupsStatSheet,
-    allTimeMatchupsStatSheet,
-)
+from leeger.model.league import League, Year
+from leeger.util.excel_helper import (allTimeMatchupsStatSheet,
+                                      allTimeTeamsStatSheet,
+                                      yearMatchupsStatSheet)
 from leeger.util.navigator.YearNavigator import YearNavigator
-from leeger.util.stat_sheet import yearStatSheet, leagueStatSheet
+from leeger.util.stat_sheet import leagueStatSheet, yearStatSheet
 
 
 def leagueToExcel(

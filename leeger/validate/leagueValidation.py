@@ -1,6 +1,7 @@
 from functools import lru_cache
 
-from leeger.exception.InvalidLeagueFormatException import InvalidLeagueFormatException
+from leeger.exception.InvalidLeagueFormatException import \
+    InvalidLeagueFormatException
 from leeger.model.league.League import League
 from leeger.model.league.Owner import Owner
 from leeger.model.league.Year import Year

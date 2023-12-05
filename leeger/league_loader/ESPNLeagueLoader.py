@@ -1,4 +1,5 @@
 from typing import Optional
+
 import espn_api.football as espn
 from espn_api.football import League as ESPNLeague
 from espn_api.football import Team as ESPNTeam

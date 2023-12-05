@@ -1,6 +1,7 @@
 import unittest
 
-from leeger.exception.InvalidTeamFormatException import InvalidTeamFormatException
+from leeger.exception.InvalidTeamFormatException import \
+    InvalidTeamFormatException
 from leeger.model.league.Team import Team
 from leeger.validate import teamValidation
 

@@ -1,5 +1,6 @@
 from leeger.enum.MatchupType import MatchupType
-from leeger.exception.InvalidMatchupFormatException import InvalidMatchupFormatException
+from leeger.exception.InvalidMatchupFormatException import \
+    InvalidMatchupFormatException
 from leeger.model.league.Matchup import Matchup
 
 

@@ -1,4 +1,6 @@
 import unittest
+from test.helper.prototypes import (getNDefaultOwnersAndTeams,
+                                    getTeamsFromOwners)
 
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception.DoesNotExistException import DoesNotExistException
@@ -11,7 +13,6 @@ from leeger.model.league.Team import Team
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
 from leeger.util.navigator.LeagueNavigator import LeagueNavigator
-from test.helper.prototypes import getNDefaultOwnersAndTeams, getTeamsFromOwners
 
 
 class TestLeagueNavigator(unittest.TestCase):

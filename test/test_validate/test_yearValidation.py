@@ -1,7 +1,9 @@
 import unittest
+from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 from leeger.enum.MatchupType import MatchupType
-from leeger.exception.InvalidYearFormatException import InvalidYearFormatException
+from leeger.exception.InvalidYearFormatException import \
+    InvalidYearFormatException
 from leeger.model.league.Division import Division
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Owner import Owner
@@ -9,7 +11,6 @@ from leeger.model.league.Team import Team
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
 from leeger.validate import yearValidation
-from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestYearValidation(unittest.TestCase):

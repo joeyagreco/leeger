@@ -1,7 +1,7 @@
 import unittest
+
 from leeger.exception.DoesNotExistException import DoesNotExistException
 from leeger.exception.LeagueLoaderException import LeagueLoaderException
-
 from leeger.league_loader.LeagueLoader import LeagueLoader
 from leeger.model.league.League import League
 from leeger.model.league.Owner import Owner

@@ -1,4 +1,5 @@
-from leeger.exception.InvalidOwnerFormatException import InvalidOwnerFormatException
+from leeger.exception.InvalidOwnerFormatException import \
+    InvalidOwnerFormatException
 from leeger.model.league.Owner import Owner
 
 

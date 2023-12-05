@@ -1,8 +1,9 @@
 import unittest
+from test.helper.prototypes import (getNDefaultOwnersAndTeams,
+                                    getTeamsFromOwners)
 
-from leeger.calculator.all_time_calculator.GameOutcomeAllTimeCalculator import (
-    GameOutcomeAllTimeCalculator,
-)
+from leeger.calculator.all_time_calculator.GameOutcomeAllTimeCalculator import \
+    GameOutcomeAllTimeCalculator
 from leeger.enum.MatchupType import MatchupType
 from leeger.model.league import YearSettings
 from leeger.model.league.League import League
@@ -10,7 +11,6 @@ from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
 from leeger.util.Deci import Deci
-from test.helper.prototypes import getNDefaultOwnersAndTeams, getTeamsFromOwners
 
 
 class TestGameOutcomeAllTimeCalculator(unittest.TestCase):

@@ -2,9 +2,10 @@ from .AWALAllTimeCalculator import AWALAllTimeCalculator
 from .GameOutcomeAllTimeCalculator import GameOutcomeAllTimeCalculator
 from .PlusMinusAllTimeCalculator import PlusMinusAllTimeCalculator
 from .PointsScoredAllTimeCalculator import PointsScoredAllTimeCalculator
-from .SSLAllTimeCalculator import SSLAllTimeCalculator
 from .ScoringShareAllTimeCalculator import ScoringShareAllTimeCalculator
-from .ScoringStandardDeviationAllTimeCalculator import ScoringStandardDeviationAllTimeCalculator
+from .ScoringStandardDeviationAllTimeCalculator import \
+    ScoringStandardDeviationAllTimeCalculator
 from .SingleScoreAllTimeCalculator import SingleScoreAllTimeCalculator
 from .SmartWinsAllTimeCalculator import SmartWinsAllTimeCalculator
+from .SSLAllTimeCalculator import SSLAllTimeCalculator
 from .TeamSummaryAllTimeCalculator import TeamSummaryAllTimeCalculator

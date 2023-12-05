@@ -1,4 +1,4 @@
-from leeger.model.filter import YearFilters, AllTimeFilters
+from leeger.model.filter import AllTimeFilters, YearFilters
 from leeger.model.league import League, Year
 from leeger.util.navigator import LeagueNavigator, YearNavigator
 from leeger.util.stat_sheet import yearStatSheet

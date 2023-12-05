@@ -1,8 +1,7 @@
 from typing import Optional
 
-from leeger.calculator.all_time_calculator.PointsScoredAllTimeCalculator import (
-    PointsScoredAllTimeCalculator,
-)
+from leeger.calculator.all_time_calculator.PointsScoredAllTimeCalculator import \
+    PointsScoredAllTimeCalculator
 from leeger.calculator.parent.AllTimeCalculator import AllTimeCalculator
 from leeger.calculator.year_calculator import ScoringShareYearCalculator
 from leeger.decorator.validators import validateLeague

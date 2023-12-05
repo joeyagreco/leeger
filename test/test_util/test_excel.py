@@ -2,18 +2,18 @@ import os
 import tempfile
 import unittest
 from decimal import Decimal
+from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 from openpyxl import load_workbook
 from openpyxl.utils import get_column_letter
-from leeger.model.league.Division import Division
 
+from leeger.model.league.Division import Division
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Team import Team
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
 from leeger.util.excel import leagueToExcel
-from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestExcel(unittest.TestCase):

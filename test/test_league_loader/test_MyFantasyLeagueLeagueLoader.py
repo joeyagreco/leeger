@@ -1,8 +1,8 @@
+import copy
 import unittest
 from unittest import mock
-import copy
-from leeger.enum.MatchupType import MatchupType
 
+from leeger.enum.MatchupType import MatchupType
 from leeger.league_loader import MyFantasyLeagueLeagueLoader
 from leeger.model.league.Division import Division
 from leeger.model.league.League import League

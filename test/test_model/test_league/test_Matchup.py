@@ -1,11 +1,12 @@
 import unittest
+from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception import DoesNotExistException
-from leeger.exception.InvalidMatchupFormatException import InvalidMatchupFormatException
+from leeger.exception.InvalidMatchupFormatException import \
+    InvalidMatchupFormatException
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league_helper.Performance import Performance
-from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestMatchup(unittest.TestCase):

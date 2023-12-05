@@ -1,8 +1,7 @@
 from leeger.enum import MatchupType
-
-from leeger.model.league import Owner, Team, Matchup, Week, Year, League, YearSettings
+from leeger.model.league import (League, Matchup, Owner, Team, Week, Year,
+                                 YearSettings)
 from leeger.model.league.Division import Division
-
 
 ownerFrankie = Owner(name="Frankie")
 ownerMonika = Owner(name="Monika")

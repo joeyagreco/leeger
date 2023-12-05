@@ -1,14 +1,14 @@
 import unittest
+from test.helper.prototypes import (getNDefaultOwnersAndTeams,
+                                    getTeamsFromOwners)
 
-from leeger.calculator.all_time_calculator.SingleScoreAllTimeCalculator import (
-    SingleScoreAllTimeCalculator,
-)
+from leeger.calculator.all_time_calculator.SingleScoreAllTimeCalculator import \
+    SingleScoreAllTimeCalculator
 from leeger.enum.MatchupType import MatchupType
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
-from test.helper.prototypes import getNDefaultOwnersAndTeams, getTeamsFromOwners
 
 
 class TestSingleScoreAllTimeCalculator(unittest.TestCase):

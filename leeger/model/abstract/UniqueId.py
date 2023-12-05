@@ -1,5 +1,5 @@
 from abc import ABC
-from dataclasses import field, dataclass
+from dataclasses import dataclass, field
 
 from leeger.util.IdGenerator import IdGenerator
 
