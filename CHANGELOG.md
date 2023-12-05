@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 - N/A
 
-## [2.6.5]
+## [2.6.0]
 
 - Fixed bug where older Sleeper leagues would sometimes fail to load
 - Updated package versions
@@ -243,8 +243,8 @@ All notable changes to this project will be documented in this file.
 
 ### Initial Release
 
-[Unreleased]: https://github.com/joeyagreco/leeger/compare/v2.6.5...HEAD
-[2.6.5]: https://github.com/joeyagreco/leeger/releases/tag/v2.6.5
+[Unreleased]: https://github.com/joeyagreco/leeger/compare/v2.6.0...HEAD
+[2.6.0]: https://github.com/joeyagreco/leeger/releases/tag/v2.6.0
 [2.5.5]: https://github.com/joeyagreco/leeger/releases/tag/v2.5.5
 [2.5.4]: https://github.com/joeyagreco/leeger/releases/tag/v2.5.4
 [2.5.3]: https://github.com/joeyagreco/leeger/releases/tag/v2.5.3
