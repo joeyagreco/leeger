@@ -1,8 +1,7 @@
 from typing import Optional
 
 from leeger.calculator.parent.AllTimeCalculator import AllTimeCalculator
-from leeger.calculator.year_calculator.AWALYearCalculator import \
-    AWALYearCalculator
+from leeger.calculator.year_calculator.AWALYearCalculator import AWALYearCalculator
 from leeger.decorator.validators import validateLeague
 from leeger.model.filter import AllTimeFilters
 from leeger.model.league.League import League

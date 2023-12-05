@@ -1,8 +1,7 @@
 import unittest
 
 from leeger.enum.MatchupType import MatchupType
-from leeger.exception.InvalidWeekFormatException import \
-    InvalidWeekFormatException
+from leeger.exception.InvalidWeekFormatException import InvalidWeekFormatException
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Week import Week
 from leeger.validate import weekValidation

@@ -1,5 +1,4 @@
-from leeger.exception.InvalidTeamFormatException import \
-    InvalidTeamFormatException
+from leeger.exception.InvalidTeamFormatException import InvalidTeamFormatException
 from leeger.model.league.Team import Team
 
 

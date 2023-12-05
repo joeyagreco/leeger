@@ -2,8 +2,7 @@ import unittest
 from unittest import mock
 
 from leeger.enum.MatchupType import MatchupType
-from leeger.league_loader.FleaflickerLeagueLoader import \
-    FleaflickerLeagueLoader
+from leeger.league_loader.FleaflickerLeagueLoader import FleaflickerLeagueLoader
 from leeger.model.league.Division import Division
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup

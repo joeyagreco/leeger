@@ -1,5 +1,4 @@
-from leeger.exception.InvalidDivisionFormatException import \
-    InvalidDivisionFormatException
+from leeger.exception.InvalidDivisionFormatException import InvalidDivisionFormatException
 from leeger.model.league.Division import Division
 
 

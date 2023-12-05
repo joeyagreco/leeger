@@ -1,8 +1,7 @@
 import unittest
 from test.helper.prototypes import getNDefaultOwnersAndTeams
 
-from leeger.calculator.year_calculator.TeamSummaryYearCalculator import \
-    TeamSummaryYearCalculator
+from leeger.calculator.year_calculator.TeamSummaryYearCalculator import TeamSummaryYearCalculator
 from leeger.enum.MatchupType import MatchupType
 from leeger.model.league import YearSettings
 from leeger.model.league.Matchup import Matchup

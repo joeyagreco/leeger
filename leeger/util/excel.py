@@ -14,9 +14,11 @@ from openpyxl.worksheet.worksheet import Worksheet
 
 from leeger.model.filter import AllTimeFilters, YearFilters
 from leeger.model.league import League, Year
-from leeger.util.excel_helper import (allTimeMatchupsStatSheet,
-                                      allTimeTeamsStatSheet,
-                                      yearMatchupsStatSheet)
+from leeger.util.excel_helper import (
+    allTimeMatchupsStatSheet,
+    allTimeTeamsStatSheet,
+    yearMatchupsStatSheet,
+)
 from leeger.util.navigator.YearNavigator import YearNavigator
 from leeger.util.stat_sheet import leagueStatSheet, yearStatSheet
 

@@ -1,15 +1,18 @@
 from functools import lru_cache
 
-from leeger.exception.InvalidYearFormatException import \
-    InvalidYearFormatException
+from leeger.exception.InvalidYearFormatException import InvalidYearFormatException
 from leeger.model.league import Matchup, YearSettings
 from leeger.model.league.Division import Division
 from leeger.model.league.Team import Team
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
 from leeger.util.navigator import YearNavigator
-from leeger.validate import (divisionValidation, teamValidation,
-                             weekValidation, yearSettingsValidation)
+from leeger.validate import (
+    divisionValidation,
+    teamValidation,
+    weekValidation,
+    yearSettingsValidation,
+)
 
 
 @lru_cache(maxsize=None)

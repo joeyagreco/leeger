@@ -1,8 +1,7 @@
 from typing import Optional
 
 from leeger.calculator.parent.YearCalculator import YearCalculator
-from leeger.calculator.year_calculator.GameOutcomeYearCalculator import \
-    GameOutcomeYearCalculator
+from leeger.calculator.year_calculator.GameOutcomeYearCalculator import GameOutcomeYearCalculator
 from leeger.decorator.validators import validateYear
 from leeger.model.filter import YearFilters
 from leeger.model.filter.WeekFilters import WeekFilters

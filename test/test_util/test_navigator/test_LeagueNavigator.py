@@ -1,6 +1,5 @@
 import unittest
-from test.helper.prototypes import (getNDefaultOwnersAndTeams,
-                                    getTeamsFromOwners)
+from test.helper.prototypes import getNDefaultOwnersAndTeams, getTeamsFromOwners
 
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception.DoesNotExistException import DoesNotExistException

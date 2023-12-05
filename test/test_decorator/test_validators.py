@@ -1,8 +1,7 @@
 import unittest
 from test.helper.prototypes import getNDefaultOwnersAndTeams
 
-from leeger.decorator.validators import (validateLeague, validateMatchup,
-                                         validateWeek, validateYear)
+from leeger.decorator.validators import validateLeague, validateMatchup, validateWeek, validateYear
 from leeger.enum import MatchupType
 from leeger.model.league import Matchup
 from leeger.model.league.League import League

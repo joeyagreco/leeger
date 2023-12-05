@@ -2,8 +2,7 @@ import unittest
 from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 from leeger.enum.MatchupType import MatchupType
-from leeger.exception.InvalidLeagueFormatException import \
-    InvalidLeagueFormatException
+from leeger.exception.InvalidLeagueFormatException import InvalidLeagueFormatException
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Owner import Owner

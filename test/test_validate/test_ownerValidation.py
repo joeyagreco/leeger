@@ -1,7 +1,6 @@
 import unittest
 
-from leeger.exception.InvalidOwnerFormatException import \
-    InvalidOwnerFormatException
+from leeger.exception.InvalidOwnerFormatException import InvalidOwnerFormatException
 from leeger.model.league.Owner import Owner
 from leeger.validate import ownerValidation
 

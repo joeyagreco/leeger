@@ -1,38 +1,41 @@
 from leeger.calculator.all_time_calculator import (
-    AWALAllTimeCalculator, TeamSummaryAllTimeCalculator)
-from leeger.calculator.all_time_calculator.GameOutcomeAllTimeCalculator import \
-    GameOutcomeAllTimeCalculator
-from leeger.calculator.all_time_calculator.PlusMinusAllTimeCalculator import \
-    PlusMinusAllTimeCalculator
-from leeger.calculator.all_time_calculator.PointsScoredAllTimeCalculator import \
-    PointsScoredAllTimeCalculator
-from leeger.calculator.all_time_calculator.ScoringShareAllTimeCalculator import \
-    ScoringShareAllTimeCalculator
-from leeger.calculator.all_time_calculator.ScoringStandardDeviationAllTimeCalculator import \
-    ScoringStandardDeviationAllTimeCalculator
-from leeger.calculator.all_time_calculator.SingleScoreAllTimeCalculator import \
-    SingleScoreAllTimeCalculator
-from leeger.calculator.all_time_calculator.SmartWinsAllTimeCalculator import \
-    SmartWinsAllTimeCalculator
-from leeger.calculator.all_time_calculator.SSLAllTimeCalculator import \
-    SSLAllTimeCalculator
+    AWALAllTimeCalculator,
+    TeamSummaryAllTimeCalculator,
+)
+from leeger.calculator.all_time_calculator.GameOutcomeAllTimeCalculator import (
+    GameOutcomeAllTimeCalculator,
+)
+from leeger.calculator.all_time_calculator.PlusMinusAllTimeCalculator import (
+    PlusMinusAllTimeCalculator,
+)
+from leeger.calculator.all_time_calculator.PointsScoredAllTimeCalculator import (
+    PointsScoredAllTimeCalculator,
+)
+from leeger.calculator.all_time_calculator.ScoringShareAllTimeCalculator import (
+    ScoringShareAllTimeCalculator,
+)
+from leeger.calculator.all_time_calculator.ScoringStandardDeviationAllTimeCalculator import (
+    ScoringStandardDeviationAllTimeCalculator,
+)
+from leeger.calculator.all_time_calculator.SingleScoreAllTimeCalculator import (
+    SingleScoreAllTimeCalculator,
+)
+from leeger.calculator.all_time_calculator.SmartWinsAllTimeCalculator import (
+    SmartWinsAllTimeCalculator,
+)
+from leeger.calculator.all_time_calculator.SSLAllTimeCalculator import SSLAllTimeCalculator
 from leeger.calculator.year_calculator import (
-    ScoringStandardDeviationYearCalculator, SingleScoreYearCalculator,
-    TeamSummaryYearCalculator)
-from leeger.calculator.year_calculator.AWALYearCalculator import \
-    AWALYearCalculator
-from leeger.calculator.year_calculator.GameOutcomeYearCalculator import \
-    GameOutcomeYearCalculator
-from leeger.calculator.year_calculator.PlusMinusYearCalculator import \
-    PlusMinusYearCalculator
-from leeger.calculator.year_calculator.PointsScoredYearCalculator import \
-    PointsScoredYearCalculator
-from leeger.calculator.year_calculator.ScoringShareYearCalculator import \
-    ScoringShareYearCalculator
-from leeger.calculator.year_calculator.SmartWinsYearCalculator import \
-    SmartWinsYearCalculator
-from leeger.calculator.year_calculator.SSLYearCalculator import \
-    SSLYearCalculator
+    ScoringStandardDeviationYearCalculator,
+    SingleScoreYearCalculator,
+    TeamSummaryYearCalculator,
+)
+from leeger.calculator.year_calculator.AWALYearCalculator import AWALYearCalculator
+from leeger.calculator.year_calculator.GameOutcomeYearCalculator import GameOutcomeYearCalculator
+from leeger.calculator.year_calculator.PlusMinusYearCalculator import PlusMinusYearCalculator
+from leeger.calculator.year_calculator.PointsScoredYearCalculator import PointsScoredYearCalculator
+from leeger.calculator.year_calculator.ScoringShareYearCalculator import ScoringShareYearCalculator
+from leeger.calculator.year_calculator.SmartWinsYearCalculator import SmartWinsYearCalculator
+from leeger.calculator.year_calculator.SSLYearCalculator import SSLYearCalculator
 from leeger.model.league import League, Year
 from leeger.model.stat.AllTimeStatSheet import AllTimeStatSheet
 from leeger.model.stat.YearStatSheet import YearStatSheet

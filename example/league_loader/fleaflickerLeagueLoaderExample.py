@@ -1,5 +1,4 @@
-from leeger.league_loader.FleaflickerLeagueLoader import \
-    FleaflickerLeagueLoader
+from leeger.league_loader.FleaflickerLeagueLoader import FleaflickerLeagueLoader
 from leeger.model.league import League
 
 if __name__ == "__main__":

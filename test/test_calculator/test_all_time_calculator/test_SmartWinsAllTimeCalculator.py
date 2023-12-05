@@ -1,10 +1,10 @@
 import math
 import unittest
-from test.helper.prototypes import (getNDefaultOwnersAndTeams,
-                                    getTeamsFromOwners)
+from test.helper.prototypes import getNDefaultOwnersAndTeams, getTeamsFromOwners
 
-from leeger.calculator.all_time_calculator.SmartWinsAllTimeCalculator import \
-    SmartWinsAllTimeCalculator
+from leeger.calculator.all_time_calculator.SmartWinsAllTimeCalculator import (
+    SmartWinsAllTimeCalculator,
+)
 from leeger.enum.MatchupType import MatchupType
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup

@@ -1,10 +1,10 @@
 import math
 import unittest
-from test.helper.prototypes import (getNDefaultOwnersAndTeams,
-                                    getTeamsFromOwners)
+from test.helper.prototypes import getNDefaultOwnersAndTeams, getTeamsFromOwners
 
-from leeger.calculator.all_time_calculator.ScoringStandardDeviationAllTimeCalculator import \
-    ScoringStandardDeviationAllTimeCalculator
+from leeger.calculator.all_time_calculator.ScoringStandardDeviationAllTimeCalculator import (
+    ScoringStandardDeviationAllTimeCalculator,
+)
 from leeger.enum.MatchupType import MatchupType
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup

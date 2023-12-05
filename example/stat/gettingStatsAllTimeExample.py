@@ -1,8 +1,12 @@
 from leeger.calculator.all_time_calculator import (
-    AWALAllTimeCalculator, GameOutcomeAllTimeCalculator,
-    PointsScoredAllTimeCalculator, ScoringShareAllTimeCalculator,
-    ScoringStandardDeviationAllTimeCalculator, SingleScoreAllTimeCalculator,
-    SmartWinsAllTimeCalculator)
+    AWALAllTimeCalculator,
+    GameOutcomeAllTimeCalculator,
+    PointsScoredAllTimeCalculator,
+    ScoringShareAllTimeCalculator,
+    ScoringStandardDeviationAllTimeCalculator,
+    SingleScoreAllTimeCalculator,
+    SmartWinsAllTimeCalculator,
+)
 from leeger.league_loader import ESPNLeagueLoader
 from leeger.model.league import League
 from leeger.model.stat.AllTimeStatSheet import AllTimeStatSheet

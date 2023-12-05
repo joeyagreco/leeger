@@ -3,8 +3,7 @@ from .GameOutcomeYearCalculator import GameOutcomeYearCalculator
 from .PlusMinusYearCalculator import PlusMinusYearCalculator
 from .PointsScoredYearCalculator import PointsScoredYearCalculator
 from .ScoringShareYearCalculator import ScoringShareYearCalculator
-from .ScoringStandardDeviationYearCalculator import \
-    ScoringStandardDeviationYearCalculator
+from .ScoringStandardDeviationYearCalculator import ScoringStandardDeviationYearCalculator
 from .SingleScoreYearCalculator import SingleScoreYearCalculator
 from .SmartWinsYearCalculator import SmartWinsYearCalculator
 from .SSLYearCalculator import SSLYearCalculator

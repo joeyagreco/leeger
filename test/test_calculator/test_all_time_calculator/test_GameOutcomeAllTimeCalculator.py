@@ -1,9 +1,9 @@
 import unittest
-from test.helper.prototypes import (getNDefaultOwnersAndTeams,
-                                    getTeamsFromOwners)
+from test.helper.prototypes import getNDefaultOwnersAndTeams, getTeamsFromOwners
 
-from leeger.calculator.all_time_calculator.GameOutcomeAllTimeCalculator import \
-    GameOutcomeAllTimeCalculator
+from leeger.calculator.all_time_calculator.GameOutcomeAllTimeCalculator import (
+    GameOutcomeAllTimeCalculator,
+)
 from leeger.enum.MatchupType import MatchupType
 from leeger.model.league import YearSettings
 from leeger.model.league.League import League

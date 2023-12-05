@@ -1,8 +1,7 @@
 import unittest
 from test.helper.prototypes import getNDefaultOwnersAndTeams
 
-from leeger.calculator.year_calculator.ScoringShareYearCalculator import \
-    ScoringShareYearCalculator
+from leeger.calculator.year_calculator.ScoringShareYearCalculator import ScoringShareYearCalculator
 from leeger.enum.MatchupType import MatchupType
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Week import Week
