@@ -6,6 +6,10 @@ All notable changes to this project will be documented in this file.
 
 - N/A
 
+## [2.6.1]
+
+- Updated logic in ESPN League Loader to work with new ESPN owner flow
+
 ## [2.6.0]
 
 - Fixed bug where older Sleeper leagues would sometimes fail to load
@@ -243,7 +247,8 @@ All notable changes to this project will be documented in this file.
 
 ### Initial Release
 
-[Unreleased]: https://github.com/joeyagreco/leeger/compare/v2.6.0...HEAD
+[Unreleased]: https://github.com/joeyagreco/leeger/compare/v2.6.1...HEAD
+[2.6.1]: https://github.com/joeyagreco/leeger/releases/tag/v2.6.1
 [2.6.0]: https://github.com/joeyagreco/leeger/releases/tag/v2.6.0
 [2.5.5]: https://github.com/joeyagreco/leeger/releases/tag/v2.5.5
 [2.5.4]: https://github.com/joeyagreco/leeger/releases/tag/v2.5.4

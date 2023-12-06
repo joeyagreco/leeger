@@ -108,8 +108,9 @@ class ESPNLeagueLoader(LeagueLoader):
             owners = list()
             for espnTeam in espnTeams:
                 # get general owner name if there is one
-                generalOwnerName = self._getGeneralOwnerNameFromGivenOwnerName(espnTeam.owner)
-                ownerName = generalOwnerName if generalOwnerName is not None else espnTeam.owner
+                ownerName = self.__getESPNOwnerName(espnTeam.owners)
+                generalOwnerName = self._getGeneralOwnerNameFromGivenOwnerName(ownerName)
+                ownerName = generalOwnerName if generalOwnerName is not None else ownerName
                 owners.append(Owner(name=ownerName))
             self._owners = owners
 
@@ -227,8 +228,24 @@ class ESPNLeagueLoader(LeagueLoader):
         for espnTeam in espnTeams:
             # TODO: see if there are cases where ESPN leagues do NOT have divisions
             divisionId = self.__espnDivisionIdToDivisionMap[espnTeam.division_id].id
-            owner = self._getOwnerByName(espnTeam.owner)
+            ownerName = self.__getESPNOwnerName(espnTeam.owners)
+            owner = self._getOwnerByName(ownerName)
             team = Team(ownerId=owner.id, name=espnTeam.team_name, divisionId=divisionId)
             teams.append(team)
             self.__espnTeamIdToTeamMap[espnTeam.team_id] = team
         return teams
+
+    def __getESPNOwnerName(self, espnOwners: list[dict]) -> str:
+        """
+        Owners look like this:
+        [
+            {
+                "displayName": "FooBarBazQuz",
+                "firstName": "Foo",
+                "id": "{1B3463F3-B3C6-4053-9893-EdB9C7805888}",
+                "lastName": "Bar",
+                ...
+            }
+        ]
+        """
+        return f"{espnOwners[0]['firstName']} {espnOwners[0]['lastName']}"

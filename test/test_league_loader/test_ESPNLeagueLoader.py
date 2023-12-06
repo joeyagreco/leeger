@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import Mock, patch
+from unittest.mock import MagicMock, Mock, patch
 
 from leeger.enum.MatchupType import MatchupType
 from leeger.league_loader.ESPNLeagueLoader import ESPNLeagueLoader
@@ -13,6 +13,9 @@ from leeger.model.league.Year import Year
 
 
 class TestESPNLeagueLoader(unittest.TestCase):
+    def __getMockOwnersList(self, firstName: str, lastName: str) -> list[dict]:
+        return [{"firstName": firstName, "lastName": lastName}]
+
     def test_loadLeague_nonIntPassingStringForLeagueId(self):
         with self.assertRaises(ValueError) as context:
             ESPNLeagueLoader("a", [2000])
@@ -30,7 +33,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         mockEspnLeague2022.settings.division_map = {0: "d1_2022", 1: "d2_2022"}
         mockTeam1_2022 = Mock(
             team_id=1,
-            owner="Owner 1",
+            owners=self.__getMockOwnersList("Owner", "1"),
             team_name="Team 1",
             outcomes=["W", "W", "U", "W"],
             scores=[100, 110, 0, 100],
@@ -39,7 +42,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam2_2022 = Mock(
             team_id=2,
-            owner="Owner 2",
+            owners=self.__getMockOwnersList("Owner", "2"),
             team_name="Team 2",
             outcomes=["L", "L", "L", "L"],
             scores=[100, 70, 1, 1],
@@ -48,7 +51,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam3_2022 = Mock(
             team_id=3,
-            owner="Owner 3",
+            owners=self.__getMockOwnersList("Owner", "3"),
             team_name="Team 3",
             outcomes=["W", "L", "L", "W"],
             scores=[90.5, 100, 80, 2],
@@ -57,7 +60,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam4_2022 = Mock(
             team_id=4,
-            owner="Owner 4",
+            owners=self.__getMockOwnersList("Owner", "4"),
             team_name="Team 4",
             outcomes=["L", "W", "U", "L"],
             scores=[70.5, 80, 0, 1],
@@ -66,7 +69,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam5_2022 = Mock(
             team_id=5,
-            owner="Owner 5",
+            owners=self.__getMockOwnersList("Owner", "5"),
             team_name="Team 5",
             outcomes=["W", "L", "W", "W"],
             scores=[110, 80, 2, 2],
@@ -75,7 +78,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam6_2022 = Mock(
             team_id=6,
-            owner="Owner 6",
+            owners=self.__getMockOwnersList("Owner", "6"),
             team_name="Team 6",
             outcomes=["L", "W", "W", "W"],
             scores=[60, 90, 2, 2],
@@ -84,7 +87,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam7_2022 = Mock(
             team_id=7,
-            owner="Owner 7",
+            owners=self.__getMockOwnersList("Owner", "7"),
             team_name="Team 7",
             outcomes=["W", "W", "W", "L"],
             scores=[120, 130, 90, 90],
@@ -93,7 +96,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam8_2022 = Mock(
             team_id=8,
-            owner="Owner 8",
+            owners=self.__getMockOwnersList("Owner", "8"),
             team_name="Team 8",
             outcomes=["L", "L", "L", "L"],
             scores=[50, 40, 1, 1],
@@ -132,7 +135,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         mockEspnLeague2023.settings.division_map = {0: "d1_2023", 1: "d2_2023"}
         mockTeam1_2023 = Mock(
             team_id=1,
-            owner="Owner 1",
+            owners=self.__getMockOwnersList("Owner", "1"),
             team_name="Team 1",
             outcomes=["W"],
             scores=[100],
@@ -140,7 +143,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam2_2023 = Mock(
             team_id=2,
-            owner="Owner 2",
+            owners=self.__getMockOwnersList("Owner", "2"),
             team_name="Team 2",
             outcomes=["L"],
             scores=[100],
@@ -148,7 +151,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam3_2023 = Mock(
             team_id=3,
-            owner="Owner 3",
+            owners=self.__getMockOwnersList("Owner", "3"),
             team_name="Team 3",
             outcomes=["W"],
             scores=[90.5],
@@ -156,7 +159,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam4_2023 = Mock(
             team_id=4,
-            owner="Owner 4",
+            owners=self.__getMockOwnersList("Owner", "4"),
             team_name="Team 4",
             outcomes=["L"],
             scores=[70.5],
@@ -164,7 +167,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam5_2023 = Mock(
             team_id=5,
-            owner="Owner 5",
+            owners=self.__getMockOwnersList("Owner", "5"),
             team_name="Team 5",
             outcomes=["W"],
             scores=[110],
@@ -172,7 +175,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam6_2023 = Mock(
             team_id=6,
-            owner="Owner 6",
+            owners=self.__getMockOwnersList("Owner", "6"),
             team_name="Team 6",
             outcomes=["L"],
             scores=[60],
@@ -180,7 +183,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam7_2023 = Mock(
             team_id=7,
-            owner="Owner 7",
+            owners=self.__getMockOwnersList("Owner", "7"),
             team_name="Team 7",
             outcomes=["W"],
             scores=[120],
@@ -188,7 +191,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam8_2023 = Mock(
             team_id=8,
-            owner="Owner 8",
+            owners=self.__getMockOwnersList("Owner", "8"),
             team_name="Team 8",
             outcomes=["L"],
             scores=[50],
@@ -508,7 +511,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         mockEspnLeague2022.settings.division_map = {0: "d1_2022", 1: "d2_2022"}
         mockTeam1_2022 = Mock(
             team_id=1,
-            owner="Owner 1",
+            owners=self.__getMockOwnersList("Owner", "1"),
             team_name="Team 1",
             outcomes=["W", "W", "U", "W"],
             scores=[100, 110, 0, 100],
@@ -517,7 +520,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam2_2022 = Mock(
             team_id=2,
-            owner="Owner 2",
+            owners=self.__getMockOwnersList("Owner", "2"),
             team_name="Team 2",
             outcomes=["L", "L", "L", "L"],
             scores=[100, 70, 1, 1],
@@ -526,7 +529,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam3_2022 = Mock(
             team_id=3,
-            owner="Owner 3",
+            owners=self.__getMockOwnersList("Owner", "3"),
             team_name="Team 3",
             outcomes=["W", "L", "L", "W"],
             scores=[90.5, 100, 80, 2],
@@ -535,7 +538,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam4_2022 = Mock(
             team_id=4,
-            owner="Owner 4",
+            owners=self.__getMockOwnersList("Owner", "4"),
             team_name="Team 4",
             outcomes=["L", "W", "U", "L"],
             scores=[70.5, 80, 0, 1],
@@ -544,7 +547,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam5_2022 = Mock(
             team_id=5,
-            owner="Owner 5",
+            owners=self.__getMockOwnersList("Owner", "5"),
             team_name="Team 5",
             outcomes=["W", "L", "W", "W"],
             scores=[110, 80, 2, 2],
@@ -553,7 +556,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam6_2022 = Mock(
             team_id=6,
-            owner="Owner 6",
+            owners=self.__getMockOwnersList("Owner", "6"),
             team_name="Team 6",
             outcomes=["L", "W", "W", "W"],
             scores=[60, 90, 2, 2],
@@ -562,7 +565,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam7_2022 = Mock(
             team_id=7,
-            owner="Owner 7",
+            owners=self.__getMockOwnersList("Owner", "7"),
             team_name="Team 7",
             outcomes=["W", "W", "W", "L"],
             scores=[120, 130, 90, 90],
@@ -571,7 +574,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam8_2022 = Mock(
             team_id=8,
-            owner="Owner 8",
+            owners=self.__getMockOwnersList("Owner", "8"),
             team_name="Team 8",
             outcomes=["L", "L", "L", "L"],
             scores=[50, 40, 1, 1],
@@ -610,7 +613,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         mockEspnLeague2023.settings.division_map = {0: "d1_2023", 1: "d2_2023"}
         mockTeam1_2023 = Mock(
             team_id=1,
-            owner="Owner 1",
+            owners=self.__getMockOwnersList("Owner", "1"),
             team_name="Team 1",
             outcomes=["W"],
             scores=[100],
@@ -618,7 +621,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam2_2023 = Mock(
             team_id=2,
-            owner="Owner 2",
+            owners=self.__getMockOwnersList("Owner", "2"),
             team_name="Team 2",
             outcomes=["L"],
             scores=[100],
@@ -626,7 +629,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam3_2023 = Mock(
             team_id=3,
-            owner="Owner 3",
+            owners=self.__getMockOwnersList("Owner", "3"),
             team_name="Team 3",
             outcomes=["W"],
             scores=[90.5],
@@ -634,7 +637,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam4_2023 = Mock(
             team_id=4,
-            owner="Owner 4",
+            owners=self.__getMockOwnersList("Owner", "4"),
             team_name="Team 4",
             outcomes=["L"],
             scores=[70.5],
@@ -642,7 +645,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam5_2023 = Mock(
             team_id=5,
-            owner="Owner 5",
+            owners=self.__getMockOwnersList("Owner", "5"),
             team_name="Team 5",
             outcomes=["W"],
             scores=[110],
@@ -650,7 +653,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam6_2023 = Mock(
             team_id=6,
-            owner="Owner 6",
+            owners=self.__getMockOwnersList("Owner", "6"),
             team_name="Team 6",
             outcomes=["L"],
             scores=[60],
@@ -658,7 +661,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam7_2023 = Mock(
             team_id=7,
-            owner="Owner 7",
+            owners=self.__getMockOwnersList("Owner", "7"),
             team_name="Team 7",
             outcomes=["W"],
             scores=[120],
@@ -666,7 +669,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam8_2023 = Mock(
             team_id=8,
-            owner="Owner 8",
+            owners=self.__getMockOwnersList("Owner", "8"),
             team_name="Team 8",
             outcomes=["L"],
             scores=[50],
@@ -999,7 +1002,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         mockEspnLeague2022.settings.division_map = {0: "d1_2022", 1: "d2_2022"}
         mockTeam1_2022 = Mock(
             team_id=1,
-            owner="Owner 1",
+            owners=self.__getMockOwnersList("Owner", "1"),
             team_name="Team 1",
             outcomes=["W", "W", "U", "W"],
             scores=[100, 110, 0, 100],
@@ -1008,7 +1011,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam2_2022 = Mock(
             team_id=2,
-            owner="Owner 2",
+            owners=self.__getMockOwnersList("Owner", "2"),
             team_name="Team 2",
             outcomes=["L", "L", "L", "L"],
             scores=[100, 70, 1, 1],
@@ -1017,7 +1020,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam3_2022 = Mock(
             team_id=3,
-            owner="Owner 3",
+            owners=self.__getMockOwnersList("Owner", "3"),
             team_name="Team 3",
             outcomes=["W", "L", "L", "W"],
             scores=[90.5, 100, 80, 2],
@@ -1026,7 +1029,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam4_2022 = Mock(
             team_id=4,
-            owner="Owner 4",
+            owners=self.__getMockOwnersList("Owner", "4"),
             team_name="Team 4",
             outcomes=["L", "W", "U", "L"],
             scores=[70.5, 80, 0, 1],
@@ -1035,7 +1038,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam5_2022 = Mock(
             team_id=5,
-            owner="Owner 5",
+            owners=self.__getMockOwnersList("Owner", "5"),
             team_name="Team 5",
             outcomes=["W", "L", "W", "W"],
             scores=[110, 80, 2, 2],
@@ -1044,7 +1047,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam6_2022 = Mock(
             team_id=6,
-            owner="Owner 6",
+            owners=self.__getMockOwnersList("Owner", "6"),
             team_name="Team 6",
             outcomes=["L", "W", "W", "W"],
             scores=[60, 90, 2, 2],
@@ -1053,7 +1056,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam7_2022 = Mock(
             team_id=7,
-            owner="Owner 7",
+            owners=self.__getMockOwnersList("Owner", "7"),
             team_name="Team 7",
             outcomes=["W", "W", "W", "L"],
             scores=[120, 130, 90, 90],
@@ -1062,7 +1065,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam8_2022 = Mock(
             team_id=8,
-            owner="Owner 8",
+            owners=self.__getMockOwnersList("Owner", "8"),
             team_name="Team 8",
             outcomes=["L", "L", "L", "L"],
             scores=[50, 40, 1, 1],
@@ -1101,7 +1104,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         mockEspnLeague2023.settings.division_map = {0: "d1_2023", 1: "d2_2023"}
         mockTeam1_2023 = Mock(
             team_id=1,
-            owner="Owner 1",
+            owners=self.__getMockOwnersList("Owner", "1"),
             team_name="Team 1",
             outcomes=["W"],
             scores=[100],
@@ -1109,7 +1112,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam2_2023 = Mock(
             team_id=2,
-            owner="Owner 2",
+            owners=self.__getMockOwnersList("Owner", "2"),
             team_name="Team 2",
             outcomes=["L"],
             scores=[100],
@@ -1117,7 +1120,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam3_2023 = Mock(
             team_id=3,
-            owner="Owner 3",
+            owners=self.__getMockOwnersList("Owner", "3"),
             team_name="Team 3",
             outcomes=["W"],
             scores=[90.5],
@@ -1125,7 +1128,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam4_2023 = Mock(
             team_id=4,
-            owner="Owner 4",
+            owners=self.__getMockOwnersList("Owner", "4"),
             team_name="Team 4",
             outcomes=["L"],
             scores=[70.5],
@@ -1133,7 +1136,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam5_2023 = Mock(
             team_id=5,
-            owner="Owner 5",
+            owners=self.__getMockOwnersList("Owner", "5"),
             team_name="Team 5",
             outcomes=["W"],
             scores=[110],
@@ -1141,7 +1144,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam6_2023 = Mock(
             team_id=6,
-            owner="Owner 6",
+            owners=self.__getMockOwnersList("Owner", "6"),
             team_name="Team 6",
             outcomes=["L"],
             scores=[60],
@@ -1149,7 +1152,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam7_2023 = Mock(
             team_id=7,
-            owner="Owner 7",
+            owners=self.__getMockOwnersList("Owner", "7"),
             team_name="Team 7",
             outcomes=["W"],
             scores=[120],
@@ -1157,7 +1160,7 @@ class TestESPNLeagueLoader(unittest.TestCase):
         )
         mockTeam8_2023 = Mock(
             team_id=8,
-            owner="Owner 8",
+            owners=self.__getMockOwnersList("Owner", "8"),
             team_name="Team 8",
             outcomes=["L"],
             scores=[50],
