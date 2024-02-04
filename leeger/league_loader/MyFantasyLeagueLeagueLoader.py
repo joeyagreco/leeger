@@ -157,7 +157,7 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
                 break
             # Make sure that localMatchups is a list (some weeks just have a json element)
             if not (isinstance(local_matchups, list)):
-                 local_matchups = [local_matchups]
+                local_matchups = [local_matchups]
             for matchup in local_matchups:
                 teamAMFLFranchiseId = matchup["franchise"][0]["id"]
                 teamAId = self.__mflFranchiseIdToTeamMap[teamAMFLFranchiseId].id
