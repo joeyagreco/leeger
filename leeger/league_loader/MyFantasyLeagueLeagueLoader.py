@@ -43,9 +43,9 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
         self.__mflLeagueIdToYearMap: dict[str, int] = dict()
         self.__mflFranchiseIdToOwnerMap: dict[str, Owner] = dict()
         self.__mflFranchiseIdToTeamMap: dict[int, Team] = dict()
-        self.__mflDivisionIdToDivisionMap: dict[
-            str, Division
-        ] = dict()  # holds the division info for ONLY the current year
+        self.__mflDivisionIdToDivisionMap: dict[str, Division] = (
+            dict()
+        )  # holds the division info for ONLY the current year
 
     def __getAllLeagues(self) -> list[dict]:
         mflLeagues: list[dict] = list()
@@ -157,7 +157,7 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
                 break
             # Make sure that localMatchups is a list (some weeks just have a json element)
             if not (isinstance(local_matchups, list)):
-                 local_matchups = [local_matchups]
+                local_matchups = [local_matchups]
             for matchup in local_matchups:
                 teamAMFLFranchiseId = matchup["franchise"][0]["id"]
                 teamAId = self.__mflFranchiseIdToTeamMap[teamAMFLFranchiseId].id
