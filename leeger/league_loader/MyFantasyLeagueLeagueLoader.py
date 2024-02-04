@@ -43,9 +43,9 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
         self.__mflLeagueIdToYearMap: dict[str, int] = dict()
         self.__mflFranchiseIdToOwnerMap: dict[str, Owner] = dict()
         self.__mflFranchiseIdToTeamMap: dict[int, Team] = dict()
-        self.__mflDivisionIdToDivisionMap: dict[str, Division] = (
-            dict()
-        )  # holds the division info for ONLY the current year
+        self.__mflDivisionIdToDivisionMap: dict[
+            str, Division
+        ] = dict()  # holds the division info for ONLY the current year
 
     def __getAllLeagues(self) -> list[dict]:
         mflLeagues: list[dict] = list()
