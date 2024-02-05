@@ -151,7 +151,14 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
                 playoffsStarted = True
             # get each teams matchup for that week
             matchups = list()
-            for matchup in week["matchup"]:
+            # skip weeks with no matchup. get() is a safe method that doesn't throw an error if the element is missing.
+            local_matchups = week.get("matchup", {})
+            if not local_matchups:
+                break
+            # Make sure that localMatchups is a list (some weeks just have a json element)
+            if not (isinstance(local_matchups, list)):
+                local_matchups = [local_matchups]
+            for matchup in local_matchups:
                 teamAMFLFranchiseId = matchup["franchise"][0]["id"]
                 teamAId = self.__mflFranchiseIdToTeamMap[teamAMFLFranchiseId].id
                 teamAScore = float(matchup["franchise"][0]["score"])
