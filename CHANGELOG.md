@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
-- N/A
+- Fixed bug in MyFantasyLeague League Loader where matchups could be missing
 
 ## [2.6.1]
 
