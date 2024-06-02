@@ -3,6 +3,8 @@
 
 Instant stats for any fantasy football league.
 
+[![PyPi Version](https://img.shields.io/pypi/v/leeger)](https://pypi.org/project/leeger/)
+<br>
 <a target="_blank" href="https://www.python.org/downloads/" title="Python version"><img src="https://img.shields.io/badge/python-%3E=_3.10-teal.svg"></a>
 ![Last Commit](https://img.shields.io/github/last-commit/joeyagreco/leeger)
 <br>
