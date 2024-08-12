@@ -42,7 +42,9 @@ class YearSettings(EqualityCheck, JSONSerializable, JSONDeserializable):
         )
 
     def __eq__(self, otherYearSettings: YearSettings) -> bool:
-        self.__LOGGER.info("Use .equals() for more options when comparing YearSettings instances.")
+        self.__LOGGER.info(
+            "Use .equals() for more options when comparing YearSettings instances."
+        )
         return self.equals(otherYearSettings=otherYearSettings)
 
     def toJson(self) -> dict:

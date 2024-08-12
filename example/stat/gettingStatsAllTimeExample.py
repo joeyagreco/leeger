@@ -27,18 +27,22 @@ if __name__ == "__main__":
     wins = GameOutcomeAllTimeCalculator.getWins(league)
 
     # Get opponent points scored per game.
-    opponentPointsScoredPerGame = PointsScoredAllTimeCalculator.getOpponentPointsScoredPerGame(
-        league
+    opponentPointsScoredPerGame = (
+        PointsScoredAllTimeCalculator.getOpponentPointsScoredPerGame(league)
     )
 
     # To limit results to only regular season, specify that as a keyword argument.
     maxScore = SingleScoreAllTimeCalculator.getMaxScore(league, onlyRegularSeason=True)
 
     # To limit results to only post-season (playoffs), specify that as a keyword argument.
-    scoringShare = ScoringShareAllTimeCalculator.getScoringShare(league, onlyPostSeason=True)
+    scoringShare = ScoringShareAllTimeCalculator.getScoringShare(
+        league, onlyPostSeason=True
+    )
 
     # To limit results to only championship games, specify that as a keyword argument.
-    winPercentage = GameOutcomeAllTimeCalculator.getWinPercentage(league, onlyChampionship=True)
+    winPercentage = GameOutcomeAllTimeCalculator.getWinPercentage(
+        league, onlyChampionship=True
+    )
 
     # To limit results to only certain years, specify that as a keyword argument.
     # This league has years 2019, 2020, 2021, 2022.
@@ -89,5 +93,9 @@ if __name__ == "__main__":
     )
     # Will get week 5, 2020 - week 10, 2021.
     smartWins = SmartWinsAllTimeCalculator.getSmartWins(
-        league, weekNumberStart=5, yearNumberStart=2020, weekNumberEnd=10, yearNumberEnd=2021
+        league,
+        weekNumberStart=5,
+        yearNumberStart=2020,
+        weekNumberEnd=10,
+        yearNumberEnd=2021,
     )

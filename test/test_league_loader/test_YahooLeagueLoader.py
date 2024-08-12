@@ -28,7 +28,13 @@ class TestYahooLeagueLoader(unittest.TestCase):
         return mockWeeksMethod
 
     def __getMockYahooTeam(
-        self, *, teamId: int, teamKey: int, name: str, managerNickname: str, managerId: int
+        self,
+        *,
+        teamId: int,
+        teamKey: int,
+        name: str,
+        managerNickname: str,
+        managerId: int,
     ) -> Mock:
         mockTeam = Mock()
         mockTeam.team_id = teamId
@@ -47,7 +53,7 @@ class TestYahooLeagueLoader(unittest.TestCase):
         isTied: int,
         isPlayoffs: int,
         isConsolation: int,
-        league: Mock
+        league: Mock,
     ) -> Mock:
         # duplicate mockYahooTeam to avoid using the same object in memory
         dupLeague = copy.deepcopy(league)
@@ -61,7 +67,9 @@ class TestYahooLeagueLoader(unittest.TestCase):
         mockYahooMatchup.league = dupLeague
         return mockYahooMatchup
 
-    def __setMockYahooTeamPoints(self, mockYahooTeam: Mock, teamPointsTotal: int | float) -> Mock:
+    def __setMockYahooTeamPoints(
+        self, mockYahooTeam: Mock, teamPointsTotal: int | float
+    ) -> Mock:
         # duplicate mockYahooTeam to avoid using the same object in memory
         dupMockYahooTeam = copy.deepcopy(mockYahooTeam)
         dupMockYahooTeam.team_points.total = teamPointsTotal
@@ -78,14 +86,18 @@ class TestYahooLeagueLoader(unittest.TestCase):
                 clientSecret=badClientSecret,
                 loginTimeoutSeconds=1,
             )
-        self.assertEqual("League ID 'a' could not be turned into an int.", str(context.exception))
+        self.assertEqual(
+            "League ID 'a' could not be turned into an int.", str(context.exception)
+        )
 
     @mock.patch("multiprocessing.Process")
     def test_loadLeague_intendedFailure(self, mockMultiprocessingProcess):
         mockLoginProcess = mockMultiprocessingProcess.return_value
         mockLoginProcess.is_alive.return_value = True  # Simulate login process failure
         with self.assertRaises(TimeoutError) as context:
-            yahooLeagueLoader = YahooLeagueLoader("123", [2022], clientId="cid", clientSecret="cs")
+            yahooLeagueLoader = YahooLeagueLoader(
+                "123", [2022], clientId="cid", clientSecret="cs"
+            )
             yahooLeagueLoader.loadLeague()
         self.assertEqual("Login to yahoofantasy timed out.", str(context.exception))
 
@@ -93,7 +105,10 @@ class TestYahooLeagueLoader(unittest.TestCase):
     @mock.patch("yahoofantasy.Context.__init__")
     @mock.patch("yahoofantasy.Context.get_leagues")
     def test_loadLeague_happyPath(
-        self, mockYahooContextGetLeagues, mockYahooContextInit, mockMultiprocessingProcess
+        self,
+        mockYahooContextGetLeagues,
+        mockYahooContextInit,
+        mockMultiprocessingProcess,
     ):
         # mock real league 2022
         mockLeague2022 = Mock()
@@ -214,8 +229,12 @@ class TestYahooLeagueLoader(unittest.TestCase):
             league=mockLeague2022,
         )
         mockYahooMatchup1_1_2022.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam1_2022, teamPointsTotal=100),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam2_2022, teamPointsTotal=100),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam1_2022, teamPointsTotal=100
+            ),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam2_2022, teamPointsTotal=100
+            ),
         ]
         mockYahooMatchup1_2_2022 = self.__getMockYahooMatchup(
             week=1,
@@ -227,8 +246,12 @@ class TestYahooLeagueLoader(unittest.TestCase):
             league=mockLeague2022,
         )
         mockYahooMatchup1_2_2022.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam3_2022, teamPointsTotal=100.1),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam4_2022, teamPointsTotal=90.1),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam3_2022, teamPointsTotal=100.1
+            ),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam4_2022, teamPointsTotal=90.1
+            ),
         ]
         mockYahooMatchup1_3_2022 = self.__getMockYahooMatchup(
             week=1,
@@ -240,8 +263,12 @@ class TestYahooLeagueLoader(unittest.TestCase):
             league=mockLeague2022,
         )
         mockYahooMatchup1_3_2022.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam5_2022, teamPointsTotal=100),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam6_2022, teamPointsTotal=90),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam5_2022, teamPointsTotal=100
+            ),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam6_2022, teamPointsTotal=90
+            ),
         ]
         mockYahooMatchup1_4_2022 = self.__getMockYahooMatchup(
             week=1,
@@ -253,8 +280,12 @@ class TestYahooLeagueLoader(unittest.TestCase):
             league=mockLeague2022,
         )
         mockYahooMatchup1_4_2022.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam7_2022, teamPointsTotal=100),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam8_2022, teamPointsTotal=90),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam7_2022, teamPointsTotal=100
+            ),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam8_2022, teamPointsTotal=90
+            ),
         ]
         # playoffs
         mockYahooMatchup2_1_2022 = self.__getMockYahooMatchup(
@@ -267,8 +298,12 @@ class TestYahooLeagueLoader(unittest.TestCase):
             league=mockLeague2022,
         )
         mockYahooMatchup2_1_2022.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam2_2022, teamPointsTotal=101),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam3_2022, teamPointsTotal=91),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam2_2022, teamPointsTotal=101
+            ),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam3_2022, teamPointsTotal=91
+            ),
         ]
         # championship
         mockYahooMatchup3_1_2022 = self.__getMockYahooMatchup(
@@ -281,8 +316,12 @@ class TestYahooLeagueLoader(unittest.TestCase):
             league=mockLeague2022,
         )
         mockYahooMatchup3_1_2022.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam1_2022, teamPointsTotal=102),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam2_2022, teamPointsTotal=92),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam1_2022, teamPointsTotal=102
+            ),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam2_2022, teamPointsTotal=92
+            ),
         ]
 
         # mock matchups 2023
@@ -297,8 +336,12 @@ class TestYahooLeagueLoader(unittest.TestCase):
             league=mockLeague2023,
         )
         mockYahooMatchup1_1_2023.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam1_2023, teamPointsTotal=100),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam2_2023, teamPointsTotal=100),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam1_2023, teamPointsTotal=100
+            ),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam2_2023, teamPointsTotal=100
+            ),
         ]
         mockYahooMatchup1_2_2023 = self.__getMockYahooMatchup(
             week=1,
@@ -310,8 +353,12 @@ class TestYahooLeagueLoader(unittest.TestCase):
             league=mockLeague2023,
         )
         mockYahooMatchup1_2_2023.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam3_2023, teamPointsTotal=100.1),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam4_2023, teamPointsTotal=90.1),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam3_2023, teamPointsTotal=100.1
+            ),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam4_2023, teamPointsTotal=90.1
+            ),
         ]
         mockYahooMatchup1_3_2023 = self.__getMockYahooMatchup(
             week=1,
@@ -323,8 +370,12 @@ class TestYahooLeagueLoader(unittest.TestCase):
             league=mockLeague2023,
         )
         mockYahooMatchup1_3_2023.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam5_2023, teamPointsTotal=100),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam6_2023, teamPointsTotal=90),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam5_2023, teamPointsTotal=100
+            ),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam6_2023, teamPointsTotal=90
+            ),
         ]
         mockYahooMatchup1_4_2023 = self.__getMockYahooMatchup(
             week=1,
@@ -336,8 +387,12 @@ class TestYahooLeagueLoader(unittest.TestCase):
             league=mockLeague2023,
         )
         mockYahooMatchup1_4_2023.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam7_2023, teamPointsTotal=100),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam8_2023, teamPointsTotal=90),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam7_2023, teamPointsTotal=100
+            ),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam8_2023, teamPointsTotal=90
+            ),
         ]
         # playoffs
         mockYahooMatchup2_1_2023 = self.__getMockYahooMatchup(
@@ -350,8 +405,12 @@ class TestYahooLeagueLoader(unittest.TestCase):
             league=mockLeague2023,
         )
         mockYahooMatchup2_1_2023.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam2_2023, teamPointsTotal=101),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam3_2023, teamPointsTotal=91),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam2_2023, teamPointsTotal=101
+            ),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam3_2023, teamPointsTotal=91
+            ),
         ]
         # championship
         mockYahooMatchup3_1_2023 = self.__getMockYahooMatchup(
@@ -364,8 +423,12 @@ class TestYahooLeagueLoader(unittest.TestCase):
             league=mockLeague2023,
         )
         mockYahooMatchup3_1_2023.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam1_2023, teamPointsTotal=102),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam2_2023, teamPointsTotal=92),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam1_2023, teamPointsTotal=102
+            ),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam2_2023, teamPointsTotal=92
+            ),
         ]
 
         # mock weeks 2022
@@ -412,7 +475,9 @@ class TestYahooLeagueLoader(unittest.TestCase):
             [mockLeague2022_fake1, mockLeague2022, mockLeague2022_fake2],
         ]
         mockLoginProcess = mockMultiprocessingProcess.return_value
-        mockLoginProcess.is_alive.return_value = False  # Simulate login process completion
+        mockLoginProcess.is_alive.return_value = (
+            False  # Simulate login process completion
+        )
 
         # load league
         yahooLeagueLoader = YahooLeagueLoader(
@@ -630,7 +695,9 @@ class TestYahooLeagueLoader(unittest.TestCase):
             target=yahooLeagueLoader.login, args=("cid", "cs")
         )
 
-        self.assertTrue(league.equals(expectedLeague, ignoreBaseIds=True, ignoreIds=True))
+        self.assertTrue(
+            league.equals(expectedLeague, ignoreBaseIds=True, ignoreIds=True)
+        )
         # check multiWeekMatchupIds
         for year in league.years:
             for week in year.weeks:
@@ -641,7 +708,10 @@ class TestYahooLeagueLoader(unittest.TestCase):
     @mock.patch("yahoofantasy.Context.__init__")
     @mock.patch("yahoofantasy.Context.get_leagues")
     def test_loadLeague_withOwnerNamesAndAliases(
-        self, mockYahooContextGetLeagues, mockYahooContextInit, mockMultiprocessingProcess
+        self,
+        mockYahooContextGetLeagues,
+        mockYahooContextInit,
+        mockMultiprocessingProcess,
     ):
         # mock real league 2022
         mockLeague2022 = Mock()
@@ -762,8 +832,12 @@ class TestYahooLeagueLoader(unittest.TestCase):
             league=mockLeague2022,
         )
         mockYahooMatchup1_1_2022.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam1_2022, teamPointsTotal=100),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam2_2022, teamPointsTotal=100),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam1_2022, teamPointsTotal=100
+            ),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam2_2022, teamPointsTotal=100
+            ),
         ]
         mockYahooMatchup1_2_2022 = self.__getMockYahooMatchup(
             week=1,
@@ -775,8 +849,12 @@ class TestYahooLeagueLoader(unittest.TestCase):
             league=mockLeague2022,
         )
         mockYahooMatchup1_2_2022.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam3_2022, teamPointsTotal=100.1),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam4_2022, teamPointsTotal=90.1),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam3_2022, teamPointsTotal=100.1
+            ),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam4_2022, teamPointsTotal=90.1
+            ),
         ]
         mockYahooMatchup1_3_2022 = self.__getMockYahooMatchup(
             week=1,
@@ -788,8 +866,12 @@ class TestYahooLeagueLoader(unittest.TestCase):
             league=mockLeague2022,
         )
         mockYahooMatchup1_3_2022.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam5_2022, teamPointsTotal=100),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam6_2022, teamPointsTotal=90),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam5_2022, teamPointsTotal=100
+            ),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam6_2022, teamPointsTotal=90
+            ),
         ]
         mockYahooMatchup1_4_2022 = self.__getMockYahooMatchup(
             week=1,
@@ -801,8 +883,12 @@ class TestYahooLeagueLoader(unittest.TestCase):
             league=mockLeague2022,
         )
         mockYahooMatchup1_4_2022.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam7_2022, teamPointsTotal=100),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam8_2022, teamPointsTotal=90),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam7_2022, teamPointsTotal=100
+            ),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam8_2022, teamPointsTotal=90
+            ),
         ]
         # playoffs
         mockYahooMatchup2_1_2022 = self.__getMockYahooMatchup(
@@ -815,8 +901,12 @@ class TestYahooLeagueLoader(unittest.TestCase):
             league=mockLeague2022,
         )
         mockYahooMatchup2_1_2022.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam2_2022, teamPointsTotal=101),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam3_2022, teamPointsTotal=91),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam2_2022, teamPointsTotal=101
+            ),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam3_2022, teamPointsTotal=91
+            ),
         ]
         # championship
         mockYahooMatchup3_1_2022 = self.__getMockYahooMatchup(
@@ -829,8 +919,12 @@ class TestYahooLeagueLoader(unittest.TestCase):
             league=mockLeague2022,
         )
         mockYahooMatchup3_1_2022.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam1_2022, teamPointsTotal=102),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam2_2022, teamPointsTotal=92),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam1_2022, teamPointsTotal=102
+            ),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam2_2022, teamPointsTotal=92
+            ),
         ]
 
         # mock matchups 2023
@@ -845,8 +939,12 @@ class TestYahooLeagueLoader(unittest.TestCase):
             league=mockLeague2023,
         )
         mockYahooMatchup1_1_2023.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam1_2023, teamPointsTotal=100),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam2_2023, teamPointsTotal=100),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam1_2023, teamPointsTotal=100
+            ),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam2_2023, teamPointsTotal=100
+            ),
         ]
         mockYahooMatchup1_2_2023 = self.__getMockYahooMatchup(
             week=1,
@@ -858,8 +956,12 @@ class TestYahooLeagueLoader(unittest.TestCase):
             league=mockLeague2023,
         )
         mockYahooMatchup1_2_2023.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam3_2023, teamPointsTotal=100.1),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam4_2023, teamPointsTotal=90.1),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam3_2023, teamPointsTotal=100.1
+            ),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam4_2023, teamPointsTotal=90.1
+            ),
         ]
         mockYahooMatchup1_3_2023 = self.__getMockYahooMatchup(
             week=1,
@@ -871,8 +973,12 @@ class TestYahooLeagueLoader(unittest.TestCase):
             league=mockLeague2023,
         )
         mockYahooMatchup1_3_2023.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam5_2023, teamPointsTotal=100),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam6_2023, teamPointsTotal=90),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam5_2023, teamPointsTotal=100
+            ),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam6_2023, teamPointsTotal=90
+            ),
         ]
         mockYahooMatchup1_4_2023 = self.__getMockYahooMatchup(
             week=1,
@@ -884,8 +990,12 @@ class TestYahooLeagueLoader(unittest.TestCase):
             league=mockLeague2023,
         )
         mockYahooMatchup1_4_2023.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam7_2023, teamPointsTotal=100),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam8_2023, teamPointsTotal=90),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam7_2023, teamPointsTotal=100
+            ),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam8_2023, teamPointsTotal=90
+            ),
         ]
         # playoffs
         mockYahooMatchup2_1_2023 = self.__getMockYahooMatchup(
@@ -898,8 +1008,12 @@ class TestYahooLeagueLoader(unittest.TestCase):
             league=mockLeague2023,
         )
         mockYahooMatchup2_1_2023.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam2_2023, teamPointsTotal=101),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam3_2023, teamPointsTotal=91),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam2_2023, teamPointsTotal=101
+            ),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam3_2023, teamPointsTotal=91
+            ),
         ]
         # championship
         mockYahooMatchup3_1_2023 = self.__getMockYahooMatchup(
@@ -912,8 +1026,12 @@ class TestYahooLeagueLoader(unittest.TestCase):
             league=mockLeague2023,
         )
         mockYahooMatchup3_1_2023.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam1_2023, teamPointsTotal=102),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam2_2023, teamPointsTotal=92),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam1_2023, teamPointsTotal=102
+            ),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam2_2023, teamPointsTotal=92
+            ),
         ]
 
         # mock weeks 2022
@@ -960,7 +1078,9 @@ class TestYahooLeagueLoader(unittest.TestCase):
             [mockLeague2022_fake1, mockLeague2022, mockLeague2022_fake2],
         ]
         mockLoginProcess = mockMultiprocessingProcess.return_value
-        mockLoginProcess.is_alive.return_value = False  # Simulate login process completion
+        mockLoginProcess.is_alive.return_value = (
+            False  # Simulate login process completion
+        )
 
         # load league
         yahooLeagueLoader = YahooLeagueLoader(
@@ -1191,7 +1311,9 @@ class TestYahooLeagueLoader(unittest.TestCase):
             target=yahooLeagueLoader.login, args=("cid", "cs")
         )
 
-        self.assertTrue(league.equals(expectedLeague, ignoreBaseIds=True, ignoreIds=True))
+        self.assertTrue(
+            league.equals(expectedLeague, ignoreBaseIds=True, ignoreIds=True)
+        )
         # check multiWeekMatchupIds
         for year in league.years:
             for week in year.weeks:
@@ -1202,7 +1324,10 @@ class TestYahooLeagueLoader(unittest.TestCase):
     @mock.patch("yahoofantasy.Context.__init__")
     @mock.patch("yahoofantasy.Context.get_leagues")
     def test_loadLeague_happyPath(
-        self, mockYahooContextGetLeagues, mockYahooContextInit, mockMultiprocessingProcess
+        self,
+        mockYahooContextGetLeagues,
+        mockYahooContextInit,
+        mockMultiprocessingProcess,
     ):
         # mock real league 2022
         mockLeague2022 = Mock()
@@ -1323,8 +1448,12 @@ class TestYahooLeagueLoader(unittest.TestCase):
             league=mockLeague2022,
         )
         mockYahooMatchup1_1_2022.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam1_2022, teamPointsTotal=100),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam2_2022, teamPointsTotal=100),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam1_2022, teamPointsTotal=100
+            ),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam2_2022, teamPointsTotal=100
+            ),
         ]
         mockYahooMatchup1_2_2022 = self.__getMockYahooMatchup(
             week=1,
@@ -1336,8 +1465,12 @@ class TestYahooLeagueLoader(unittest.TestCase):
             league=mockLeague2022,
         )
         mockYahooMatchup1_2_2022.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam3_2022, teamPointsTotal=100.1),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam4_2022, teamPointsTotal=90.1),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam3_2022, teamPointsTotal=100.1
+            ),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam4_2022, teamPointsTotal=90.1
+            ),
         ]
         mockYahooMatchup1_3_2022 = self.__getMockYahooMatchup(
             week=1,
@@ -1349,8 +1482,12 @@ class TestYahooLeagueLoader(unittest.TestCase):
             league=mockLeague2022,
         )
         mockYahooMatchup1_3_2022.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam5_2022, teamPointsTotal=100),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam6_2022, teamPointsTotal=90),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam5_2022, teamPointsTotal=100
+            ),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam6_2022, teamPointsTotal=90
+            ),
         ]
         mockYahooMatchup1_4_2022 = self.__getMockYahooMatchup(
             week=1,
@@ -1362,8 +1499,12 @@ class TestYahooLeagueLoader(unittest.TestCase):
             league=mockLeague2022,
         )
         mockYahooMatchup1_4_2022.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam7_2022, teamPointsTotal=100),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam8_2022, teamPointsTotal=90),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam7_2022, teamPointsTotal=100
+            ),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam8_2022, teamPointsTotal=90
+            ),
         ]
         # playoffs
         mockYahooMatchup2_1_2022 = self.__getMockYahooMatchup(
@@ -1376,8 +1517,12 @@ class TestYahooLeagueLoader(unittest.TestCase):
             league=mockLeague2022,
         )
         mockYahooMatchup2_1_2022.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam2_2022, teamPointsTotal=101),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam3_2022, teamPointsTotal=91),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam2_2022, teamPointsTotal=101
+            ),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam3_2022, teamPointsTotal=91
+            ),
         ]
         # championship
         mockYahooMatchup3_1_2022 = self.__getMockYahooMatchup(
@@ -1390,8 +1535,12 @@ class TestYahooLeagueLoader(unittest.TestCase):
             league=mockLeague2022,
         )
         mockYahooMatchup3_1_2022.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam1_2022, teamPointsTotal=102),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam2_2022, teamPointsTotal=92),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam1_2022, teamPointsTotal=102
+            ),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam2_2022, teamPointsTotal=92
+            ),
         ]
 
         # mock matchups 2023
@@ -1406,8 +1555,12 @@ class TestYahooLeagueLoader(unittest.TestCase):
             league=mockLeague2023,
         )
         mockYahooMatchup1_1_2023.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam1_2023, teamPointsTotal=100),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam2_2023, teamPointsTotal=100),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam1_2023, teamPointsTotal=100
+            ),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam2_2023, teamPointsTotal=100
+            ),
         ]
         mockYahooMatchup1_2_2023 = self.__getMockYahooMatchup(
             week=1,
@@ -1419,8 +1572,12 @@ class TestYahooLeagueLoader(unittest.TestCase):
             league=mockLeague2023,
         )
         mockYahooMatchup1_2_2023.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam3_2023, teamPointsTotal=100.1),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam4_2023, teamPointsTotal=90.1),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam3_2023, teamPointsTotal=100.1
+            ),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam4_2023, teamPointsTotal=90.1
+            ),
         ]
         mockYahooMatchup1_3_2023 = self.__getMockYahooMatchup(
             week=1,
@@ -1432,8 +1589,12 @@ class TestYahooLeagueLoader(unittest.TestCase):
             league=mockLeague2023,
         )
         mockYahooMatchup1_3_2023.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam5_2023, teamPointsTotal=100),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam6_2023, teamPointsTotal=90),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam5_2023, teamPointsTotal=100
+            ),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam6_2023, teamPointsTotal=90
+            ),
         ]
         mockYahooMatchup1_4_2023 = self.__getMockYahooMatchup(
             week=1,
@@ -1445,8 +1606,12 @@ class TestYahooLeagueLoader(unittest.TestCase):
             league=mockLeague2023,
         )
         mockYahooMatchup1_4_2023.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam7_2023, teamPointsTotal=100),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam8_2023, teamPointsTotal=90),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam7_2023, teamPointsTotal=100
+            ),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam8_2023, teamPointsTotal=90
+            ),
         ]
         # playoffs
         mockYahooMatchup2_1_2023 = self.__getMockYahooMatchup(
@@ -1459,8 +1624,12 @@ class TestYahooLeagueLoader(unittest.TestCase):
             league=mockLeague2023,
         )
         mockYahooMatchup2_1_2023.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam2_2023, teamPointsTotal=101),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam3_2023, teamPointsTotal=91),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam2_2023, teamPointsTotal=101
+            ),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam3_2023, teamPointsTotal=91
+            ),
         ]
         # championship
         mockYahooMatchup3_1_2023 = self.__getMockYahooMatchup(
@@ -1473,8 +1642,12 @@ class TestYahooLeagueLoader(unittest.TestCase):
             league=mockLeague2023,
         )
         mockYahooMatchup3_1_2023.teams.team = [
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam1_2023, teamPointsTotal=102),
-            self.__setMockYahooTeamPoints(mockYahooTeam=mockYahooTeam2_2023, teamPointsTotal=92),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam1_2023, teamPointsTotal=102
+            ),
+            self.__setMockYahooTeamPoints(
+                mockYahooTeam=mockYahooTeam2_2023, teamPointsTotal=92
+            ),
         ]
 
         # mock weeks 2022
@@ -1521,11 +1694,17 @@ class TestYahooLeagueLoader(unittest.TestCase):
             [mockLeague2022_fake1, mockLeague2022, mockLeague2022_fake2],
         ]
         mockLoginProcess = mockMultiprocessingProcess.return_value
-        mockLoginProcess.is_alive.return_value = False  # Simulate login process completion
+        mockLoginProcess.is_alive.return_value = (
+            False  # Simulate login process completion
+        )
 
         # load league
         yahooLeagueLoader = YahooLeagueLoader(
-            "456", [2022, 2023], clientId="cid", clientSecret="cs", leagueName="custom name"
+            "456",
+            [2022, 2023],
+            clientId="cid",
+            clientSecret="cs",
+            leagueName="custom name",
         )
         league = yahooLeagueLoader.loadLeague()
 

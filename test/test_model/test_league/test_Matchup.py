@@ -1,11 +1,11 @@
 import unittest
-from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception import DoesNotExistException
 from leeger.exception.InvalidMatchupFormatException import InvalidMatchupFormatException
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league_helper.Performance import Performance
+from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestMatchup(unittest.TestCase):
@@ -31,7 +31,9 @@ class TestMatchup(unittest.TestCase):
         self.assertEqual("id", matchup.multiWeekMatchupId)
 
     def test_matchup_init_defaultValues_1(self):
-        matchup = Matchup(teamAId="teamAId", teamBId="teamBId", teamAScore=1.1, teamBScore=2.2)
+        matchup = Matchup(
+            teamAId="teamAId", teamBId="teamBId", teamAScore=1.1, teamBScore=2.2
+        )
 
         self.assertEqual("teamAId", matchup.teamAId)
         self.assertEqual("teamBId", matchup.teamBId)
@@ -232,7 +234,9 @@ class TestMatchup(unittest.TestCase):
 
         with self.assertRaises(DoesNotExistException) as context:
             matchup.getPerformanceForTeamId("3")
-        self.assertEqual("Matchup does not have a team with ID '3'.", str(context.exception))
+        self.assertEqual(
+            "Matchup does not have a team with ID '3'.", str(context.exception)
+        )
 
     def test_matchup_fromJson(self):
         owners, teams = getNDefaultOwnersAndTeams(2)

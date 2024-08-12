@@ -46,7 +46,9 @@ class Performance(UniqueId, EqualityCheck, JSONSerializable):
         )
 
     def __eq__(self, otherPerformance: Performance) -> bool:
-        self.__LOGGER.info("Use .equals() for more options when comparing Performance instances.")
+        self.__LOGGER.info(
+            "Use .equals() for more options when comparing Performance instances."
+        )
         return self.equals(otherPerformance=otherPerformance)
 
     def __add__(self, otherPerformance: Performance):
@@ -71,7 +73,9 @@ class Performance(UniqueId, EqualityCheck, JSONSerializable):
         if self.hasTiebreaker:
             tiebreakerInfoLost.append(f"Performance {self.id} had tiebreaker")
         if otherPerformance.hasTiebreaker:
-            tiebreakerInfoLost.append(f"Performance {otherPerformance.id} had tiebreaker")
+            tiebreakerInfoLost.append(
+                f"Performance {otherPerformance.id} had tiebreaker"
+            )
         if tiebreakerInfoLost:
             self.__LOGGER.warning(
                 f"Combining performances caused loss of tiebreakers: {tiebreakerInfoLost}."

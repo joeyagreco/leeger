@@ -44,9 +44,9 @@ class LeagueLoader:
             ownerNamesAndAliases if ownerNamesAndAliases else dict()
         )
         self._leagueName = leagueName
-        self._leagueNameByYear: dict[
-            int, str
-        ] = dict()  # will hold league name by year like {2020: "foo", 2021: "baz", ...}
+        self._leagueNameByYear: dict[int, str] = (
+            dict()
+        )  # will hold league name by year like {2020: "foo", 2021: "baz", ...}
 
     def _getLeagueName(self) -> str:
         leagueName = self._leagueName
@@ -80,7 +80,9 @@ class LeagueLoader:
                 f"Expected to retrieve {expectedLeagueCount} league/s, got {actualLeagueCount} league/s."
             )
 
-    def _getGeneralOwnerNameFromGivenOwnerName(self, givenOwnerName: str) -> Optional[str]:
+    def _getGeneralOwnerNameFromGivenOwnerName(
+        self, givenOwnerName: str
+    ) -> Optional[str]:
         foundGeneralOwnerName = None
         for generalOwnerName, aliases in self._ownerNamesAndAliases.items():
             if givenOwnerName in aliases:
@@ -115,9 +117,7 @@ class LeagueLoader:
                 )
 
     @abstractmethod
-    def loadLeague(self, validate: bool = True, *args, **kwargs) -> League:
-        ...
+    def loadLeague(self, validate: bool = True, *args, **kwargs) -> League: ...
 
     @abstractmethod
-    def getOwnerNames(self, *args, **kwargs) -> dict[int, list[str]]:
-        ...
+    def getOwnerNames(self, *args, **kwargs) -> dict[int, list[str]]: ...

@@ -10,7 +10,11 @@ class ConfigReader:
 
     @staticmethod
     def get(
-        section: str, name: str, *, asType: str | list = str, propFile: str = "app.properties"
+        section: str,
+        name: str,
+        *,
+        asType: str | list = str,
+        propFile: str = "app.properties",
     ) -> Optional[str | int | float | bool]:
         configParser = configparser.ConfigParser(
             converters={"list": lambda x: [i.strip() for i in x.split(",")]}

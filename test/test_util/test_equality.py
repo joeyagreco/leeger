@@ -139,7 +139,9 @@ class TestEquality(unittest.TestCase):
         )
 
         self.assertFalse(result)
-        mockLogger.info.assert_called_once_with("Differences: [('Foo.field1', ('a', 'b'))]")
+        mockLogger.info.assert_called_once_with(
+            "Differences: [('Foo.field1', ('a', 'b'))]"
+        )
         mockLogger.reset_mock()
 
         # basic unequal object logging differences with json method name

@@ -1,5 +1,4 @@
 import unittest
-from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 from leeger.calculator.year_calculator.SSLYearCalculator import SSLYearCalculator
 from leeger.enum.MatchupType import MatchupType
@@ -7,13 +6,16 @@ from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
 from leeger.util.Deci import Deci
+from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestSSLYearCalculator(unittest.TestCase):
     def test_getTeamScore_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=3)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=3
+        )
         matchup2 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -45,8 +47,12 @@ class TestSSLYearCalculator(unittest.TestCase):
     def test_getTeamScore_noneIfNoGamesPlayed(self):
         owners, teams = getNDefaultOwnersAndTeams(3)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=3)
-        matchup2 = Matchup(teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=1.2, teamBScore=3)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=3
+        )
+        matchup2 = Matchup(
+            teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=1.2, teamBScore=3
+        )
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
 
@@ -63,7 +69,9 @@ class TestSSLYearCalculator(unittest.TestCase):
     def test_getTeamScore_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=5, teamBScore=4)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=5, teamBScore=4
+        )
         matchup2 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -83,7 +91,9 @@ class TestSSLYearCalculator(unittest.TestCase):
         week2 = Week(weekNumber=2, matchups=[matchup2])
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3]
+        )
 
         response = SSLYearCalculator.getTeamScore(year, onlyPostSeason=True)
 
@@ -95,8 +105,12 @@ class TestSSLYearCalculator(unittest.TestCase):
     def test_getTeamScore_onlyRegularSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=5
+        )
         matchup3 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -109,7 +123,9 @@ class TestSSLYearCalculator(unittest.TestCase):
         week2 = Week(weekNumber=2, matchups=[matchup2])
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3]
+        )
 
         response = SSLYearCalculator.getTeamScore(year, onlyRegularSeason=True)
 
@@ -161,8 +177,12 @@ class TestSSLYearCalculator(unittest.TestCase):
     def test_getTeamScore_weekNumberStartGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=3, teamBScore=6)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=3, teamBScore=6
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5
+        )
         matchup3 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -175,7 +195,9 @@ class TestSSLYearCalculator(unittest.TestCase):
         week2 = Week(weekNumber=2, matchups=[matchup2])
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3]
+        )
 
         response = SSLYearCalculator.getTeamScore(year, weekNumberStart=2)
 
@@ -187,8 +209,12 @@ class TestSSLYearCalculator(unittest.TestCase):
     def test_getTeamScore_weekNumberEndGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5
+        )
         matchup3 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -201,7 +227,9 @@ class TestSSLYearCalculator(unittest.TestCase):
         week2 = Week(weekNumber=2, matchups=[matchup2])
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3]
+        )
 
         response = SSLYearCalculator.getTeamScore(year, weekNumberEnd=2)
 
@@ -213,8 +241,12 @@ class TestSSLYearCalculator(unittest.TestCase):
     def test_getTeamScore_weekNumberStartGivenAndWeekNumberEndGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5
+        )
         matchup3 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -235,9 +267,15 @@ class TestSSLYearCalculator(unittest.TestCase):
         week3 = Week(weekNumber=3, matchups=[matchup3])
         week4 = Week(weekNumber=4, matchups=[matchup4])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3, week4])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1]],
+            weeks=[week1, week2, week3, week4],
+        )
 
-        response = SSLYearCalculator.getTeamScore(year, weekNumberStart=2, weekNumberEnd=3)
+        response = SSLYearCalculator.getTeamScore(
+            year, weekNumberStart=2, weekNumberEnd=3
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -247,7 +285,9 @@ class TestSSLYearCalculator(unittest.TestCase):
     def test_getTeamSuccess_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=3)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=3
+        )
         matchup2 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -279,8 +319,12 @@ class TestSSLYearCalculator(unittest.TestCase):
     def test_getTeamSuccess_noneIfNoGamesPlayed(self):
         owners, teams = getNDefaultOwnersAndTeams(3)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=3)
-        matchup2 = Matchup(teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=1.2, teamBScore=3)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=3
+        )
+        matchup2 = Matchup(
+            teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=1.2, teamBScore=3
+        )
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
 
@@ -297,7 +341,9 @@ class TestSSLYearCalculator(unittest.TestCase):
     def test_getTeamSuccess_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=5, teamBScore=4)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=5, teamBScore=4
+        )
         matchup2 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -317,7 +363,9 @@ class TestSSLYearCalculator(unittest.TestCase):
         week2 = Week(weekNumber=2, matchups=[matchup2])
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3]
+        )
 
         response = SSLYearCalculator.getTeamSuccess(year, onlyPostSeason=True)
 
@@ -329,8 +377,12 @@ class TestSSLYearCalculator(unittest.TestCase):
     def test_getTeamSuccess_onlyRegularSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=5
+        )
         matchup3 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -343,7 +395,9 @@ class TestSSLYearCalculator(unittest.TestCase):
         week2 = Week(weekNumber=2, matchups=[matchup2])
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3]
+        )
 
         response = SSLYearCalculator.getTeamSuccess(year, onlyRegularSeason=True)
 
@@ -395,8 +449,12 @@ class TestSSLYearCalculator(unittest.TestCase):
     def test_getTeamSuccess_weekNumberStartGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=3, teamBScore=6)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=3, teamBScore=6
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5
+        )
         matchup3 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -409,7 +467,9 @@ class TestSSLYearCalculator(unittest.TestCase):
         week2 = Week(weekNumber=2, matchups=[matchup2])
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3]
+        )
 
         response = SSLYearCalculator.getTeamSuccess(year, weekNumberStart=2)
 
@@ -421,8 +481,12 @@ class TestSSLYearCalculator(unittest.TestCase):
     def test_getTeamSuccess_weekNumberEndGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5
+        )
         matchup3 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -435,7 +499,9 @@ class TestSSLYearCalculator(unittest.TestCase):
         week2 = Week(weekNumber=2, matchups=[matchup2])
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3]
+        )
 
         response = SSLYearCalculator.getTeamSuccess(year, weekNumberEnd=2)
 
@@ -447,8 +513,12 @@ class TestSSLYearCalculator(unittest.TestCase):
     def test_getTeamSuccess_weekNumberStartGivenAndWeekNumberEndGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5
+        )
         matchup3 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -469,9 +539,15 @@ class TestSSLYearCalculator(unittest.TestCase):
         week3 = Week(weekNumber=3, matchups=[matchup3])
         week4 = Week(weekNumber=4, matchups=[matchup4])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3, week4])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1]],
+            weeks=[week1, week2, week3, week4],
+        )
 
-        response = SSLYearCalculator.getTeamSuccess(year, weekNumberStart=2, weekNumberEnd=3)
+        response = SSLYearCalculator.getTeamSuccess(
+            year, weekNumberStart=2, weekNumberEnd=3
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -481,7 +557,9 @@ class TestSSLYearCalculator(unittest.TestCase):
     def test_getTeamLuck_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=3)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=3
+        )
         matchup2 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -513,8 +591,12 @@ class TestSSLYearCalculator(unittest.TestCase):
     def test_getTeamLuck_noneIfNoGamesPlayed(self):
         owners, teams = getNDefaultOwnersAndTeams(3)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=3)
-        matchup2 = Matchup(teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=1.2, teamBScore=3)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=3
+        )
+        matchup2 = Matchup(
+            teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=1.2, teamBScore=3
+        )
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
 
@@ -531,8 +613,12 @@ class TestSSLYearCalculator(unittest.TestCase):
     def test_getTeamLuck_sumOfLeagueEqualsZero(self):
         owners, teams = getNDefaultOwnersAndTeams(3)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=3)
-        matchup2 = Matchup(teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=1.2, teamBScore=3)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=3
+        )
+        matchup2 = Matchup(
+            teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=1.2, teamBScore=3
+        )
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
 
@@ -545,7 +631,9 @@ class TestSSLYearCalculator(unittest.TestCase):
     def test_getTeamLuck_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=5, teamBScore=4)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=5, teamBScore=4
+        )
         matchup2 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -565,7 +653,9 @@ class TestSSLYearCalculator(unittest.TestCase):
         week2 = Week(weekNumber=2, matchups=[matchup2])
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3]
+        )
 
         response = SSLYearCalculator.getTeamLuck(year, onlyPostSeason=True)
 
@@ -577,8 +667,12 @@ class TestSSLYearCalculator(unittest.TestCase):
     def test_getTeamLuck_onlyRegularSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=5
+        )
         matchup3 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -591,7 +685,9 @@ class TestSSLYearCalculator(unittest.TestCase):
         week2 = Week(weekNumber=2, matchups=[matchup2])
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3]
+        )
 
         response = SSLYearCalculator.getTeamLuck(year, onlyRegularSeason=True)
 
@@ -643,8 +739,12 @@ class TestSSLYearCalculator(unittest.TestCase):
     def test_getTeamLuck_weekNumberStartGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=3, teamBScore=6)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=3, teamBScore=6
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5
+        )
         matchup3 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -657,7 +757,9 @@ class TestSSLYearCalculator(unittest.TestCase):
         week2 = Week(weekNumber=2, matchups=[matchup2])
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3]
+        )
 
         response = SSLYearCalculator.getTeamLuck(year, weekNumberStart=2)
 
@@ -669,8 +771,12 @@ class TestSSLYearCalculator(unittest.TestCase):
     def test_getTeamLuck_weekNumberEndGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5
+        )
         matchup3 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -683,7 +789,9 @@ class TestSSLYearCalculator(unittest.TestCase):
         week2 = Week(weekNumber=2, matchups=[matchup2])
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3]
+        )
 
         response = SSLYearCalculator.getTeamLuck(year, weekNumberEnd=2)
 
@@ -695,8 +803,12 @@ class TestSSLYearCalculator(unittest.TestCase):
     def test_getTeamLuck_weekNumberStartGivenAndWeekNumberEndGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5
+        )
         matchup3 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -717,9 +829,15 @@ class TestSSLYearCalculator(unittest.TestCase):
         week3 = Week(weekNumber=3, matchups=[matchup3])
         week4 = Week(weekNumber=4, matchups=[matchup4])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3, week4])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1]],
+            weeks=[week1, week2, week3, week4],
+        )
 
-        response = SSLYearCalculator.getTeamLuck(year, weekNumberStart=2, weekNumberEnd=3)
+        response = SSLYearCalculator.getTeamLuck(
+            year, weekNumberStart=2, weekNumberEnd=3
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))

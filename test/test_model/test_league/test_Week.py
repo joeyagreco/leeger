@@ -1,20 +1,28 @@
 import unittest
-from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception import DoesNotExistException
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Week import Week
+from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestWeek(unittest.TestCase):
     def test_week_init(self):
         matchup1 = Matchup(teamAId="", teamBId="", teamAScore=0, teamBScore=0)
         matchup2 = Matchup(
-            teamAId="", teamBId="", teamAScore=0, teamBScore=0, matchupType=MatchupType.PLAYOFF
+            teamAId="",
+            teamBId="",
+            teamAScore=0,
+            teamBScore=0,
+            matchupType=MatchupType.PLAYOFF,
         )
         matchup3 = Matchup(
-            teamAId="", teamBId="", teamAScore=0, teamBScore=0, matchupType=MatchupType.CHAMPIONSHIP
+            teamAId="",
+            teamBId="",
+            teamAScore=0,
+            teamBScore=0,
+            matchupType=MatchupType.CHAMPIONSHIP,
         )
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -89,7 +97,9 @@ class TestWeek(unittest.TestCase):
         self.assertIsInstance(response2, bool)
         self.assertTrue(response2)
 
-    def test_isChampionshipWeek_weekDoesNotHaveAnyChampionshipMatchups_returnsFalse(self):
+    def test_isChampionshipWeek_weekDoesNotHaveAnyChampionshipMatchups_returnsFalse(
+        self,
+    ):
         _, teams = getNDefaultOwnersAndTeams(2)
 
         matchup1 = Matchup(
@@ -293,7 +303,8 @@ class TestWeek(unittest.TestCase):
         with self.assertRaises(DoesNotExistException) as context:
             week.getMatchupWithTeamId("bad ID")
         self.assertEqual(
-            "Week does not have a matchup with team ID 'bad ID'.", str(context.exception)
+            "Week does not have a matchup with team ID 'bad ID'.",
+            str(context.exception),
         )
 
     def test_week_fromJson(self):

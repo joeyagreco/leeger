@@ -18,5 +18,7 @@ if __name__ == "__main__":
     # Get a League object with years 2019 and 2020 for ESPN league with ID: "12345678".
     espnS2 = "ABCDEFG1234567"
     swid = "{ABC-DEF-GHI-JKL-MNOP}"
-    espnLeagueLoader = ESPNLeagueLoader("12345678", [2019, 2020], espnS2=espnS2, swid=swid)
+    espnLeagueLoader = ESPNLeagueLoader(
+        "12345678", [2019, 2020], espnS2=espnS2, swid=swid
+    )
     league: League = espnLeagueLoader.loadLeague()

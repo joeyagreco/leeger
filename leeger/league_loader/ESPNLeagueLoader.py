@@ -50,15 +50,18 @@ class ESPNLeagueLoader(LeagueLoader):
         except ValueError:
             raise ValueError(f"League ID '{leagueId}' could not be turned into an int.")
         super().__init__(
-            leagueId, years, ownerNamesAndAliases=ownerNamesAndAliases, leagueName=leagueName
+            leagueId,
+            years,
+            ownerNamesAndAliases=ownerNamesAndAliases,
+            leagueName=leagueName,
         )
 
         self.__espnS2 = espnS2
         self.__swid = swid
         self.__espnTeamIdToTeamMap: dict[str, Team] = dict()
-        self.__espnDivisionIdToDivisionMap: dict[
-            int, Division
-        ] = dict()  # holds the division info for ONLY the current year
+        self.__espnDivisionIdToDivisionMap: dict[int, Division] = (
+            dict()
+        )  # holds the division info for ONLY the current year
 
     def __getAllLeagues(self) -> list[ESPNLeague]:
         espnLeagueYears = list()
@@ -100,7 +103,9 @@ class ESPNLeagueLoader(LeagueLoader):
             self.__loadOwners(espnLeague.teams)
             years.append(self.__buildYear(espnLeague))
         return League(
-            name=self._getLeagueName(), owners=self._owners, years=self._getValidYears(years)
+            name=self._getLeagueName(),
+            owners=self._owners,
+            years=self._getValidYears(years),
         )
 
     def __loadOwners(self, espnTeams: list[ESPNTeam]) -> None:
@@ -109,15 +114,24 @@ class ESPNLeagueLoader(LeagueLoader):
             for espnTeam in espnTeams:
                 # get general owner name if there is one
                 ownerName = self.__getESPNOwnerName(espnTeam.owners)
-                generalOwnerName = self._getGeneralOwnerNameFromGivenOwnerName(ownerName)
-                ownerName = generalOwnerName if generalOwnerName is not None else ownerName
+                generalOwnerName = self._getGeneralOwnerNameFromGivenOwnerName(
+                    ownerName
+                )
+                ownerName = (
+                    generalOwnerName if generalOwnerName is not None else ownerName
+                )
                 owners.append(Owner(name=ownerName))
             self._owners = owners
 
     def __buildYear(self, espnLeague: ESPNLeague) -> Year:
         # save division info
-        for espnDivisionId, espnDivisionName in espnLeague.settings.division_map.items():
-            self.__espnDivisionIdToDivisionMap[espnDivisionId] = Division(name=espnDivisionName)
+        for (
+            espnDivisionId,
+            espnDivisionName,
+        ) in espnLeague.settings.division_map.items():
+            self.__espnDivisionIdToDivisionMap[espnDivisionId] = Division(
+                name=espnDivisionName
+            )
         teams = self.__buildTeams(espnLeague.teams)
         weeks = self.__buildWeeks(espnLeague)
         # TODO: see if there are cases where ESPN leagues do NOT have divisions
@@ -160,12 +174,16 @@ class ESPNLeagueLoader(LeagueLoader):
                 ).scores[i]
                 # figure out tiebreakers if there needs to be one
                 teamAHasTiebreaker = (
-                    teamAScore == teamBScore and espnTeamA.outcomes[i] == self.__ESPN_WIN_OUTCOME
+                    teamAScore == teamBScore
+                    and espnTeamA.outcomes[i] == self.__ESPN_WIN_OUTCOME
                 )
                 teamBHasTiebreaker = (
-                    teamAScore == teamBScore and espnTeamB.outcomes[i] == self.__ESPN_WIN_OUTCOME
+                    teamAScore == teamBScore
+                    and espnTeamB.outcomes[i] == self.__ESPN_WIN_OUTCOME
                 )
-                matchupType = self.__getMatchupType(espnLeague, i + 1, espnTeamA.team_id)
+                matchupType = self.__getMatchupType(
+                    espnLeague, i + 1, espnTeamA.team_id
+                )
                 matchups.append(
                     Matchup(
                         teamAId=teamA.id,
@@ -194,11 +212,14 @@ class ESPNLeagueLoader(LeagueLoader):
             if playoffTeamCount >= espnTeam.standing:
                 # this team made the playoffs
                 # figure out if this is the last week of playoffs (the championship week)
-                numberOfPlayoffWeeks = self.__TEAMS_IN_PLAYOFFS_TO_PLAYOFF_WEEK_COUNT_MAP[
-                    playoffTeamCount
-                ]
+                numberOfPlayoffWeeks = (
+                    self.__TEAMS_IN_PLAYOFFS_TO_PLAYOFF_WEEK_COUNT_MAP[playoffTeamCount]
+                )
                 # TODO: Raise specific exception here if not found in map
-                if weekNumber == espnLeague.settings.reg_season_count + numberOfPlayoffWeeks:
+                if (
+                    weekNumber
+                    == espnLeague.settings.reg_season_count + numberOfPlayoffWeeks
+                ):
                     # this is the championship week
                     # figure out if this team has lost in the playoffs before this week
                     playoffOutcomes = espnTeam.outcomes[-numberOfPlayoffWeeks:-1]
@@ -230,7 +251,9 @@ class ESPNLeagueLoader(LeagueLoader):
             divisionId = self.__espnDivisionIdToDivisionMap[espnTeam.division_id].id
             ownerName = self.__getESPNOwnerName(espnTeam.owners)
             owner = self._getOwnerByName(ownerName)
-            team = Team(ownerId=owner.id, name=espnTeam.team_name, divisionId=divisionId)
+            team = Team(
+                ownerId=owner.id, name=espnTeam.team_name, divisionId=divisionId
+            )
             teams.append(team)
             self.__espnTeamIdToTeamMap[espnTeam.team_id] = team
         return teams

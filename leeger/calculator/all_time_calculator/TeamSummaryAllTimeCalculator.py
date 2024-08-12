@@ -21,7 +21,9 @@ class TeamSummaryAllTimeCalculator(AllTimeCalculator):
             ...
             }
         """
-        return cls._addAndCombineResults(league, TeamSummaryYearCalculator.getGamesPlayed, **kwargs)
+        return cls._addAndCombineResults(
+            league, TeamSummaryYearCalculator.getGamesPlayed, **kwargs
+        )
 
     @classmethod
     @validateLeague
@@ -40,4 +42,6 @@ class TeamSummaryAllTimeCalculator(AllTimeCalculator):
             ...
             }
         """
-        return cls._addAndCombineResults(league, TeamSummaryYearCalculator.getTotalGames, **kwargs)
+        return cls._addAndCombineResults(
+            league, TeamSummaryYearCalculator.getTotalGames, **kwargs
+        )

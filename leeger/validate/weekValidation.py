@@ -57,7 +57,9 @@ def checkWeekHasAtLeastOneMatchup(week: Week) -> None:
     Checks that the given Week has at least one Matchup.
     """
     if len(week.matchups) == 0:
-        raise InvalidWeekFormatException(f"Week {week.weekNumber} must have at least 1 matchup.")
+        raise InvalidWeekFormatException(
+            f"Week {week.weekNumber} must have at least 1 matchup."
+        )
 
 
 def checkWeekHasMatchupsWithNoDuplicateTeamIds(week: Week) -> None:
@@ -91,7 +93,9 @@ def checkWeekDoesNotHaveMoreThanOneChampionshipMatchup(week: Week) -> None:
         )
 
 
-def checkWeekWithPlayoffOrChampionshipMatchupDoesNotHaveRegularSeasonMatchup(week: Week) -> None:
+def checkWeekWithPlayoffOrChampionshipMatchupDoesNotHaveRegularSeasonMatchup(
+    week: Week,
+) -> None:
     """
     Checks that the given Week has no Regular Season Matchups IF it has a Playoff or Championship Matchup.
     """

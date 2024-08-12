@@ -13,7 +13,9 @@ class TestLeagueLoader(unittest.TestCase):
     def test_noYearsGiven(self):
         with self.assertRaises(ValueError) as context:
             LeagueLoader("0", [])
-        self.assertEqual("No years given to load league with ID '0'.", str(context.exception))
+        self.assertEqual(
+            "No years given to load league with ID '0'.", str(context.exception)
+        )
 
     def test_yearsGivenThatArentInts(self):
         with self.assertRaises(ValueError) as context:
@@ -47,22 +49,32 @@ class TestLeagueLoader(unittest.TestCase):
         )
 
         # alias that belongs to a single owner
-        self.assertEqual("John Smith", leagueLoader._getGeneralOwnerNameFromGivenOwnerName("John"))
+        self.assertEqual(
+            "John Smith", leagueLoader._getGeneralOwnerNameFromGivenOwnerName("John")
+        )
 
         # alias that belongs to multiple owners
-        self.assertEqual("John Smith", leagueLoader._getGeneralOwnerNameFromGivenOwnerName("Smith"))
+        self.assertEqual(
+            "John Smith", leagueLoader._getGeneralOwnerNameFromGivenOwnerName("Smith")
+        )
 
         # alias that does not belong to any owner
         self.assertIsNone(leagueLoader._getGeneralOwnerNameFromGivenOwnerName("Foo"))
 
         # owner name that is also an owner name but NOT an alias
-        self.assertIsNone(leagueLoader._getGeneralOwnerNameFromGivenOwnerName("John Smith"))
+        self.assertIsNone(
+            leagueLoader._getGeneralOwnerNameFromGivenOwnerName("John Smith")
+        )
 
         # owner name that is not in the aliases list
         self.assertIsNone(leagueLoader._getGeneralOwnerNameFromGivenOwnerName("Foo"))
 
     def test__getOwnerByName(self):
-        owners = [Owner(name="John Smith"), Owner(name="Jane Doe"), Owner(name="Tom Hanks")]
+        owners = [
+            Owner(name="John Smith"),
+            Owner(name="Jane Doe"),
+            Owner(name="Tom Hanks"),
+        ]
         leagueLoader = LeagueLoader(
             "leagueId",
             [2021],
@@ -174,7 +186,12 @@ class TestLeagueLoader(unittest.TestCase):
         leagueLoader = LeagueLoader(
             "leagueId",
             [2020],
-            ownerNamesAndAliases={"o1": list(), "o2": list(), "o3": list(), "o4": list()},
+            ownerNamesAndAliases={
+                "o1": list(),
+                "o2": list(),
+                "o3": list(),
+                "o4": list(),
+            },
         )
 
         with self.assertLogs() as captured:

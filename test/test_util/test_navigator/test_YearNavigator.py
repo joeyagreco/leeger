@@ -1,5 +1,4 @@
 import unittest
-from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception.DoesNotExistException import DoesNotExistException
@@ -12,6 +11,7 @@ from leeger.model.league.Team import Team
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
 from leeger.util.navigator.YearNavigator import YearNavigator
+from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestYearNavigator(unittest.TestCase):
@@ -29,7 +29,8 @@ class TestYearNavigator(unittest.TestCase):
         with self.assertRaises(DoesNotExistException) as context:
             YearNavigator.getTeamById(year, "badId")
         self.assertEqual(
-            "Team with ID 'badId' does not exist in the given Year.", str(context.exception)
+            "Team with ID 'badId' does not exist in the given Year.",
+            str(context.exception),
         )
 
     def test_getDivisionById_happyPath(self):
@@ -46,7 +47,8 @@ class TestYearNavigator(unittest.TestCase):
         with self.assertRaises(DoesNotExistException) as context:
             YearNavigator.getDivisionById(year, "badId")
         self.assertEqual(
-            "Division with ID 'badId' does not exist in the given Year.", str(context.exception)
+            "Division with ID 'badId' does not exist in the given Year.",
+            str(context.exception),
         )
 
     def test_getYearByYearNumber_happyPath(self):
@@ -56,7 +58,9 @@ class TestYearNavigator(unittest.TestCase):
         a_team1 = Team(ownerId=owner1.id, name="1")
         a_team2 = Team(ownerId=owner2.id, name="2")
 
-        a_matchup1 = Matchup(teamAId=a_team1.id, teamBId=a_team2.id, teamAScore=1, teamBScore=2)
+        a_matchup1 = Matchup(
+            teamAId=a_team1.id, teamBId=a_team2.id, teamAScore=1, teamBScore=2
+        )
         a_matchup2 = Matchup(
             teamAId=a_team1.id,
             teamBId=a_team2.id,
@@ -86,7 +90,9 @@ class TestYearNavigator(unittest.TestCase):
         a_week4 = Week(weekNumber=4, matchups=[a_matchup4])
 
         a_year = Year(
-            yearNumber=2000, teams=[a_team1, a_team2], weeks=[a_week1, a_week2, a_week3, a_week4]
+            yearNumber=2000,
+            teams=[a_team1, a_team2],
+            weeks=[a_week1, a_week2, a_week3, a_week4],
         )
 
         response = YearNavigator.getAllTeamIds(a_year)
@@ -99,8 +105,12 @@ class TestYearNavigator(unittest.TestCase):
     def test_getNumberOfGamesPlayed_happyPath(self):
         _, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -120,14 +130,23 @@ class TestYearNavigator(unittest.TestCase):
     ):
         _, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
 
         yearSettings = YearSettings(leagueMedianGames=True)
-        year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2], yearSettings=yearSettings)
+        year = Year(
+            yearNumber=2000,
+            teams=teams,
+            weeks=[week1, week2],
+            yearSettings=yearSettings,
+        )
 
         yearFilters = YearFilters(weekNumberStart=1, weekNumberEnd=2)
         response = YearNavigator.getNumberOfGamesPlayed(
@@ -212,7 +231,9 @@ class TestYearNavigator(unittest.TestCase):
     def test_getNumberOfGamesPlayed_onlyPostSeasonIsTrue(self):
         _, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
         matchup2 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -234,7 +255,9 @@ class TestYearNavigator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
 
-        yearFilters = YearFilters(weekNumberStart=1, weekNumberEnd=3, onlyPostSeason=True)
+        yearFilters = YearFilters(
+            weekNumberStart=1, weekNumberEnd=3, onlyPostSeason=True
+        )
         response = YearNavigator.getNumberOfGamesPlayed(year, yearFilters)
 
         self.assertIsInstance(response, dict)
@@ -245,7 +268,9 @@ class TestYearNavigator(unittest.TestCase):
     def test_getNumberOfGamesPlayed_onlyRegularSeasonIsTrue(self):
         _, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
         matchup2 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -267,7 +292,9 @@ class TestYearNavigator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
 
-        yearFilters = YearFilters(weekNumberStart=1, weekNumberEnd=3, onlyRegularSeason=True)
+        yearFilters = YearFilters(
+            weekNumberStart=1, weekNumberEnd=3, onlyRegularSeason=True
+        )
         response = YearNavigator.getNumberOfGamesPlayed(year, yearFilters)
 
         self.assertIsInstance(response, dict)
@@ -278,7 +305,9 @@ class TestYearNavigator(unittest.TestCase):
     def test_getNumberOfGamesPlayed_weekNumberStartGiven(self):
         _, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
         matchup2 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -311,7 +340,9 @@ class TestYearNavigator(unittest.TestCase):
     def test_getNumberOfGamesPlayed_weekNumberEndGiven(self):
         _, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
         matchup2 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -344,7 +375,9 @@ class TestYearNavigator(unittest.TestCase):
     def test_getNumberOfGamesPlayed_weekNumberStartGivenAndWeekNumberEndGiven(self):
         _, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
         matchup2 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -385,7 +418,9 @@ class TestYearNavigator(unittest.TestCase):
     def test_getAllScoresInYear_happyPath(self):
         _, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
         matchup2 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -393,7 +428,9 @@ class TestYearNavigator(unittest.TestCase):
             teamBScore=4,
             matchupType=MatchupType.IGNORE,
         )
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=5, teamBScore=6)
+        matchup3 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=5, teamBScore=6
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -424,7 +461,9 @@ class TestYearNavigator(unittest.TestCase):
             teamBScore=4,
             multiWeekMatchupId="1",
         )
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=5, teamBScore=6)
+        matchup3 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=5, teamBScore=6
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -432,7 +471,9 @@ class TestYearNavigator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
 
-        response = YearNavigator.getAllScoresInYear(year, simplifyMultiWeekMatchups=True)
+        response = YearNavigator.getAllScoresInYear(
+            year, simplifyMultiWeekMatchups=True
+        )
 
         self.assertIsInstance(response, list)
         self.assertEqual(4, len(response))
@@ -482,9 +523,15 @@ class TestYearNavigator(unittest.TestCase):
     def test_getAllMultiWeekMatchups_noMultiWeekMatchupsFound_returnsEmptyDict(self):
         _, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=5, teamBScore=6)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=5, teamBScore=6
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -497,7 +544,9 @@ class TestYearNavigator(unittest.TestCase):
         self.assertIsInstance(response, dict)
         self.assertEqual(0, len(response.keys()))
 
-    def test_getAllMultiWeekMatchups_includeMultiWeekMatchupsIsFalse_raisesException(self):
+    def test_getAllMultiWeekMatchups_includeMultiWeekMatchupsIsFalse_raisesException(
+        self,
+    ):
         with self.assertRaises(ValueError) as context:
             YearNavigator.getAllMultiWeekMatchups(
                 None,
@@ -509,13 +558,16 @@ class TestYearNavigator(unittest.TestCase):
                 ),
             )
         self.assertEqual(
-            "Multi-Week matchups must be included in this calculation.", str(context.exception)
+            "Multi-Week matchups must be included in this calculation.",
+            str(context.exception),
         )
 
     def test_getAllMatchupsInYear_noFilterGiven_happyPath(self):
         _, teams = getNDefaultOwnersAndTeams(2)
 
-        a_matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        a_matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
         a_matchup2 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -544,7 +596,9 @@ class TestYearNavigator(unittest.TestCase):
         a_week3 = Week(weekNumber=3, matchups=[a_matchup3])
         a_week4 = Week(weekNumber=4, matchups=[a_matchup4])
 
-        a_year = Year(yearNumber=2000, teams=teams, weeks=[a_week1, a_week2, a_week3, a_week4])
+        a_year = Year(
+            yearNumber=2000, teams=teams, weeks=[a_week1, a_week2, a_week3, a_week4]
+        )
 
         response = YearNavigator.getAllMatchupsInYear(a_year)
 
@@ -558,8 +612,12 @@ class TestYearNavigator(unittest.TestCase):
     def test_getAllMatchupsInYear_filterGiven_happyPath(self):
         _, teams = getNDefaultOwnersAndTeams(2)
 
-        a_matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        a_matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        a_matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        a_matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
         a_matchup3 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -581,7 +639,9 @@ class TestYearNavigator(unittest.TestCase):
         a_week3 = Week(weekNumber=3, matchups=[a_matchup3])
         a_week4 = Week(weekNumber=4, matchups=[a_matchup4])
 
-        a_year = Year(yearNumber=2000, teams=teams, weeks=[a_week1, a_week2, a_week3, a_week4])
+        a_year = Year(
+            yearNumber=2000, teams=teams, weeks=[a_week1, a_week2, a_week3, a_week4]
+        )
 
         response = YearNavigator.getAllMatchupsInYear(
             a_year, YearFilters(weekNumberStart=2, weekNumberEnd=3, onlyPostSeason=True)
@@ -591,7 +651,9 @@ class TestYearNavigator(unittest.TestCase):
         self.assertEqual(1, len(response))
         self.assertEqual(a_matchup3.id, response[0].id)
 
-    def test_getAllMatchupsInYear_filterGiven_includeMultiWeekMatchupsIsTrue_happyPath(self):
+    def test_getAllMatchupsInYear_filterGiven_includeMultiWeekMatchupsIsTrue_happyPath(
+        self,
+    ):
         _, teams = getNDefaultOwnersAndTeams(2)
 
         a_matchup1 = Matchup(
@@ -608,7 +670,9 @@ class TestYearNavigator(unittest.TestCase):
             teamBScore=2,
             multiWeekMatchupId="1",
         )
-        a_matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        a_matchup3 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
 
         a_week1 = Week(weekNumber=1, matchups=[a_matchup1])
         a_week2 = Week(weekNumber=2, matchups=[a_matchup2])
@@ -632,7 +696,9 @@ class TestYearNavigator(unittest.TestCase):
         self.assertEqual(a_matchup2.id, response[1].id)
         self.assertEqual(a_matchup3.id, response[2].id)
 
-    def test_getAllMatchupsInYear_filterGiven_includeMultiWeekMatchupsIsFalse_happyPath(self):
+    def test_getAllMatchupsInYear_filterGiven_includeMultiWeekMatchupsIsFalse_happyPath(
+        self,
+    ):
         _, teams = getNDefaultOwnersAndTeams(2)
 
         a_matchup1 = Matchup(
@@ -649,7 +715,9 @@ class TestYearNavigator(unittest.TestCase):
             teamBScore=2,
             multiWeekMatchupId="1",
         )
-        a_matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        a_matchup3 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
 
         a_week1 = Week(weekNumber=1, matchups=[a_matchup1])
         a_week2 = Week(weekNumber=2, matchups=[a_matchup2])
@@ -688,7 +756,9 @@ class TestYearNavigator(unittest.TestCase):
             teamBScore=2,
             multiWeekMatchupId="1",
         )
-        a_matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        a_matchup3 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
 
         a_week1 = Week(weekNumber=1, matchups=[a_matchup1])
         a_week2 = Week(weekNumber=2, matchups=[a_matchup2])
@@ -709,7 +779,9 @@ class TestYearNavigator(unittest.TestCase):
     def test_getAllSimplifiedMatchupsInYear_filterGiven_happyPath(self):
         _, teams = getNDefaultOwnersAndTeams(2)
 
-        a_matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        a_matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
         a_matchup2 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -755,7 +827,9 @@ class TestYearNavigator(unittest.TestCase):
         self.assertEqual(2, response[0].teamAScore)
         self.assertEqual(4, response[0].teamBScore)
 
-    def test_getAllSimplifiedMatchupsInYear_includeMultiWeekMatchupsIsFalse_raisesException(self):
+    def test_getAllSimplifiedMatchupsInYear_includeMultiWeekMatchupsIsFalse_raisesException(
+        self,
+    ):
         with self.assertRaises(ValueError) as context:
             YearNavigator.getAllSimplifiedMatchupsInYear(
                 None,
@@ -767,5 +841,6 @@ class TestYearNavigator(unittest.TestCase):
                 ),
             )
         self.assertEqual(
-            "Multi-Week matchups must be included in this calculation.", str(context.exception)
+            "Multi-Week matchups must be included in this calculation.",
+            str(context.exception),
         )

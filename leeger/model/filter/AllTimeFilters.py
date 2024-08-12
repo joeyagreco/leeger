@@ -31,7 +31,11 @@ class AllTimeFilters:
         elif self.onlyRegularSeason:
             return [MatchupType.REGULAR_SEASON]
         else:
-            return [MatchupType.REGULAR_SEASON, MatchupType.PLAYOFF, MatchupType.CHAMPIONSHIP]
+            return [
+                MatchupType.REGULAR_SEASON,
+                MatchupType.PLAYOFF,
+                MatchupType.CHAMPIONSHIP,
+            ]
 
     @classmethod
     def preferredOrderWithTitle(cls, league: League, **kwargs) -> list[tuple[str, Any]]:
@@ -59,12 +63,16 @@ class AllTimeFilters:
         yearNumberStart = kwargsCopy.pop("yearNumberStart", league.years[0].yearNumber)
         weekNumberStart = kwargsCopy.pop(
             "weekNumberStart",
-            LeagueNavigator.getYearByYearNumber(league, yearNumberStart).weeks[0].weekNumber,
+            LeagueNavigator.getYearByYearNumber(league, yearNumberStart)
+            .weeks[0]
+            .weekNumber,
         )
         yearNumberEnd = kwargsCopy.pop("yearNumberEnd", league.years[-1].yearNumber)
         weekNumberEnd = kwargsCopy.pop(
             "weekNumberEnd",
-            LeagueNavigator.getYearByYearNumber(league, yearNumberEnd).weeks[-1].weekNumber,
+            LeagueNavigator.getYearByYearNumber(league, yearNumberEnd)
+            .weeks[-1]
+            .weekNumber,
         )
 
         GeneralUtil.warnForUnusedKwargs(kwargsCopy)
@@ -99,7 +107,9 @@ class AllTimeFilters:
             )
         if weekNumberStart < 1:
             raise InvalidFilterException("'weekNumberStart' cannot be less than 1.")
-        if weekNumberEnd > len(LeagueNavigator.getYearByYearNumber(league, yearNumberEnd).weeks):
+        if weekNumberEnd > len(
+            LeagueNavigator.getYearByYearNumber(league, yearNumberEnd).weeks
+        ):
             raise InvalidFilterException(
                 "'weekNumberEnd' cannot be greater than the number of weeks in the year."
             )

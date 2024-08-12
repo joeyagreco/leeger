@@ -5,7 +5,12 @@ from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
-from leeger.validate import leagueValidation, matchupValidation, weekValidation, yearValidation
+from leeger.validate import (
+    leagueValidation,
+    matchupValidation,
+    weekValidation,
+    yearValidation,
+)
 
 
 def __shouldValidate(kwargs) -> bool:

@@ -8,7 +8,9 @@ class WeekNavigator:
     """
 
     @staticmethod
-    def getTeamIdsAndScores(week: Week, weekFilters: WeekFilters) -> dict[str, float | int]:
+    def getTeamIdsAndScores(
+        week: Week, weekFilters: WeekFilters
+    ) -> dict[str, float | int]:
         """
         Returns all scores for each team in the given Week.
 
@@ -50,7 +52,9 @@ class WeekNavigator:
         return teamIdAndScores
 
     @classmethod
-    def getNumberOfValidTeamsInWeek(cls, week: Week, weekFilters: WeekFilters, **kwargs) -> int:
+    def getNumberOfValidTeamsInWeek(
+        cls, week: Week, weekFilters: WeekFilters, **kwargs
+    ) -> int:
         """
         Returns the number of valid teams that are playing in the given week.
         A valid team is a team that is NOT in a matchup that is marked to be ignored and also matches the given filters.

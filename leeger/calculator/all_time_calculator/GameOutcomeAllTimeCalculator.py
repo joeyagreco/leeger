@@ -1,7 +1,9 @@
 from typing import Optional
 
 from leeger.calculator.parent.AllTimeCalculator import AllTimeCalculator
-from leeger.calculator.year_calculator.GameOutcomeYearCalculator import GameOutcomeYearCalculator
+from leeger.calculator.year_calculator.GameOutcomeYearCalculator import (
+    GameOutcomeYearCalculator,
+)
 from leeger.decorator.validators import validateLeague
 from leeger.model.filter import AllTimeFilters
 from leeger.model.league.League import League
@@ -25,7 +27,9 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
             ...
             }
         """
-        return cls._addAndCombineResults(league, GameOutcomeYearCalculator.getWins, **kwargs)
+        return cls._addAndCombineResults(
+            league, GameOutcomeYearCalculator.getWins, **kwargs
+        )
 
     @classmethod
     @validateLeague
@@ -42,7 +46,9 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
             ...
             }
         """
-        return cls._addAndCombineResults(league, GameOutcomeYearCalculator.getLosses, **kwargs)
+        return cls._addAndCombineResults(
+            league, GameOutcomeYearCalculator.getLosses, **kwargs
+        )
 
     @classmethod
     @validateLeague
@@ -59,7 +65,9 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
             ...
             }
         """
-        return cls._addAndCombineResults(league, GameOutcomeYearCalculator.getTies, **kwargs)
+        return cls._addAndCombineResults(
+            league, GameOutcomeYearCalculator.getTies, **kwargs
+        )
 
     @classmethod
     @validateLeague
@@ -95,7 +103,12 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
             numberOfTies = ownerIdAndTies[ownerId]
             numberOfLeagueMedianWins = ownerIdAndLeagueMedianWins[ownerId]
 
-            if None in (numberOfWins, numberOfLosses, numberOfTies, numberOfLeagueMedianWins):
+            if None in (
+                numberOfWins,
+                numberOfLosses,
+                numberOfTies,
+                numberOfLeagueMedianWins,
+            ):
                 ownerIdAndWinPercentage[ownerId] = None
             else:
                 filters = AllTimeFilters.getForLeague(league, **kwargs)
@@ -210,7 +223,9 @@ class GameOutcomeAllTimeCalculator(AllTimeCalculator):
 
     @classmethod
     @validateLeague
-    def getOpponentLeagueMedianWins(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
+    def getOpponentLeagueMedianWins(
+        cls, league: League, **kwargs
+    ) -> dict[str, Optional[Deci]]:
         """
         Returns the number of league median wins for each Owner's opponents in the given League.
         Returns None for an Owner if they have no games played in the range.

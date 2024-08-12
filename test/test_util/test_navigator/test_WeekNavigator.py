@@ -1,11 +1,11 @@
 import unittest
-from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 from leeger.enum.MatchupType import MatchupType
 from leeger.model.filter.WeekFilters import WeekFilters
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Week import Week
 from leeger.util.navigator.WeekNavigator import WeekNavigator
+from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestWeekNavigator(unittest.TestCase):
@@ -98,7 +98,9 @@ class TestWeekNavigator(unittest.TestCase):
     def test_getNumberOfValidTeamsInWeek_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
         matchup2 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,

@@ -106,7 +106,9 @@ class YearStatSheet:
         if self.leagueMedianWins is not None:
             response.insert(1, ("Total Games", self.totalGames))
             response.insert(4, ("League Median Wins", self.leagueMedianWins))
-            response.insert(5, ("Opponent League Median Wins", self.opponentLeagueMedianWins))
+            response.insert(
+                5, ("Opponent League Median Wins", self.opponentLeagueMedianWins)
+            )
 
         if self.ownerNames is not None:
             response.insert(0, ("Owner", self.ownerNames))

@@ -1,5 +1,4 @@
 import unittest
-from test.helper.prototypes import getNDefaultOwnersAndTeams, getTeamsFromOwners
 
 from leeger.calculator.all_time_calculator.PlusMinusAllTimeCalculator import (
     PlusMinusAllTimeCalculator,
@@ -10,6 +9,7 @@ from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
 from leeger.util.Deci import Deci
+from test.helper.prototypes import getNDefaultOwnersAndTeams, getTeamsFromOwners
 
 
 class TestPlusMinusAllTimeCalculator(unittest.TestCase):
@@ -261,7 +261,9 @@ class TestPlusMinusAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = PlusMinusAllTimeCalculator.getPlusMinus(league, onlyRegularSeason=True)
+        response = PlusMinusAllTimeCalculator.getPlusMinus(
+            league, onlyRegularSeason=True
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -339,7 +341,9 @@ class TestPlusMinusAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = PlusMinusAllTimeCalculator.getPlusMinus(league, onlyChampionship=True)
+        response = PlusMinusAllTimeCalculator.getPlusMinus(
+            league, onlyChampionship=True
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -610,7 +614,11 @@ class TestPlusMinusAllTimeCalculator(unittest.TestCase):
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
         response = PlusMinusAllTimeCalculator.getPlusMinus(
-            league, yearNumberStart=2001, weekNumberStart=1, yearNumberEnd=2001, weekNumberEnd=2
+            league,
+            yearNumberStart=2001,
+            weekNumberStart=1,
+            yearNumberEnd=2001,
+            weekNumberEnd=2,
         )
 
         self.assertIsInstance(response, dict)

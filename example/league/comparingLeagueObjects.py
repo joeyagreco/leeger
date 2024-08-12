@@ -10,7 +10,9 @@ if __name__ == "__main__":
 
     # 2. lets compare it
     league.equals(league)  # compares models with all fields
-    league.equals(league, ignoreBaseIds=True)  # ignores the base "id" field in each object
+    league.equals(
+        league, ignoreBaseIds=True
+    )  # ignores the base "id" field in each object
     league.equals(
         league, ignoreIds=True
     )  # ignores fields that hold an id but not the base "id" fields

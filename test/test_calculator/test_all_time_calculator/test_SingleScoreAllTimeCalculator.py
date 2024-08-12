@@ -1,5 +1,4 @@
 import unittest
-from test.helper.prototypes import getNDefaultOwnersAndTeams, getTeamsFromOwners
 
 from leeger.calculator.all_time_calculator.SingleScoreAllTimeCalculator import (
     SingleScoreAllTimeCalculator,
@@ -9,6 +8,7 @@ from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
+from test.helper.prototypes import getNDefaultOwnersAndTeams, getTeamsFromOwners
 
 
 class TestSingleScoreAllTimeCalculator(unittest.TestCase):
@@ -259,7 +259,9 @@ class TestSingleScoreAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = SingleScoreAllTimeCalculator.getMaxScore(league, onlyRegularSeason=True)
+        response = SingleScoreAllTimeCalculator.getMaxScore(
+            league, onlyRegularSeason=True
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -337,7 +339,9 @@ class TestSingleScoreAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = SingleScoreAllTimeCalculator.getMaxScore(league, onlyChampionship=True)
+        response = SingleScoreAllTimeCalculator.getMaxScore(
+            league, onlyChampionship=True
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -608,7 +612,11 @@ class TestSingleScoreAllTimeCalculator(unittest.TestCase):
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
         response = SingleScoreAllTimeCalculator.getMaxScore(
-            league, yearNumberStart=2001, weekNumberStart=1, yearNumberEnd=2001, weekNumberEnd=2
+            league,
+            yearNumberStart=2001,
+            weekNumberStart=1,
+            yearNumberEnd=2001,
+            weekNumberEnd=2,
         )
 
         self.assertIsInstance(response, dict)
@@ -867,7 +875,9 @@ class TestSingleScoreAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = SingleScoreAllTimeCalculator.getMinScore(league, onlyRegularSeason=True)
+        response = SingleScoreAllTimeCalculator.getMinScore(
+            league, onlyRegularSeason=True
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -945,7 +955,9 @@ class TestSingleScoreAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = SingleScoreAllTimeCalculator.getMinScore(league, onlyChampionship=True)
+        response = SingleScoreAllTimeCalculator.getMinScore(
+            league, onlyChampionship=True
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -1216,7 +1228,11 @@ class TestSingleScoreAllTimeCalculator(unittest.TestCase):
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
         response = SingleScoreAllTimeCalculator.getMinScore(
-            league, yearNumberStart=2001, weekNumberStart=1, yearNumberEnd=2001, weekNumberEnd=2
+            league,
+            yearNumberStart=2001,
+            weekNumberStart=1,
+            yearNumberEnd=2001,
+            weekNumberEnd=2,
         )
 
         self.assertIsInstance(response, dict)

@@ -51,13 +51,15 @@ class SleeperLeagueLoader(LeagueLoader):
 
         self.__sleeperUserIdToOwnerMap: dict[str, Owner] = dict()
         self.__sleeperRosterIdToTeamMap: dict[int, Team] = dict()
-        self.__SLEEPER_USERS_BY_LEAGUE_ID_CACHE = dict()  # functions as a cache for Sleeper Users
+        self.__SLEEPER_USERS_BY_LEAGUE_ID_CACHE = (
+            dict()
+        )  # functions as a cache for Sleeper Users
         self.__SLEEPER_SPORT_STATE_CACHE: SleeperSportState = (
             None  # functions as a cache for Sleeper SportState
         )
-        self.__sleeperDivisionIdToDivisionMap: dict[
-            int, Division
-        ] = dict()  # holds the division info for ONLY the current year
+        self.__sleeperDivisionIdToDivisionMap: dict[int, Division] = (
+            dict()
+        )  # holds the division info for ONLY the current year
 
     def __resetCaches(self) -> None:
         self.__SLEEPER_USERS_BY_LEAGUE_ID_CACHE = dict()
@@ -83,8 +85,12 @@ class SleeperLeagueLoader(LeagueLoader):
         sleeperLeagues = list()
         years = self._years.copy()
         currentLeagueId = self._leagueId
-        while len(years) > 0 and currentLeagueId not in self.__INVALID_SLEEPER_LEAGUE_IDS:
-            currentLeague: SleeperLeague = LeagueAPIClient.get_league(league_id=currentLeagueId)
+        while (
+            len(years) > 0 and currentLeagueId not in self.__INVALID_SLEEPER_LEAGUE_IDS
+        ):
+            currentLeague: SleeperLeague = LeagueAPIClient.get_league(
+                league_id=currentLeagueId
+            )
             if int(currentLeague.season) in years:
                 # we only want to add valid seasons
                 # NOTE: Not sure if we should include SleeperSeasonStatus.POSTPONED here or not
@@ -134,7 +140,9 @@ class SleeperLeagueLoader(LeagueLoader):
             # save league name for each year
             self._leagueNameByYear[int(sleeperLeague.season)] = sleeperLeague.name
             years.append(self.__buildYear(sleeperLeague))
-        return League(name=self._getLeagueName(), owners=owners, years=self._getValidYears(years))
+        return League(
+            name=self._getLeagueName(), owners=owners, years=self._getValidYears(years)
+        )
 
     def __buildYear(self, sleeperLeague: SleeperLeague) -> Year:
         # save division info if applicable
@@ -169,31 +177,42 @@ class SleeperLeagueLoader(LeagueLoader):
         # once we have found an incomplete week, all weeks after will also be incomplete
         foundIncompleteWeek = False
         for weekNumber in range(1, sleeperLeague.settings.playoff_week_start):
-            if not foundIncompleteWeek and self.__isCompletedWeek(weekNumber, sleeperLeague):
+            if not foundIncompleteWeek and self.__isCompletedWeek(
+                weekNumber, sleeperLeague
+            ):
                 # get each teams matchup for that week
                 matchups = list()
                 sleeperMatchupsForThisWeek = LeagueAPIClient.get_matchups_for_week(
                     league_id=sleeperLeague.league_id, week=weekNumber
                 )
-                sleeperMatchupIdToSleeperMatchupMap: dict[int, list[SleeperMatchup]] = dict()
+                sleeperMatchupIdToSleeperMatchupMap: dict[int, list[SleeperMatchup]] = (
+                    dict()
+                )
                 for sleeperMatchup in sleeperMatchupsForThisWeek:
-                    if sleeperMatchup.matchup_id in sleeperMatchupIdToSleeperMatchupMap.keys():
-                        sleeperMatchupIdToSleeperMatchupMap[sleeperMatchup.matchup_id].append(
-                            sleeperMatchup
-                        )
+                    if (
+                        sleeperMatchup.matchup_id
+                        in sleeperMatchupIdToSleeperMatchupMap.keys()
+                    ):
+                        sleeperMatchupIdToSleeperMatchupMap[
+                            sleeperMatchup.matchup_id
+                        ].append(sleeperMatchup)
                     else:
-                        sleeperMatchupIdToSleeperMatchupMap[sleeperMatchup.matchup_id] = [
-                            sleeperMatchup
-                        ]
+                        sleeperMatchupIdToSleeperMatchupMap[
+                            sleeperMatchup.matchup_id
+                        ] = [sleeperMatchup]
 
                 for sleeperMatchupPair in sleeperMatchupIdToSleeperMatchupMap.values():
                     # team A
                     teamASleeperMatchup = sleeperMatchupPair[0]
-                    teamA = self.__sleeperRosterIdToTeamMap[teamASleeperMatchup.roster_id]
+                    teamA = self.__sleeperRosterIdToTeamMap[
+                        teamASleeperMatchup.roster_id
+                    ]
 
                     # team B
                     teamBSleeperMatchup = sleeperMatchupPair[1]
-                    teamB = self.__sleeperRosterIdToTeamMap[teamBSleeperMatchup.roster_id]
+                    teamB = self.__sleeperRosterIdToTeamMap[
+                        teamBSleeperMatchup.roster_id
+                    ]
 
                     # sleeper does not have tiebreakers for regular season games
                     # Source: https://support.sleeper.app/en/articles/4238872-can-i-set-tiebreakers#:~:text=We%20do%20not%20offer%20any,and%20adjust%20the%20point%20total.
@@ -218,16 +237,21 @@ class SleeperLeagueLoader(LeagueLoader):
         )
         if len(allSleeperPlayoffMatchups) > 0:
             # sort sleeperPlayoffMatchups by round into a dict
-            playoffRoundAndSleeperPlayoffMatchups: dict[int, list[SleeperPlayoffMatchup]] = dict()
+            playoffRoundAndSleeperPlayoffMatchups: dict[
+                int, list[SleeperPlayoffMatchup]
+            ] = dict()
             for sleeperPlayoffMatchup in allSleeperPlayoffMatchups:
-                if sleeperPlayoffMatchup.round in playoffRoundAndSleeperPlayoffMatchups.keys():
-                    playoffRoundAndSleeperPlayoffMatchups[sleeperPlayoffMatchup.round].append(
-                        sleeperPlayoffMatchup
-                    )
+                if (
+                    sleeperPlayoffMatchup.round
+                    in playoffRoundAndSleeperPlayoffMatchups.keys()
+                ):
+                    playoffRoundAndSleeperPlayoffMatchups[
+                        sleeperPlayoffMatchup.round
+                    ].append(sleeperPlayoffMatchup)
                 else:
-                    playoffRoundAndSleeperPlayoffMatchups[sleeperPlayoffMatchup.round] = [
-                        sleeperPlayoffMatchup
-                    ]
+                    playoffRoundAndSleeperPlayoffMatchups[
+                        sleeperPlayoffMatchup.round
+                    ] = [sleeperPlayoffMatchup]
             numberOfPlayoffRounds = max(
                 [playoffMatchup.round for playoffMatchup in allSleeperPlayoffMatchups]
             )  # don't know a better way to determine this
@@ -257,24 +281,32 @@ class SleeperLeagueLoader(LeagueLoader):
                 ]
                 # used to check if a Sleeper playoff matchup is in this week's matchups
                 sleeperMatchupIdsForThisWeek = {
-                    sleeperMatchup.matchup_id for sleeperMatchup in sleeperMatchupsForThisWeek
+                    sleeperMatchup.matchup_id
+                    for sleeperMatchup in sleeperMatchupsForThisWeek
                 }
                 if self.__isCompletedWeek(weekNumber, sleeperLeague):
                     # sort matchups by roster IDs
                     rosterIdToSleeperMatchupMap: dict[int, SleeperMatchup] = dict()
                     for sleeperMatchup in sleeperMatchupsForThisWeek:
-                        rosterIdToSleeperMatchupMap[sleeperMatchup.roster_id] = sleeperMatchup
-                    for sleeperPlayoffMatchup in playoffRoundAndSleeperPlayoffMatchups[roundNumber]:
+                        rosterIdToSleeperMatchupMap[sleeperMatchup.roster_id] = (
+                            sleeperMatchup
+                        )
+                    for sleeperPlayoffMatchup in playoffRoundAndSleeperPlayoffMatchups[
+                        roundNumber
+                    ]:
                         # check if this matchup is in this week (needed for leagues with multiple weeks in a single round)
                         if (
-                            sleeperPlayoffMatchup.matchup_id in sleeperMatchupIdsForThisWeek
+                            sleeperPlayoffMatchup.matchup_id
+                            in sleeperMatchupIdsForThisWeek
                             or sleeperLeague.settings.playoff_round_type_enum
                             == SleeperPlayoffRoundType.ONE_WEEK_PER_ROUND
                         ):
                             # team A
                             teamARosterId = sleeperPlayoffMatchup.team_1_roster_id
                             teamA = self.__sleeperRosterIdToTeamMap[teamARosterId]
-                            teamAPoints = rosterIdToSleeperMatchupMap[teamARosterId].points
+                            teamAPoints = rosterIdToSleeperMatchupMap[
+                                teamARosterId
+                            ].points
                             teamAHasTiebreaker = (
                                 sleeperPlayoffMatchup.winning_roster_id
                                 == sleeperPlayoffMatchup.team_1_roster_id
@@ -282,7 +314,9 @@ class SleeperLeagueLoader(LeagueLoader):
                             # team B
                             teamBRosterId = sleeperPlayoffMatchup.team_2_roster_id
                             teamB = self.__sleeperRosterIdToTeamMap[teamBRosterId]
-                            teamBPoints = rosterIdToSleeperMatchupMap[teamBRosterId].points
+                            teamBPoints = rosterIdToSleeperMatchupMap[
+                                teamBRosterId
+                            ].points
                             teamBHasTiebreaker = (
                                 sleeperPlayoffMatchup.winning_roster_id
                                 == sleeperPlayoffMatchup.team_2_roster_id
@@ -369,21 +403,33 @@ class SleeperLeagueLoader(LeagueLoader):
             for sleeperUser in sleeperUsers:
                 ownerName = sleeperUser.display_name
                 # get general owner name if there is one
-                generalOwnerName = self._getGeneralOwnerNameFromGivenOwnerName(ownerName)
-                ownerName = generalOwnerName if generalOwnerName is not None else ownerName
-                self.__sleeperUserIdToOwnerMap[sleeperUser.user_id] = Owner(name=ownerName)
+                generalOwnerName = self._getGeneralOwnerNameFromGivenOwnerName(
+                    ownerName
+                )
+                ownerName = (
+                    generalOwnerName if generalOwnerName is not None else ownerName
+                )
+                self.__sleeperUserIdToOwnerMap[sleeperUser.user_id] = Owner(
+                    name=ownerName
+                )
 
     @staticmethod
     def __calculate_number_of_playoff_weeks(
-        sleeperLeague: SleeperLeague, sleeperPlayoffMatchups: list[SleeperPlayoffMatchup]
+        sleeperLeague: SleeperLeague,
+        sleeperPlayoffMatchups: list[SleeperPlayoffMatchup],
     ) -> int:
         # sort sleeperPlayoffMatchups by round into a dict
-        playoffRoundAndSleeperPlayoffMatchups: dict[int, list[SleeperPlayoffMatchup]] = dict()
+        playoffRoundAndSleeperPlayoffMatchups: dict[
+            int, list[SleeperPlayoffMatchup]
+        ] = dict()
         for sleeperPlayoffMatchup in sleeperPlayoffMatchups:
-            if sleeperPlayoffMatchup.round in playoffRoundAndSleeperPlayoffMatchups.keys():
-                playoffRoundAndSleeperPlayoffMatchups[sleeperPlayoffMatchup.round].append(
-                    sleeperPlayoffMatchup
-                )
+            if (
+                sleeperPlayoffMatchup.round
+                in playoffRoundAndSleeperPlayoffMatchups.keys()
+            ):
+                playoffRoundAndSleeperPlayoffMatchups[
+                    sleeperPlayoffMatchup.round
+                ].append(sleeperPlayoffMatchup)
             else:
                 playoffRoundAndSleeperPlayoffMatchups[sleeperPlayoffMatchup.round] = [
                     sleeperPlayoffMatchup

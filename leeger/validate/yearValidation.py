@@ -86,9 +86,13 @@ def checkAllTypes(year: Year) -> None:
 
     if not isinstance(year.yearNumber, int):
         raise InvalidYearFormatException("yearNumber must be type 'int'.")
-    if not isinstance(year.teams, list) or not all(isinstance(team, Team) for team in year.teams):
+    if not isinstance(year.teams, list) or not all(
+        isinstance(team, Team) for team in year.teams
+    ):
         raise InvalidYearFormatException("teams must be type 'list[Team]'.")
-    if not isinstance(year.weeks, list) or not all(isinstance(week, Week) for week in year.weeks):
+    if not isinstance(year.weeks, list) or not all(
+        isinstance(week, Week) for week in year.weeks
+    ):
         raise InvalidYearFormatException("weeks must be type 'list[Week]'.")
     if not isinstance(year.divisions, list) or not all(
         isinstance(division, Division) for division in year.divisions
@@ -160,7 +164,9 @@ def checkAtLeastOneWeekInYear(year: Year) -> None:
     Checks that there is a minimum of 1 week in the given Year.
     """
     if len(year.weeks) == 0:
-        raise InvalidYearFormatException(f"Year {year.yearNumber} does not have at least 1 week.")
+        raise InvalidYearFormatException(
+            f"Year {year.yearNumber} does not have at least 1 week."
+        )
 
 
 def checkWeekNumberingInYear(year: Year) -> None:
@@ -175,7 +181,9 @@ def checkWeekNumberingInYear(year: Year) -> None:
         weekNumbers.append(week.weekNumber)
 
     if len(set(weekNumbers)) != len(weekNumbers):
-        raise InvalidYearFormatException(f"Year {year.yearNumber} has duplicate week numbers.")
+        raise InvalidYearFormatException(
+            f"Year {year.yearNumber} has duplicate week numbers."
+        )
 
     if weekNumbers[0] != 1:
         raise InvalidYearFormatException(
@@ -219,7 +227,9 @@ def checkAtLeastTwoTeamsInYear(year: Year) -> None:
     Checks that there is at least 2 teams in the given Year.
     """
     if len(year.teams) < 2:
-        raise InvalidYearFormatException(f"Year {year.yearNumber} needs at least 2 teams.")
+        raise InvalidYearFormatException(
+            f"Year {year.yearNumber} needs at least 2 teams."
+        )
 
 
 def checkGivenYearHasValidYearNumber(year: Year) -> None:
@@ -228,7 +238,9 @@ def checkGivenYearHasValidYearNumber(year: Year) -> None:
     1920 is the year the NFL was founded, so we'll assume nobody was playing fantasy football before then.
     """
     if year.yearNumber < 1920 or year.yearNumber > 2999:
-        raise InvalidYearFormatException(f"Year {year.yearNumber} is not in range 1920-2XXX.")
+        raise InvalidYearFormatException(
+            f"Year {year.yearNumber} is not in range 1920-2XXX."
+        )
 
 
 def checkTeamNamesInYear(year: Year) -> None:
@@ -238,8 +250,12 @@ def checkTeamNamesInYear(year: Year) -> None:
         - when whitespace is removed
         - when case is uniform
     """
-    if len(set([team.name for team in year.teams])) != len([team.name for team in year.teams]):
-        raise InvalidYearFormatException(f"Year {year.yearNumber} has teams with duplicate names.")
+    if len(set([team.name for team in year.teams])) != len(
+        [team.name for team in year.teams]
+    ):
+        raise InvalidYearFormatException(
+            f"Year {year.yearNumber} has teams with duplicate names."
+        )
     if len(set([team.name.strip().upper() for team in year.teams])) != len(
         [team.name for team in year.teams]
     ):
@@ -302,7 +318,9 @@ def checkMultiWeekMatchupsAreInConsecutiveWeeks(year: Year):
 
         # skip first week since we can't end or invalidate any multi-week matchups after just 1 week
         if i != 0:
-            previousWeekMWMIDs = weekNumberToMultiWeekMatchupIdListMap[week.weekNumber - 1]
+            previousWeekMWMIDs = weekNumberToMultiWeekMatchupIdListMap[
+                week.weekNumber - 1
+            ]
             currentWeekMWMIDs = weekNumberToMultiWeekMatchupIdListMap[week.weekNumber]
 
             for mwmid in previousWeekMWMIDs:
@@ -343,7 +361,10 @@ def checkMultiWeekMatchupsAreInMoreThanOneWeekOrAreNotTheMostRecentWeek(year: Ye
                         isMostRecentWeekInYear,
                     ]
 
-    for mwmid, countAndMostRecentWeek in multiWeekMatchupIdToCountAndMostRecentWeekMap.items():
+    for (
+        mwmid,
+        countAndMostRecentWeek,
+    ) in multiWeekMatchupIdToCountAndMostRecentWeekMap.items():
         count, isMostRecentWeek = countAndMostRecentWeek
         if count == 1 and not isMostRecentWeek:
             raise InvalidYearFormatException(
@@ -355,14 +376,15 @@ def checkMultiWeekMatchupsWithSameIdHaveSameMatchupType(year: Year):
     """
     Checks that all multi-week matchups with the same ID have the same MatchupType.
     """
-    multiWeekMatchupIdToMatchupListMap: dict[
-        str, list[Matchup]
-    ] = YearNavigator.getAllMultiWeekMatchups(year)
+    multiWeekMatchupIdToMatchupListMap: dict[str, list[Matchup]] = (
+        YearNavigator.getAllMultiWeekMatchups(year)
+    )
 
     for mwmid, matchupList in multiWeekMatchupIdToMatchupListMap.items():
         if len(matchupList) > 0:
             if not all(
-                matchup.matchupType == matchupList[0].matchupType for matchup in matchupList
+                matchup.matchupType == matchupList[0].matchupType
+                for matchup in matchupList
             ):
                 raise InvalidYearFormatException(
                     f"Multi-week matchups with ID '{mwmid}' do not all have the same matchup type."
@@ -373,9 +395,9 @@ def checkMultiWeekMatchupsWithSameIdHaveSameTeamIds(year: Year):
     """
     Checks that all multi-week matchups with the same ID have the same team A and team B
     """
-    multiWeekMatchupIdToMatchupListMap: dict[
-        str, list[Matchup]
-    ] = YearNavigator.getAllMultiWeekMatchups(year)
+    multiWeekMatchupIdToMatchupListMap: dict[str, list[Matchup]] = (
+        YearNavigator.getAllMultiWeekMatchups(year)
+    )
 
     for mwmid, matchupList in multiWeekMatchupIdToMatchupListMap.items():
         if len(matchupList) > 0:
@@ -393,9 +415,9 @@ def checkMultiWeekMatchupsWithSameIdHaveSameTiebreakers(year: Year):
     """
     Checks that all multi-week matchups with the same ID have the same tiebreakers
     """
-    multiWeekMatchupIdToMatchupListMap: dict[
-        str, list[Matchup]
-    ] = YearNavigator.getAllMultiWeekMatchups(year)
+    multiWeekMatchupIdToMatchupListMap: dict[str, list[Matchup]] = (
+        YearNavigator.getAllMultiWeekMatchups(year)
+    )
 
     for mwmid, matchupList in multiWeekMatchupIdToMatchupListMap.items():
         if len(matchupList) > 0:
@@ -468,4 +490,6 @@ def checkDivisionsHaveNoDuplicateIds(year: Year):
     allDivisionIds = [division.id for division in year.divisions]
 
     if len(set(allDivisionIds)) != len(allDivisionIds):
-        raise InvalidYearFormatException(f"Year {year.yearNumber} has duplicate division IDs.")
+        raise InvalidYearFormatException(
+            f"Year {year.yearNumber} has duplicate division IDs."
+        )

@@ -36,32 +36,152 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
             - having 1 playoff matchup in a playoff week (dict)
             - having multiple playoff matchups in a playoff week (list)
         """
-        mockFranchise1_2022 = {"owner_name": "Owner 1", "name": "Team 1", "id": 1, "division": "1"}
-        mockFranchise2_2022 = {"owner_name": "Owner 2", "name": "Team 2", "id": 2, "division": "1"}
-        mockFranchise3_2022 = {"owner_name": "Owner 3", "name": "Team 3", "id": 3, "division": "1"}
-        mockFranchise4_2022 = {"owner_name": "Owner 4", "name": "Team 4", "id": 4, "division": "1"}
-        mockFranchise5_2022 = {"owner_name": "Owner 5", "name": "Team 5", "id": 5, "division": "2"}
-        mockFranchise6_2022 = {"owner_name": "Owner 6", "name": "Team 6", "id": 6, "division": "2"}
-        mockFranchise7_2022 = {"owner_name": "Owner 7", "name": "Team 7", "id": 7, "division": "2"}
-        mockFranchise8_2022 = {"owner_name": "Owner 8", "name": "Team 8", "id": 8, "division": "2"}
+        mockFranchise1_2022 = {
+            "owner_name": "Owner 1",
+            "name": "Team 1",
+            "id": 1,
+            "division": "1",
+        }
+        mockFranchise2_2022 = {
+            "owner_name": "Owner 2",
+            "name": "Team 2",
+            "id": 2,
+            "division": "1",
+        }
+        mockFranchise3_2022 = {
+            "owner_name": "Owner 3",
+            "name": "Team 3",
+            "id": 3,
+            "division": "1",
+        }
+        mockFranchise4_2022 = {
+            "owner_name": "Owner 4",
+            "name": "Team 4",
+            "id": 4,
+            "division": "1",
+        }
+        mockFranchise5_2022 = {
+            "owner_name": "Owner 5",
+            "name": "Team 5",
+            "id": 5,
+            "division": "2",
+        }
+        mockFranchise6_2022 = {
+            "owner_name": "Owner 6",
+            "name": "Team 6",
+            "id": 6,
+            "division": "2",
+        }
+        mockFranchise7_2022 = {
+            "owner_name": "Owner 7",
+            "name": "Team 7",
+            "id": 7,
+            "division": "2",
+        }
+        mockFranchise8_2022 = {
+            "owner_name": "Owner 8",
+            "name": "Team 8",
+            "id": 8,
+            "division": "2",
+        }
 
-        mockFranchise1_2023 = {"owner_name": "Owner 1", "name": "Team 1", "id": 1, "division": "1"}
-        mockFranchise2_2023 = {"owner_name": "Owner 2", "name": "Team 2", "id": 2, "division": "1"}
-        mockFranchise3_2023 = {"owner_name": "Owner 3", "name": "Team 3", "id": 3, "division": "1"}
-        mockFranchise4_2023 = {"owner_name": "Owner 4", "name": "Team 4", "id": 4, "division": "1"}
-        mockFranchise5_2023 = {"owner_name": "Owner 5", "name": "Team 5", "id": 5, "division": "2"}
-        mockFranchise6_2023 = {"owner_name": "Owner 6", "name": "Team 6", "id": 6, "division": "2"}
-        mockFranchise7_2023 = {"owner_name": "Owner 7", "name": "Team 7", "id": 7, "division": "2"}
-        mockFranchise8_2023 = {"owner_name": "Owner 8", "name": "Team 8", "id": 8, "division": "2"}
+        mockFranchise1_2023 = {
+            "owner_name": "Owner 1",
+            "name": "Team 1",
+            "id": 1,
+            "division": "1",
+        }
+        mockFranchise2_2023 = {
+            "owner_name": "Owner 2",
+            "name": "Team 2",
+            "id": 2,
+            "division": "1",
+        }
+        mockFranchise3_2023 = {
+            "owner_name": "Owner 3",
+            "name": "Team 3",
+            "id": 3,
+            "division": "1",
+        }
+        mockFranchise4_2023 = {
+            "owner_name": "Owner 4",
+            "name": "Team 4",
+            "id": 4,
+            "division": "1",
+        }
+        mockFranchise5_2023 = {
+            "owner_name": "Owner 5",
+            "name": "Team 5",
+            "id": 5,
+            "division": "2",
+        }
+        mockFranchise6_2023 = {
+            "owner_name": "Owner 6",
+            "name": "Team 6",
+            "id": 6,
+            "division": "2",
+        }
+        mockFranchise7_2023 = {
+            "owner_name": "Owner 7",
+            "name": "Team 7",
+            "id": 7,
+            "division": "2",
+        }
+        mockFranchise8_2023 = {
+            "owner_name": "Owner 8",
+            "name": "Team 8",
+            "id": 8,
+            "division": "2",
+        }
 
-        mockFranchise1_2024 = {"owner_name": "Owner 1", "name": "Team 1", "id": 1, "division": "1"}
-        mockFranchise2_2024 = {"owner_name": "Owner 2", "name": "Team 2", "id": 2, "division": "1"}
-        mockFranchise3_2024 = {"owner_name": "Owner 3", "name": "Team 3", "id": 3, "division": "1"}
-        mockFranchise4_2024 = {"owner_name": "Owner 4", "name": "Team 4", "id": 4, "division": "1"}
-        mockFranchise5_2024 = {"owner_name": "Owner 5", "name": "Team 5", "id": 5, "division": "2"}
-        mockFranchise6_2024 = {"owner_name": "Owner 6", "name": "Team 6", "id": 6, "division": "2"}
-        mockFranchise7_2024 = {"owner_name": "Owner 7", "name": "Team 7", "id": 7, "division": "2"}
-        mockFranchise8_2024 = {"owner_name": "Owner 8", "name": "Team 8", "id": 8, "division": "2"}
+        mockFranchise1_2024 = {
+            "owner_name": "Owner 1",
+            "name": "Team 1",
+            "id": 1,
+            "division": "1",
+        }
+        mockFranchise2_2024 = {
+            "owner_name": "Owner 2",
+            "name": "Team 2",
+            "id": 2,
+            "division": "1",
+        }
+        mockFranchise3_2024 = {
+            "owner_name": "Owner 3",
+            "name": "Team 3",
+            "id": 3,
+            "division": "1",
+        }
+        mockFranchise4_2024 = {
+            "owner_name": "Owner 4",
+            "name": "Team 4",
+            "id": 4,
+            "division": "1",
+        }
+        mockFranchise5_2024 = {
+            "owner_name": "Owner 5",
+            "name": "Team 5",
+            "id": 5,
+            "division": "2",
+        }
+        mockFranchise6_2024 = {
+            "owner_name": "Owner 6",
+            "name": "Team 6",
+            "id": 6,
+            "division": "2",
+        }
+        mockFranchise7_2024 = {
+            "owner_name": "Owner 7",
+            "name": "Team 7",
+            "id": 7,
+            "division": "2",
+        }
+        mockFranchise8_2024 = {
+            "owner_name": "Owner 8",
+            "name": "Team 8",
+            "id": 8,
+            "division": "2",
+        }
 
         mockLeague2022 = {
             "league": {
@@ -81,7 +201,10 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                     ]
                 },
                 "divisions": {
-                    "division": [{"id": "1", "name": "d1_2022"}, {"id": "2", "name": "d2_2022"}]
+                    "division": [
+                        {"id": "1", "name": "d1_2022"},
+                        {"id": "2", "name": "d2_2022"},
+                    ]
                 },
             }
         }
@@ -104,7 +227,10 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                     ]
                 },
                 "divisions": {
-                    "division": [{"id": "1", "name": "d1_2023"}, {"id": "2", "name": "d2_2023"}]
+                    "division": [
+                        {"id": "1", "name": "d1_2023"},
+                        {"id": "2", "name": "d2_2023"},
+                    ]
                 },
             }
         }
@@ -127,7 +253,10 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                     ]
                 },
                 "divisions": {
-                    "division": [{"id": "1", "name": "d1_2024"}, {"id": "2", "name": "d2_2024"}]
+                    "division": [
+                        {"id": "1", "name": "d1_2024"},
+                        {"id": "2", "name": "d2_2024"},
+                    ]
                 },
             }
         }
@@ -141,40 +270,56 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise1_2022, score=100, result="W"
+                                        mockFranchise=mockFranchise1_2022,
+                                        score=100,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise2_2022, score=100, result="L"
-                                    ),
-                                ]
-                            },
-                            {
-                                "franchise": [
-                                    self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise3_2022, score=100.1, result="W"
-                                    ),
-                                    self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise4_2022, score=90.1, result="L"
+                                        mockFranchise=mockFranchise2_2022,
+                                        score=100,
+                                        result="L",
                                     ),
                                 ]
                             },
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise5_2022, score=101, result="W"
+                                        mockFranchise=mockFranchise3_2022,
+                                        score=100.1,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise6_2022, score=91, result="L"
+                                        mockFranchise=mockFranchise4_2022,
+                                        score=90.1,
+                                        result="L",
                                     ),
                                 ]
                             },
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise7_2022, score=102, result="W"
+                                        mockFranchise=mockFranchise5_2022,
+                                        score=101,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise8_2022, score=92, result="L"
+                                        mockFranchise=mockFranchise6_2022,
+                                        score=91,
+                                        result="L",
+                                    ),
+                                ]
+                            },
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise7_2022,
+                                        score=102,
+                                        result="W",
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise8_2022,
+                                        score=92,
+                                        result="L",
                                     ),
                                 ]
                             },
@@ -186,10 +331,14 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise2_2022, score=103, result="W"
+                                        mockFranchise=mockFranchise2_2022,
+                                        score=103,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise3_2022, score=93, result="L"
+                                        mockFranchise=mockFranchise3_2022,
+                                        score=93,
+                                        result="L",
                                     ),
                                 ]
                             }
@@ -201,10 +350,14 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise1_2022, score=104, result="W"
+                                        mockFranchise=mockFranchise1_2022,
+                                        score=104,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise2_2022, score=94, result="L"
+                                        mockFranchise=mockFranchise2_2022,
+                                        score=94,
+                                        result="L",
                                     ),
                                 ]
                             }
@@ -223,40 +376,56 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise1_2023, score=100, result="W"
+                                        mockFranchise=mockFranchise1_2023,
+                                        score=100,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise2_2023, score=100, result="L"
-                                    ),
-                                ]
-                            },
-                            {
-                                "franchise": [
-                                    self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise3_2023, score=100.1, result="W"
-                                    ),
-                                    self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise4_2023, score=90.1, result="L"
+                                        mockFranchise=mockFranchise2_2023,
+                                        score=100,
+                                        result="L",
                                     ),
                                 ]
                             },
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise5_2023, score=101, result="W"
+                                        mockFranchise=mockFranchise3_2023,
+                                        score=100.1,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise6_2023, score=91, result="L"
+                                        mockFranchise=mockFranchise4_2023,
+                                        score=90.1,
+                                        result="L",
                                     ),
                                 ]
                             },
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise7_2023, score=102, result="W"
+                                        mockFranchise=mockFranchise5_2023,
+                                        score=101,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise8_2023, score=92, result="L"
+                                        mockFranchise=mockFranchise6_2023,
+                                        score=91,
+                                        result="L",
+                                    ),
+                                ]
+                            },
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise7_2023,
+                                        score=102,
+                                        result="W",
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise8_2023,
+                                        score=92,
+                                        result="L",
                                     ),
                                 ]
                             },
@@ -268,20 +437,28 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise2_2023, score=103, result="W"
+                                        mockFranchise=mockFranchise2_2023,
+                                        score=103,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise3_2023, score=93, result="L"
+                                        mockFranchise=mockFranchise3_2023,
+                                        score=93,
+                                        result="L",
                                     ),
                                 ]
                             },
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise4_2023, score=103, result="W"
+                                        mockFranchise=mockFranchise4_2023,
+                                        score=103,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise5_2023, score=93, result="L"
+                                        mockFranchise=mockFranchise5_2023,
+                                        score=93,
+                                        result="L",
                                     ),
                                 ]
                             },
@@ -293,10 +470,14 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise2_2023, score=104, result="W"
+                                        mockFranchise=mockFranchise2_2023,
+                                        score=104,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise3_2023, score=94, result="L"
+                                        mockFranchise=mockFranchise3_2023,
+                                        score=94,
+                                        result="L",
                                     ),
                                 ]
                             }
@@ -308,10 +489,14 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise1_2023, score=104, result="W"
+                                        mockFranchise=mockFranchise1_2023,
+                                        score=104,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise2_2023, score=94, result="L"
+                                        mockFranchise=mockFranchise2_2023,
+                                        score=94,
+                                        result="L",
                                     ),
                                 ]
                             }
@@ -330,40 +515,56 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise1_2022, score=100, result="W"
+                                        mockFranchise=mockFranchise1_2022,
+                                        score=100,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise2_2022, score=100, result="L"
-                                    ),
-                                ]
-                            },
-                            {
-                                "franchise": [
-                                    self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise3_2022, score=100.1, result="W"
-                                    ),
-                                    self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise4_2022, score=90.1, result="L"
+                                        mockFranchise=mockFranchise2_2022,
+                                        score=100,
+                                        result="L",
                                     ),
                                 ]
                             },
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise5_2022, score=101, result="W"
+                                        mockFranchise=mockFranchise3_2022,
+                                        score=100.1,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise6_2022, score=91, result="L"
+                                        mockFranchise=mockFranchise4_2022,
+                                        score=90.1,
+                                        result="L",
                                     ),
                                 ]
                             },
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise7_2022, score=102, result="W"
+                                        mockFranchise=mockFranchise5_2022,
+                                        score=101,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise8_2022, score=92, result="L"
+                                        mockFranchise=mockFranchise6_2022,
+                                        score=91,
+                                        result="L",
+                                    ),
+                                ]
+                            },
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise7_2022,
+                                        score=102,
+                                        result="W",
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise8_2022,
+                                        score=92,
+                                        result="L",
                                     ),
                                 ]
                             },
@@ -375,10 +576,14 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise1_2022, score=103, result="W"
+                                        mockFranchise=mockFranchise1_2022,
+                                        score=103,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise2_2022, score=93, result="L"
+                                        mockFranchise=mockFranchise2_2022,
+                                        score=93,
+                                        result="L",
                                     ),
                                 ]
                             }
@@ -393,11 +598,17 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                 "playoffRound": [
                     {
                         "week": 2,
-                        "playoffGame": {"away": {"franchise_id": 2}, "home": {"franchise_id": 3}},
+                        "playoffGame": {
+                            "away": {"franchise_id": 2},
+                            "home": {"franchise_id": 3},
+                        },
                     },
                     {
                         "week": 3,
-                        "playoffGame": {"away": {"franchise_id": 1}, "home": {"franchise_id": 2}},
+                        "playoffGame": {
+                            "away": {"franchise_id": 1},
+                            "home": {"franchise_id": 2},
+                        },
                     },
                 ]
             }
@@ -415,11 +626,17 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                     },
                     {
                         "week": 3,
-                        "playoffGame": {"away": {"franchise_id": 2}, "home": {"franchise_id": 4}},
+                        "playoffGame": {
+                            "away": {"franchise_id": 2},
+                            "home": {"franchise_id": 4},
+                        },
                     },
                     {
                         "week": 4,
-                        "playoffGame": {"away": {"franchise_id": 1}, "home": {"franchise_id": 2}},
+                        "playoffGame": {
+                            "away": {"franchise_id": 1},
+                            "home": {"franchise_id": 2},
+                        },
                     },
                 ]
             }
@@ -429,13 +646,20 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
             "playoffBracket": {
                 "playoffRound": {
                     "week": 2,
-                    "playoffGame": {"away": {"franchise_id": 1}, "home": {"franchise_id": 2}},
+                    "playoffGame": {
+                        "away": {"franchise_id": 1},
+                        "home": {"franchise_id": 2},
+                    },
                 }
             }
         }
 
         mockGetLeague.side_effect = [mockLeague2022, mockLeague2023, mockLeague2024]
-        mockGetSchedule.side_effect = [mockSchedule2022, mockSchedule2023, mockSchedule2024]
+        mockGetSchedule.side_effect = [
+            mockSchedule2022,
+            mockSchedule2023,
+            mockSchedule2024,
+        ]
         mockGetPlayoffBracket.side_effect = [
             mockPlayoffSchedule_2022,
             mockPlayoffSchedule_2023,
@@ -471,32 +695,80 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
         owner7 = Owner(name="Owner 7")
         owner8 = Owner(name="Owner 8")
 
-        team1_2022 = Team(ownerId=owner1.id, name="Team 1", divisionId=division1_2022.id)
-        team2_2022 = Team(ownerId=owner2.id, name="Team 2", divisionId=division1_2022.id)
-        team3_2022 = Team(ownerId=owner3.id, name="Team 3", divisionId=division1_2022.id)
-        team4_2022 = Team(ownerId=owner4.id, name="Team 4", divisionId=division1_2022.id)
-        team5_2022 = Team(ownerId=owner5.id, name="Team 5", divisionId=division2_2022.id)
-        team6_2022 = Team(ownerId=owner6.id, name="Team 6", divisionId=division2_2022.id)
-        team7_2022 = Team(ownerId=owner7.id, name="Team 7", divisionId=division2_2022.id)
-        team8_2022 = Team(ownerId=owner8.id, name="Team 8", divisionId=division2_2022.id)
+        team1_2022 = Team(
+            ownerId=owner1.id, name="Team 1", divisionId=division1_2022.id
+        )
+        team2_2022 = Team(
+            ownerId=owner2.id, name="Team 2", divisionId=division1_2022.id
+        )
+        team3_2022 = Team(
+            ownerId=owner3.id, name="Team 3", divisionId=division1_2022.id
+        )
+        team4_2022 = Team(
+            ownerId=owner4.id, name="Team 4", divisionId=division1_2022.id
+        )
+        team5_2022 = Team(
+            ownerId=owner5.id, name="Team 5", divisionId=division2_2022.id
+        )
+        team6_2022 = Team(
+            ownerId=owner6.id, name="Team 6", divisionId=division2_2022.id
+        )
+        team7_2022 = Team(
+            ownerId=owner7.id, name="Team 7", divisionId=division2_2022.id
+        )
+        team8_2022 = Team(
+            ownerId=owner8.id, name="Team 8", divisionId=division2_2022.id
+        )
 
-        team1_2023 = Team(ownerId=owner1.id, name="Team 1", divisionId=division1_2023.id)
-        team2_2023 = Team(ownerId=owner2.id, name="Team 2", divisionId=division1_2023.id)
-        team3_2023 = Team(ownerId=owner3.id, name="Team 3", divisionId=division1_2023.id)
-        team4_2023 = Team(ownerId=owner4.id, name="Team 4", divisionId=division1_2023.id)
-        team5_2023 = Team(ownerId=owner5.id, name="Team 5", divisionId=division2_2023.id)
-        team6_2023 = Team(ownerId=owner6.id, name="Team 6", divisionId=division2_2023.id)
-        team7_2023 = Team(ownerId=owner7.id, name="Team 7", divisionId=division2_2023.id)
-        team8_2023 = Team(ownerId=owner8.id, name="Team 8", divisionId=division2_2023.id)
+        team1_2023 = Team(
+            ownerId=owner1.id, name="Team 1", divisionId=division1_2023.id
+        )
+        team2_2023 = Team(
+            ownerId=owner2.id, name="Team 2", divisionId=division1_2023.id
+        )
+        team3_2023 = Team(
+            ownerId=owner3.id, name="Team 3", divisionId=division1_2023.id
+        )
+        team4_2023 = Team(
+            ownerId=owner4.id, name="Team 4", divisionId=division1_2023.id
+        )
+        team5_2023 = Team(
+            ownerId=owner5.id, name="Team 5", divisionId=division2_2023.id
+        )
+        team6_2023 = Team(
+            ownerId=owner6.id, name="Team 6", divisionId=division2_2023.id
+        )
+        team7_2023 = Team(
+            ownerId=owner7.id, name="Team 7", divisionId=division2_2023.id
+        )
+        team8_2023 = Team(
+            ownerId=owner8.id, name="Team 8", divisionId=division2_2023.id
+        )
 
-        team1_2024 = Team(ownerId=owner1.id, name="Team 1", divisionId=division1_2024.id)
-        team2_2024 = Team(ownerId=owner2.id, name="Team 2", divisionId=division1_2024.id)
-        team3_2024 = Team(ownerId=owner3.id, name="Team 3", divisionId=division1_2024.id)
-        team4_2024 = Team(ownerId=owner4.id, name="Team 4", divisionId=division1_2024.id)
-        team5_2024 = Team(ownerId=owner5.id, name="Team 5", divisionId=division2_2024.id)
-        team6_2024 = Team(ownerId=owner6.id, name="Team 6", divisionId=division2_2024.id)
-        team7_2024 = Team(ownerId=owner7.id, name="Team 7", divisionId=division2_2024.id)
-        team8_2024 = Team(ownerId=owner8.id, name="Team 8", divisionId=division2_2024.id)
+        team1_2024 = Team(
+            ownerId=owner1.id, name="Team 1", divisionId=division1_2024.id
+        )
+        team2_2024 = Team(
+            ownerId=owner2.id, name="Team 2", divisionId=division1_2024.id
+        )
+        team3_2024 = Team(
+            ownerId=owner3.id, name="Team 3", divisionId=division1_2024.id
+        )
+        team4_2024 = Team(
+            ownerId=owner4.id, name="Team 4", divisionId=division1_2024.id
+        )
+        team5_2024 = Team(
+            ownerId=owner5.id, name="Team 5", divisionId=division2_2024.id
+        )
+        team6_2024 = Team(
+            ownerId=owner6.id, name="Team 6", divisionId=division2_2024.id
+        )
+        team7_2024 = Team(
+            ownerId=owner7.id, name="Team 7", divisionId=division2_2024.id
+        )
+        team8_2024 = Team(
+            ownerId=owner8.id, name="Team 8", divisionId=division2_2024.id
+        )
 
         expectedLeague = League(
             name="Test League 2024",
@@ -772,7 +1044,9 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
             ],
         )
 
-        self.assertTrue(league.equals(expectedLeague, ignoreBaseIds=True, ignoreIds=True))
+        self.assertTrue(
+            league.equals(expectedLeague, ignoreBaseIds=True, ignoreIds=True)
+        )
         # check multiWeekMatchupIds
         for year in league.years:
             for week in year.weeks:
@@ -793,32 +1067,152 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
             - having 1 playoff matchup in a playoff week (dict)
             - having multiple playoff matchups in a playoff week (list)
         """
-        mockFranchise1_2022 = {"owner_name": "Owner 1", "name": "Team 1", "id": 1, "division": "1"}
-        mockFranchise2_2022 = {"owner_name": "Owner 2", "name": "Team 2", "id": 2, "division": "1"}
-        mockFranchise3_2022 = {"owner_name": "Owner 3", "name": "Team 3", "id": 3, "division": "1"}
-        mockFranchise4_2022 = {"owner_name": "Owner 4", "name": "Team 4", "id": 4, "division": "1"}
-        mockFranchise5_2022 = {"owner_name": "Owner 5", "name": "Team 5", "id": 5, "division": "2"}
-        mockFranchise6_2022 = {"owner_name": "Owner 6", "name": "Team 6", "id": 6, "division": "2"}
-        mockFranchise7_2022 = {"owner_name": "Owner 7", "name": "Team 7", "id": 7, "division": "2"}
-        mockFranchise8_2022 = {"owner_name": "Owner 8", "name": "Team 8", "id": 8, "division": "2"}
+        mockFranchise1_2022 = {
+            "owner_name": "Owner 1",
+            "name": "Team 1",
+            "id": 1,
+            "division": "1",
+        }
+        mockFranchise2_2022 = {
+            "owner_name": "Owner 2",
+            "name": "Team 2",
+            "id": 2,
+            "division": "1",
+        }
+        mockFranchise3_2022 = {
+            "owner_name": "Owner 3",
+            "name": "Team 3",
+            "id": 3,
+            "division": "1",
+        }
+        mockFranchise4_2022 = {
+            "owner_name": "Owner 4",
+            "name": "Team 4",
+            "id": 4,
+            "division": "1",
+        }
+        mockFranchise5_2022 = {
+            "owner_name": "Owner 5",
+            "name": "Team 5",
+            "id": 5,
+            "division": "2",
+        }
+        mockFranchise6_2022 = {
+            "owner_name": "Owner 6",
+            "name": "Team 6",
+            "id": 6,
+            "division": "2",
+        }
+        mockFranchise7_2022 = {
+            "owner_name": "Owner 7",
+            "name": "Team 7",
+            "id": 7,
+            "division": "2",
+        }
+        mockFranchise8_2022 = {
+            "owner_name": "Owner 8",
+            "name": "Team 8",
+            "id": 8,
+            "division": "2",
+        }
 
-        mockFranchise1_2023 = {"owner_name": "Owner 1", "name": "Team 1", "id": 1, "division": "1"}
-        mockFranchise2_2023 = {"owner_name": "Owner 2", "name": "Team 2", "id": 2, "division": "1"}
-        mockFranchise3_2023 = {"owner_name": "Owner 3", "name": "Team 3", "id": 3, "division": "1"}
-        mockFranchise4_2023 = {"owner_name": "Owner 4", "name": "Team 4", "id": 4, "division": "1"}
-        mockFranchise5_2023 = {"owner_name": "Owner 5", "name": "Team 5", "id": 5, "division": "2"}
-        mockFranchise6_2023 = {"owner_name": "Owner 6", "name": "Team 6", "id": 6, "division": "2"}
-        mockFranchise7_2023 = {"owner_name": "Owner 7", "name": "Team 7", "id": 7, "division": "2"}
-        mockFranchise8_2023 = {"owner_name": "Owner 8", "name": "Team 8", "id": 8, "division": "2"}
+        mockFranchise1_2023 = {
+            "owner_name": "Owner 1",
+            "name": "Team 1",
+            "id": 1,
+            "division": "1",
+        }
+        mockFranchise2_2023 = {
+            "owner_name": "Owner 2",
+            "name": "Team 2",
+            "id": 2,
+            "division": "1",
+        }
+        mockFranchise3_2023 = {
+            "owner_name": "Owner 3",
+            "name": "Team 3",
+            "id": 3,
+            "division": "1",
+        }
+        mockFranchise4_2023 = {
+            "owner_name": "Owner 4",
+            "name": "Team 4",
+            "id": 4,
+            "division": "1",
+        }
+        mockFranchise5_2023 = {
+            "owner_name": "Owner 5",
+            "name": "Team 5",
+            "id": 5,
+            "division": "2",
+        }
+        mockFranchise6_2023 = {
+            "owner_name": "Owner 6",
+            "name": "Team 6",
+            "id": 6,
+            "division": "2",
+        }
+        mockFranchise7_2023 = {
+            "owner_name": "Owner 7",
+            "name": "Team 7",
+            "id": 7,
+            "division": "2",
+        }
+        mockFranchise8_2023 = {
+            "owner_name": "Owner 8",
+            "name": "Team 8",
+            "id": 8,
+            "division": "2",
+        }
 
-        mockFranchise1_2024 = {"owner_name": "Owner 1", "name": "Team 1", "id": 1, "division": "1"}
-        mockFranchise2_2024 = {"owner_name": "Owner 2", "name": "Team 2", "id": 2, "division": "1"}
-        mockFranchise3_2024 = {"owner_name": "Owner 3", "name": "Team 3", "id": 3, "division": "1"}
-        mockFranchise4_2024 = {"owner_name": "Owner 4", "name": "Team 4", "id": 4, "division": "1"}
-        mockFranchise5_2024 = {"owner_name": "Owner 5", "name": "Team 5", "id": 5, "division": "2"}
-        mockFranchise6_2024 = {"owner_name": "Owner 6", "name": "Team 6", "id": 6, "division": "2"}
-        mockFranchise7_2024 = {"owner_name": "Owner 7", "name": "Team 7", "id": 7, "division": "2"}
-        mockFranchise8_2024 = {"owner_name": "Owner 8", "name": "Team 8", "id": 8, "division": "2"}
+        mockFranchise1_2024 = {
+            "owner_name": "Owner 1",
+            "name": "Team 1",
+            "id": 1,
+            "division": "1",
+        }
+        mockFranchise2_2024 = {
+            "owner_name": "Owner 2",
+            "name": "Team 2",
+            "id": 2,
+            "division": "1",
+        }
+        mockFranchise3_2024 = {
+            "owner_name": "Owner 3",
+            "name": "Team 3",
+            "id": 3,
+            "division": "1",
+        }
+        mockFranchise4_2024 = {
+            "owner_name": "Owner 4",
+            "name": "Team 4",
+            "id": 4,
+            "division": "1",
+        }
+        mockFranchise5_2024 = {
+            "owner_name": "Owner 5",
+            "name": "Team 5",
+            "id": 5,
+            "division": "2",
+        }
+        mockFranchise6_2024 = {
+            "owner_name": "Owner 6",
+            "name": "Team 6",
+            "id": 6,
+            "division": "2",
+        }
+        mockFranchise7_2024 = {
+            "owner_name": "Owner 7",
+            "name": "Team 7",
+            "id": 7,
+            "division": "2",
+        }
+        mockFranchise8_2024 = {
+            "owner_name": "Owner 8",
+            "name": "Team 8",
+            "id": 8,
+            "division": "2",
+        }
 
         mockLeague2022 = {
             "league": {
@@ -838,7 +1232,10 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                     ]
                 },
                 "divisions": {
-                    "division": [{"id": "1", "name": "d1_2022"}, {"id": "2", "name": "d2_2022"}]
+                    "division": [
+                        {"id": "1", "name": "d1_2022"},
+                        {"id": "2", "name": "d2_2022"},
+                    ]
                 },
             }
         }
@@ -861,7 +1258,10 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                     ]
                 },
                 "divisions": {
-                    "division": [{"id": "1", "name": "d1_2023"}, {"id": "2", "name": "d2_2023"}]
+                    "division": [
+                        {"id": "1", "name": "d1_2023"},
+                        {"id": "2", "name": "d2_2023"},
+                    ]
                 },
             }
         }
@@ -884,7 +1284,10 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                     ]
                 },
                 "divisions": {
-                    "division": [{"id": "1", "name": "d1_2024"}, {"id": "2", "name": "d2_2024"}]
+                    "division": [
+                        {"id": "1", "name": "d1_2024"},
+                        {"id": "2", "name": "d2_2024"},
+                    ]
                 },
             }
         }
@@ -898,40 +1301,56 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise1_2022, score=100, result="W"
+                                        mockFranchise=mockFranchise1_2022,
+                                        score=100,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise2_2022, score=100, result="L"
-                                    ),
-                                ]
-                            },
-                            {
-                                "franchise": [
-                                    self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise3_2022, score=100.1, result="W"
-                                    ),
-                                    self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise4_2022, score=90.1, result="L"
+                                        mockFranchise=mockFranchise2_2022,
+                                        score=100,
+                                        result="L",
                                     ),
                                 ]
                             },
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise5_2022, score=101, result="W"
+                                        mockFranchise=mockFranchise3_2022,
+                                        score=100.1,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise6_2022, score=91, result="L"
+                                        mockFranchise=mockFranchise4_2022,
+                                        score=90.1,
+                                        result="L",
                                     ),
                                 ]
                             },
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise7_2022, score=102, result="W"
+                                        mockFranchise=mockFranchise5_2022,
+                                        score=101,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise8_2022, score=92, result="L"
+                                        mockFranchise=mockFranchise6_2022,
+                                        score=91,
+                                        result="L",
+                                    ),
+                                ]
+                            },
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise7_2022,
+                                        score=102,
+                                        result="W",
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise8_2022,
+                                        score=92,
+                                        result="L",
                                     ),
                                 ]
                             },
@@ -943,10 +1362,14 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise2_2022, score=103, result="W"
+                                        mockFranchise=mockFranchise2_2022,
+                                        score=103,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise3_2022, score=93, result="L"
+                                        mockFranchise=mockFranchise3_2022,
+                                        score=93,
+                                        result="L",
                                     ),
                                 ]
                             }
@@ -958,10 +1381,14 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise1_2022, score=104, result="W"
+                                        mockFranchise=mockFranchise1_2022,
+                                        score=104,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise2_2022, score=94, result="L"
+                                        mockFranchise=mockFranchise2_2022,
+                                        score=94,
+                                        result="L",
                                     ),
                                 ]
                             }
@@ -980,40 +1407,56 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise1_2023, score=100, result="W"
+                                        mockFranchise=mockFranchise1_2023,
+                                        score=100,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise2_2023, score=100, result="L"
-                                    ),
-                                ]
-                            },
-                            {
-                                "franchise": [
-                                    self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise3_2023, score=100.1, result="W"
-                                    ),
-                                    self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise4_2023, score=90.1, result="L"
+                                        mockFranchise=mockFranchise2_2023,
+                                        score=100,
+                                        result="L",
                                     ),
                                 ]
                             },
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise5_2023, score=101, result="W"
+                                        mockFranchise=mockFranchise3_2023,
+                                        score=100.1,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise6_2023, score=91, result="L"
+                                        mockFranchise=mockFranchise4_2023,
+                                        score=90.1,
+                                        result="L",
                                     ),
                                 ]
                             },
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise7_2023, score=102, result="W"
+                                        mockFranchise=mockFranchise5_2023,
+                                        score=101,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise8_2023, score=92, result="L"
+                                        mockFranchise=mockFranchise6_2023,
+                                        score=91,
+                                        result="L",
+                                    ),
+                                ]
+                            },
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise7_2023,
+                                        score=102,
+                                        result="W",
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise8_2023,
+                                        score=92,
+                                        result="L",
                                     ),
                                 ]
                             },
@@ -1025,20 +1468,28 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise2_2023, score=103, result="W"
+                                        mockFranchise=mockFranchise2_2023,
+                                        score=103,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise3_2023, score=93, result="L"
+                                        mockFranchise=mockFranchise3_2023,
+                                        score=93,
+                                        result="L",
                                     ),
                                 ]
                             },
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise4_2023, score=103, result="W"
+                                        mockFranchise=mockFranchise4_2023,
+                                        score=103,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise5_2023, score=93, result="L"
+                                        mockFranchise=mockFranchise5_2023,
+                                        score=93,
+                                        result="L",
                                     ),
                                 ]
                             },
@@ -1050,10 +1501,14 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise2_2023, score=104, result="W"
+                                        mockFranchise=mockFranchise2_2023,
+                                        score=104,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise3_2023, score=94, result="L"
+                                        mockFranchise=mockFranchise3_2023,
+                                        score=94,
+                                        result="L",
                                     ),
                                 ]
                             }
@@ -1065,10 +1520,14 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise1_2023, score=104, result="W"
+                                        mockFranchise=mockFranchise1_2023,
+                                        score=104,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise2_2023, score=94, result="L"
+                                        mockFranchise=mockFranchise2_2023,
+                                        score=94,
+                                        result="L",
                                     ),
                                 ]
                             }
@@ -1087,40 +1546,56 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise1_2022, score=100, result="W"
+                                        mockFranchise=mockFranchise1_2022,
+                                        score=100,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise2_2022, score=100, result="L"
-                                    ),
-                                ]
-                            },
-                            {
-                                "franchise": [
-                                    self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise3_2022, score=100.1, result="W"
-                                    ),
-                                    self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise4_2022, score=90.1, result="L"
+                                        mockFranchise=mockFranchise2_2022,
+                                        score=100,
+                                        result="L",
                                     ),
                                 ]
                             },
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise5_2022, score=101, result="W"
+                                        mockFranchise=mockFranchise3_2022,
+                                        score=100.1,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise6_2022, score=91, result="L"
+                                        mockFranchise=mockFranchise4_2022,
+                                        score=90.1,
+                                        result="L",
                                     ),
                                 ]
                             },
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise7_2022, score=102, result="W"
+                                        mockFranchise=mockFranchise5_2022,
+                                        score=101,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise8_2022, score=92, result="L"
+                                        mockFranchise=mockFranchise6_2022,
+                                        score=91,
+                                        result="L",
+                                    ),
+                                ]
+                            },
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise7_2022,
+                                        score=102,
+                                        result="W",
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise8_2022,
+                                        score=92,
+                                        result="L",
                                     ),
                                 ]
                             },
@@ -1132,10 +1607,14 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise1_2022, score=103, result="W"
+                                        mockFranchise=mockFranchise1_2022,
+                                        score=103,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise2_2022, score=93, result="L"
+                                        mockFranchise=mockFranchise2_2022,
+                                        score=93,
+                                        result="L",
                                     ),
                                 ]
                             }
@@ -1150,11 +1629,17 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                 "playoffRound": [
                     {
                         "week": 2,
-                        "playoffGame": {"away": {"franchise_id": 2}, "home": {"franchise_id": 3}},
+                        "playoffGame": {
+                            "away": {"franchise_id": 2},
+                            "home": {"franchise_id": 3},
+                        },
                     },
                     {
                         "week": 3,
-                        "playoffGame": {"away": {"franchise_id": 1}, "home": {"franchise_id": 2}},
+                        "playoffGame": {
+                            "away": {"franchise_id": 1},
+                            "home": {"franchise_id": 2},
+                        },
                     },
                 ]
             }
@@ -1172,11 +1657,17 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                     },
                     {
                         "week": 3,
-                        "playoffGame": {"away": {"franchise_id": 2}, "home": {"franchise_id": 4}},
+                        "playoffGame": {
+                            "away": {"franchise_id": 2},
+                            "home": {"franchise_id": 4},
+                        },
                     },
                     {
                         "week": 4,
-                        "playoffGame": {"away": {"franchise_id": 1}, "home": {"franchise_id": 2}},
+                        "playoffGame": {
+                            "away": {"franchise_id": 1},
+                            "home": {"franchise_id": 2},
+                        },
                     },
                 ]
             }
@@ -1186,13 +1677,20 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
             "playoffBracket": {
                 "playoffRound": {
                     "week": 2,
-                    "playoffGame": {"away": {"franchise_id": 1}, "home": {"franchise_id": 2}},
+                    "playoffGame": {
+                        "away": {"franchise_id": 1},
+                        "home": {"franchise_id": 2},
+                    },
                 }
             }
         }
 
         mockGetLeague.side_effect = [mockLeague2022, mockLeague2023, mockLeague2024]
-        mockGetSchedule.side_effect = [mockSchedule2022, mockSchedule2023, mockSchedule2024]
+        mockGetSchedule.side_effect = [
+            mockSchedule2022,
+            mockSchedule2023,
+            mockSchedule2024,
+        ]
         mockGetPlayoffBracket.side_effect = [
             mockPlayoffSchedule_2022,
             mockPlayoffSchedule_2023,
@@ -1238,32 +1736,80 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
         owner7 = Owner(name="o7")
         owner8 = Owner(name="o8")
 
-        team1_2022 = Team(ownerId=owner1.id, name="Team 1", divisionId=division1_2022.id)
-        team2_2022 = Team(ownerId=owner2.id, name="Team 2", divisionId=division1_2022.id)
-        team3_2022 = Team(ownerId=owner3.id, name="Team 3", divisionId=division1_2022.id)
-        team4_2022 = Team(ownerId=owner4.id, name="Team 4", divisionId=division1_2022.id)
-        team5_2022 = Team(ownerId=owner5.id, name="Team 5", divisionId=division2_2022.id)
-        team6_2022 = Team(ownerId=owner6.id, name="Team 6", divisionId=division2_2022.id)
-        team7_2022 = Team(ownerId=owner7.id, name="Team 7", divisionId=division2_2022.id)
-        team8_2022 = Team(ownerId=owner8.id, name="Team 8", divisionId=division2_2022.id)
+        team1_2022 = Team(
+            ownerId=owner1.id, name="Team 1", divisionId=division1_2022.id
+        )
+        team2_2022 = Team(
+            ownerId=owner2.id, name="Team 2", divisionId=division1_2022.id
+        )
+        team3_2022 = Team(
+            ownerId=owner3.id, name="Team 3", divisionId=division1_2022.id
+        )
+        team4_2022 = Team(
+            ownerId=owner4.id, name="Team 4", divisionId=division1_2022.id
+        )
+        team5_2022 = Team(
+            ownerId=owner5.id, name="Team 5", divisionId=division2_2022.id
+        )
+        team6_2022 = Team(
+            ownerId=owner6.id, name="Team 6", divisionId=division2_2022.id
+        )
+        team7_2022 = Team(
+            ownerId=owner7.id, name="Team 7", divisionId=division2_2022.id
+        )
+        team8_2022 = Team(
+            ownerId=owner8.id, name="Team 8", divisionId=division2_2022.id
+        )
 
-        team1_2023 = Team(ownerId=owner1.id, name="Team 1", divisionId=division1_2023.id)
-        team2_2023 = Team(ownerId=owner2.id, name="Team 2", divisionId=division1_2023.id)
-        team3_2023 = Team(ownerId=owner3.id, name="Team 3", divisionId=division1_2023.id)
-        team4_2023 = Team(ownerId=owner4.id, name="Team 4", divisionId=division1_2023.id)
-        team5_2023 = Team(ownerId=owner5.id, name="Team 5", divisionId=division2_2023.id)
-        team6_2023 = Team(ownerId=owner6.id, name="Team 6", divisionId=division2_2023.id)
-        team7_2023 = Team(ownerId=owner7.id, name="Team 7", divisionId=division2_2023.id)
-        team8_2023 = Team(ownerId=owner8.id, name="Team 8", divisionId=division2_2023.id)
+        team1_2023 = Team(
+            ownerId=owner1.id, name="Team 1", divisionId=division1_2023.id
+        )
+        team2_2023 = Team(
+            ownerId=owner2.id, name="Team 2", divisionId=division1_2023.id
+        )
+        team3_2023 = Team(
+            ownerId=owner3.id, name="Team 3", divisionId=division1_2023.id
+        )
+        team4_2023 = Team(
+            ownerId=owner4.id, name="Team 4", divisionId=division1_2023.id
+        )
+        team5_2023 = Team(
+            ownerId=owner5.id, name="Team 5", divisionId=division2_2023.id
+        )
+        team6_2023 = Team(
+            ownerId=owner6.id, name="Team 6", divisionId=division2_2023.id
+        )
+        team7_2023 = Team(
+            ownerId=owner7.id, name="Team 7", divisionId=division2_2023.id
+        )
+        team8_2023 = Team(
+            ownerId=owner8.id, name="Team 8", divisionId=division2_2023.id
+        )
 
-        team1_2024 = Team(ownerId=owner1.id, name="Team 1", divisionId=division1_2024.id)
-        team2_2024 = Team(ownerId=owner2.id, name="Team 2", divisionId=division1_2024.id)
-        team3_2024 = Team(ownerId=owner3.id, name="Team 3", divisionId=division1_2024.id)
-        team4_2024 = Team(ownerId=owner4.id, name="Team 4", divisionId=division1_2024.id)
-        team5_2024 = Team(ownerId=owner5.id, name="Team 5", divisionId=division2_2024.id)
-        team6_2024 = Team(ownerId=owner6.id, name="Team 6", divisionId=division2_2024.id)
-        team7_2024 = Team(ownerId=owner7.id, name="Team 7", divisionId=division2_2024.id)
-        team8_2024 = Team(ownerId=owner8.id, name="Team 8", divisionId=division2_2024.id)
+        team1_2024 = Team(
+            ownerId=owner1.id, name="Team 1", divisionId=division1_2024.id
+        )
+        team2_2024 = Team(
+            ownerId=owner2.id, name="Team 2", divisionId=division1_2024.id
+        )
+        team3_2024 = Team(
+            ownerId=owner3.id, name="Team 3", divisionId=division1_2024.id
+        )
+        team4_2024 = Team(
+            ownerId=owner4.id, name="Team 4", divisionId=division1_2024.id
+        )
+        team5_2024 = Team(
+            ownerId=owner5.id, name="Team 5", divisionId=division2_2024.id
+        )
+        team6_2024 = Team(
+            ownerId=owner6.id, name="Team 6", divisionId=division2_2024.id
+        )
+        team7_2024 = Team(
+            ownerId=owner7.id, name="Team 7", divisionId=division2_2024.id
+        )
+        team8_2024 = Team(
+            ownerId=owner8.id, name="Team 8", divisionId=division2_2024.id
+        )
 
         expectedLeague = League(
             name="Test League 2024",
@@ -1539,7 +2085,9 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
             ],
         )
 
-        self.assertTrue(league.equals(expectedLeague, ignoreBaseIds=True, ignoreIds=True))
+        self.assertTrue(
+            league.equals(expectedLeague, ignoreBaseIds=True, ignoreIds=True)
+        )
         # check multiWeekMatchupIds
         for year in league.years:
             for week in year.weeks:
@@ -1553,32 +2101,152 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
     def test_loadLeague_withLeagueName(
         self, mockGetPlayoffBracket, mockGetSchedule, mockGetLeague, mockAddConfig
     ):
-        mockFranchise1_2022 = {"owner_name": "Owner 1", "name": "Team 1", "id": 1, "division": "1"}
-        mockFranchise2_2022 = {"owner_name": "Owner 2", "name": "Team 2", "id": 2, "division": "1"}
-        mockFranchise3_2022 = {"owner_name": "Owner 3", "name": "Team 3", "id": 3, "division": "1"}
-        mockFranchise4_2022 = {"owner_name": "Owner 4", "name": "Team 4", "id": 4, "division": "1"}
-        mockFranchise5_2022 = {"owner_name": "Owner 5", "name": "Team 5", "id": 5, "division": "2"}
-        mockFranchise6_2022 = {"owner_name": "Owner 6", "name": "Team 6", "id": 6, "division": "2"}
-        mockFranchise7_2022 = {"owner_name": "Owner 7", "name": "Team 7", "id": 7, "division": "2"}
-        mockFranchise8_2022 = {"owner_name": "Owner 8", "name": "Team 8", "id": 8, "division": "2"}
+        mockFranchise1_2022 = {
+            "owner_name": "Owner 1",
+            "name": "Team 1",
+            "id": 1,
+            "division": "1",
+        }
+        mockFranchise2_2022 = {
+            "owner_name": "Owner 2",
+            "name": "Team 2",
+            "id": 2,
+            "division": "1",
+        }
+        mockFranchise3_2022 = {
+            "owner_name": "Owner 3",
+            "name": "Team 3",
+            "id": 3,
+            "division": "1",
+        }
+        mockFranchise4_2022 = {
+            "owner_name": "Owner 4",
+            "name": "Team 4",
+            "id": 4,
+            "division": "1",
+        }
+        mockFranchise5_2022 = {
+            "owner_name": "Owner 5",
+            "name": "Team 5",
+            "id": 5,
+            "division": "2",
+        }
+        mockFranchise6_2022 = {
+            "owner_name": "Owner 6",
+            "name": "Team 6",
+            "id": 6,
+            "division": "2",
+        }
+        mockFranchise7_2022 = {
+            "owner_name": "Owner 7",
+            "name": "Team 7",
+            "id": 7,
+            "division": "2",
+        }
+        mockFranchise8_2022 = {
+            "owner_name": "Owner 8",
+            "name": "Team 8",
+            "id": 8,
+            "division": "2",
+        }
 
-        mockFranchise1_2023 = {"owner_name": "Owner 1", "name": "Team 1", "id": 1, "division": "1"}
-        mockFranchise2_2023 = {"owner_name": "Owner 2", "name": "Team 2", "id": 2, "division": "1"}
-        mockFranchise3_2023 = {"owner_name": "Owner 3", "name": "Team 3", "id": 3, "division": "1"}
-        mockFranchise4_2023 = {"owner_name": "Owner 4", "name": "Team 4", "id": 4, "division": "1"}
-        mockFranchise5_2023 = {"owner_name": "Owner 5", "name": "Team 5", "id": 5, "division": "2"}
-        mockFranchise6_2023 = {"owner_name": "Owner 6", "name": "Team 6", "id": 6, "division": "2"}
-        mockFranchise7_2023 = {"owner_name": "Owner 7", "name": "Team 7", "id": 7, "division": "2"}
-        mockFranchise8_2023 = {"owner_name": "Owner 8", "name": "Team 8", "id": 8, "division": "2"}
+        mockFranchise1_2023 = {
+            "owner_name": "Owner 1",
+            "name": "Team 1",
+            "id": 1,
+            "division": "1",
+        }
+        mockFranchise2_2023 = {
+            "owner_name": "Owner 2",
+            "name": "Team 2",
+            "id": 2,
+            "division": "1",
+        }
+        mockFranchise3_2023 = {
+            "owner_name": "Owner 3",
+            "name": "Team 3",
+            "id": 3,
+            "division": "1",
+        }
+        mockFranchise4_2023 = {
+            "owner_name": "Owner 4",
+            "name": "Team 4",
+            "id": 4,
+            "division": "1",
+        }
+        mockFranchise5_2023 = {
+            "owner_name": "Owner 5",
+            "name": "Team 5",
+            "id": 5,
+            "division": "2",
+        }
+        mockFranchise6_2023 = {
+            "owner_name": "Owner 6",
+            "name": "Team 6",
+            "id": 6,
+            "division": "2",
+        }
+        mockFranchise7_2023 = {
+            "owner_name": "Owner 7",
+            "name": "Team 7",
+            "id": 7,
+            "division": "2",
+        }
+        mockFranchise8_2023 = {
+            "owner_name": "Owner 8",
+            "name": "Team 8",
+            "id": 8,
+            "division": "2",
+        }
 
-        mockFranchise1_2024 = {"owner_name": "Owner 1", "name": "Team 1", "id": 1, "division": "1"}
-        mockFranchise2_2024 = {"owner_name": "Owner 2", "name": "Team 2", "id": 2, "division": "1"}
-        mockFranchise3_2024 = {"owner_name": "Owner 3", "name": "Team 3", "id": 3, "division": "1"}
-        mockFranchise4_2024 = {"owner_name": "Owner 4", "name": "Team 4", "id": 4, "division": "1"}
-        mockFranchise5_2024 = {"owner_name": "Owner 5", "name": "Team 5", "id": 5, "division": "2"}
-        mockFranchise6_2024 = {"owner_name": "Owner 6", "name": "Team 6", "id": 6, "division": "2"}
-        mockFranchise7_2024 = {"owner_name": "Owner 7", "name": "Team 7", "id": 7, "division": "2"}
-        mockFranchise8_2024 = {"owner_name": "Owner 8", "name": "Team 8", "id": 8, "division": "2"}
+        mockFranchise1_2024 = {
+            "owner_name": "Owner 1",
+            "name": "Team 1",
+            "id": 1,
+            "division": "1",
+        }
+        mockFranchise2_2024 = {
+            "owner_name": "Owner 2",
+            "name": "Team 2",
+            "id": 2,
+            "division": "1",
+        }
+        mockFranchise3_2024 = {
+            "owner_name": "Owner 3",
+            "name": "Team 3",
+            "id": 3,
+            "division": "1",
+        }
+        mockFranchise4_2024 = {
+            "owner_name": "Owner 4",
+            "name": "Team 4",
+            "id": 4,
+            "division": "1",
+        }
+        mockFranchise5_2024 = {
+            "owner_name": "Owner 5",
+            "name": "Team 5",
+            "id": 5,
+            "division": "2",
+        }
+        mockFranchise6_2024 = {
+            "owner_name": "Owner 6",
+            "name": "Team 6",
+            "id": 6,
+            "division": "2",
+        }
+        mockFranchise7_2024 = {
+            "owner_name": "Owner 7",
+            "name": "Team 7",
+            "id": 7,
+            "division": "2",
+        }
+        mockFranchise8_2024 = {
+            "owner_name": "Owner 8",
+            "name": "Team 8",
+            "id": 8,
+            "division": "2",
+        }
 
         mockLeague2022 = {
             "league": {
@@ -1598,7 +2266,10 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                     ]
                 },
                 "divisions": {
-                    "division": [{"id": "1", "name": "d1_2022"}, {"id": "2", "name": "d2_2022"}]
+                    "division": [
+                        {"id": "1", "name": "d1_2022"},
+                        {"id": "2", "name": "d2_2022"},
+                    ]
                 },
             }
         }
@@ -1621,7 +2292,10 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                     ]
                 },
                 "divisions": {
-                    "division": [{"id": "1", "name": "d1_2023"}, {"id": "2", "name": "d2_2023"}]
+                    "division": [
+                        {"id": "1", "name": "d1_2023"},
+                        {"id": "2", "name": "d2_2023"},
+                    ]
                 },
             }
         }
@@ -1644,7 +2318,10 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                     ]
                 },
                 "divisions": {
-                    "division": [{"id": "1", "name": "d1_2024"}, {"id": "2", "name": "d2_2024"}]
+                    "division": [
+                        {"id": "1", "name": "d1_2024"},
+                        {"id": "2", "name": "d2_2024"},
+                    ]
                 },
             }
         }
@@ -1658,40 +2335,56 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise1_2022, score=100, result="W"
+                                        mockFranchise=mockFranchise1_2022,
+                                        score=100,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise2_2022, score=100, result="L"
-                                    ),
-                                ]
-                            },
-                            {
-                                "franchise": [
-                                    self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise3_2022, score=100.1, result="W"
-                                    ),
-                                    self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise4_2022, score=90.1, result="L"
+                                        mockFranchise=mockFranchise2_2022,
+                                        score=100,
+                                        result="L",
                                     ),
                                 ]
                             },
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise5_2022, score=101, result="W"
+                                        mockFranchise=mockFranchise3_2022,
+                                        score=100.1,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise6_2022, score=91, result="L"
+                                        mockFranchise=mockFranchise4_2022,
+                                        score=90.1,
+                                        result="L",
                                     ),
                                 ]
                             },
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise7_2022, score=102, result="W"
+                                        mockFranchise=mockFranchise5_2022,
+                                        score=101,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise8_2022, score=92, result="L"
+                                        mockFranchise=mockFranchise6_2022,
+                                        score=91,
+                                        result="L",
+                                    ),
+                                ]
+                            },
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise7_2022,
+                                        score=102,
+                                        result="W",
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise8_2022,
+                                        score=92,
+                                        result="L",
                                     ),
                                 ]
                             },
@@ -1703,10 +2396,14 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise2_2022, score=103, result="W"
+                                        mockFranchise=mockFranchise2_2022,
+                                        score=103,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise3_2022, score=93, result="L"
+                                        mockFranchise=mockFranchise3_2022,
+                                        score=93,
+                                        result="L",
                                     ),
                                 ]
                             }
@@ -1718,10 +2415,14 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise1_2022, score=104, result="W"
+                                        mockFranchise=mockFranchise1_2022,
+                                        score=104,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise2_2022, score=94, result="L"
+                                        mockFranchise=mockFranchise2_2022,
+                                        score=94,
+                                        result="L",
                                     ),
                                 ]
                             }
@@ -1740,40 +2441,56 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise1_2023, score=100, result="W"
+                                        mockFranchise=mockFranchise1_2023,
+                                        score=100,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise2_2023, score=100, result="L"
-                                    ),
-                                ]
-                            },
-                            {
-                                "franchise": [
-                                    self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise3_2023, score=100.1, result="W"
-                                    ),
-                                    self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise4_2023, score=90.1, result="L"
+                                        mockFranchise=mockFranchise2_2023,
+                                        score=100,
+                                        result="L",
                                     ),
                                 ]
                             },
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise5_2023, score=101, result="W"
+                                        mockFranchise=mockFranchise3_2023,
+                                        score=100.1,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise6_2023, score=91, result="L"
+                                        mockFranchise=mockFranchise4_2023,
+                                        score=90.1,
+                                        result="L",
                                     ),
                                 ]
                             },
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise7_2023, score=102, result="W"
+                                        mockFranchise=mockFranchise5_2023,
+                                        score=101,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise8_2023, score=92, result="L"
+                                        mockFranchise=mockFranchise6_2023,
+                                        score=91,
+                                        result="L",
+                                    ),
+                                ]
+                            },
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise7_2023,
+                                        score=102,
+                                        result="W",
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise8_2023,
+                                        score=92,
+                                        result="L",
                                     ),
                                 ]
                             },
@@ -1785,20 +2502,28 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise2_2023, score=103, result="W"
+                                        mockFranchise=mockFranchise2_2023,
+                                        score=103,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise3_2023, score=93, result="L"
+                                        mockFranchise=mockFranchise3_2023,
+                                        score=93,
+                                        result="L",
                                     ),
                                 ]
                             },
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise4_2023, score=103, result="W"
+                                        mockFranchise=mockFranchise4_2023,
+                                        score=103,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise5_2023, score=93, result="L"
+                                        mockFranchise=mockFranchise5_2023,
+                                        score=93,
+                                        result="L",
                                     ),
                                 ]
                             },
@@ -1810,10 +2535,14 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise2_2023, score=104, result="W"
+                                        mockFranchise=mockFranchise2_2023,
+                                        score=104,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise3_2023, score=94, result="L"
+                                        mockFranchise=mockFranchise3_2023,
+                                        score=94,
+                                        result="L",
                                     ),
                                 ]
                             }
@@ -1825,10 +2554,14 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise1_2023, score=104, result="W"
+                                        mockFranchise=mockFranchise1_2023,
+                                        score=104,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise2_2023, score=94, result="L"
+                                        mockFranchise=mockFranchise2_2023,
+                                        score=94,
+                                        result="L",
                                     ),
                                 ]
                             }
@@ -1847,40 +2580,56 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise1_2022, score=100, result="W"
+                                        mockFranchise=mockFranchise1_2022,
+                                        score=100,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise2_2022, score=100, result="L"
-                                    ),
-                                ]
-                            },
-                            {
-                                "franchise": [
-                                    self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise3_2022, score=100.1, result="W"
-                                    ),
-                                    self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise4_2022, score=90.1, result="L"
+                                        mockFranchise=mockFranchise2_2022,
+                                        score=100,
+                                        result="L",
                                     ),
                                 ]
                             },
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise5_2022, score=101, result="W"
+                                        mockFranchise=mockFranchise3_2022,
+                                        score=100.1,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise6_2022, score=91, result="L"
+                                        mockFranchise=mockFranchise4_2022,
+                                        score=90.1,
+                                        result="L",
                                     ),
                                 ]
                             },
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise7_2022, score=102, result="W"
+                                        mockFranchise=mockFranchise5_2022,
+                                        score=101,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise8_2022, score=92, result="L"
+                                        mockFranchise=mockFranchise6_2022,
+                                        score=91,
+                                        result="L",
+                                    ),
+                                ]
+                            },
+                            {
+                                "franchise": [
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise7_2022,
+                                        score=102,
+                                        result="W",
+                                    ),
+                                    self.__addScoreToMockFranchise(
+                                        mockFranchise=mockFranchise8_2022,
+                                        score=92,
+                                        result="L",
                                     ),
                                 ]
                             },
@@ -1892,10 +2641,14 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                             {
                                 "franchise": [
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise1_2022, score=103, result="W"
+                                        mockFranchise=mockFranchise1_2022,
+                                        score=103,
+                                        result="W",
                                     ),
                                     self.__addScoreToMockFranchise(
-                                        mockFranchise=mockFranchise2_2022, score=93, result="L"
+                                        mockFranchise=mockFranchise2_2022,
+                                        score=93,
+                                        result="L",
                                     ),
                                 ]
                             }
@@ -1910,11 +2663,17 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                 "playoffRound": [
                     {
                         "week": 2,
-                        "playoffGame": {"away": {"franchise_id": 2}, "home": {"franchise_id": 3}},
+                        "playoffGame": {
+                            "away": {"franchise_id": 2},
+                            "home": {"franchise_id": 3},
+                        },
                     },
                     {
                         "week": 3,
-                        "playoffGame": {"away": {"franchise_id": 1}, "home": {"franchise_id": 2}},
+                        "playoffGame": {
+                            "away": {"franchise_id": 1},
+                            "home": {"franchise_id": 2},
+                        },
                     },
                 ]
             }
@@ -1932,11 +2691,17 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
                     },
                     {
                         "week": 3,
-                        "playoffGame": {"away": {"franchise_id": 2}, "home": {"franchise_id": 4}},
+                        "playoffGame": {
+                            "away": {"franchise_id": 2},
+                            "home": {"franchise_id": 4},
+                        },
                     },
                     {
                         "week": 4,
-                        "playoffGame": {"away": {"franchise_id": 1}, "home": {"franchise_id": 2}},
+                        "playoffGame": {
+                            "away": {"franchise_id": 1},
+                            "home": {"franchise_id": 2},
+                        },
                     },
                 ]
             }
@@ -1946,13 +2711,20 @@ class TestMyFantasyLeagueLeagueLoader(unittest.TestCase):
             "playoffBracket": {
                 "playoffRound": {
                     "week": 2,
-                    "playoffGame": {"away": {"franchise_id": 1}, "home": {"franchise_id": 2}},
+                    "playoffGame": {
+                        "away": {"franchise_id": 1},
+                        "home": {"franchise_id": 2},
+                    },
                 }
             }
         }
 
         mockGetLeague.side_effect = [mockLeague2022, mockLeague2023, mockLeague2024]
-        mockGetSchedule.side_effect = [mockSchedule2022, mockSchedule2023, mockSchedule2024]
+        mockGetSchedule.side_effect = [
+            mockSchedule2022,
+            mockSchedule2023,
+            mockSchedule2024,
+        ]
         mockGetPlayoffBracket.side_effect = [
             mockPlayoffSchedule_2022,
             mockPlayoffSchedule_2023,

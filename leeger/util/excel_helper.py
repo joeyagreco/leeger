@@ -12,7 +12,9 @@ def allTimeTeamsStatSheet(league: League, **kwargs) -> list[tuple[str, dict]]:
         teamIdToNameMap = dict()
         teamIdToDivisionNameMap = dict()
         for team in year.teams:
-            ownerNames[team.id] = LeagueNavigator.getOwnerById(league, team.ownerId).name
+            ownerNames[team.id] = LeagueNavigator.getOwnerById(
+                league, team.ownerId
+            ).name
             years[team.id] = year.yearNumber
             teamIdToNameMap[team.id] = team.name
             if team.divisionId:
@@ -39,9 +41,14 @@ def allTimeTeamsStatSheet(league: League, **kwargs) -> list[tuple[str, dict]]:
             ]
         if titleStr in allTitlesInCondensedList:
             # add to stats dict for the existing title
-            for i, (title_s, stats_d) in enumerate(condensedAllTimeTeamsStatsWithTitles):
+            for i, (title_s, stats_d) in enumerate(
+                condensedAllTimeTeamsStatsWithTitles
+            ):
                 if title_s == titleStr:
-                    condensedAllTimeTeamsStatsWithTitles[i] = (title_s, stats_d | statsDict)
+                    condensedAllTimeTeamsStatsWithTitles[i] = (
+                        title_s,
+                        stats_d | statsDict,
+                    )
         else:
             condensedAllTimeTeamsStatsWithTitles.append((titleStr, statsDict))
     return condensedAllTimeTeamsStatsWithTitles
@@ -132,7 +139,11 @@ def allTimeMatchupsStatSheet(
     yearNumbers: dict[str, int] = dict()
 
     for year in league.years:
-        if allTimeFilters.yearNumberStart <= year.yearNumber <= allTimeFilters.yearNumberEnd:
+        if (
+            allTimeFilters.yearNumberStart
+            <= year.yearNumber
+            <= allTimeFilters.yearNumberEnd
+        ):
             (
                 currentYearMatchupStatSheet,
                 currentModifiedMatchupIdToOwnerIdMap,
@@ -140,7 +151,9 @@ def allTimeMatchupsStatSheet(
                 year, includeYears=True, includeOwnerIds=True, **kwargs.copy()
             )
             allYearMatchupStatSheets.append(currentYearMatchupStatSheet)
-            allModifiedMatchupIdToOwnerIdMaps.append(currentModifiedMatchupIdToOwnerIdMap)
+            allModifiedMatchupIdToOwnerIdMaps.append(
+                currentModifiedMatchupIdToOwnerIdMap
+            )
 
     # combine responses into 1 response
     for yearMatchupStatSheet in allYearMatchupStatSheets:

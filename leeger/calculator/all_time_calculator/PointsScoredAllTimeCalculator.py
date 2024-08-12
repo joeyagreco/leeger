@@ -1,7 +1,9 @@
 from typing import Optional
 
 from leeger.calculator.parent.AllTimeCalculator import AllTimeCalculator
-from leeger.calculator.year_calculator.PointsScoredYearCalculator import PointsScoredYearCalculator
+from leeger.calculator.year_calculator.PointsScoredYearCalculator import (
+    PointsScoredYearCalculator,
+)
 from leeger.decorator.validators import validateLeague
 from leeger.model.filter import AllTimeFilters
 from leeger.model.league.League import League
@@ -35,7 +37,9 @@ class PointsScoredAllTimeCalculator(AllTimeCalculator):
 
     @classmethod
     @validateLeague
-    def getPointsScoredPerGame(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
+    def getPointsScoredPerGame(
+        cls, league: League, **kwargs
+    ) -> dict[str, Optional[Deci]]:
         """
         Returns the number of Points Scored per game for each Owner in the given League.
 
@@ -60,14 +64,17 @@ class PointsScoredAllTimeCalculator(AllTimeCalculator):
                 ownerIdAndPointsScoredPerGame[ownerId] = None
             else:
                 ownerIdAndPointsScoredPerGame[ownerId] = (
-                    ownerIdAndPointsScored[ownerId] / ownerIdAndNumberOfGamesPlayed[ownerId]
+                    ownerIdAndPointsScored[ownerId]
+                    / ownerIdAndNumberOfGamesPlayed[ownerId]
                 )
 
         return ownerIdAndPointsScoredPerGame
 
     @classmethod
     @validateLeague
-    def getOpponentPointsScored(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
+    def getOpponentPointsScored(
+        cls, league: League, **kwargs
+    ) -> dict[str, Optional[Deci]]:
         """
         Returns the number of Points Scored for each Owner's opponent in the given League.
         Returns None for an Owner if they have no games played in the range.
@@ -86,7 +93,9 @@ class PointsScoredAllTimeCalculator(AllTimeCalculator):
 
     @classmethod
     @validateLeague
-    def getOpponentPointsScoredPerGame(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
+    def getOpponentPointsScoredPerGame(
+        cls, league: League, **kwargs
+    ) -> dict[str, Optional[Deci]]:
         """
         Returns the number of Points Scored per game for each Owner's opponent in the given League.
         Returns None for an Owner if they have no games played in the range.
@@ -112,7 +121,8 @@ class PointsScoredAllTimeCalculator(AllTimeCalculator):
                 ownerIdAndOpponentPointsScoredPerGame[ownerId] = None
             else:
                 ownerIdAndOpponentPointsScoredPerGame[ownerId] = (
-                    ownerIdAndOpponentPointsScored[ownerId] / ownerIdAndNumberOfGamesPlayed[ownerId]
+                    ownerIdAndOpponentPointsScored[ownerId]
+                    / ownerIdAndNumberOfGamesPlayed[ownerId]
                 )
 
         return ownerIdAndOpponentPointsScoredPerGame

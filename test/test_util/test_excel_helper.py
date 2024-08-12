@@ -1,5 +1,4 @@
 import unittest
-from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 from leeger.model.league import YearSettings
 from leeger.model.league.League import League
@@ -7,13 +6,16 @@ from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
 from leeger.util.excel_helper import allTimeTeamsStatSheet
+from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestExcelHelper(unittest.TestCase):
     def test_allTimeTeamsStatSheet_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
         week = Week(weekNumber=1, matchups=[matchup])
         year = Year(yearNumber=2000, teams=teams, weeks=[week])
 
@@ -45,7 +47,9 @@ class TestExcelHelper(unittest.TestCase):
         self.assertEqual("Points Scored", allTimeTeamsStatSheet_[18][0])
         self.assertEqual("Points Scored Per Game", allTimeTeamsStatSheet_[19][0])
         self.assertEqual("Opponent Points Scored", allTimeTeamsStatSheet_[20][0])
-        self.assertEqual("Opponent Points Scored Per Game", allTimeTeamsStatSheet_[21][0])
+        self.assertEqual(
+            "Opponent Points Scored Per Game", allTimeTeamsStatSheet_[21][0]
+        )
         self.assertEqual("Scoring Share", allTimeTeamsStatSheet_[22][0])
         self.assertEqual("Opponent Scoring Share", allTimeTeamsStatSheet_[23][0])
         self.assertEqual("Max Scoring Share", allTimeTeamsStatSheet_[24][0])
@@ -61,16 +65,22 @@ class TestExcelHelper(unittest.TestCase):
     def test_allTimeTeamsStatSheet_leagueMedianGamesIsTrueInAnyYearSettings(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
         week = Week(weekNumber=1, matchups=[matchup])
         yearSettings = YearSettings(leagueMedianGames=True)
-        year1 = Year(yearNumber=2000, teams=teams, weeks=[week], yearSettings=yearSettings)
+        year1 = Year(
+            yearNumber=2000, teams=teams, weeks=[week], yearSettings=yearSettings
+        )
 
         _, teams = getNDefaultOwnersAndTeams(2)
         teams[0].ownerId = owners[0].id
         teams[1].ownerId = owners[1].id
 
-        matchup = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
         week = Week(weekNumber=1, matchups=[matchup])
         year2 = Year(yearNumber=2001, teams=teams, weeks=[week])
 
@@ -105,7 +115,9 @@ class TestExcelHelper(unittest.TestCase):
         self.assertEqual("Points Scored", allTimeTeamsStatSheet_[21][0])
         self.assertEqual("Points Scored Per Game", allTimeTeamsStatSheet_[22][0])
         self.assertEqual("Opponent Points Scored", allTimeTeamsStatSheet_[23][0])
-        self.assertEqual("Opponent Points Scored Per Game", allTimeTeamsStatSheet_[24][0])
+        self.assertEqual(
+            "Opponent Points Scored Per Game", allTimeTeamsStatSheet_[24][0]
+        )
         self.assertEqual("Scoring Share", allTimeTeamsStatSheet_[25][0])
         self.assertEqual("Opponent Scoring Share", allTimeTeamsStatSheet_[26][0])
         self.assertEqual("Max Scoring Share", allTimeTeamsStatSheet_[27][0])

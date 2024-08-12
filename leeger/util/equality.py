@@ -55,7 +55,9 @@ def modelEquals(
                 if field not in equalityFunctionKwargsMap
                 else equalityFunctionKwargsMap[field]
             )
-            return equalityFunction(getattr(objA, field), getattr(objB, field), **kwargsToPass)
+            return equalityFunction(
+                getattr(objA, field), getattr(objB, field), **kwargsToPass
+            )
         return getattr(objA, field) == getattr(objB, field)
 
     equal = True

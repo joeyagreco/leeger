@@ -1,13 +1,2 @@
-[tool.black]
-line-length = 100
-skip-magic-trailing-comma = true
-include = '\.py$'
-quiet = true
-
-[tool.isort]
-profile = "black"
-line_length = 100
-
-[autoflake]
-ignore_init_module_imports = true
-in_place = true
+[tool.ruff.lint]
+select = ["I001"]

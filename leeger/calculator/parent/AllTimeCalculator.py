@@ -41,7 +41,9 @@ class AllTimeCalculator:
         # sum all results
         result: dict[str, int | float | Deci] = dict()
         for ownerId in LeagueNavigator.getAllOwnerIds(league):
-            result[ownerId] = 0  # TODO: this may have a Deci/int/float so test for bugs there
+            result[ownerId] = (
+                0  # TODO: this may have a Deci/int/float so test for bugs there
+            )
             ownerIdAndWhetherOwnerHasHadAValidResult[ownerId] = False
 
         for resultDict in allResultDicts:
@@ -76,7 +78,9 @@ class AllTimeCalculator:
         if allTimeFilters.yearNumberStart == allTimeFilters.yearNumberEnd:
             yearWeekNumberStartWeekNumberEnd.append(
                 (
-                    LeagueNavigator.getYearByYearNumber(league, allTimeFilters.yearNumberStart),
+                    LeagueNavigator.getYearByYearNumber(
+                        league, allTimeFilters.yearNumberStart
+                    ),
                     allTimeFilters.weekNumberStart,
                     allTimeFilters.weekNumberEnd,
                 )
@@ -92,9 +96,13 @@ class AllTimeCalculator:
                 elif year.yearNumber == allTimeFilters.yearNumberEnd:
                     # last year we want, make sure week number end matches what was requested
                     # first week and every week til givenWeekEnd
-                    yearWeekNumberStartWeekNumberEnd.append((year, 1, allTimeFilters.weekNumberEnd))
+                    yearWeekNumberStartWeekNumberEnd.append(
+                        (year, 1, allTimeFilters.weekNumberEnd)
+                    )
                 elif (
-                    allTimeFilters.yearNumberStart < year.yearNumber < allTimeFilters.yearNumberEnd
+                    allTimeFilters.yearNumberStart
+                    < year.yearNumber
+                    < allTimeFilters.yearNumberEnd
                 ):
                     # this year is in our year range, include every week in this year
                     yearWeekNumberStartWeekNumberEnd.append((year, 1, len(year.weeks)))
@@ -133,7 +141,9 @@ class AllTimeCalculator:
         if allTimeFilters.yearNumberStart == allTimeFilters.yearNumberEnd:
             yearWeekNumberStartWeekNumberEnd.append(
                 (
-                    LeagueNavigator.getYearByYearNumber(league, allTimeFilters.yearNumberStart),
+                    LeagueNavigator.getYearByYearNumber(
+                        league, allTimeFilters.yearNumberStart
+                    ),
                     allTimeFilters.weekNumberStart,
                     allTimeFilters.weekNumberEnd,
                 )
@@ -149,9 +159,13 @@ class AllTimeCalculator:
                 elif year.yearNumber == allTimeFilters.yearNumberEnd:
                     # last year we want, make sure week number end matches what was requested
                     # first week and every week til givenWeekEnd
-                    yearWeekNumberStartWeekNumberEnd.append((year, 1, allTimeFilters.weekNumberEnd))
+                    yearWeekNumberStartWeekNumberEnd.append(
+                        (year, 1, allTimeFilters.weekNumberEnd)
+                    )
                 elif (
-                    allTimeFilters.yearNumberStart < year.yearNumber < allTimeFilters.yearNumberEnd
+                    allTimeFilters.yearNumberStart
+                    < year.yearNumber
+                    < allTimeFilters.yearNumberEnd
                 ):
                     # this year is in our year range, include every week in this year
                     yearWeekNumberStartWeekNumberEnd.append((year, 1, len(year.weeks)))
@@ -175,7 +189,10 @@ class AllTimeCalculator:
 
     @classmethod
     def _getAllFilteredMatchups(
-        cls, league: League, allTimeFilters: AllTimeFilters, simplifyMultiWeekMatchups=False
+        cls,
+        league: League,
+        allTimeFilters: AllTimeFilters,
+        simplifyMultiWeekMatchups=False,
     ) -> list[Matchup]:
         """
         Returns all Matchups in the given League that are remaining after the given filters are applied.
@@ -186,7 +203,9 @@ class AllTimeCalculator:
         if allTimeFilters.yearNumberStart == allTimeFilters.yearNumberEnd:
             yearWeekNumberStartWeekNumberEnd.append(
                 (
-                    LeagueNavigator.getYearByYearNumber(league, allTimeFilters.yearNumberStart),
+                    LeagueNavigator.getYearByYearNumber(
+                        league, allTimeFilters.yearNumberStart
+                    ),
                     allTimeFilters.weekNumberStart,
                     allTimeFilters.weekNumberEnd,
                 )
@@ -202,9 +221,13 @@ class AllTimeCalculator:
                 elif year.yearNumber == allTimeFilters.yearNumberEnd:
                     # last year we want, make sure week number end matches what was requested
                     # first week and every week til givenWeekEnd
-                    yearWeekNumberStartWeekNumberEnd.append((year, 1, allTimeFilters.weekNumberEnd))
+                    yearWeekNumberStartWeekNumberEnd.append(
+                        (year, 1, allTimeFilters.weekNumberEnd)
+                    )
                 elif (
-                    allTimeFilters.yearNumberStart < year.yearNumber < allTimeFilters.yearNumberEnd
+                    allTimeFilters.yearNumberStart
+                    < year.yearNumber
+                    < allTimeFilters.yearNumberEnd
                 ):
                     # this year is in our year range, include every week in this year
                     yearWeekNumberStartWeekNumberEnd.append((year, 1, len(year.weeks)))
@@ -231,16 +254,18 @@ class AllTimeCalculator:
                                         matchup.multiWeekMatchupId
                                     ].append(matchup)
                                 else:
-                                    multiWeekMatchupIdToMatchupsMap[matchup.multiWeekMatchupId] = [
-                                        matchup
-                                    ]
+                                    multiWeekMatchupIdToMatchupsMap[
+                                        matchup.multiWeekMatchupId
+                                    ] = [matchup]
                             else:
                                 allFilteredMatchups.append(matchup)
 
         if simplifyMultiWeekMatchups:
             # simplify any multi-week matchups and add them to the returning list
             for _, matchupList in multiWeekMatchupIdToMatchupsMap.items():
-                allFilteredMatchups.append(MatchupNavigator.simplifyMultiWeekMatchups(matchupList))
+                allFilteredMatchups.append(
+                    MatchupNavigator.simplifyMultiWeekMatchups(matchupList)
+                )
 
         return allFilteredMatchups
 
@@ -300,7 +325,9 @@ class AllTimeCalculator:
                         onlyRegularSeason=allTimeFilters.onlyRegularSeason,
                     )
                 elif (
-                    allTimeFilters.yearNumberStart < year.yearNumber < allTimeFilters.yearNumberEnd
+                    allTimeFilters.yearNumberStart
+                    < year.yearNumber
+                    < allTimeFilters.yearNumberEnd
                 ):
                     # this year is in our year range, include every week in this year
                     yearFiltersByYear[str(year.yearNumber)] = YearFilters(

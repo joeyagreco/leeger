@@ -10,4 +10,6 @@ if __name__ == "__main__":
     year = Year(yearNumber=2020, teams=list(), weeks=list(), yearSettings=yearSettings)
 
     # The YearSettings object can be used for multiple years if desired
-    anotherYear = Year(yearNumber=2021, teams=list(), weeks=list(), yearSettings=yearSettings)
+    anotherYear = Year(
+        yearNumber=2021, teams=list(), weeks=list(), yearSettings=yearSettings
+    )

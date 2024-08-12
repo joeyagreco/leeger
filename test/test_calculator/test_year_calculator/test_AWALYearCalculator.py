@@ -1,5 +1,4 @@
 import unittest
-from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 from leeger.calculator.year_calculator.AWALYearCalculator import AWALYearCalculator
 from leeger.enum.MatchupType import MatchupType
@@ -8,27 +7,46 @@ from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
 from leeger.util.Deci import Deci
+from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestAWALYearCalculator(unittest.TestCase):
     def test_getAWAL_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -52,27 +70,48 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getAWAL_leagueMedianGamesIsOn_addsLeagueMedianWinsToAWAL(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
         yearSettings = YearSettings(leagueMedianGames=True)
         year = Year(
-            yearNumber=2000, teams=teams, weeks=[week1, week2, week3], yearSettings=yearSettings
+            yearNumber=2000,
+            teams=teams,
+            weeks=[week1, week2, week3],
+            yearSettings=yearSettings,
         )
 
         response = AWALYearCalculator.getAWAL(year)
@@ -83,12 +122,20 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getAWAL_noneIfNoGamesPlayed(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
         week1 = Week(weekNumber=1, matchups=[matchup1])
 
-        matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup5 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup6 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup4 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup5 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup6 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
         week2 = Week(weekNumber=2, matchups=[matchup4, matchup5, matchup6])
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2])
@@ -107,9 +154,15 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getAWAL_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
@@ -181,9 +234,15 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getAWAL_onlyRegularSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
@@ -255,9 +314,15 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getAWAL_onlyChampionshipIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
@@ -329,9 +394,15 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getAWAL_weekNumberStartGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
@@ -403,9 +474,15 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getAWAL_weekNumberEndGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
@@ -477,9 +554,15 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getAWAL_weekNumberStartGivenAndWeekNumberEndGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
@@ -551,9 +634,15 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getAWAL_matchupEndsInTie(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=3)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=3
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
@@ -577,9 +666,15 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getAWAL_multipleMatchupsEndInTie(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=3)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=3
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
@@ -603,9 +698,15 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getAWAL_allMatchupsEndInTie(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=2, teamBScore=2)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=3, teamBScore=3)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=2, teamBScore=2
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=3, teamBScore=3
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
@@ -629,9 +730,15 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getAWAL_allMatchupsEndInTieAndHaveSameScore(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=1, teamBScore=1)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=1, teamBScore=1)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=1, teamBScore=1
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=1, teamBScore=1
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
@@ -655,14 +762,30 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getAWAL_sixteenTeams(self):
         owners, teams = getNDefaultOwnersAndTeams(16)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=5, teamBScore=6)
-        matchup4 = Matchup(teamAId=teams[6].id, teamBId=teams[7].id, teamAScore=7, teamBScore=8)
-        matchup5 = Matchup(teamAId=teams[8].id, teamBId=teams[9].id, teamAScore=9, teamBScore=10)
-        matchup6 = Matchup(teamAId=teams[10].id, teamBId=teams[11].id, teamAScore=11, teamBScore=12)
-        matchup7 = Matchup(teamAId=teams[12].id, teamBId=teams[13].id, teamAScore=13, teamBScore=14)
-        matchup8 = Matchup(teamAId=teams[14].id, teamBId=teams[15].id, teamAScore=15, teamBScore=16)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=5, teamBScore=6
+        )
+        matchup4 = Matchup(
+            teamAId=teams[6].id, teamBId=teams[7].id, teamAScore=7, teamBScore=8
+        )
+        matchup5 = Matchup(
+            teamAId=teams[8].id, teamBId=teams[9].id, teamAScore=9, teamBScore=10
+        )
+        matchup6 = Matchup(
+            teamAId=teams[10].id, teamBId=teams[11].id, teamAScore=11, teamBScore=12
+        )
+        matchup7 = Matchup(
+            teamAId=teams[12].id, teamBId=teams[13].id, teamAScore=13, teamBScore=14
+        )
+        matchup8 = Matchup(
+            teamAId=teams[14].id, teamBId=teams[15].id, teamAScore=15, teamBScore=16
+        )
 
         week1 = Week(
             weekNumber=1,
@@ -725,21 +848,39 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getAWALPerGame_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -763,27 +904,48 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getAWALPerGame_leagueMedianGamesIsOn(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
         yearSettings = YearSettings(leagueMedianGames=True)
         year = Year(
-            yearNumber=2000, teams=teams, weeks=[week1, week2, week3], yearSettings=yearSettings
+            yearNumber=2000,
+            teams=teams,
+            weeks=[week1, week2, week3],
+            yearSettings=yearSettings,
         )
 
         response = AWALYearCalculator.getAWALPerGame(year)
@@ -800,12 +962,20 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getAWALPerGame_noneIfNoGamesPlayed(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
         week1 = Week(weekNumber=1, matchups=[matchup1])
 
-        matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup5 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup6 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup4 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup5 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup6 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
         week2 = Week(weekNumber=2, matchups=[matchup4, matchup5, matchup6])
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2])
@@ -824,9 +994,15 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getAWALPerGame_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
@@ -898,9 +1074,15 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getAWALPerGame_onlyRegularSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
@@ -972,9 +1154,15 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getAWALPerGame_onlyChampionshipIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
@@ -1046,9 +1234,15 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getAWALPerGame_weekNumberStartGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
@@ -1120,9 +1314,15 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getAWALPerGame_weekNumberEndGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
@@ -1194,9 +1394,15 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getAWALPerGame_weekNumberStartGivenAndWeekNumberEndGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
@@ -1278,7 +1484,9 @@ class TestAWALYearCalculator(unittest.TestCase):
             weeks=[week1, week2, week3, week4],
         )
 
-        response = AWALYearCalculator.getAWALPerGame(year, weekNumberStart=2, weekNumberEnd=3)
+        response = AWALYearCalculator.getAWALPerGame(
+            year, weekNumberStart=2, weekNumberEnd=3
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -1292,9 +1500,15 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getAWALPerGame_teamsDontPlayEveryWeek(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
@@ -1328,21 +1542,39 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getOpponentAWAL_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -1366,27 +1598,48 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getOpponentAWAL_leagueMedianGamesIsOn_countsLeagueMedianGames(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
         yearSettings = YearSettings(leagueMedianGames=True)
         year = Year(
-            yearNumber=2000, teams=teams, weeks=[week1, week2, week3], yearSettings=yearSettings
+            yearNumber=2000,
+            teams=teams,
+            weeks=[week1, week2, week3],
+            yearSettings=yearSettings,
         )
 
         response = AWALYearCalculator.getOpponentAWAL(year)
@@ -1403,12 +1656,20 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getOpponentAWAL_noneIfNoGamesPlayed(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
         week1 = Week(weekNumber=1, matchups=[matchup1])
 
-        matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup5 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup6 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup4 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup5 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup6 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
         week2 = Week(weekNumber=2, matchups=[matchup4, matchup5, matchup6])
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2])
@@ -1427,9 +1688,15 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getOpponentAWAL_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
@@ -1501,9 +1768,15 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getOpponentAWAL_onlyRegularSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
@@ -1575,9 +1848,15 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getOpponentAWAL_onlyChampionshipIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
@@ -1649,9 +1928,15 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getOpponentAWAL_weekNumberStartGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
@@ -1723,9 +2008,15 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getOpponentAWAL_weekNumberEndGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
@@ -1797,9 +2088,15 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getOpponentAWAL_weekNumberStartGivenAndWeekNumberEndGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
@@ -1857,7 +2154,9 @@ class TestAWALYearCalculator(unittest.TestCase):
             weeks=[week1, week2, week3],
         )
 
-        response = AWALYearCalculator.getOpponentAWAL(year, weekNumberStart=2, weekNumberEnd=3)
+        response = AWALYearCalculator.getOpponentAWAL(
+            year, weekNumberStart=2, weekNumberEnd=3
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -1871,9 +2170,15 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getOpponentAWAL_matchupEndsInTie(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=3)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=3
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
@@ -1897,9 +2202,15 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getOpponentAWAL_multipleMatchupsEndInTie(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=3)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=3
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
@@ -1923,9 +2234,15 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getOpponentAWAL_allMatchupsEndInTie(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=2, teamBScore=2)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=3, teamBScore=3)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=2, teamBScore=2
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=3, teamBScore=3
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
@@ -1949,9 +2266,15 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getOpponentAWAL_allMatchupsEndInTieAndHaveSameScore(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=1, teamBScore=1)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=1, teamBScore=1)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=1, teamBScore=1
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=1, teamBScore=1
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
@@ -1975,14 +2298,30 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getOpponentAWAL_sixteenTeams(self):
         owners, teams = getNDefaultOwnersAndTeams(16)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=5, teamBScore=6)
-        matchup4 = Matchup(teamAId=teams[6].id, teamBId=teams[7].id, teamAScore=7, teamBScore=8)
-        matchup5 = Matchup(teamAId=teams[8].id, teamBId=teams[9].id, teamAScore=9, teamBScore=10)
-        matchup6 = Matchup(teamAId=teams[10].id, teamBId=teams[11].id, teamAScore=11, teamBScore=12)
-        matchup7 = Matchup(teamAId=teams[12].id, teamBId=teams[13].id, teamAScore=13, teamBScore=14)
-        matchup8 = Matchup(teamAId=teams[14].id, teamBId=teams[15].id, teamAScore=15, teamBScore=16)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=5, teamBScore=6
+        )
+        matchup4 = Matchup(
+            teamAId=teams[6].id, teamBId=teams[7].id, teamAScore=7, teamBScore=8
+        )
+        matchup5 = Matchup(
+            teamAId=teams[8].id, teamBId=teams[9].id, teamAScore=9, teamBScore=10
+        )
+        matchup6 = Matchup(
+            teamAId=teams[10].id, teamBId=teams[11].id, teamAScore=11, teamBScore=12
+        )
+        matchup7 = Matchup(
+            teamAId=teams[12].id, teamBId=teams[13].id, teamAScore=13, teamBScore=14
+        )
+        matchup8 = Matchup(
+            teamAId=teams[14].id, teamBId=teams[15].id, teamAScore=15, teamBScore=16
+        )
 
         week1 = Week(
             weekNumber=1,
@@ -2045,21 +2384,39 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getOpponentAWALPerGame_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
@@ -2083,27 +2440,48 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getOpponentAWALPerGame_leagueMedianGamesIsOn(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week2 = Week(weekNumber=2, matchups=[matchup1, matchup2, matchup3])
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week3 = Week(weekNumber=3, matchups=[matchup1, matchup2, matchup3])
 
         yearSettings = YearSettings(leagueMedianGames=True)
         year = Year(
-            yearNumber=2000, teams=teams, weeks=[week1, week2, week3], yearSettings=yearSettings
+            yearNumber=2000,
+            teams=teams,
+            weeks=[week1, week2, week3],
+            yearSettings=yearSettings,
         )
 
         response = AWALYearCalculator.getOpponentAWALPerGame(year)
@@ -2120,12 +2498,20 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getOpponentAWALPerGame_noneIfNoGamesPlayed(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
         week1 = Week(weekNumber=1, matchups=[matchup1])
 
-        matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup5 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup6 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup4 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup5 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup6 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
         week2 = Week(weekNumber=2, matchups=[matchup4, matchup5, matchup6])
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2])
@@ -2144,9 +2530,15 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getOpponentAWALPerGame_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
@@ -2218,9 +2610,15 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getOpponentAWALPerGame_onlyRegularSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
@@ -2278,7 +2676,9 @@ class TestAWALYearCalculator(unittest.TestCase):
             weeks=[week1, week2, week3],
         )
 
-        response = AWALYearCalculator.getOpponentAWALPerGame(year, onlyRegularSeason=True)
+        response = AWALYearCalculator.getOpponentAWALPerGame(
+            year, onlyRegularSeason=True
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -2292,9 +2692,15 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getOpponentAWALPerGame_onlyChampionshipIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
@@ -2352,7 +2758,9 @@ class TestAWALYearCalculator(unittest.TestCase):
             weeks=[week1, week2, week3],
         )
 
-        response = AWALYearCalculator.getOpponentAWALPerGame(year, onlyChampionship=True)
+        response = AWALYearCalculator.getOpponentAWALPerGame(
+            year, onlyChampionship=True
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -2366,9 +2774,15 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getOpponentAWALPerGame_weekNumberStartGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
@@ -2440,9 +2854,15 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getOpponentAWALPerGame_weekNumberEndGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
@@ -2514,9 +2934,15 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getOpponentAWALPerGame_weekNumberStartGivenAndWeekNumberEndGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
@@ -2614,9 +3040,15 @@ class TestAWALYearCalculator(unittest.TestCase):
     def test_getOpponentAWALPerGame_teamsDontPlayEveryWeek(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4, teamBScore=5
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 

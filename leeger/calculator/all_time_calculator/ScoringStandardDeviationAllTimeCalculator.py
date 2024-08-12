@@ -17,7 +17,9 @@ class ScoringStandardDeviationAllTimeCalculator(AllTimeCalculator):
 
     @classmethod
     @validateLeague
-    def getScoringStandardDeviation(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
+    def getScoringStandardDeviation(
+        cls, league: League, **kwargs
+    ) -> dict[str, Optional[Deci]]:
         """
         Scoring STDEV (Standard Deviation) is used to show how volatile a team's scoring was.
         This stat measures an Owner's scores relative to the mean (or PPG) of all of their scores.
@@ -46,7 +48,9 @@ class ScoringStandardDeviationAllTimeCalculator(AllTimeCalculator):
         for ownerId in allOwnerIds:
             ownerIdAndScores[ownerId] = list()
 
-        for matchup in cls._getAllFilteredMatchups(league, filters, simplifyMultiWeekMatchups=True):
+        for matchup in cls._getAllFilteredMatchups(
+            league, filters, simplifyMultiWeekMatchups=True
+        ):
             ownerAId = LeagueNavigator.getTeamById(league, matchup.teamAId).ownerId
             ownerBId = LeagueNavigator.getTeamById(league, matchup.teamBId).ownerId
             ownerIdAndScores[ownerAId].append(Deci(matchup.teamAScore))

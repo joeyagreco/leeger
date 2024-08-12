@@ -37,14 +37,17 @@ class FleaflickerLeagueLoader(LeagueLoader):
         except ValueError:
             raise ValueError(f"League ID '{leagueId}' could not be turned into an int.")
         super().__init__(
-            leagueId, years, ownerNamesAndAliases=ownerNamesAndAliases, leagueName=leagueName
+            leagueId,
+            years,
+            ownerNamesAndAliases=ownerNamesAndAliases,
+            leagueName=leagueName,
         )
 
         self.__fleaflickerTeamIdToOwnerMap: dict[int, Owner] = dict()
         self.__fleaflickerTeamIdToTeamMap: dict[int, Team] = dict()
-        self.__fleaflickerDivisionIdToDivisionMap: dict[
-            int, Division
-        ] = dict()  # holds the division info for ONLY the current year
+        self.__fleaflickerDivisionIdToDivisionMap: dict[int, Division] = (
+            dict()
+        )  # holds the division info for ONLY the current year
 
     def __getAllLeagues(self) -> list[dict]:
         # return a list of all leagues
@@ -84,17 +87,19 @@ class FleaflickerLeagueLoader(LeagueLoader):
         owners = list(self.__fleaflickerTeamIdToOwnerMap.values())
         for fleaflickerLeague in fleaflickerLeagues:
             # save league name for each year
-            self._leagueNameByYear[fleaflickerLeague["season"]] = fleaflickerLeague["league"][
-                "name"
-            ]
+            self._leagueNameByYear[fleaflickerLeague["season"]] = fleaflickerLeague[
+                "league"
+            ]["name"]
             years.append(self.__buildYear(fleaflickerLeague))
-        return League(name=self._getLeagueName(), owners=owners, years=self._getValidYears(years))
+        return League(
+            name=self._getLeagueName(), owners=owners, years=self._getValidYears(years)
+        )
 
     def __buildYear(self, fleaflickerLeague: dict) -> Year:
         # save division info
         for fleaflickerDivision in fleaflickerLeague["divisions"]:
-            self.__fleaflickerDivisionIdToDivisionMap[fleaflickerDivision["id"]] = Division(
-                name=fleaflickerDivision["name"]
+            self.__fleaflickerDivisionIdToDivisionMap[fleaflickerDivision["id"]] = (
+                Division(name=fleaflickerDivision["name"])
             )
         teams = self.__buildTeams(fleaflickerLeague)
         weeks = self.__buildWeeks(fleaflickerLeague)
@@ -185,7 +190,9 @@ class FleaflickerLeagueLoader(LeagueLoader):
                 team = Team(
                     ownerId=owner.id,
                     name=teamName,
-                    divisionId=self.__fleaflickerDivisionIdToDivisionMap[division["id"]].id,
+                    divisionId=self.__fleaflickerDivisionIdToDivisionMap[
+                        division["id"]
+                    ].id,
                 )
                 teams.append(team)
                 self.__fleaflickerTeamIdToTeamMap[teamId] = team
@@ -201,6 +208,12 @@ class FleaflickerLeagueLoader(LeagueLoader):
                     else:
                         ownerName = team["owners"][0]["displayName"]
                     # get general owner name if there is one
-                    generalOwnerName = self._getGeneralOwnerNameFromGivenOwnerName(ownerName)
-                    ownerName = generalOwnerName if generalOwnerName is not None else ownerName
-                    self.__fleaflickerTeamIdToOwnerMap[team["id"]] = Owner(name=ownerName)
+                    generalOwnerName = self._getGeneralOwnerNameFromGivenOwnerName(
+                        ownerName
+                    )
+                    ownerName = (
+                        generalOwnerName if generalOwnerName is not None else ownerName
+                    )
+                    self.__fleaflickerTeamIdToOwnerMap[team["id"]] = Owner(
+                        name=ownerName
+                    )

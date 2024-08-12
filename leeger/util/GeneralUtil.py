@@ -25,7 +25,9 @@ class GeneralUtil:
 
         excludeKeys = excludeKeys if excludeKeys is not None else list()
         # get the list of common kwargs that sometimes linger in kwargs to be passed down and used later.
-        defaultExcludeKeys = ConfigReader.get("KWARGS", "WARNING_EXCLUDE_KEYS", asType=list)
+        defaultExcludeKeys = ConfigReader.get(
+            "KWARGS", "WARNING_EXCLUDE_KEYS", asType=list
+        )
         excludeKeys += defaultExcludeKeys
 
         unused_kwargs = [kwarg for kwarg in kwargs.keys() if kwarg not in excludeKeys]
@@ -85,7 +87,9 @@ class GeneralUtil:
                         isRootDict=isRootDict,
                     )
                 )
-            elif isinstance(value1, (list, tuple)) and isinstance(value2, (list, tuple)):
+            elif isinstance(value1, (list, tuple)) and isinstance(
+                value2, (list, tuple)
+            ):
                 if len(value1) != len(value2):
                     differentFields.append((fullKey, (value1, value2)))
                 else:

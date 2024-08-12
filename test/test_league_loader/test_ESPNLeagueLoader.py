@@ -19,7 +19,9 @@ class TestESPNLeagueLoader(unittest.TestCase):
     def test_loadLeague_nonIntPassingStringForLeagueId(self):
         with self.assertRaises(ValueError) as context:
             ESPNLeagueLoader("a", [2000])
-        self.assertEqual("League ID 'a' could not be turned into an int.", str(context.exception))
+        self.assertEqual(
+            "League ID 'a' could not be turned into an int.", str(context.exception)
+        )
 
     @patch("espn_api.football.League")
     def test_load_league_happyPath(self, mockLeague):
@@ -107,14 +109,54 @@ class TestESPNLeagueLoader(unittest.TestCase):
         # Team1: 1
         # Team7: 2
         # Team3: 3
-        mockTeam1_2022.schedule = [mockTeam2_2022, mockTeam3_2022, mockTeam4_2022, mockTeam7_2022]
-        mockTeam2_2022.schedule = [mockTeam1_2022, mockTeam4_2022, mockTeam5_2022, mockTeam3_2022]
-        mockTeam3_2022.schedule = [mockTeam4_2022, mockTeam1_2022, mockTeam7_2022, mockTeam2_2022]
-        mockTeam4_2022.schedule = [mockTeam3_2022, mockTeam2_2022, mockTeam1_2022, mockTeam5_2022]
-        mockTeam5_2022.schedule = [mockTeam6_2022, mockTeam7_2022, mockTeam2_2022, mockTeam4_2022]
-        mockTeam6_2022.schedule = [mockTeam5_2022, mockTeam8_2022, mockTeam8_2022, mockTeam8_2022]
-        mockTeam7_2022.schedule = [mockTeam8_2022, mockTeam5_2022, mockTeam3_2022, mockTeam1_2022]
-        mockTeam8_2022.schedule = [mockTeam7_2022, mockTeam6_2022, mockTeam6_2022, mockTeam6_2022]
+        mockTeam1_2022.schedule = [
+            mockTeam2_2022,
+            mockTeam3_2022,
+            mockTeam4_2022,
+            mockTeam7_2022,
+        ]
+        mockTeam2_2022.schedule = [
+            mockTeam1_2022,
+            mockTeam4_2022,
+            mockTeam5_2022,
+            mockTeam3_2022,
+        ]
+        mockTeam3_2022.schedule = [
+            mockTeam4_2022,
+            mockTeam1_2022,
+            mockTeam7_2022,
+            mockTeam2_2022,
+        ]
+        mockTeam4_2022.schedule = [
+            mockTeam3_2022,
+            mockTeam2_2022,
+            mockTeam1_2022,
+            mockTeam5_2022,
+        ]
+        mockTeam5_2022.schedule = [
+            mockTeam6_2022,
+            mockTeam7_2022,
+            mockTeam2_2022,
+            mockTeam4_2022,
+        ]
+        mockTeam6_2022.schedule = [
+            mockTeam5_2022,
+            mockTeam8_2022,
+            mockTeam8_2022,
+            mockTeam8_2022,
+        ]
+        mockTeam7_2022.schedule = [
+            mockTeam8_2022,
+            mockTeam5_2022,
+            mockTeam3_2022,
+            mockTeam1_2022,
+        ]
+        mockTeam8_2022.schedule = [
+            mockTeam7_2022,
+            mockTeam6_2022,
+            mockTeam6_2022,
+            mockTeam6_2022,
+        ]
         mockEspnLeague2022.teams = [
             mockTeam1_2022,
             mockTeam2_2022,
@@ -238,23 +280,55 @@ class TestESPNLeagueLoader(unittest.TestCase):
         division1_2023 = Division(name="d1_2023")
         division2_2023 = Division(name="d2_2023")
 
-        team1_2022 = Team(ownerId=owner1.id, name="Team 1", divisionId=division1_2022.id)
-        team2_2022 = Team(ownerId=owner2.id, name="Team 2", divisionId=division1_2022.id)
-        team3_2022 = Team(ownerId=owner3.id, name="Team 3", divisionId=division1_2022.id)
-        team4_2022 = Team(ownerId=owner4.id, name="Team 4", divisionId=division1_2022.id)
-        team5_2022 = Team(ownerId=owner5.id, name="Team 5", divisionId=division2_2022.id)
-        team6_2022 = Team(ownerId=owner6.id, name="Team 6", divisionId=division2_2022.id)
-        team7_2022 = Team(ownerId=owner7.id, name="Team 7", divisionId=division2_2022.id)
-        team8_2022 = Team(ownerId=owner8.id, name="Team 8", divisionId=division2_2022.id)
+        team1_2022 = Team(
+            ownerId=owner1.id, name="Team 1", divisionId=division1_2022.id
+        )
+        team2_2022 = Team(
+            ownerId=owner2.id, name="Team 2", divisionId=division1_2022.id
+        )
+        team3_2022 = Team(
+            ownerId=owner3.id, name="Team 3", divisionId=division1_2022.id
+        )
+        team4_2022 = Team(
+            ownerId=owner4.id, name="Team 4", divisionId=division1_2022.id
+        )
+        team5_2022 = Team(
+            ownerId=owner5.id, name="Team 5", divisionId=division2_2022.id
+        )
+        team6_2022 = Team(
+            ownerId=owner6.id, name="Team 6", divisionId=division2_2022.id
+        )
+        team7_2022 = Team(
+            ownerId=owner7.id, name="Team 7", divisionId=division2_2022.id
+        )
+        team8_2022 = Team(
+            ownerId=owner8.id, name="Team 8", divisionId=division2_2022.id
+        )
 
-        team1_2023 = Team(ownerId=owner1.id, name="Team 1", divisionId=division1_2023.id)
-        team2_2023 = Team(ownerId=owner2.id, name="Team 2", divisionId=division1_2023.id)
-        team3_2023 = Team(ownerId=owner3.id, name="Team 3", divisionId=division1_2023.id)
-        team4_2023 = Team(ownerId=owner4.id, name="Team 4", divisionId=division1_2023.id)
-        team5_2023 = Team(ownerId=owner5.id, name="Team 5", divisionId=division2_2023.id)
-        team6_2023 = Team(ownerId=owner6.id, name="Team 6", divisionId=division2_2023.id)
-        team7_2023 = Team(ownerId=owner7.id, name="Team 7", divisionId=division2_2023.id)
-        team8_2023 = Team(ownerId=owner8.id, name="Team 8", divisionId=division2_2023.id)
+        team1_2023 = Team(
+            ownerId=owner1.id, name="Team 1", divisionId=division1_2023.id
+        )
+        team2_2023 = Team(
+            ownerId=owner2.id, name="Team 2", divisionId=division1_2023.id
+        )
+        team3_2023 = Team(
+            ownerId=owner3.id, name="Team 3", divisionId=division1_2023.id
+        )
+        team4_2023 = Team(
+            ownerId=owner4.id, name="Team 4", divisionId=division1_2023.id
+        )
+        team5_2023 = Team(
+            ownerId=owner5.id, name="Team 5", divisionId=division2_2023.id
+        )
+        team6_2023 = Team(
+            ownerId=owner6.id, name="Team 6", divisionId=division2_2023.id
+        )
+        team7_2023 = Team(
+            ownerId=owner7.id, name="Team 7", divisionId=division2_2023.id
+        )
+        team8_2023 = Team(
+            ownerId=owner8.id, name="Team 8", divisionId=division2_2023.id
+        )
 
         expectedLeague = League(
             name="Test League 2023",
@@ -492,7 +566,9 @@ class TestESPNLeagueLoader(unittest.TestCase):
                 ),
             ],
         )
-        self.assertTrue(league.equals(expectedLeague, ignoreBaseIds=True, ignoreIds=True))
+        self.assertTrue(
+            league.equals(expectedLeague, ignoreBaseIds=True, ignoreIds=True)
+        )
         # check multiWeekMatchupIds
         for year in league.years:
             for week in year.weeks:
@@ -585,14 +661,54 @@ class TestESPNLeagueLoader(unittest.TestCase):
         # Team1: 1
         # Team7: 2
         # Team3: 3
-        mockTeam1_2022.schedule = [mockTeam2_2022, mockTeam3_2022, mockTeam4_2022, mockTeam7_2022]
-        mockTeam2_2022.schedule = [mockTeam1_2022, mockTeam4_2022, mockTeam5_2022, mockTeam3_2022]
-        mockTeam3_2022.schedule = [mockTeam4_2022, mockTeam1_2022, mockTeam7_2022, mockTeam2_2022]
-        mockTeam4_2022.schedule = [mockTeam3_2022, mockTeam2_2022, mockTeam1_2022, mockTeam5_2022]
-        mockTeam5_2022.schedule = [mockTeam6_2022, mockTeam7_2022, mockTeam2_2022, mockTeam4_2022]
-        mockTeam6_2022.schedule = [mockTeam5_2022, mockTeam8_2022, mockTeam8_2022, mockTeam8_2022]
-        mockTeam7_2022.schedule = [mockTeam8_2022, mockTeam5_2022, mockTeam3_2022, mockTeam1_2022]
-        mockTeam8_2022.schedule = [mockTeam7_2022, mockTeam6_2022, mockTeam6_2022, mockTeam6_2022]
+        mockTeam1_2022.schedule = [
+            mockTeam2_2022,
+            mockTeam3_2022,
+            mockTeam4_2022,
+            mockTeam7_2022,
+        ]
+        mockTeam2_2022.schedule = [
+            mockTeam1_2022,
+            mockTeam4_2022,
+            mockTeam5_2022,
+            mockTeam3_2022,
+        ]
+        mockTeam3_2022.schedule = [
+            mockTeam4_2022,
+            mockTeam1_2022,
+            mockTeam7_2022,
+            mockTeam2_2022,
+        ]
+        mockTeam4_2022.schedule = [
+            mockTeam3_2022,
+            mockTeam2_2022,
+            mockTeam1_2022,
+            mockTeam5_2022,
+        ]
+        mockTeam5_2022.schedule = [
+            mockTeam6_2022,
+            mockTeam7_2022,
+            mockTeam2_2022,
+            mockTeam4_2022,
+        ]
+        mockTeam6_2022.schedule = [
+            mockTeam5_2022,
+            mockTeam8_2022,
+            mockTeam8_2022,
+            mockTeam8_2022,
+        ]
+        mockTeam7_2022.schedule = [
+            mockTeam8_2022,
+            mockTeam5_2022,
+            mockTeam3_2022,
+            mockTeam1_2022,
+        ]
+        mockTeam8_2022.schedule = [
+            mockTeam7_2022,
+            mockTeam6_2022,
+            mockTeam6_2022,
+            mockTeam6_2022,
+        ]
         mockEspnLeague2022.teams = [
             mockTeam1_2022,
             mockTeam2_2022,
@@ -729,23 +845,55 @@ class TestESPNLeagueLoader(unittest.TestCase):
         division1_2023 = Division(name="d1_2023")
         division2_2023 = Division(name="d2_2023")
 
-        team1_2022 = Team(ownerId=owner1.id, name="Team 1", divisionId=division1_2022.id)
-        team2_2022 = Team(ownerId=owner2.id, name="Team 2", divisionId=division1_2022.id)
-        team3_2022 = Team(ownerId=owner3.id, name="Team 3", divisionId=division1_2022.id)
-        team4_2022 = Team(ownerId=owner4.id, name="Team 4", divisionId=division1_2022.id)
-        team5_2022 = Team(ownerId=owner5.id, name="Team 5", divisionId=division2_2022.id)
-        team6_2022 = Team(ownerId=owner6.id, name="Team 6", divisionId=division2_2022.id)
-        team7_2022 = Team(ownerId=owner7.id, name="Team 7", divisionId=division2_2022.id)
-        team8_2022 = Team(ownerId=owner8.id, name="Team 8", divisionId=division2_2022.id)
+        team1_2022 = Team(
+            ownerId=owner1.id, name="Team 1", divisionId=division1_2022.id
+        )
+        team2_2022 = Team(
+            ownerId=owner2.id, name="Team 2", divisionId=division1_2022.id
+        )
+        team3_2022 = Team(
+            ownerId=owner3.id, name="Team 3", divisionId=division1_2022.id
+        )
+        team4_2022 = Team(
+            ownerId=owner4.id, name="Team 4", divisionId=division1_2022.id
+        )
+        team5_2022 = Team(
+            ownerId=owner5.id, name="Team 5", divisionId=division2_2022.id
+        )
+        team6_2022 = Team(
+            ownerId=owner6.id, name="Team 6", divisionId=division2_2022.id
+        )
+        team7_2022 = Team(
+            ownerId=owner7.id, name="Team 7", divisionId=division2_2022.id
+        )
+        team8_2022 = Team(
+            ownerId=owner8.id, name="Team 8", divisionId=division2_2022.id
+        )
 
-        team1_2023 = Team(ownerId=owner1.id, name="Team 1", divisionId=division1_2023.id)
-        team2_2023 = Team(ownerId=owner2.id, name="Team 2", divisionId=division1_2023.id)
-        team3_2023 = Team(ownerId=owner3.id, name="Team 3", divisionId=division1_2023.id)
-        team4_2023 = Team(ownerId=owner4.id, name="Team 4", divisionId=division1_2023.id)
-        team5_2023 = Team(ownerId=owner5.id, name="Team 5", divisionId=division2_2023.id)
-        team6_2023 = Team(ownerId=owner6.id, name="Team 6", divisionId=division2_2023.id)
-        team7_2023 = Team(ownerId=owner7.id, name="Team 7", divisionId=division2_2023.id)
-        team8_2023 = Team(ownerId=owner8.id, name="Team 8", divisionId=division2_2023.id)
+        team1_2023 = Team(
+            ownerId=owner1.id, name="Team 1", divisionId=division1_2023.id
+        )
+        team2_2023 = Team(
+            ownerId=owner2.id, name="Team 2", divisionId=division1_2023.id
+        )
+        team3_2023 = Team(
+            ownerId=owner3.id, name="Team 3", divisionId=division1_2023.id
+        )
+        team4_2023 = Team(
+            ownerId=owner4.id, name="Team 4", divisionId=division1_2023.id
+        )
+        team5_2023 = Team(
+            ownerId=owner5.id, name="Team 5", divisionId=division2_2023.id
+        )
+        team6_2023 = Team(
+            ownerId=owner6.id, name="Team 6", divisionId=division2_2023.id
+        )
+        team7_2023 = Team(
+            ownerId=owner7.id, name="Team 7", divisionId=division2_2023.id
+        )
+        team8_2023 = Team(
+            ownerId=owner8.id, name="Team 8", divisionId=division2_2023.id
+        )
 
         expectedLeague = League(
             name="Test League 2023",
@@ -983,7 +1131,9 @@ class TestESPNLeagueLoader(unittest.TestCase):
                 ),
             ],
         )
-        self.assertTrue(league.equals(expectedLeague, ignoreBaseIds=True, ignoreIds=True))
+        self.assertTrue(
+            league.equals(expectedLeague, ignoreBaseIds=True, ignoreIds=True)
+        )
         # check multiWeekMatchupIds
         for year in league.years:
             for week in year.weeks:
@@ -1076,14 +1226,54 @@ class TestESPNLeagueLoader(unittest.TestCase):
         # Team1: 1
         # Team7: 2
         # Team3: 3
-        mockTeam1_2022.schedule = [mockTeam2_2022, mockTeam3_2022, mockTeam4_2022, mockTeam7_2022]
-        mockTeam2_2022.schedule = [mockTeam1_2022, mockTeam4_2022, mockTeam5_2022, mockTeam3_2022]
-        mockTeam3_2022.schedule = [mockTeam4_2022, mockTeam1_2022, mockTeam7_2022, mockTeam2_2022]
-        mockTeam4_2022.schedule = [mockTeam3_2022, mockTeam2_2022, mockTeam1_2022, mockTeam5_2022]
-        mockTeam5_2022.schedule = [mockTeam6_2022, mockTeam7_2022, mockTeam2_2022, mockTeam4_2022]
-        mockTeam6_2022.schedule = [mockTeam5_2022, mockTeam8_2022, mockTeam8_2022, mockTeam8_2022]
-        mockTeam7_2022.schedule = [mockTeam8_2022, mockTeam5_2022, mockTeam3_2022, mockTeam1_2022]
-        mockTeam8_2022.schedule = [mockTeam7_2022, mockTeam6_2022, mockTeam6_2022, mockTeam6_2022]
+        mockTeam1_2022.schedule = [
+            mockTeam2_2022,
+            mockTeam3_2022,
+            mockTeam4_2022,
+            mockTeam7_2022,
+        ]
+        mockTeam2_2022.schedule = [
+            mockTeam1_2022,
+            mockTeam4_2022,
+            mockTeam5_2022,
+            mockTeam3_2022,
+        ]
+        mockTeam3_2022.schedule = [
+            mockTeam4_2022,
+            mockTeam1_2022,
+            mockTeam7_2022,
+            mockTeam2_2022,
+        ]
+        mockTeam4_2022.schedule = [
+            mockTeam3_2022,
+            mockTeam2_2022,
+            mockTeam1_2022,
+            mockTeam5_2022,
+        ]
+        mockTeam5_2022.schedule = [
+            mockTeam6_2022,
+            mockTeam7_2022,
+            mockTeam2_2022,
+            mockTeam4_2022,
+        ]
+        mockTeam6_2022.schedule = [
+            mockTeam5_2022,
+            mockTeam8_2022,
+            mockTeam8_2022,
+            mockTeam8_2022,
+        ]
+        mockTeam7_2022.schedule = [
+            mockTeam8_2022,
+            mockTeam5_2022,
+            mockTeam3_2022,
+            mockTeam1_2022,
+        ]
+        mockTeam8_2022.schedule = [
+            mockTeam7_2022,
+            mockTeam6_2022,
+            mockTeam6_2022,
+            mockTeam6_2022,
+        ]
         mockEspnLeague2022.teams = [
             mockTeam1_2022,
             mockTeam2_2022,

@@ -17,7 +17,9 @@ class ScoringStandardDeviationYearCalculator(YearCalculator):
 
     @classmethod
     @validateYear
-    def getScoringStandardDeviation(cls, year: Year, **kwargs) -> dict[str, Optional[Deci]]:
+    def getScoringStandardDeviation(
+        cls, year: Year, **kwargs
+    ) -> dict[str, Optional[Deci]]:
         """
         Scoring STDEV (Standard Deviation) is used to show how volatile a team's scoring was.
         This stat measures a team's scores relative to the mean (or PPG) of all of their scores.
@@ -56,7 +58,9 @@ class ScoringStandardDeviationYearCalculator(YearCalculator):
         for teamId in allTeamIds:
             if len(teamIdAndScores[teamId]) > 0:
                 # the Team has scores in this range
-                teamIdAndScoringStandardDeviation[teamId] = Deci(numpy.std(teamIdAndScores[teamId]))
+                teamIdAndScoringStandardDeviation[teamId] = Deci(
+                    numpy.std(teamIdAndScores[teamId])
+                )
             else:
                 # no scores for this Team in this range, return None for them
                 teamIdAndScoringStandardDeviation[teamId] = None

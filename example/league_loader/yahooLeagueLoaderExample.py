@@ -20,6 +20,10 @@ if __name__ == "__main__":
     clientId = "myClientId"
     clientSecret = "myClientSecret"
     yahooLeagueLoader = YahooLeagueLoader(
-        "123456", [2019, 2020], clientId=clientId, clientSecret=clientSecret, loginTimeoutSeconds=4
+        "123456",
+        [2019, 2020],
+        clientId=clientId,
+        clientSecret=clientSecret,
+        loginTimeoutSeconds=4,
     )
     league: League = yahooLeagueLoader.loadLeague()

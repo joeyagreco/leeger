@@ -38,7 +38,9 @@ class Division(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
         )
 
     def __eq__(self, otherDivision: Division) -> bool:
-        self.__LOGGER.info("Use .equals() for more options when comparing Division instances.")
+        self.__LOGGER.info(
+            "Use .equals() for more options when comparing Division instances."
+        )
         return self.equals(otherDivision=otherDivision)
 
     def toJson(self) -> dict:

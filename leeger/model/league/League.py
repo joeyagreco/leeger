@@ -68,7 +68,9 @@ class League(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
         )
 
     def __eq__(self, otherLeague: League) -> bool:
-        self.__LOGGER.info("Use .equals() for more options when comparing League instances.")
+        self.__LOGGER.info(
+            "Use .equals() for more options when comparing League instances."
+        )
         return self.equals(otherLeague=otherLeague)
 
     def __add__(self, otherLeague: League) -> League:
@@ -151,7 +153,9 @@ class League(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
         for year in self.years:
             if year.yearNumber == yearNumber:
                 return year
-        raise DoesNotExistException(f"League does not have a year with year number {yearNumber}")
+        raise DoesNotExistException(
+            f"League does not have a year with year number {yearNumber}"
+        )
 
     def getOwnerByName(self, ownerName: str) -> Owner:
         """
@@ -160,7 +164,9 @@ class League(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
         for owner in self.owners:
             if owner.name == ownerName:
                 return owner
-        raise DoesNotExistException(f"League does not have an owner with name '{ownerName}'")
+        raise DoesNotExistException(
+            f"League does not have an owner with name '{ownerName}'"
+        )
 
     def toJson(self) -> dict:
         return {

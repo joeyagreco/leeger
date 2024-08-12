@@ -1,13 +1,15 @@
 import unittest
-from test.helper.prototypes import getNDefaultOwnersAndTeams, getTeamsFromOwners
 
-from leeger.calculator.all_time_calculator.SSLAllTimeCalculator import SSLAllTimeCalculator
+from leeger.calculator.all_time_calculator.SSLAllTimeCalculator import (
+    SSLAllTimeCalculator,
+)
 from leeger.enum.MatchupType import MatchupType
 from leeger.model.league.League import League
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
 from leeger.util.Deci import Deci
+from test.helper.prototypes import getNDefaultOwnersAndTeams, getTeamsFromOwners
 
 
 class TestSSLAllTimeCalculator(unittest.TestCase):
@@ -15,9 +17,13 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
         owners, teamsA = getNDefaultOwnersAndTeams(2)
         teamsB = getTeamsFromOwners(owners)
 
-        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup1_a = Matchup(
+            teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2
+        )
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a])
 
@@ -43,9 +49,13 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
     def test_getAdjustedTeamScore_noneIfNoGamesPlayed(self):
         owners, teamsA = getNDefaultOwnersAndTeams(3)
 
-        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup1_a = Matchup(
+            teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
-        matchup2_a = Matchup(teamAId=teamsA[1].id, teamBId=teamsA[2].id, teamAScore=1, teamBScore=2)
+        matchup2_a = Matchup(
+            teamAId=teamsA[1].id, teamBId=teamsA[2].id, teamAScore=1, teamBScore=2
+        )
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a])
 
@@ -62,7 +72,9 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
         owners, teamsA = getNDefaultOwnersAndTeams(2)
         teamsB = getTeamsFromOwners(owners)
 
-        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup1_a = Matchup(
+            teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         matchup2_a = Matchup(
             teamAId=teamsA[0].id,
@@ -94,7 +106,9 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB])
 
-        response = SSLAllTimeCalculator.getAdjustedTeamScore(league, onlyPostSeason=True)
+        response = SSLAllTimeCalculator.getAdjustedTeamScore(
+            league, onlyPostSeason=True
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -105,9 +119,13 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
         owners, teamsA = getNDefaultOwnersAndTeams(2)
         teamsB = getTeamsFromOwners(owners)
 
-        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup1_a = Matchup(
+            teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2
+        )
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         matchup3_a = Matchup(
             teamAId=teamsA[0].id,
@@ -127,7 +145,9 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB])
 
-        response = SSLAllTimeCalculator.getAdjustedTeamScore(league, onlyRegularSeason=True)
+        response = SSLAllTimeCalculator.getAdjustedTeamScore(
+            league, onlyRegularSeason=True
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -138,9 +158,13 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
         owners, teamsA = getNDefaultOwnersAndTeams(2)
         teamsB = getTeamsFromOwners(owners)
 
-        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup1_a = Matchup(
+            teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2
+        )
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         matchup3_a = Matchup(
             teamAId=teamsA[0].id,
@@ -164,7 +188,9 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB])
 
-        response = SSLAllTimeCalculator.getAdjustedTeamScore(league, onlyChampionship=True)
+        response = SSLAllTimeCalculator.getAdjustedTeamScore(
+            league, onlyChampionship=True
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -186,9 +212,13 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         yearA = Year(yearNumber=1999, teams=teamsA, weeks=[week1_a])
 
-        matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
+        matchup1_b = Matchup(
+            teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2
+        )
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         matchup3_b = Matchup(
             teamAId=teamsB[0].id,
@@ -236,9 +266,13 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         yearA = Year(yearNumber=1999, teams=teamsA, weeks=[week1_a])
 
-        matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
+        matchup1_b = Matchup(
+            teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2
+        )
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         matchup3_b = Matchup(
             teamAId=teamsB[0].id,
@@ -288,9 +322,13 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         yearA = Year(yearNumber=1999, teams=teamsA, weeks=[week1_a])
 
-        matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
+        matchup1_b = Matchup(
+            teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2
+        )
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         matchup3_b = Matchup(
             teamAId=teamsB[0].id,
@@ -323,7 +361,11 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
         response = SSLAllTimeCalculator.getAdjustedTeamScore(
-            league, yearNumberStart=2000, weekNumberStart=2, yearNumberEnd=2001, weekNumberEnd=1
+            league,
+            yearNumberStart=2000,
+            weekNumberStart=2,
+            yearNumberEnd=2001,
+            weekNumberEnd=1,
         )
 
         self.assertIsInstance(response, dict)
@@ -335,9 +377,13 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
         owners, teamsA = getNDefaultOwnersAndTeams(2)
         teamsB = getTeamsFromOwners(owners)
 
-        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup1_a = Matchup(
+            teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2
+        )
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a])
 
@@ -363,9 +409,13 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
     def test_getAdjustedTeamSuccess_noneIfNoGamesPlayed(self):
         owners, teamsA = getNDefaultOwnersAndTeams(3)
 
-        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup1_a = Matchup(
+            teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
-        matchup2_a = Matchup(teamAId=teamsA[1].id, teamBId=teamsA[2].id, teamAScore=1, teamBScore=2)
+        matchup2_a = Matchup(
+            teamAId=teamsA[1].id, teamBId=teamsA[2].id, teamAScore=1, teamBScore=2
+        )
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a])
 
@@ -382,7 +432,9 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
         owners, teamsA = getNDefaultOwnersAndTeams(2)
         teamsB = getTeamsFromOwners(owners)
 
-        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup1_a = Matchup(
+            teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         matchup2_a = Matchup(
             teamAId=teamsA[0].id,
@@ -414,7 +466,9 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB])
 
-        response = SSLAllTimeCalculator.getAdjustedTeamSuccess(league, onlyPostSeason=True)
+        response = SSLAllTimeCalculator.getAdjustedTeamSuccess(
+            league, onlyPostSeason=True
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -425,9 +479,13 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
         owners, teamsA = getNDefaultOwnersAndTeams(2)
         teamsB = getTeamsFromOwners(owners)
 
-        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup1_a = Matchup(
+            teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2
+        )
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         matchup3_a = Matchup(
             teamAId=teamsA[0].id,
@@ -447,7 +505,9 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB])
 
-        response = SSLAllTimeCalculator.getAdjustedTeamSuccess(league, onlyRegularSeason=True)
+        response = SSLAllTimeCalculator.getAdjustedTeamSuccess(
+            league, onlyRegularSeason=True
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -458,9 +518,13 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
         owners, teamsA = getNDefaultOwnersAndTeams(2)
         teamsB = getTeamsFromOwners(owners)
 
-        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup1_a = Matchup(
+            teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2
+        )
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         matchup3_a = Matchup(
             teamAId=teamsA[0].id,
@@ -484,7 +548,9 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB])
 
-        response = SSLAllTimeCalculator.getAdjustedTeamSuccess(league, onlyChampionship=True)
+        response = SSLAllTimeCalculator.getAdjustedTeamSuccess(
+            league, onlyChampionship=True
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -506,9 +572,13 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         yearA = Year(yearNumber=1999, teams=teamsA, weeks=[week1_a])
 
-        matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
+        matchup1_b = Matchup(
+            teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2
+        )
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         matchup3_b = Matchup(
             teamAId=teamsB[0].id,
@@ -556,9 +626,13 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         yearA = Year(yearNumber=1999, teams=teamsA, weeks=[week1_a])
 
-        matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
+        matchup1_b = Matchup(
+            teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2
+        )
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         matchup3_b = Matchup(
             teamAId=teamsB[0].id,
@@ -608,9 +682,13 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         yearA = Year(yearNumber=1999, teams=teamsA, weeks=[week1_a])
 
-        matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
+        matchup1_b = Matchup(
+            teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2
+        )
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         matchup3_b = Matchup(
             teamAId=teamsB[0].id,
@@ -643,7 +721,11 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
         response = SSLAllTimeCalculator.getAdjustedTeamSuccess(
-            league, yearNumberStart=2000, weekNumberStart=2, yearNumberEnd=2001, weekNumberEnd=1
+            league,
+            yearNumberStart=2000,
+            weekNumberStart=2,
+            yearNumberEnd=2001,
+            weekNumberEnd=1,
         )
 
         self.assertIsInstance(response, dict)
@@ -655,9 +737,13 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
         owners, teamsA = getNDefaultOwnersAndTeams(2)
         teamsB = getTeamsFromOwners(owners)
 
-        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup1_a = Matchup(
+            teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2
+        )
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a])
 
@@ -683,9 +769,13 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
     def test_getAdjustedTeamLuck_noneIfNoGamesPlayed(self):
         owners, teamsA = getNDefaultOwnersAndTeams(3)
 
-        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup1_a = Matchup(
+            teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
-        matchup2_a = Matchup(teamAId=teamsA[1].id, teamBId=teamsA[2].id, teamAScore=1, teamBScore=2)
+        matchup2_a = Matchup(
+            teamAId=teamsA[1].id, teamBId=teamsA[2].id, teamAScore=1, teamBScore=2
+        )
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         yearA = Year(yearNumber=2000, teams=teamsA, weeks=[week1_a, week2_a])
 
@@ -702,7 +792,9 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
         owners, teamsA = getNDefaultOwnersAndTeams(2)
         teamsB = getTeamsFromOwners(owners)
 
-        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup1_a = Matchup(
+            teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         matchup2_a = Matchup(
             teamAId=teamsA[0].id,
@@ -745,9 +837,13 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
         owners, teamsA = getNDefaultOwnersAndTeams(2)
         teamsB = getTeamsFromOwners(owners)
 
-        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup1_a = Matchup(
+            teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2
+        )
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         matchup3_a = Matchup(
             teamAId=teamsA[0].id,
@@ -767,7 +863,9 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB])
 
-        response = SSLAllTimeCalculator.getAdjustedTeamLuck(league, onlyRegularSeason=True)
+        response = SSLAllTimeCalculator.getAdjustedTeamLuck(
+            league, onlyRegularSeason=True
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -778,9 +876,13 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
         owners, teamsA = getNDefaultOwnersAndTeams(2)
         teamsB = getTeamsFromOwners(owners)
 
-        matchup1_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup1_a = Matchup(
+            teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2
+        )
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
-        matchup2_a = Matchup(teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2)
+        matchup2_a = Matchup(
+            teamAId=teamsA[0].id, teamBId=teamsA[1].id, teamAScore=1, teamBScore=2
+        )
         week2_a = Week(weekNumber=2, matchups=[matchup2_a])
         matchup3_a = Matchup(
             teamAId=teamsA[0].id,
@@ -804,7 +906,9 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB])
 
-        response = SSLAllTimeCalculator.getAdjustedTeamLuck(league, onlyChampionship=True)
+        response = SSLAllTimeCalculator.getAdjustedTeamLuck(
+            league, onlyChampionship=True
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -826,9 +930,13 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         yearA = Year(yearNumber=1999, teams=teamsA, weeks=[week1_a])
 
-        matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
+        matchup1_b = Matchup(
+            teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2
+        )
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         matchup3_b = Matchup(
             teamAId=teamsB[0].id,
@@ -876,9 +984,13 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         yearA = Year(yearNumber=1999, teams=teamsA, weeks=[week1_a])
 
-        matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
+        matchup1_b = Matchup(
+            teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2
+        )
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         matchup3_b = Matchup(
             teamAId=teamsB[0].id,
@@ -928,9 +1040,13 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
         week1_a = Week(weekNumber=1, matchups=[matchup1_a])
         yearA = Year(yearNumber=1999, teams=teamsA, weeks=[week1_a])
 
-        matchup1_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
+        matchup1_b = Matchup(
+            teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2
+        )
         week1_b = Week(weekNumber=1, matchups=[matchup1_b])
-        matchup2_b = Matchup(teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2)
+        matchup2_b = Matchup(
+            teamAId=teamsB[0].id, teamBId=teamsB[1].id, teamAScore=1, teamBScore=2
+        )
         week2_b = Week(weekNumber=2, matchups=[matchup2_b])
         matchup3_b = Matchup(
             teamAId=teamsB[0].id,
@@ -963,7 +1079,11 @@ class TestSSLAllTimeCalculator(unittest.TestCase):
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
         response = SSLAllTimeCalculator.getAdjustedTeamLuck(
-            league, yearNumberStart=2000, weekNumberStart=2, yearNumberEnd=2001, weekNumberEnd=1
+            league,
+            yearNumberStart=2000,
+            weekNumberStart=2,
+            yearNumberEnd=2001,
+            weekNumberEnd=1,
         )
 
         self.assertIsInstance(response, dict)

@@ -25,9 +25,9 @@ class Matchup(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
     matchupType: MatchupType = MatchupType.REGULAR_SEASON
     teamAHasTiebreaker: Optional[bool] = False
     teamBHasTiebreaker: Optional[bool] = False
-    multiWeekMatchupId: Optional[
-        str
-    ] = None  # This is used to link matchups that span over multiple weeks
+    multiWeekMatchupId: Optional[str] = (
+        None  # This is used to link matchups that span over multiple weeks
+    )
 
     def __post_init__(self):
         # Team A and Team B cannot both have the tiebreaker
@@ -71,7 +71,9 @@ class Matchup(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
         )
 
     def __eq__(self, otherMatchup: Matchup) -> bool:
-        self.__LOGGER.info("Use .equals() for more options when comparing Matchup instances.")
+        self.__LOGGER.info(
+            "Use .equals() for more options when comparing Matchup instances."
+        )
         return self.equals(otherMatchup=otherMatchup)
 
     def splitToPerformances(self) -> tuple[Performance, Performance]:
