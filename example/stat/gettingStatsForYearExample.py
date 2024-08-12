@@ -29,31 +29,41 @@ if __name__ == "__main__":
     wins = GameOutcomeYearCalculator.getWins(year2019)
 
     # Get opponent points scored per game.
-    opponentPointsScoredPerGame = PointsScoredYearCalculator.getOpponentPointsScoredPerGame(
-        year2019
+    opponentPointsScoredPerGame = (
+        PointsScoredYearCalculator.getOpponentPointsScoredPerGame(year2019)
     )
 
     # To limit results to only regular season, specify that as a keyword argument.
     maxScore = SingleScoreYearCalculator.getMaxScore(year2019, onlyRegularSeason=True)
 
     # To limit results to only post-season (playoffs), specify that as a keyword argument.
-    scoringShare = ScoringShareYearCalculator.getScoringShare(year2019, onlyPostSeason=True)
+    scoringShare = ScoringShareYearCalculator.getScoringShare(
+        year2019, onlyPostSeason=True
+    )
 
     # To limit results to only championship games, specify that as a keyword argument.
-    winPercentage = GameOutcomeYearCalculator.getWinPercentage(year2019, onlyChampionship=True)
+    winPercentage = GameOutcomeYearCalculator.getWinPercentage(
+        year2019, onlyChampionship=True
+    )
 
     # To limit results to only certain weeks, specify that as a keyword argument.
     # Let's assume this year has weeks 1-15.
 
     # Will get weeks 5-15.
-    scoringStandardDeviation = ScoringStandardDeviationYearCalculator.getScoringStandardDeviation(
-        year2019, weekNumberStart=5
+    scoringStandardDeviation = (
+        ScoringStandardDeviationYearCalculator.getScoringStandardDeviation(
+            year2019, weekNumberStart=5
+        )
     )
     # Will get weeks 1-10.
-    scoringStandardDeviation = ScoringStandardDeviationYearCalculator.getScoringStandardDeviation(
-        year2019, weekNumberEnd=10
+    scoringStandardDeviation = (
+        ScoringStandardDeviationYearCalculator.getScoringStandardDeviation(
+            year2019, weekNumberEnd=10
+        )
     )
     # Will get weeks 5-10.
-    scoringStandardDeviation = ScoringStandardDeviationYearCalculator.getScoringStandardDeviation(
-        year2019, weekNumberStart=5, weekNumberEnd=10
+    scoringStandardDeviation = (
+        ScoringStandardDeviationYearCalculator.getScoringStandardDeviation(
+            year2019, weekNumberStart=5, weekNumberEnd=10
+        )
     )

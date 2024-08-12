@@ -1,18 +1,24 @@
 import unittest
-from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 from leeger.enum import MatchupType
 from leeger.model.league.Matchup import Matchup
 from leeger.util.navigator.MatchupNavigator import MatchupNavigator
+from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestMatchupNavigator(unittest.TestCase):
     def test_getTeamIdOfMatchupWinner_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=2, teamBScore=1)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=2, teamBScore=1
+        )
+        matchup3 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=1
+        )
 
         response1 = MatchupNavigator.getTeamIdOfMatchupWinner(matchup1)
         response2 = MatchupNavigator.getTeamIdOfMatchupWinner(matchup2)
@@ -91,8 +97,12 @@ class TestMatchupNavigator(unittest.TestCase):
     def test_getMedianScore_happyPath(self):
         _, teams = getNDefaultOwnersAndTeams(4)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3, teamBScore=4
+        )
 
         response = MatchupNavigator.getMedianScore([matchup1, matchup2])
 

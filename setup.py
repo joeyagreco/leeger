@@ -23,7 +23,9 @@ setuptools.setup(
     long_description=readme,
     license="MIT",
     url="https://github.com/joeyagreco/leeger",
-    packages=setuptools.find_packages(exclude=("test", "doc", "example", "img", ".github")),
+    packages=setuptools.find_packages(
+        exclude=("test", "doc", "example", "img", ".github")
+    ),
     install_requires=required_packages,
     include_package_data=True,
     python_requires=f">={minimum_python_version_required}",

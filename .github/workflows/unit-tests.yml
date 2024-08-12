@@ -18,20 +18,18 @@ jobs:
   build:
     name: unit tests
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10"]
 
     steps:
       - uses: actions/checkout@v3
 
-      - name: Get current required Python version
-        id: get-python-versions
-        run: |
-          MINIMUM_VERSION=$(grep -oP '__version_minimum_python__ = "\K.*(?=")' leeger/_version.py)
-          echo "CURRENT_VERSION=$MINIMUM_VERSION" >> $GITHUB_ENV
-
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
-          python-version: ${{ env.CURRENT_VERSION }}
+          python-version: ${{ matrix.python-version }}
 
       - name: Install dependencies
         run: |

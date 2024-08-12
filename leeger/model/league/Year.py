@@ -91,12 +91,17 @@ class Year(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
                 "teams": {"ignoreIds": ignoreIds, "ignoreBaseIds": ignoreBaseIds},
                 "weeks": {"ignoreIds": ignoreIds, "ignoreBaseIds": ignoreBaseIds},
                 "divisions": {"ignoreIds": ignoreIds, "ignoreBaseIds": ignoreBaseIds},
-                "yearSettings": {"ignoreIds": ignoreIds, "ignoreBaseIds": ignoreBaseIds},
+                "yearSettings": {
+                    "ignoreIds": ignoreIds,
+                    "ignoreBaseIds": ignoreBaseIds,
+                },
             },
         )
 
     def __eq__(self, otherYear: Year) -> bool:
-        self.__LOGGER.info("Use .equals() for more options when comparing Year instances.")
+        self.__LOGGER.info(
+            "Use .equals() for more options when comparing Year instances."
+        )
         return self.equals(otherYear=otherYear)
 
     def getTeamByName(self, teamName: str) -> Team:
@@ -106,7 +111,9 @@ class Year(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
         for team in self.teams:
             if team.name == teamName:
                 return team
-        raise DoesNotExistException(f"Year does not have a team with name '{teamName}'.")
+        raise DoesNotExistException(
+            f"Year does not have a team with name '{teamName}'."
+        )
 
     def getWeekByWeekNumber(self, weekNumber: int) -> Week:
         """
@@ -115,7 +122,9 @@ class Year(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
         for week in self.weeks:
             if week.weekNumber == weekNumber:
                 return week
-        raise DoesNotExistException(f"Year does not have a week with week number {weekNumber}.")
+        raise DoesNotExistException(
+            f"Year does not have a week with week number {weekNumber}."
+        )
 
     def toJson(self) -> dict:
         return {

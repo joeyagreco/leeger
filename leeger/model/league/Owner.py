@@ -38,7 +38,9 @@ class Owner(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
         )
 
     def __eq__(self, otherOwner: Owner) -> bool:
-        self.__LOGGER.info("Use .equals() for more options when comparing Owner instances.")
+        self.__LOGGER.info(
+            "Use .equals() for more options when comparing Owner instances."
+        )
         return self.equals(otherOwner=otherOwner)
 
     def toJson(self) -> dict:

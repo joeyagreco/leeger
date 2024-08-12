@@ -62,7 +62,9 @@ class Week(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
         )
 
     def __eq__(self, otherWeek: Week) -> bool:
-        self.__LOGGER.info("Use .equals() for more options when comparing Week instances.")
+        self.__LOGGER.info(
+            "Use .equals() for more options when comparing Week instances."
+        )
         return self.equals(otherWeek=otherWeek)
 
     @property
@@ -102,7 +104,9 @@ class Week(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
         for matchup in self.matchups:
             if matchup.teamAId == teamId or matchup.teamBId == teamId:
                 return matchup
-        raise DoesNotExistException(f"Week does not have a matchup with team ID '{teamId}'.")
+        raise DoesNotExistException(
+            f"Week does not have a matchup with team ID '{teamId}'."
+        )
 
     def toJson(self) -> dict:
         return {

@@ -1,5 +1,4 @@
 import unittest
-from test.helper.prototypes import getNDefaultOwnersAndTeams, getTeamsFromOwners
 
 from leeger.calculator.all_time_calculator.PointsScoredAllTimeCalculator import (
     PointsScoredAllTimeCalculator,
@@ -10,6 +9,7 @@ from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
 from leeger.util.Deci import Deci
+from test.helper.prototypes import getNDefaultOwnersAndTeams, getTeamsFromOwners
 
 
 class TestPointsScoredAllTimeCalculator(unittest.TestCase):
@@ -107,7 +107,9 @@ class TestPointsScoredAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA])
 
-        response = PointsScoredAllTimeCalculator.getPointsScored(league, weekNumberEnd=1)
+        response = PointsScoredAllTimeCalculator.getPointsScored(
+            league, weekNumberEnd=1
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(3, len(response.keys()))
@@ -260,7 +262,9 @@ class TestPointsScoredAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = PointsScoredAllTimeCalculator.getPointsScored(league, onlyRegularSeason=True)
+        response = PointsScoredAllTimeCalculator.getPointsScored(
+            league, onlyRegularSeason=True
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -338,7 +342,9 @@ class TestPointsScoredAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = PointsScoredAllTimeCalculator.getPointsScored(league, onlyChampionship=True)
+        response = PointsScoredAllTimeCalculator.getPointsScored(
+            league, onlyChampionship=True
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -609,7 +615,11 @@ class TestPointsScoredAllTimeCalculator(unittest.TestCase):
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
         response = PointsScoredAllTimeCalculator.getPointsScored(
-            league, yearNumberStart=2001, weekNumberStart=1, yearNumberEnd=2001, weekNumberEnd=2
+            league,
+            yearNumberStart=2001,
+            weekNumberStart=1,
+            yearNumberEnd=2001,
+            weekNumberEnd=2,
         )
 
         self.assertIsInstance(response, dict)
@@ -715,7 +725,9 @@ class TestPointsScoredAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA])
 
-        response = PointsScoredAllTimeCalculator.getPointsScoredPerGame(league, weekNumberEnd=1)
+        response = PointsScoredAllTimeCalculator.getPointsScoredPerGame(
+            league, weekNumberEnd=1
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(3, len(response.keys()))
@@ -1221,7 +1233,11 @@ class TestPointsScoredAllTimeCalculator(unittest.TestCase):
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
         response = PointsScoredAllTimeCalculator.getPointsScoredPerGame(
-            league, yearNumberStart=2001, weekNumberStart=1, yearNumberEnd=2001, weekNumberEnd=2
+            league,
+            yearNumberStart=2001,
+            weekNumberStart=1,
+            yearNumberEnd=2001,
+            weekNumberEnd=2,
         )
 
         self.assertIsInstance(response, dict)
@@ -1327,7 +1343,9 @@ class TestPointsScoredAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA])
 
-        response = PointsScoredAllTimeCalculator.getOpponentPointsScored(league, weekNumberEnd=1)
+        response = PointsScoredAllTimeCalculator.getOpponentPointsScored(
+            league, weekNumberEnd=1
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(3, len(response.keys()))
@@ -1833,7 +1851,11 @@ class TestPointsScoredAllTimeCalculator(unittest.TestCase):
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
         response = PointsScoredAllTimeCalculator.getOpponentPointsScored(
-            league, yearNumberStart=2001, weekNumberStart=1, yearNumberEnd=2001, weekNumberEnd=2
+            league,
+            yearNumberStart=2001,
+            weekNumberStart=1,
+            yearNumberEnd=2001,
+            weekNumberEnd=2,
         )
 
         self.assertIsInstance(response, dict)
@@ -2187,7 +2209,9 @@ class TestPointsScoredAllTimeCalculator(unittest.TestCase):
         self.assertEqual(Deci("5.5"), response[owners[4].id])
         self.assertEqual(Deci("4.4"), response[owners[5].id])
 
-    def test_getOpponentPointsScoredPerGame_yearNumberStartGivenWeekNumberStartGiven(self):
+    def test_getOpponentPointsScoredPerGame_yearNumberStartGivenWeekNumberStartGiven(
+        self,
+    ):
         owners, teamsA = getNDefaultOwnersAndTeams(6)
         teamsB = getTeamsFromOwners(owners)
         teamsC = getTeamsFromOwners(owners)
@@ -2447,7 +2471,11 @@ class TestPointsScoredAllTimeCalculator(unittest.TestCase):
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
         response = PointsScoredAllTimeCalculator.getOpponentPointsScoredPerGame(
-            league, yearNumberStart=2001, weekNumberStart=1, yearNumberEnd=2001, weekNumberEnd=2
+            league,
+            yearNumberStart=2001,
+            weekNumberStart=1,
+            yearNumberEnd=2001,
+            weekNumberEnd=2,
         )
 
         self.assertIsInstance(response, dict)

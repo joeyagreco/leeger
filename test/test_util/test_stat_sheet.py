@@ -1,5 +1,4 @@
 import unittest
-from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 from leeger.model.league import YearSettings
 from leeger.model.league.League import League
@@ -8,6 +7,7 @@ from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
 from leeger.model.stat.AllTimeStatSheet import AllTimeStatSheet
 from leeger.model.stat.YearStatSheet import YearStatSheet
+from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestStatSheet(unittest.TestCase):
@@ -16,7 +16,9 @@ class TestStatSheet(unittest.TestCase):
 
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
         week = Week(weekNumber=1, matchups=[matchup])
         year = Year(yearNumber=2000, teams=teams, weeks=[week])
 
@@ -72,10 +74,14 @@ class TestStatSheet(unittest.TestCase):
 
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
         week = Week(weekNumber=1, matchups=[matchup])
         yearSettings = YearSettings(leagueMedianGames=True)
-        year = Year(yearNumber=2000, teams=teams, weeks=[week], yearSettings=yearSettings)
+        year = Year(
+            yearNumber=2000, teams=teams, weeks=[week], yearSettings=yearSettings
+        )
 
         league = League(name="TEST", owners=owners, years=[year])
 
@@ -89,7 +95,9 @@ class TestStatSheet(unittest.TestCase):
 
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
         week = Week(weekNumber=1, matchups=[matchup])
         year = Year(yearNumber=2000, teams=teams, weeks=[week])
 
@@ -148,7 +156,9 @@ class TestStatSheet(unittest.TestCase):
 
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
         week = Week(weekNumber=1, matchups=[matchup])
         year = Year(yearNumber=2000, teams=teams, weeks=[week])
 
@@ -211,10 +221,14 @@ class TestStatSheet(unittest.TestCase):
 
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
         week = Week(weekNumber=1, matchups=[matchup])
         yearSettings = YearSettings(leagueMedianGames=True)
-        year = Year(yearNumber=2000, teams=teams, weeks=[week], yearSettings=yearSettings)
+        year = Year(
+            yearNumber=2000, teams=teams, weeks=[week], yearSettings=yearSettings
+        )
 
         yearStatSheet = yearStatSheet(year)
 

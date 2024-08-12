@@ -29,7 +29,9 @@ class SSLAllTimeCalculator(AllTimeCalculator):
 
     @classmethod
     @validateLeague
-    def getAdjustedTeamScore(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
+    def getAdjustedTeamScore(
+        cls, league: League, **kwargs
+    ) -> dict[str, Optional[Deci]]:
         """
         Returns the Adjusted Team Score per Game for each Owner in the given League.
         Returns None for an Owner if all Years for that Owner are None
@@ -58,7 +60,9 @@ class SSLAllTimeCalculator(AllTimeCalculator):
                 year, **yearFiltersByYear[str(yearNumber)].asKwargs()
             )
 
-        ownerIdToTeamScoreAndGamesPlayedListMap: dict[str, list[tuple[Deci, int]]] = dict()
+        ownerIdToTeamScoreAndGamesPlayedListMap: dict[str, list[tuple[Deci, int]]] = (
+            dict()
+        )
         # {"someOwnerId": [(Deci("101.5"), 4), (Deci("109.4), 5)]}
         for yearNumber, teamScoreResultDict in teamScoreResultsOrderedByYear.items():
             for teamId, teamScore in teamScoreResultDict.items():
@@ -75,7 +79,10 @@ class SSLAllTimeCalculator(AllTimeCalculator):
 
         # adjust team scores by games played
         ownerIdAndAdjustedTeamScore: dict[str, Optional[Deci]] = dict()
-        for ownerId, teamScoreAndGamesPlayedList in ownerIdToTeamScoreAndGamesPlayedListMap.items():
+        for (
+            ownerId,
+            teamScoreAndGamesPlayedList,
+        ) in ownerIdToTeamScoreAndGamesPlayedListMap.items():
             totalGamesPlayed = sum([tsagp[1] for tsagp in teamScoreAndGamesPlayedList])
             if totalGamesPlayed > 0:
                 for teamScore, gamesPlayed in teamScoreAndGamesPlayedList:
@@ -96,7 +103,9 @@ class SSLAllTimeCalculator(AllTimeCalculator):
 
     @classmethod
     @validateLeague
-    def getAdjustedTeamSuccess(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
+    def getAdjustedTeamSuccess(
+        cls, league: League, **kwargs
+    ) -> dict[str, Optional[Deci]]:
         """
         Returns the Adjusted Team Success per Game for each Owner in the given League.
         Returns None for an Owner if all Years for that Owner are None
@@ -125,9 +134,14 @@ class SSLAllTimeCalculator(AllTimeCalculator):
                 year, **yearFiltersByYear[str(yearNumber)].asKwargs()
             )
 
-        ownerIdToTeamSuccessAndGamesPlayedListMap: dict[str, list[tuple[Deci, int]]] = dict()
+        ownerIdToTeamSuccessAndGamesPlayedListMap: dict[str, list[tuple[Deci, int]]] = (
+            dict()
+        )
         # {"someOwnerId": [(Deci("101.5"), 4), (Deci("109.4), 5)]}
-        for yearNumber, teamSuccessResultDict in teamSuccessResultsOrderedByYear.items():
+        for (
+            yearNumber,
+            teamSuccessResultDict,
+        ) in teamSuccessResultsOrderedByYear.items():
             for teamId, teamSuccess in teamSuccessResultDict.items():
                 team = LeagueNavigator.getTeamById(league, teamId)
                 gamesPlayed = gamesPlayedByYear[yearNumber][teamId]
@@ -146,14 +160,20 @@ class SSLAllTimeCalculator(AllTimeCalculator):
             ownerId,
             teamSuccessAndGamesPlayedList,
         ) in ownerIdToTeamSuccessAndGamesPlayedListMap.items():
-            totalGamesPlayed = sum([tsagp[1] for tsagp in teamSuccessAndGamesPlayedList])
+            totalGamesPlayed = sum(
+                [tsagp[1] for tsagp in teamSuccessAndGamesPlayedList]
+            )
             if totalGamesPlayed > 0:
                 for teamSuccess, gamesPlayed in teamSuccessAndGamesPlayedList:
                     if teamSuccess is not None:
                         percentageOfGamesPlayed = Deci(gamesPlayed / totalGamesPlayed)
-                        adjustedTeamSuccess = Deci(teamSuccess * percentageOfGamesPlayed)
+                        adjustedTeamSuccess = Deci(
+                            teamSuccess * percentageOfGamesPlayed
+                        )
                         if ownerId in ownerIdAndAdjustedTeamSuccess:
-                            ownerIdAndAdjustedTeamSuccess[ownerId] += adjustedTeamSuccess
+                            ownerIdAndAdjustedTeamSuccess[ownerId] += (
+                                adjustedTeamSuccess
+                            )
                         else:
                             ownerIdAndAdjustedTeamSuccess[ownerId] = adjustedTeamSuccess
 
@@ -180,7 +200,9 @@ class SSLAllTimeCalculator(AllTimeCalculator):
             }
         """
         ownerIdAndAdjustedTeamLuck: dict[str, Optional[Deci]] = dict()
-        ownerIdAndAdjustedTeamScore = SSLAllTimeCalculator.getAdjustedTeamScore(league, **kwargs)
+        ownerIdAndAdjustedTeamScore = SSLAllTimeCalculator.getAdjustedTeamScore(
+            league, **kwargs
+        )
         ownerIdAndAdjustedTeamSuccess = SSLAllTimeCalculator.getAdjustedTeamSuccess(
             league, **kwargs
         )
@@ -189,7 +211,9 @@ class SSLAllTimeCalculator(AllTimeCalculator):
             adjustedTeamScore = ownerIdAndAdjustedTeamScore[ownerId]
             adjustedTeamSuccess = ownerIdAndAdjustedTeamSuccess[ownerId]
             if adjustedTeamScore is not None and adjustedTeamSuccess is not None:
-                ownerIdAndAdjustedTeamLuck[ownerId] = Deci(adjustedTeamSuccess - adjustedTeamScore)
+                ownerIdAndAdjustedTeamLuck[ownerId] = Deci(
+                    adjustedTeamSuccess - adjustedTeamScore
+                )
             else:
                 ownerIdAndAdjustedTeamLuck[ownerId] = None
 

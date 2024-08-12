@@ -1,5 +1,4 @@
 import unittest
-from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception.InvalidYearFormatException import InvalidYearFormatException
@@ -10,6 +9,7 @@ from leeger.model.league.Team import Team
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
 from leeger.validate import yearValidation
+from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestYearValidation(unittest.TestCase):
@@ -18,7 +18,9 @@ class TestYearValidation(unittest.TestCase):
             yearValidation.checkAtLeastOneWeekInYear(
                 Year(yearNumber=2000, teams=list(), weeks=list())
             )
-        self.assertEqual("Year 2000 does not have at least 1 week.", str(context.exception))
+        self.assertEqual(
+            "Year 2000 does not have at least 1 week.", str(context.exception)
+        )
 
     def test_checkWeekNumberingInYear_yearDuplicateWeekNumbers_raisesException(self):
         week1 = Week(weekNumber=1, matchups=list())
@@ -28,7 +30,9 @@ class TestYearValidation(unittest.TestCase):
             yearValidation.checkWeekNumberingInYear(
                 Year(yearNumber=2000, teams=list(), weeks=[week1, week1duplicate])
             )
-        self.assertEqual("Year 2000 has duplicate week numbers.", str(context.exception))
+        self.assertEqual(
+            "Year 2000 has duplicate week numbers.", str(context.exception)
+        )
 
     def test_checkWeekNumberingInYear_lowestWeekNumberIsNotOne_raisesException(self):
         week2 = Week(weekNumber=2, matchups=list())
@@ -37,7 +41,9 @@ class TestYearValidation(unittest.TestCase):
             yearValidation.checkWeekNumberingInYear(
                 Year(yearNumber=2000, teams=list(), weeks=[week2])
             )
-        self.assertEqual("First week in year 2000 must be 1, not 2.", str(context.exception))
+        self.assertEqual(
+            "First week in year 2000 must be 1, not 2.", str(context.exception)
+        )
 
     def test_checkWeekNumberingInYear_weekNumbersNotOneThroughN_raisesException(self):
         week1 = Week(weekNumber=1, matchups=list())
@@ -50,7 +56,8 @@ class TestYearValidation(unittest.TestCase):
                 Year(yearNumber=2000, teams=list(), weeks=[week1, week2, week4])
             )  # no week 3
         self.assertEqual(
-            "Year 2000 does not have week numbers in order (1-n).", str(context.exception)
+            "Year 2000 does not have week numbers in order (1-n).",
+            str(context.exception),
         )
 
         with self.assertRaises(InvalidYearFormatException) as context:
@@ -58,12 +65,19 @@ class TestYearValidation(unittest.TestCase):
                 Year(yearNumber=2000, teams=list(), weeks=[week1, week2, week4, week3])
             )  # weeks not in order
         self.assertEqual(
-            "Year 2000 does not have week numbers in order (1-n).", str(context.exception)
+            "Year 2000 does not have week numbers in order (1-n).",
+            str(context.exception),
         )
 
-    def test_checkPlayoffWeekOrderingInYear_nonPlayoffWeekAfterPlayoffWeek_raisesException(self):
+    def test_checkPlayoffWeekOrderingInYear_nonPlayoffWeekAfterPlayoffWeek_raisesException(
+        self,
+    ):
         matchup1 = Matchup(
-            teamAId="", teamBId="", teamAScore=0, teamBScore=0, matchupType=MatchupType.PLAYOFF
+            teamAId="",
+            teamBId="",
+            teamAScore=0,
+            teamBScore=0,
+            matchupType=MatchupType.PLAYOFF,
         )
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=list())
@@ -73,7 +87,8 @@ class TestYearValidation(unittest.TestCase):
                 Year(yearNumber=2000, teams=list(), weeks=[week1, week2])
             )
         self.assertEqual(
-            "Year 2000 has a non-playoff week after a playoff week.", str(context.exception)
+            "Year 2000 has a non-playoff week after a playoff week.",
+            str(context.exception),
         )
 
     def test_checkPlayoffWeekOrderingInYear_nonChampionshipWeekAfterChampionshipWeek_raisesException(
@@ -117,7 +132,9 @@ class TestYearValidation(unittest.TestCase):
             )
         self.assertEqual("Year 2000 needs at least 2 teams.", str(context.exception))
 
-    def test_checkGivenYearHasValidYearNumber_yearNumberIsntInValidRange_raisesException(self):
+    def test_checkGivenYearHasValidYearNumber_yearNumberIsntInValidRange_raisesException(
+        self,
+    ):
         week1 = Week(weekNumber=1, matchups=list())
         team1 = Team(ownerId="1", name="1")
         team2 = Team(ownerId="2", name="2")
@@ -143,7 +160,9 @@ class TestYearValidation(unittest.TestCase):
             yearValidation.checkTeamOwnerIdsInYear(
                 Year(yearNumber=2000, teams=[team1, team2], weeks=[week1])
             )
-        self.assertEqual("Year 2000 has teams with the same owner IDs.", str(context.exception))
+        self.assertEqual(
+            "Year 2000 has teams with the same owner IDs.", str(context.exception)
+        )
 
     def test_checkTeamNamesInYear_teamsInAYearHaveDuplicateNames_raisesException(self):
         owner1 = Owner(name="1")
@@ -156,7 +175,9 @@ class TestYearValidation(unittest.TestCase):
             yearValidation.checkTeamNamesInYear(
                 Year(yearNumber=2000, teams=[team1, team2], weeks=list())
             )
-        self.assertEqual("Year 2000 has teams with duplicate names.", str(context.exception))
+        self.assertEqual(
+            "Year 2000 has teams with duplicate names.", str(context.exception)
+        )
 
     def test_checkTeamNamesInYear_teamsInAYearHaveSimilarNames_raisesException(self):
         # SPACE DIFFERENCE
@@ -170,7 +191,9 @@ class TestYearValidation(unittest.TestCase):
             yearValidation.checkTeamNamesInYear(
                 Year(yearNumber=2000, teams=[team1, team2], weeks=list())
             )
-        self.assertEqual("Year 2000 has teams with very similar names.", str(context.exception))
+        self.assertEqual(
+            "Year 2000 has teams with very similar names.", str(context.exception)
+        )
 
         # TAB DIFFERENCE
         team1 = Team(ownerId=owner1.id, name="1\t")  # has a tab in name
@@ -180,7 +203,9 @@ class TestYearValidation(unittest.TestCase):
             yearValidation.checkTeamNamesInYear(
                 Year(yearNumber=2000, teams=[team1, team2], weeks=list())
             )
-        self.assertEqual("Year 2000 has teams with very similar names.", str(context.exception))
+        self.assertEqual(
+            "Year 2000 has teams with very similar names.", str(context.exception)
+        )
 
         # NEWLINE DIFFERENCE
         team1 = Team(ownerId=owner1.id, name="1\n")  # has a newline in name
@@ -190,7 +215,9 @@ class TestYearValidation(unittest.TestCase):
             yearValidation.checkTeamNamesInYear(
                 Year(yearNumber=2000, teams=[team1, team2], weeks=list())
             )
-        self.assertEqual("Year 2000 has teams with very similar names.", str(context.exception))
+        self.assertEqual(
+            "Year 2000 has teams with very similar names.", str(context.exception)
+        )
 
         # CASE DIFFERENCE
         team1 = Team(ownerId=owner1.id, name="A")
@@ -200,28 +227,48 @@ class TestYearValidation(unittest.TestCase):
             yearValidation.checkTeamNamesInYear(
                 Year(yearNumber=2000, teams=[team1, team2], weeks=list())
             )
-        self.assertEqual("Year 2000 has teams with very similar names.", str(context.exception))
+        self.assertEqual(
+            "Year 2000 has teams with very similar names.", str(context.exception)
+        )
 
-    def test_checkDivisionNamesInYear_divisionsInAYearHaveDuplicateNames_raisesException(self):
+    def test_checkDivisionNamesInYear_divisionsInAYearHaveDuplicateNames_raisesException(
+        self,
+    ):
         division1 = Division(name="div")
         division2 = Division(name="div")
 
         with self.assertRaises(InvalidYearFormatException) as context:
             yearValidation.checkDivisionNamesInYear(
-                Year(yearNumber=2000, teams=list(), weeks=list(), divisions=[division1, division2])
+                Year(
+                    yearNumber=2000,
+                    teams=list(),
+                    weeks=list(),
+                    divisions=[division1, division2],
+                )
             )
-        self.assertEqual("Year 2000 has divisions with duplicate names.", str(context.exception))
+        self.assertEqual(
+            "Year 2000 has divisions with duplicate names.", str(context.exception)
+        )
 
-    def test_checkDivisionNamesInYear_divisionsInAYearHaveSimilarNames_raisesException(self):
+    def test_checkDivisionNamesInYear_divisionsInAYearHaveSimilarNames_raisesException(
+        self,
+    ):
         # SPACE DIFFERENCE
         division1 = Division(name="div ")  # has a space in name
         division2 = Division(name="div")
 
         with self.assertRaises(InvalidYearFormatException) as context:
             yearValidation.checkDivisionNamesInYear(
-                Year(yearNumber=2000, teams=list(), weeks=list(), divisions=[division1, division2])
+                Year(
+                    yearNumber=2000,
+                    teams=list(),
+                    weeks=list(),
+                    divisions=[division1, division2],
+                )
             )
-        self.assertEqual("Year 2000 has divisions with very similar names.", str(context.exception))
+        self.assertEqual(
+            "Year 2000 has divisions with very similar names.", str(context.exception)
+        )
 
         # TAB DIFFERENCE
         division1 = Division(name="div\t")  # has a tab in name
@@ -229,9 +276,16 @@ class TestYearValidation(unittest.TestCase):
 
         with self.assertRaises(InvalidYearFormatException) as context:
             yearValidation.checkDivisionNamesInYear(
-                Year(yearNumber=2000, teams=list(), weeks=list(), divisions=[division1, division2])
+                Year(
+                    yearNumber=2000,
+                    teams=list(),
+                    weeks=list(),
+                    divisions=[division1, division2],
+                )
             )
-        self.assertEqual("Year 2000 has divisions with very similar names.", str(context.exception))
+        self.assertEqual(
+            "Year 2000 has divisions with very similar names.", str(context.exception)
+        )
 
         # NEWLINE DIFFERENCE
         division1 = Division(name="div\t")  # has a newline in name
@@ -239,9 +293,16 @@ class TestYearValidation(unittest.TestCase):
 
         with self.assertRaises(InvalidYearFormatException) as context:
             yearValidation.checkDivisionNamesInYear(
-                Year(yearNumber=2000, teams=list(), weeks=list(), divisions=[division1, division2])
+                Year(
+                    yearNumber=2000,
+                    teams=list(),
+                    weeks=list(),
+                    divisions=[division1, division2],
+                )
             )
-        self.assertEqual("Year 2000 has divisions with very similar names.", str(context.exception))
+        self.assertEqual(
+            "Year 2000 has divisions with very similar names.", str(context.exception)
+        )
 
         # CASE DIFFERENCE
         division1 = Division(name="DIV")
@@ -249,9 +310,16 @@ class TestYearValidation(unittest.TestCase):
 
         with self.assertRaises(InvalidYearFormatException) as context:
             yearValidation.checkDivisionNamesInYear(
-                Year(yearNumber=2000, teams=list(), weeks=list(), divisions=[division1, division2])
+                Year(
+                    yearNumber=2000,
+                    teams=list(),
+                    weeks=list(),
+                    divisions=[division1, division2],
+                )
             )
-        self.assertEqual("Year 2000 has divisions with very similar names.", str(context.exception))
+        self.assertEqual(
+            "Year 2000 has divisions with very similar names.", str(context.exception)
+        )
 
     def test_checkForDuplicateTeams_duplicateTeams_raisesException(self):
         _, teams = getNDefaultOwnersAndTeams(1)
@@ -273,13 +341,24 @@ class TestYearValidation(unittest.TestCase):
         division = Division(name="div")
         with self.assertRaises(InvalidYearFormatException) as context:
             yearValidation.checkForDuplicateDivisions(
-                Year(yearNumber=2000, teams=list(), weeks=list(), divisions=[division, division])
+                Year(
+                    yearNumber=2000,
+                    teams=list(),
+                    weeks=list(),
+                    divisions=[division, division],
+                )
             )
-        self.assertEqual("Divisions must all be unique instances.", str(context.exception))
+        self.assertEqual(
+            "Divisions must all be unique instances.", str(context.exception)
+        )
 
-    def test_checkEveryTeamInYearIsInAMatchup_teamNotInAnyMatchups_raisesException(self):
+    def test_checkEveryTeamInYearIsInAMatchup_teamNotInAnyMatchups_raisesException(
+        self,
+    ):
         _, teams = getNDefaultOwnersAndTeams(3)
-        matchup = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
         week = Week(weekNumber=1, matchups=[matchup])
         with self.assertRaises(InvalidYearFormatException) as context:
             yearValidation.checkEveryTeamInYearIsInAMatchup(
@@ -302,7 +381,9 @@ class TestYearValidation(unittest.TestCase):
             multiWeekMatchupId="1",
         )
         week1 = Week(weekNumber=1, matchups=[matchup1])
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
         week2 = Week(weekNumber=2, matchups=[matchup2])
         matchup3 = Matchup(
             teamAId=teams[0].id,
@@ -369,9 +450,13 @@ class TestYearValidation(unittest.TestCase):
             multiWeekMatchupId="1",
         )
         week1 = Week(weekNumber=1, matchups=[matchup1])
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
         week2 = Week(weekNumber=2, matchups=[matchup2])
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup3 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
         week3 = Week(weekNumber=3, matchups=[matchup3])
         with self.assertRaises(InvalidYearFormatException) as context:
             yearValidation.checkMultiWeekMatchupsAreInMoreThanOneWeekOrAreNotTheMostRecentWeek(
@@ -386,7 +471,9 @@ class TestYearValidation(unittest.TestCase):
         self,
     ):
         _, teams = getNDefaultOwnersAndTeams(3)
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
         week1 = Week(weekNumber=1, matchups=[matchup1])
         matchup2 = Matchup(
             teamAId=teams[0].id,
@@ -404,7 +491,9 @@ class TestYearValidation(unittest.TestCase):
         self,
     ):
         _, teams = getNDefaultOwnersAndTeams(3)
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
         matchup2 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -640,7 +729,9 @@ class TestYearValidation(unittest.TestCase):
         year = Year(yearNumber=2000, teams=[team1, team2], weeks=list())
 
         with self.assertRaises(InvalidYearFormatException) as context:
-            yearValidation.checkEitherAllTeamsAreInADivisionOrNoTeamsAreInADivision(year)
+            yearValidation.checkEitherAllTeamsAreInADivisionOrNoTeamsAreInADivision(
+                year
+            )
         self.assertEqual(
             f"Only some teams in Year 2000 have a Division ID.", str(context.exception)
         )
@@ -653,7 +744,10 @@ class TestYearValidation(unittest.TestCase):
         team2 = Team(ownerId="", name="", divisionId=division2.id)
 
         year = Year(
-            yearNumber=2000, teams=[team1, team2], weeks=list(), divisions=[division1, division2]
+            yearNumber=2000,
+            teams=[team1, team2],
+            weeks=list(),
+            divisions=[division1, division2],
         )
 
         yearValidation.checkDivisionIdsMatchTeamDivisionIds(year)
@@ -665,7 +759,10 @@ class TestYearValidation(unittest.TestCase):
         team2 = Team(ownerId="", name="", divisionId=division1.id)
 
         year = Year(
-            yearNumber=2000, teams=[team1, team2], weeks=list(), divisions=[division1, division2]
+            yearNumber=2000,
+            teams=[team1, team2],
+            weeks=list(),
+            divisions=[division1, division2],
         )
 
         with self.assertRaises(InvalidYearFormatException) as context:
@@ -680,7 +777,9 @@ class TestYearValidation(unittest.TestCase):
         team1 = Team(ownerId="", name="", divisionId=division1.id)
         team2 = Team(ownerId="", name="", divisionId="d2")
 
-        year = Year(yearNumber=2000, teams=[team1, team2], weeks=list(), divisions=[division1])
+        year = Year(
+            yearNumber=2000, teams=[team1, team2], weeks=list(), divisions=[division1]
+        )
 
         with self.assertRaises(InvalidYearFormatException) as context:
             yearValidation.checkDivisionIdsMatchTeamDivisionIds(year)
@@ -696,7 +795,10 @@ class TestYearValidation(unittest.TestCase):
         team2 = Team(ownerId="", name="")
 
         year = Year(
-            yearNumber=2000, teams=[team1, team2], weeks=list(), divisions=[division1, division2]
+            yearNumber=2000,
+            teams=[team1, team2],
+            weeks=list(),
+            divisions=[division1, division2],
         )
 
         with self.assertRaises(InvalidYearFormatException) as context:
@@ -710,7 +812,9 @@ class TestYearValidation(unittest.TestCase):
         team1 = Team(ownerId="", name="", divisionId="a")
         team2 = Team(ownerId="", name="", divisionId="b")
 
-        year = Year(yearNumber=2000, teams=[team1, team2], weeks=list(), divisions=list())
+        year = Year(
+            yearNumber=2000, teams=[team1, team2], weeks=list(), divisions=list()
+        )
 
         with self.assertRaises(InvalidYearFormatException) as context:
             yearValidation.checkDivisionIdsMatchTeamDivisionIds(year)
@@ -726,7 +830,10 @@ class TestYearValidation(unittest.TestCase):
         team2 = Team(ownerId="", name="", divisionId="d4")
 
         year = Year(
-            yearNumber=2000, teams=[team1, team2], weeks=list(), divisions=[division1, division2]
+            yearNumber=2000,
+            teams=[team1, team2],
+            weeks=list(),
+            divisions=[division1, division2],
         )
 
         with self.assertRaises(InvalidYearFormatException) as context:
@@ -744,7 +851,10 @@ class TestYearValidation(unittest.TestCase):
         team2 = Team(ownerId="", name="", divisionId=division2.id)
 
         year = Year(
-            yearNumber=2000, teams=[team1, team2], weeks=list(), divisions=[division1, division2]
+            yearNumber=2000,
+            teams=[team1, team2],
+            weeks=list(),
+            divisions=[division1, division2],
         )
 
         yearValidation.checkDivisionsHaveNoDuplicateIds(year)
@@ -767,7 +877,9 @@ class TestYearValidation(unittest.TestCase):
 
         with self.assertRaises(InvalidYearFormatException) as context:
             yearValidation.checkDivisionsHaveNoDuplicateIds(year)
-        self.assertEqual(f"Year 2000 has duplicate division IDs.", str(context.exception))
+        self.assertEqual(
+            f"Year 2000 has duplicate division IDs.", str(context.exception)
+        )
 
     """
     TYPE CHECK TESTS
@@ -775,29 +887,39 @@ class TestYearValidation(unittest.TestCase):
 
     def test_checkAllTypes_yearNumberIsntTypeInt_raisesException(self):
         with self.assertRaises(InvalidYearFormatException) as context:
-            yearValidation.checkAllTypes(Year(yearNumber=None, teams=list(), weeks=list()))
+            yearValidation.checkAllTypes(
+                Year(yearNumber=None, teams=list(), weeks=list())
+            )
         self.assertEqual("yearNumber must be type 'int'.", str(context.exception))
 
     def test_checkAllTypes_yearTeamsIsntTypeList_raisesException(self):
         # not given a list
         with self.assertRaises(InvalidYearFormatException) as context:
-            yearValidation.checkAllTypes(Year(yearNumber=2000, teams=None, weeks=list()))
+            yearValidation.checkAllTypes(
+                Year(yearNumber=2000, teams=None, weeks=list())
+            )
         self.assertEqual("teams must be type 'list[Team]'.", str(context.exception))
 
         # given a list of non Team
         with self.assertRaises(InvalidYearFormatException) as context:
-            yearValidation.checkAllTypes(Year(yearNumber=2000, teams=["foo"], weeks=list()))
+            yearValidation.checkAllTypes(
+                Year(yearNumber=2000, teams=["foo"], weeks=list())
+            )
         self.assertEqual("teams must be type 'list[Team]'.", str(context.exception))
 
     def test_checkAllTypes_yearWeeksIsntTypeList_raisesException(self):
         # not given a list
         with self.assertRaises(InvalidYearFormatException) as context:
-            yearValidation.checkAllTypes(Year(yearNumber=2000, teams=list(), weeks=None))
+            yearValidation.checkAllTypes(
+                Year(yearNumber=2000, teams=list(), weeks=None)
+            )
         self.assertEqual("weeks must be type 'list[Week]'.", str(context.exception))
 
         # given a list of non Week
         with self.assertRaises(InvalidYearFormatException) as context:
-            yearValidation.checkAllTypes(Year(yearNumber=2000, teams=list(), weeks=["foo"]))
+            yearValidation.checkAllTypes(
+                Year(yearNumber=2000, teams=list(), weeks=["foo"])
+            )
         self.assertEqual("weeks must be type 'list[Week]'.", str(context.exception))
 
     def test_checkAllTypes_divisionsIsntTypeList_raisesException(self):
@@ -806,18 +928,24 @@ class TestYearValidation(unittest.TestCase):
             yearValidation.checkAllTypes(
                 Year(yearNumber=2000, teams=list(), weeks=list(), divisions="")
             )
-        self.assertEqual("divisions must be type 'list[Division]'.", str(context.exception))
+        self.assertEqual(
+            "divisions must be type 'list[Division]'.", str(context.exception)
+        )
 
         # given a list of non Division
         with self.assertRaises(InvalidYearFormatException) as context:
             yearValidation.checkAllTypes(
                 Year(yearNumber=2000, teams=list(), weeks=list(), divisions=["foo"])
             )
-        self.assertEqual("divisions must be type 'list[Division]'.", str(context.exception))
+        self.assertEqual(
+            "divisions must be type 'list[Division]'.", str(context.exception)
+        )
 
     def test_checkAllTypes_yearSettingsIsntTypeYearSettings_raisesException(self):
         with self.assertRaises(InvalidYearFormatException) as context:
             year = Year(yearNumber=2000, teams=list(), weeks=list())
             year.yearSettings = None
             yearValidation.checkAllTypes(year)
-        self.assertEqual("yearSettings must be type 'YearSettings'.", str(context.exception))
+        self.assertEqual(
+            "yearSettings must be type 'YearSettings'.", str(context.exception)
+        )

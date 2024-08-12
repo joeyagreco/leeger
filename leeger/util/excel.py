@@ -107,8 +107,8 @@ def leagueToExcel(
     workbook.create_sheet("All Time Matchups", index=index)
     worksheet = workbook["All Time Matchups"]
 
-    (allTimeMatchupsStatSheet_, modifiedMatchupIdToOwnerIdMap) = allTimeMatchupsStatSheet(
-        league, **kwargs.copy()
+    (allTimeMatchupsStatSheet_, modifiedMatchupIdToOwnerIdMap) = (
+        allTimeMatchupsStatSheet(league, **kwargs.copy())
     )
 
     modifiedMatchupIdToColorMap: dict = dict()
@@ -136,7 +136,9 @@ def leagueToExcel(
     workbook.create_sheet("All Time Owners", index=index)
     worksheet = workbook["All Time Owners"]
 
-    allTimeOwnerStatsWithTitles = leagueStatSheet(league, **kwargs.copy()).preferredOrderWithTitle()
+    allTimeOwnerStatsWithTitles = leagueStatSheet(
+        league, **kwargs.copy()
+    ).preferredOrderWithTitle()
     allTimeOwnerStatsWithTitles.insert(0, ("Owner", ownerIdToNameMap))
 
     return _populateWorksheet(
@@ -340,7 +342,10 @@ def _populateWorksheet(
     worksheet[titleCell].fill = PatternFill(patternType="solid", fgColor=MEDIUM_GRAY)
     worksheet[titleCell].font = Font(bold=True)
     border = Border(
-        left=leftSideSolid, right=rightSideSolid, top=topSideSolid, bottom=bottomSideThin
+        left=leftSideSolid,
+        right=rightSideSolid,
+        top=topSideSolid,
+        bottom=bottomSideThin,
     )
     worksheet[titleCell].border = border
     worksheet[titleCell].alignment = legendCellAlignment

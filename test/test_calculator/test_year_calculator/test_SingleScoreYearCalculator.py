@@ -1,11 +1,11 @@
 import unittest
-from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 from leeger.calculator.year_calculator import SingleScoreYearCalculator
 from leeger.enum.MatchupType import MatchupType
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
+from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestSingleScoreYearCalculator(unittest.TestCase):
@@ -19,13 +19,23 @@ class TestSingleScoreYearCalculator(unittest.TestCase):
             teamBScore=2.1,
             matchupType=MatchupType.IGNORE,
         )
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.1, teamBScore=4.1)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.1, teamBScore=5)
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.1, teamBScore=4.1
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.1, teamBScore=5
+        )
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.2)
-        matchup5 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.2, teamBScore=4.2)
-        matchup6 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.2, teamBScore=6)
+        matchup4 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.2
+        )
+        matchup5 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.2, teamBScore=4.2
+        )
+        matchup6 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.2, teamBScore=6
+        )
         week2 = Week(weekNumber=2, matchups=[matchup4, matchup5, matchup6])
 
         matchup7 = Matchup(
@@ -67,9 +77,13 @@ class TestSingleScoreYearCalculator(unittest.TestCase):
     def test_getMaxScore_noneIfNoGamesPlayed(self):
         owners, teams = getNDefaultOwnersAndTeams(3)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.1)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.1
+        )
         week1 = Week(weekNumber=1, matchups=[matchup1])
-        matchup2 = Matchup(teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=1.2, teamBScore=2.2)
+        matchup2 = Matchup(
+            teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=1.2, teamBScore=2.2
+        )
         week2 = Week(weekNumber=2, matchups=[matchup2])
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2])
@@ -92,8 +106,12 @@ class TestSingleScoreYearCalculator(unittest.TestCase):
             teamBScore=2.1,
             matchupType=MatchupType.IGNORE,
         )
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.1, teamBScore=4.1)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.1, teamBScore=5)
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.1, teamBScore=4.1
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.1, teamBScore=5
+        )
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
         matchup4 = Matchup(
@@ -102,7 +120,9 @@ class TestSingleScoreYearCalculator(unittest.TestCase):
         matchup5 = Matchup(
             teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=30.2, teamBScore=40.2
         )
-        matchup6 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=40.2, teamBScore=60)
+        matchup6 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=40.2, teamBScore=60
+        )
         week2 = Week(weekNumber=2, matchups=[matchup4, matchup5, matchup6])
 
         matchup7 = Matchup(
@@ -151,13 +171,23 @@ class TestSingleScoreYearCalculator(unittest.TestCase):
             teamBScore=2.1,
             matchupType=MatchupType.IGNORE,
         )
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.1, teamBScore=4.1)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.1, teamBScore=5)
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.1, teamBScore=4.1
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.1, teamBScore=5
+        )
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.2)
-        matchup5 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.2, teamBScore=4.2)
-        matchup6 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.2, teamBScore=6)
+        matchup4 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.2
+        )
+        matchup5 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.2, teamBScore=4.2
+        )
+        matchup6 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.2, teamBScore=6
+        )
         week2 = Week(weekNumber=2, matchups=[matchup4, matchup5, matchup6])
 
         matchup7 = Matchup(
@@ -206,13 +236,23 @@ class TestSingleScoreYearCalculator(unittest.TestCase):
             teamBScore=2.1,
             matchupType=MatchupType.IGNORE,
         )
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.1, teamBScore=4.1)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.1, teamBScore=5)
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.1, teamBScore=4.1
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.1, teamBScore=5
+        )
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.2)
-        matchup5 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.2, teamBScore=4.2)
-        matchup6 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.2, teamBScore=6)
+        matchup4 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.2
+        )
+        matchup5 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.2, teamBScore=4.2
+        )
+        matchup6 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.2, teamBScore=6
+        )
         week2 = Week(weekNumber=2, matchups=[matchup4, matchup5, matchup6])
 
         matchup7 = Matchup(
@@ -264,12 +304,20 @@ class TestSingleScoreYearCalculator(unittest.TestCase):
         matchup2 = Matchup(
             teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=30.1, teamBScore=40.1
         )
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=40.1, teamBScore=50)
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=40.1, teamBScore=50
+        )
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.2)
-        matchup5 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.2, teamBScore=4.2)
-        matchup6 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.2, teamBScore=6)
+        matchup4 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.2
+        )
+        matchup5 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.2, teamBScore=4.2
+        )
+        matchup6 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.2, teamBScore=6
+        )
         week2 = Week(weekNumber=2, matchups=[matchup4, matchup5, matchup6])
 
         matchup7 = Matchup(
@@ -318,13 +366,23 @@ class TestSingleScoreYearCalculator(unittest.TestCase):
             teamBScore=2.1,
             matchupType=MatchupType.IGNORE,
         )
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.1, teamBScore=4.1)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.1, teamBScore=5)
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.1, teamBScore=4.1
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.1, teamBScore=5
+        )
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.2)
-        matchup5 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.2, teamBScore=4.2)
-        matchup6 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.2, teamBScore=6)
+        matchup4 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.2
+        )
+        matchup5 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.2, teamBScore=4.2
+        )
+        matchup6 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.2, teamBScore=6
+        )
         week2 = Week(weekNumber=2, matchups=[matchup4, matchup5, matchup6])
 
         matchup7 = Matchup(
@@ -373,18 +431,34 @@ class TestSingleScoreYearCalculator(unittest.TestCase):
             teamBScore=2.1,
             matchupType=MatchupType.IGNORE,
         )
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.1, teamBScore=4.1)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.1, teamBScore=5)
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.1, teamBScore=4.1
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.1, teamBScore=5
+        )
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.2)
-        matchup5 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.2, teamBScore=4.2)
-        matchup6 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.2, teamBScore=6)
+        matchup4 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.2
+        )
+        matchup5 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.2, teamBScore=4.2
+        )
+        matchup6 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.2, teamBScore=6
+        )
         week2 = Week(weekNumber=2, matchups=[matchup4, matchup5, matchup6])
 
-        matchup7 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.3)
-        matchup8 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.3, teamBScore=4.3)
-        matchup9 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.3, teamBScore=7)
+        matchup7 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.3
+        )
+        matchup8 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.3, teamBScore=4.3
+        )
+        matchup9 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.3, teamBScore=7
+        )
         week3 = Week(weekNumber=3, matchups=[matchup7, matchup8, matchup9])
 
         matchup10 = Matchup(
@@ -412,7 +486,9 @@ class TestSingleScoreYearCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
 
-        response = SingleScoreYearCalculator.getMaxScore(year, weekNumberStart=2, weekNumberEnd=3)
+        response = SingleScoreYearCalculator.getMaxScore(
+            year, weekNumberStart=2, weekNumberEnd=3
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
@@ -433,13 +509,23 @@ class TestSingleScoreYearCalculator(unittest.TestCase):
             teamBScore=2.1,
             matchupType=MatchupType.IGNORE,
         )
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.1, teamBScore=4.1)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.1, teamBScore=5)
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.1, teamBScore=4.1
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.1, teamBScore=5
+        )
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.2)
-        matchup5 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.2, teamBScore=4.2)
-        matchup6 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.2, teamBScore=6)
+        matchup4 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.2
+        )
+        matchup5 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.2, teamBScore=4.2
+        )
+        matchup6 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.2, teamBScore=6
+        )
         week2 = Week(weekNumber=2, matchups=[matchup4, matchup5, matchup6])
 
         matchup7 = Matchup(
@@ -481,9 +567,13 @@ class TestSingleScoreYearCalculator(unittest.TestCase):
     def test_getMinScore_noneIfNoGamesPlayed(self):
         owners, teams = getNDefaultOwnersAndTeams(3)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.1)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.1
+        )
         week1 = Week(weekNumber=1, matchups=[matchup1])
-        matchup2 = Matchup(teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=1.2, teamBScore=2.2)
+        matchup2 = Matchup(
+            teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=1.2, teamBScore=2.2
+        )
         week2 = Week(weekNumber=2, matchups=[matchup2])
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2])
@@ -506,8 +596,12 @@ class TestSingleScoreYearCalculator(unittest.TestCase):
             teamBScore=2.1,
             matchupType=MatchupType.IGNORE,
         )
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.1, teamBScore=4.1)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.1, teamBScore=5)
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.1, teamBScore=4.1
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.1, teamBScore=5
+        )
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
         matchup4 = Matchup(
@@ -516,7 +610,9 @@ class TestSingleScoreYearCalculator(unittest.TestCase):
         matchup5 = Matchup(
             teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=30.2, teamBScore=40.2
         )
-        matchup6 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=40.2, teamBScore=60)
+        matchup6 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=40.2, teamBScore=60
+        )
         week2 = Week(weekNumber=2, matchups=[matchup4, matchup5, matchup6])
 
         matchup7 = Matchup(
@@ -565,13 +661,23 @@ class TestSingleScoreYearCalculator(unittest.TestCase):
             teamBScore=2.1,
             matchupType=MatchupType.IGNORE,
         )
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.1, teamBScore=4.1)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.1, teamBScore=5)
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.1, teamBScore=4.1
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.1, teamBScore=5
+        )
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.2)
-        matchup5 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.2, teamBScore=4.2)
-        matchup6 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.2, teamBScore=6)
+        matchup4 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.2
+        )
+        matchup5 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.2, teamBScore=4.2
+        )
+        matchup6 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.2, teamBScore=6
+        )
         week2 = Week(weekNumber=2, matchups=[matchup4, matchup5, matchup6])
 
         matchup7 = Matchup(
@@ -620,13 +726,23 @@ class TestSingleScoreYearCalculator(unittest.TestCase):
             teamBScore=2.1,
             matchupType=MatchupType.IGNORE,
         )
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.1, teamBScore=4.1)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.1, teamBScore=5)
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.1, teamBScore=4.1
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.1, teamBScore=5
+        )
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.2)
-        matchup5 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.2, teamBScore=4.2)
-        matchup6 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.2, teamBScore=6)
+        matchup4 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.2
+        )
+        matchup5 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.2, teamBScore=4.2
+        )
+        matchup6 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.2, teamBScore=6
+        )
         week2 = Week(weekNumber=2, matchups=[matchup4, matchup5, matchup6])
 
         matchup7 = Matchup(
@@ -678,12 +794,20 @@ class TestSingleScoreYearCalculator(unittest.TestCase):
         matchup2 = Matchup(
             teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=30.1, teamBScore=40.1
         )
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=40.1, teamBScore=50)
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=40.1, teamBScore=50
+        )
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.2)
-        matchup5 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.2, teamBScore=4.2)
-        matchup6 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.2, teamBScore=6)
+        matchup4 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.2
+        )
+        matchup5 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.2, teamBScore=4.2
+        )
+        matchup6 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.2, teamBScore=6
+        )
         week2 = Week(weekNumber=2, matchups=[matchup4, matchup5, matchup6])
 
         matchup7 = Matchup(
@@ -732,13 +856,23 @@ class TestSingleScoreYearCalculator(unittest.TestCase):
             teamBScore=2.1,
             matchupType=MatchupType.IGNORE,
         )
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.1, teamBScore=4.1)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.1, teamBScore=5)
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.1, teamBScore=4.1
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.1, teamBScore=5
+        )
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.2)
-        matchup5 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.2, teamBScore=4.2)
-        matchup6 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.2, teamBScore=6)
+        matchup4 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.2
+        )
+        matchup5 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.2, teamBScore=4.2
+        )
+        matchup6 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.2, teamBScore=6
+        )
         week2 = Week(weekNumber=2, matchups=[matchup4, matchup5, matchup6])
 
         matchup7 = Matchup(
@@ -787,18 +921,34 @@ class TestSingleScoreYearCalculator(unittest.TestCase):
             teamBScore=2.1,
             matchupType=MatchupType.IGNORE,
         )
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.1, teamBScore=4.1)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.1, teamBScore=5)
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.1, teamBScore=4.1
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.1, teamBScore=5
+        )
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
-        matchup4 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.2)
-        matchup5 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.2, teamBScore=4.2)
-        matchup6 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.2, teamBScore=6)
+        matchup4 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.2
+        )
+        matchup5 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.2, teamBScore=4.2
+        )
+        matchup6 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.2, teamBScore=6
+        )
         week2 = Week(weekNumber=2, matchups=[matchup4, matchup5, matchup6])
 
-        matchup7 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.3)
-        matchup8 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.3, teamBScore=4.3)
-        matchup9 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.3, teamBScore=7)
+        matchup7 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.3
+        )
+        matchup8 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.3, teamBScore=4.3
+        )
+        matchup9 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.3, teamBScore=7
+        )
         week3 = Week(weekNumber=3, matchups=[matchup7, matchup8, matchup9])
 
         matchup10 = Matchup(
@@ -826,7 +976,9 @@ class TestSingleScoreYearCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
 
-        response = SingleScoreYearCalculator.getMinScore(year, weekNumberStart=2, weekNumberEnd=3)
+        response = SingleScoreYearCalculator.getMinScore(
+            year, weekNumberStart=2, weekNumberEnd=3
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))

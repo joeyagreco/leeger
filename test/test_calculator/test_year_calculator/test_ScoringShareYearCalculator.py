@@ -1,19 +1,23 @@
 import unittest
-from test.helper.prototypes import getNDefaultOwnersAndTeams
 
-from leeger.calculator.year_calculator.ScoringShareYearCalculator import ScoringShareYearCalculator
+from leeger.calculator.year_calculator.ScoringShareYearCalculator import (
+    ScoringShareYearCalculator,
+)
 from leeger.enum.MatchupType import MatchupType
 from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
 from leeger.util.Deci import Deci
+from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestScoringShareYearCalculator(unittest.TestCase):
     def test_getScoringShare_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
         matchup2 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -33,7 +37,9 @@ class TestScoringShareYearCalculator(unittest.TestCase):
         week2 = Week(weekNumber=2, matchups=[matchup2])
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3]
+        )
 
         response = ScoringShareYearCalculator.getScoringShare(year)
 
@@ -46,8 +52,12 @@ class TestScoringShareYearCalculator(unittest.TestCase):
     def test_getScoringShare_noneIfNoGamesPlayed(self):
         owners, teams = getNDefaultOwnersAndTeams(3)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=1.2, teamBScore=2.5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
+        matchup2 = Matchup(
+            teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=1.2, teamBScore=2.5
+        )
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
 
@@ -65,15 +75,23 @@ class TestScoringShareYearCalculator(unittest.TestCase):
     def test_getScoringShare_noPointsScoredInYear(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=0, teamBScore=0)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=0, teamBScore=0)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=0, teamBScore=0)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=0, teamBScore=0
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=0, teamBScore=0
+        )
+        matchup3 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=0, teamBScore=0
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3]
+        )
 
         response = ScoringShareYearCalculator.getScoringShare(year)
 
@@ -85,7 +103,9 @@ class TestScoringShareYearCalculator(unittest.TestCase):
     def test_getScoringShare_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
         matchup2 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -105,7 +125,9 @@ class TestScoringShareYearCalculator(unittest.TestCase):
         week2 = Week(weekNumber=2, matchups=[matchup2])
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3]
+        )
 
         response = ScoringShareYearCalculator.getScoringShare(year, onlyPostSeason=True)
 
@@ -118,8 +140,12 @@ class TestScoringShareYearCalculator(unittest.TestCase):
     def test_getScoringShare_onlyRegularSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5
+        )
         matchup3 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -132,9 +158,13 @@ class TestScoringShareYearCalculator(unittest.TestCase):
         week2 = Week(weekNumber=2, matchups=[matchup2])
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3]
+        )
 
-        response = ScoringShareYearCalculator.getScoringShare(year, onlyRegularSeason=True)
+        response = ScoringShareYearCalculator.getScoringShare(
+            year, onlyRegularSeason=True
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -145,7 +175,9 @@ class TestScoringShareYearCalculator(unittest.TestCase):
     def test_getScoringShare_onlyChampionshipIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
         matchup2 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -167,7 +199,9 @@ class TestScoringShareYearCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
 
-        response = ScoringShareYearCalculator.getScoringShare(year, onlyChampionship=True)
+        response = ScoringShareYearCalculator.getScoringShare(
+            year, onlyChampionship=True
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -178,8 +212,12 @@ class TestScoringShareYearCalculator(unittest.TestCase):
     def test_getScoringShare_weekNumberStartGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5
+        )
         matchup3 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -192,7 +230,9 @@ class TestScoringShareYearCalculator(unittest.TestCase):
         week2 = Week(weekNumber=2, matchups=[matchup2])
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3]
+        )
 
         response = ScoringShareYearCalculator.getScoringShare(year, weekNumberStart=2)
 
@@ -205,8 +245,12 @@ class TestScoringShareYearCalculator(unittest.TestCase):
     def test_getScoringShare_weekNumberEndGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5
+        )
         matchup3 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -219,7 +263,9 @@ class TestScoringShareYearCalculator(unittest.TestCase):
         week2 = Week(weekNumber=2, matchups=[matchup2])
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3]
+        )
 
         response = ScoringShareYearCalculator.getScoringShare(year, weekNumberEnd=2)
 
@@ -232,8 +278,12 @@ class TestScoringShareYearCalculator(unittest.TestCase):
     def test_getScoringShare_weekNumberStartGivenAndWeekNumberEndGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5
+        )
         matchup3 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -254,7 +304,11 @@ class TestScoringShareYearCalculator(unittest.TestCase):
         week3 = Week(weekNumber=3, matchups=[matchup3])
         week4 = Week(weekNumber=4, matchups=[matchup4])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3, week4])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1]],
+            weeks=[week1, week2, week3, week4],
+        )
 
         response = ScoringShareYearCalculator.getScoringShare(
             year, weekNumberStart=2, weekNumberEnd=3
@@ -269,7 +323,9 @@ class TestScoringShareYearCalculator(unittest.TestCase):
     def test_getOpponentScoringShare_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
         matchup2 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -289,7 +345,9 @@ class TestScoringShareYearCalculator(unittest.TestCase):
         week2 = Week(weekNumber=2, matchups=[matchup2])
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3]
+        )
 
         response = ScoringShareYearCalculator.getOpponentScoringShare(year)
 
@@ -302,14 +360,20 @@ class TestScoringShareYearCalculator(unittest.TestCase):
     def test_getOpponentScoringShare_noneIfNoGamesPlayed(self):
         owners, teams = getNDefaultOwnersAndTeams(3)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=1.2, teamBScore=2.5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
+        matchup2 = Matchup(
+            teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=1.2, teamBScore=2.5
+        )
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2])
 
-        response = ScoringShareYearCalculator.getOpponentScoringShare(year, weekNumberEnd=1)
+        response = ScoringShareYearCalculator.getOpponentScoringShare(
+            year, weekNumberEnd=1
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(3, len(response.keys()))
@@ -321,15 +385,23 @@ class TestScoringShareYearCalculator(unittest.TestCase):
     def test_getOpponentScoringShare_noPointsScoredInYear(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=0, teamBScore=0)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=0, teamBScore=0)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=0, teamBScore=0)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=0, teamBScore=0
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=0, teamBScore=0
+        )
+        matchup3 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=0, teamBScore=0
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3]
+        )
 
         response = ScoringShareYearCalculator.getOpponentScoringShare(year)
 
@@ -341,7 +413,9 @@ class TestScoringShareYearCalculator(unittest.TestCase):
     def test_getOpponentScoringShare_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
         matchup2 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -361,9 +435,13 @@ class TestScoringShareYearCalculator(unittest.TestCase):
         week2 = Week(weekNumber=2, matchups=[matchup2])
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3]
+        )
 
-        response = ScoringShareYearCalculator.getOpponentScoringShare(year, onlyPostSeason=True)
+        response = ScoringShareYearCalculator.getOpponentScoringShare(
+            year, onlyPostSeason=True
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -374,8 +452,12 @@ class TestScoringShareYearCalculator(unittest.TestCase):
     def test_getOpponentScoringShare_onlyRegularSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5
+        )
         matchup3 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -388,9 +470,13 @@ class TestScoringShareYearCalculator(unittest.TestCase):
         week2 = Week(weekNumber=2, matchups=[matchup2])
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3]
+        )
 
-        response = ScoringShareYearCalculator.getOpponentScoringShare(year, onlyRegularSeason=True)
+        response = ScoringShareYearCalculator.getOpponentScoringShare(
+            year, onlyRegularSeason=True
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -401,7 +487,9 @@ class TestScoringShareYearCalculator(unittest.TestCase):
     def test_getOpponentScoringShare_onlyChampionshipIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
         matchup2 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -423,7 +511,9 @@ class TestScoringShareYearCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
 
-        response = ScoringShareYearCalculator.getOpponentScoringShare(year, onlyChampionship=True)
+        response = ScoringShareYearCalculator.getOpponentScoringShare(
+            year, onlyChampionship=True
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -434,8 +524,12 @@ class TestScoringShareYearCalculator(unittest.TestCase):
     def test_getOpponentScoringShare_weekNumberStartGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5
+        )
         matchup3 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -448,9 +542,13 @@ class TestScoringShareYearCalculator(unittest.TestCase):
         week2 = Week(weekNumber=2, matchups=[matchup2])
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3]
+        )
 
-        response = ScoringShareYearCalculator.getOpponentScoringShare(year, weekNumberStart=2)
+        response = ScoringShareYearCalculator.getOpponentScoringShare(
+            year, weekNumberStart=2
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -461,8 +559,12 @@ class TestScoringShareYearCalculator(unittest.TestCase):
     def test_getOpponentScoringShare_weekNumberEndGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5
+        )
         matchup3 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -475,9 +577,13 @@ class TestScoringShareYearCalculator(unittest.TestCase):
         week2 = Week(weekNumber=2, matchups=[matchup2])
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3]
+        )
 
-        response = ScoringShareYearCalculator.getOpponentScoringShare(year, weekNumberEnd=2)
+        response = ScoringShareYearCalculator.getOpponentScoringShare(
+            year, weekNumberEnd=2
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -488,8 +594,12 @@ class TestScoringShareYearCalculator(unittest.TestCase):
     def test_getOpponentScoringShare_weekNumberStartGivenAndWeekNumberEndGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5
+        )
         matchup3 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -510,7 +620,11 @@ class TestScoringShareYearCalculator(unittest.TestCase):
         week3 = Week(weekNumber=3, matchups=[matchup3])
         week4 = Week(weekNumber=4, matchups=[matchup4])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3, week4])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1]],
+            weeks=[week1, week2, week3, week4],
+        )
 
         response = ScoringShareYearCalculator.getOpponentScoringShare(
             year, weekNumberStart=2, weekNumberEnd=3
@@ -525,7 +639,9 @@ class TestScoringShareYearCalculator(unittest.TestCase):
     def test_getMaxScoringShare_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
         matchup2 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -557,8 +673,12 @@ class TestScoringShareYearCalculator(unittest.TestCase):
     def test_getMaxScoringShare_noneIfNoGamesPlayed(self):
         owners, teams = getNDefaultOwnersAndTeams(3)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=1.2, teamBScore=2.5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
+        matchup2 = Matchup(
+            teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=1.2, teamBScore=2.5
+        )
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
 
@@ -575,9 +695,15 @@ class TestScoringShareYearCalculator(unittest.TestCase):
     def test_getMaxScoringShare_noPointsScoredInYear(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=0, teamBScore=0)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=0, teamBScore=0)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=0, teamBScore=0)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=0, teamBScore=0
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=0, teamBScore=0
+        )
+        matchup3 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=0, teamBScore=0
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -595,7 +721,9 @@ class TestScoringShareYearCalculator(unittest.TestCase):
     def test_getMaxScoringShare_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
         matchup2 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -617,7 +745,9 @@ class TestScoringShareYearCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
 
-        response = ScoringShareYearCalculator.getMaxScoringShare(year, onlyPostSeason=True)
+        response = ScoringShareYearCalculator.getMaxScoringShare(
+            year, onlyPostSeason=True
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -627,8 +757,12 @@ class TestScoringShareYearCalculator(unittest.TestCase):
     def test_getMaxScoringShare_onlyRegularSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5
+        )
         matchup3 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -643,7 +777,9 @@ class TestScoringShareYearCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
 
-        response = ScoringShareYearCalculator.getMaxScoringShare(year, onlyRegularSeason=True)
+        response = ScoringShareYearCalculator.getMaxScoringShare(
+            year, onlyRegularSeason=True
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -653,7 +789,9 @@ class TestScoringShareYearCalculator(unittest.TestCase):
     def test_getMaxScoringShare_onlyChampionshipIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
         matchup2 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -675,7 +813,9 @@ class TestScoringShareYearCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
 
-        response = ScoringShareYearCalculator.getMaxScoringShare(year, onlyChampionship=True)
+        response = ScoringShareYearCalculator.getMaxScoringShare(
+            year, onlyChampionship=True
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -685,8 +825,12 @@ class TestScoringShareYearCalculator(unittest.TestCase):
     def test_getMaxScoringShare_weekNumberStartGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5
+        )
         matchup3 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -701,7 +845,9 @@ class TestScoringShareYearCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
 
-        response = ScoringShareYearCalculator.getMaxScoringShare(year, weekNumberStart=2)
+        response = ScoringShareYearCalculator.getMaxScoringShare(
+            year, weekNumberStart=2
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -711,8 +857,12 @@ class TestScoringShareYearCalculator(unittest.TestCase):
     def test_getMaxScoringShare_weekNumberEndGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5
+        )
         matchup3 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -737,8 +887,12 @@ class TestScoringShareYearCalculator(unittest.TestCase):
     def test_getMaxScoringShare_weekNumberStartGivenAndWeekNumberEndGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5
+        )
         matchup3 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -773,7 +927,9 @@ class TestScoringShareYearCalculator(unittest.TestCase):
     def test_getMinScoringShare_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
         matchup2 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -805,8 +961,12 @@ class TestScoringShareYearCalculator(unittest.TestCase):
     def test_getMinScoringShare_noneIfNoGamesPlayed(self):
         owners, teams = getNDefaultOwnersAndTeams(3)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=1.2, teamBScore=2.5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
+        matchup2 = Matchup(
+            teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=1.2, teamBScore=2.5
+        )
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
 
@@ -823,9 +983,15 @@ class TestScoringShareYearCalculator(unittest.TestCase):
     def test_getMinScoringShare_noPointsScoredInYear(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=0, teamBScore=0)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=0, teamBScore=0)
-        matchup3 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=0, teamBScore=0)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=0, teamBScore=0
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=0, teamBScore=0
+        )
+        matchup3 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=0, teamBScore=0
+        )
 
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
@@ -843,7 +1009,9 @@ class TestScoringShareYearCalculator(unittest.TestCase):
     def test_getMinScoringShare_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
         matchup2 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -865,7 +1033,9 @@ class TestScoringShareYearCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
 
-        response = ScoringShareYearCalculator.getMinScoringShare(year, onlyPostSeason=True)
+        response = ScoringShareYearCalculator.getMinScoringShare(
+            year, onlyPostSeason=True
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -875,8 +1045,12 @@ class TestScoringShareYearCalculator(unittest.TestCase):
     def test_getMinScoringShare_onlyRegularSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5
+        )
         matchup3 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -891,7 +1065,9 @@ class TestScoringShareYearCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
 
-        response = ScoringShareYearCalculator.getMinScoringShare(year, onlyRegularSeason=True)
+        response = ScoringShareYearCalculator.getMinScoringShare(
+            year, onlyRegularSeason=True
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -901,7 +1077,9 @@ class TestScoringShareYearCalculator(unittest.TestCase):
     def test_getMinScoringShare_onlyChampionshipIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
         matchup2 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -923,7 +1101,9 @@ class TestScoringShareYearCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
 
-        response = ScoringShareYearCalculator.getMinScoringShare(year, onlyChampionship=True)
+        response = ScoringShareYearCalculator.getMinScoringShare(
+            year, onlyChampionship=True
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -933,8 +1113,12 @@ class TestScoringShareYearCalculator(unittest.TestCase):
     def test_getMinScoringShare_weekNumberStartGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5
+        )
         matchup3 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -949,7 +1133,9 @@ class TestScoringShareYearCalculator(unittest.TestCase):
 
         year = Year(yearNumber=2000, teams=teams, weeks=[week1, week2, week3])
 
-        response = ScoringShareYearCalculator.getMinScoringShare(year, weekNumberStart=2)
+        response = ScoringShareYearCalculator.getMinScoringShare(
+            year, weekNumberStart=2
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -959,8 +1145,12 @@ class TestScoringShareYearCalculator(unittest.TestCase):
     def test_getMinScoringShare_weekNumberEndGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5
+        )
         matchup3 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -985,8 +1175,12 @@ class TestScoringShareYearCalculator(unittest.TestCase):
     def test_getMinScoringShare_weekNumberStartGivenAndWeekNumberEndGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5
+        )
         matchup3 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,

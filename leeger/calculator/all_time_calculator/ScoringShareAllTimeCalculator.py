@@ -40,8 +40,12 @@ class ScoringShareAllTimeCalculator(AllTimeCalculator):
             }
         """
 
-        ownerIdAndPointsScored = PointsScoredAllTimeCalculator.getPointsScored(league, **kwargs)
-        allScores = GeneralUtil.filter(value=None, list_=ownerIdAndPointsScored.values())
+        ownerIdAndPointsScored = PointsScoredAllTimeCalculator.getPointsScored(
+            league, **kwargs
+        )
+        allScores = GeneralUtil.filter(
+            value=None, list_=ownerIdAndPointsScored.values()
+        )
         totalPointsScoredInLeague = sum(allScores)
         ownerIdAndScoringShare = dict()
         for ownerId in LeagueNavigator.getAllOwnerIds(league):
@@ -60,7 +64,9 @@ class ScoringShareAllTimeCalculator(AllTimeCalculator):
 
     @classmethod
     @validateLeague
-    def getOpponentScoringShare(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
+    def getOpponentScoringShare(
+        cls, league: League, **kwargs
+    ) -> dict[str, Optional[Deci]]:
         """
         Returns the Scoring Share for each Owner's opponent in the given League.
         Returns None for an Owner if they have no games played in the range.
@@ -74,10 +80,12 @@ class ScoringShareAllTimeCalculator(AllTimeCalculator):
             }
         """
 
-        ownerIdAndOpponentPointsScored = PointsScoredAllTimeCalculator.getOpponentPointsScored(
-            league, **kwargs
+        ownerIdAndOpponentPointsScored = (
+            PointsScoredAllTimeCalculator.getOpponentPointsScored(league, **kwargs)
         )
-        allScores = GeneralUtil.filter(value=None, list_=ownerIdAndOpponentPointsScored.values())
+        allScores = GeneralUtil.filter(
+            value=None, list_=ownerIdAndOpponentPointsScored.values()
+        )
         totalPointsScoredInLeague = sum(allScores)
         ownerIdAndOpponentScoringShare = dict()
         for ownerId in LeagueNavigator.getAllOwnerIds(league):
@@ -89,7 +97,8 @@ class ScoringShareAllTimeCalculator(AllTimeCalculator):
                     ownerIdAndOpponentScoringShare[ownerId] = Deci("0")
                 else:
                     ownerIdAndOpponentScoringShare[ownerId] = (
-                        ownerIdAndOpponentPointsScored[ownerId] / totalPointsScoredInLeague
+                        ownerIdAndOpponentPointsScored[ownerId]
+                        / totalPointsScoredInLeague
                     ) * Deci("100")
 
         return ownerIdAndOpponentScoringShare
@@ -122,7 +131,10 @@ class ScoringShareAllTimeCalculator(AllTimeCalculator):
         )
         # swap out team IDs for owner IDs
         maxScoringSharesByYear = dict()
-        for yearNumber, maxScoringSharesByTeamId in maxScoringSharesByYearTeamIds.items():
+        for (
+            yearNumber,
+            maxScoringSharesByTeamId,
+        ) in maxScoringSharesByYearTeamIds.items():
             maxScoringSharesByYear[yearNumber] = dict()
             for teamId, maxScoringShare in maxScoringSharesByTeamId.items():
                 ownerId = LeagueNavigator.getTeamById(league, teamId).ownerId
@@ -149,7 +161,9 @@ class ScoringShareAllTimeCalculator(AllTimeCalculator):
                 i for i in ownerIdAndMaxScoringShares[ownerId] if i is not None
             ]
             if len(ownerIdAndMaxScoringShares[ownerId]) > 0:
-                ownerIdAndMaxScoringShare[ownerId] = max(ownerIdAndMaxScoringShares[ownerId])
+                ownerIdAndMaxScoringShare[ownerId] = max(
+                    ownerIdAndMaxScoringShares[ownerId]
+                )
             else:
                 ownerIdAndMaxScoringShare[ownerId] = None
 
@@ -183,7 +197,10 @@ class ScoringShareAllTimeCalculator(AllTimeCalculator):
         )
         # swap out team IDs for owner IDs
         minScoringSharesByYear = dict()
-        for yearNumber, minScoringSharesByTeamId in minScoringSharesByYearTeamIds.items():
+        for (
+            yearNumber,
+            minScoringSharesByTeamId,
+        ) in minScoringSharesByYearTeamIds.items():
             minScoringSharesByYear[yearNumber] = dict()
             for teamId, maxScoringShare in minScoringSharesByTeamId.items():
                 ownerId = LeagueNavigator.getTeamById(league, teamId).ownerId
@@ -210,7 +227,9 @@ class ScoringShareAllTimeCalculator(AllTimeCalculator):
                 i for i in ownerIdAndMinScoringShares[ownerId] if i is not None
             ]
             if len(ownerIdAndMinScoringShares[ownerId]) > 0:
-                ownerIdAndMinScoringShare[ownerId] = min(ownerIdAndMinScoringShares[ownerId])
+                ownerIdAndMinScoringShare[ownerId] = min(
+                    ownerIdAndMinScoringShares[ownerId]
+                )
             else:
                 ownerIdAndMinScoringShare[ownerId] = None
 

@@ -1,10 +1,10 @@
 import unittest
-from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception import InvalidMatchupFormatException
 from leeger.model.league import Matchup
 from leeger.model.league_helper.Performance import Performance
+from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestPerformance(unittest.TestCase):
@@ -135,7 +135,9 @@ class TestPerformance(unittest.TestCase):
         self.assertFalse(response.teamBHasTiebreaker)
         self.assertEqual("id", response.multiWeekMatchupId)
 
-    def test_performance_add_performancesHaveDifferentMatchupTypes_raisesException(self):
+    def test_performance_add_performancesHaveDifferentMatchupTypes_raisesException(
+        self,
+    ):
         performance_1 = Performance(
             teamId="team1Id",
             teamScore=1.1,
@@ -159,7 +161,9 @@ class TestPerformance(unittest.TestCase):
             str(context.exception),
         )
 
-    def test_performance_add_performancesHaveDifferentMultiWeekMatchupIds_raisesException(self):
+    def test_performance_add_performancesHaveDifferentMultiWeekMatchupIds_raisesException(
+        self,
+    ):
         performance_1 = Performance(
             teamId="team1Id",
             teamScore=1.1,

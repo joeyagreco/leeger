@@ -1,7 +1,9 @@
 from typing import Optional
 
 from leeger.calculator.parent.YearCalculator import YearCalculator
-from leeger.calculator.year_calculator.PointsScoredYearCalculator import PointsScoredYearCalculator
+from leeger.calculator.year_calculator.PointsScoredYearCalculator import (
+    PointsScoredYearCalculator,
+)
 from leeger.decorator.validators import validateYear
 from leeger.model.filter import WeekFilters, YearFilters
 from leeger.model.league.Year import Year
@@ -39,7 +41,9 @@ class ScoringShareYearCalculator(YearCalculator):
             }
         """
 
-        teamIdAndPointsScored = PointsScoredYearCalculator.getPointsScored(year, **kwargs)
+        teamIdAndPointsScored = PointsScoredYearCalculator.getPointsScored(
+            year, **kwargs
+        )
         allScores = GeneralUtil.filter(value=None, list_=teamIdAndPointsScored.values())
         totalPointsScoredInYear = sum(allScores)
         teamIdAndScoringShare = dict()
@@ -80,10 +84,12 @@ class ScoringShareYearCalculator(YearCalculator):
             }
         """
 
-        teamIdAndOpponentPointsScored = PointsScoredYearCalculator.getOpponentPointsScored(
-            year, **kwargs
+        teamIdAndOpponentPointsScored = (
+            PointsScoredYearCalculator.getOpponentPointsScored(year, **kwargs)
         )
-        allScores = GeneralUtil.filter(value=None, list_=teamIdAndOpponentPointsScored.values())
+        allScores = GeneralUtil.filter(
+            value=None, list_=teamIdAndOpponentPointsScored.values()
+        )
         totalPointsScoredInYear = sum(allScores)
         teamIdAndOpponentScoringShare = dict()
         for teamId in YearNavigator.getAllTeamIds(year):

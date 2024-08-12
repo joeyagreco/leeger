@@ -1,6 +1,5 @@
 import math
 import unittest
-from test.helper.prototypes import getNDefaultOwnersAndTeams, getTeamsFromOwners
 
 from leeger.calculator.all_time_calculator.ScoringStandardDeviationAllTimeCalculator import (
     ScoringStandardDeviationAllTimeCalculator,
@@ -11,6 +10,7 @@ from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
 from leeger.util.Deci import Deci
+from test.helper.prototypes import getNDefaultOwnersAndTeams, getTeamsFromOwners
 
 
 class TestScoringStandardDeviationAllTimeCalculator(unittest.TestCase):
@@ -81,16 +81,28 @@ class TestScoringStandardDeviationAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = ScoringStandardDeviationAllTimeCalculator.getScoringStandardDeviation(league)
+        response = (
+            ScoringStandardDeviationAllTimeCalculator.getScoringStandardDeviation(
+                league
+            )
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
         self.assertEqual(Deci("0.05"), response[owners[0].id])
         self.assertEqual(Deci("0.05"), response[owners[1].id])
-        self.assertEqual(Deci("0.08164965809277260327324280249"), response[owners[2].id])
-        self.assertEqual(Deci("0.08164965809277260327324280249"), response[owners[3].id])
-        self.assertEqual(Deci("0.08164965809277260327324280249"), response[owners[4].id])
-        self.assertEqual(Deci("0.08164965809277260327324280249"), response[owners[5].id])
+        self.assertEqual(
+            Deci("0.08164965809277260327324280249"), response[owners[2].id]
+        )
+        self.assertEqual(
+            Deci("0.08164965809277260327324280249"), response[owners[3].id]
+        )
+        self.assertEqual(
+            Deci("0.08164965809277260327324280249"), response[owners[4].id]
+        )
+        self.assertEqual(
+            Deci("0.08164965809277260327324280249"), response[owners[5].id]
+        )
 
     def test_getScoringStandardDeviation_multiWeekMatchups(self):
         owners, teamsA = getNDefaultOwnersAndTeams(6)
@@ -143,16 +155,28 @@ class TestScoringStandardDeviationAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = ScoringStandardDeviationAllTimeCalculator.getScoringStandardDeviation(league)
+        response = (
+            ScoringStandardDeviationAllTimeCalculator.getScoringStandardDeviation(
+                league
+            )
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
         self.assertEqual(Deci("0.5"), response[owners[0].id])
         self.assertTrue(math.isclose(Deci("1"), response[owners[1].id]))
-        self.assertEqual(Deci("0.08164965809277260327324280249"), response[owners[2].id])
-        self.assertEqual(Deci("0.08164965809277260327324280249"), response[owners[3].id])
-        self.assertEqual(Deci("0.08164965809277260327324280249"), response[owners[4].id])
-        self.assertEqual(Deci("0.08164965809277260327324280249"), response[owners[5].id])
+        self.assertEqual(
+            Deci("0.08164965809277260327324280249"), response[owners[2].id]
+        )
+        self.assertEqual(
+            Deci("0.08164965809277260327324280249"), response[owners[3].id]
+        )
+        self.assertEqual(
+            Deci("0.08164965809277260327324280249"), response[owners[4].id]
+        )
+        self.assertEqual(
+            Deci("0.08164965809277260327324280249"), response[owners[5].id]
+        )
 
     def test_getScoringStandardDeviation_noneIfNoGamesPlayed(self):
         owners, teamsA = getNDefaultOwnersAndTeams(3)
@@ -170,8 +194,10 @@ class TestScoringStandardDeviationAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA])
 
-        response = ScoringStandardDeviationAllTimeCalculator.getScoringStandardDeviation(
-            league, weekNumberEnd=1
+        response = (
+            ScoringStandardDeviationAllTimeCalculator.getScoringStandardDeviation(
+                league, weekNumberEnd=1
+            )
         )
 
         self.assertIsInstance(response, dict)
@@ -247,8 +273,10 @@ class TestScoringStandardDeviationAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = ScoringStandardDeviationAllTimeCalculator.getScoringStandardDeviation(
-            league, onlyPostSeason=True
+        response = (
+            ScoringStandardDeviationAllTimeCalculator.getScoringStandardDeviation(
+                league, onlyPostSeason=True
+            )
         )
 
         self.assertIsInstance(response, dict)
@@ -327,8 +355,10 @@ class TestScoringStandardDeviationAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = ScoringStandardDeviationAllTimeCalculator.getScoringStandardDeviation(
-            league, onlyRegularSeason=True
+        response = (
+            ScoringStandardDeviationAllTimeCalculator.getScoringStandardDeviation(
+                league, onlyRegularSeason=True
+            )
         )
 
         self.assertIsInstance(response, dict)
@@ -407,8 +437,10 @@ class TestScoringStandardDeviationAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = ScoringStandardDeviationAllTimeCalculator.getScoringStandardDeviation(
-            league, onlyChampionship=True
+        response = (
+            ScoringStandardDeviationAllTimeCalculator.getScoringStandardDeviation(
+                league, onlyChampionship=True
+            )
         )
 
         self.assertIsInstance(response, dict)
@@ -497,8 +529,10 @@ class TestScoringStandardDeviationAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = ScoringStandardDeviationAllTimeCalculator.getScoringStandardDeviation(
-            league, yearNumberStart=2001, weekNumberStart=2
+        response = (
+            ScoringStandardDeviationAllTimeCalculator.getScoringStandardDeviation(
+                league, yearNumberStart=2001, weekNumberStart=2
+            )
         )
 
         self.assertIsInstance(response, dict)
@@ -587,18 +621,28 @@ class TestScoringStandardDeviationAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = ScoringStandardDeviationAllTimeCalculator.getScoringStandardDeviation(
-            league, yearNumberEnd=2001, weekNumberEnd=2
+        response = (
+            ScoringStandardDeviationAllTimeCalculator.getScoringStandardDeviation(
+                league, yearNumberEnd=2001, weekNumberEnd=2
+            )
         )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(6, len(response.keys()))
         self.assertEqual(Deci("0"), response[owners[0].id])
         self.assertEqual(Deci("0"), response[owners[1].id])
-        self.assertEqual(Deci("0.04714045207910316829338962414"), response[owners[2].id])
-        self.assertEqual(Deci("0.04714045207910316829338962414"), response[owners[3].id])
-        self.assertEqual(Deci("0.04714045207910316829338962414"), response[owners[4].id])
-        self.assertEqual(Deci("0.04714045207910316829338962414"), response[owners[5].id])
+        self.assertEqual(
+            Deci("0.04714045207910316829338962414"), response[owners[2].id]
+        )
+        self.assertEqual(
+            Deci("0.04714045207910316829338962414"), response[owners[3].id]
+        )
+        self.assertEqual(
+            Deci("0.04714045207910316829338962414"), response[owners[4].id]
+        )
+        self.assertEqual(
+            Deci("0.04714045207910316829338962414"), response[owners[5].id]
+        )
 
     def test_getScoringShare_yearNumberStartGivenWeekNumberStartGivenAndYearNumberEndGivenWeekNumberEndGiven(
         self,
@@ -679,8 +723,14 @@ class TestScoringStandardDeviationAllTimeCalculator(unittest.TestCase):
 
         league = League(name="TEST", owners=owners, years=[yearA, yearB, yearC])
 
-        response = ScoringStandardDeviationAllTimeCalculator.getScoringStandardDeviation(
-            league, yearNumberStart=2001, weekNumberStart=1, yearNumberEnd=2001, weekNumberEnd=2
+        response = (
+            ScoringStandardDeviationAllTimeCalculator.getScoringStandardDeviation(
+                league,
+                yearNumberStart=2001,
+                weekNumberStart=1,
+                yearNumberEnd=2001,
+                weekNumberEnd=2,
+            )
         )
 
         self.assertIsInstance(response, dict)

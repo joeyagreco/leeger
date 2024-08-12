@@ -46,7 +46,8 @@ class TestAllTimeFilters(unittest.TestCase):
         )
 
         self.assertEqual(
-            [MatchupType.PLAYOFF, MatchupType.CHAMPIONSHIP], allTimeFilters.includeMatchupTypes
+            [MatchupType.PLAYOFF, MatchupType.CHAMPIONSHIP],
+            allTimeFilters.includeMatchupTypes,
         )
 
     def test_includeMatchupTypes_onlyRegularSeasonIsTrue(self):
@@ -60,4 +61,6 @@ class TestAllTimeFilters(unittest.TestCase):
             onlyRegularSeason=True,
         )
 
-        self.assertEqual([MatchupType.REGULAR_SEASON], allTimeFilters.includeMatchupTypes)
+        self.assertEqual(
+            [MatchupType.REGULAR_SEASON], allTimeFilters.includeMatchupTypes
+        )

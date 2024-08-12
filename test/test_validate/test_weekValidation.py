@@ -8,9 +8,13 @@ from leeger.validate import weekValidation
 
 
 class TestWeekValidation(unittest.TestCase):
-    def test_checkWeekHasAtLeastOneMatchup_weekDoesntHaveAtLeastOneMatchup_raisesException(self):
+    def test_checkWeekHasAtLeastOneMatchup_weekDoesntHaveAtLeastOneMatchup_raisesException(
+        self,
+    ):
         with self.assertRaises(InvalidWeekFormatException) as context:
-            weekValidation.checkWeekHasAtLeastOneMatchup(Week(weekNumber=1, matchups=list()))
+            weekValidation.checkWeekHasAtLeastOneMatchup(
+                Week(weekNumber=1, matchups=list())
+            )
         self.assertEqual("Week 1 must have at least 1 matchup.", str(context.exception))
 
     def test_checkForDuplicateMatchups_duplicateMatchupInstances_raisesException(self):
@@ -19,7 +23,9 @@ class TestWeekValidation(unittest.TestCase):
             weekValidation.checkForDuplicateMatchups(
                 Week(weekNumber=1, matchups=[matchup, matchup])
             )
-        self.assertEqual("Matchups must all be unique instances.", str(context.exception))
+        self.assertEqual(
+            "Matchups must all be unique instances.", str(context.exception)
+        )
 
     def test_checkWeekDoesNotHaveMoreThanOneChampionshipMatchup_multipleChampionshipMatchups_raisesException(
         self,
@@ -55,13 +61,19 @@ class TestWeekValidation(unittest.TestCase):
             weekValidation.checkWeekHasMatchupsWithNoDuplicateTeamIds(
                 Week(weekNumber=1, matchups=[matchup1, matchup2])
             )
-        self.assertEqual("Week 1 has matchups with duplicate team IDs.", str(context.exception))
+        self.assertEqual(
+            "Week 1 has matchups with duplicate team IDs.", str(context.exception)
+        )
 
     def test_checkWeekWithPlayoffOrChampionshipMatchupDoesNotHaveRegularSeasonMatchup_weekHasPlayoffMatchupAndRegularSeasonMatchup_raisesException(
         self,
     ):
         matchup1 = Matchup(
-            teamAId="a", teamBId="b", teamAScore=1, teamBScore=2, matchupType=MatchupType.PLAYOFF
+            teamAId="a",
+            teamBId="b",
+            teamAScore=1,
+            teamBScore=2,
+            matchupType=MatchupType.PLAYOFF,
         )
         matchup2 = Matchup(
             teamAId="c",
@@ -119,7 +131,8 @@ class TestWeekValidation(unittest.TestCase):
                 Week(weekNumber=1, matchups=[matchup1, matchup2])
             )
         self.assertEqual(
-            "Week 1 has the multi-week matchup ID '1' in multiple matchups.", str(context.exception)
+            "Week 1 has the multi-week matchup ID '1' in multiple matchups.",
+            str(context.exception),
         )
 
     """
@@ -135,9 +148,13 @@ class TestWeekValidation(unittest.TestCase):
         # not given a list
         with self.assertRaises(InvalidWeekFormatException) as context:
             weekValidation.checkAllTypes(Week(weekNumber=1, matchups=None))
-        self.assertEqual("matchups must be type 'list[Matchup]'.", str(context.exception))
+        self.assertEqual(
+            "matchups must be type 'list[Matchup]'.", str(context.exception)
+        )
 
         # given a list of non Matchup
         with self.assertRaises(InvalidWeekFormatException) as context:
             weekValidation.checkAllTypes(Week(weekNumber=1, matchups=["foo"]))
-        self.assertEqual("matchups must be type 'list[Matchup]'.", str(context.exception))
+        self.assertEqual(
+            "matchups must be type 'list[Matchup]'.", str(context.exception)
+        )

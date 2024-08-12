@@ -92,11 +92,15 @@ class AWALAllTimeCalculator(AllTimeCalculator):
             ...
             }
         """
-        return cls._addAndCombineResults(league, AWALYearCalculator.getOpponentAWAL, **kwargs)
+        return cls._addAndCombineResults(
+            league, AWALYearCalculator.getOpponentAWAL, **kwargs
+        )
 
     @classmethod
     @validateLeague
-    def getOpponentAWALPerGame(cls, league: League, **kwargs) -> dict[str, Optional[Deci]]:
+    def getOpponentAWALPerGame(
+        cls, league: League, **kwargs
+    ) -> dict[str, Optional[Deci]]:
         """
         Returns the number of Adjusted Wins Against the League per game for each Owner's opponent in the given League.
         Returns None for an Owner if they have no games played in the range.
@@ -124,7 +128,8 @@ class AWALAllTimeCalculator(AllTimeCalculator):
                 ownerIdAndOpponentAWALPerGame[ownerId] = None
             else:
                 ownerIdAndOpponentAWALPerGame[ownerId] = (
-                    ownerIdAndOpponentAWAL[ownerId] / ownerIdAndNumberOfGamesPlayed[ownerId]
+                    ownerIdAndOpponentAWAL[ownerId]
+                    / ownerIdAndNumberOfGamesPlayed[ownerId]
                 )
 
         return ownerIdAndOpponentAWALPerGame

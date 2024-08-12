@@ -16,7 +16,9 @@ if __name__ == "__main__":
 
     MFL_USERNAME = "myUsername"  # The username for your MFL account.
     MFL_PASSWORD = "myPassword"  # The password for your MFL account.
-    MFL_USER_AGENT_NAME = "myUserAgentName"  # The Client User Agent you set for your API Client.
+    MFL_USER_AGENT_NAME = (
+        "myUserAgentName"  # The Client User Agent you set for your API Client.
+    )
     LEAGUE_ID = "123456"
 
     myFantasyLeagueLoader = MyFantasyLeagueLeagueLoader(

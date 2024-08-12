@@ -42,7 +42,9 @@ class Team(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
         )
 
     def __eq__(self, otherTeam: Team) -> bool:
-        self.__LOGGER.info("Use .equals() for more options when comparing Team instances.")
+        self.__LOGGER.info(
+            "Use .equals() for more options when comparing Team instances."
+        )
         return self.equals(otherTeam=otherTeam)
 
     def toJson(self) -> dict:
@@ -55,6 +57,8 @@ class Team(UniqueId, EqualityCheck, JSONSerializable, JSONDeserializable):
 
     @staticmethod
     def fromJson(d: dict) -> Team:
-        team = Team(ownerId=d["ownerId"], name=d["name"], divisionId=d.get("divisionId"))
+        team = Team(
+            ownerId=d["ownerId"], name=d["name"], divisionId=d.get("divisionId")
+        )
         team.id = d["id"]
         return team

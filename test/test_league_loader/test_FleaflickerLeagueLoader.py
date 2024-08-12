@@ -16,40 +16,122 @@ class TestFleaflickerLeagueLoader(unittest.TestCase):
     def test_init_leagueIdNotIntConvertable_raisesException(self):
         with self.assertRaises(ValueError) as context:
             FleaflickerLeagueLoader("foo", [])
-        self.assertEqual("League ID 'foo' could not be turned into an int.", str(context.exception))
+        self.assertEqual(
+            "League ID 'foo' could not be turned into an int.", str(context.exception)
+        )
 
-    @mock.patch("fleaflicker.api.LeagueInfoAPIClient.LeagueInfoAPIClient.get_league_standings")
-    @mock.patch("fleaflicker.api.ScoringAPIClient.ScoringAPIClient.get_league_scoreboard")
-    def test_loadLeague_happyPath(self, mockGetLeagueScoreboard, mockGetLeaguestandings):
-        mockTeam1_2022 = {"owners": [{"displayName": "Owner 1"}], "id": 1, "name": "Team 1"}
-        mockTeam2_2022 = {"owners": [{"displayName": "Owner 2"}], "id": 2, "name": "Team 2"}
-        mockTeam3_2022 = {"owners": [{"displayName": "Owner 3"}], "id": 3, "name": "Team 3"}
-        mockTeam4_2022 = {"owners": [{"displayName": "Owner 4"}], "id": 4, "name": "Team 4"}
-        mockTeam5_2022 = {"owners": [{"displayName": "Owner 5"}], "id": 5, "name": "Team 5"}
-        mockTeam6_2022 = {"owners": [{"displayName": "Owner 6"}], "id": 6, "name": "Team 6"}
-        mockTeam7_2022 = {"owners": [{"displayName": "Owner 7"}], "id": 7, "name": "Team 7"}
-        mockTeam8_2022 = {"owners": [{"displayName": "Owner 8"}], "id": 8, "name": "Team 8"}
+    @mock.patch(
+        "fleaflicker.api.LeagueInfoAPIClient.LeagueInfoAPIClient.get_league_standings"
+    )
+    @mock.patch(
+        "fleaflicker.api.ScoringAPIClient.ScoringAPIClient.get_league_scoreboard"
+    )
+    def test_loadLeague_happyPath(
+        self, mockGetLeagueScoreboard, mockGetLeaguestandings
+    ):
+        mockTeam1_2022 = {
+            "owners": [{"displayName": "Owner 1"}],
+            "id": 1,
+            "name": "Team 1",
+        }
+        mockTeam2_2022 = {
+            "owners": [{"displayName": "Owner 2"}],
+            "id": 2,
+            "name": "Team 2",
+        }
+        mockTeam3_2022 = {
+            "owners": [{"displayName": "Owner 3"}],
+            "id": 3,
+            "name": "Team 3",
+        }
+        mockTeam4_2022 = {
+            "owners": [{"displayName": "Owner 4"}],
+            "id": 4,
+            "name": "Team 4",
+        }
+        mockTeam5_2022 = {
+            "owners": [{"displayName": "Owner 5"}],
+            "id": 5,
+            "name": "Team 5",
+        }
+        mockTeam6_2022 = {
+            "owners": [{"displayName": "Owner 6"}],
+            "id": 6,
+            "name": "Team 6",
+        }
+        mockTeam7_2022 = {
+            "owners": [{"displayName": "Owner 7"}],
+            "id": 7,
+            "name": "Team 7",
+        }
+        mockTeam8_2022 = {
+            "owners": [{"displayName": "Owner 8"}],
+            "id": 8,
+            "name": "Team 8",
+        }
 
-        mockTeam1_2023 = {"owners": [{"displayName": "Owner 1"}], "id": 1, "name": "Team 1"}
-        mockTeam2_2023 = {"owners": [{"displayName": "Owner 2"}], "id": 2, "name": "Team 2"}
-        mockTeam3_2023 = {"owners": [{"displayName": "Owner 3"}], "id": 3, "name": "Team 3"}
-        mockTeam4_2023 = {"owners": [{"displayName": "Owner 4"}], "id": 4, "name": "Team 4"}
-        mockTeam5_2023 = {"owners": [{"displayName": "Owner 5"}], "id": 5, "name": "Team 5"}
-        mockTeam6_2023 = {"owners": [{"displayName": "Owner 6"}], "id": 6, "name": "Team 6"}
-        mockTeam7_2023 = {"owners": [{"displayName": "Owner 7"}], "id": 7, "name": "Team 7"}
-        mockTeam8_2023 = {"owners": [{"displayName": "Owner 8"}], "id": 8, "name": "Team 8"}
+        mockTeam1_2023 = {
+            "owners": [{"displayName": "Owner 1"}],
+            "id": 1,
+            "name": "Team 1",
+        }
+        mockTeam2_2023 = {
+            "owners": [{"displayName": "Owner 2"}],
+            "id": 2,
+            "name": "Team 2",
+        }
+        mockTeam3_2023 = {
+            "owners": [{"displayName": "Owner 3"}],
+            "id": 3,
+            "name": "Team 3",
+        }
+        mockTeam4_2023 = {
+            "owners": [{"displayName": "Owner 4"}],
+            "id": 4,
+            "name": "Team 4",
+        }
+        mockTeam5_2023 = {
+            "owners": [{"displayName": "Owner 5"}],
+            "id": 5,
+            "name": "Team 5",
+        }
+        mockTeam6_2023 = {
+            "owners": [{"displayName": "Owner 6"}],
+            "id": 6,
+            "name": "Team 6",
+        }
+        mockTeam7_2023 = {
+            "owners": [{"displayName": "Owner 7"}],
+            "id": 7,
+            "name": "Team 7",
+        }
+        mockTeam8_2023 = {
+            "owners": [{"displayName": "Owner 8"}],
+            "id": 8,
+            "name": "Team 8",
+        }
 
         mockLeagueStandings2022 = {
             "divisions": [
                 {
                     "id": 1,
                     "name": "d1_2022",
-                    "teams": [mockTeam1_2022, mockTeam2_2022, mockTeam3_2022, mockTeam4_2022],
+                    "teams": [
+                        mockTeam1_2022,
+                        mockTeam2_2022,
+                        mockTeam3_2022,
+                        mockTeam4_2022,
+                    ],
                 },
                 {
                     "id": 2,
                     "name": "d2_2022",
-                    "teams": [mockTeam5_2022, mockTeam6_2022, mockTeam7_2022, mockTeam8_2022],
+                    "teams": [
+                        mockTeam5_2022,
+                        mockTeam6_2022,
+                        mockTeam7_2022,
+                        mockTeam8_2022,
+                    ],
                 },
             ],
             "league": {"name": "Test League 2022", "id": 123},
@@ -227,7 +309,10 @@ class TestFleaflickerLeagueLoader(unittest.TestCase):
             "eligibleSchedulePeriods": [mockWeek1_2023, mockWeek2_2023, mockWeek3_2023]
         }
 
-        mockGetLeaguestandings.side_effect = [mockLeagueStandings2022, mockLeagueStandings2023]
+        mockGetLeaguestandings.side_effect = [
+            mockLeagueStandings2022,
+            mockLeagueStandings2023,
+        ]
         mockGetLeagueScoreboard.side_effect = [
             mockScoreboard2022,
             mockWeek1_2022,
@@ -257,23 +342,55 @@ class TestFleaflickerLeagueLoader(unittest.TestCase):
         owner7 = Owner(name="Owner 7")
         owner8 = Owner(name="Owner 8")
 
-        team1_2022 = Team(ownerId=owner1.id, name="Team 1", divisionId=division1_2022.id)
-        team2_2022 = Team(ownerId=owner2.id, name="Team 2", divisionId=division1_2022.id)
-        team3_2022 = Team(ownerId=owner3.id, name="Team 3", divisionId=division1_2022.id)
-        team4_2022 = Team(ownerId=owner4.id, name="Team 4", divisionId=division1_2022.id)
-        team5_2022 = Team(ownerId=owner5.id, name="Team 5", divisionId=division2_2022.id)
-        team6_2022 = Team(ownerId=owner6.id, name="Team 6", divisionId=division2_2022.id)
-        team7_2022 = Team(ownerId=owner7.id, name="Team 7", divisionId=division2_2022.id)
-        team8_2022 = Team(ownerId=owner8.id, name="Team 8", divisionId=division2_2022.id)
+        team1_2022 = Team(
+            ownerId=owner1.id, name="Team 1", divisionId=division1_2022.id
+        )
+        team2_2022 = Team(
+            ownerId=owner2.id, name="Team 2", divisionId=division1_2022.id
+        )
+        team3_2022 = Team(
+            ownerId=owner3.id, name="Team 3", divisionId=division1_2022.id
+        )
+        team4_2022 = Team(
+            ownerId=owner4.id, name="Team 4", divisionId=division1_2022.id
+        )
+        team5_2022 = Team(
+            ownerId=owner5.id, name="Team 5", divisionId=division2_2022.id
+        )
+        team6_2022 = Team(
+            ownerId=owner6.id, name="Team 6", divisionId=division2_2022.id
+        )
+        team7_2022 = Team(
+            ownerId=owner7.id, name="Team 7", divisionId=division2_2022.id
+        )
+        team8_2022 = Team(
+            ownerId=owner8.id, name="Team 8", divisionId=division2_2022.id
+        )
 
-        team1_2023 = Team(ownerId=owner1.id, name="Team 1", divisionId=division1_2023.id)
-        team2_2023 = Team(ownerId=owner2.id, name="Team 2", divisionId=division1_2023.id)
-        team3_2023 = Team(ownerId=owner3.id, name="Team 3", divisionId=division1_2023.id)
-        team4_2023 = Team(ownerId=owner4.id, name="Team 4", divisionId=division1_2023.id)
-        team5_2023 = Team(ownerId=owner5.id, name="Team 5", divisionId=division1_2023.id)
-        team6_2023 = Team(ownerId=owner6.id, name="Team 6", divisionId=division1_2023.id)
-        team7_2023 = Team(ownerId=owner7.id, name="Team 7", divisionId=division1_2023.id)
-        team8_2023 = Team(ownerId=owner8.id, name="Team 8", divisionId=division1_2023.id)
+        team1_2023 = Team(
+            ownerId=owner1.id, name="Team 1", divisionId=division1_2023.id
+        )
+        team2_2023 = Team(
+            ownerId=owner2.id, name="Team 2", divisionId=division1_2023.id
+        )
+        team3_2023 = Team(
+            ownerId=owner3.id, name="Team 3", divisionId=division1_2023.id
+        )
+        team4_2023 = Team(
+            ownerId=owner4.id, name="Team 4", divisionId=division1_2023.id
+        )
+        team5_2023 = Team(
+            ownerId=owner5.id, name="Team 5", divisionId=division1_2023.id
+        )
+        team6_2023 = Team(
+            ownerId=owner6.id, name="Team 6", divisionId=division1_2023.id
+        )
+        team7_2023 = Team(
+            ownerId=owner7.id, name="Team 7", divisionId=division1_2023.id
+        )
+        team8_2023 = Team(
+            ownerId=owner8.id, name="Team 8", divisionId=division1_2023.id
+        )
 
         expectedLeague = League(
             name="Test League 2023",
@@ -454,47 +571,127 @@ class TestFleaflickerLeagueLoader(unittest.TestCase):
             ],
         )
 
-        self.assertTrue(league.equals(expectedLeague, ignoreBaseIds=True, ignoreIds=True))
+        self.assertTrue(
+            league.equals(expectedLeague, ignoreBaseIds=True, ignoreIds=True)
+        )
         # check multiWeekMatchupIds
         for year in league.years:
             for week in year.weeks:
                 for matchup in week.matchups:
                     self.assertIsNone(matchup.multiWeekMatchupId)
 
-    @mock.patch("fleaflicker.api.LeagueInfoAPIClient.LeagueInfoAPIClient.get_league_standings")
-    @mock.patch("fleaflicker.api.ScoringAPIClient.ScoringAPIClient.get_league_scoreboard")
+    @mock.patch(
+        "fleaflicker.api.LeagueInfoAPIClient.LeagueInfoAPIClient.get_league_standings"
+    )
+    @mock.patch(
+        "fleaflicker.api.ScoringAPIClient.ScoringAPIClient.get_league_scoreboard"
+    )
     def test_loadLeague_happyPath_withOwnerNamesAndAliases(
         self, mockGetLeagueScoreboard, mockGetLeaguestandings
     ):
-        mockTeam1_2022 = {"owners": [{"displayName": "Owner 1"}], "id": 1, "name": "Team 1"}
-        mockTeam2_2022 = {"owners": [{"displayName": "Owner 2"}], "id": 2, "name": "Team 2"}
-        mockTeam3_2022 = {"owners": [{"displayName": "Owner 3"}], "id": 3, "name": "Team 3"}
-        mockTeam4_2022 = {"owners": [{"displayName": "Owner 4"}], "id": 4, "name": "Team 4"}
-        mockTeam5_2022 = {"owners": [{"displayName": "Owner 5"}], "id": 5, "name": "Team 5"}
-        mockTeam6_2022 = {"owners": [{"displayName": "Owner 6"}], "id": 6, "name": "Team 6"}
-        mockTeam7_2022 = {"owners": [{"displayName": "Owner 7"}], "id": 7, "name": "Team 7"}
-        mockTeam8_2022 = {"owners": [{"displayName": "Owner 8"}], "id": 8, "name": "Team 8"}
+        mockTeam1_2022 = {
+            "owners": [{"displayName": "Owner 1"}],
+            "id": 1,
+            "name": "Team 1",
+        }
+        mockTeam2_2022 = {
+            "owners": [{"displayName": "Owner 2"}],
+            "id": 2,
+            "name": "Team 2",
+        }
+        mockTeam3_2022 = {
+            "owners": [{"displayName": "Owner 3"}],
+            "id": 3,
+            "name": "Team 3",
+        }
+        mockTeam4_2022 = {
+            "owners": [{"displayName": "Owner 4"}],
+            "id": 4,
+            "name": "Team 4",
+        }
+        mockTeam5_2022 = {
+            "owners": [{"displayName": "Owner 5"}],
+            "id": 5,
+            "name": "Team 5",
+        }
+        mockTeam6_2022 = {
+            "owners": [{"displayName": "Owner 6"}],
+            "id": 6,
+            "name": "Team 6",
+        }
+        mockTeam7_2022 = {
+            "owners": [{"displayName": "Owner 7"}],
+            "id": 7,
+            "name": "Team 7",
+        }
+        mockTeam8_2022 = {
+            "owners": [{"displayName": "Owner 8"}],
+            "id": 8,
+            "name": "Team 8",
+        }
 
-        mockTeam1_2023 = {"owners": [{"displayName": "Owner 1"}], "id": 1, "name": "Team 1"}
-        mockTeam2_2023 = {"owners": [{"displayName": "Owner 2"}], "id": 2, "name": "Team 2"}
-        mockTeam3_2023 = {"owners": [{"displayName": "Owner 3"}], "id": 3, "name": "Team 3"}
-        mockTeam4_2023 = {"owners": [{"displayName": "Owner 4"}], "id": 4, "name": "Team 4"}
-        mockTeam5_2023 = {"owners": [{"displayName": "Owner 5"}], "id": 5, "name": "Team 5"}
-        mockTeam6_2023 = {"owners": [{"displayName": "Owner 6"}], "id": 6, "name": "Team 6"}
-        mockTeam7_2023 = {"owners": [{"displayName": "Owner 7"}], "id": 7, "name": "Team 7"}
-        mockTeam8_2023 = {"owners": [{"displayName": "Owner 8"}], "id": 8, "name": "Team 8"}
+        mockTeam1_2023 = {
+            "owners": [{"displayName": "Owner 1"}],
+            "id": 1,
+            "name": "Team 1",
+        }
+        mockTeam2_2023 = {
+            "owners": [{"displayName": "Owner 2"}],
+            "id": 2,
+            "name": "Team 2",
+        }
+        mockTeam3_2023 = {
+            "owners": [{"displayName": "Owner 3"}],
+            "id": 3,
+            "name": "Team 3",
+        }
+        mockTeam4_2023 = {
+            "owners": [{"displayName": "Owner 4"}],
+            "id": 4,
+            "name": "Team 4",
+        }
+        mockTeam5_2023 = {
+            "owners": [{"displayName": "Owner 5"}],
+            "id": 5,
+            "name": "Team 5",
+        }
+        mockTeam6_2023 = {
+            "owners": [{"displayName": "Owner 6"}],
+            "id": 6,
+            "name": "Team 6",
+        }
+        mockTeam7_2023 = {
+            "owners": [{"displayName": "Owner 7"}],
+            "id": 7,
+            "name": "Team 7",
+        }
+        mockTeam8_2023 = {
+            "owners": [{"displayName": "Owner 8"}],
+            "id": 8,
+            "name": "Team 8",
+        }
 
         mockLeagueStandings2022 = {
             "divisions": [
                 {
                     "id": 1,
                     "name": "d1_2022",
-                    "teams": [mockTeam1_2022, mockTeam2_2022, mockTeam3_2022, mockTeam4_2022],
+                    "teams": [
+                        mockTeam1_2022,
+                        mockTeam2_2022,
+                        mockTeam3_2022,
+                        mockTeam4_2022,
+                    ],
                 },
                 {
                     "id": 2,
                     "name": "d2_2022",
-                    "teams": [mockTeam5_2022, mockTeam6_2022, mockTeam7_2022, mockTeam8_2022],
+                    "teams": [
+                        mockTeam5_2022,
+                        mockTeam6_2022,
+                        mockTeam7_2022,
+                        mockTeam8_2022,
+                    ],
                 },
             ],
             "league": {"name": "Test League 2022", "id": 123},
@@ -672,7 +869,10 @@ class TestFleaflickerLeagueLoader(unittest.TestCase):
             "eligibleSchedulePeriods": [mockWeek1_2023, mockWeek2_2023, mockWeek3_2023]
         }
 
-        mockGetLeaguestandings.side_effect = [mockLeagueStandings2022, mockLeagueStandings2023]
+        mockGetLeaguestandings.side_effect = [
+            mockLeagueStandings2022,
+            mockLeagueStandings2023,
+        ]
         mockGetLeagueScoreboard.side_effect = [
             mockScoreboard2022,
             mockWeek1_2022,
@@ -715,23 +915,55 @@ class TestFleaflickerLeagueLoader(unittest.TestCase):
         owner7 = Owner(name="o7")
         owner8 = Owner(name="o8")
 
-        team1_2022 = Team(ownerId=owner1.id, name="Team 1", divisionId=division1_2022.id)
-        team2_2022 = Team(ownerId=owner2.id, name="Team 2", divisionId=division1_2022.id)
-        team3_2022 = Team(ownerId=owner3.id, name="Team 3", divisionId=division1_2022.id)
-        team4_2022 = Team(ownerId=owner4.id, name="Team 4", divisionId=division1_2022.id)
-        team5_2022 = Team(ownerId=owner5.id, name="Team 5", divisionId=division2_2022.id)
-        team6_2022 = Team(ownerId=owner6.id, name="Team 6", divisionId=division2_2022.id)
-        team7_2022 = Team(ownerId=owner7.id, name="Team 7", divisionId=division2_2022.id)
-        team8_2022 = Team(ownerId=owner8.id, name="Team 8", divisionId=division2_2022.id)
+        team1_2022 = Team(
+            ownerId=owner1.id, name="Team 1", divisionId=division1_2022.id
+        )
+        team2_2022 = Team(
+            ownerId=owner2.id, name="Team 2", divisionId=division1_2022.id
+        )
+        team3_2022 = Team(
+            ownerId=owner3.id, name="Team 3", divisionId=division1_2022.id
+        )
+        team4_2022 = Team(
+            ownerId=owner4.id, name="Team 4", divisionId=division1_2022.id
+        )
+        team5_2022 = Team(
+            ownerId=owner5.id, name="Team 5", divisionId=division2_2022.id
+        )
+        team6_2022 = Team(
+            ownerId=owner6.id, name="Team 6", divisionId=division2_2022.id
+        )
+        team7_2022 = Team(
+            ownerId=owner7.id, name="Team 7", divisionId=division2_2022.id
+        )
+        team8_2022 = Team(
+            ownerId=owner8.id, name="Team 8", divisionId=division2_2022.id
+        )
 
-        team1_2023 = Team(ownerId=owner1.id, name="Team 1", divisionId=division1_2023.id)
-        team2_2023 = Team(ownerId=owner2.id, name="Team 2", divisionId=division1_2023.id)
-        team3_2023 = Team(ownerId=owner3.id, name="Team 3", divisionId=division1_2023.id)
-        team4_2023 = Team(ownerId=owner4.id, name="Team 4", divisionId=division1_2023.id)
-        team5_2023 = Team(ownerId=owner5.id, name="Team 5", divisionId=division1_2023.id)
-        team6_2023 = Team(ownerId=owner6.id, name="Team 6", divisionId=division1_2023.id)
-        team7_2023 = Team(ownerId=owner7.id, name="Team 7", divisionId=division1_2023.id)
-        team8_2023 = Team(ownerId=owner8.id, name="Team 8", divisionId=division1_2023.id)
+        team1_2023 = Team(
+            ownerId=owner1.id, name="Team 1", divisionId=division1_2023.id
+        )
+        team2_2023 = Team(
+            ownerId=owner2.id, name="Team 2", divisionId=division1_2023.id
+        )
+        team3_2023 = Team(
+            ownerId=owner3.id, name="Team 3", divisionId=division1_2023.id
+        )
+        team4_2023 = Team(
+            ownerId=owner4.id, name="Team 4", divisionId=division1_2023.id
+        )
+        team5_2023 = Team(
+            ownerId=owner5.id, name="Team 5", divisionId=division1_2023.id
+        )
+        team6_2023 = Team(
+            ownerId=owner6.id, name="Team 6", divisionId=division1_2023.id
+        )
+        team7_2023 = Team(
+            ownerId=owner7.id, name="Team 7", divisionId=division1_2023.id
+        )
+        team8_2023 = Team(
+            ownerId=owner8.id, name="Team 8", divisionId=division1_2023.id
+        )
 
         expectedLeague = League(
             name="Test League 2023",
@@ -912,45 +1144,127 @@ class TestFleaflickerLeagueLoader(unittest.TestCase):
             ],
         )
 
-        self.assertTrue(league.equals(expectedLeague, ignoreBaseIds=True, ignoreIds=True))
+        self.assertTrue(
+            league.equals(expectedLeague, ignoreBaseIds=True, ignoreIds=True)
+        )
         # check multiWeekMatchupIds
         for year in league.years:
             for week in year.weeks:
                 for matchup in week.matchups:
                     self.assertIsNone(matchup.multiWeekMatchupId)
 
-    @mock.patch("fleaflicker.api.LeagueInfoAPIClient.LeagueInfoAPIClient.get_league_standings")
-    @mock.patch("fleaflicker.api.ScoringAPIClient.ScoringAPIClient.get_league_scoreboard")
-    def test_loadLeague_withLeagueName(self, mockGetLeagueScoreboard, mockGetLeaguestandings):
-        mockTeam1_2022 = {"owners": [{"displayName": "Owner 1"}], "id": 1, "name": "Team 1"}
-        mockTeam2_2022 = {"owners": [{"displayName": "Owner 2"}], "id": 2, "name": "Team 2"}
-        mockTeam3_2022 = {"owners": [{"displayName": "Owner 3"}], "id": 3, "name": "Team 3"}
-        mockTeam4_2022 = {"owners": [{"displayName": "Owner 4"}], "id": 4, "name": "Team 4"}
-        mockTeam5_2022 = {"owners": [{"displayName": "Owner 5"}], "id": 5, "name": "Team 5"}
-        mockTeam6_2022 = {"owners": [{"displayName": "Owner 6"}], "id": 6, "name": "Team 6"}
-        mockTeam7_2022 = {"owners": [{"displayName": "Owner 7"}], "id": 7, "name": "Team 7"}
-        mockTeam8_2022 = {"owners": [{"displayName": "Owner 8"}], "id": 8, "name": "Team 8"}
+    @mock.patch(
+        "fleaflicker.api.LeagueInfoAPIClient.LeagueInfoAPIClient.get_league_standings"
+    )
+    @mock.patch(
+        "fleaflicker.api.ScoringAPIClient.ScoringAPIClient.get_league_scoreboard"
+    )
+    def test_loadLeague_withLeagueName(
+        self, mockGetLeagueScoreboard, mockGetLeaguestandings
+    ):
+        mockTeam1_2022 = {
+            "owners": [{"displayName": "Owner 1"}],
+            "id": 1,
+            "name": "Team 1",
+        }
+        mockTeam2_2022 = {
+            "owners": [{"displayName": "Owner 2"}],
+            "id": 2,
+            "name": "Team 2",
+        }
+        mockTeam3_2022 = {
+            "owners": [{"displayName": "Owner 3"}],
+            "id": 3,
+            "name": "Team 3",
+        }
+        mockTeam4_2022 = {
+            "owners": [{"displayName": "Owner 4"}],
+            "id": 4,
+            "name": "Team 4",
+        }
+        mockTeam5_2022 = {
+            "owners": [{"displayName": "Owner 5"}],
+            "id": 5,
+            "name": "Team 5",
+        }
+        mockTeam6_2022 = {
+            "owners": [{"displayName": "Owner 6"}],
+            "id": 6,
+            "name": "Team 6",
+        }
+        mockTeam7_2022 = {
+            "owners": [{"displayName": "Owner 7"}],
+            "id": 7,
+            "name": "Team 7",
+        }
+        mockTeam8_2022 = {
+            "owners": [{"displayName": "Owner 8"}],
+            "id": 8,
+            "name": "Team 8",
+        }
 
-        mockTeam1_2023 = {"owners": [{"displayName": "Owner 1"}], "id": 1, "name": "Team 1"}
-        mockTeam2_2023 = {"owners": [{"displayName": "Owner 2"}], "id": 2, "name": "Team 2"}
-        mockTeam3_2023 = {"owners": [{"displayName": "Owner 3"}], "id": 3, "name": "Team 3"}
-        mockTeam4_2023 = {"owners": [{"displayName": "Owner 4"}], "id": 4, "name": "Team 4"}
-        mockTeam5_2023 = {"owners": [{"displayName": "Owner 5"}], "id": 5, "name": "Team 5"}
-        mockTeam6_2023 = {"owners": [{"displayName": "Owner 6"}], "id": 6, "name": "Team 6"}
-        mockTeam7_2023 = {"owners": [{"displayName": "Owner 7"}], "id": 7, "name": "Team 7"}
-        mockTeam8_2023 = {"owners": [{"displayName": "Owner 8"}], "id": 8, "name": "Team 8"}
+        mockTeam1_2023 = {
+            "owners": [{"displayName": "Owner 1"}],
+            "id": 1,
+            "name": "Team 1",
+        }
+        mockTeam2_2023 = {
+            "owners": [{"displayName": "Owner 2"}],
+            "id": 2,
+            "name": "Team 2",
+        }
+        mockTeam3_2023 = {
+            "owners": [{"displayName": "Owner 3"}],
+            "id": 3,
+            "name": "Team 3",
+        }
+        mockTeam4_2023 = {
+            "owners": [{"displayName": "Owner 4"}],
+            "id": 4,
+            "name": "Team 4",
+        }
+        mockTeam5_2023 = {
+            "owners": [{"displayName": "Owner 5"}],
+            "id": 5,
+            "name": "Team 5",
+        }
+        mockTeam6_2023 = {
+            "owners": [{"displayName": "Owner 6"}],
+            "id": 6,
+            "name": "Team 6",
+        }
+        mockTeam7_2023 = {
+            "owners": [{"displayName": "Owner 7"}],
+            "id": 7,
+            "name": "Team 7",
+        }
+        mockTeam8_2023 = {
+            "owners": [{"displayName": "Owner 8"}],
+            "id": 8,
+            "name": "Team 8",
+        }
 
         mockLeagueStandings2022 = {
             "divisions": [
                 {
                     "id": 1,
                     "name": "d1_2022",
-                    "teams": [mockTeam1_2022, mockTeam2_2022, mockTeam3_2022, mockTeam4_2022],
+                    "teams": [
+                        mockTeam1_2022,
+                        mockTeam2_2022,
+                        mockTeam3_2022,
+                        mockTeam4_2022,
+                    ],
                 },
                 {
                     "id": 2,
                     "name": "d2_2022",
-                    "teams": [mockTeam5_2022, mockTeam6_2022, mockTeam7_2022, mockTeam8_2022],
+                    "teams": [
+                        mockTeam5_2022,
+                        mockTeam6_2022,
+                        mockTeam7_2022,
+                        mockTeam8_2022,
+                    ],
                 },
             ],
             "league": {"name": "Test League 2022", "id": 123},
@@ -1128,7 +1442,10 @@ class TestFleaflickerLeagueLoader(unittest.TestCase):
             "eligibleSchedulePeriods": [mockWeek1_2023, mockWeek2_2023, mockWeek3_2023]
         }
 
-        mockGetLeaguestandings.side_effect = [mockLeagueStandings2022, mockLeagueStandings2023]
+        mockGetLeaguestandings.side_effect = [
+            mockLeagueStandings2022,
+            mockLeagueStandings2023,
+        ]
         mockGetLeagueScoreboard.side_effect = [
             mockScoreboard2022,
             mockWeek1_2022,
@@ -1140,7 +1457,9 @@ class TestFleaflickerLeagueLoader(unittest.TestCase):
             mockWeek3_2023,
         ]
 
-        leagueLoader = FleaflickerLeagueLoader("123", [2022, 2023], leagueName="custom name")
+        leagueLoader = FleaflickerLeagueLoader(
+            "123", [2022, 2023], leagueName="custom name"
+        )
         league = leagueLoader.loadLeague()
 
         self.assertEqual("custom name", league.name)

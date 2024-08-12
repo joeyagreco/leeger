@@ -103,15 +103,23 @@ class PointsScoredYearCalculator(YearCalculator):
             week = year.weeks[i]
             for matchup in week.matchups:
                 if matchup.matchupType in filters.includeMatchupTypes:
-                    teamIdAndOpponentPointsScored[matchup.teamAId] += Deci(matchup.teamBScore)
-                    teamIdAndOpponentPointsScored[matchup.teamBId] += Deci(matchup.teamAScore)
+                    teamIdAndOpponentPointsScored[matchup.teamAId] += Deci(
+                        matchup.teamBScore
+                    )
+                    teamIdAndOpponentPointsScored[matchup.teamBId] += Deci(
+                        matchup.teamAScore
+                    )
 
-        cls._setToNoneIfNoGamesPlayed(teamIdAndOpponentPointsScored, year, filters, **kwargs)
+        cls._setToNoneIfNoGamesPlayed(
+            teamIdAndOpponentPointsScored, year, filters, **kwargs
+        )
         return teamIdAndOpponentPointsScored
 
     @classmethod
     @validateYear
-    def getOpponentPointsScoredPerGame(cls, year: Year, **kwargs) -> dict[str, Optional[Deci]]:
+    def getOpponentPointsScoredPerGame(
+        cls, year: Year, **kwargs
+    ) -> dict[str, Optional[Deci]]:
         """
         Returns the number of opponent Points Scored per game for each team in the given Year.
         Returns None for a Team if they have no games played in the range.
@@ -138,7 +146,8 @@ class PointsScoredYearCalculator(YearCalculator):
                 teamIdAndOpponentPointsScoredPerGame[teamId] = None
             else:
                 teamIdAndOpponentPointsScoredPerGame[teamId] = (
-                    teamIdAndOpponentPointsScored[teamId] / teamIdAndNumberOfGamesPlayed[teamId]
+                    teamIdAndOpponentPointsScored[teamId]
+                    / teamIdAndNumberOfGamesPlayed[teamId]
                 )
 
         return teamIdAndOpponentPointsScoredPerGame

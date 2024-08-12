@@ -16,7 +16,9 @@ class YearFilters:
 
     weekNumberStart: int  # week to start at (inclusive)
     weekNumberEnd: int  # week to end at (inclusive)
-    includeMultiWeekMatchups: bool = True  # whether to include multi-week matchups or not
+    includeMultiWeekMatchups: bool = (
+        True  # whether to include multi-week matchups or not
+    )
     onlyChampionship: bool = False  # only include championship weeks
     onlyPostSeason: bool = False  # only include playoff weeks
     onlyRegularSeason: bool = False  # only include regular season weeks
@@ -30,7 +32,11 @@ class YearFilters:
         elif self.onlyRegularSeason:
             return [MatchupType.REGULAR_SEASON]
         else:
-            return [MatchupType.REGULAR_SEASON, MatchupType.PLAYOFF, MatchupType.CHAMPIONSHIP]
+            return [
+                MatchupType.REGULAR_SEASON,
+                MatchupType.PLAYOFF,
+                MatchupType.CHAMPIONSHIP,
+            ]
 
     @classmethod
     def preferredOrderWithTitle(cls, year: Year, **kwargs) -> list[tuple[str, Any]]:
@@ -74,7 +80,9 @@ class YearFilters:
         if not isinstance(weekNumberEnd, int):
             raise InvalidFilterException("'weekNumberEnd' must be type 'int'")
         if not isinstance(includeMultiWeekMatchups, bool):
-            raise InvalidFilterException("'includeMultiWeekMatchups' must be type 'bool'")
+            raise InvalidFilterException(
+                "'includeMultiWeekMatchups' must be type 'bool'"
+            )
 
         # logic checks
         if [onlyChampionship, onlyPostSeason, onlyRegularSeason].count(True) > 1:

@@ -31,7 +31,9 @@ def checkAllTypes(matchup: Matchup) -> None:
     if not isinstance(matchup.matchupType, MatchupType):
         raise InvalidMatchupFormatException("matchupType must be type 'MatchupType'.")
     if not isinstance(matchup.multiWeekMatchupId, (str, type(None))):
-        raise InvalidMatchupFormatException("multiWeekMatchupId must be 'None' or type 'str'.")
+        raise InvalidMatchupFormatException(
+            "multiWeekMatchupId must be 'None' or type 'str'."
+        )
 
 
 def checkForIllegalMatchupOutcomes(matchup: Matchup) -> None:
@@ -54,4 +56,6 @@ def checkThatTeamIdsAreNotTheSame(matchup: Matchup) -> None:
     Checks that team A and team B have different IDs
     """
     if matchup.teamAId == matchup.teamBId:
-        raise InvalidMatchupFormatException("Team A and Team B cannot have the same ID.")
+        raise InvalidMatchupFormatException(
+            "Team A and Team B cannot have the same ID."
+        )

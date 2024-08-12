@@ -1,5 +1,4 @@
 import unittest
-from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception import DoesNotExistException
@@ -9,6 +8,7 @@ from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Team import Team
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
+from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestYear(unittest.TestCase):
@@ -229,7 +229,9 @@ class TestYear(unittest.TestCase):
 
         with self.assertRaises(DoesNotExistException) as context:
             year.getTeamByName("team0")
-        self.assertEqual("Year does not have a team with name 'team0'.", str(context.exception))
+        self.assertEqual(
+            "Year does not have a team with name 'team0'.", str(context.exception)
+        )
 
     def test_getWeekByWeekNumber_happyPath(self):
         _, teams = getNDefaultOwnersAndTeams(2)
@@ -262,4 +264,6 @@ class TestYear(unittest.TestCase):
 
         with self.assertRaises(DoesNotExistException) as context:
             year.getWeekByWeekNumber(2)
-        self.assertEqual("Year does not have a week with week number 2.", str(context.exception))
+        self.assertEqual(
+            "Year does not have a week with week number 2.", str(context.exception)
+        )

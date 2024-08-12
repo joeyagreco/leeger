@@ -1,5 +1,4 @@
 import unittest
-from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 from leeger.enum.MatchupType import MatchupType
 from leeger.exception.InvalidLeagueFormatException import InvalidLeagueFormatException
@@ -10,6 +9,7 @@ from leeger.model.league.Team import Team
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
 from leeger.validate import leagueValidation
+from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestLeagueValidation(unittest.TestCase):
@@ -20,7 +20,9 @@ class TestLeagueValidation(unittest.TestCase):
         a_team1 = Team(ownerId=owner1.id, name="1")
         a_team2 = Team(ownerId=owner2.id, name="2")
 
-        a_matchup1 = Matchup(teamAId=a_team1.id, teamBId=a_team2.id, teamAScore=1, teamBScore=2)
+        a_matchup1 = Matchup(
+            teamAId=a_team1.id, teamBId=a_team2.id, teamAScore=1, teamBScore=2
+        )
         a_matchup2 = Matchup(
             teamAId=a_team1.id,
             teamBId=a_team2.id,
@@ -50,13 +52,17 @@ class TestLeagueValidation(unittest.TestCase):
         a_week4 = Week(weekNumber=4, matchups=[a_matchup4])
 
         a_year = Year(
-            yearNumber=2000, teams=[a_team1, a_team2], weeks=[a_week1, a_week2, a_week3, a_week4]
+            yearNumber=2000,
+            teams=[a_team1, a_team2],
+            weeks=[a_week1, a_week2, a_week3, a_week4],
         )
 
         b_team1 = Team(ownerId=owner1.id, name="1")
         b_team2 = Team(ownerId=owner2.id, name="2")
 
-        b_matchup1 = Matchup(teamAId=b_team1.id, teamBId=b_team2.id, teamAScore=1, teamBScore=2)
+        b_matchup1 = Matchup(
+            teamAId=b_team1.id, teamBId=b_team2.id, teamAScore=1, teamBScore=2
+        )
         b_matchup2 = Matchup(
             teamAId=b_team1.id,
             teamBId=b_team2.id,
@@ -86,7 +92,9 @@ class TestLeagueValidation(unittest.TestCase):
         b_week4 = Week(weekNumber=4, matchups=[b_matchup4])
 
         b_year = Year(
-            yearNumber=2001, teams=[b_team1, b_team2], weeks=[b_week1, b_week2, b_week3, b_week4]
+            yearNumber=2001,
+            teams=[b_team1, b_team2],
+            weeks=[b_week1, b_week2, b_week3, b_week4],
         )
 
         leagueValidation.runAllChecks(
@@ -109,7 +117,8 @@ class TestLeagueValidation(unittest.TestCase):
                 League(name="TEST", owners=list(), years=[b_year, a_year])
             )
         self.assertEqual(
-            "Years are not in chronological order (oldest -> newest).", str(context.exception)
+            "Years are not in chronological order (oldest -> newest).",
+            str(context.exception),
         )
 
     def test_checkNoDuplicateYearNumbers_duplicateYearNumbers_raisesException(self):
@@ -128,7 +137,8 @@ class TestLeagueValidation(unittest.TestCase):
                 League(name="TEST", owners=list(), years=[a_year, b_year])
             )
         self.assertEqual(
-            "Can only have 1 of each year number within a league.", str(context.exception)
+            "Can only have 1 of each year number within a league.",
+            str(context.exception),
         )
 
     def test_checkForDuplicateOwners_duplicateOwnerInstances_raisesException(self):
@@ -160,11 +170,15 @@ class TestLeagueValidation(unittest.TestCase):
     def test_checkForDuplicateTeams_duplicateTeams_raisesException(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
         week1 = Week(weekNumber=1, matchups=[matchup1])
         year1 = Year(yearNumber=2000, teams=teams, weeks=[week1])
 
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2)
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1, teamBScore=2
+        )
         week2 = Week(weekNumber=1, matchups=[matchup2])
         year2 = Year(yearNumber=2001, teams=teams, weeks=[week2])
 
@@ -189,27 +203,37 @@ class TestLeagueValidation(unittest.TestCase):
 
     def test_checkAllTypes_leagueNameIsntTypeString_raisesException(self):
         with self.assertRaises(InvalidLeagueFormatException) as context:
-            leagueValidation.checkAllTypes(League(name=None, owners=list(), years=list()))
+            leagueValidation.checkAllTypes(
+                League(name=None, owners=list(), years=list())
+            )
         self.assertEqual("name must be type 'str'.", str(context.exception))
 
     def test_checkAllTypes_leagueOwnersIsntTypeList_raisesException(self):
         # not given a list
         with self.assertRaises(InvalidLeagueFormatException) as context:
-            leagueValidation.checkAllTypes(League(name="TEST", owners=None, years=list()))
+            leagueValidation.checkAllTypes(
+                League(name="TEST", owners=None, years=list())
+            )
         self.assertEqual("owners must be type 'list[Owner]'.", str(context.exception))
 
         # given a list of non Owner
         with self.assertRaises(InvalidLeagueFormatException) as context:
-            leagueValidation.checkAllTypes(League(name="TEST", owners=["foo"], years=list()))
+            leagueValidation.checkAllTypes(
+                League(name="TEST", owners=["foo"], years=list())
+            )
         self.assertEqual("owners must be type 'list[Owner]'.", str(context.exception))
 
     def test_checkAllTypes_leagueYearsIsntTypeList_raisesException(self):
         # not given a list
         with self.assertRaises(InvalidLeagueFormatException) as context:
-            leagueValidation.checkAllTypes(League(name="TEST", owners=list(), years=None))
+            leagueValidation.checkAllTypes(
+                League(name="TEST", owners=list(), years=None)
+            )
         self.assertEqual("years must be type 'list[Year]'.", str(context.exception))
 
         # given a list of non Year
         with self.assertRaises(InvalidLeagueFormatException) as context:
-            leagueValidation.checkAllTypes(League(name="TEST", owners=list(), years=["foo"]))
+            leagueValidation.checkAllTypes(
+                League(name="TEST", owners=list(), years=["foo"])
+            )
         self.assertEqual("years must be type 'list[Year]'.", str(context.exception))

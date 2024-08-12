@@ -73,10 +73,14 @@ class SmartWinsYearCalculator(YearCalculator):
         for teamId in allTeamIds:
             teamIdAndSmartWins[teamId] = Deci(0)
 
-        allScores = YearNavigator.getAllScoresInYear(year, simplifyMultiWeekMatchups=True)
+        allScores = YearNavigator.getAllScoresInYear(
+            year, simplifyMultiWeekMatchups=True
+        )
         for teamId, score in teamIdsAndScores:
             scoresBeat, scoresTied = getNumberOfScoresBeatAndTied(score, allScores)
-            smartWins = (scoresBeat + (scoresTied / Deci("2"))) / (len(allScores) - Deci("1"))
+            smartWins = (scoresBeat + (scoresTied / Deci("2"))) / (
+                len(allScores) - Deci("1")
+            )
             teamIdAndSmartWins[teamId] += smartWins
 
         cls._setToNoneIfNoGamesPlayed(teamIdAndSmartWins, year, filters, **kwargs)
@@ -100,7 +104,9 @@ class SmartWinsYearCalculator(YearCalculator):
 
         teamIdAndSmartWins = SmartWinsYearCalculator.getSmartWins(year, **kwargs)
         teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(
-            year, YearFilters.getForYear(year, **kwargs), countMultiWeekMatchupsAsOneGame=True
+            year,
+            YearFilters.getForYear(year, **kwargs),
+            countMultiWeekMatchupsAsOneGame=True,
         )
 
         teamIdAndSmartWinsPerGame = dict()
@@ -167,18 +173,26 @@ class SmartWinsYearCalculator(YearCalculator):
         for teamId in allTeamIds:
             teamIdAndOpponentSmartWins[teamId] = Deci(0)
 
-        allScores = YearNavigator.getAllScoresInYear(year, simplifyMultiWeekMatchups=True)
+        allScores = YearNavigator.getAllScoresInYear(
+            year, simplifyMultiWeekMatchups=True
+        )
         for teamId, score in teamIdsAndScores:
             scoresBeat, scoresTied = getNumberOfScoresBeatAndTied(score, allScores)
-            smartWins = (scoresBeat + (scoresTied / Deci("2"))) / (len(allScores) - Deci("1"))
+            smartWins = (scoresBeat + (scoresTied / Deci("2"))) / (
+                len(allScores) - Deci("1")
+            )
             teamIdAndOpponentSmartWins[teamId] += smartWins
 
-        cls._setToNoneIfNoGamesPlayed(teamIdAndOpponentSmartWins, year, filters, **kwargs)
+        cls._setToNoneIfNoGamesPlayed(
+            teamIdAndOpponentSmartWins, year, filters, **kwargs
+        )
         return teamIdAndOpponentSmartWins
 
     @classmethod
     @validateYear
-    def getOpponentSmartWinsPerGame(cls, year: Year, **kwargs) -> dict[str, Optional[Deci]]:
+    def getOpponentSmartWinsPerGame(
+        cls, year: Year, **kwargs
+    ) -> dict[str, Optional[Deci]]:
         """
         Returns the number of Smart Wins per game for each team's opponents in the given Year.
         Returns None for a Team if they have no games played in the range.
@@ -192,9 +206,13 @@ class SmartWinsYearCalculator(YearCalculator):
             }
         """
 
-        teamIdAndOpponentSmartWins = SmartWinsYearCalculator.getOpponentSmartWins(year, **kwargs)
+        teamIdAndOpponentSmartWins = SmartWinsYearCalculator.getOpponentSmartWins(
+            year, **kwargs
+        )
         teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(
-            year, YearFilters.getForYear(year, **kwargs), countMultiWeekMatchupsAsOneGame=True
+            year,
+            YearFilters.getForYear(year, **kwargs),
+            countMultiWeekMatchupsAsOneGame=True,
         )
 
         teamIdAndOpponentSmartWinsPerGame = dict()
@@ -205,7 +223,8 @@ class SmartWinsYearCalculator(YearCalculator):
                 teamIdAndOpponentSmartWinsPerGame[teamId] = None
             else:
                 teamIdAndOpponentSmartWinsPerGame[teamId] = (
-                    teamIdAndOpponentSmartWins[teamId] / teamIdAndNumberOfGamesPlayed[teamId]
+                    teamIdAndOpponentSmartWins[teamId]
+                    / teamIdAndNumberOfGamesPlayed[teamId]
                 )
 
         return teamIdAndOpponentSmartWinsPerGame

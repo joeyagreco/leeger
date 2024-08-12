@@ -18,7 +18,9 @@ class LeagueNavigator:
         for year in league.years:
             if year.yearNumber == yearNumber:
                 return year
-        raise DoesNotExistException(f"Year {yearNumber} does not exist in the given League.")
+        raise DoesNotExistException(
+            f"Year {yearNumber} does not exist in the given League."
+        )
 
     @staticmethod
     def getTeamById(league: League, teamId: str) -> Team:
@@ -26,14 +28,18 @@ class LeagueNavigator:
             for team in year.teams:
                 if team.id == teamId:
                     return team
-        raise DoesNotExistException(f"Team with ID {teamId} does not exist in the given League.")
+        raise DoesNotExistException(
+            f"Team with ID {teamId} does not exist in the given League."
+        )
 
     @staticmethod
     def getOwnerById(league: League, ownerId: str) -> Owner:
         for owner in league.owners:
             if owner.id == ownerId:
                 return owner
-        raise DoesNotExistException(f"Owner with ID {ownerId} does not exist in the given League.")
+        raise DoesNotExistException(
+            f"Owner with ID {ownerId} does not exist in the given League."
+        )
 
     @staticmethod
     def getAllOwnerIds(league: League) -> list[str]:
@@ -64,7 +70,9 @@ class LeagueNavigator:
         if allTimeFilters.yearNumberStart == allTimeFilters.yearNumberEnd:
             yearWeekNumberStartWeekNumberEnd.append(
                 (
-                    LeagueNavigator.getYearByYearNumber(league, allTimeFilters.yearNumberStart),
+                    LeagueNavigator.getYearByYearNumber(
+                        league, allTimeFilters.yearNumberStart
+                    ),
                     allTimeFilters.weekNumberStart,
                     allTimeFilters.weekNumberEnd,
                 )
@@ -80,9 +88,13 @@ class LeagueNavigator:
                 elif year.yearNumber == allTimeFilters.yearNumberEnd:
                     # last year we want, make sure week number end matches what was requested
                     # first week and every week til givenWeekEnd
-                    yearWeekNumberStartWeekNumberEnd.append((year, 1, allTimeFilters.weekNumberEnd))
+                    yearWeekNumberStartWeekNumberEnd.append(
+                        (year, 1, allTimeFilters.weekNumberEnd)
+                    )
                 elif (
-                    allTimeFilters.yearNumberStart < year.yearNumber < allTimeFilters.yearNumberEnd
+                    allTimeFilters.yearNumberStart
+                    < year.yearNumber
+                    < allTimeFilters.yearNumberEnd
                 ):
                     # this year is in our year range, include every week in this year
                     yearWeekNumberStartWeekNumberEnd.append((year, 1, len(year.weeks)))
@@ -125,7 +137,9 @@ class LeagueNavigator:
         return ownerIdAndNumberOfGamesPlayed
 
     @staticmethod
-    def getAllScoresInLeague(league: League, simplifyMultiWeekMatchups=False) -> list[float | int]:
+    def getAllScoresInLeague(
+        league: League, simplifyMultiWeekMatchups=False
+    ) -> list[float | int]:
         """
         Returns a list of all scores for the given League.
         Will count all scores EXCEPT for IGNORE Matchups.

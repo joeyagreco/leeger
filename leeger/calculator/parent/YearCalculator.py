@@ -29,15 +29,23 @@ class YearCalculator:
 
     @classmethod
     def _setToNoneIfNoGamesPlayed(
-        cls, responseDict: dict[str, Any], year: Year, yearFilters: YearFilters = None, **kwargs
+        cls,
+        responseDict: dict[str, Any],
+        year: Year,
+        yearFilters: YearFilters = None,
+        **kwargs,
     ) -> None:
         """
         Takes a response dict and sets any value to None where the Team ID has no games played in the given range.
         """
         yearFilters = (
-            yearFilters if yearFilters is not None else YearFilters.getForYear(year, **kwargs)
+            yearFilters
+            if yearFilters is not None
+            else YearFilters.getForYear(year, **kwargs)
         )
-        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(year, yearFilters)
+        teamIdAndNumberOfGamesPlayed = YearNavigator.getNumberOfGamesPlayed(
+            year, yearFilters
+        )
 
         for teamId in responseDict:
             if teamIdAndNumberOfGamesPlayed[teamId] == 0:

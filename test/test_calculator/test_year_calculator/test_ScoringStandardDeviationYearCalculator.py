@@ -1,5 +1,4 @@
 import unittest
-from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 from leeger.calculator.year_calculator import ScoringStandardDeviationYearCalculator
 from leeger.enum.MatchupType import MatchupType
@@ -7,13 +6,16 @@ from leeger.model.league.Matchup import Matchup
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
 from leeger.util.Deci import Deci
+from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestScoringStandardDeviationYearCalculator(unittest.TestCase):
     def test_getScoringStandardDeviation_happyPath(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
         matchup2 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -33,9 +35,13 @@ class TestScoringStandardDeviationYearCalculator(unittest.TestCase):
         week2 = Week(weekNumber=2, matchups=[matchup2])
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3]
+        )
 
-        response = ScoringStandardDeviationYearCalculator.getScoringStandardDeviation(year)
+        response = ScoringStandardDeviationYearCalculator.getScoringStandardDeviation(
+            year
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -71,9 +77,13 @@ class TestScoringStandardDeviationYearCalculator(unittest.TestCase):
         week2 = Week(weekNumber=2, matchups=[matchup2])
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3]
+        )
 
-        response = ScoringStandardDeviationYearCalculator.getScoringStandardDeviation(year)
+        response = ScoringStandardDeviationYearCalculator.getScoringStandardDeviation(
+            year
+        )
 
         self.assertIsInstance(response, dict)
         self.assertEqual(2, len(response.keys()))
@@ -83,8 +93,12 @@ class TestScoringStandardDeviationYearCalculator(unittest.TestCase):
     def test_getScoringStandardDeviation_noneIfNoGamesPlayed(self):
         owners, teams = getNDefaultOwnersAndTeams(3)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=1.2, teamBScore=2.5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
+        matchup2 = Matchup(
+            teamAId=teams[1].id, teamBId=teams[2].id, teamAScore=1.2, teamBScore=2.5
+        )
         week1 = Week(weekNumber=1, matchups=[matchup1])
         week2 = Week(weekNumber=2, matchups=[matchup2])
 
@@ -103,7 +117,9 @@ class TestScoringStandardDeviationYearCalculator(unittest.TestCase):
     def test_getScoringStandardDeviation_onlyPostSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
         matchup2 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -123,7 +139,9 @@ class TestScoringStandardDeviationYearCalculator(unittest.TestCase):
         week2 = Week(weekNumber=2, matchups=[matchup2])
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3]
+        )
 
         response = ScoringStandardDeviationYearCalculator.getScoringStandardDeviation(
             year, onlyPostSeason=True
@@ -137,8 +155,12 @@ class TestScoringStandardDeviationYearCalculator(unittest.TestCase):
     def test_getScoringStandardDeviation_onlyRegularSeasonIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=5, teamBScore=3)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=5, teamBScore=3
+        )
         matchup3 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -151,7 +173,9 @@ class TestScoringStandardDeviationYearCalculator(unittest.TestCase):
         week2 = Week(weekNumber=2, matchups=[matchup2])
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3]
+        )
 
         response = ScoringStandardDeviationYearCalculator.getScoringStandardDeviation(
             year, onlyRegularSeason=True
@@ -165,9 +189,15 @@ class TestScoringStandardDeviationYearCalculator(unittest.TestCase):
     def test_getScoringStandardDeviation_onlyChampionshipIsTrue(self):
         owners, teams = getNDefaultOwnersAndTeams(6)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.3)
-        matchup2 = Matchup(teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.3, teamBScore=4.3)
-        matchup3 = Matchup(teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.3, teamBScore=5.3)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.3, teamBScore=2.3
+        )
+        matchup2 = Matchup(
+            teamAId=teams[2].id, teamBId=teams[3].id, teamAScore=3.3, teamBScore=4.3
+        )
+        matchup3 = Matchup(
+            teamAId=teams[4].id, teamBId=teams[5].id, teamAScore=4.3, teamBScore=5.3
+        )
         week1 = Week(weekNumber=1, matchups=[matchup1, matchup2, matchup3])
 
         matchup4 = Matchup(
@@ -211,8 +241,12 @@ class TestScoringStandardDeviationYearCalculator(unittest.TestCase):
     def test_getScoringStandardDeviation_weekNumberStartGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5
+        )
         matchup3 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -225,7 +259,9 @@ class TestScoringStandardDeviationYearCalculator(unittest.TestCase):
         week2 = Week(weekNumber=2, matchups=[matchup2])
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3]
+        )
 
         response = ScoringStandardDeviationYearCalculator.getScoringStandardDeviation(
             year, weekNumberStart=2
@@ -239,8 +275,12 @@ class TestScoringStandardDeviationYearCalculator(unittest.TestCase):
     def test_getScoringStandardDeviation_weekNumberEndGiven(self):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.9, teamBScore=5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.9, teamBScore=5
+        )
         matchup3 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -253,7 +293,9 @@ class TestScoringStandardDeviationYearCalculator(unittest.TestCase):
         week2 = Week(weekNumber=2, matchups=[matchup2])
         week3 = Week(weekNumber=3, matchups=[matchup3])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3])
+        year = Year(
+            yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3]
+        )
 
         response = ScoringStandardDeviationYearCalculator.getScoringStandardDeviation(
             year, weekNumberEnd=2
@@ -264,11 +306,17 @@ class TestScoringStandardDeviationYearCalculator(unittest.TestCase):
         self.assertEqual(Deci("0.4"), response[teams[0].id])
         self.assertEqual(Deci("1.3"), response[teams[1].id])
 
-    def test_getScoringStandardDeviation_weekNumberStartGivenAndWeekNumberEndGiven(self):
+    def test_getScoringStandardDeviation_weekNumberStartGivenAndWeekNumberEndGiven(
+        self,
+    ):
         owners, teams = getNDefaultOwnersAndTeams(2)
 
-        matchup1 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4)
-        matchup2 = Matchup(teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5)
+        matchup1 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.1, teamBScore=2.4
+        )
+        matchup2 = Matchup(
+            teamAId=teams[0].id, teamBId=teams[1].id, teamAScore=1.2, teamBScore=2.5
+        )
         matchup3 = Matchup(
             teamAId=teams[0].id,
             teamBId=teams[1].id,
@@ -289,7 +337,11 @@ class TestScoringStandardDeviationYearCalculator(unittest.TestCase):
         week3 = Week(weekNumber=3, matchups=[matchup3])
         week4 = Week(weekNumber=4, matchups=[matchup4])
 
-        year = Year(yearNumber=2000, teams=[teams[0], teams[1]], weeks=[week1, week2, week3, week4])
+        year = Year(
+            yearNumber=2000,
+            teams=[teams[0], teams[1]],
+            weeks=[week1, week2, week3, week4],
+        )
 
         response = ScoringStandardDeviationYearCalculator.getScoringStandardDeviation(
             year, weekNumberStart=2, weekNumberEnd=3

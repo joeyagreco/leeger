@@ -1,12 +1,17 @@
 import unittest
-from test.helper.prototypes import getNDefaultOwnersAndTeams
 
-from leeger.decorator.validators import validateLeague, validateMatchup, validateWeek, validateYear
+from leeger.decorator.validators import (
+    validateLeague,
+    validateMatchup,
+    validateWeek,
+    validateYear,
+)
 from leeger.enum import MatchupType
 from leeger.model.league import Matchup
 from leeger.model.league.League import League
 from leeger.model.league.Week import Week
 from leeger.model.league.Year import Year
+from test.helper.prototypes import getNDefaultOwnersAndTeams
 
 
 class TestValidators(unittest.TestCase):
@@ -43,7 +48,9 @@ class TestValidators(unittest.TestCase):
     def test_validateLeague_noLeagueParameterGiven_raisesException(self):
         with self.assertRaises(ValueError) as context:
             self.dummyLeagueFunction(None)
-        self.assertEqual("No valid League argument given to validate.", str(context.exception))
+        self.assertEqual(
+            "No valid League argument given to validate.", str(context.exception)
+        )
 
     def test_validateLeague_validateLeagueKwargIsFalse_doesntRunValidation(self):
         self.dummyLeagueFunction(None, validate=False)
@@ -67,7 +74,9 @@ class TestValidators(unittest.TestCase):
     def test_validateYear_noYearParameterGiven_raisesException(self):
         with self.assertRaises(ValueError) as context:
             self.dummyYearFunction(None)
-        self.assertEqual("No valid Year argument given to validate.", str(context.exception))
+        self.assertEqual(
+            "No valid Year argument given to validate.", str(context.exception)
+        )
 
     def test_validateYear_validateYearKwargIsFalse_doesntRunValidation(self):
         self.dummyYearFunction(None, validate=False)
@@ -90,7 +99,9 @@ class TestValidators(unittest.TestCase):
     def test_validateWeek_noWeekParameterGiven_raisesException(self):
         with self.assertRaises(ValueError) as context:
             self.dummyWeekFunction(None)
-        self.assertEqual("No valid Week argument given to validate.", str(context.exception))
+        self.assertEqual(
+            "No valid Week argument given to validate.", str(context.exception)
+        )
 
     def test_validateWeek_validateWeekKwargIsFalse_doesntRunValidation(self):
         self.dummyWeekFunction(None, validate=False)
@@ -112,7 +123,9 @@ class TestValidators(unittest.TestCase):
     def test_validateMatchup_noMatchupParameterGiven_raisesException(self):
         with self.assertRaises(ValueError) as context:
             self.dummyMatchupFunction(None)
-        self.assertEqual("No valid Matchup argument given to validate.", str(context.exception))
+        self.assertEqual(
+            "No valid Matchup argument given to validate.", str(context.exception)
+        )
 
     def test_validateMatchup_validateMatchupKwargIsFalse_doesntRunValidation(self):
         self.dummyMatchupFunction(None, validate=False)

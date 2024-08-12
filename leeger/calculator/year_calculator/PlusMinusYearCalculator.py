@@ -1,7 +1,9 @@
 from typing import Optional
 
 from leeger.calculator.parent.YearCalculator import YearCalculator
-from leeger.calculator.year_calculator.PointsScoredYearCalculator import PointsScoredYearCalculator
+from leeger.calculator.year_calculator.PointsScoredYearCalculator import (
+    PointsScoredYearCalculator,
+)
 from leeger.decorator.validators import validateYear
 from leeger.model.league.Year import Year
 from leeger.util.Deci import Deci
@@ -37,9 +39,11 @@ class PlusMinusYearCalculator(YearCalculator):
         """
 
         teamIdAndPlusMinus = dict()
-        teamIdAndPointsScored = PointsScoredYearCalculator.getPointsScored(year, **kwargs)
-        teamIdAndOpponentPointsScored = PointsScoredYearCalculator.getOpponentPointsScored(
+        teamIdAndPointsScored = PointsScoredYearCalculator.getPointsScored(
             year, **kwargs
+        )
+        teamIdAndOpponentPointsScored = (
+            PointsScoredYearCalculator.getOpponentPointsScored(year, **kwargs)
         )
         for teamId in YearNavigator.getAllTeamIds(year):
             pointsScored = teamIdAndPointsScored[teamId]
@@ -48,7 +52,8 @@ class PlusMinusYearCalculator(YearCalculator):
                 teamIdAndPlusMinus[teamId] = None
             else:
                 teamIdAndPlusMinus[teamId] = (
-                    teamIdAndPointsScored[teamId] - teamIdAndOpponentPointsScored[teamId]
+                    teamIdAndPointsScored[teamId]
+                    - teamIdAndOpponentPointsScored[teamId]
                 )
 
         return teamIdAndPlusMinus

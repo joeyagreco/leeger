@@ -22,7 +22,9 @@ class YearNavigator:
         for team in year.teams:
             if team.id == teamId:
                 return team
-        raise DoesNotExistException(f"Team with ID '{teamId}' does not exist in the given Year.")
+        raise DoesNotExistException(
+            f"Team with ID '{teamId}' does not exist in the given Year."
+        )
 
     @staticmethod
     def getDivisionById(year: Year, divisionId: str) -> Division:
@@ -85,7 +87,9 @@ class YearNavigator:
         return teamIdAndNumberOfGamesPlayed
 
     @staticmethod
-    def getAllScoresInYear(year: Year, simplifyMultiWeekMatchups=False) -> list[float | int]:
+    def getAllScoresInYear(
+        year: Year, simplifyMultiWeekMatchups=False
+    ) -> list[float | int]:
         """
         Returns a list of all scores for the given Year.
         Will count all scores EXCEPT for IGNORE Matchups.
@@ -110,7 +114,9 @@ class YearNavigator:
         """
         filters = filters if filters is not None else YearFilters.getForYear(year)
         if not filters.includeMultiWeekMatchups:
-            raise ValueError("Multi-Week matchups must be included in this calculation.")
+            raise ValueError(
+                "Multi-Week matchups must be included in this calculation."
+            )
         multiWeekMatchupIdToMatchupListMap: dict[str, list[Matchup]] = dict()
 
         for i in range(filters.weekNumberStart - 1, filters.weekNumberEnd):
@@ -133,13 +139,16 @@ class YearNavigator:
             week = year.weeks[i]
             for matchup in week.matchups:
                 if matchup.matchupType in filters.includeMatchupTypes and (
-                    filters.includeMultiWeekMatchups or matchup.multiWeekMatchupId is None
+                    filters.includeMultiWeekMatchups
+                    or matchup.multiWeekMatchupId is None
                 ):
                     allMatchups.append(matchup)
         return allMatchups
 
     @staticmethod
-    def getAllSimplifiedMatchupsInYear(year: Year, filters: YearFilters = None) -> list[Matchup]:
+    def getAllSimplifiedMatchupsInYear(
+        year: Year, filters: YearFilters = None
+    ) -> list[Matchup]:
         """
         Returns a list of matchups for the given year with multi-week matchups simplified.
         """
@@ -147,15 +156,19 @@ class YearNavigator:
 
         filters = filters if filters is not None else YearFilters.getForYear(year)
         if not filters.includeMultiWeekMatchups:
-            raise ValueError("Multi-Week matchups must be included in this calculation.")
+            raise ValueError(
+                "Multi-Week matchups must be included in this calculation."
+            )
 
         # get all non multi-week matchups
         modifiedFilters = copy.deepcopy(filters)
         modifiedFilters.includeMultiWeekMatchups = False
-        allMatchups: list[Matchup] = YearNavigator.getAllMatchupsInYear(year, modifiedFilters)
+        allMatchups: list[Matchup] = YearNavigator.getAllMatchupsInYear(
+            year, modifiedFilters
+        )
         # get all multi-week matchups
-        allMultiWeekMatchups: dict[str, list[Matchup]] = YearNavigator.getAllMultiWeekMatchups(
-            year, filters
+        allMultiWeekMatchups: dict[str, list[Matchup]] = (
+            YearNavigator.getAllMultiWeekMatchups(year, filters)
         )
 
         # simplify multi-week matchups

@@ -33,7 +33,10 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
         leagueName: Optional[str] = None,
     ):
         super().__init__(
-            leagueId, years, ownerNamesAndAliases=ownerNamesAndAliases, leagueName=leagueName
+            leagueId,
+            years,
+            ownerNamesAndAliases=ownerNamesAndAliases,
+            leagueName=leagueName,
         )
 
         self.__mflUsername = mflUsername
@@ -43,9 +46,9 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
         self.__mflLeagueIdToYearMap: dict[str, int] = dict()
         self.__mflFranchiseIdToOwnerMap: dict[str, Owner] = dict()
         self.__mflFranchiseIdToTeamMap: dict[int, Team] = dict()
-        self.__mflDivisionIdToDivisionMap: dict[
-            str, Division
-        ] = dict()  # holds the division info for ONLY the current year
+        self.__mflDivisionIdToDivisionMap: dict[str, Division] = (
+            dict()
+        )  # holds the division info for ONLY the current year
 
     def __getAllLeagues(self) -> list[dict]:
         mflLeagues: list[dict] = list()
@@ -59,9 +62,9 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
                 user_agent_name=self.__mflUserAgentName,
             )
 
-            mflLeague = CommonLeagueInfoAPIClient.get_league(year=year, league_id=self._leagueId)[
-                "league"
-            ]
+            mflLeague = CommonLeagueInfoAPIClient.get_league(
+                year=year, league_id=self._leagueId
+            )["league"]
             self.__mflLeagueIdToYearMap[mflLeague["id"]] = year
             mflLeagues.append(mflLeague)
         self._validateRetrievedLeagues(mflLeagues)
@@ -93,14 +96,20 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
         owners = list(self.__mflFranchiseIdToOwnerMap.values())
         for mflLeague in mflLeagues:
             # save league name for each year
-            self._leagueNameByYear[self.__mflLeagueIdToYearMap[mflLeague["id"]]] = mflLeague["name"]
+            self._leagueNameByYear[self.__mflLeagueIdToYearMap[mflLeague["id"]]] = (
+                mflLeague["name"]
+            )
             years.append(self.__buildYear(mflLeague))
-        return League(name=self._getLeagueName(), owners=owners, years=self._getValidYears(years))
+        return League(
+            name=self._getLeagueName(), owners=owners, years=self._getValidYears(years)
+        )
 
     def __buildYear(self, mflLeague: dict) -> Year:
         # save division info
         for division in mflLeague["divisions"]["division"]:
-            self.__mflDivisionIdToDivisionMap[division["id"]] = Division(name=division["name"])
+            self.__mflDivisionIdToDivisionMap[division["id"]] = Division(
+                name=division["name"]
+            )
         yearNumber = self.__mflLeagueIdToYearMap[mflLeague["id"]]
         teams = self.__buildTeams(mflLeague)
         weeks = self.__buildWeeks(mflLeague)
@@ -219,8 +228,12 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
         # helper method
         def isValid(*, pGame: dict, aId: int, bId: int) -> bool:
             return (
-                aId == pGame["away"]["franchise_id"] or bId == pGame["away"]["franchise_id"]
-            ) and (aId == pGame["home"]["franchise_id"] or bId == pGame["home"]["franchise_id"])
+                aId == pGame["away"]["franchise_id"]
+                or bId == pGame["away"]["franchise_id"]
+            ) and (
+                aId == pGame["home"]["franchise_id"]
+                or bId == pGame["home"]["franchise_id"]
+            )
 
         isChampionshipMatchup = False
 
@@ -240,7 +253,9 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
                 # check if this matchup is the championship game
                 for playoffGame in playoffWeek["playoffGame"]:
                     isChampionshipMatchup = isChampionshipMatchup or isValid(
-                        pGame=playoffGame, aId=teamAMFLFranchiseId, bId=teamBMFLFranchiseId
+                        pGame=playoffGame,
+                        aId=teamAMFLFranchiseId,
+                        bId=teamBMFLFranchiseId,
                     )
         return isChampionshipMatchup
 
@@ -260,6 +275,10 @@ class MyFantasyLeagueLeagueLoader(LeagueLoader):
             for franchise in mflLeague["franchises"]["franchise"]:
                 ownerName = franchise["owner_name"]
                 # get general owner name if there is one
-                generalOwnerName = self._getGeneralOwnerNameFromGivenOwnerName(ownerName)
-                ownerName = generalOwnerName if generalOwnerName is not None else ownerName
+                generalOwnerName = self._getGeneralOwnerNameFromGivenOwnerName(
+                    ownerName
+                )
+                ownerName = (
+                    generalOwnerName if generalOwnerName is not None else ownerName
+                )
                 self.__mflFranchiseIdToOwnerMap[franchise["id"]] = Owner(name=ownerName)

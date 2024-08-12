@@ -19,22 +19,30 @@ class TestGeneralUtil(unittest.TestCase):
         with self.assertLogs() as captured:
             GeneralUtil.warnForUnusedKwargs(kwargs)
         self.assertEqual(2, len(captured.records))
-        self.assertEqual("Keyword argument 'a' unused.", captured.records[0].getMessage())
-        self.assertEqual("Keyword argument 'b' unused.", captured.records[1].getMessage())
+        self.assertEqual(
+            "Keyword argument 'a' unused.", captured.records[0].getMessage()
+        )
+        self.assertEqual(
+            "Keyword argument 'b' unused.", captured.records[1].getMessage()
+        )
 
         # with default exclude keys
         kwargs = {"b": 1, "validate": 2}
         with self.assertLogs() as captured:
             GeneralUtil.warnForUnusedKwargs(kwargs)
         self.assertEqual(1, len(captured.records))
-        self.assertEqual("Keyword argument 'b' unused.", captured.records[0].getMessage())
+        self.assertEqual(
+            "Keyword argument 'b' unused.", captured.records[0].getMessage()
+        )
 
         # with exclude keys
         kwargs = {"a": 1, "b": 2}
         with self.assertLogs() as captured:
             GeneralUtil.warnForUnusedKwargs(kwargs, excludeKeys=["a"])
         self.assertEqual(1, len(captured.records))
-        self.assertEqual("Keyword argument 'b' unused.", captured.records[0].getMessage())
+        self.assertEqual(
+            "Keyword argument 'b' unused.", captured.records[0].getMessage()
+        )
 
     def test_safeSum_happyPath(self):
         response = GeneralUtil.safeSum(None, 1, 1)
@@ -79,7 +87,9 @@ class TestGeneralUtil(unittest.TestCase):
         # with ignore key names (all keys)
         d1 = {"foo": "baz", "bar": "bot"}
         d2 = {"foo": "baz", "bar": "bot"}
-        response = GeneralUtil.findDifferentFields(d1, d2, ignoreKeyNames=["foo", "bar"])
+        response = GeneralUtil.findDifferentFields(
+            d1, d2, ignoreKeyNames=["foo", "bar"]
+        )
         self.assertEqual(list(), response)
 
         # with parent key given
@@ -107,7 +117,8 @@ class TestGeneralUtil(unittest.TestCase):
         d2 = {"foo": ["ba", "ba", "bo", "bo"]}
         response = GeneralUtil.findDifferentFields(d1, d2)
         self.assertEqual(
-            [("foo", (["baz", "bar", "bot", "boy"], ["ba", "ba", "bo", "bo"]))], response
+            [("foo", (["baz", "bar", "bot", "boy"], ["ba", "ba", "bo", "bo"]))],
+            response,
         )
 
         # lists have unequal length, shows key as difference
@@ -128,7 +139,8 @@ class TestGeneralUtil(unittest.TestCase):
         d2 = {"foo": ("ba", "ba", "bo", "bo")}
         response = GeneralUtil.findDifferentFields(d1, d2)
         self.assertEqual(
-            [("foo", (("baz", "bar", "bot", "boy"), ("ba", "ba", "bo", "bo")))], response
+            [("foo", (("baz", "bar", "bot", "boy"), ("ba", "ba", "bo", "bo")))],
+            response,
         )
 
         # tuples have unequal length, shows key as difference
@@ -152,7 +164,9 @@ class TestGeneralUtil(unittest.TestCase):
         # difference with ignore key names (all difference keys)
         d1 = {"foo": "baz", "bar": "bot"}
         d2 = {"foo": "ba", "bar": "bo"}
-        response = GeneralUtil.findDifferentFields(d1, d2, ignoreKeyNames=["foo", "bar"])
+        response = GeneralUtil.findDifferentFields(
+            d1, d2, ignoreKeyNames=["foo", "bar"]
+        )
         self.assertEqual(list(), response)
 
         # with parent key given
@@ -166,7 +180,9 @@ class TestGeneralUtil(unittest.TestCase):
         d1 = {"foo": {"baz": "bar"}, "bot": {"boo": "boy"}}
         d2 = {"foo": {"baz": "ba"}, "bot": {"boo": "bo"}}
         response = GeneralUtil.findDifferentFields(d1, d2)
-        self.assertEqual([("foo.baz", ("bar", "ba")), ("bot.boo", ("boy", "bo"))], response)
+        self.assertEqual(
+            [("foo.baz", ("bar", "ba")), ("bot.boo", ("boy", "bo"))], response
+        )
 
         # with list nested
         # same list length, single index difference
@@ -185,7 +201,9 @@ class TestGeneralUtil(unittest.TestCase):
         d1 = {"foo": {"bar": ["bot", "boy", "boz"]}}
         d2 = {"foo": {"bar": ["bo", "bo", "boz"]}}
         response = GeneralUtil.findDifferentFields(d1, d2)
-        self.assertEqual([("foo.bar[0]", ("bot", "bo")), ("foo.bar[1]", ("boy", "bo"))], response)
+        self.assertEqual(
+            [("foo.bar[0]", ("bot", "bo")), ("foo.bar[1]", ("boy", "bo"))], response
+        )
 
         # different list length
         d1 = {"foo": {"bar": ["bot", "boy"]}}
@@ -209,4 +227,6 @@ class TestGeneralUtil(unittest.TestCase):
         d1 = {"foo": {"baz": "bar"}, "bot": {"boo": "boy"}}
         d2 = {"foo": {"baz": "ba"}, "bot": {"boo": "bo"}}
         response = GeneralUtil.findDifferentFields(d1, d2, parentKey="abc")
-        self.assertEqual([("abc.foo.baz", ("bar", "ba")), ("abc.bot.boo", ("boy", "bo"))], response)
+        self.assertEqual(
+            [("abc.foo.baz", ("bar", "ba")), ("abc.bot.boo", ("boy", "bo"))], response
+        )

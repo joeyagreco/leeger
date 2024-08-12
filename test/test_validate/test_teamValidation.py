@@ -19,4 +19,6 @@ class TestYearValidation(unittest.TestCase):
     def test_checkAllTypes_divisionIdIsntTypeStrOrNone_raisesException(self):
         with self.assertRaises(InvalidTeamFormatException) as context:
             teamValidation.checkAllTypes(Team(ownerId="id", name="team", divisionId=1))
-        self.assertEqual("divisionId must be 'None' or type 'str'.", str(context.exception))
+        self.assertEqual(
+            "divisionId must be 'None' or type 'str'.", str(context.exception)
+        )

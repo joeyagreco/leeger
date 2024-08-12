@@ -44,7 +44,9 @@ class YahooLeagueLoader(LeagueLoader):
         try:
             int(mostRecentLeagueId)
         except ValueError:
-            raise ValueError(f"League ID '{mostRecentLeagueId}' could not be turned into an int.")
+            raise ValueError(
+                f"League ID '{mostRecentLeagueId}' could not be turned into an int."
+            )
         super().__init__(
             mostRecentLeagueId,
             years,
@@ -163,7 +165,9 @@ class YahooLeagueLoader(LeagueLoader):
             # get each teams matchup for that week
             matchups = list()
             # only get matchups that are completed
-            validYahooMatchups = [m for m in yahooWeek.matchups if m.status == "postevent"]
+            validYahooMatchups = [
+                m for m in yahooWeek.matchups if m.status == "postevent"
+            ]
             for yahooMatchup in validYahooMatchups:
                 # team A is *this* team
                 yahooTeamA = yahooMatchup.teams.team[0]
@@ -178,8 +182,12 @@ class YahooLeagueLoader(LeagueLoader):
                 teamBHasTiebreaker = False
                 if yahooMatchup.is_tied == 0:
                     # non-tied matchup
-                    teamAHasTiebreaker = yahooMatchup.winner_team_key == yahooTeamA.team_key
-                    teamBHasTiebreaker = yahooMatchup.winner_team_key == yahooTeamB.team_key
+                    teamAHasTiebreaker = (
+                        yahooMatchup.winner_team_key == yahooTeamA.team_key
+                    )
+                    teamBHasTiebreaker = (
+                        yahooMatchup.winner_team_key == yahooTeamB.team_key
+                    )
                 matchupType = self.__getMatchupType(yahooMatchup)
                 matchups.append(
                     Matchup(
@@ -208,17 +216,21 @@ class YahooLeagueLoader(LeagueLoader):
                 if (
                     (
                         team1Id
-                        not in self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season]
-                        or not self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season][
-                            team1Id
+                        not in self.__yearToTeamIdHasLostInPlayoffs[
+                            yahooMatchup.league.season
                         ]
+                        or not self.__yearToTeamIdHasLostInPlayoffs[
+                            yahooMatchup.league.season
+                        ][team1Id]
                     )
                     and (
                         team2Id
-                        not in self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season]
-                        or not self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season][
-                            team2Id
+                        not in self.__yearToTeamIdHasLostInPlayoffs[
+                            yahooMatchup.league.season
                         ]
+                        or not self.__yearToTeamIdHasLostInPlayoffs[
+                            yahooMatchup.league.season
+                        ][team2Id]
                     )
                     and yahooMatchup.is_consolation == 0
                 ):
@@ -226,12 +238,12 @@ class YahooLeagueLoader(LeagueLoader):
             # update tracking dict with the team that lost
             for yahooTeamResult in yahooMatchup.teams.team:
                 # NOTE: this check is needed so we don't overwrite teams that have already lost with a win (e.g. W, L, W)
-                if not self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season].get(
-                    yahooTeamResult.team_id, False
-                ):
+                if not self.__yearToTeamIdHasLostInPlayoffs[
+                    yahooMatchup.league.season
+                ].get(yahooTeamResult.team_id, False):
                     self.__yearToTeamIdHasLostInPlayoffs[yahooMatchup.league.season][
                         yahooTeamResult.team_id
-                    ] = (yahooTeamResult.team_key != yahooMatchup.winner_team_key)
+                    ] = yahooTeamResult.team_key != yahooMatchup.winner_team_key
             return MatchupType.PLAYOFF
         else:
             return MatchupType.REGULAR_SEASON
@@ -252,13 +264,19 @@ class YahooLeagueLoader(LeagueLoader):
             for yahooTeam in yahooTeams:
                 ownerName = yahooTeam.manager.nickname
                 # get general owner name if there is one
-                generalOwnerName = self._getGeneralOwnerNameFromGivenOwnerName(ownerName)
-                ownerName = generalOwnerName if generalOwnerName is not None else ownerName
+                generalOwnerName = self._getGeneralOwnerNameFromGivenOwnerName(
+                    ownerName
+                )
+                ownerName = (
+                    generalOwnerName if generalOwnerName is not None else ownerName
+                )
                 # prevent duplicate owner names
                 i = 2
                 while ownerName in yahooOwnerTeamNames:
                     ownerName = f"{yahooTeam.manager.nickname}({i})"
-                yahooManagerIdToOwnerMap[yahooTeam.manager.manager_id] = Owner(name=ownerName)
+                yahooManagerIdToOwnerMap[yahooTeam.manager.manager_id] = Owner(
+                    name=ownerName
+                )
                 yahooOwnerTeamNames.append(ownerName)
             self.__yahooManagerIdToOwnerMap = yahooManagerIdToOwnerMap
 
