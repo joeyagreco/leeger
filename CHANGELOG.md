@@ -3,8 +3,11 @@
 All notable changes to this project will be documented in this file.
 
 ## Unreleased
+- N/A
 
+## [2.7.0]
 - Fixed bug in MyFantasyLeague League Loader where matchups could be missing
+- Bumped espn_api version
 
 ## [2.6.1]
 
@@ -247,7 +250,8 @@ All notable changes to this project will be documented in this file.
 
 ### Initial Release
 
-[Unreleased]: https://github.com/joeyagreco/leeger/compare/v2.6.1...HEAD
+[Unreleased]: https://github.com/joeyagreco/leeger/compare/v2.7.0...HEAD
+[2.7.0]: https://github.com/joeyagreco/leeger/releases/tag/v2.7.0
 [2.6.1]: https://github.com/joeyagreco/leeger/releases/tag/v2.6.1
 [2.6.0]: https://github.com/joeyagreco/leeger/releases/tag/v2.6.0
 [2.5.5]: https://github.com/joeyagreco/leeger/releases/tag/v2.5.5
